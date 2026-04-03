@@ -1,0 +1,82 @@
+:root {
+  /* Sakata Premium Palette */
+  --sakata-green-deep: #0D3B2E;
+  --sakata-green-vibrant: #1A7061;
+  --sakata-gold: #D4AF37;
+  --sakata-gold-glow: rgba(212, 175, 55, 0.3);
+  
+  --background: #05070A;
+  --foreground: #F8FAFC;
+  --accent: var(--sakata-green-vibrant);
+  
+  --glass-bg: rgba(255, 255, 255, 0.03);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-blur: blur(12px);
+  
+  --header-height: 80px;
+  --transition-smooth: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  cursor: none; /* We will implement a custom luxury cursor later */
+}
+
+/* Base resets */
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  background: var(--background);
+  color: var(--foreground);
+  -webkit-font-smoothing: antialiased;
+  scrollbar-width: thin;
+  scrollbar-color: var(--sakata-green-vibrant) transparent;
+}
+
+body {
+  font-family: var(--font-outfit), system-ui, -apple-system, sans-serif;
+}
+
+/* GSAP Helper classes */
+.reveal-text {
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+}
+
+.glass-card {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  border-radius: 24px;
+}
+
+/* Gradient text */
+.text-gradient {
+  background: linear-gradient(135deg, var(--sakata-gold), var(--sakata-green-vibrant));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Custom Selection */
+::selection {
+  background: var(--sakata-green-vibrant);
+  color: white;
+}
+
+/* Locomotive/Scroll utils */
+[data-scroll-container] {
+  perspective: 1px;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+  animation: fadeIn 1s forwards;
+}
