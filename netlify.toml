@@ -11,4 +11,4 @@
   status = 200
 
 [functions]
-  node_version = "20"
+  # Node version is now managed via .node-version or environment variables
