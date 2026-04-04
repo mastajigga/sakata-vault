@@ -43,7 +43,7 @@ const SavoirIndex = () => {
   }, []);
 
   return (
-    <main className="grain-overlay min-h-screen bg-foret-nocturne pb-24">
+    <main className="grain-overlay min-h-[100dvh] bg-foret-nocturne pb-24">
       <Navbar />
       
       {/* Header Section */}

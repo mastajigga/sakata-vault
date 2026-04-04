@@ -16,6 +16,7 @@ interface AuthContextType {
   session: Session | null;
   role: UserRole | null;
   isLoading: boolean;
+  connectionError: string | null;
   signOut: () => Promise<void>;
 }
 
@@ -26,8 +27,20 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [session, setSession] = useState<Session | null>(null);
   const [role, setRole] = useState<UserRole | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [connectionError, setConnectionError] = useState<string | null>(null);
 
   useEffect(() => {
+    const checkConnection = async () => {
+      try {
+        const { error } = await supabase.from("profiles").select("id").limit(1);
+        if (error && error.message.includes("Failed to fetch")) {
+          setConnectionError("Impossible de contacter le Grand Sanctuaire (Problème de connexion ou DNS).");
+        }
+      } catch (e) {
+        setConnectionError("Erreur de liaison spirituelle (Réseau défaillant).");
+      }
+    };
+
     const fetchProfile = async (userId: string) => {
       const { data, error } = await supabase
         .from("profiles")
@@ -51,6 +64,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       setIsLoading(false);
     };
 
+    checkConnection();
     setData();
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
@@ -75,7 +89,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, session, role, isLoading, signOut }}>
+    <AuthContext.Provider value={{ user, session, role, isLoading, connectionError, signOut }}>
       {children}
     </AuthContext.Provider>
   );

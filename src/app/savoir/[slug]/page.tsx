@@ -90,7 +90,7 @@ const ArticlePage = () => {
   }, [article, language]);
 
   if (loading) return (
-    <div className="min-h-screen bg-foret-nocturne flex items-center justify-center">
+    <div className="min-h-[100dvh] bg-foret-nocturne flex items-center justify-center">
       <div className="animate-pulse text-or-ancestral font-mono tracking-widest uppercase">
         Invocation du récit...
       </div>
@@ -104,7 +104,7 @@ const ArticlePage = () => {
   const displaySummary = article.summary[language] || article.summary.fr || "";
 
   return (
-    <main className="grain-overlay min-h-screen bg-foret-nocturne">
+    <main className="grain-overlay min-h-[100dvh] bg-foret-nocturne">
       <Navbar />
       
       {/* Article Hero */}

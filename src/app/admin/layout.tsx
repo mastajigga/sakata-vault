@@ -19,7 +19,7 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
 
   if (isLoading || !user) {
     return (
-      <div className="min-h-screen bg-foret-nocturne flex items-center justify-center">
+      <div className="min-h-[100dvh] bg-foret-nocturne flex items-center justify-center">
         <div className="animate-pulse text-or-ancestral font-mono tracking-widest uppercase">
           Lecture des parchemins...
         </div>
@@ -28,10 +28,10 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
   }
 
   return (
-    <div className="min-h-screen bg-[#050C09] text-ivoire-ancien font-body">
+    <div className="min-h-[100dvh] bg-[#050C09] text-ivoire-ancien font-body">
       <Navbar />
       
-      <div className="pt-24 flex h-screen overflow-hidden">
+      <div className="pt-24 flex min-h-[100dvh] overflow-hidden">
         {/* Sidebar */}
         <aside className="w-64 border-r border-white/5 bg-[#0A1F15]/50 backdrop-blur-md hidden md:flex flex-col p-6 space-y-8">
           <div className="space-y-2">

@@ -10,7 +10,7 @@ import Navbar from "@/components/Navbar";
 
 const AuthPage = () => {
   const { t } = useLanguage();
-  const { user } = useAuth();
+  const { user, connectionError } = useAuth();
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -64,7 +64,7 @@ const AuthPage = () => {
   };
 
   return (
-    <main className="grain-overlay min-h-screen bg-foret-nocturne flex flex-col overflow-hidden">
+    <main className="grain-overlay min-h-[100dvh] bg-foret-nocturne flex flex-col overflow-hidden">
       <Navbar />
       
       <section className="flex-1 flex items-center justify-center p-6 pt-32">
@@ -97,6 +97,17 @@ const AuthPage = () => {
                     {isSignUp ? "Créer un Compte" : "Se Connecter"}
                   </h1>
                 </div>
+
+                {connectionError && (
+                  <motion.div 
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    className="p-4 rounded-2xl bg-red-500/10 border border-red-500/20 text-red-400 text-sm text-center"
+                  >
+                    <p className="font-bold mb-1">⚠️ Rupture de liaison</p>
+                    {connectionError}
+                  </motion.div>
+                )}
 
                 <form onSubmit={handleAuth} className="space-y-6">
                   {isSignUp && (
