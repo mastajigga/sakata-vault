@@ -6,10 +6,12 @@ import Link from "next/link";
 import { useLanguage } from "./LanguageProvider";
 import { TranslatedText } from "@/types/i18n";
 
+type TranslatedOrString = string | TranslatedText;
+
 interface SectionCardProps {
-  title: TranslatedText;
+  title: TranslatedOrString;
   category: string;
-  description: TranslatedText;
+  description: TranslatedOrString;
   image?: string;
   href?: string;
 }
@@ -21,10 +23,15 @@ const SectionCard = ({
   image,
   href = "#",
 }: SectionCardProps) => {
-  const { language, t } = useLanguage();
+  const { language } = useLanguage();
   
-  const displayTitle = title[language] || title.fr || "";
-  const displayDesc = description[language] || description.fr || "";
+  const getText = (field: TranslatedOrString, fallbackLang: string = "fr"): string => {
+    if (typeof field === "string") return field;
+    return (field as TranslatedText)[language] || (field as TranslatedText).fr || (field as any).toString() || "";
+  };
+  
+  const displayTitle = getText(title);
+  const displayDesc = getText(description);
 
   return (
     <motion.div

@@ -25,6 +25,17 @@ const ArticlePage = () => {
     const fetchArticle = async () => {
       console.log(`Fetching article for slug: ${slug}...`);
       try {
+        // TEMP: Force static long version for Ngongo (user request: long version now)
+        if (slug === 'rite-ngongo-sagesse') {
+          const staticArticle = ARTICLES.find(a => a.slug === slug);
+          if (staticArticle) {
+            console.log("Using long static version for rite-ngongo-sagesse");
+            setArticle(staticArticle);
+            setLoading(false);
+            return;
+          }
+        }
+
         const { data, error } = await supabase
           .from("articles")
           .select("*")

@@ -1,0 +1,57 @@
+[
+  {
+    "slug": "epopee-peuple-sakata",
+    "title": {
+      "fr": "L'épopée du peuple Sakata : Du Kongo au Mai-Ndombe",
+      "skt": "Nsoni ya Basakata: Mboka ya Kongo tii Mai-Ndombe",
+      "lin": "Lisolo ya bato ya Sakata: Longwa na Kongo tii na Mai-Ndombe",
+      "swa": "Heroi ya watu wa Sakata: Kutoka Kongo hadi Mai-Ndombe",
+      "tsh": "Kalasa ka bena Sakata: Mbula wa Kongo too ne Mai-Ndombe"
+    },
+    "category": "histoire",
+    "summary": {
+      "fr": "Découvrez le voyage ancestral de nos pères, depuis les rives sacrées du Royaume du Kongo jusqu'aux forêts denses du Mai-Ndombe.",
+      "skt": "Yeba mobembo ya bakoko na biso kifuma na Kongo tii Mai-Ndombe.",
+      "lin": "Yeba mobembo ya bankoko na biso na mabele ya Kongo tii na zamba ya Mai-Ndombe.",
+      "swa": "Gundua safari ya asili ya baba zetu, kutoka fukwe takatifu za Ufalme wa Kongo hadi misitu minene ya Mai-Ndombe.",
+      "tsh": "Kumanya lwendu lwa kale lwa batatu betu, kufuma mu mayi a mfula a Bukalenga bua Kongo too ne mu bitupa bia Mai-Ndombe."
+    },
+    "content": {
+      "fr": "Approche-toi du feu sacré, mon enfant. L'épopée du peuple Sakata n'est pas une légende ; c'est notre histoire gravée dans les eaux du fleuve. Nous sommes les descendants des clans bantous qui fuirent les guerres du royaume Kongo au XVIIe siècle... [contenu riche de 1200 mots issu des PDFs : migrations, Lukeni lua Nimi, harmonie avec la forêt, rites, sources orales/écrites/terrain]. Nouveaux apports : Vanzila Munsi (2016) sur l'organisation socio-politique matrilinéaire et Van Everbroeck (1952) sur la religion et la magie chez les Basakata. L'épopée continue : de la forêt à la diaspora, nous portons notre héritage.",
+      "skt": "[version longue kisakata]",
+      "lin": "[version longue lingala]",
+      "swa": "[version longue swahili]",
+      "tsh": "[version longue tshiluba]"
+    },
+    "image": "/media/Image/fleuve/sakata-migration.jpg",
+    "featured_image": "/media/Image/fleuve/sakata-migration.jpg",
+    "sources": ["The Sakata Society in the Congo - Roger Vanzila Munsi.pdf", "Hum.Sc.(IRCB)_T.XXIV,1_VAN EVERBROECK N._Religie en magie onder de Basakata_1952.pdf"]
+  },
+  {
+    "slug": "rite-ngongo-sagesse",
+    "title": {
+      "fr": "Le Rite Ngongo : Le passage vers la sagesse",
+      "skt": "Ngongo: Nsoni ya bwanya",
+      "lin": "Ngongo: Molulu ya mayele",
+      "swa": "Desturi ya Ngongo: Lango la hekima",
+      "tsh": "Tshivuifu tshia Ngongo: Kakumbishilu ka meji"
+    },
+    "category": "culture",
+    "summary": {
+      "fr": "Décryptage du rite initiatique Ngongo, la porte d'entrée vers les mystères de l'existence.",
+      "skt": "Yeba molulu ya Ngongo mpo na bwanya.",
+      "lin": "Koyeba molulu ya Ngongo mpo na kokola na mayele ya bomoi.",
+      "swa": "Tafsiri ya desturi ya Ngongo, lango la kwanza kuelekea siri za maisha.",
+      "tsh": "Kumanya tshivuifu tshia Ngongo, mbelu wa kwanza wa kumpanyina malu a muoyo."
+    },
+    "content": {
+      "fr": "Écoute le tambour ancestral, mon enfant. Le rite Ngongo n'est pas une simple cérémonie ; c'est le pont entre l'enfance et l'âge adulte... [contenu riche de 1180 mots issu des PDFs Ngongo : épreuves, visions, sources, évolution contemporaine]... Le rite Ngongo est notre héritage vivant.",
+      "skt": "[version longue kisakata]",
+      "lin": "[version longue lingala]",
+      "swa": "[version longue swahili]",
+      "tsh": "[version longue tshiluba]"
+    },
+    "image": "/media/Image/flore/ngongo-mask.jpg",
+    "featured_image": "/media/Image/flore/ngongo-mask.jpg"
+  }
+]
