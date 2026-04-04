@@ -1,0 +1,126 @@
+- generic [active] [ref=e1]:
+  - main [ref=e2]:
+    - navigation [ref=e3]:
+      - generic [ref=e4]:
+        - link "KISAKATA" [ref=e5] [cursor=pointer]:
+          - /url: /
+        - generic [ref=e6]:
+          - link "Savoir" [ref=e7] [cursor=pointer]:
+            - /url: /savoir
+          - link "Langue" [ref=e8] [cursor=pointer]:
+            - /url: /langue
+          - link "Culture" [ref=e9] [cursor=pointer]:
+            - /url: /culture
+          - link "Spiritualite" [ref=e10] [cursor=pointer]:
+            - /url: /spiritualite
+          - link "Forum" [ref=e11] [cursor=pointer]:
+            - /url: /forum
+        - link "Rejoindre" [ref=e13] [cursor=pointer]:
+          - /url: /auth
+    - generic [ref=e17]:
+      - generic [ref=e18]: Patrimoine du Mai-Ndombe
+      - heading "La riviere ne s'arrete jamais de couler" [level=1] [ref=e19]:
+        - generic [ref=e20]: La riviere
+        - generic [ref=e22]: ne s'arrete jamais de couler
+      - paragraph [ref=e23]: Bienvenue sur le portail de transmission des savoirs du peuple Sakata. Histoire, langue et sagesse unies dans un espace ou la foret rencontre le monde moderne.
+      - link "Explorer le Savoir" [ref=e24] [cursor=pointer]:
+        - /url: "#savoir"
+    - generic [ref=e26]:
+      - img "Patrimoine vivant du peuple Sakata dans la region du Mai-Ndombe" [ref=e28]
+      - generic [ref=e29]:
+        - generic [ref=e30]: Notre Vision
+        - heading "Plus qu'une archive, un heritage vivant." [level=2] [ref=e31]:
+          - text: Plus qu'une archive,
+          - text: un heritage vivant.
+        - generic [ref=e32]:
+          - paragraph [ref=e33]: La langue kisakata est comme la riviere Lukenie — elle coule depuis la nuit des temps, elle contourne les obstacles, elle nourrit tout ce qu'elle touche. Si elle s'asseche, c'est tout le village qui a soif.
+          - paragraph [ref=e34]: Notre mboka (terroir) ne se limite pas a un point sur la carte. C'est un endroit ou la terre vous reconnait, ou les arbres connaissent votre nom. Kisakata.com est le pont entre cet heritage et le monde moderne.
+        - generic [ref=e35]:
+          - generic [ref=e36]:
+            - generic [ref=e37]: "2026"
+            - generic [ref=e38]: Fondation
+          - generic [ref=e39]:
+            - generic [ref=e40]: 3+
+            - generic [ref=e41]: Langues
+          - generic [ref=e42]:
+            - generic [ref=e43]: Mai-Ndombe
+            - generic [ref=e44]: Berceau
+    - generic [ref=e45]:
+      - generic [ref=e46]:
+        - generic [ref=e47]: Patrimoine Vivant
+        - heading "Explorer les Savoirs" [level=2] [ref=e48]
+      - generic [ref=e49]:
+        - generic [ref=e50]:
+          - 'link "L''épopée du peuple Sakata : Du Kongo au Mai-Ndombe Histoire L''épopée du peuple Sakata : Du Kongo au Mai-Ndombe Découvrez le voyage ancestral de nos pères, depuis les rives sacrées du Royaume du Kongo jusqu''aux forêts denses du Mai-Ndombe. Explorer" [ref=e52] [cursor=pointer]':
+            - /url: /savoir/epopee-peuple-sakata
+            - generic [ref=e54]:
+              - generic [ref=e55]:
+                - 'img "L''épopée du peuple Sakata : Du Kongo au Mai-Ndombe" [ref=e56]'
+                - generic [ref=e57]: Histoire
+              - generic [ref=e58]:
+                - 'heading "L''épopée du peuple Sakata : Du Kongo au Mai-Ndombe" [level=3] [ref=e59]'
+                - paragraph [ref=e60]: Découvrez le voyage ancestral de nos pères, depuis les rives sacrées du Royaume du Kongo jusqu'aux forêts denses du Mai-Ndombe.
+                - generic [ref=e61]:
+                  - generic [ref=e62]: Explorer
+                  - img [ref=e64]
+          - 'link "Le Rite Ngongo : Le passage vers la sagesse Culture Le Rite Ngongo : Le passage vers la sagesse Décryptage du rite initiatique Ngongo, la porte d''entrée vers les mystères de l''existence et la responsabilité communautaire. Explorer" [ref=e67] [cursor=pointer]':
+            - /url: /savoir/rite-ngongo-sagesse
+            - generic [ref=e69]:
+              - generic [ref=e70]:
+                - 'img "Le Rite Ngongo : Le passage vers la sagesse" [ref=e71]'
+                - generic [ref=e72]: Culture
+              - generic [ref=e73]:
+                - 'heading "Le Rite Ngongo : Le passage vers la sagesse" [level=3] [ref=e74]'
+                - paragraph [ref=e75]: Décryptage du rite initiatique Ngongo, la porte d'entrée vers les mystères de l'existence et la responsabilité communautaire.
+                - generic [ref=e76]:
+                  - generic [ref=e77]: Explorer
+                  - img [ref=e79]
+        - generic [ref=e81]:
+          - 'link "Lukeni lua Nimi : L''ombre du fondateur Histoire Lukeni lua Nimi : L''ombre du fondateur Portrait du Manikongo originel dont l''aura influence encore aujourd''hui la structure sociale des peuples de la région. Explorer" [ref=e83] [cursor=pointer]':
+            - /url: /savoir/lukeni-lua-nimi-fondateur
+            - generic [ref=e85]:
+              - generic [ref=e86]:
+                - 'img "Lukeni lua Nimi : L''ombre du fondateur" [ref=e87]'
+                - generic [ref=e88]: Histoire
+              - generic [ref=e89]:
+                - 'heading "Lukeni lua Nimi : L''ombre du fondateur" [level=3] [ref=e90]'
+                - paragraph [ref=e91]: Portrait du Manikongo originel dont l'aura influence encore aujourd'hui la structure sociale des peuples de la région.
+                - generic [ref=e92]:
+                  - generic [ref=e93]: Explorer
+                  - img [ref=e95]
+          - link "Communaute Communaute Le Forum des Enfants du Village Un lieu de rencontre pour les descendants, chercheurs et passionnes. Partagez vos souvenirs, vos questions et vos savoirs. Explorer" [ref=e98] [cursor=pointer]:
+            - /url: "#"
+            - generic [ref=e100]:
+              - generic [ref=e101]:
+                - generic [ref=e103]: Communaute
+                - generic [ref=e104]: Communaute
+              - generic [ref=e105]:
+                - heading "Le Forum des Enfants du Village" [level=3] [ref=e106]
+                - paragraph [ref=e107]: Un lieu de rencontre pour les descendants, chercheurs et passionnes. Partagez vos souvenirs, vos questions et vos savoirs.
+                - generic [ref=e108]:
+                  - generic [ref=e109]: Explorer
+                  - img [ref=e111]
+    - generic [ref=e117]:
+      - generic [ref=e118]: Communaute & Savoir
+      - heading "Contribuez au savoir" [level=2] [ref=e119]:
+        - text: Contribuez
+        - text: au savoir
+      - paragraph [ref=e120]: Votre histoire est une partie de la nôtre. Devenez documentaliste culturel et aidez-nous à préserver les traditions Sakata pour les prochaines générations.
+      - button "Devenir Contributeur" [ref=e121] [cursor=pointer]:
+        - text: Devenir Contributeur
+        - img [ref=e122]
+    - generic [ref=e125]:
+      - generic [ref=e126]:
+        - generic [ref=e127]: KISAKATA
+        - paragraph [ref=e128]: © 2026 — Brume de la Riviere. Tous droits reserves.
+      - generic [ref=e129]:
+        - link "CULTURE" [ref=e130] [cursor=pointer]:
+          - /url: "#culture"
+        - link "LANGUE" [ref=e131] [cursor=pointer]:
+          - /url: "#langue"
+        - link "HISTOIRE" [ref=e132] [cursor=pointer]:
+          - /url: "#histoire"
+        - link "FORUM" [ref=e133] [cursor=pointer]:
+          - /url: "#forum"
+  - button "Open Next.js Dev Tools" [ref=e139] [cursor=pointer]:
+    - img [ref=e140]

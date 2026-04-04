@@ -1,0 +1,85 @@
+- generic [active] [ref=e1]:
+  - main [ref=e2]:
+    - navigation [ref=e3]:
+      - generic [ref=e4]:
+        - link "KISAKATA" [ref=e5] [cursor=pointer]:
+          - /url: /
+        - generic [ref=e6]:
+          - link "Savoir" [ref=e7] [cursor=pointer]:
+            - /url: /savoir
+          - link "Langue" [ref=e8] [cursor=pointer]:
+            - /url: /langue
+          - link "Culture" [ref=e9] [cursor=pointer]:
+            - /url: /culture
+          - link "Spiritualite" [ref=e10] [cursor=pointer]:
+            - /url: /spiritualite
+          - link "Forum" [ref=e11] [cursor=pointer]:
+            - /url: /forum
+        - link "Rejoindre" [ref=e13] [cursor=pointer]:
+          - /url: /auth
+    - generic [ref=e17]:
+      - generic [ref=e18]: Savoir — histoire
+      - 'heading "L '' é p o p é e d u p e u p l e S a k a t a : D u K o n g o a u M a i - N d o m b e" [level=1] [ref=e19]':
+        - generic [ref=e20]: L
+        - generic [ref=e21]: "'"
+        - generic [ref=e22]: é
+        - generic [ref=e23]: p
+        - generic [ref=e24]: o
+        - generic [ref=e25]: p
+        - generic [ref=e26]: é
+        - generic [ref=e27]: e
+        - generic [ref=e29]: d
+        - generic [ref=e30]: u
+        - generic [ref=e32]: p
+        - generic [ref=e33]: e
+        - generic [ref=e34]: u
+        - generic [ref=e35]: p
+        - generic [ref=e36]: l
+        - generic [ref=e37]: e
+        - generic [ref=e39]: S
+        - generic [ref=e40]: a
+        - generic [ref=e41]: k
+        - generic [ref=e42]: a
+        - generic [ref=e43]: t
+        - generic [ref=e44]: a
+        - generic [ref=e46]: ":"
+        - generic [ref=e48]: D
+        - generic [ref=e49]: u
+        - generic [ref=e51]: K
+        - generic [ref=e52]: o
+        - generic [ref=e53]: "n"
+        - generic [ref=e54]: g
+        - generic [ref=e55]: o
+        - generic [ref=e57]: a
+        - generic [ref=e58]: u
+        - generic [ref=e60]: M
+        - generic [ref=e61]: a
+        - generic [ref=e62]: i
+        - generic [ref=e63]: "-"
+        - generic [ref=e64]: "N"
+        - generic [ref=e65]: d
+        - generic [ref=e66]: o
+        - generic [ref=e67]: m
+        - generic [ref=e68]: b
+        - generic [ref=e69]: e
+    - generic [ref=e71]:
+      - generic [ref=e73]:
+        - heading "L'Héritage de Ntotila" [level=2] [ref=e74]
+        - text: C'était au temps où les vents portaient encore le souffle de
+        - strong [ref=e75]: Lukeni lua Nimi
+        - text: . Notre peuple, issu des grandes vagues migratoires Bantoues, a quitté les terres du Sud pour chercher la brume protectrice du fleuve-mère.
+        - text: Les chroniques de nos anciens, transmises sous l'arbre à palabres, racontent comment les clans Sakata se sont détachés de l'orbite de l'Empire pour forger leur propre destin dans l'entre-deux des rivières Fimi et Lukenie.
+        - heading "La Brume comme Bouclier" [level=2] [ref=e76]
+        - text: Pourquoi le Mai-Ndombe? Parce que l'eau y est noire de sagesse et que la forêt y est si dense qu'elle cache les secrets de ceux qui savent écouter. Les Sakata ne sont pas simplement des habitants de la forêt; ils sont les gardiens de l'équilibre entre la terre ferme et les eaux mouvantes.
+      - generic [ref=e78]:
+        - 'img "L''épopée du peuple Sakata : Du Kongo au Mai-Ndombe" [ref=e79]'
+        - generic [ref=e80]:
+          - paragraph [ref=e81]: Contexte Culturel
+          - paragraph [ref=e82]: "\"Découvrez le voyage ancestral de nos pères, depuis les rives sacrées du Royaume du Kongo jusqu'aux forêts denses du Mai-Ndombe.\""
+    - link "← Retour aux Savoirs" [ref=e84] [cursor=pointer]:
+      - /url: /#savoir
+      - generic [ref=e85]: ←
+      - text: Retour aux Savoirs
+  - button "Open Next.js Dev Tools" [ref=e91] [cursor=pointer]:
+    - img [ref=e92]
+  - alert [ref=e95]

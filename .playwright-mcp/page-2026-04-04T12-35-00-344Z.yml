@@ -1,0 +1,77 @@
+- generic [active] [ref=e1]:
+  - main [ref=e2]:
+    - navigation [ref=e3]:
+      - generic [ref=e4]:
+        - link "KISAKATA" [ref=e5] [cursor=pointer]:
+          - /url: /
+        - generic [ref=e6]:
+          - link "Savoir" [ref=e7] [cursor=pointer]:
+            - /url: /savoir
+          - link "Langue" [ref=e8] [cursor=pointer]:
+            - /url: /langue
+          - link "Culture" [ref=e9] [cursor=pointer]:
+            - /url: /culture
+          - link "Spiritualite" [ref=e10] [cursor=pointer]:
+            - /url: /spiritualite
+          - link "Forum" [ref=e11] [cursor=pointer]:
+            - /url: /forum
+        - link "Rejoindre" [ref=e13] [cursor=pointer]:
+          - /url: /auth
+    - generic [ref=e17]:
+      - generic [ref=e18]: Savoir — culture
+      - 'heading "L e R i t e N g o n g o : L e p a s s a g e v e r s l a s a g e s s e" [level=1] [ref=e19]':
+        - generic [ref=e20]: L
+        - generic [ref=e21]: e
+        - generic [ref=e23]: R
+        - generic [ref=e24]: i
+        - generic [ref=e25]: t
+        - generic [ref=e26]: e
+        - generic [ref=e28]: "N"
+        - generic [ref=e29]: g
+        - generic [ref=e30]: o
+        - generic [ref=e31]: "n"
+        - generic [ref=e32]: g
+        - generic [ref=e33]: o
+        - generic [ref=e35]: ":"
+        - generic [ref=e37]: L
+        - generic [ref=e38]: e
+        - generic [ref=e40]: p
+        - generic [ref=e41]: a
+        - generic [ref=e42]: s
+        - generic [ref=e43]: s
+        - generic [ref=e44]: a
+        - generic [ref=e45]: g
+        - generic [ref=e46]: e
+        - generic [ref=e48]: v
+        - generic [ref=e49]: e
+        - generic [ref=e50]: r
+        - generic [ref=e51]: s
+        - generic [ref=e53]: l
+        - generic [ref=e54]: a
+        - generic [ref=e56]: s
+        - generic [ref=e57]: a
+        - generic [ref=e58]: g
+        - generic [ref=e59]: e
+        - generic [ref=e60]: s
+        - generic [ref=e61]: s
+        - generic [ref=e62]: e
+    - generic [ref=e64]:
+      - generic [ref=e66]:
+        - heading "Le Temps du Silence" [level=2] [ref=e67]
+        - text: Le
+        - strong [ref=e68]: Ngongo
+        - text: n'est pas qu'une fête; c'est une mort et une renaissance. Pour le jeune Sakata, c'est le moment où le voile se déchire. Pendant des lunes, dans le secret du bois sacré, les initiés apprennent que l'homme n'est rien sans son double, son *Iluo*.
+        - heading "Les Lois de la Forêt" [level=2] [ref=e69]
+        - text: Sous la direction du sage, les jeunes apprennent la géographie du monde invisible. On n'entre pas dans le Ngongo par curiosité, on y entre par nécessité. C'est ici que se forge le caractère d'un homme capable de protéger le clan et de respecter les esprits de la rivière.
+      - generic [ref=e71]:
+        - 'img "Le Rite Ngongo : Le passage vers la sagesse" [ref=e72]'
+        - generic [ref=e73]:
+          - paragraph [ref=e74]: Contexte Culturel
+          - paragraph [ref=e75]: "\"Décryptage du rite initiatique Ngongo, la porte d'entrée vers les mystères de l'existence et la responsabilité communautaire.\""
+    - link "← Retour aux Savoirs" [ref=e77] [cursor=pointer]:
+      - /url: /#savoir
+      - generic [ref=e78]: ←
+      - text: Retour aux Savoirs
+  - button "Open Next.js Dev Tools" [ref=e84] [cursor=pointer]:
+    - img [ref=e85]
+  - alert [ref=e88]

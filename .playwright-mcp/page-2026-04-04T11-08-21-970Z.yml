@@ -1,0 +1,124 @@
+- generic [active] [ref=e1]:
+  - main [ref=e2]:
+    - navigation [ref=e3]:
+      - generic [ref=e4]:
+        - link "KISAKATA" [ref=e5] [cursor=pointer]:
+          - /url: /
+        - generic [ref=e6]:
+          - link "Savoir" [ref=e7] [cursor=pointer]:
+            - /url: /savoir
+          - link "Langue" [ref=e8] [cursor=pointer]:
+            - /url: /langue
+          - link "Culture" [ref=e9] [cursor=pointer]:
+            - /url: /culture
+          - link "Spiritualite" [ref=e10] [cursor=pointer]:
+            - /url: /spiritualite
+          - link "Forum" [ref=e11] [cursor=pointer]:
+            - /url: /forum
+        - link "Rejoindre" [ref=e13] [cursor=pointer]:
+          - /url: /auth
+    - generic [ref=e17]:
+      - generic [ref=e18]: Patrimoine du Mai-Ndombe
+      - heading "La riviere ne s'arrete jamais de couler" [level=1] [ref=e19]:
+        - text: La riviere ne s'arrete
+        - text: jamais de couler
+      - paragraph [ref=e20]: Bienvenue sur le portail de transmission des savoirs du peuple Sakata. Histoire, langue et sagesse unies dans un espace ou la foret rencontre le monde moderne.
+      - link "Explorer le Savoir" [ref=e21] [cursor=pointer]:
+        - /url: "#savoir"
+    - generic [ref=e23]:
+      - img "Patrimoine vivant du peuple Sakata dans la region du Mai-Ndombe" [ref=e25]
+      - generic [ref=e26]:
+        - generic [ref=e27]: Notre Vision
+        - heading "Plus qu'une archive, un heritage vivant." [level=2] [ref=e28]:
+          - text: Plus qu'une archive,
+          - text: un heritage vivant.
+        - generic [ref=e29]:
+          - paragraph [ref=e30]: La langue kisakata est comme la riviere Lukenie — elle coule depuis la nuit des temps, elle contourne les obstacles, elle nourrit tout ce qu'elle touche. Si elle s'asseche, c'est tout le village qui a soif.
+          - paragraph [ref=e31]: Notre mboka (terroir) ne se limite pas a un point sur la carte. C'est un endroit ou la terre vous reconnait, ou les arbres connaissent votre nom. Kisakata.com est le pont entre cet heritage et le monde moderne.
+        - generic [ref=e32]:
+          - generic [ref=e33]:
+            - generic [ref=e34]: "2026"
+            - generic [ref=e35]: Fondation
+          - generic [ref=e36]:
+            - generic [ref=e37]: 3+
+            - generic [ref=e38]: Langues
+          - generic [ref=e39]:
+            - generic [ref=e40]: Mai-Ndombe
+            - generic [ref=e41]: Berceau
+    - generic [ref=e42]:
+      - generic [ref=e43]:
+        - generic [ref=e44]: Patrimoine Vivant
+        - heading "Explorer les Savoirs" [level=2] [ref=e45]
+      - generic [ref=e46]:
+        - generic [ref=e47]:
+          - link "Langue Langue L'Art du Kisakata La langue kisakata est comme la riviere Lukenie — elle coule depuis la nuit des temps. Explorez la richesse de notre langue maternelle, des contes traditionnels aux subtilites grammaticales. Explorer" [ref=e49] [cursor=pointer]:
+            - /url: "#"
+            - generic [ref=e51]:
+              - generic [ref=e52]:
+                - generic [ref=e54]: Langue
+                - generic [ref=e55]: Langue
+              - generic [ref=e56]:
+                - heading "L'Art du Kisakata" [level=3] [ref=e57]
+                - paragraph [ref=e58]: La langue kisakata est comme la riviere Lukenie — elle coule depuis la nuit des temps. Explorez la richesse de notre langue maternelle, des contes traditionnels aux subtilites grammaticales.
+                - generic [ref=e59]:
+                  - generic [ref=e60]: Explorer
+                  - img [ref=e62]
+          - link "Culture Culture Sagesse et Rites Les rythmes des danses traditionnelles, les recits des anciens et l'histoire fascinante de la region du Mai-Ndombe. Explorer" [ref=e65] [cursor=pointer]:
+            - /url: "#"
+            - generic [ref=e67]:
+              - generic [ref=e68]:
+                - generic [ref=e70]: Culture
+                - generic [ref=e71]: Culture
+              - generic [ref=e72]:
+                - heading "Sagesse et Rites" [level=3] [ref=e73]
+                - paragraph [ref=e74]: Les rythmes des danses traditionnelles, les recits des anciens et l'histoire fascinante de la region du Mai-Ndombe.
+                - generic [ref=e75]:
+                  - generic [ref=e76]: Explorer
+                  - img [ref=e78]
+        - generic [ref=e80]:
+          - link "Spiritualite Spiritualite Equilibre et Croyances Avant que le premier mot ne soit prononce, le vent dans les feuilles racontait deja des histoires. Explorer" [ref=e82] [cursor=pointer]:
+            - /url: "#"
+            - generic [ref=e84]:
+              - generic [ref=e85]:
+                - generic [ref=e87]: Spiritualite
+                - generic [ref=e88]: Spiritualite
+              - generic [ref=e89]:
+                - heading "Equilibre et Croyances" [level=3] [ref=e90]
+                - paragraph [ref=e91]: Avant que le premier mot ne soit prononce, le vent dans les feuilles racontait deja des histoires.
+                - generic [ref=e92]:
+                  - generic [ref=e93]: Explorer
+                  - img [ref=e95]
+          - link "Communaute Communaute Le Forum des Enfants du Village Un lieu de rencontre pour les descendants, chercheurs et passionnes. Partagez vos souvenirs, vos questions et vos savoirs. Explorer" [ref=e98] [cursor=pointer]:
+            - /url: "#"
+            - generic [ref=e100]:
+              - generic [ref=e101]:
+                - generic [ref=e103]: Communaute
+                - generic [ref=e104]: Communaute
+              - generic [ref=e105]:
+                - heading "Le Forum des Enfants du Village" [level=3] [ref=e106]
+                - paragraph [ref=e107]: Un lieu de rencontre pour les descendants, chercheurs et passionnes. Partagez vos souvenirs, vos questions et vos savoirs.
+                - generic [ref=e108]:
+                  - generic [ref=e109]: Explorer
+                  - img [ref=e111]
+    - generic [ref=e115]:
+      - heading "Contribuez au savoir" [level=2] [ref=e116]
+      - paragraph [ref=e117]: Votre histoire est une partie de la nôtre. Devenez documentaliste culturel et aidez-nous à préserver les traditions Sakata pour les prochaines générations.
+      - button "Devenir Contributeur" [ref=e118] [cursor=pointer]:
+        - text: Devenir Contributeur
+        - img [ref=e119]
+    - generic [ref=e122]:
+      - generic [ref=e123]:
+        - generic [ref=e124]: KISAKATA
+        - paragraph [ref=e125]: © 2026 — Brume de la Riviere. Tous droits reserves.
+      - generic [ref=e126]:
+        - link "CULTURE" [ref=e127] [cursor=pointer]:
+          - /url: "#culture"
+        - link "LANGUE" [ref=e128] [cursor=pointer]:
+          - /url: "#langue"
+        - link "HISTOIRE" [ref=e129] [cursor=pointer]:
+          - /url: "#histoire"
+        - link "FORUM" [ref=e130] [cursor=pointer]:
+          - /url: "#forum"
+  - button "Open Next.js Dev Tools" [ref=e136] [cursor=pointer]:
+    - img [ref=e137]
+  - alert [ref=e140]
