@@ -23,7 +23,7 @@ const SectionCard = ({
   image,
   href = "#",
 }: SectionCardProps) => {
-  const { language } = useLanguage();
+  const { language, t } = useLanguage();
   
   const getText = (field: TranslatedOrString, fallbackLang: string = "fr"): string => {
     if (typeof field === "string") return field;
