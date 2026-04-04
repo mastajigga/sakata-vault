@@ -69,7 +69,7 @@ const AuthPage = () => {
                 Sanctuaire Numérique
               </span>
               <h1 className="font-display text-3xl font-bold text-ivoire-ancien">
-                Se Connecter
+                {isSignUp ? "Créer un Compte" : "Se Connecter"}
               </h1>
             </div>
 
@@ -112,13 +112,13 @@ const AuthPage = () => {
                 disabled={loading}
                 className="w-full py-5 rounded-2xl font-bold transition-all transform active:scale-[0.98]"
                 style={{
-                  background: "var(--or-ancestral)",
+                  background: isSignUp ? "var(--ivoire-ancien)" : "var(--or-ancestral)",
                   color: "var(--foret-nocturne)",
                   opacity: loading ? 0.7 : 1,
                   boxShadow: "0 10px 30px rgba(181, 149, 81, 0.2)"
                 }}
               >
-                {loading ? "Murmure aux anciens..." : "Entrer dans le Sanctuaire"}
+                {loading ? "Murmure aux anciens..." : (isSignUp ? "Rejoindre le Sanctuaire" : "Entrer dans le Sanctuaire")}
               </button>
               <button
                 type="button"
