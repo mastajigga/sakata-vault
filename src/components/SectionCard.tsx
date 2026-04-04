@@ -3,12 +3,13 @@
 import React from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
-
+import { useLanguage } from "./LanguageProvider";
+import { TranslatedText } from "@/types/i18n";
 
 interface SectionCardProps {
-  title: string;
+  title: TranslatedText;
   category: string;
-  description: string;
+  description: TranslatedText;
   image?: string;
   href?: string;
 }
@@ -20,6 +21,11 @@ const SectionCard = ({
   image,
   href = "#",
 }: SectionCardProps) => {
+  const { language, t } = useLanguage();
+  
+  const displayTitle = title[language] || title.fr || "";
+  const displayDesc = description[language] || description.fr || "";
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 40 }}
@@ -31,7 +37,6 @@ const SectionCard = ({
     >
       <Link href={href} className="block cursor-pointer">
 
-      {/* Outer shell — Double Bezel */}
       <div
         className="overflow-hidden"
         style={{
@@ -50,7 +55,6 @@ const SectionCard = ({
             "var(--bordure-brume)";
         }}
       >
-        {/* Inner core */}
         <div
           className="overflow-hidden flex flex-col"
           style={{
@@ -60,7 +64,6 @@ const SectionCard = ({
             boxShadow: "inset 0 1px 0 rgba(255, 255, 255, 0.04)",
           }}
         >
-          {/* Image area */}
           <div
             className="relative overflow-hidden"
             style={{ height: "240px" }}
@@ -68,7 +71,7 @@ const SectionCard = ({
             {image ? (
               <img
                 src={image}
-                alt={title}
+                alt={displayTitle}
                 className="w-full h-full object-cover transition-transform"
                 style={{
                   opacity: 0.7,
@@ -94,7 +97,6 @@ const SectionCard = ({
               </div>
             )}
 
-            {/* Category badge */}
             <div
               className="absolute top-4 left-4"
               style={{
@@ -111,7 +113,6 @@ const SectionCard = ({
               {category}
             </div>
 
-            {/* Bottom gradient */}
             <div
             className="absolute inset-0 pointer-events-none"
             style={{
@@ -121,7 +122,6 @@ const SectionCard = ({
           />
           </div>
 
-          {/* Content area */}
           <div
             style={{
               padding: "1.75rem 2rem 2rem",
@@ -131,7 +131,7 @@ const SectionCard = ({
               className="font-display mb-3 font-bold"
               style={{ fontSize: "1.35rem", color: "var(--ivoire-ancien)" }}
             >
-              {title}
+              {displayTitle}
             </h3>
             <p
               className="font-body mb-6"
@@ -142,7 +142,7 @@ const SectionCard = ({
                 color: "var(--ivoire-ancien)",
               }}
             >
-              {description}
+              {displayDesc}
             </p>
 
             <div
@@ -160,7 +160,7 @@ const SectionCard = ({
                   color: "var(--or-ancestral)",
                 }}
               >
-                Explorer
+                {t("common.explore")}
               </span>
               <span
                 className="inline-flex items-center justify-center rounded-full transition-transform"
@@ -168,20 +168,9 @@ const SectionCard = ({
                   width: "22px",
                   height: "22px",
                   background: "rgba(233, 196, 106, 0.15)",
-                  transitionDuration: "var(--duration-base)",
-                  transitionTimingFunction: "var(--ease-spring)",
                 }}
               >
-                <svg
-                  width="10"
-                  height="10"
-                  viewBox="0 0 14 14"
-                  fill="none"
-                  stroke="var(--amber-light)"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
+                <svg width="10" height="10" viewBox="0 0 14 14" fill="none" stroke="var(--amber-light)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M1 13L13 1M13 1H3M13 1V11" />
                 </svg>
               </span>
@@ -193,6 +182,5 @@ const SectionCard = ({
     </motion.div>
   );
 };
-
 
 export default SectionCard;

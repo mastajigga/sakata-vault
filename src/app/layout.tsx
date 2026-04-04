@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { Outfit, Schibsted_Grotesk, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { LanguageProvider } from "@/components/LanguageProvider";
+import { AuthProvider } from "@/components/AuthProvider";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
 
 const outfit = Outfit({
   subsets: ["latin"],
@@ -10,7 +13,7 @@ const outfit = Outfit({
 
 const schibsted = Schibsted_Grotesk({
   subsets: ["latin"],
-  variable: "--font-satoshi", // Using as Satoshi substitute
+  variable: "--font-satoshi",
   display: "swap",
   weight: ["400", "500", "600", "700"],
 });
@@ -34,7 +37,11 @@ export default function RootLayout({
   return (
     <html lang="fr" className={`${outfit.variable} ${schibsted.variable} ${geistMono.variable}`}>
       <body className="antialiased">
-        {children}
+        <AuthProvider>
+          <LanguageProvider>
+            {children}
+          </LanguageProvider>
+        </AuthProvider>
       </body>
     </html>
   );

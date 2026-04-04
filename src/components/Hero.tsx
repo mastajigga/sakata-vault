@@ -3,6 +3,7 @@
 import React, { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useLanguage } from "./LanguageProvider";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -14,7 +15,7 @@ const PARTICLES = [
   { w: 6.1, op: 0.48, x: 75, y: 52, delay: 1.3, dur: 10.8 },
   { w: 4.8, op: 0.36, x: 22, y: 62, delay: 3.7, dur: 7.9 },
   { w: 3.2, op: 0.52, x: 48, y: 25, delay: 5.2, dur: 11.2 },
-  { w: 5.4, op: 0.44, x: 65, y: 70, delay: 0.4, dur: 8.6 },
+  { w: 4.4, op: 0.44, x: 65, y: 70, delay: 0.4, dur: 8.6 },
   { w: 4.0, op: 0.58, x: 85, y: 40, delay: 2.8, dur: 9.0 },
   { w: 6.5, op: 0.35, x: 40, y: 58, delay: 4.0, dur: 7.5 },
   { w: 3.8, op: 0.50, x: 55, y: 32, delay: 1.9, dur: 10.1 },
@@ -23,6 +24,7 @@ const PARTICLES = [
 ];
 
 const Hero = () => {
+  const { t } = useLanguage();
   const sectionRef = useRef<HTMLElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
@@ -117,28 +119,19 @@ const Hero = () => {
           className="absolute inset-0 flex flex-col items-start justify-center px-8 md:px-24 text-left z-10"
           style={{ maxWidth: "1400px", margin: "0 auto" }}
         >
-          <span className="eyebrow mb-8">Patrimoine du Mai-Ndombe</span>
+          <span className="eyebrow mb-8 text-white/60">{t("hero.eyebrow")}</span>
 
           <h1
             className="font-display mb-6 font-bold flex flex-wrap items-center gap-x-4"
             style={{
-              fontSize: "clamp(2.5rem, 6vw, 5rem)",
+              fontSize: "clamp(2rem, 5vw, 4rem)",
               color: "var(--ivoire-ancien)",
               letterSpacing: "-0.04em",
-              maxWidth: "18ch",
+              maxWidth: "22ch",
               lineHeight: "1.1",
             }}
           >
-            <span>La riviere</span>
-            <span 
-               className="inline-block w-[1.2em] h-[0.9em] rounded-full overflow-hidden border border-or/20 rotate-[-4deg] translate-y-[0.1em]"
-               style={{ 
-                 backgroundImage: 'url("/images/sakata_mask_detail.png")',
-                 backgroundSize: 'cover',
-                 backgroundPosition: 'center'
-               }}
-            />
-            <span>ne s&apos;arrete jamais de couler</span>
+            {t("hero.title")}
           </h1>
 
           <p
@@ -151,9 +144,7 @@ const Hero = () => {
               lineHeight: "1.7",
             }}
           >
-            Bienvenue sur le portail de transmission des savoirs du peuple
-            Sakata. Histoire, langue et sagesse unies dans un espace ou la foret
-            rencontre le monde moderne.
+            {t("hero.subtitle")}
           </p>
 
           <a
@@ -174,7 +165,7 @@ const Hero = () => {
               (e.currentTarget as HTMLElement).style.color = "var(--or-ancestral)";
             }}
           >
-            Explorer le Savoir
+            {t("hero.cta")}
           </a>
         </div>
 

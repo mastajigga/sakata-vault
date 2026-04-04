@@ -1,12 +1,32 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "@/components/Navbar";
 import SectionCard from "@/components/SectionCard";
-import { ARTICLES } from "@/data/articles";
 import { motion } from "framer-motion";
+import { supabase } from "@/components/AuthProvider";
+import { useLanguage } from "@/components/LanguageProvider";
 
 const SavoirIndex = () => {
+  const [articles, setArticles] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const { language } = useLanguage();
+
+  useEffect(() => {
+    const fetchArticles = async () => {
+      const { data, error } = await supabase
+        .from("articles")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+      if (!error && data) {
+        setArticles(data);
+      }
+      setLoading(false);
+    };
+    fetchArticles();
+  }, []);
+
   return (
     <main className="grain-overlay min-h-screen bg-foret-nocturne pb-24">
       <Navbar />
@@ -45,33 +65,37 @@ const SavoirIndex = () => {
       {/* Grid Section - Asymmetric Bento style */}
       <section className="px-8 md:px-24">
         <div className="max-w-[1400px] mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
-            {ARTICLES.map((article, index) => {
-              // Create an asymmetric rhythm
-              const isLarge = index === 0 || index === 2;
-              const colSpan = isLarge ? "md:col-span-7" : "md:col-span-5";
-              const marginTop = index === 1 ? "md:mt-32" : "mt-0";
-
-              return (
-                <div key={article.slug} className={`${colSpan} ${marginTop}`}>
-                  <SectionCard
-                    title={article.title}
-                    category={article.category}
-                    description={article.summary}
-                    image={article.image}
-                    href={`/savoir/${article.slug}`}
-                  />
-                </div>
-              );
-            })}
-            
-            {/* Call to action for remaining 9 articles */}
-            <div className="md:col-span-12 mt-24 text-center py-24 border-t border-white/5">
-              <p className="font-display text-2xl opacity-20" style={{ color: "var(--ivoire-ancien)" }}>
-                Plus de savoirs en cours de murmure... (9 articles à venir)
-              </p>
+          {loading ? (
+            <div className="text-center py-24 animate-pulse text-or-ancestral font-mono tracking-widest uppercase">
+              Éveil des mémoires...
             </div>
-          </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
+              {articles.map((article, index) => {
+                const isLarge = index === 0 || index === 2;
+                const colSpan = isLarge ? "md:col-span-7" : "md:col-span-5";
+                const marginTop = index === 1 ? "md:mt-32" : "mt-0";
+
+                return (
+                  <div key={article.slug} className={`${colSpan} ${marginTop}`}>
+                    <SectionCard
+                      title={article.title[language] || article.title.fr}
+                      category={article.category}
+                      description={article.summary[language] || article.summary.fr}
+                      image={article.featured_image || "/images/sakata_mask_detail.png"}
+                      href={`/savoir/${article.slug}`}
+                    />
+                  </div>
+                );
+              })}
+              
+              {articles.length === 0 && (
+                <div className="md:col-span-12 py-24 text-center">
+                  <p className="opacity-40 italic">La brume est encore épaisse, aucun savoir n'est encore apparu.</p>
+                </div>
+              )}
+            </div>
+          )}
         </div>
       </section>
     </main>

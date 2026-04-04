@@ -1,18 +1,40 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useParams, notFound } from "next/navigation";
 import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Navbar from "@/components/Navbar";
-import { ARTICLES } from "@/data/articles";
 import { motion } from "framer-motion";
+import { useLanguage } from "@/components/LanguageProvider";
+import { supabase } from "@/components/AuthProvider";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const ArticlePage = () => {
   const { slug } = useParams();
-  const article = ARTICLES.find((a) => a.slug === slug);
+  const { language, t } = useLanguage();
+  const [article, setArticle] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
   
   const videoRef = useRef<HTMLVideoElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
+
+  useEffect(() => {
+    const fetchArticle = async () => {
+      const { data, error } = await supabase
+        .from("articles")
+        .select("*")
+        .eq("slug", slug)
+        .single();
+      
+      if (!error && data) {
+        setArticle(data);
+      }
+      setLoading(false);
+    };
+    fetchArticle();
+  }, [slug]);
 
   useEffect(() => {
     if (!article) return;
@@ -29,22 +51,36 @@ const ArticlePage = () => {
       });
       
       // Video parallax
-      gsap.to(videoRef.current, {
-        scrollTrigger: {
-          trigger: "section",
-          start: "top top",
-          end: "bottom top",
-          scrub: true
-        },
-        y: "20%",
-        scale: 1.1
-      });
+      if (videoRef.current) {
+        gsap.to(videoRef.current, {
+          scrollTrigger: {
+            trigger: "section",
+            start: "top top",
+            end: "bottom top",
+            scrub: true
+          },
+          y: "20%",
+          scale: 1.1
+        });
+      }
     });
 
     return () => ctx.revert();
-  }, [article]);
+  }, [article, language]);
+
+  if (loading) return (
+    <div className="min-h-screen bg-foret-nocturne flex items-center justify-center">
+      <div className="animate-pulse text-or-ancestral font-mono tracking-widest uppercase">
+        Invocation du récit...
+      </div>
+    </div>
+  );
 
   if (!article) return notFound();
+
+  const displayTitle = article.title[language] || article.title.fr || "";
+  const displayContent = article.content[language] || article.content.fr || "";
+  const displaySummary = article.summary[language] || article.summary.fr || "";
 
   return (
     <main className="grain-overlay min-h-screen bg-foret-nocturne">
@@ -52,17 +88,28 @@ const ArticlePage = () => {
       
       {/* Article Hero */}
       <section className="relative h-[70vh] flex items-center justify-center overflow-hidden">
-        <video
-          ref={videoRef}
-          autoPlay
-          muted
-          loop
-          playsInline
-          className="absolute inset-0 w-full h-full object-cover opacity-40"
-          style={{ filter: "brightness(0.6) contrast(1.1)" }}
-        >
-          <source src={article.videoBackground} type="video/mp4" />
-        </video>
+        <div className="absolute inset-0 bg-[#0A1F15]">
+           {article.featured_image ? (
+             <img 
+               src={article.featured_image} 
+               alt={displayTitle}
+               className="absolute inset-0 w-full h-full object-cover opacity-40"
+               style={{ filter: "brightness(0.6) contrast(1.1)" }}
+             />
+           ) : (
+             <video
+                ref={videoRef}
+                autoPlay
+                muted
+                loop
+                playsInline
+                className="absolute inset-0 w-full h-full object-cover opacity-40"
+                style={{ filter: "brightness(0.6) contrast(1.1)" }}
+              >
+                <source src="/videos/hero-bg.mp4" type="video/mp4" />
+              </video>
+           )}
+        </div>
         
         <div className="absolute inset-0 bg-gradient-to-t from-[#0A1F15] via-transparent to-[#0A1F15]/80" />
         
@@ -79,7 +126,7 @@ const ArticlePage = () => {
               letterSpacing: "-0.04em" 
             }}
           >
-            {article.title.split("").map((char, i) => (
+            {displayTitle.split("").map((char: string, i: number) => (
               <span key={i} className="char inline-block">{char === " " ? "\u00A0" : char}</span>
             ))}
           </h1>
@@ -93,12 +140,13 @@ const ArticlePage = () => {
           {/* Main Column */}
           <div className="md:col-span-7 lg:col-span-8">
             <div 
-              className="font-body prose prose-invert max-w-none space-y-8"
+              className="font-body prose prose-invert max-w-none space-y-12"
               style={{ color: "rgba(242, 238, 221, 0.82)" }}
               dangerouslySetInnerHTML={{ 
-                __html: article.content
-                  .replace(/## (.*)/g, '<h2 class="font-display text-2xl font-bold mt-12 mb-4 text-ivoire-ancien">$1</h2>')
+                __html: displayContent
+                  .replace(/## (.*)/g, '<h2 class="font-display text-3xl font-bold mt-16 mb-6 text-ivoire-ancien border-b border-white/5 pb-4">$1</h2>')
                   .replace(/\*\*(.*)\*\*/g, '<strong class="text-or-ancestral font-bold">$1</strong>')
+                  .replace(/\n\n/g, '<div class="h-8"></div>')
                   .replace(/\n/g, "<br />")
               }}
             />
@@ -117,8 +165,8 @@ const ArticlePage = () => {
               }}
             >
               <img 
-                src={article.image} 
-                alt={article.title}
+                src={article.featured_image || "/images/sakata_mask_detail.png"} 
+                alt={displayTitle}
                 className="w-full h-auto rounded-[1.8rem] opacity-60"
               />
               <div className="p-8">
@@ -126,7 +174,7 @@ const ArticlePage = () => {
                   Contexte Culturel
                 </p>
                 <p className="text-sm opacity-60 leading-relaxed italic">
-                   &quot;{article.summary}&quot;
+                   &quot;{displaySummary}&quot;
                 </p>
               </div>
             </div>
@@ -137,12 +185,12 @@ const ArticlePage = () => {
       {/* Footer Nav */}
       <section className="py-24 text-center border-t border-white/5 bg-[#0A1F15]">
         <a 
-          href="/#savoir"
+          href="/savoir"
           className="font-display text-2xl hover:text-or transition-colors flex items-center justify-center gap-4 group"
           style={{ color: "var(--ivoire-ancien)" }}
         >
           <span className="opacity-40 text-sm group-hover:translate-x-[-10px] transition-transform">←</span>
-          Retour aux Savoirs
+          {t("common.back")}
         </a>
       </section>
     </main>

@@ -1,12 +1,16 @@
+"use client";
+
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import SectionCard from "@/components/SectionCard";
 import Mission from "@/components/Mission";
 import CommunityCallout from "@/components/CommunityCallout";
 import { ARTICLES } from "@/data/articles";
-
+import { useLanguage } from "@/components/LanguageProvider";
 
 export default function Home() {
+  const { t } = useLanguage();
+
   return (
     <main className="grain-overlay">
       <Navbar />
@@ -21,7 +25,7 @@ export default function Home() {
       >
         <div className="mb-16">
           <span className="eyebrow mb-6 block">
-            Patrimoine Vivant
+            {t("home.gridEyebrow")}
           </span>
           <h2
             className="font-display font-bold"
@@ -30,7 +34,7 @@ export default function Home() {
               color: "var(--ivoire-ancien)",
             }}
           >
-            Explorer les Savoirs
+            {t("home.gridTitle")}
           </h2>
         </div>
 
@@ -60,7 +64,6 @@ export default function Home() {
                 image={ARTICLES[1].image}
               />
             </div>
-
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start pt-12">
@@ -77,8 +80,20 @@ export default function Home() {
             <div className="md:col-span-8 md:pl-12">
               <SectionCard
                 category="Communaute"
-                title="Le Forum des Enfants du Village"
-                description="Un lieu de rencontre pour les descendants, chercheurs et passionnes. Partagez vos souvenirs, vos questions et vos savoirs."
+                title={{
+                   fr: "Le Forum des Enfants du Village",
+                   skt: "Mboka ya bana ya mboka",
+                   lin: "Lisanga ya bana ya mboka",
+                   swa: "Jukwaa la Watoto wa Kijiji",
+                   tsh: "Tshisumbu tshi bana ba mu musoko",
+                }}
+                description={{
+                   fr: "Un lieu de rencontre pour les descendants, chercheurs et passionnés. Partagez vos souvenirs, vos questions et vos savoirs.",
+                   skt: "Esika ya kokutana mpo na bakoko, balukiluki na ba lobi. Kabola makanisi, mituna na mayele.",
+                   lin: "Esika ya kokutana mpo na bakoko, balukiluki na ba lobi. Kabola makanisi, mituna na mayele.",
+                   swa: "Mahali pa kukutania kwa wazalendo, watafiti na wenye shauku. Shiriki kumbukumbu, maswali na maarifa yako.",
+                   tsh: "Muaba wa kumpanyina manyinu a kale, meji ne nkonko yenu yonso mpo na kudianyina.",
+                }}
               />
             </div>
           </div>
@@ -91,37 +106,40 @@ export default function Home() {
   );
 }
 
-const Footer = () => (
-  <footer
-    className="section-container"
-    style={{
-      paddingTop: "4rem",
-      paddingBottom: "4rem",
-      borderTop: "1px solid var(--bordure-brume)",
-      background: "var(--foret-nocturne)",
-    }}
-  >
-    <div className="flex flex-col md:flex-row justify-between items-center gap-8">
-      <div className="flex flex-col gap-2">
-        <span className="font-display font-bold text-xl" style={{ color: "var(--or-ancestral)" }}>
-          KISAKATA
-        </span>
-        <p className="font-body text-xs opacity-40" style={{ color: "var(--ivoire-ancien)" }}>
-          © 2026 — Brume de la Riviere. Tous droits reserves.
-        </p>
+const Footer = () => {
+  const { t } = useLanguage();
+  return (
+    <footer
+      className="section-container"
+      style={{
+        paddingTop: "4rem",
+        paddingBottom: "4rem",
+        borderTop: "1px solid var(--bordure-brume)",
+        background: "var(--foret-nocturne)",
+      }}
+    >
+      <div className="flex flex-col md:flex-row justify-between items-center gap-8">
+        <div className="flex flex-col gap-2">
+          <span className="font-display font-bold text-xl" style={{ color: "var(--or-ancestral)" }}>
+            KISAKATA
+          </span>
+          <p className="font-body text-xs opacity-40" style={{ color: "var(--ivoire-ancien)" }}>
+            {t("footer.rights")}
+          </p>
+        </div>
+        <div className="flex gap-8">
+          {["CULTURE", "LANGUE", "HISTOIRE", "FORUM"].map((item) => (
+            <a
+              key={item}
+              href={`#${item.toLowerCase()}`}
+              className="font-mono text-[10px] tracking-widest opacity-40 hover:opacity-100 transition-opacity hover:text-or"
+              style={{ color: "var(--ivoire-ancien)" }}
+            >
+              {item}
+            </a>
+          ))}
+        </div>
       </div>
-      <div className="flex gap-8">
-        {["CULTURE", "LANGUE", "HISTOIRE", "FORUM"].map((item) => (
-          <a
-            key={item}
-            href={`#${item.toLowerCase()}`}
-            className="font-mono text-[10px] tracking-widest opacity-40 hover:opacity-100 transition-opacity hover:text-or"
-            style={{ color: "var(--ivoire-ancien)" }}
-          >
-            {item}
-          </a>
-        ))}
-      </div>
-    </div>
-  </footer>
-);
+    </footer>
+  );
+};

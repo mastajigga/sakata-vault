@@ -2,8 +2,11 @@
 
 import React from "react";
 import { motion } from "framer-motion";
+import { useLanguage } from "./LanguageProvider";
 
 const Mission = () => {
+  const { t } = useLanguage();
+  
   return (
     <section
       className="section-container"
@@ -57,7 +60,7 @@ const Mission = () => {
           }}
           viewport={{ once: true, margin: "-100px" }}
         >
-          <span className="eyebrow mb-8 block">Notre Vision</span>
+          <span className="eyebrow mb-8 block">{t("mission.eyebrow")}</span>
 
           <h2
             className="font-display mb-8 font-bold"
@@ -67,27 +70,18 @@ const Mission = () => {
               color: "var(--ivoire-ancien)",
             }}
           >
-            Plus qu'une archive,
-            <br />
-            un heritage vivant.
+            {t("mission.title")}
           </h2>
 
           <div
-            className="space-y-5 text-body"
-            style={{ fontSize: "clamp(0.95rem, 1.3vw, 1.05rem)" }}
+            className="space-y-8 text-body"
+            style={{ fontSize: "clamp(0.95rem, 1.3vw, 1.1rem)", lineHeight: 1.8 }}
           >
-            <p>
-              La langue <span style={{ color: "var(--or-ancestral)", fontStyle: "italic" }}>kisakata</span> est
-              comme la riviere Lukenie — elle coule depuis la nuit des temps,
-              elle contourne les obstacles, elle nourrit tout ce qu'elle
-              touche. Si elle s'asseche, c'est tout le village qui a soif.
+            <p className="opacity-80">
+              {t("mission.p1")}
             </p>
-            <p>
-              Notre <span style={{ color: "var(--or-ancestral)", fontStyle: "italic" }}>mboka</span> (terroir)
-              ne se limite pas a un point sur la carte. C'est un endroit
-              ou la terre vous reconnait, ou les arbres connaissent votre
-              nom. Kisakata.com est le pont entre cet heritage et le monde
-              moderne.
+            <p className="opacity-80">
+              {t("mission.p2")}
             </p>
           </div>
 
@@ -117,7 +111,7 @@ const Mission = () => {
                   color: "var(--brume-matinale)",
                 }}
               >
-                Fondation
+                {t("mission.stat1")}
               </span>
             </div>
             <div className="flex flex-col">
@@ -128,7 +122,7 @@ const Mission = () => {
                   color: "var(--or-ancestral)",
                 }}
               >
-                3+
+                5
               </span>
               <span
                 style={{
@@ -139,14 +133,14 @@ const Mission = () => {
                   color: "var(--brume-matinale)",
                 }}
               >
-                Langues
+                {t("mission.stat2")}
               </span>
             </div>
             <div className="flex flex-col">
               <span
                 className="font-mono font-bold"
                 style={{
-                  fontSize: "1.75rem",
+                  fontSize: "1.5rem",
                   color: "var(--or-ancestral)",
                 }}
               >
@@ -161,7 +155,7 @@ const Mission = () => {
                   color: "var(--brume-matinale)",
                 }}
               >
-                Berceau
+                {t("mission.stat3")}
               </span>
             </div>
           </div>

@@ -4,10 +4,12 @@ import React, { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ArrowRight } from "lucide-react";
+import { useLanguage } from "./LanguageProvider";
 
 gsap.registerPlugin(ScrollTrigger);
 
 const CommunityCallout = () => {
+  const { t } = useLanguage();
   const sectionRef = useRef<HTMLElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
@@ -116,7 +118,7 @@ const CommunityCallout = () => {
           className="max-w-[600px] md:ml-[10%]"
         >
           <span className="eyebrow mb-6 block" style={{ color: "var(--or-ancestral)" }}>
-            Communaute & Savoir
+            {t("community.eyebrow")}
           </span>
           
           <h2
@@ -127,7 +129,7 @@ const CommunityCallout = () => {
               letterSpacing: "-0.03em"
             }}
           >
-            Contribuez <br /> au savoir
+            {t("community.title")}
           </h2>
           
           <p
@@ -140,9 +142,7 @@ const CommunityCallout = () => {
               maxWidth: "45ch"
             }}
           >
-            Votre histoire est une partie de la nôtre. Devenez documentaliste
-            culturel et aidez-nous à préserver les traditions Sakata pour les
-            prochaines générations.
+            {t("community.p")}
           </p>
 
           <button
@@ -161,7 +161,7 @@ const CommunityCallout = () => {
               (e.currentTarget as HTMLElement).style.color = "var(--or-ancestral)";
             }}
           >
-            Devenir Contributeur
+            {t("community.cta")}
             <ArrowRight
               className="w-5 h-5 transition-transform group-hover:translate-x-1"
             />

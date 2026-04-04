@@ -3,16 +3,20 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
+import { useLanguage } from "./LanguageProvider";
+import { useAuth } from "./AuthProvider";
+import LanguageSwitcher from "./LanguageSwitcher";
+import { LogOut, LayoutDashboard, UserCircle } from "lucide-react";
 
 const navLinks = [
-  { label: "Savoir", href: "/savoir" },
-  { label: "Langue", href: "/langue" },
-  { label: "Culture", href: "/culture" },
-  { label: "Spiritualite", href: "/spiritualite" },
-  { label: "Forum", href: "/forum" },
+  { key: "nav.home", href: "/" },
+  { key: "nav.knowledge", href: "/savoir" },
+  { key: "nav.community", href: "#communaute" },
 ];
 
 const Navbar = () => {
+  const { t } = useLanguage();
+  const { user, role, isLoading, signOut } = useAuth();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -79,33 +83,64 @@ const Navbar = () => {
                   (e.target as HTMLElement).style.color = "var(--brume-matinale)";
                 }}
               >
-                {link.label}
+                {t(link.key)}
               </Link>
             ))}
           </div>
 
           {/* CTA + Hamburger */}
           <div className="flex items-center gap-4">
-            <Link
-              href="/auth"
-              className="hidden md:inline-flex items-center px-6 py-2.5 rounded-full text-sm font-semibold transition-all border border-or/30 hover:border-or"
-              style={{
-                background: "transparent",
-                color: "var(--or-ancestral)",
-                transitionDuration: "var(--duration-base)",
-                transitionTimingFunction: "var(--ease-smooth)",
-              }}
-              onMouseEnter={(e) => {
-                (e.target as HTMLElement).style.background = "var(--or-ancestral)";
-                (e.target as HTMLElement).style.color = "var(--foret-nocturne)";
-              }}
-              onMouseLeave={(e) => {
-                (e.target as HTMLElement).style.background = "transparent";
-                (e.target as HTMLElement).style.color = "var(--or-ancestral)";
-              }}
-            >
-              Rejoindre
-            </Link>
+            <LanguageSwitcher />
+            
+            {!isLoading && (
+              user ? (
+                <div className="hidden md:flex items-center gap-4">
+                  <Link
+                    href={role && ["admin", "manager", "contributor"].includes(role) ? "/admin" : "/profil"}
+                    className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full text-sm font-semibold transition-all border border-or/30 hover:border-or"
+                    style={{
+                      background: "rgba(181, 149, 81, 0.1)",
+                      color: "var(--or-ancestral)",
+                    }}
+                  >
+                    {role && ["admin", "manager", "contributor"].includes(role) ? (
+                      <LayoutDashboard className="w-4 h-4" />
+                    ) : (
+                      <UserCircle className="w-4 h-4" />
+                    )}
+                    {role && ["admin", "manager", "contributor"].includes(role) ? t("nav.dashboard") : user.email?.split("@")[0]}
+                  </Link>
+                  <button
+                    onClick={() => signOut()}
+                    className="p-2.5 rounded-full border border-white/10 hover:bg-white/5 transition-all"
+                    title="Déconnexion"
+                  >
+                    <LogOut className="w-4 h-4 text-ivoire-ancien/60" />
+                  </button>
+                </div>
+              ) : (
+                <Link
+                  href="/auth"
+                  className="hidden md:inline-flex items-center px-6 py-2.5 rounded-full text-sm font-semibold transition-all border border-or/30 hover:border-or"
+                  style={{
+                    background: "transparent",
+                    color: "var(--or-ancestral)",
+                    transitionDuration: "var(--duration-base)",
+                    transitionTimingFunction: "var(--ease-smooth)",
+                  }}
+                  onMouseEnter={(e) => {
+                    (e.target as HTMLElement).style.background = "var(--or-ancestral)";
+                    (e.target as HTMLElement).style.color = "var(--foret-nocturne)";
+                  }}
+                  onMouseLeave={(e) => {
+                    (e.target as HTMLElement).style.background = "transparent";
+                    (e.target as HTMLElement).style.color = "var(--or-ancestral)";
+                  }}
+                >
+                  {t("nav.login")}
+                </Link>
+              )
+            )}
 
             {/* Hamburger — mobile */}
             <button
@@ -195,7 +230,7 @@ const Navbar = () => {
                         "var(--ivory-warm)";
                     }}
                   >
-                    {link.label}
+                    {t(link.key)}
                   </Link>
                 </motion.div>
               ))}
@@ -215,7 +250,7 @@ const Navbar = () => {
                     color: "var(--ivory-warm)",
                   }}
                 >
-                  Rejoindre la communaute
+                  {t("nav.join")}
                 </Link>
               </motion.div>
             </nav>
