@@ -6,9 +6,13 @@ import { FileText, Edit2, Trash2, Globe, Plus, Search } from "lucide-react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 
+import { translateArticle, LanguageCode } from "@/lib/translate";
+
 const AdminArticlesPage = () => {
   const [articles, setArticles] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [isSyncing, setIsSyncing] = useState(false);
+  const [syncProgress, setSyncProgress] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
 
   const fetchArticles = async () => {
@@ -27,6 +31,38 @@ const AdminArticlesPage = () => {
   useEffect(() => {
     fetchArticles();
   }, []);
+
+  const handleBulkTranslate = async () => {
+    if (!confirm("Voulez-vous lancer la synchronisation de toutes les traductions manquantes ? Cela peut prendre quelques instants.")) return;
+    
+    setIsSyncing(true);
+    setSyncProgress(0);
+    
+    const langs: LanguageCode[] = ["fr", "skt", "lin", "swa", "tsh"];
+    let count = 0;
+
+    for (const article of articles) {
+      const translated = await translateArticle(article, langs);
+      
+      const { error } = await supabase
+        .from("articles")
+        .update({
+          title: translated.title,
+          content: translated.content,
+          summary: translated.summary
+        })
+        .eq("slug", article.slug);
+
+      if (error) console.error(`Error syncing ${article.slug}:`, error);
+      
+      count++;
+      setSyncProgress(Math.round((count / articles.length) * 100));
+    }
+
+    await fetchArticles();
+    setIsSyncing(false);
+    alert("La mémoire du sanctuaire est désormais riche de toutes les langues !");
+  };
 
   const handleDelete = async (slug: string) => {
     if (confirm("Êtes-vous sûr de vouloir effacer ce savoir de la mémoire numérique ?")) {
@@ -51,13 +87,23 @@ const AdminArticlesPage = () => {
           <span className="eyebrow" style={{ color: "var(--or-ancestral)" }}>Contenu</span>
           <h1 className="font-display text-4xl font-bold text-ivoire-ancien">Gestion des Articles</h1>
         </div>
-        <Link 
-          href="/admin/content/new"
-          className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-or-ancestral text-foret-nocturne font-bold transition-transform hover:scale-105 active:scale-95"
-        >
-          <Plus className="w-5 h-5" />
-          Nouveau Récit
-        </Link>
+        <div className="flex gap-3">
+          <button 
+            onClick={handleBulkTranslate}
+            disabled={isSyncing}
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-white/10 text-ivoire-ancien font-bold transition-all hover:bg-white/5 active:scale-95 disabled:opacity-50"
+          >
+            <Globe className={`w-5 h-5 ${isSyncing ? 'animate-spin text-or-ancestral' : ''}`} />
+            {isSyncing ? `Synchronisation (${syncProgress}%)` : "Synchroniser tout"}
+          </button>
+          <Link 
+            href="/admin/content/new"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-or-ancestral text-foret-nocturne font-bold transition-transform hover:scale-105 active:scale-95"
+          >
+            <Plus className="w-5 h-5" />
+            Nouveau Récit
+          </Link>
+        </div>
       </header>
 
       {/* Search Bar */}
