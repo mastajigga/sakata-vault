@@ -134,7 +134,7 @@ const AdminArticlesPage = () => {
               <div className="flex items-center gap-6">
                 <div className="w-16 h-16 rounded-xl overflow-hidden bg-black/20 flex-shrink-0 border border-white/5">
                   <img 
-                    src={article.featured_image || "/images/sakata_mask_detail.png"} 
+                    src={(article.featured_image || "").replace('/articles/media/', '/media/') || "/images/sakata_mask_detail.png"} 
                     alt="" 
                     className="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-opacity"
                   />

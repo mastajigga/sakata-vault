@@ -186,9 +186,12 @@ const ArticlePage = () => {
               }}
             >
               <img 
-                src={article.featured_image || "/images/sakata_mask_detail.png"} 
+                src={(article.featured_image || "").replace('/articles/media/', '/media/') || "/images/sakata_mask_detail.png"} 
                 alt={displayTitle}
                 className="w-full h-auto rounded-[1.8rem] opacity-60"
+                onError={(e) => {
+                  e.currentTarget.src = "/images/sakata_mask_detail.png";
+                }}
               />
               <div className="p-8">
                 <p className="text-xs uppercase tracking-widest font-bold mb-4" style={{ color: "var(--or-ancestral)" }}>

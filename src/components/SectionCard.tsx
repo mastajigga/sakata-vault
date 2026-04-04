@@ -70,7 +70,7 @@ const SectionCard = ({
           >
             {image ? (
               <img
-                src={image}
+                src={image.replace('/articles/media/', '/media/')}
                 alt={displayTitle}
                 className="w-full h-full object-cover transition-transform"
                 style={{
@@ -78,6 +78,9 @@ const SectionCard = ({
                   transitionDuration: "1s",
                   transitionTimingFunction:
                     "cubic-bezier(0.16, 1, 0.3, 1)",
+                }}
+                onError={(e) => {
+                  e.currentTarget.src = "/images/sakata_mask_detail.png";
                 }}
               />
             ) : (
