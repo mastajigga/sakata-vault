@@ -24,20 +24,25 @@ const AuthPage = () => {
     }
   }, [user, router]);
 
-  const handleLogin = async (e: React.FormEvent) => {
+  const [isSignUp, setIsSignUp] = useState(false);
+
+  const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setMessage(null);
 
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
+    const { error } = isSignUp 
+      ? await supabase.auth.signUp({ email, password })
+      : await supabase.auth.signInWithPassword({ email, password });
 
     if (error) {
       setMessage({ type: "error", text: error.message });
     } else {
-      setMessage({ type: "success", text: "Connexion réussie ! Redirection..." });
+      if (isSignUp) {
+        setMessage({ type: "success", text: "Compte créé ! Vérifiez vos emails (ou essayez de vous connecter si la confirmation est désactivée)." });
+      } else {
+        setMessage({ type: "success", text: "Connexion réussie ! Redirection..." });
+      }
     }
     setLoading(false);
   };
@@ -68,7 +73,7 @@ const AuthPage = () => {
               </h1>
             </div>
 
-            <form onSubmit={handleLogin} className="space-y-6">
+            <form onSubmit={handleAuth} className="space-y-6">
               <div className="space-y-2">
                 <label className="text-xs font-mono uppercase tracking-widest opacity-40 ml-4">
                   Email
@@ -114,6 +119,13 @@ const AuthPage = () => {
                 }}
               >
                 {loading ? "Murmure aux anciens..." : "Entrer dans le Sanctuaire"}
+              </button>
+              <button
+                type="button"
+                onClick={() => setIsSignUp(!isSignUp)}
+                className="w-full text-xs font-mono uppercase tracking-widest opacity-40 hover:opacity-100 transition-opacity"
+              >
+                {isSignUp ? "Déjà un compte ? Se connecter" : "Pas encore de compte ? S'inscrire"}
               </button>
             </form>
 
