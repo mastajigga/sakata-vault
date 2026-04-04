@@ -18,13 +18,22 @@ export default function Home() {
 
   useEffect(() => {
     const fetchArticles = async () => {
+      console.log("Fetching articles from Supabase...");
       const { data, error } = await supabase
         .from("articles")
         .select("*")
-        .order("created_at", { ascending: true }); // Keep chronological or custom order
+        .order("created_at", { ascending: true });
       
-      if (!error && data) {
+      if (error) {
+        console.error("Supabase Error:", error);
+      }
+
+      if (!error && data && data.length > 0) {
+        console.log("Articles loaded:", data.length);
         setArticles(data);
+      } else {
+        console.warn("No articles found in DB, falling back to static data.");
+        setArticles(ARTICLES);
       }
       setLoading(false);
     };
@@ -80,7 +89,7 @@ export default function Home() {
                     title={articles[0].title[language] || articles[0].title.fr}
                     description={articles[0].summary[language] || articles[0].summary.fr}
                     href={`/savoir/${articles[0].slug}`}
-                    image={articles[0].featured_image}
+                    image={articles[0].featured_image || articles[0].image}
                   />
                 )}
               </div>
@@ -91,7 +100,7 @@ export default function Home() {
                     title={articles[1].title[language] || articles[1].title.fr}
                     description={articles[1].summary[language] || articles[1].summary.fr}
                     href={`/savoir/${articles[1].slug}`}
-                    image={articles[1].featured_image}
+                    image={articles[1].featured_image || articles[1].image}
                   />
                 )}
               </div>
@@ -105,7 +114,7 @@ export default function Home() {
                     title={articles[2].title[language] || articles[2].title.fr}
                     description={articles[2].summary[language] || articles[2].summary.fr}
                     href={`/savoir/${articles[2].slug}`}
-                    image={articles[2].featured_image}
+                    image={articles[2].featured_image || articles[2].image}
                   />
                 )}
               </div>
