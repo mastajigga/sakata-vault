@@ -16,7 +16,7 @@ const navLinks = [
 
 const Navbar = () => {
   const { t } = useLanguage();
-  const { user, role, isLoading, signOut } = useAuth();
+  const { user, role, isLoading, connectionError, refreshConnection, signOut } = useAuth();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -90,6 +90,46 @@ const Navbar = () => {
 
           {/* CTA + Hamburger */}
           <div className="flex items-center gap-4">
+            {/* Indicateur de Connexion Spirituelle */}
+            <div 
+              className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/5 bg-white/5 cursor-pointer group relative"
+              onClick={() => refreshConnection()}
+              title={connectionError || "Liaison spirituelle établie (Supabase)"}
+            >
+              <div className={`w-2 h-2 rounded-full ${connectionError ? 'bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.6)]' : 'bg-or-ancestral animate-pulse shadow-[0_0_8px_rgba(181,149,81,0.6)]'}`} />
+              <span className="hidden lg:block text-[10px] uppercase tracking-widest font-mono opacity-40 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+                {connectionError ? "Liaison Rompue" : "Sanctuaire Lié"}
+              </span>
+
+              {/* Tooltip detail */}
+              <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-56 p-3 bg-foret-nocturne border border-or/20 rounded shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50 text-[10px] leading-relaxed text-ivoire-ancien/80">
+                {connectionError ? (
+                  <>
+                    <p className="text-red-400 font-bold mb-1">MODE SAGESSE LOCALE ACTIF</p>
+                    <p className="mb-2">{connectionError}</p>
+                    <button 
+                      onClick={(e) => { e.stopPropagation(); refreshConnection(); }}
+                      className="w-full py-1.5 border border-red-500/50 hover:bg-red-500/10 rounded transition-colors text-red-400 font-bold uppercase tracking-wider"
+                    >
+                      Tenter de rétablir la liaison
+                    </button>
+                    <p className="mt-2 opacity-50 italic">Les données sont servies depuis le parchemin de secours.</p>
+                  </>
+                ) : (
+                  <>
+                    <p className="text-or-ancestral font-bold mb-1">LIAISON OPTIMALE</p>
+                    <p>Le Sanctuaire est accessible. Vos données sont synchronisées en temps réel.</p>
+                    <button 
+                      onClick={(e) => { e.stopPropagation(); refreshConnection(); }}
+                      className="mt-2 text-[8px] opacity-40 hover:opacity-100 underline underline-offset-2"
+                    >
+                      Rafraîchir le statut
+                    </button>
+                  </>
+                )}
+              </div>
+            </div>
+
             <LanguageSwitcher />
             
             {!isLoading && (
