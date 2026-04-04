@@ -88,24 +88,247 @@ export const ARTICLES: ArticleData[] = [
     image: "/images/sakata_mask_detail.png",
     videoBackground: "/videos/explore-with-the-double.mp4"
   },
-  // Stubs for the remaining 9 articles
-  ...[
-    "origines-bantou-basakata",
-    "royaume-congo-racines",
-    "iluo-les-doubles",
-    "corps-esprit-souffle",
-    "energie-vitale-moyo",
-    "culture-generale-mboka",
-    "langue-kisakata-introduction",
-    "proverbes-nkundi-sagesse",
-    "artisanat-masques-sculptures"
-  ].map(slug => ({
-    slug,
-    title: { fr: slug.replace(/-/g, " ") },
-    category: "culture" as const,
-    summary: { fr: "Contenu en cours de murmure..." },
-    content: { fr: "Contenu en cours de murmure..." },
+  {
+    slug: "origines-bantou-basakata",
+    title: {
+      fr: "Les origines Bantou des Basakata",
+      skt: "Nsoni ya Bantou: Mabele ya Basakata",
+      lin: "Bato ya Bantou: Epai Basakata bauta",
+      swa: "Asili ya Bantou ya Basakata",
+      tsh: "Malu a kale a bena Bantou kudi bena Sakata",
+    },
+    category: "histoire",
+    summary: {
+      fr: "Remontez le fil du temps pour comprendre comment notre peuple a traversé les millénaires et les forêts pour devenir ce que nous sommes.",
+      skt: "Yeba kiki bakoko na biso banyokami kala.",
+      lin: "Koyeba ndenge bankoko na biso balongwaki na monyiele mpo na koya awa.",
+      swa: "Rudi nyuma katika wakati na uelewe jinsi watu wetu walivyovuka milenia na misitu.",
+      tsh: "Pandulula mu mpasu wa kale mu kumanya muudi bantu betu bapita mu bidimu bia tshinji.",
+    },
+    content: {
+      fr: `*“Nzela ya bakoko, nzela ya bomoi.”* (Le chemin des ancêtres est le chemin de la vie). Notre voyage n'est pas né hier. Nous portons en nous le souffle des grands lacs et la force des plaines lointaines.`,
+      lin: `Lisolo na biso ebandaki kala mpenza epai ya mayi minene ya monyiele.`,
+      skt: `Nsoni na biso eyambilaki kala na nse ya mayi ya yambula.`,
+      swa: `Safari yetu haikuanza jana. Tunabeba ndani yetu pumzi ya maziwa makuu.`,
+      tsh: `Lwendu luetu kalwakabangila makelela muana wanyi.`,
+    },
     image: "/images/sakata_mask_detail.png",
     videoBackground: "/videos/iluo-into-the-eyes.mp4"
-  }))
+  },
+  {
+    slug: "royaume-congo-racines",
+    title: {
+      fr: "Le Royaume du Congo : Nos racines",
+      skt: "Kongo di Ntotila: Misisa na biso",
+      lin: "Kongo di Ntotila: Misisa na biso",
+      swa: "Ufalme wa Kongo: Mizizi yetu",
+      tsh: "Bukalenga bua Kongo: Miji yetu",
+    },
+    category: "histoire",
+    summary: {
+      fr: "Bien avant les frontières de papier, il y avait la pierre et le fer du Kongo.",
+      skt: "Kala, Kongo iye mbe.",
+      lin: "Yeba nsoni ya Kongo di Ntotila mpe misisa oyo ekangisi biso.",
+      swa: "Muda mrefu kabla ya mipaka ya karatasi, kulikuwa na jiwe na chuma cha Kongo.",
+      tsh: "Kale tondo kumpala kua mikalu ya mabeji, kuvua dibue ne tshiamu tshia Kongo.",
+    },
+    content: {
+      fr: `*“Diba dia Kongo, diba dia makila.”* (Le sang du Kongo est le sang de la vie). Nous sommes les branches d'un arbre immense dont les racines s'abreuvent à Mbanza Kongo.`,
+      lin: `Biso tozali bitapi ya nzete moko monene oyo misisa na yango ezali na Mbanza Kongo.`,
+      skt: `Loso we misisa ya nzete ya yambula kitala Mbanza Kongo.`,
+      swa: `Sisi ni matawi ya mti mkubwa ambao mizizi yake inakunywa maji huko Mbanza Kongo.`,
+      tsh: `Tudi bitupa bia mutshi munene udia miji yandé inuina mayi mu Mbanza Kongo.`,
+    },
+    image: "/images/sakata_mask_detail.png",
+    videoBackground: "/videos/iluo-into-the-eyes.mp4"
+  },
+  {
+    slug: "iluo-les-doubles",
+    title: {
+      fr: "Iluo : Le mystère des doubles",
+      skt: "Iluo: Nsoni ya biloko mibale",
+      lin: "Iluo: Limpinga ya molimo mibale",
+      swa: "Iluo: Siri ya mapacha wa kiroho",
+      tsh: "Iluo: Tshipandulula tshia mapasa a muoyo",
+    },
+    category: "culture",
+    summary: {
+      fr: "Celui qui marche seul n'est jamais vraiment seul. Découvrez le concept de l'Iluo.",
+      skt: "Woka eloko moko, biloko mibale.",
+      lin: "Oyo atambolaka moko, azali mpenza moko te. Yeba siri ya Iluo.",
+      swa: "Yule anayetembea peke yake hakamwe hayuko peke yake kweli.",
+      tsh: "Udi wenda nkayandé katu nkayandé bushuwa.",
+    },
+    content: {
+      fr: `*“Eloko moko, biloko mibale.”* (Une chose, deux esprits). Dans la culture Sakata, chaque être possède une ombre protectrice, un écho dans le monde invisible.`,
+      lin: `Na mimeseno ya Basakata, moto na moto azali na molimo oyo akangami na ye lokola kiyila.`,
+      skt: `Na nsoni na me, moto we kiyila iye mobateli.`,
+      swa: `Katika utamaduni wa Sakata, kila kiumbe kina kivuli cha ulinzi.`,
+      tsh: `Mu maku a bena Sakata, muntu ne muntu udi ne dilembi dia ditalala.`,
+    },
+    image: "/images/sakata_mask_detail.png",
+    videoBackground: "/videos/iluo-into-the-eyes.mp4"
+  },
+  {
+    slug: "corps-esprit-souffle",
+    title: {
+      fr: "Le corps, l'esprit et le souffle",
+      skt: "Nzoto, Molimo, Mpema",
+      lin: "Nzoto, Molimo mpe Mpema",
+      swa: "Mwili, Roho na Pumzi",
+      tsh: "Mubidi, Muoyo ne Diaka",
+    },
+    category: "culture",
+    summary: {
+      fr: "L'équilibre de l'homme Sakata repose sur trois piliers indissociables.",
+      skt: "Biso tozali makonzi misato.",
+      lin: "Bomoi ya moto ebatelami na makonzi misato oyo ekoki kokabwana te.",
+      swa: "Usawa wa mtu wa Sakata unategemea nguzo tatu zisizotenganishwa.",
+      tsh: "Bulongolodi bua muntu wa bena Sakata budi mu mikonji isatu idia kayakukosola.",
+    },
+    content: {
+      fr: `Le corps est la pirogue, l'esprit est le rameur, et le souffle est le courant de la rivière. Sans l'un, les deux autres s'égarent.`,
+      lin: `Nzoto na biso ezali lokola bwato, molimo lokola motambolisi bwato, mpe mpema lokola mai ya ebale.`,
+      skt: `Nzoto iye bwato, molimo iye mokumbi bwato, mpema iye mai.`,
+      swa: `Mwili ni mtumbwi, roho ni mpigaji makasia, na pumzi ni mkondo wa mto.`,
+      tsh: `Mubidi nediaka, muoyo nediaka, ne diaka nediaka dia mayi.`,
+    },
+    image: "/images/sakata_mask_detail.png",
+    videoBackground: "/videos/iluo-into-the-eyes.mp4"
+  },
+  {
+    slug: "energie-vitale-moyo",
+    title: {
+      fr: "L'énergie vitale (Moyo)",
+      skt: "Moyo: Mpema ya bomoi",
+      lin: "Moyo: Nguya ya bomoi",
+      swa: "Nishati ya Maisha (Moyo)",
+      tsh: "Bukole bua muoyo (Moyo)",
+    },
+    category: "culture",
+    summary: {
+      fr: "Comprendre le Moyo, cette force qui circule en nous et nous relie à tout ce qui vit.",
+      skt: "Yeba Moyo, nguya ya yambula.",
+      lin: "Koyeba Moyo, nguya oyo etambolaka na kati na biso mpe ekangisaka biso na biloko nyonso.",
+      swa: "Kuelewa Moyo, nguvu hii inayotiririka ndani yetu.",
+      tsh: "Kumanya Moyo, bukole ebu budi bupita mu nshima yetu.",
+    },
+    content: {
+      fr: `Le *Moyo* n'est pas seulement le cœur physique. C'est l'étincelle que les ancêtres nous ont confiée pour éclairer notre chemin.`,
+      lin: `*Moyo* ezali kaka motema ya nzoto te. Ezali munda oyo bankoko bapesaki biso.`,
+      skt: `*Moyo* iye nkasa ya bwanya iye bakoko bapesaki biso.`,
+      swa: `*Moyo* si moyo wa kimwili pekee. Ni cheche ambayo mababu walitukabidhi.`,
+      tsh: `*Moyo* ki motema wa mubidi to nkayandé.`,
+    },
+    image: "/images/sakata_mask_detail.png",
+    videoBackground: "/videos/iluo-into-the-eyes.mp4"
+  },
+  {
+    slug: "culture-generale-mboka",
+    title: {
+      fr: "Culture Générale Mboka",
+      skt: "Mboka: Nsoni ya yezu",
+      lin: "Mboka: Masolo ya mboka",
+      swa: "Utamaduni wa Mboka",
+      tsh: "Maku a Mboka",
+    },
+    category: "culture",
+    summary: {
+      fr: "Le concept de Mboka dépasse le simple village ; c'est un état d'esprit, une appartenance sacrée.",
+      skt: "Mboka iye kime ya yambula.",
+      lin: "Likanisi ya Mboka eleki kaka village pamba ; ezali lolenge ya bomoi.",
+      swa: "Dhana ya Mboka inakwenda mbali zaidi ya kijiji rahisi ; ni hali ya akili.",
+      tsh: "Likanisi lia Mboka didi dipita mu musoko wa patupu.",
+    },
+    content: {
+      fr: `Quand tu dis *mboka* (village), la terre écoute. C'est l'endroit où ton cordon ombilical a été confié à la forêt.`,
+      lin: `Soki olobi *mboka*, mabele eyokaka. Epai mpondu na yo ekundami na nse ya zamba.`,
+      skt: `Soki olobi *mboka*, nse eyokaka.`,
+      swa: `Unaposema *mboka*, ardhi inasikiliza.`,
+      tsh: `Pa udi uamba *mboka*, buloba budi buteleka.`,
+    },
+    image: "/images/sakata_mask_detail.png",
+    videoBackground: "/videos/iluo-into-the-eyes.mp4"
+  },
+  {
+    slug: "langue-kisakata-introduction",
+    title: {
+      fr: "Introduction à la langue Kisakata",
+      skt: "Kisakata: Monoko na biso",
+      lin: "Kisakata: Liloba na biso",
+      swa: "Utangulizi wa Lugha ya Kisakata",
+      tsh: "Diyisha dia muakulu wa Kisakata",
+    },
+    category: "culture",
+    summary: {
+      fr: "Nos mots sont des clés. Apprenez les bases de la langue qui porte notre identité.",
+      skt: "Kisakata iye kime ya yambula.",
+      lin: "Maloba na biso ezali fungola. Yekola mobu ya lokota na biso.",
+      swa: "Maneno yetu ni funguo. Jifunze misingi ya lugha inayobeba utambulisho wetu.",
+      tsh: "Meji etu nansapi. Longa nshindamenu wa muakulu udi muambulula tshimanyinu tshietu.",
+    },
+    content: {
+      fr: `Le *Kisakata* est comme la rivière Lukenie — elle coule depuis la nuit des temps et nourrit notre pensée. Chaque mot est une racine.`,
+      lin: `Lokota na biso *Kisakata* ezali lokola ebale Lukenie — elobi kobanda kala mpenza.`,
+      skt: `*Kisakata* iye mai Lukenie — eyambilaki kala.`,
+      swa: `*Kisakata* ni kama mto Lukenie — unatiririka tangu zamani.`,
+      tsh: `*Kisakata* nediaka dia mayi Lukenie.`,
+    },
+    image: "/images/sakata_mask_detail.png",
+    videoBackground: "/videos/iluo-into-the-eyes.mp4"
+  },
+  {
+    slug: "proverbes-nkundi-sagesse",
+    title: {
+      fr: "Proverbes Nkundi et sagesse",
+      skt: "Nkundi ya bakoko: Bwanya ya yambula",
+      lin: "Nkundi ya bankoko: Mayele ya bomoi",
+      swa: "Methali za Nkundi na Hekima",
+      tsh: "Mayele a Nkundi ne Meji",
+    },
+    category: "culture",
+    summary: {
+      fr: "Les Nkundi sont les perles de sagesse que les anciens nous ont léguées pour ne pas nous perdre.",
+      skt: "Yeba nkundi ya bwanya.",
+      lin: "Nkundi ezali lokola biloko kitoko ya mayele oyo bankoko bapesaki biso.",
+      swa: "Nkundi ni lulu za hekima ambazo wazee walituachia.",
+      tsh: "Nkundi nediaka dia meji adi batatu betu batushile.",
+    },
+    content: {
+      fr: `*“Nkasa moko ekoki kokanga mbuma te.”* (Une seule feuille ne peut pas emballer un fruit). La force est dans l'unité du village.`,
+      lin: `*“Nkasa moko ekoki kokanga mbuma te.”* Nguya ezali na lisanga ya bato ya mboka.`,
+      skt: `*“Nkasa moko ekoki kokanga mbuma te.”*`,
+      swa: `*“Nkasa moko ekoki kokanga mbuma te.”* Nguvu iko katika umoja wa kijiji.`,
+      tsh: `*“Nkasa moko ekoki kokanga mbuma te.”* Bukole budi mu kondo wa musoko.`,
+    },
+    image: "/images/sakata_mask_detail.png",
+    videoBackground: "/videos/iluo-into-the-eyes.mp4"
+  },
+  {
+    slug: "artisanat-masques-sculptures",
+    title: {
+      fr: "Artisanat : Masques et Sculptures",
+      skt: "Mbongo na nsoni: Bisala ya maboko",
+      lin: "Misala ya maboko: Bilembo ya bankoko",
+      swa: "Ufundi: Maski na Sanamu",
+      tsh: "Midimu ya bianza: Tshimfuanyi ne Bibofolu",
+    },
+    category: "culture",
+    summary: {
+      fr: "Quand le bois parle, l'ancêtre écoute. Découvrez l'art sacré de la sculpture Sakata.",
+      skt: "Yeba bisala ya maboko.",
+      lin: "Soki nzete elobi, nkoko ayokaka. Yeba misala ya bule ya maske mpe sculpture.",
+      swa: "Mbao inapozungumza, babu anasikiliza.",
+      tsh: "Padi mutshi uakula, tshitatu tshidi tshitelekla.",
+    },
+    content: {
+      fr: `Tailler le bois, c'est libérer l'esprit qui y dort. Nos masques ne sont pas des décorations, ce sont des visages qui nous regardent depuis l'éternité.`,
+      lin: `Kozonga nzete, ezali kobimisa molimo oyo alalaki wana. Bilembo na biso ezali kaka kitoko te, ezali bilongi ya bankoko.`,
+      skt: `Kozonga nzete, ezali kobimisa eloko.`,
+      swa: `Kuchonga mbao ni kuachilia roho inayolala huko.`,
+      tsh: `Kusonga mutshi nediaka mu kupatula muoyo uvuamu mulalé.`,
+    },
+    image: "/images/sakata_mask_detail.png",
+    videoBackground: "/videos/iluo-into-the-eyes.mp4"
+  }
 ];
