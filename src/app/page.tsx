@@ -1,5 +1,6 @@
 "use client";
 
+import React, { useEffect, useState } from "react";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import SectionCard from "@/components/SectionCard";
@@ -8,8 +9,30 @@ import CommunityCallout from "@/components/CommunityCallout";
 import { ARTICLES } from "@/data/articles";
 import { useLanguage } from "@/components/LanguageProvider";
 
+import { supabase } from "@/components/AuthProvider";
+
 export default function Home() {
-  const { t } = useLanguage();
+  const { language, t } = useLanguage();
+  const [articles, setArticles] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchArticles = async () => {
+      const { data, error } = await supabase
+        .from("articles")
+        .select("*")
+        .order("created_at", { ascending: true }); // Keep chronological or custom order
+      
+      if (!error && data) {
+        setArticles(data);
+      }
+      setLoading(false);
+    };
+    fetchArticles();
+  }, []);
+
+  // Map slugs to ensure we link to existing data
+  const getArticleBySlug = (slug: string) => articles.find((a: any) => a.slug === slug);
 
   return (
     <main className="grain-overlay">
@@ -38,66 +61,77 @@ export default function Home() {
           </h2>
         </div>
 
-        {/* Asymmetric grid: 60/40 then 40/60 */}
-        <div
-          className="grid gap-6"
-          style={{
-            gridTemplateColumns: "repeat(1, 1fr)",
-          }}
-        >
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
-            <div className="md:col-span-7">
-              <SectionCard
-                category="Histoire"
-                title={ARTICLES[0].title}
-                description={ARTICLES[0].summary}
-                href={`/savoir/${ARTICLES[0].slug}`}
-                image={ARTICLES[0].image}
-              />
-            </div>
-            <div className="md:col-span-5 md:mt-24">
-              <SectionCard
-                category="Culture"
-                title={ARTICLES[1].title}
-                description={ARTICLES[1].summary}
-                href={`/savoir/${ARTICLES[1].slug}`}
-                image={ARTICLES[1].image}
-              />
-            </div>
+        {loading ? (
+          <div className="py-24 text-center animate-pulse text-or-ancestral font-mono tracking-widest uppercase">
+            Éveil des mémoires...
           </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start pt-12">
-            <div className="md:col-span-4">
-              <SectionCard
-                category="Histoire"
-                title={ARTICLES[2].title}
-                description={ARTICLES[2].summary}
-                href={`/savoir/${ARTICLES[2].slug}`}
-                image={ARTICLES[2].image}
-              />
+        ) : (
+          <div
+            className="grid gap-6"
+            style={{
+              gridTemplateColumns: "repeat(1, 1fr)",
+            }}
+          >
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
+              <div className="md:col-span-7">
+                {articles[0] && (
+                  <SectionCard
+                    category={articles[0].category}
+                    title={articles[0].title[language] || articles[0].title.fr}
+                    description={articles[0].summary[language] || articles[0].summary.fr}
+                    href={`/savoir/${articles[0].slug}`}
+                    image={articles[0].featured_image}
+                  />
+                )}
+              </div>
+              <div className="md:col-span-5 md:mt-24">
+                {articles[1] && (
+                  <SectionCard
+                    category={articles[1].category}
+                    title={articles[1].title[language] || articles[1].title.fr}
+                    description={articles[1].summary[language] || articles[1].summary.fr}
+                    href={`/savoir/${articles[1].slug}`}
+                    image={articles[1].featured_image}
+                  />
+                )}
+              </div>
             </div>
 
-            <div className="md:col-span-8 md:pl-12">
-              <SectionCard
-                category="Communaute"
-                title={{
-                   fr: "Le Forum des Enfants du Village",
-                   skt: "Mboka ya bana ya mboka",
-                   lin: "Lisanga ya bana ya mboka",
-                   swa: "Jukwaa la Watoto wa Kijiji",
-                   tsh: "Tshisumbu tshi bana ba mu musoko",
-                }}
-                description={{
-                   fr: "Un lieu de rencontre pour les descendants, chercheurs et passionnés. Partagez vos souvenirs, vos questions et vos savoirs.",
-                   skt: "Esika ya kokutana mpo na bakoko, balukiluki na ba lobi. Kabola makanisi, mituna na mayele.",
-                   lin: "Esika ya kokutana mpo na bakoko, balukiluki na ba lobi. Kabola makanisi, mituna na mayele.",
-                   swa: "Mahali pa kukutania kwa wazalendo, watafiti na wenye shauku. Shiriki kumbukumbu, maswali na maarifa yako.",
-                   tsh: "Muaba wa kumpanyina manyinu a kale, meji ne nkonko yenu yonso mpo na kudianyina.",
-                }}
-              />
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start pt-12">
+              <div className="md:col-span-4">
+                {articles[2] && (
+                  <SectionCard
+                    category={articles[2].category}
+                    title={articles[2].title[language] || articles[2].title.fr}
+                    description={articles[2].summary[language] || articles[2].summary.fr}
+                    href={`/savoir/${articles[2].slug}`}
+                    image={articles[2].featured_image}
+                  />
+                )}
+              </div>
+
+              <div className="md:col-span-8 md:pl-12">
+                <SectionCard
+                  category="Communaute"
+                  title={{
+                    fr: "Le Forum des Enfants du Village",
+                    skt: "Mboka ya bana ya mboka",
+                    lin: "Lisanga ya bana ya mboka",
+                    swa: "Jukwaa la Watoto wa Kijiji",
+                    tsh: "Tshisumbu tshi bana ba mu musoko",
+                  }}
+                  description={{
+                    fr: "Un lieu de rencontre pour les descendants, chercheurs et passionnés. Partagez vos souvenirs, vos questions et vos savoirs.",
+                    skt: "Esika ya kokutana mpo na bakoko, balukiluki na ba lobi. Kabola makanisi, mituna na mayele.",
+                    lin: "Esika ya kokutana mpo na bakoko, balukiluki na ba lobi. Kabola makanisi, mituna na mayele.",
+                    swa: "Mahali pa kukutania kwa wazalendo, watafiti na wenye shauku. Shiriki kumbukumbu, maswali na maarifa yako.",
+                    tsh: "Muaba wa kumpanyina manyinu a kale, meji ne nkonko yenu yonso mpo na kudianyina.",
+                  }}
+                />
+              </div>
             </div>
           </div>
-        </div>
+        )}
       </section>
 
       <CommunityCallout />
