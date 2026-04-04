@@ -8,6 +8,7 @@ import Navbar from "@/components/Navbar";
 import { motion } from "framer-motion";
 import { useLanguage } from "@/components/LanguageProvider";
 import { supabase } from "@/components/AuthProvider";
+import { ARTICLES } from "@/data/articles";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -22,16 +23,36 @@ const ArticlePage = () => {
 
   useEffect(() => {
     const fetchArticle = async () => {
-      const { data, error } = await supabase
-        .from("articles")
-        .select("*")
-        .eq("slug", slug)
-        .single();
-      
-      if (!error && data) {
-        setArticle(data);
+      console.log(`Fetching article for slug: ${slug}...`);
+      try {
+        const { data, error } = await supabase
+          .from("articles")
+          .select("*")
+          .eq("slug", slug)
+          .single();
+        
+        if (error) {
+          console.warn("Supabase Error or missing row:", error.message);
+          // Fallback to static data
+          const staticArticle = ARTICLES.find(a => a.slug === slug);
+          if (staticArticle) {
+            console.log("Found article in static data fallback.");
+            setArticle(staticArticle);
+          }
+        } else if (data) {
+          console.log("Article loaded from DB.");
+          setArticle(data);
+        }
+      } catch (err) {
+        console.error("Fetch exception:", err);
+        // Fallback to static data
+        const staticArticle = ARTICLES.find(a => a.slug === slug);
+        if (staticArticle) {
+          setArticle(staticArticle);
+        }
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     };
     fetchArticle();
   }, [slug]);

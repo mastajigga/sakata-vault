@@ -19,23 +19,28 @@ export default function Home() {
   useEffect(() => {
     const fetchArticles = async () => {
       console.log("Fetching articles from Supabase...");
-      const { data, error } = await supabase
-        .from("articles")
-        .select("*")
-        .order("created_at", { ascending: true });
-      
-      if (error) {
-        console.error("Supabase Error:", error);
-      }
+      try {
+        const { data, error } = await supabase
+          .from("articles")
+          .select("*")
+          .order("created_at", { ascending: true });
+        
+        if (error) throw error;
 
-      if (!error && data && data.length > 0) {
-        console.log("Articles loaded:", data.length);
-        setArticles(data);
-      } else {
-        console.warn("No articles found in DB, falling back to static data.");
+        if (data && data.length > 0) {
+          console.log("Articles loaded from DB:", data.length);
+          setArticles(data);
+        } else {
+          console.warn("DB returned no articles, falling back to static data.");
+          setArticles(ARTICLES);
+        }
+      } catch (error) {
+        console.error("Supabase Connection Error:", error);
+        console.warn("Using static fallback data due to connection issues.");
         setArticles(ARTICLES);
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     };
     fetchArticles();
   }, []);

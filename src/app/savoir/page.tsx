@@ -7,6 +7,8 @@ import { motion } from "framer-motion";
 import { supabase } from "@/components/AuthProvider";
 import { useLanguage } from "@/components/LanguageProvider";
 
+import { ARTICLES } from "@/data/articles";
+
 const SavoirIndex = () => {
   const [articles, setArticles] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -14,15 +16,28 @@ const SavoirIndex = () => {
 
   useEffect(() => {
     const fetchArticles = async () => {
-      const { data, error } = await supabase
-        .from("articles")
-        .select("*")
-        .order("created_at", { ascending: false });
+      console.log("Fetching all articles from Supabase...");
+      try {
+        const { data, error } = await supabase
+          .from("articles")
+          .select("*")
+          .order("created_at", { ascending: false });
 
-      if (!error && data) {
-        setArticles(data);
+        if (error) throw error;
+
+        if (data && data.length > 0) {
+          console.log("Articles loaded from DB:", data.length);
+          setArticles(data);
+        } else {
+          console.warn("No articles in DB, using static data.");
+          setArticles(ARTICLES);
+        }
+      } catch (err) {
+        console.error("Fetch error:", err);
+        setArticles(ARTICLES);
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     };
     fetchArticles();
   }, []);
