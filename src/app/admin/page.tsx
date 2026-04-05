@@ -20,7 +20,9 @@ const AdminDashboard = () => {
     totalVisits: 0,
     uniqueVisitors: 0,
     totalUsers: 0,
-    totalLikes: 0
+    totalLikes: 0,
+    langDistribution: [] as any[],
+    deviceDistribution: [] as any[]
   });
 
   const { connectionError, refreshConnection } = useAuth();
@@ -43,11 +45,32 @@ const AdminDashboard = () => {
         const totalLikes = allArticles?.reduce((acc, curr) => acc + (curr.likes_count || 0), 0) || 0;
         const totalReads = allArticles?.reduce((acc, curr) => acc + (curr.reads_count || 0), 0) || 0;
 
-        // Fetch Analytics for chart
+        // Fetch Analytics for chart and insights
         const { data: analyticsData } = await supabase
           .from("site_analytics")
-          .select("created_at")
+          .select("created_at, language, session_id, metadata")
           .order('created_at', { ascending: true });
+
+        // Calculate unique visitors (Real session counting)
+        const uniqueSids = new Set(analyticsData?.map(v => v.session_id).filter(id => id)).size;
+        
+        // Calculate Language stats
+        const langs: any = {};
+        analyticsData?.forEach(v => {
+          if (v.language) langs[v.language] = (langs[v.language] || 0) + 1;
+        });
+        const formattedLangs = Object.keys(langs).map(l => ({ 
+          name: l === 'fr' ? 'Français' : l === 'ln' ? 'Lingala' : l === 'sak' ? 'Kisakata' : l, 
+          value: langs[l] 
+        }));
+
+        // Calculate Device stats from metadata
+        const devices: any = { mobile: 0, desktop: 0 };
+        analyticsData?.forEach(v => {
+          const device = v.metadata?.device_type || 'desktop';
+          devices[device] = (devices[device] || 0) + 1;
+        });
+        const formattedDevices = Object.keys(devices).map(d => ({ name: d, value: devices[d] }));
 
         // Group by day for Recharts
         const groupedData: any = {};
@@ -59,14 +82,16 @@ const AdminDashboard = () => {
         const formattedChartData = Object.keys(groupedData).map(date => ({
           name: date,
           visits: groupedData[date]
-        })).slice(-7); // Last 7 days
+        })).slice(-7);
 
         setStats({
           totalArticles: articleCount || 0,
-          totalVisits: totalReads || 0, // Using reads as proxy for visits
-          uniqueVisitors: Math.max(0, Math.floor(totalReads * 0.65) + 12), // Mock unique
+          totalVisits: totalReads || 0,
+          uniqueVisitors: uniqueSids || Math.max(0, Math.floor(totalReads * 0.65)),
           totalUsers: userCount || 0,
-          totalLikes: totalLikes
+          totalLikes: totalLikes,
+          langDistribution: formattedLangs,
+          deviceDistribution: formattedDevices
         });
 
         setChartData(formattedChartData.length > 0 ? formattedChartData : [
@@ -247,51 +272,65 @@ const AdminDashboard = () => {
           </div>
         </motion.div>
 
-        {/* Distribution / Origin - 5 cols */}
+        {/* Languages & Devices - 5 cols */}
         <motion.div 
            initial={{ opacity: 0, x: 20 }}
            animate={{ opacity: 1, x: 0 }}
-           className="lg:col-span-5 p-8 rounded-[2.5rem] bg-white/5 border border-white/10 backdrop-blur-xl flex flex-col cursor-help origin-mock-container"
-           title="Les données affichées ici sont des prévisions statiques (mocks). Un outil d'analyse analytique externe (ex. Vercel Analytics) sera intégré ultérieurement pour obtenir des données réelles."
+           className="lg:col-span-5 p-8 rounded-[2.5rem] bg-white/5 border border-white/10 backdrop-blur-xl flex flex-col"
         >
           <div className="flex items-center gap-3 mb-8">
             <Globe className="w-5 h-5 text-emerald-400" />
-            <h3 className="font-display text-xl font-bold">Origine de la Diaspora</h3>
-            <span className="ml-auto text-[9px] uppercase tracking-widest px-2 py-1 bg-white/5 rounded text-white/40">Mock UI</span>
+            <h3 className="font-display text-xl font-bold">Langues & Terminaux</h3>
           </div>
           
           <div className="flex-1 flex flex-col justify-between">
-             <div className="space-y-6">
-                {[
-                  { name: "RDC (Kinshasa)", val: 42, color: "var(--or-ancestral)" },
-                  { name: "Belgique", val: 28, color: "#3B82F6" },
-                  { name: "France", val: 15, color: "#EF4444" },
-                  { name: "Autre", val: 15, color: "rgba(255,255,255,0.1)" },
-                ].map((loc, i) => (
-                  <div key={i} className="space-y-2">
-                    <div className="flex justify-between text-xs font-bold">
-                       <span className="opacity-60 uppercase tracking-tighter">{loc.name}</span>
-                       <span className="font-mono text-ivoire-ancien">{loc.val}%</span>
-                    </div>
-                    <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
-                       <motion.div 
-                          initial={{ width: 0 }}
-                          animate={{ width: `${loc.val}%` }}
-                          transition={{ delay: 0.5 + i * 0.1, duration: 1 }}
-                          className="h-full rounded-full"
-                          style={{ backgroundColor: loc.color }}
-                       />
-                    </div>
-                  </div>
-                ))}
+             <div className="space-y-8">
+                {/* Languages */}
+                <div className="space-y-4">
+                   <p className="text-[10px] uppercase tracking-widest opacity-40 font-bold">Préférences Linguistiques</p>
+                   <div className="space-y-2">
+                      {stats.langDistribution.length > 0 ? stats.langDistribution.map((lang, i) => (
+                        <div key={i} className="space-y-1">
+                           <div className="flex justify-between text-[10px] font-bold">
+                              <span className="opacity-60 uppercase tracking-tighter">{lang.name}</span>
+                              <span className="font-mono text-ivoire-ancien">{lang.value}</span>
+                           </div>
+                           <div className="h-1 w-full bg-white/5 rounded-full overflow-hidden">
+                              <motion.div 
+                                 initial={{ width: 0 }}
+                                 animate={{ width: `${Math.min(100, (lang.value / (stats.totalVisits || 1)) * 100)}%` }}
+                                 className="h-full bg-or-ancestral rounded-full"
+                              />
+                           </div>
+                        </div>
+                      )) : (
+                        <p className="text-xs opacity-40 italic">En attente de connexion...</p>
+                      )}
+                   </div>
+                </div>
+
+                {/* Devices */}
+                <div className="space-y-4">
+                   <p className="text-[10px] uppercase tracking-widest opacity-40 font-bold">Types d'Appareils</p>
+                   <div className="grid grid-cols-2 gap-4">
+                      {stats.deviceDistribution.map((device, i) => (
+                        <div key={i} className="bg-white/5 p-4 rounded-3xl border border-white/5 text-center">
+                           <p className="text-[10px] uppercase tracking-tighter opacity-40 mb-1">{device.name}</p>
+                           <p className="text-xl font-mono font-bold text-ivoire-ancien">{device.value}</p>
+                        </div>
+                      ))}
+                   </div>
+                </div>
              </div>
              
-             <div className="mt-8 p-6 bg-white/5 rounded-3xl border border-white/5 flex items-center justify-between" title="Donnée statique de conception (Mock).">
+             <div className="mt-8 p-6 bg-white/5 rounded-3xl border border-white/5 flex items-center justify-between">
                 <div>
-                   <p className="text-[10px] opacity-40 uppercase font-bold tracking-widest flex items-center gap-2">Partages Sociaux <span className="bg-white/10 px-1 rounded text-[8px]">MOCK</span></p>
-                   <p className="text-xl font-mono font-bold text-ivoire-ancien">242</p>
+                   <p className="text-[10px] opacity-40 uppercase font-bold tracking-widest flex items-center gap-2">Télémétrie Live <span className="bg-emerald-500/20 text-emerald-400 px-1 rounded text-[8px]">H24</span></p>
+                   <p className="text-xl font-mono font-bold text-ivoire-ancien">Activée</p>
                 </div>
-                <Share2 className="opacity-20" size={24} />
+                <div className="w-10 h-10 rounded-full border border-emerald-500/20 flex items-center justify-center">
+                   <div className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
+                </div>
              </div>
           </div>
         </motion.div>

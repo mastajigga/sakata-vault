@@ -31,6 +31,8 @@ export const metadata: Metadata = {
   description: "Portail de transmission des savoirs, de la langue et de la sagesse du peuple Sakata (Mai-Ndombe).",
 };
 
+import { AnalyticsProvider } from "@/components/AnalyticsProvider";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -42,8 +44,10 @@ export default function RootLayout({
         <AuthProvider>
           <LanguageProvider>
             <LoadingProvider>
-              <WelcomeModal />
-              {children}
+              <AnalyticsProvider>
+                <WelcomeModal />
+                {children}
+              </AnalyticsProvider>
             </LoadingProvider>
           </LanguageProvider>
         </AuthProvider>
