@@ -16,13 +16,27 @@ export function LoadingProvider({ children }: { children: React.ReactNode }) {
   const [isLoading, setIsLoading] = useState(false);
   const pathname = usePathname();
 
-  // Auto-hide loading when route changes
+  // Auto-hide loading when route changes or after a safety timeout
   useEffect(() => {
+    let safetyTimer: NodeJS.Timeout;
+
     if (isLoading) {
+      // 1. Min display time for smooth feel (400ms)
       const timer = setTimeout(() => {
+        // We only auto-hide if it's a "soft" loading from a link
+        // Hard loading (manual) should be stopped by stopLoading()
+      }, 400);
+
+      // 2. Max safety timeout (8s) - NEVER stay stuck
+      safetyTimer = setTimeout(() => {
+        console.warn("LoadingProvider: Safety timeout reached. Forcing stop.");
         setIsLoading(false);
-      }, 400); // Minimum display time for smooth feel
-      return () => clearTimeout(timer);
+      }, 8000);
+
+      return () => {
+        clearTimeout(timer);
+        clearTimeout(safetyTimer);
+      };
     }
   }, [pathname, isLoading]);
 

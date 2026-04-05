@@ -31,7 +31,9 @@ const ProfilePage = () => {
   const [error, setError] = useState<string | null>(null);
   
   const [formData, setFormData] = useState({
-    full_name: "",
+    first_name: "",
+    last_name: "",
+    nickname: "",
     username: "",
     bio: "",
     location: "",
@@ -50,7 +52,9 @@ const ProfilePage = () => {
 
         if (data) {
           setFormData({
-            full_name: data.full_name || "",
+            first_name: data.first_name || "",
+            last_name: data.last_name || "",
+            nickname: data.nickname || "",
             username: data.username || "",
             bio: data.bio || "",
             location: data.location || "",
@@ -178,16 +182,48 @@ const ProfilePage = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
                   <label className="text-[10px] uppercase tracking-widest text-or-ancestral/60 ml-1">
-                    {t("profile.fullName")}
+                    Prénom
                   </label>
                   <div className="relative group">
                     <User className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-or-ancestral/40 group-focus-within:text-or-ancestral transition-colors" />
                     <input 
                       type="text"
                       className="w-full bg-white/[0.03] border border-white/10 rounded-xl py-3.5 pl-12 pr-4 text-ivoire-ancien focus:border-or-ancestral/50 focus:ring-0 outline-none transition-all"
-                      value={formData.full_name}
-                      onChange={(e) => setFormData({...formData, full_name: e.target.value})}
-                      placeholder="Identité réelle"
+                      value={formData.first_name}
+                      onChange={(e) => setFormData({...formData, first_name: e.target.value})}
+                      placeholder="Votre prénom"
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-[10px] uppercase tracking-widest text-or-ancestral/60 ml-1">
+                    Nom
+                  </label>
+                  <div className="relative group">
+                    <User className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-or-ancestral/40 group-focus-within:text-or-ancestral transition-colors" />
+                    <input 
+                      type="text"
+                      className="w-full bg-white/[0.03] border border-white/10 rounded-xl py-3.5 pl-12 pr-4 text-ivoire-ancien focus:border-or-ancestral/50 focus:ring-0 outline-none transition-all"
+                      value={formData.last_name}
+                      onChange={(e) => setFormData({...formData, last_name: e.target.value})}
+                      placeholder="Votre nom"
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-[10px] uppercase tracking-widest text-or-ancestral/60 ml-1">
+                    Surnom
+                  </label>
+                  <div className="relative group">
+                    <AtSign className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-or-ancestral/40 group-focus-within:text-or-ancestral transition-colors" />
+                    <input 
+                      type="text"
+                      className="w-full bg-white/[0.03] border border-white/10 rounded-xl py-3.5 pl-12 pr-4 text-ivoire-ancien focus:border-or-ancestral/50 focus:ring-0 outline-none transition-all"
+                      value={formData.nickname}
+                      onChange={(e) => setFormData({...formData, nickname: e.target.value})}
+                      placeholder="Surnom public"
                     />
                   </div>
                 </div>
@@ -293,7 +329,7 @@ const ProfilePage = () => {
                   </div>
                 </div>
                 <h3 className="text-lg font-display text-ivoire-ancien font-bold mb-1">
-                  {formData.full_name || user.email?.split("@")[0]}
+                  {formData.nickname || (formData.first_name ? `${formData.first_name} ${formData.last_name}` : user.email?.split("@")[0])}
                 </h3>
                 <div className="flex items-center gap-1.5 text-ivoire-ancien/40 text-xs mb-4">
                   <Mail className="w-3 h-3" />

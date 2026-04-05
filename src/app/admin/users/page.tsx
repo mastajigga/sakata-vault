@@ -15,7 +15,7 @@ const UserManagementPage = () => {
     const { data, error } = await supabase
       .from("profiles")
       .select("*")
-      .order("created_at", { ascending: false });
+      .order("updated_at", { ascending: false, nullsFirst: false });
     
     if (!error && data) {
       setProfiles(data);
@@ -51,8 +51,35 @@ const UserManagementPage = () => {
 
   const filteredProfiles = profiles.filter(p => 
     p.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    p.full_name?.toLowerCase().includes(searchTerm.toLowerCase())
+    (p.nickname && p.nickname.toLowerCase().includes(searchTerm.toLowerCase())) ||
+    (p.first_name && p.first_name.toLowerCase().includes(searchTerm.toLowerCase())) ||
+    (p.last_name && p.last_name.toLowerCase().includes(searchTerm.toLowerCase()))
   );
+
+  const handleResetPassword = async (email: string) => {
+    if (confirm(`Etes-vous sûr de vouloir envoyer un e-mail de réinitialisation de mot de passe à ${email} ?`)) {
+      const { error } = await supabase.auth.resetPasswordForEmail(email);
+      if (error) {
+        alert("Erreur de réinitialisation: " + error.message);
+      } else {
+        alert("E-mail de réinitialisation envoyé avec succès !");
+      }
+    }
+  };
+
+  const handleDeleteUser = async (userId: string) => {
+    // Note: True deletion of an auth user requires Server Role/Admin API.
+    // For now we will soft-ban the role to "deleted", or if backend is upgraded, this can fully delete.
+    if (confirm("Etes-vous certain de vouloir restreindre cet utilisateur de la plateforme (suppression logique) ?")) {
+       const { error } = await supabase.from("profiles").update({ role: "deleted", first_name: "[Supprimé]" }).eq("id", userId);
+       if (!error) {
+          setProfiles(profiles.filter(p => p.id !== userId));
+          alert("Utilisateur retiré avec succès de la liste active.");
+       } else {
+          alert("Erreur lors de la suppression: " + error.message);
+       }
+    }
+  };
 
   return (
     <div className="space-y-8 pb-12">
@@ -104,7 +131,9 @@ const UserManagementPage = () => {
                         {profile.email ? profile.email[0].toUpperCase() : "?"}
                       </div>
                       <div>
-                        <p className="text-sm font-bold text-ivoire-ancien">{profile.full_name || "Anonyme"}</p>
+                        <p className="text-sm font-bold text-ivoire-ancien">
+                          {profile.nickname ? profile.nickname : (profile.first_name ? `${profile.first_name} ${profile.last_name || ""}` : "Anonyme")}
+                        </p>
                         <p className="text-xs opacity-40 font-mono">{profile.email}</p>
                       </div>
                     </div>
@@ -121,16 +150,36 @@ const UserManagementPage = () => {
                     </span>
                   </td>
                   <td className="px-8 py-6 text-right">
-                    <select 
-                      value={profile.role || "user"}
-                      onChange={(e) => updateRole(profile.id, e.target.value)}
-                      className="bg-black/20 border border-white/10 rounded-lg px-3 py-1.5 text-[10px] font-bold uppercase outline-none focus:border-or-ancestral/50 transition-all"
-                    >
-                      <option value="user">Utilisateur</option>
-                      <option value="contributor">Contributeur</option>
-                      <option value="manager">Manager</option>
-                      <option value="admin">Administrateur</option>
-                    </select>
+                    <div className="flex items-center justify-end gap-3">
+                      <select 
+                        value={profile.role || "user"}
+                        onChange={(e) => updateRole(profile.id, e.target.value)}
+                        className="bg-black/20 border border-white/10 rounded-lg px-3 py-1.5 text-[10px] font-bold uppercase outline-none focus:border-or-ancestral/50 transition-all"
+                      >
+                        <option value="user">Utilisateur</option>
+                        <option value="contributor">Contributeur</option>
+                        <option value="manager">Manager</option>
+                        <option value="admin">Administrateur</option>
+                      </select>
+                      
+                      {profile.email && (
+                        <button 
+                          onClick={() => handleResetPassword(profile.email)}
+                          className="p-2 bg-white/5 hover:bg-or-ancestral/20 hover:text-or-ancestral rounded-lg transition-colors border border-white/5"
+                          title="Réinitialiser le mot de passe"
+                        >
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z"/><circle cx="16.5" cy="7.5" r=".5" fill="currentColor"/></svg>
+                        </button>
+                      )}
+                      
+                      <button 
+                        onClick={() => handleDeleteUser(profile.id)}
+                        className="p-2 bg-white/5 hover:bg-red-500/20 hover:text-red-400 rounded-lg transition-colors border border-white/5"
+                        title="Supprimer l'utilisateur"
+                      >
+                       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>
+                      </button>
+                    </div>
                   </td>
                 </motion.tr>
               ))}

@@ -94,9 +94,9 @@ const SavoirIndex = () => {
                 return (
                   <div key={article.slug} className={`${colSpan} ${marginTop}`}>
                     <SectionCard
-                      title={article.title[language] || article.title.fr}
+                      title={article.title?.[language] || article.title?.fr || article.title || "Sans titre"}
                       category={article.category}
-                      description={article.summary[language] || article.summary.fr}
+                      description={article.summary?.[language] || article.summary?.fr || article.summary || ""}
                       image={article.featured_image || "/images/sakata_mask_detail.png"}
                       href={`/savoir/${article.slug}`}
                     />

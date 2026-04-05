@@ -87,7 +87,15 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   const signOut = async () => {
-    await supabase.auth.signOut();
+    try {
+      setIsLoading(true);
+      await supabase.auth.signOut();
+      // Force whole-page refresh to purge Next.js Router Cache and all internal states
+      window.location.href = "/";
+    } catch (e) {
+      console.error("Sign out error:", e);
+      window.location.href = "/";
+    }
   };
 
   return (

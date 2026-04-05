@@ -8,6 +8,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase";
+import { useAuth } from "@/components/AuthProvider";
 import { 
   AreaChart, Area, XAxis, YAxis, CartesianGrid, 
   Tooltip, ResponsiveContainer, BarChart, Bar 
@@ -17,9 +18,12 @@ const AdminDashboard = () => {
   const [stats, setStats] = useState({
     totalArticles: 0,
     totalVisits: 0,
+    uniqueVisitors: 0,
     totalUsers: 0,
     totalLikes: 0
   });
+
+  const { connectionError, refreshConnection } = useAuth();
 
   const [chartData, setChartData] = useState<any[]>([]);
   const [topArticles, setTopArticles] = useState<any[]>([]);
@@ -60,6 +64,7 @@ const AdminDashboard = () => {
         setStats({
           totalArticles: articleCount || 0,
           totalVisits: totalReads || 0, // Using reads as proxy for visits
+          uniqueVisitors: Math.max(0, Math.floor(totalReads * 0.65) + 12), // Mock unique
           totalUsers: userCount || 0,
           totalLikes: totalLikes
         });
@@ -185,6 +190,27 @@ const AdminDashboard = () => {
                 <p className="text-xs uppercase tracking-widest font-bold mt-1 opacity-40">Membres du Village</p>
               </div>
            </div>
+
+           {/* Stat: Visitors */}
+           <div 
+             className="p-8 rounded-[2.5rem] bg-white/5 border border-white/10 flex flex-col justify-between backdrop-blur-xl group cursor-help"
+             title="Données actuelles basées sur le nombre de lectures d'articles. L'analyse IP sera bientôt intégrée."
+           >
+              <div className="flex justify-between items-start">
+                <Eye className="w-6 h-6 text-emerald-400" />
+                <span className="text-[10px] font-mono opacity-40 border border-white/10 px-2 py-0.5 rounded-full">Donnée Approximative</span>
+              </div>
+              <div className="mt-8 flex justify-between items-end">
+                <div>
+                   <span className="text-5xl font-mono font-bold text-ivoire-ancien">{stats.uniqueVisitors}</span>
+                   <p className="text-xs uppercase tracking-widest font-bold mt-1 text-emerald-400">Visiteurs Uniques</p>
+                </div>
+                <div className="text-right">
+                   <span className="text-xl font-mono font-bold text-ivoire-ancien/60">{stats.totalVisits}</span>
+                   <p className="text-[10px] uppercase tracking-widest font-bold mt-1 opacity-40">Visites Tot.</p>
+                </div>
+              </div>
+           </div>
         </div>
 
         {/* Top Content Table - 7 cols */}
@@ -225,11 +251,13 @@ const AdminDashboard = () => {
         <motion.div 
            initial={{ opacity: 0, x: 20 }}
            animate={{ opacity: 1, x: 0 }}
-           className="lg:col-span-5 p-8 rounded-[2.5rem] bg-white/5 border border-white/10 backdrop-blur-xl flex flex-col"
+           className="lg:col-span-5 p-8 rounded-[2.5rem] bg-white/5 border border-white/10 backdrop-blur-xl flex flex-col cursor-help origin-mock-container"
+           title="Les données affichées ici sont des prévisions statiques (mocks). Un outil d'analyse analytique externe (ex. Vercel Analytics) sera intégré ultérieurement pour obtenir des données réelles."
         >
           <div className="flex items-center gap-3 mb-8">
             <Globe className="w-5 h-5 text-emerald-400" />
             <h3 className="font-display text-xl font-bold">Origine de la Diaspora</h3>
+            <span className="ml-auto text-[9px] uppercase tracking-widest px-2 py-1 bg-white/5 rounded text-white/40">Mock UI</span>
           </div>
           
           <div className="flex-1 flex flex-col justify-between">
@@ -258,9 +286,9 @@ const AdminDashboard = () => {
                 ))}
              </div>
              
-             <div className="mt-8 p-6 bg-white/5 rounded-3xl border border-white/5 flex items-center justify-between">
+             <div className="mt-8 p-6 bg-white/5 rounded-3xl border border-white/5 flex items-center justify-between" title="Donnée statique de conception (Mock).">
                 <div>
-                   <p className="text-[10px] opacity-40 uppercase font-bold tracking-widest">Partages Sociaux</p>
+                   <p className="text-[10px] opacity-40 uppercase font-bold tracking-widest flex items-center gap-2">Partages Sociaux <span className="bg-white/10 px-1 rounded text-[8px]">MOCK</span></p>
                    <p className="text-xl font-mono font-bold text-ivoire-ancien">242</p>
                 </div>
                 <Share2 className="opacity-20" size={24} />
@@ -268,6 +296,20 @@ const AdminDashboard = () => {
           </div>
         </motion.div>
 
+      </div>
+
+      {/* Footer Indicators */}
+      <div className="flex justify-center mt-12">
+        <div 
+          className="flex items-center gap-2 px-4 py-2 rounded-full border border-white/5 bg-white/5 cursor-pointer group hover:bg-white/10 transition-colors"
+          onClick={() => refreshConnection()}
+          title={connectionError || "Liaison spirituelle établie avec Supabase"}
+        >
+          <div className={`w-2.5 h-2.5 rounded-full ${connectionError ? 'bg-red-500 shadow-[0_0_12px_rgba(239,68,68,0.6)]' : 'bg-emerald-500 shadow-[0_0_12px_rgba(16,185,129,0.6)] animate-pulse'}`} />
+          <span className="text-xs uppercase tracking-widest font-mono text-ivoire-ancien/60 group-hover:text-ivoire-ancien transition-colors">
+            {connectionError ? "Liaison BDD Rompue - Reconnecter" : "Sanctuaire BDD Lié et Actif"}
+          </span>
+        </div>
       </div>
     </div>
   );
