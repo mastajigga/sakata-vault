@@ -141,7 +141,7 @@ const Navbar = () => {
               user ? (
                 <div className="hidden md:flex items-center gap-4">
                   <Link
-                    href={role && ["admin", "manager", "contributor"].includes(role) ? "/admin" : "/profil"}
+                    href="/profil"
                     className="inline-flex items-center gap-2.5 px-5 py-2 rounded-full text-sm font-semibold transition-all border border-or/20 hover:border-or/50"
                     style={{
                       background: "rgba(181, 149, 81, 0.05)",
@@ -154,7 +154,7 @@ const Navbar = () => {
                       {!connectionError && <div className="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-or-ancestral border-2 border-foret-nocturne animate-pulse" />}
                     </div>
                     <span className="max-w-[120px] truncate">
-                      {role && ["admin", "manager", "contributor"].includes(role) ? t("nav.dashboard") : (user.user_metadata?.full_name || user.email?.split("@")[0])}
+                      {user.user_metadata?.full_name || user.email?.split("@")[0]}
                     </span>
                   </Link>
                   <button

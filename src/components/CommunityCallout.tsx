@@ -33,17 +33,20 @@ const CommunityCallout = () => {
 
       // Content reveal
       const elements = contentRef.current!.children;
-      gsap.from(elements, {
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top 80%",
-        },
-        duration: 1.2,
-        y: 60,
-        opacity: 0,
-        stagger: 0.2,
-        ease: "power4.out",
-      });
+      gsap.fromTo(elements, 
+        { y: 60, opacity: 0 },
+        {
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top 80%",
+          },
+          duration: 1.2,
+          y: 0,
+          opacity: 1,
+          stagger: 0.2,
+          ease: "power4.out",
+        }
+      );
     });
 
     return () => ctx.revert();

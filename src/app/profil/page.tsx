@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { useAuth, supabase } from "@/components/AuthProvider";
 import { useLanguage } from "@/components/LanguageProvider";
 import Navbar from "@/components/Navbar";
+import Link from "next/link";
 import { 
   User, 
   Mail, 
@@ -15,7 +16,9 @@ import {
   CheckCircle2, 
   Clock, 
   AlertCircle,
-  FileText
+  FileText,
+  ChevronLeft,
+  LayoutDashboard
 } from "lucide-react";
 
 const ProfilePage = () => {
@@ -124,6 +127,28 @@ const ProfilePage = () => {
       <Navbar />
       
       <div className="pt-32 pb-20 px-4 md:px-8 max-w-6xl mx-auto">
+        {/* Navigation Actions */}
+        <motion.div 
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8"
+        >
+          <Link href="/" className="inline-flex items-center gap-2 text-ivoire-ancien/60 hover:text-or-ancestral transition-colors text-xs font-bold uppercase tracking-widest">
+            <ChevronLeft className="w-4 h-4" />
+            Retour
+          </Link>
+          
+          {role && ["admin", "manager", "contributor"].includes(role) && (
+             <Link 
+               href="/admin" 
+               className="inline-flex items-center gap-2 px-5 py-2 rounded-full border border-or/20 bg-white/5 text-or-ancestral text-xs font-bold uppercase tracking-widest hover:bg-or/10 transition-all"
+             >
+               <LayoutDashboard className="w-4 h-4" />
+               Centre de Commandement
+             </Link>
+          )}
+        </motion.div>
+
         {/* Header section */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}

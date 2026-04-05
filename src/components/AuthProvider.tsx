@@ -15,6 +15,7 @@ interface AuthContextType {
   user: User | null;
   session: Session | null;
   role: UserRole | null;
+  subscriptionTier: string | null;
   isLoading: boolean;
   connectionError: string | null;
   refreshConnection: () => Promise<void>;
@@ -27,6 +28,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [role, setRole] = useState<UserRole | null>(null);
+  const [subscriptionTier, setSubscriptionTier] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [connectionError, setConnectionError] = useState<string | null>(null);
 
@@ -47,12 +49,13 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const fetchProfile = async (userId: string) => {
       const { data, error } = await supabase
         .from("profiles")
-        .select("role")
+        .select("role, subscription_tier")
         .eq("id", userId)
         .single();
 
       if (!error && data) {
         setRole(data.role as UserRole);
+        setSubscriptionTier(data.subscription_tier || 'free');
       }
     };
 
@@ -78,6 +81,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         await fetchProfile(session.user.id);
       } else {
         setRole(null);
+        setSubscriptionTier(null);
       }
       setIsLoading(false);
     });
@@ -96,6 +100,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       user, 
       session, 
       role, 
+      subscriptionTier,
       isLoading, 
       connectionError, 
       refreshConnection: checkConnection,

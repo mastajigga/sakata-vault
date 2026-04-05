@@ -4,8 +4,9 @@ import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { 
   BarChart3, Users, FileText, Eye, TrendingUp, Clock, 
-  ArrowUpRight, Heart, Globe, Share2 
+  ArrowUpRight, Heart, Globe, Share2, ChevronLeft, UserCircle 
 } from "lucide-react";
+import Link from "next/link";
 import { supabase } from "@/components/AuthProvider";
 import { 
   AreaChart, Area, XAxis, YAxis, CartesianGrid, 
@@ -87,10 +88,16 @@ const AdminDashboard = () => {
           <span className="eyebrow" style={{ color: "var(--or-ancestral)" }}>Sakata Intelligence</span>
           <h1 className="font-display text-4xl font-bold tracking-tight">Command Center V2</h1>
         </div>
-        <div className="flex gap-4">
-           <div className="flex items-center gap-2 px-4 py-2 bg-white/5 rounded-full border border-white/10 text-xs">
-              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-              Real-time Telemetry Active
+        <div className="flex flex-wrap lg:flex-nowrap gap-4 lg:items-center">
+           <Link href="/" className="flex items-center gap-2 px-4 py-2 bg-white/5 rounded-full border border-white/10 text-xs hover:border-white/30 transition-colors">
+              <ChevronLeft className="w-4 h-4" /> Retour
+           </Link>
+           <Link href="/profil" className="flex items-center gap-2 px-4 py-2 bg-white/5 rounded-full border border-or/20 text-or-ancestral text-xs hover:bg-or/10 transition-colors">
+              <UserCircle className="w-4 h-4" /> Mon Profil
+           </Link>
+           <div className="flex items-center gap-2 px-4 py-2 bg-white/10 rounded-full border border-white/10 text-[10px] uppercase font-bold tracking-widest text-emerald-400">
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-[pulse_2s_ease-in-out_infinite] shadow-[0_0_8px_rgba(16,185,129,0.5)]" />
+              Télémétrie Active
            </div>
         </div>
       </header>

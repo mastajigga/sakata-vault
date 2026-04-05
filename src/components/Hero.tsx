@@ -45,14 +45,17 @@ const Hero = () => {
       });
 
       const elements = contentRef.current!.children;
-      gsap.from(elements, {
-        duration: 1.2,
-        y: 60,
-        opacity: 0,
-        stagger: 0.15,
-        ease: "power4.out",
-        delay: 0.4,
-      });
+      gsap.fromTo(elements, 
+        { y: 60, opacity: 0 },
+        {
+          duration: 1.2,
+          y: 0,
+          opacity: 1,
+          stagger: 0.15,
+          ease: "power4.out",
+          delay: 0.4,
+        }
+      );
 
       gsap.to(contentRef.current, {
         scrollTrigger: {

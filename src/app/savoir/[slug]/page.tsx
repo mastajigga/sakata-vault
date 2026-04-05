@@ -7,17 +7,18 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Navbar from "@/components/Navbar";
 import { motion } from "framer-motion";
 import { useLanguage } from "@/components/LanguageProvider";
-import { supabase } from "@/components/AuthProvider";
+import { supabase, useAuth } from "@/components/AuthProvider";
 import { ARTICLES } from "@/data/articles";
 import StructuredData from "@/components/StructuredData";
 import LikeButton from "@/components/LikeButton";
-import { Eye } from "lucide-react";
+import { Eye, Lock } from "lucide-react";
 
 gsap.registerPlugin(ScrollTrigger);
 
 const ArticlePage = () => {
   const { slug } = useParams();
   const { language, t } = useLanguage();
+  const { user, role, subscriptionTier } = useAuth();
   const [article, setArticle] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   
@@ -76,14 +77,17 @@ const ArticlePage = () => {
 
     const ctx = gsap.context(() => {
       // Fade in title with stagger
-      gsap.from(".char", {
-        y: 40,
-        opacity: 0,
-        stagger: 0.05,
-        duration: 1,
-        ease: "power4.out",
-        delay: 0.5
-      });
+      gsap.fromTo(".char", 
+        { y: 40, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          stagger: 0.05,
+          duration: 1,
+          ease: "power4.out",
+          delay: 0.5
+        }
+      );
       
       // Video parallax
       if (videoRef.current) {
@@ -137,6 +141,20 @@ const ArticlePage = () => {
   const displayTitle = article.title[language] || article.title.fr || "";
   const displayContent = article.content[language] || article.content.fr || "";
   const displaySummary = article.summary[language] || article.summary.fr || "";
+
+  // Paywall Logic
+  const hasAccess = !article.is_premium || 
+                    (role && ["admin", "manager", "contributor"].includes(role)) || 
+                    (subscriptionTier && ["premium", "elite"].includes(subscriptionTier));
+
+  let finalContent = displayContent;
+  let showPaywall = false;
+
+  if (!hasAccess && finalContent.length > 500) {
+    // Truncate cleanly around 500 characters and append ellipsis
+    finalContent = finalContent.substring(0, 500) + "...";
+    showPaywall = true;
+  }
 
   // SVG Icons in site style (ancestral forest theme)
   const OralIcon = `<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-or-ancestral" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m-.5-15a3.5 3.5 0 10-7 0v4a3.5 3.5 0 007 0V6z" /></svg>`;
@@ -228,13 +246,38 @@ const ArticlePage = () => {
               className="font-body prose prose-invert max-w-none space-y-12"
               style={{ color: "rgba(242, 238, 221, 0.82)" }}
               dangerouslySetInnerHTML={{ 
-                __html: displayContent
+                __html: finalContent
                   .replace(/## (.*)/g, '<h2 class="font-display text-3xl font-bold mt-16 mb-6 text-ivoire-ancien border-b border-white/5 pb-4">$1</h2>')
                   .replace(/\*\*(.*)\*\*/g, '<strong class="text-or-ancestral font-bold">$1</strong>')
                   .replace(/\n\n/g, '<div class="h-8"></div>')
                   .replace(/\n/g, "<br />")
               }}
             />
+
+            {/* Paywall Overlay */}
+            {showPaywall && (
+              <div className="relative mt-0 pt-32 pb-12 rounded-b-[2rem] text-center overflow-hidden -translate-y-24">
+                <div className="absolute inset-0 bg-gradient-to-t from-[var(--foret-nocturne)] via-[var(--foret-nocturne)] to-transparent pointer-events-none" />
+                <div className="relative z-10 px-8 py-10 bg-white/[0.02] border border-white/5 backdrop-blur-md rounded-3xl mt-12 shadow-2xl mx-auto max-w-xl">
+                   <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-or-ancestral/10 flex items-center justify-center border border-or-ancestral/30 shadow-[0_0_20px_rgba(181,149,81,0.2)]">
+                     <Lock className="w-8 h-8 text-or-ancestral" />
+                   </div>
+                   <h3 className="text-2xl font-display font-bold text-or-ancestral mb-3 tracking-tight">Archives Sacrées (Premium)</h3>
+                   <p className="text-ivoire-ancien/60 mb-8 max-w-sm mx-auto text-sm leading-relaxed">
+                     Cette chronique détaillée est réservée aux initiés. Accédez au savoir super enrichi et participez à la préservation de la culture Sakata.
+                   </p>
+                   {user ? (
+                     <button className="px-8 py-3.5 rounded-full bg-or-ancestral text-foret-nocturne font-bold uppercase tracking-widest text-xs transition-all hover:scale-[1.02] shadow-[0_0_15px_rgba(181,149,81,0.3)] hover:shadow-[0_0_25px_rgba(181,149,81,0.5)] border border-transparent">
+                       Déverrouiller le Savoir
+                     </button>
+                   ) : (
+                     <a href="/auth" className="inline-block px-8 py-3.5 rounded-full bg-transparent border border-or-ancestral text-or-ancestral font-bold uppercase tracking-widest text-xs transition-all hover:bg-or-ancestral hover:text-foret-nocturne">
+                       S'authentifier
+                     </a>
+                   )}
+                </div>
+              </div>
+            )}
 
           </div>
 
