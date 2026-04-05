@@ -3,6 +3,7 @@ import { Outfit, Schibsted_Grotesk, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { LanguageProvider } from "@/components/LanguageProvider";
 import { AuthProvider } from "@/components/AuthProvider";
+import { LoadingProvider } from "@/components/LoadingProvider";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 
 const outfit = Outfit({
@@ -39,7 +40,9 @@ export default function RootLayout({
       <body className="antialiased">
         <AuthProvider>
           <LanguageProvider>
-            {children}
+            <LoadingProvider>
+              {children}
+            </LoadingProvider>
           </LanguageProvider>
         </AuthProvider>
       </body>

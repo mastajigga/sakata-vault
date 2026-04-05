@@ -46,6 +46,15 @@ export const UI_TRANSLATIONS = {
       tsh: "Muaba wa dikonkonwa",
     },
   },
+  loading: {
+    message: {
+      fr: "Transmission des savoirs...",
+      skt: "Mayele o nsoni...",
+      lin: "Boyebi ezali koya...",
+      swa: "Maarifa yanakuja...",
+      tsh: "Dinyina diya kuya...",
+    },
+  },
   hero: {
     eyebrow: {
       fr: "BIBLIOTHÈQUE ANCESTRALE",

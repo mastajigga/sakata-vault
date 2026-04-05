@@ -5,6 +5,7 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLanguage } from "./LanguageProvider";
 import { useAuth } from "./AuthProvider";
+import { useLoading } from "./LoadingProvider";
 import LanguageSwitcher from "./LanguageSwitcher";
 import { LogOut, LayoutDashboard, UserCircle } from "lucide-react";
 
@@ -16,7 +17,8 @@ const navLinks = [
 
 const Navbar = () => {
   const { t } = useLanguage();
-  const { user, role, isLoading, connectionError, refreshConnection, signOut } = useAuth();
+  const { user, role, isLoading: authLoading, connectionError, refreshConnection, signOut } = useAuth();
+  const { startLoading } = useLoading();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -73,6 +75,9 @@ const Navbar = () => {
                   opacity: 0.7,
                   transitionDuration: "var(--duration-base)",
                   transitionTimingFunction: "var(--ease-smooth)",
+                }}
+                onClick={() => {
+                  if (!link.href.startsWith("#")) startLoading();
                 }}
                 onMouseEnter={(e) => {
                   (e.target as HTMLElement).style.opacity = "1";
@@ -132,7 +137,7 @@ const Navbar = () => {
 
             <LanguageSwitcher />
             
-            {!isLoading && (
+            {!authLoading && (
               user ? (
                 <div className="hidden md:flex items-center gap-4">
                   <Link
@@ -142,6 +147,7 @@ const Navbar = () => {
                       background: "rgba(181, 149, 81, 0.1)",
                       color: "var(--or-ancestral)",
                     }}
+                    onClick={() => startLoading()}
                   >
                     {role && ["admin", "manager", "contributor"].includes(role) ? (
                       <LayoutDashboard className="w-4 h-4" />
@@ -168,6 +174,7 @@ const Navbar = () => {
                     transitionDuration: "var(--duration-base)",
                     transitionTimingFunction: "var(--ease-smooth)",
                   }}
+                  onClick={() => startLoading()}
                   onMouseEnter={(e) => {
                     (e.target as HTMLElement).style.background = "var(--or-ancestral)";
                     (e.target as HTMLElement).style.color = "var(--foret-nocturne)";
@@ -258,7 +265,10 @@ const Navbar = () => {
                 >
                   <Link
                     href={link.href}
-                    onClick={() => setMenuOpen(false)}
+                    onClick={() => {
+                      setMenuOpen(false);
+                      if (!link.href.startsWith("#")) startLoading();
+                    }}
                     className="text-3xl font-bold tracking-tight transition-colors"
                     style={{ color: "var(--ivory-warm)" }}
                     onMouseEnter={(e) => {
@@ -283,7 +293,10 @@ const Navbar = () => {
               >
                 <Link
                   href="/auth"
-                  onClick={() => setMenuOpen(false)}
+                  onClick={() => {
+                    setMenuOpen(false);
+                    startLoading();
+                  }}
                   className="inline-flex items-center px-8 py-4 rounded-full text-sm font-semibold"
                   style={{
                     background: "var(--emerald-deep)",
