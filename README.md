@@ -1,36 +1,56 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Kisakata Digital Hub
 
-## Getting Started
+Kisakata est bien plus qu'un site ; c'est un sanctuaire numérique immersif destiné à préserver, promouvoir et transmettre l'héritage culturel, historique et linguistique du peuple Sakata.
 
-First, run the development server:
+Le projet a évolué depuis de simples pages de présentation vers une plateforme dynamique complète avec **Mur payant (Premium)**, un **Forum en temps-réel (Mboka)**, et un **Espace d'Administration sécurisé**.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🛠 Technologies
+- **Front-end:** Next.js 16 (App Router), React 18, Turbopack
+- **Styles & Animations:** Tailwind CSS, GSAP, Framer Motion
+- **Back-end & Base de Données:** Supabase (Auth, RLS, Storage, Realtime)
+- **Typographie:** Next Font (Outfit, Geist Mono)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🚀 Fonctionnalités Principales
 
-## Learn More
+1. **Expérience Narrative V1 ("Brume de la Rivière"):**
+   Un design très spécifique reposant sur des contrastes saisissants entre les tons de la forêt (vert foncé `#0A1F15`) et l'or ancestral (`#B59551`). 
 
-To learn more about Next.js, take a look at the following resources:
+2. **Système de Savoirs (Base d'articles Dynamique):**
+   Un système de blog/encyclopédie stocké dans Supabase, requêtant les images séquentiellement. **Paywall intégré**: les utilisateurs gratuits n'ont accès qu'à une portion des articles premium.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+3. **Le Forum "Mboka" (Le Village):**
+   Un espace de discussion où les gardiens de la culture se retrouvent.
+   - Système de "Catégories" dynamiques.
+   - Gestion de threads (Sujets) avec **éditeur Markdown enrichi**.
+   - Flux de réponses **en Temps Réel** piloté par Supabase Channels.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+4. **Command Center Administrateur:**
+   Tableau de bord exclusif avec des graphiques de trafic, la gestion des membres, le changement des statuts (Visiteur > Contributeur > Manageur) et des articles.
 
-## Deploy on Vercel
+5. **Internationalisation (i18n):**
+   Interface traduisible en 5 langues (Français, Kisakata, Lingala, Swahili, Tshiluba) gérée par un Context Global.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## ⚙️ Installation & Lancement
+
+1. Cloner le répertoire et installez les dépendances :
+   ```bash
+   npm install
+   ```
+2. Renseignez le fichier d'environnement `.env.local` en y intégrant vos identifiants Supabase :
+   ```env
+   NEXT_PUBLIC_SUPABASE_URL=...
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=...
+   SUPABASE_SERVICE_ROLE_KEY=...
+   ```
+3. Lancer le serveur local (Turbopack) :
+   ```bash
+   npm run dev
+   ```
+
+*Ce projet respecte des cadres précis documentés à destination de l'IA situés dans `CLAUDE.md`, et s'appuie sur de nombreuses intégrations "skills". Le respect strict de cet écosystème est obligatoire.*
