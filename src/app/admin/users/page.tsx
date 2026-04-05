@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { supabase } from "@/components/AuthProvider";
+import { supabase } from "@/lib/supabase";
 import { Users, Shield, ShieldCheck, ShieldAlert, UserPlus, Search, MoreHorizontal } from "lucide-react";
 import { motion } from "framer-motion";
 

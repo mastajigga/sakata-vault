@@ -7,7 +7,7 @@ import {
   ArrowUpRight, Heart, Globe, Share2, ChevronLeft, UserCircle 
 } from "lucide-react";
 import Link from "next/link";
-import { supabase } from "@/components/AuthProvider";
+import { supabase } from "@/lib/supabase";
 import { 
   AreaChart, Area, XAxis, YAxis, CartesianGrid, 
   Tooltip, ResponsiveContainer, BarChart, Bar 

@@ -10,7 +10,7 @@ import CommunityCallout from "@/components/CommunityCallout";
 import { ARTICLES } from "@/data/articles";
 import { useLanguage } from "@/components/LanguageProvider";
 
-import { supabase } from "@/components/AuthProvider";
+import { supabase } from "@/lib/supabase";
 
 export default function Home() {
   const { language, t } = useLanguage();

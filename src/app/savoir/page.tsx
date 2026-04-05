@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import Navbar from "@/components/Navbar";
 import SectionCard from "@/components/SectionCard";
 import { motion } from "framer-motion";
-import { supabase } from "@/components/AuthProvider";
+import { supabase } from "@/lib/supabase";
 import { useLanguage } from "@/components/LanguageProvider";
 
 import { ARTICLES } from "@/data/articles";

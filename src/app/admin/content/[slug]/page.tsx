@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { supabase } from "@/components/AuthProvider";
+import { supabase } from "@/lib/supabase";
 import { Save, Globe, ArrowLeft, Loader2, Sparkles, Image as ImageIcon } from "lucide-react";
 import Link from "next/link";
 import { translateArticle, LanguageCode } from "@/lib/translate";

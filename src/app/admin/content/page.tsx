@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { supabase } from "@/components/AuthProvider";
+import { supabase } from "@/lib/supabase";
 import { FileText, Edit2, Trash2, Globe, Plus, Search } from "lucide-react";
 import Link from "next/link";
 import { motion } from "framer-motion";
