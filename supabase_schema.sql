@@ -65,3 +65,15 @@ create policy "Authenticated users can create threads." on forum_threads for ins
 
 create policy "Posts are viewable by everyone." on forum_posts for select using (true);
 create policy "Authenticated users can post." on forum_posts for insert with check (auth.role() = 'authenticated');
+
+-- Trigger : Auto-create forum thread for new articles
+CREATE OR REPLACE FUNCTION public.handle_new_article_thread() RETURNS TRIGGER AS $$
+BEGIN
+    INSERT INTO public.forum_threads (id, title, slug, created_by, article_id, category_id, is_pinned, is_locked)
+    VALUES (gen_random_uuid(), 'Discussion : ' || (NEW.title->>'fr'), NEW.slug, NEW.author_id, NEW.id, (SELECT id FROM public.forum_categories WHERE slug = 'culture-savoir' LIMIT 1), false, false);
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+
+DROP TRIGGER IF EXISTS on_article_created ON public.articles;
+CREATE TRIGGER on_article_created AFTER INSERT ON public.articles FOR EACH ROW EXECUTE PROCEDURE public.handle_new_article_thread();
