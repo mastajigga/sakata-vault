@@ -327,6 +327,123 @@ export const UI_TRANSLATIONS = {
       tsh: "Malu mabadibue",
     },
   },
+  welcome: {
+    step1Title: {
+      fr: "Bienvenue sur Kisakata",
+      skt: "Boyei bolamu o Kisakata",
+      lin: "Boyei bolamu na Kisakata",
+      swa: "Karibu Kisakata",
+      tsh: "Bienvenue sur Kisakata",
+    },
+    step1Desc1: {
+      fr: "Ce portail est un sanctuaire numérique dédié à la préservation et à la transmission de l'identité culturelle du peuple Sakata.",
+      skt: "Ce portail est un sanctuaire numérique dédié à la préservation et à la transmission de l'identité culturelle du peuple Sakata.",
+      lin: "Ce portail est un sanctuaire numérique dédié à la préservation et à la transmission de l'identité culturelle du peuple Sakata.",
+      swa: "Ce portail est un sanctuaire numérique dédié à la préservation et à la transmission de l'identité culturelle du peuple Sakata.",
+      tsh: "Ce portail est un sanctuaire numérique dédié à la préservation et à la transmission de l'identité culturelle du peuple Sakata.",
+    },
+    step1Desc2: {
+      fr: "Notre objectif est d'unir nos racines ancestrales avec la splendeur numérique moderne, en offrant à la fois des archives vivantes, des sagesses intemporelles et un forum d'échange intergénérationnel.",
+      skt: "Notre objectif est d'unir nos racines ancestrales avec la splendeur numérique moderne, en offrant à la fois des archives vivantes, des sagesses intemporelles et un forum d'échange intergénérationnel.",
+      lin: "Notre objectif est d'unir nos racines ancestrales avec la splendeur numérique moderne, en offrant à la fois des archives vivantes, des sagesses intemporelles et un forum d'échange intergénérationnel.",
+      swa: "Notre objectif est d'unir nos racines ancestrales.",
+      tsh: "Notre objectif est d'unir nos racines ancestrales.",
+    },
+    next: {
+      fr: "Suivant",
+      skt: "Liboso",
+      lin: "Liboso",
+      swa: "Suivant",
+      tsh: "Suivant",
+    },
+    step2Title: {
+      fr: "Site en cours de construction",
+      skt: "Site en cours de construction",
+      lin: "Site en cours de construction",
+      swa: "Site en cours de construction",
+      tsh: "Site en cours de construction",
+    },
+    step2Notice: {
+      fr: "Veuillez noter que Kisakata est une initiative en évolution permanente.",
+      skt: "Veuillez noter que Kisakata est une initiative en évolution permanente.",
+      lin: "Veuillez noter que Kisakata est une initiative en évolution permanente.",
+      swa: "Veuillez noter que Kisakata est une initiative en évolution permanente.",
+      tsh: "Veuillez noter que Kisakata est une initiative en évolution permanente.",
+    },
+    step2L1: {
+      fr: "Le portail est actuellement en mode construction.",
+      skt: "Le portail est actuellement en mode construction.",
+      lin: "Le portail est actuellement en mode construction.",
+      swa: "Le portail est actuellement en mode construction.",
+      tsh: "Le portail est actuellement en mode construction.",
+    },
+    step2L2: {
+      fr: "Des améliorations visuelles et structurelles surviennent quotidiennement.",
+      skt: "Des améliorations visuelles et structurelles surviennent quotidiennement.",
+      lin: "Des améliorations visuelles et structurelles surviennent quotidiennement.",
+      swa: "Des améliorations visuelles et structurelles surviennent quotidiennement.",
+      tsh: "Des améliorations visuelles et structurelles surviennent quotidiennement.",
+    },
+    step2L3: {
+      fr: "Les articles du savoir sont édités et enrichis manuellement plusieurs fois par jour.",
+      skt: "Les articles du savoir sont édités et enrichis manuellement plusieurs fois par jour.",
+      lin: "Les articles du savoir sont édités et enrichis manuellement plusieurs fois par jour.",
+      swa: "Les articles du savoir sont édités et enrichis manuellement plusieurs fois par jour.",
+      tsh: "Les articles du savoir sont édités et enrichis manuellement plusieurs fois par jour.",
+    },
+    enterButton: {
+      fr: "Entrer dans le Sanctuaire",
+      skt: "Okota o Sanctuaire",
+      lin: "Kota na Sanctuaire",
+      swa: "Ingia",
+      tsh: "Entrer dans le Sanctuaire",
+    },
+    step3Title: {
+      fr: "Nouveautés & Horizon",
+      skt: "Nouveautés & Horizon",
+      lin: "Nouveautés & Horizon",
+      swa: "Nouveautés & Horizon",
+      tsh: "Nouveautés & Horizon",
+    },
+    deployed: {
+      fr: "Récemment Déployé",
+      skt: "Récemment Déployé",
+      lin: "Récemment Déployé",
+      swa: "Récemment Déployé",
+      tsh: "Récemment Déployé",
+    },
+    upcoming: {
+      fr: "Prochainement",
+      skt: "Prochainement",
+      lin: "Prochainement",
+      swa: "Prochainement",
+      tsh: "Prochainement",
+    },
+    feat1: {
+      fr: "Forum Mboka (Discussions en temps réel)",
+    },
+    feat2: {
+      fr: "Liaison automatique Savoir ↔ Forum",
+    },
+    feat3: {
+      fr: "Système de traduction et mémorisation optimisé",
+    },
+    feat4: {
+      fr: "Interface \"Brume de la Rivière\" fluidifiée",
+    },
+    up1: {
+      fr: "L'Accès aux Archives Supérieures (Paywall)",
+    },
+    up2: {
+      fr: "Paiement intégré sécurisé via Stripe",
+    },
+    up3: {
+      fr: "Tableau de bord de télémétrie",
+    },
+    up4: {
+      fr: "Enrichissement participatif",
+    },
+  },
 } as const;
 
 export type TranslationKey = keyof typeof UI_TRANSLATIONS;
