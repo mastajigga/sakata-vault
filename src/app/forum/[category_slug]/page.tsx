@@ -1,4 +1,4 @@
-import { supabaseAdmin } from "@/lib/supabase/admin";
+import { supabasePublic } from "@/lib/supabase/admin";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { ThreadCard } from "@/components/forum/ThreadCard";
@@ -10,7 +10,7 @@ export const revalidate = 60; // 60 seconds
 
 export default async function ForumCategoryPage({ params }: { params: { category_slug: string } }) {
   // 1. Fetch Category Details
-  const { data: category, error: catError } = await supabaseAdmin
+  const { data: category, error: catError } = await supabasePublic
     .from("forum_categories")
     .select("*")
     .eq("slug", params.category_slug)
@@ -26,7 +26,7 @@ export default async function ForumCategoryPage({ params }: { params: { category
 
   // 2. Fetch Threads in this category
   // Using a join with profiles to get the author's display name and avatar
-  const { data: threads, error: threadsError } = await supabaseAdmin
+  const { data: threads, error: threadsError } = await supabasePublic
     .from("forum_threads")
     .select(`
       *,

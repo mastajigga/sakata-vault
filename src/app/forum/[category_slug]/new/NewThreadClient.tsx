@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { createBrowserClient } from "@supabase/ssr";
+import { supabase } from "@/lib/supabase";
 import { MarkdownEditor } from "@/components/forum/MarkdownEditor";
 import { Loader2 } from "lucide-react";
 
@@ -12,11 +12,6 @@ export default function NewThreadClient({ categoryId, categorySlug }: { category
   const [content, setContent] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
-
-  const supabase = createBrowserClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-  );
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

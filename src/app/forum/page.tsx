@@ -1,4 +1,4 @@
-import { supabaseAdmin } from "@/lib/supabase/admin";
+import { supabasePublic } from "@/lib/supabase/admin";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Link from "next/link";
@@ -21,7 +21,7 @@ const IconMap: Record<string, React.ElementType> = {
 export const revalidate = 60; // Revalidate every 60s
 
 export default async function ForumIndex() {
-  const { data: categories, error } = await supabaseAdmin
+  const { data: categories, error } = await supabasePublic
     .from("forum_categories")
     .select(`
       id,

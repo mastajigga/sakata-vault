@@ -1,4 +1,4 @@
-import { supabaseAdmin } from "@/lib/supabase/admin";
+import { supabasePublic } from "@/lib/supabase/admin";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Link from "next/link";
@@ -28,7 +28,7 @@ export default async function NewThreadPage({ params }: { params: { category_slu
     redirect(`/auth?redirect=/forum/${params.category_slug}/new`);
   }
 
-  const { data: category } = await supabaseAdmin
+  const { data: category } = await supabasePublic
     .from("forum_categories")
     .select("id, name, slug")
     .eq("slug", params.category_slug)

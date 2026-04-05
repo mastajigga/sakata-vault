@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { createBrowserClient } from "@supabase/ssr";
+import { supabase } from "@/lib/supabase";
 import { MarkdownEditor } from "@/components/forum/MarkdownEditor";
 import { Loader2 } from "lucide-react";
 import ReactMarkdown from "react-markdown";
@@ -34,11 +34,6 @@ export default function ThreadRepliesClient({ threadId, initialPosts, isLocked }
   const [currentUser, setCurrentUser] = useState<any>(null);
   
   const endOfPostsRef = useRef<HTMLDivElement>(null);
-
-  const supabase = createBrowserClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-  );
 
   useEffect(() => {
     supabase.auth.getUser().then(({ data }) => setCurrentUser(data.user));

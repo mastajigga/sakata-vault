@@ -1,4 +1,4 @@
-import { supabaseAdmin } from "@/lib/supabase/admin";
+import { supabaseAdmin, supabasePublic } from "@/lib/supabase/admin";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Link from "next/link";
@@ -10,7 +10,7 @@ export const revalidate = 60;
 
 export default async function ThreadPage({ params }: { params: { thread_slug: string } }) {
   // Fetch Thread details with author and category
-  const { data: thread, error: threadError } = await supabaseAdmin
+  const { data: thread, error: threadError } = await supabasePublic
     .from("forum_threads")
     .select(`
       *,
@@ -25,7 +25,7 @@ export default async function ThreadPage({ params }: { params: { thread_slug: st
   }
 
   // Fetch initial posts associated with this thread
-  const { data: initialPosts, error: postsError } = await supabaseAdmin
+  const { data: initialPosts, error: postsError } = await supabasePublic
     .from("forum_posts")
     .select(`
       *,
