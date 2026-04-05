@@ -12,7 +12,7 @@ import { supabase } from "@/lib/supabase";
 import { ARTICLES } from "@/data/articles";
 import StructuredData from "@/components/StructuredData";
 import LikeButton from "@/components/LikeButton";
-import { Eye, Lock } from "lucide-react";
+import { Eye, Lock, MessageSquare } from "lucide-react";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -210,7 +210,7 @@ const ArticlePage = () => {
                 className="absolute inset-0 w-full h-full object-cover opacity-40"
                 style={{ filter: "brightness(0.6) contrast(1.1)" }}
               >
-                <source src="/videos/hero-bg.mp4" type="video/mp4" />
+                <source src="/videos/wan-iluo-into-the-eyes.mp4" type="video/mp4" />
               </video>
            )}
         </div>
@@ -295,7 +295,7 @@ const ArticlePage = () => {
               }}
             >
               <img 
-                src={(article.featured_image || "").replace('/articles/media/', '/media/') || "/media/Image/flore/ngongo-mask.jpg"} 
+                src={(article.featured_image || "").replace('/articles/media/', '/media/') || "/images/sakata_mask_detail.png"} 
                 alt={displayTitle}
                 className="w-full h-auto rounded-[1.8rem]"
                 onError={(e) => {
@@ -315,7 +315,7 @@ const ArticlePage = () => {
               }}
             >
               <img 
-                src="/images/forest-river.jpg" 
+                src="/images/sakata_heritage_hero.png" 
                 alt="Forêt sacrée du Mai-Ndombe"
                 className="w-full h-auto rounded-[1.8rem]"
                 onError={(e) => {
@@ -350,6 +350,26 @@ const ArticlePage = () => {
               </div>
             </div>
           </div>
+        </div>
+
+        {/* Forum Link Section */}
+        <div className="max-w-[1400px] mx-auto mt-24 pt-12 border-t border-white/5 flex flex-col items-center justify-center text-center">
+          <h3 className="text-2xl font-display text-or-ancestral mb-4 drop-shadow-[0_0_15px_rgba(181,149,81,0.3)]">
+            Discutez de cet article
+          </h3>
+          <p className="text-ivoire-ancien/70 max-w-lg mb-8 leading-relaxed font-light">
+            Poursuivez la réflexion et partagez vos connaissances sur "{displayTitle}" avec la communauté dans le Mboka.
+          </p>
+          <a 
+            href={`/forum/thread/${slug}`} 
+            className="group relative px-8 py-4 rounded-full border border-or-ancestral/30 bg-or-ancestral/5 overflow-hidden transition-all duration-300 hover:border-or-ancestral/80"
+          >
+            <div className="absolute inset-0 bg-gradient-to-r from-or-ancestral/0 via-or-ancestral/10 to-or-ancestral/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700"></div>
+            <span className="relative z-10 flex items-center gap-3 text-or-ancestral uppercase tracking-widest text-sm font-bold">
+              <MessageSquare size={18} />
+              Rejoindre la discussion
+            </span>
+          </a>
         </div>
       </section>
 

@@ -39,7 +39,7 @@ export default async function ForumIndex() {
 
   return (
     <main className="min-h-screen bg-[#0A1F15] text-[#F2EEDD] flex flex-col font-sans selection:bg-[#B59551]/30">
-      <div className="absolute inset-0 bg-[url('/noise.png')] opacity-5 pointer-events-none mix-blend-overlay"></div>
+      <div className="absolute inset-0 opacity-5 pointer-events-none mix-blend-overlay"></div>
       <Navbar />
 
       <section className="relative pt-32 pb-20 px-6 sm:px-12 md:px-24 max-w-7xl mx-auto w-full z-10 flex-grow">

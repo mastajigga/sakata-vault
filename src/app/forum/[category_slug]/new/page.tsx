@@ -8,7 +8,8 @@ import NewThreadClient from "./NewThreadClient";
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 
-export default async function NewThreadPage({ params }: { params: { category_slug: string } }) {
+export default async function NewThreadPage(props: { params: Promise<{ category_slug: string }> }) {
+  const params = await props.params;
   const cookieStore = await cookies();
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -42,7 +43,7 @@ export default async function NewThreadPage({ params }: { params: { category_slu
 
   return (
     <main className="min-h-screen bg-[#0A1F15] text-[#F2EEDD] flex flex-col font-sans selection:bg-[#B59551]/30">
-      <div className="absolute inset-0 bg-[url('/noise.png')] opacity-5 pointer-events-none mix-blend-overlay"></div>
+      <div className="absolute inset-0 opacity-5 pointer-events-none mix-blend-overlay"></div>
       <Navbar />
 
       <section className="relative pt-32 pb-20 px-6 sm:px-12 md:px-24 max-w-4xl mx-auto w-full z-10 flex-grow">

@@ -46,7 +46,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         .from("profiles")
         .select("role, subscription_tier")
         .eq("id", userId)
-        .single();
+        .maybeSingle();
 
       if (!error && data) {
         setRole(data.role as UserRole);

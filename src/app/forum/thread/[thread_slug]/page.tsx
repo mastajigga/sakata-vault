@@ -8,7 +8,8 @@ import ThreadRepliesClient from "./ThreadRepliesClient";
 
 export const revalidate = 60;
 
-export default async function ThreadPage({ params }: { params: { thread_slug: string } }) {
+export default async function ThreadPage(props: { params: Promise<{ thread_slug: string }> }) {
+  const params = await props.params;
   // Fetch Thread details with author and category
   const { data: thread, error: threadError } = await supabasePublic
     .from("forum_threads")
@@ -47,7 +48,7 @@ export default async function ThreadPage({ params }: { params: { thread_slug: st
 
   return (
     <main className="min-h-screen bg-[#0A1F15] text-[#F2EEDD] flex flex-col font-sans selection:bg-[#B59551]/30">
-      <div className="absolute inset-0 bg-[url('/noise.png')] opacity-5 pointer-events-none mix-blend-overlay"></div>
+      <div className="absolute inset-0 opacity-5 pointer-events-none mix-blend-overlay"></div>
       <Navbar />
 
       <section className="relative pt-32 pb-20 px-4 sm:px-8 md:px-16 max-w-5xl mx-auto w-full z-10 flex-grow">
