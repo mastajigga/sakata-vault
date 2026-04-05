@@ -5,6 +5,7 @@ import { LanguageProvider } from "@/components/LanguageProvider";
 import { AuthProvider } from "@/components/AuthProvider";
 import { LoadingProvider } from "@/components/LoadingProvider";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
+import WelcomeModal from "@/components/WelcomeModal";
 
 const outfit = Outfit({
   subsets: ["latin"],
@@ -41,6 +42,7 @@ export default function RootLayout({
         <AuthProvider>
           <LanguageProvider>
             <LoadingProvider>
+              <WelcomeModal />
               {children}
             </LoadingProvider>
           </LanguageProvider>
