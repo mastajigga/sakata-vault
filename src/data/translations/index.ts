@@ -164,6 +164,15 @@ export const UI_TRANSLATIONS = {
       tsh: "Keba Dinyina",
     },
   },
+  savoir: {
+    empty: {
+      fr: "La brume est encore épaisse, aucun savoir n'est encore apparu.",
+      skt: "Nsoni eyei yambo, mayele manso ma kukanina.",
+      lin: "Mbonge ezali koyebisa biso naino te, boyebi moko te emonani.",
+      swa: "Ukungu bado ni mzito, hakuna maarifa yaliyoonekana bado.",
+      tsh: "Kifu tshidi tshibuela, dinyina dionso didi dipueka.",
+    },
+  },
   footer: {
     rights: {
       fr: "© 2026 — Brume de la Rivière. Tous droits réservés.",

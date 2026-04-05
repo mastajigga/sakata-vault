@@ -12,7 +12,7 @@ import { ARTICLES } from "@/data/articles";
 const SavoirIndex = () => {
   const [articles, setArticles] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-  const { language } = useLanguage();
+  const { language, t } = useLanguage();
 
   useEffect(() => {
     const fetchArticles = async () => {
@@ -55,7 +55,7 @@ const SavoirIndex = () => {
             transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
           >
             <span className="eyebrow mb-6 block" style={{ color: "var(--or-ancestral)" }}>
-              Bibliothèque Ancestrale
+              {t("hero.eyebrow")}
             </span>
             <h1 
               className="font-display font-bold leading-tight mb-8"
@@ -65,13 +65,13 @@ const SavoirIndex = () => {
                 letterSpacing: "-0.04em" 
               }}
             >
-              Les Savoirs de <span className="text-or-ancestral italic">la Brume</span>
+              {t("hero.title").split(" la ")[0]} <span className="text-or-ancestral italic">{t("hero.title").split(" la ")[1] ? "la " + t("hero.title").split(" la ")[1] : ""}</span>
             </h1>
             <p 
               className="font-body max-w-2xl text-lg opacity-60 leading-relaxed md:ml-24 border-l-2 border-or/20 pl-8"
               style={{ color: "var(--ivoire-ancien)" }}
             >
-              Plongez dans les profondeurs de notre héritage. Chaque article est un souffle, chaque mot est une trace laissée par nos pères pour guider la diaspora et les générations futures.
+              {t("hero.subtitle")}
             </p>
           </motion.div>
         </div>
@@ -82,7 +82,7 @@ const SavoirIndex = () => {
         <div className="max-w-[1400px] mx-auto">
           {loading ? (
             <div className="text-center py-24 animate-pulse text-or-ancestral font-mono tracking-widest uppercase">
-              Éveil des mémoires...
+              {t("loading.message")}
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
@@ -106,7 +106,7 @@ const SavoirIndex = () => {
               
               {articles.length === 0 && (
                 <div className="md:col-span-12 py-24 text-center">
-                  <p className="opacity-40 italic">La brume est encore épaisse, aucun savoir n'est encore apparu.</p>
+                  <p className="opacity-40 italic">{t("savoir.empty")}</p>
                 </div>
               )}
             </div>
