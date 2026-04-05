@@ -27,11 +27,11 @@ export function LoadingProvider({ children }: { children: React.ReactNode }) {
         // Hard loading (manual) should be stopped by stopLoading()
       }, 400);
 
-      // 2. Max safety timeout (8s) - NEVER stay stuck
+      // 2. Max safety timeout (4s) - NEVER stay stuck
       safetyTimer = setTimeout(() => {
         console.warn("LoadingProvider: Safety timeout reached. Forcing stop.");
         setIsLoading(false);
-      }, 8000);
+      }, 4000);
 
       return () => {
         clearTimeout(timer);
