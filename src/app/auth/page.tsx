@@ -14,7 +14,8 @@ const AuthPage = () => {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [fullName, setFullName] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
 
@@ -46,7 +47,11 @@ const AuthPage = () => {
           email, 
           password,
           options: {
-            data: { full_name: fullName },
+            data: { 
+              first_name: firstName, 
+              last_name: lastName,
+              full_name: `${firstName} ${lastName}`.trim()
+            },
             emailRedirectTo: `${window.location.origin}/profil`
           }
         })
@@ -146,19 +151,34 @@ const AuthPage = () => {
                     <motion.div 
                       initial={{ opacity: 0, height: 0 }}
                       animate={{ opacity: 1, height: "auto" }}
-                      className="space-y-2"
+                      className="grid grid-cols-2 gap-4"
                     >
-                      <label className="text-xs font-mono uppercase tracking-widest opacity-40 ml-4">
-                        Nom Complet
-                      </label>
-                      <input
-                        type="text"
-                        value={fullName}
-                        onChange={(e) => setFullName(e.target.value)}
-                        className="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 focus:border-or-ancestral/50 outline-none transition-all text-ivoire-ancien"
-                        placeholder="Jean Sakata"
-                        required={isSignUp}
-                      />
+                      <div className="space-y-2">
+                        <label className="text-[10px] font-mono uppercase tracking-widest opacity-40 ml-4">
+                          Prénom
+                        </label>
+                        <input
+                          type="text"
+                          value={firstName}
+                          onChange={(e) => setFirstName(e.target.value)}
+                          className="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 focus:border-or-ancestral/50 outline-none transition-all text-ivoire-ancien text-sm"
+                          placeholder="Jean"
+                          required={isSignUp}
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <label className="text-[10px] font-mono uppercase tracking-widest opacity-40 ml-4">
+                          Nom
+                        </label>
+                        <input
+                          type="text"
+                          value={lastName}
+                          onChange={(e) => setLastName(e.target.value)}
+                          className="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 focus:border-or-ancestral/50 outline-none transition-all text-ivoire-ancien text-sm"
+                          placeholder="Sakata"
+                          required={isSignUp}
+                        />
+                      </div>
                     </motion.div>
                   )}
 
