@@ -114,6 +114,11 @@ const ArticlePage = () => {
   const displayContent = article.content[language] || article.content.fr || "";
   const displaySummary = article.summary[language] || article.summary.fr || "";
 
+  // SVG Icons in site style (ancestral forest theme)
+  const OralIcon = `<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-or-ancestral" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m-.5-15a3.5 3.5 0 10-7 0v4a3.5 3.5 0 007 0V6z" /></svg>`;
+  const EcritIcon = `<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-or-ancestral" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18 9.246 18 10.832 18.477 12 19.253zm0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18 14.754 18 13.168 18.477 12 19.253z" /></svg>`;
+  const TerrainIcon = `<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-or-ancestral" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1v-5m10-10l2 2m-2-2v10a1 1 0 01-1 1v-5m-6 0a1 1 0 001-1v5" /></svg>`;
+
   return (
     <main className="grain-overlay min-h-[100dvh] bg-foret-nocturne">
       <Navbar />
@@ -185,8 +190,9 @@ const ArticlePage = () => {
 
           </div>
 
-          {/* Sidebar / Image Column (Asymmetric) */}
-          <div className="md:col-span-5 lg:col-span-4 md:sticky md:top-32 h-fit">
+          {/* Sidebar / Image Column (Asymmetric) - 2 images */}
+          <div className="md:col-span-5 lg:col-span-4 md:sticky md:top-32 h-fit space-y-8">
+            {/* First image - Mask / Ritual */}
             <div 
               className="p-2 rounded-[2rem] overflow-hidden"
               style={{
@@ -197,21 +203,42 @@ const ArticlePage = () => {
               }}
             >
               <img 
-                src={(article.featured_image || "").replace('/articles/media/', '/media/') || "/images/sakata_mask_detail.png"} 
+                src={(article.featured_image || "").replace('/articles/media/', '/media/') || "/media/Image/flore/ngongo-mask.jpg"} 
                 alt={displayTitle}
-                className="w-full h-auto rounded-[1.8rem] opacity-60"
+                className="w-full h-auto rounded-[1.8rem]"
                 onError={(e) => {
                   e.currentTarget.src = "/images/sakata_mask_detail.png";
                 }}
               />
-              <div className="p-8">
-                <p className="text-xs uppercase tracking-widest font-bold mb-4" style={{ color: "var(--or-ancestral)" }}>
-                  Contexte Culturel
-                </p>
-                <p className="text-sm opacity-60 leading-relaxed italic">
-                   &quot;{displaySummary}&quot;
-                </p>
-              </div>
+            </div>
+
+            {/* Second image - Forest / Initiation */}
+            <div 
+              className="p-2 rounded-[2rem] overflow-hidden"
+              style={{
+                background: "rgba(255, 255, 255, 0.03)",
+                backdropFilter: "blur(24px)",
+                border: "1px solid rgba(255, 255, 255, 0.08)",
+                boxShadow: "inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 20px 40px rgba(0, 0, 0, 0.2)"
+              }}
+            >
+              <img 
+                src="/images/forest-river.jpg" 
+                alt="Forêt sacrée du Mai-Ndombe"
+                className="w-full h-auto rounded-[1.8rem]"
+                onError={(e) => {
+                  e.currentTarget.src = "/images/sakata_mask_detail.png";
+                }}
+              />
+            </div>
+
+            <div className="p-8 bg-[#0A1F15]/60 rounded-3xl border border-white/10">
+              <p className="text-xs uppercase tracking-widest font-bold mb-4" style={{ color: "var(--or-ancestral)" }}>
+                Contexte Culturel
+              </p>
+              <p className="text-sm opacity-60 leading-relaxed italic">
+                &quot;{displaySummary}&quot;
+              </p>
             </div>
           </div>
         </div>
