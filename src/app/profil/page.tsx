@@ -113,7 +113,7 @@ const ProfilePage = () => {
 
   if (!user) {
     return (
-      <div className="min-h-screen bg-foret-nocturne flex items-center justify-center p-4">
+      <div className="min-h-[100dvh] bg-foret-nocturne flex items-center justify-center p-4">
         <div className="text-center">
           <h1 className="text-2xl font-display text-or-ancestral mb-4">Accès Interdit</h1>
           <p className="text-ivoire-ancien/60 mb-6">Veuillez vous connecter pour accéder à votre sanctuaire.</p>
@@ -124,7 +124,7 @@ const ProfilePage = () => {
   }
 
   return (
-    <main className="min-h-screen bg-foret-nocturne">
+    <main className="min-h-[100dvh] bg-foret-nocturne">
       <Navbar />
       
       <div className="pt-32 pb-20 px-4 md:px-8 max-w-6xl mx-auto">

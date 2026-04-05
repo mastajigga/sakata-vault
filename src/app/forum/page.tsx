@@ -38,7 +38,7 @@ export default async function ForumIndex() {
   }
 
   return (
-    <main className="min-h-screen bg-[#0A1F15] text-[#F2EEDD] flex flex-col font-sans selection:bg-[#B59551]/30">
+    <main className="min-h-[100dvh] bg-[#0A1F15] text-[#F2EEDD] flex flex-col font-sans selection:bg-[#B59551]/30">
       <div className="absolute inset-0 opacity-5 pointer-events-none mix-blend-overlay"></div>
       <Navbar />
 

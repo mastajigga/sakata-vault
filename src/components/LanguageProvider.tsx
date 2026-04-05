@@ -17,13 +17,21 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
   const [language, setLanguage] = useState<LangType>("fr");
 
   useEffect(() => {
-    const saved = localStorage.getItem("sakata-lang") as LangType;
-    if (saved) setLanguage(saved);
+    try {
+      const saved = localStorage.getItem("sakata-lang") as LangType;
+      if (saved) setLanguage(saved);
+    } catch (e) {
+      console.warn("localStorage access restricted - Defaulting to fr");
+    }
   }, []);
 
   const handleSetLanguage = (lang: LangType) => {
     setLanguage(lang);
-    localStorage.setItem("sakata-lang", lang);
+    try {
+      localStorage.setItem("sakata-lang", lang);
+    } catch (e) {
+      console.warn("localStorage access restricted - Cannot save preference");
+    }
   };
 
   const t = (path: string): string => {
