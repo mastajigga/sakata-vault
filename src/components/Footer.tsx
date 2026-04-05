@@ -25,14 +25,19 @@ const Footer = () => {
           </p>
         </div>
         <div className="flex gap-8">
-          {["CULTURE", "LANGUE", "HISTOIRE", "FORUM"].map((item) => (
+          {[
+            { label: "CULTURE", href: "/savoir" },
+            { label: "LANGUE", href: "/#langue" },
+            { label: "HISTOIRE", href: "/#histoire" },
+            { label: "FORUM", href: "/forum" }
+          ].map((item) => (
             <a
-              key={item}
-              href={`#${item.toLowerCase()}`}
+              key={item.label}
+              href={item.href}
               className="font-mono text-[10px] tracking-widest opacity-40 hover:opacity-100 transition-opacity hover:text-or"
               style={{ color: "var(--ivoire-ancien)" }}
             >
-              {item}
+              {item.label}
             </a>
           ))}
         </div>
