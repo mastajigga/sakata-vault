@@ -142,26 +142,27 @@ const Navbar = () => {
                 <div className="hidden md:flex items-center gap-4">
                   <Link
                     href={role && ["admin", "manager", "contributor"].includes(role) ? "/admin" : "/profil"}
-                    className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full text-sm font-semibold transition-all border border-or/30 hover:border-or"
+                    className="inline-flex items-center gap-2.5 px-5 py-2 rounded-full text-sm font-semibold transition-all border border-or/20 hover:border-or/50"
                     style={{
-                      background: "rgba(181, 149, 81, 0.1)",
+                      background: "rgba(181, 149, 81, 0.05)",
                       color: "var(--or-ancestral)",
                     }}
                     onClick={() => startLoading()}
                   >
-                    {role && ["admin", "manager", "contributor"].includes(role) ? (
-                      <LayoutDashboard className="w-4 h-4" />
-                    ) : (
-                      <UserCircle className="w-4 h-4" />
-                    )}
-                    {role && ["admin", "manager", "contributor"].includes(role) ? t("nav.dashboard") : user.email?.split("@")[0]}
+                    <div className="relative">
+                      <UserCircle className="w-5 h-5 opacity-80" />
+                      {!connectionError && <div className="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-or-ancestral border-2 border-foret-nocturne animate-pulse" />}
+                    </div>
+                    <span className="max-w-[120px] truncate">
+                      {role && ["admin", "manager", "contributor"].includes(role) ? t("nav.dashboard") : (user.user_metadata?.full_name || user.email?.split("@")[0])}
+                    </span>
                   </Link>
                   <button
                     onClick={() => signOut()}
-                    className="p-2.5 rounded-full border border-white/10 hover:bg-white/5 transition-all"
+                    className="p-2 rounded-full border border-white/5 hover:bg-white/10 transition-all opacity-40 hover:opacity-100"
                     title="Déconnexion"
                   >
-                    <LogOut className="w-4 h-4 text-ivoire-ancien/60" />
+                    <LogOut className="w-4 h-4 text-ivoire-ancien" />
                   </button>
                 </div>
               ) : (

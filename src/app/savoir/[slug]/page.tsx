@@ -9,6 +9,9 @@ import { motion } from "framer-motion";
 import { useLanguage } from "@/components/LanguageProvider";
 import { supabase } from "@/components/AuthProvider";
 import { ARTICLES } from "@/data/articles";
+import StructuredData from "@/components/StructuredData";
+import LikeButton from "@/components/LikeButton";
+import { Eye } from "lucide-react";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -100,6 +103,27 @@ const ArticlePage = () => {
     return () => ctx.revert();
   }, [article, language]);
 
+  // Read tracking
+  useEffect(() => {
+    if (!article || !article.id) return;
+    
+    const trackRead = async () => {
+      // Increment reads_count in Supabase
+      const { error } = await supabase.rpc('increment_article_reads', { article_id: article.id });
+      if (error) {
+        // Fallback if RPC not defined yet (I'll define it in next step or use simple update)
+        await supabase
+          .from("articles")
+          .update({ reads_count: (article.reads_count || 0) + 1 })
+          .eq("id", article.id);
+      }
+    };
+    
+    // Only track if it looks like a real read (stay 2s)
+    const timer = setTimeout(trackRead, 2000);
+    return () => clearTimeout(timer);
+  }, [article?.id]);
+
   if (loading) return (
     <div className="min-h-[100dvh] bg-foret-nocturne flex items-center justify-center">
       <div className="animate-pulse text-or-ancestral font-mono tracking-widest uppercase">
@@ -122,6 +146,30 @@ const ArticlePage = () => {
   return (
     <main className="grain-overlay min-h-[100dvh] bg-foret-nocturne">
       <Navbar />
+      
+      <StructuredData 
+        data={{
+          "@context": "https://schema.org",
+          "@type": "Article",
+          "headline": displayTitle,
+          "description": displaySummary,
+          "image": article.featured_image || "",
+          "author": {
+            "@type": "Organization",
+            "name": "Kisakata.com"
+          },
+          "publisher": {
+            "@type": "Organization",
+            "name": "Sakata Digital Hub",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "https://kisakata.com/logo.png"
+            }
+          },
+          "datePublished": article.created_at,
+          "inLanguage": language
+        }}
+      />
       
       {/* Article Hero */}
       <section className="relative h-[70vh] flex items-center justify-center overflow-hidden">
@@ -232,13 +280,30 @@ const ArticlePage = () => {
               />
             </div>
 
-            <div className="p-8 bg-[#0A1F15]/60 rounded-3xl border border-white/10">
-              <p className="text-xs uppercase tracking-widest font-bold mb-4" style={{ color: "var(--or-ancestral)" }}>
-                Contexte Culturel
-              </p>
-              <p className="text-sm opacity-60 leading-relaxed italic">
-                &quot;{displaySummary}&quot;
-              </p>
+            <div className="p-8 bg-[#0A1F15]/60 rounded-3xl border border-white/10 space-y-6">
+              <div className="flex items-center justify-between border-b border-white/5 pb-4">
+                <div className="flex items-center gap-2 text-or-ancestral">
+                   <Eye size={16} />
+                   <span className="text-sm font-mono">{article.reads_count || 0}</span>
+                </div>
+                <span className="text-[10px] uppercase tracking-widest opacity-40">
+                  {t("article.reads")}
+                </span>
+              </div>
+              
+              <LikeButton 
+                articleId={article.id} 
+                initialLikes={article.likes_count || 0} 
+              />
+
+              <div className="pt-4 mt-4 border-t border-white/5">
+                <p className="text-xs uppercase tracking-widest font-bold mb-4" style={{ color: "var(--or-ancestral)" }}>
+                  Contexte Culturel
+                </p>
+                <p className="text-sm opacity-60 leading-relaxed italic">
+                  &quot;{displaySummary}&quot;
+                </p>
+              </div>
             </div>
           </div>
         </div>
