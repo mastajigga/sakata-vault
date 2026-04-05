@@ -46,7 +46,8 @@ const AuthPage = () => {
           email, 
           password,
           options: {
-            data: { full_name: fullName }
+            data: { full_name: fullName },
+            emailRedirectTo: `${window.location.origin}/profil`
           }
         })
       : await supabase.auth.signInWithPassword({ email, password });
