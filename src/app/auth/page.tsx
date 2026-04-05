@@ -26,10 +26,12 @@ const AuthPage = () => {
   }, [user, router]);
 
   const [isSignUp, setIsSignUp] = useState(false);
+  const [signupSuccess, setSignupSuccess] = useState(false);
 
   const toggleAuthMode = () => {
     setIsSignUp(!isSignUp);
     setMessage(null);
+    setSignupSuccess(false);
   };
 
   const handleAuth = async (e: React.FormEvent) => {
@@ -55,9 +57,9 @@ const AuthPage = () => {
     } else {
       console.log("Auth success:", data);
       if (isSignUp) {
-        setMessage({ type: "success", text: "Compte créé ! Vérifiez vos emails (ou connectez-vous si la confirmation est désactivée)." });
+        setSignupSuccess(true);
       } else {
-        setMessage({ type: "success", text: "Connexion réussie ! Redirection..." });
+        setMessage({ type: "success", text: t("nav.login") + "..." });
       }
     }
     setLoading(false);
@@ -81,14 +83,43 @@ const AuthPage = () => {
         >
           <div className="bg-[#0A1F15]/90 p-10 rounded-[2.4rem] space-y-8 relative z-10">
             <AnimatePresence mode="wait">
-              <motion.div
-                key={isSignUp ? "signup" : "login"}
-                initial={{ opacity: 0, x: isSignUp ? 20 : -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: isSignUp ? -20 : 20 }}
-                transition={{ duration: 0.5, ease: "easeInOut" }}
-                className="space-y-8"
-              >
+              {signupSuccess ? (
+                <motion.div
+                  key="success"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  className="space-y-8 text-center"
+                >
+                  <div className="w-20 h-20 bg-or-ancestral/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <svg className="w-10 h-10 text-or-ancestral" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                    </svg>
+                  </div>
+                  <div className="space-y-2">
+                    <h2 className="font-display text-2xl font-bold text-ivoire-ancien">
+                      {t("auth.signupSuccessTitle")}
+                    </h2>
+                    <p className="text-ivoire-ancien/60 text-sm leading-relaxed">
+                      {t("auth.signupSuccessMessage")}
+                    </p>
+                  </div>
+                  <button
+                    onClick={() => setSignupSuccess(false)}
+                    className="w-full py-4 rounded-xl font-bold bg-ivoire-ancien text-foret-nocturne hover:bg-white transition-all transform active:scale-95"
+                  >
+                    {t("auth.signupSuccessAction")}
+                  </button>
+                </motion.div>
+              ) : (
+                <motion.div
+                  key={isSignUp ? "signup" : "login"}
+                  initial={{ opacity: 0, x: isSignUp ? 20 : -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: isSignUp ? -20 : 20 }}
+                  transition={{ duration: 0.5, ease: "easeInOut" }}
+                  className="space-y-8"
+                >
                 <div className="text-center space-y-2">
                   <span className="eyebrow block" style={{ color: "var(--or-ancestral)" }}>
                     {isSignUp ? "Nouveau Cycle" : "Sanctuaire Numérique"}
@@ -191,17 +222,18 @@ const AuthPage = () => {
                   </button>
                 </form>
 
-                <div className="pt-2">
-                  <button
-                    type="button"
-                    onClick={toggleAuthMode}
-                    className="w-full text-xs font-mono uppercase tracking-widest opacity-40 hover:opacity-100 transition-opacity flex items-center justify-center gap-2"
-                  >
-                    <span>{isSignUp ? "Déjà un gardien ?" : "Nouveau venu ?"}</span>
-                    <span className="text-or-ancestral font-bold">{isSignUp ? "Se connecter" : "S'inscrire"}</span>
-                  </button>
-                </div>
-              </motion.div>
+                  <div className="pt-2">
+                    <button
+                      type="button"
+                      onClick={toggleAuthMode}
+                      className="w-full text-xs font-mono uppercase tracking-widest opacity-40 hover:opacity-100 transition-opacity flex items-center justify-center gap-2"
+                    >
+                      <span>{isSignUp ? "Déjà un gardien ?" : "Nouveau venu ?"}</span>
+                      <span className="text-or-ancestral font-bold">{isSignUp ? "Se connecter" : "S'inscrire"}</span>
+                    </button>
+                  </div>
+                </motion.div>
+              )}
             </AnimatePresence>
 
             <div className="text-center pt-8 border-t border-white/5">

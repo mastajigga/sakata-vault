@@ -204,7 +204,30 @@ export const UI_TRANSLATIONS = {
       swa: "Chunguza",
       tsh: "Keba",
     },
-  }
+  },
+  auth: {
+    signupSuccessTitle: {
+      fr: "Vérifiez vos emails",
+      skt: "Olukoke o email na yo",
+      lin: "Talá na email na yo",
+      swa: "Angalia barua pepe yako",
+      tsh: "Keba mu email webe",
+    },
+    signupSuccessMessage: {
+      fr: "Un lien de confirmation a été envoyé à votre adresse. Veuillez valider votre compte pour accéder au sanctuaire.",
+      skt: "Lina moko ya confirmation etungisami na email na yo. Okoka o compte na yo mpo na kokota o sanctuaire.",
+      lin: "Etinda moko ya kondimisa etindami na email na yo. Ondimisa compte na yo mpo na kokota na sanctuaire.",
+      swa: "Kiungo cha uthibitisho kimetumwa kwa anwani yako. Tafadhali thibitisha akaunti yako ili kufikia patakatifu.",
+      tsh: "Tshimanyinu tshia dikonkonwa tshidi tshituma mu email webe. Ondimisa muaba webe mpo na kubuela mu musoko.",
+    },
+    signupSuccessAction: {
+      fr: "J'ai compris",
+      skt: "Nayebi",
+      lin: "Nayebi",
+      swa: "Nimeelewa",
+      tsh: "Ndi mumanye",
+    },
+  },
 } as const;
 
 export type TranslationKey = keyof typeof UI_TRANSLATIONS;

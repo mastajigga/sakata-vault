@@ -79,7 +79,7 @@ Le rite Ngongo est notre héritage vivant. Il nous guide vers la sagesse éterne
 - Document : Vanzila Munsi (2016), Van Everbroeck (1952), Nkulu (2012)
 - Communauté : @NgongoRite, Forum Kisakata, 04/2026
 
-(2120 mots - enrichi avec les sources académiques et ethnographiques)`,
+(Version enrichie en cours d'intégration — Sources : Colldén, 1971 ; Vansina, 1990 ; Mulumba, 2012)`,
       lin: `Yoka tambour ya kala, mwana na ngai... [version longue 2000+ mots en lingala basée sur les mêmes sources]`,
       skt: `Yoka tambour ya kala, mwana na me... [version longue 2000+ mots en kisakata]`,
       swa: `Sikiliza ngoma ya baba zetu, mtoto wangu... [version longue 2000+ mots en swahili]`,
