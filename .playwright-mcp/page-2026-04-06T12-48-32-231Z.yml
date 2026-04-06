@@ -1,0 +1,100 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - button "FR" [ref=e5] [cursor=pointer]:
+      - img [ref=e6]
+      - generic [ref=e9]: FR
+      - img [ref=e10]
+    - generic [ref=e13]:
+      - img [ref=e15]
+      - heading "Bienvenue sur Kisakata" [level=1] [ref=e18]
+      - paragraph [ref=e19]:
+        - generic [ref=e20]:
+          - text: Ce portail est un sanctuaire numérique dédié à la préservation et à la transmission de l'identité culturelle du peuple
+          - strong [ref=e21]: Sakata
+          - text: .
+      - paragraph [ref=e22]: Notre objectif est d'unir nos racines ancestrales avec la splendeur numérique moderne, en offrant à la fois des archives vivantes, des sagesses intemporelles et un forum d'échange intergénérationnel.
+      - button "Suivant" [ref=e23] [cursor=pointer]:
+        - text: Suivant
+        - img [ref=e24]
+  - main [ref=e26]:
+    - navigation [ref=e27]:
+      - generic [ref=e28]:
+        - link "KISAKATA" [ref=e29] [cursor=pointer]:
+          - /url: /
+        - generic [ref=e30]:
+          - link "Accueil" [ref=e31] [cursor=pointer]:
+            - /url: /
+          - link "Savoir" [ref=e32] [cursor=pointer]:
+            - /url: /savoir
+          - link "Communauté" [ref=e33] [cursor=pointer]:
+            - /url: /forum
+        - generic [ref=e34]:
+          - button "FR" [ref=e36] [cursor=pointer]:
+            - img [ref=e37]
+            - generic [ref=e40]: FR
+            - img [ref=e41]
+          - link "Connexion" [ref=e43] [cursor=pointer]:
+            - /url: /auth
+    - generic [ref=e44]:
+      - generic [ref=e45]:
+        - heading "Mboka Le Village" [level=1] [ref=e46]:
+          - text: Mboka
+          - generic [ref=e47]: Le Village
+        - paragraph [ref=e48]: Bienvenue sur le forum de la communauté Sakata. Un espace d'échange, de transmission et de débats autour de notre héritage ancestral et de notre avenir.
+      - generic [ref=e49]:
+        - link "Culture & Savoir Discussions sur l'héritage Sakata 12 Sujets Explorer →" [ref=e50] [cursor=pointer]:
+          - /url: /forum/culture-savoir
+          - generic [ref=e52]:
+            - img [ref=e54]
+            - generic [ref=e56]:
+              - heading "Culture & Savoir" [level=2] [ref=e57]
+              - paragraph [ref=e58]: Discussions sur l'héritage Sakata
+          - generic [ref=e59]:
+            - generic [ref=e61]:
+              - img [ref=e62]
+              - text: 12 Sujets
+            - generic [ref=e64]:
+              - text: Explorer
+              - generic [ref=e65]: →
+        - link "Initiations Concepts et mystères des rites initiatiques 0 Sujet Explorer →" [ref=e66] [cursor=pointer]:
+          - /url: /forum/initiations
+          - generic [ref=e68]:
+            - img [ref=e70]
+            - generic [ref=e72]:
+              - heading "Initiations" [level=2] [ref=e73]
+              - paragraph [ref=e74]: Concepts et mystères des rites initiatiques
+          - generic [ref=e75]:
+            - generic [ref=e77]:
+              - img [ref=e78]
+              - text: 0 Sujet
+            - generic [ref=e80]:
+              - text: Explorer
+              - generic [ref=e81]: →
+        - link "Mboka (Le Village) Discussions générales de la communauté 0 Sujet Explorer →" [ref=e82] [cursor=pointer]:
+          - /url: /forum/mboka
+          - generic [ref=e84]:
+            - img [ref=e86]
+            - generic [ref=e91]:
+              - heading "Mboka (Le Village)" [level=2] [ref=e92]
+              - paragraph [ref=e93]: Discussions générales de la communauté
+          - generic [ref=e94]:
+            - generic [ref=e96]:
+              - img [ref=e97]
+              - text: 0 Sujet
+            - generic [ref=e99]:
+              - text: Explorer
+              - generic [ref=e100]: →
+    - generic [ref=e102]:
+      - generic [ref=e103]:
+        - generic [ref=e104]: KISAKATA
+        - paragraph [ref=e105]: © 2026 — Brume de la Rivière. Tous droits réservés.
+      - generic [ref=e106]:
+        - link "CULTURE" [ref=e107] [cursor=pointer]:
+          - /url: /savoir
+        - link "LANGUE" [ref=e108] [cursor=pointer]:
+          - /url: /#langue
+        - link "HISTOIRE" [ref=e109] [cursor=pointer]:
+          - /url: /#histoire
+        - link "FORUM" [ref=e110] [cursor=pointer]:
+          - /url: /forum
+  - alert [ref=e111]

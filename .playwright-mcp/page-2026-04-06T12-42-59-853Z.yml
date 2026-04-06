@@ -1,0 +1,64 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - button "FR" [ref=e5] [cursor=pointer]:
+      - img [ref=e6]
+      - generic [ref=e9]: FR
+      - img [ref=e10]
+    - generic [ref=e13]:
+      - img [ref=e15]
+      - heading "Bienvenue sur Kisakata" [level=1] [ref=e18]
+      - paragraph [ref=e19]:
+        - generic [ref=e20]:
+          - text: Ce portail est un sanctuaire numérique dédié à la préservation et à la transmission de l'identité culturelle du peuple
+          - strong [ref=e21]: Sakata
+          - text: .
+      - paragraph [ref=e22]: Notre objectif est d'unir nos racines ancestrales avec la splendeur numérique moderne, en offrant à la fois des archives vivantes, des sagesses intemporelles et un forum d'échange intergénérationnel.
+      - button "Suivant" [ref=e23] [cursor=pointer]:
+        - text: Suivant
+        - img [ref=e24]
+  - main [ref=e26]:
+    - navigation [ref=e27]:
+      - generic [ref=e28]:
+        - link "KISAKATA" [ref=e29] [cursor=pointer]:
+          - /url: /
+        - generic [ref=e30]:
+          - link "Accueil" [ref=e31] [cursor=pointer]:
+            - /url: /
+          - link "Savoir" [ref=e32] [cursor=pointer]:
+            - /url: /savoir
+          - link "Communauté" [ref=e33] [cursor=pointer]:
+            - /url: /forum
+        - button "FR" [ref=e36] [cursor=pointer]:
+          - img [ref=e37]
+          - generic [ref=e40]: FR
+          - img [ref=e41]
+    - generic [ref=e43]:
+      - link "Retour au Village" [ref=e44] [cursor=pointer]:
+        - /url: /forum
+        - img [ref=e45]
+        - text: Retour au Village
+      - generic [ref=e47]:
+        - generic [ref=e48]:
+          - heading "Culture & Savoir" [level=1] [ref=e49]
+          - paragraph [ref=e50]: Discussions sur l'héritage Sakata
+        - link "Nouveau Sujet" [ref=e51] [cursor=pointer]:
+          - /url: /forum/culture-savoir/new
+          - img [ref=e52]
+          - generic [ref=e54]: Nouveau Sujet
+      - generic [ref=e56]:
+        - paragraph [ref=e57]: Aucun sujet n'a encore été lancé ici.
+        - paragraph [ref=e58]: Soyez le premier à ouvrir la discussion !
+    - generic [ref=e60]:
+      - generic [ref=e61]:
+        - generic [ref=e62]: KISAKATA
+        - paragraph [ref=e63]: © 2026 — Brume de la Rivière. Tous droits réservés.
+      - generic [ref=e64]:
+        - link "CULTURE" [ref=e65] [cursor=pointer]:
+          - /url: /savoir
+        - link "LANGUE" [ref=e66] [cursor=pointer]:
+          - /url: /#langue
+        - link "HISTOIRE" [ref=e67] [cursor=pointer]:
+          - /url: /#histoire
+        - link "FORUM" [ref=e68] [cursor=pointer]:
+          - /url: /forum
+  - alert [ref=e69]

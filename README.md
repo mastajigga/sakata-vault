@@ -29,7 +29,7 @@ Le projet a évolué depuis de simples pages de présentation vers une plateform
    - Flux de réponses **en Temps Réel** piloté par Supabase Channels.
 
 4. **Command Center Administrateur:**
-   Tableau de bord exclusif avec des graphiques de trafic, la gestion des membres, le changement des statuts (Visiteur > Contributeur > Manageur) et des articles.
+   Tableau de bord exclusif avec **Intelligence Géographique (IP)**, graphiques de trafic, gestion des membres, changement des statuts et gestion des articles.
 
 5. **Internationalisation (i18n):**
    Interface traduisible en 5 langues (Français, Kisakata, Lingala, Swahili, Tshiluba) gérée par un Context Global.

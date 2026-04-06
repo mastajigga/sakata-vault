@@ -51,6 +51,7 @@ Chaque page DOIT utiliser une structure sémantique stricte :
 - **Google Business Profile** : Rattacher le site à la région du Mai-Ndombe
 - **Contenu localisé** : Mentionner explicitement les villes et régions cibles dans les méta-descriptions
 - **Timezone** : Toutes les dates affichées en `Africa/Kinshasa` (UTC+1) avec conversion locale
+- **Tracking Géographique (IP)** : Capture automatique de l'origine des visiteurs via `tr_capture_ip` pour monitorer la portée réelle auprès de la diaspora (Belgique, France, etc.).
 
 ## 5. AEO (AI ENGINE OPTIMIZATION)
 

@@ -1,0 +1,75 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - button "FR" [ref=e5] [cursor=pointer]:
+      - img [ref=e6]
+      - generic [ref=e9]: FR
+      - img [ref=e10]
+    - generic [ref=e13]:
+      - img [ref=e15]
+      - heading "Bienvenue sur Kisakata" [level=1] [ref=e18]
+      - paragraph [ref=e19]:
+        - generic [ref=e20]:
+          - text: Ce portail est un sanctuaire numérique dédié à la préservation et à la transmission de l'identité culturelle du peuple
+          - strong [ref=e21]: Sakata
+          - text: .
+      - paragraph [ref=e22]: Notre objectif est d'unir nos racines ancestrales avec la splendeur numérique moderne, en offrant à la fois des archives vivantes, des sagesses intemporelles et un forum d'échange intergénérationnel.
+      - button "Suivant" [ref=e23] [cursor=pointer]:
+        - text: Suivant
+        - img [ref=e24]
+  - main [ref=e26]:
+    - navigation [ref=e27]:
+      - generic [ref=e28]:
+        - link "KISAKATA" [ref=e29] [cursor=pointer]:
+          - /url: /
+        - generic [ref=e30]:
+          - link "Accueil" [ref=e31] [cursor=pointer]:
+            - /url: /
+          - link "Savoir" [ref=e32] [cursor=pointer]:
+            - /url: /savoir
+          - link "Communauté" [ref=e33] [cursor=pointer]:
+            - /url: /forum
+        - button "FR" [ref=e36] [cursor=pointer]:
+          - img [ref=e37]
+          - generic [ref=e40]: FR
+          - img [ref=e41]
+    - generic [ref=e43]:
+      - link "Retour à Culture & Savoir" [ref=e44] [cursor=pointer]:
+        - /url: /forum/culture-savoir
+        - img [ref=e45]
+        - text: Retour à Culture & Savoir
+      - generic [ref=e47]:
+        - 'heading "Discussion : L''épopée du peuple Sakata : Du Kongo au Mai-Ndombe" [level=1] [ref=e48]'
+        - generic [ref=e49]:
+          - generic [ref=e52]: Anonyme
+          - generic [ref=e53]:
+            - img [ref=e54]
+            - text: 5 avril 2026 à 22:40
+          - generic [ref=e57]:
+            - img [ref=e58]
+            - text: 0 vues
+      - generic [ref=e61]:
+        - generic [ref=e63]:
+          - generic [ref=e65]:
+            - generic [ref=e66]: V
+            - generic [ref=e67]:
+              - heading "Villageois Anonyme" [level=4] [ref=e68]
+              - text: 6 avril à 00:40
+          - paragraph [ref=e70]: Partagez vos impressions et vos savoirs sur cet article avec la communauté.
+        - generic [ref=e71]:
+          - paragraph [ref=e72]: Vous devez être connecté pour participer à la discussion.
+          - link "Se connecter" [ref=e73] [cursor=pointer]:
+            - /url: /auth?redirect=/forum/thread/baefe71e-003f-4684-8a59-b41ad1f336f6
+    - generic [ref=e75]:
+      - generic [ref=e76]:
+        - generic [ref=e77]: KISAKATA
+        - paragraph [ref=e78]: © 2026 — Brume de la Rivière. Tous droits réservés.
+      - generic [ref=e79]:
+        - link "CULTURE" [ref=e80] [cursor=pointer]:
+          - /url: /savoir
+        - link "LANGUE" [ref=e81] [cursor=pointer]:
+          - /url: /#langue
+        - link "HISTOIRE" [ref=e82] [cursor=pointer]:
+          - /url: /#histoire
+        - link "FORUM" [ref=e83] [cursor=pointer]:
+          - /url: /forum
+  - alert [ref=e84]

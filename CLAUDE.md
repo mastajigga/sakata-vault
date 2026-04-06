@@ -6,6 +6,7 @@
 - **Design:** Tailwind CSS v3 + CSS Variables personnalisées (Design System V1 "Brume de la Rivière").
 - **Animations:** GSAP (ScrollTrigger via `useGSAP`) + Framer Motion.
 - **Polices:** Outfit (H1/Titres) + Geist Mono (Interface/Détails).
+- **Analytics:** Command Center V2 inclut désormais la capture d'IP (via trigger Postgres `tr_capture_ip`) et l'analyse géographique.
 
 ## 2. Rôles et Monétisation (Paywall)
 - **Roles utilisateurs:** `admin`, `manager`, `contributor`, `user`.
@@ -27,10 +28,13 @@ src/
     Navbar.tsx      # Navigation intelligente avec gestion conditionnelle (Profil vs Admin).
     AuthProvider.tsx # Fournisseur global des informations Supabase (Client-side, SSR sync).
   lib/
-    supabase/admin.ts # Client de contournement RLS (Service Key) exclusif aux Route Handlers.
+    supabase/admin.ts # Client de contournement RLS (Service Key). **Note:** Utiliser avec parcimonie sur Netlify (préférer `supabasePublic` pour le forum public).
 ```
 
 ## 4. Règles Critiques (Next.js & Infrastructure)
+- **Supabase Joins:** La table `profiles` ne contient pas de colonne `display_name`. Utiliser uniquement `username` et `nickname`.
+- **Rendu Forum:** Toujours vérifier que les jointures sur `profiles` utilisent la syntaxe standard Supabase pour éviter les erreurs de mapping sur Netlify.
+- **Hydratation & Loading:** `LoadingProvider` gère les transitions de page. Ne pas introduire de délais artificiels (le timeout de sécurité est de 4s).
 - **Hydratation:** La structure HTML doit toujours être stricte. Ne pas insérer de valeurs aléatoires (ex: `Date.now()`) lors du rendu serveur sans protection `useEffect`.
 - **Composants Client vs Serveur:** `use client` est nécessaire au sommet des fichiers qui intègrent de l'interactivité (GSAP, Etat local, Formulaires).
 - **Styles:** Ne jamais surcharger les polices globales avec des utilitaires Tailwind sans raison. Garder les variables `--foret-nocturne`, `--or-ancestral`, et `--ivoire-ancien` comme base canonique.

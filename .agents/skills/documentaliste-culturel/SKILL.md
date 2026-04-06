@@ -22,6 +22,7 @@ Chaque information publiée sur Kisakata.com DOIT être rattachée à une catég
 - Tout contenu SANS source est marqué `[À vérifier]` et affiché avec un indicateur visuel
 - Les sources orales sont considérées LÉGITIMES et de première importance (pas de hiérarchie académique)
 - Les contradictions entre sources sont DOCUMENTÉES, pas effacées (mentionner les deux versions)
+- **Vérification Mboka :** Les discussions sur le forum peuvent servir de source `[Communauté]` après validation par un `mokambi` (ancien) ou par consensus de plusieurs membres `premium`.
 
 ## 2. TAXONOMIE CULTURELLE
 

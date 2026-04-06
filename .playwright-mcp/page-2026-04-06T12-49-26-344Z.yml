@@ -1,0 +1,305 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - button "FR" [ref=e5] [cursor=pointer]:
+      - img [ref=e6]
+      - generic [ref=e9]: FR
+      - img [ref=e10]
+    - generic [ref=e13]:
+      - img [ref=e15]
+      - heading "Bienvenue sur Kisakata" [level=1] [ref=e18]
+      - paragraph [ref=e19]:
+        - generic [ref=e20]:
+          - text: Ce portail est un sanctuaire numérique dédié à la préservation et à la transmission de l'identité culturelle du peuple
+          - strong [ref=e21]: Sakata
+          - text: .
+      - paragraph [ref=e22]: Notre objectif est d'unir nos racines ancestrales avec la splendeur numérique moderne, en offrant à la fois des archives vivantes, des sagesses intemporelles et un forum d'échange intergénérationnel.
+      - button "Suivant" [ref=e23] [cursor=pointer]:
+        - text: Suivant
+        - img [ref=e24]
+  - main [ref=e26]:
+    - navigation [ref=e27]:
+      - generic [ref=e28]:
+        - link "KISAKATA" [ref=e29] [cursor=pointer]:
+          - /url: /
+        - generic [ref=e30]:
+          - link "Accueil" [ref=e31] [cursor=pointer]:
+            - /url: /
+          - link "Savoir" [ref=e32] [cursor=pointer]:
+            - /url: /savoir
+          - link "Communauté" [ref=e33] [cursor=pointer]:
+            - /url: /forum
+        - generic [ref=e34]:
+          - button "FR" [ref=e36] [cursor=pointer]:
+            - img [ref=e37]
+            - generic [ref=e40]: FR
+            - img [ref=e41]
+          - link "Connexion" [ref=e43] [cursor=pointer]:
+            - /url: /auth
+    - generic [ref=e44]:
+      - link "Retour au Village" [ref=e45] [cursor=pointer]:
+        - /url: /forum
+        - img [ref=e46]
+        - text: Retour au Village
+      - generic [ref=e48]:
+        - generic [ref=e49]:
+          - heading "Culture & Savoir" [level=1] [ref=e50]
+          - paragraph [ref=e51]: Discussions sur l'héritage Sakata
+        - link "Nouveau Sujet" [ref=e52] [cursor=pointer]:
+          - /url: /forum/culture-savoir/new
+          - img [ref=e53]
+          - generic [ref=e55]: Nouveau Sujet
+      - generic [ref=e56]:
+        - 'link "Savoir Discussion : L''épopée du peuple Sakata : Du Kongo au Mai-Ndombe Villageois Anonyme • 5 avril 2026 1 0" [ref=e57] [cursor=pointer]':
+          - /url: /forum/thread/epopee-peuple-sakata
+          - generic [ref=e58]:
+            - generic [ref=e59]:
+              - generic [ref=e60]:
+                - generic [ref=e61]: Savoir
+                - 'heading "Discussion : L''épopée du peuple Sakata : Du Kongo au Mai-Ndombe" [level=3] [ref=e62]'
+              - generic [ref=e63]:
+                - generic [ref=e66]: Villageois Anonyme
+                - generic [ref=e67]: •
+                - generic [ref=e68]:
+                  - img [ref=e69]
+                  - text: 5 avril 2026
+            - generic [ref=e72]:
+              - generic [ref=e73]:
+                - img [ref=e74]
+                - generic [ref=e76]: "1"
+              - generic [ref=e77]:
+                - img [ref=e78]
+                - generic [ref=e81]: "0"
+        - 'link "Savoir Discussion : Le Rite Ngongo : Le passage vers la sagesse Villageois Anonyme • 5 avril 2026 1 0" [ref=e82] [cursor=pointer]':
+          - /url: /forum/thread/rite-ngongo-sagesse
+          - generic [ref=e83]:
+            - generic [ref=e84]:
+              - generic [ref=e85]:
+                - generic [ref=e86]: Savoir
+                - 'heading "Discussion : Le Rite Ngongo : Le passage vers la sagesse" [level=3] [ref=e87]'
+              - generic [ref=e88]:
+                - generic [ref=e91]: Villageois Anonyme
+                - generic [ref=e92]: •
+                - generic [ref=e93]:
+                  - img [ref=e94]
+                  - text: 5 avril 2026
+            - generic [ref=e97]:
+              - generic [ref=e98]:
+                - img [ref=e99]
+                - generic [ref=e101]: "1"
+              - generic [ref=e102]:
+                - img [ref=e103]
+                - generic [ref=e106]: "0"
+        - 'link "Savoir Discussion : Lukeni lua Nimi : L''ombre du fondateur Villageois Anonyme • 5 avril 2026 1 0" [ref=e107] [cursor=pointer]':
+          - /url: /forum/thread/lukeni-lua-nimi-fondateur
+          - generic [ref=e108]:
+            - generic [ref=e109]:
+              - generic [ref=e110]:
+                - generic [ref=e111]: Savoir
+                - 'heading "Discussion : Lukeni lua Nimi : L''ombre du fondateur" [level=3] [ref=e112]'
+              - generic [ref=e113]:
+                - generic [ref=e116]: Villageois Anonyme
+                - generic [ref=e117]: •
+                - generic [ref=e118]:
+                  - img [ref=e119]
+                  - text: 5 avril 2026
+            - generic [ref=e122]:
+              - generic [ref=e123]:
+                - img [ref=e124]
+                - generic [ref=e126]: "1"
+              - generic [ref=e127]:
+                - img [ref=e128]
+                - generic [ref=e131]: "0"
+        - 'link "Savoir Discussion : Les origines Bantou des Basakata Villageois Anonyme • 5 avril 2026 1 0" [ref=e132] [cursor=pointer]':
+          - /url: /forum/thread/origines-bantou-basakata
+          - generic [ref=e133]:
+            - generic [ref=e134]:
+              - generic [ref=e135]:
+                - generic [ref=e136]: Savoir
+                - 'heading "Discussion : Les origines Bantou des Basakata" [level=3] [ref=e137]'
+              - generic [ref=e138]:
+                - generic [ref=e141]: Villageois Anonyme
+                - generic [ref=e142]: •
+                - generic [ref=e143]:
+                  - img [ref=e144]
+                  - text: 5 avril 2026
+            - generic [ref=e147]:
+              - generic [ref=e148]:
+                - img [ref=e149]
+                - generic [ref=e151]: "1"
+              - generic [ref=e152]:
+                - img [ref=e153]
+                - generic [ref=e156]: "0"
+        - 'link "Savoir Discussion : L''énergie vitale (Moyo) Villageois Anonyme • 5 avril 2026 1 0" [ref=e157] [cursor=pointer]':
+          - /url: /forum/thread/energie-vitale-moyo
+          - generic [ref=e158]:
+            - generic [ref=e159]:
+              - generic [ref=e160]:
+                - generic [ref=e161]: Savoir
+                - 'heading "Discussion : L''énergie vitale (Moyo)" [level=3] [ref=e162]'
+              - generic [ref=e163]:
+                - generic [ref=e166]: Villageois Anonyme
+                - generic [ref=e167]: •
+                - generic [ref=e168]:
+                  - img [ref=e169]
+                  - text: 5 avril 2026
+            - generic [ref=e172]:
+              - generic [ref=e173]:
+                - img [ref=e174]
+                - generic [ref=e176]: "1"
+              - generic [ref=e177]:
+                - img [ref=e178]
+                - generic [ref=e181]: "0"
+        - 'link "Savoir Discussion : Introduction à la langue Kisakata Villageois Anonyme • 5 avril 2026 1 0" [ref=e182] [cursor=pointer]':
+          - /url: /forum/thread/langue-kisakata-introduction
+          - generic [ref=e183]:
+            - generic [ref=e184]:
+              - generic [ref=e185]:
+                - generic [ref=e186]: Savoir
+                - 'heading "Discussion : Introduction à la langue Kisakata" [level=3] [ref=e187]'
+              - generic [ref=e188]:
+                - generic [ref=e191]: Villageois Anonyme
+                - generic [ref=e192]: •
+                - generic [ref=e193]:
+                  - img [ref=e194]
+                  - text: 5 avril 2026
+            - generic [ref=e197]:
+              - generic [ref=e198]:
+                - img [ref=e199]
+                - generic [ref=e201]: "1"
+              - generic [ref=e202]:
+                - img [ref=e203]
+                - generic [ref=e206]: "0"
+        - 'link "Savoir Discussion : Proverbes Nkundi et sagesse Villageois Anonyme • 5 avril 2026 1 0" [ref=e207] [cursor=pointer]':
+          - /url: /forum/thread/proverbes-nkundi-sagesse
+          - generic [ref=e208]:
+            - generic [ref=e209]:
+              - generic [ref=e210]:
+                - generic [ref=e211]: Savoir
+                - 'heading "Discussion : Proverbes Nkundi et sagesse" [level=3] [ref=e212]'
+              - generic [ref=e213]:
+                - generic [ref=e216]: Villageois Anonyme
+                - generic [ref=e217]: •
+                - generic [ref=e218]:
+                  - img [ref=e219]
+                  - text: 5 avril 2026
+            - generic [ref=e222]:
+              - generic [ref=e223]:
+                - img [ref=e224]
+                - generic [ref=e226]: "1"
+              - generic [ref=e227]:
+                - img [ref=e228]
+                - generic [ref=e231]: "0"
+        - 'link "Savoir Discussion : Le corps, l''esprit et le souffle Villageois Anonyme • 5 avril 2026 1 0" [ref=e232] [cursor=pointer]':
+          - /url: /forum/thread/corps-esprit-souffle
+          - generic [ref=e233]:
+            - generic [ref=e234]:
+              - generic [ref=e235]:
+                - generic [ref=e236]: Savoir
+                - 'heading "Discussion : Le corps, l''esprit et le souffle" [level=3] [ref=e237]'
+              - generic [ref=e238]:
+                - generic [ref=e241]: Villageois Anonyme
+                - generic [ref=e242]: •
+                - generic [ref=e243]:
+                  - img [ref=e244]
+                  - text: 5 avril 2026
+            - generic [ref=e247]:
+              - generic [ref=e248]:
+                - img [ref=e249]
+                - generic [ref=e251]: "1"
+              - generic [ref=e252]:
+                - img [ref=e253]
+                - generic [ref=e256]: "0"
+        - 'link "Savoir Discussion : Culture Générale Mboka Villageois Anonyme • 5 avril 2026 1 0" [ref=e257] [cursor=pointer]':
+          - /url: /forum/thread/culture-generale-mboka
+          - generic [ref=e258]:
+            - generic [ref=e259]:
+              - generic [ref=e260]:
+                - generic [ref=e261]: Savoir
+                - 'heading "Discussion : Culture Générale Mboka" [level=3] [ref=e262]'
+              - generic [ref=e263]:
+                - generic [ref=e266]: Villageois Anonyme
+                - generic [ref=e267]: •
+                - generic [ref=e268]:
+                  - img [ref=e269]
+                  - text: 5 avril 2026
+            - generic [ref=e272]:
+              - generic [ref=e273]:
+                - img [ref=e274]
+                - generic [ref=e276]: "1"
+              - generic [ref=e277]:
+                - img [ref=e278]
+                - generic [ref=e281]: "0"
+        - 'link "Savoir Discussion : Iluo : Les doubles Villageois Anonyme • 5 avril 2026 1 0" [ref=e282] [cursor=pointer]':
+          - /url: /forum/thread/iluo-les-doubles
+          - generic [ref=e283]:
+            - generic [ref=e284]:
+              - generic [ref=e285]:
+                - generic [ref=e286]: Savoir
+                - 'heading "Discussion : Iluo : Les doubles" [level=3] [ref=e287]'
+              - generic [ref=e288]:
+                - generic [ref=e291]: Villageois Anonyme
+                - generic [ref=e292]: •
+                - generic [ref=e293]:
+                  - img [ref=e294]
+                  - text: 5 avril 2026
+            - generic [ref=e297]:
+              - generic [ref=e298]:
+                - img [ref=e299]
+                - generic [ref=e301]: "1"
+              - generic [ref=e302]:
+                - img [ref=e303]
+                - generic [ref=e306]: "0"
+        - 'link "Savoir Discussion : Artisanat : Masques et Sculptures Villageois Anonyme • 5 avril 2026 1 0" [ref=e307] [cursor=pointer]':
+          - /url: /forum/thread/artisanat-masques-sculptures
+          - generic [ref=e308]:
+            - generic [ref=e309]:
+              - generic [ref=e310]:
+                - generic [ref=e311]: Savoir
+                - 'heading "Discussion : Artisanat : Masques et Sculptures" [level=3] [ref=e312]'
+              - generic [ref=e313]:
+                - generic [ref=e316]: Villageois Anonyme
+                - generic [ref=e317]: •
+                - generic [ref=e318]:
+                  - img [ref=e319]
+                  - text: 5 avril 2026
+            - generic [ref=e322]:
+              - generic [ref=e323]:
+                - img [ref=e324]
+                - generic [ref=e326]: "1"
+              - generic [ref=e327]:
+                - img [ref=e328]
+                - generic [ref=e331]: "0"
+        - 'link "Savoir Discussion : Le Royaume du Congo : Nos racines Villageois Anonyme • 5 avril 2026 1 0" [ref=e332] [cursor=pointer]':
+          - /url: /forum/thread/royaume-congo-racines
+          - generic [ref=e333]:
+            - generic [ref=e334]:
+              - generic [ref=e335]:
+                - generic [ref=e336]: Savoir
+                - 'heading "Discussion : Le Royaume du Congo : Nos racines" [level=3] [ref=e337]'
+              - generic [ref=e338]:
+                - generic [ref=e341]: Villageois Anonyme
+                - generic [ref=e342]: •
+                - generic [ref=e343]:
+                  - img [ref=e344]
+                  - text: 5 avril 2026
+            - generic [ref=e347]:
+              - generic [ref=e348]:
+                - img [ref=e349]
+                - generic [ref=e351]: "1"
+              - generic [ref=e352]:
+                - img [ref=e353]
+                - generic [ref=e356]: "0"
+    - generic [ref=e358]:
+      - generic [ref=e359]:
+        - generic [ref=e360]: KISAKATA
+        - paragraph [ref=e361]: © 2026 — Brume de la Rivière. Tous droits réservés.
+      - generic [ref=e362]:
+        - link "CULTURE" [ref=e363] [cursor=pointer]:
+          - /url: /savoir
+        - link "LANGUE" [ref=e364] [cursor=pointer]:
+          - /url: /#langue
+        - link "HISTOIRE" [ref=e365] [cursor=pointer]:
+          - /url: /#histoire
+        - link "FORUM" [ref=e366] [cursor=pointer]:
+          - /url: /forum
+  - alert [ref=e367]

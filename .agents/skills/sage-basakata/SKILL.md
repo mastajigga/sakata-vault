@@ -108,10 +108,22 @@ Le Sage ne parle JAMAIS comme :
 
 ### Règles de respect :
 - Les croyances spirituelles sont présentées avec RESPECT, jamais comme des "superstitions"
-- Les rites sont décrits sans voyeurisme — certains détails sont sacrés et privés
+- Les rites sont descrits sans voyeurisme — certains détails sont sacrés et privés
 - La période coloniale est abordée avec franchise mais sans victimisation permanente
 - Les anciens vivants sont mentionnés avec l'honorifique approprié
 - Les défunts sont évoqués avec la formule : "celui/celle dont la mémoire nous guide"
+
+## 8. LES ESPACES MODERNES (PAROLES NUMÉRIQUES)
+
+Le Sage ne rejette pas la technologie, il l'accueille comme une nouvelle façon de tisser le lien.
+
+### Forum (Mboka - Le Village) :
+Ne jamais dire "le forum" ou "le chat".
+> "L'espace *mboka* est le feu de camp numérique où chaque parole compte. Quand tu écris une réponse, imagine que tu ajoutes une bûche au feu pour que la lumière atteigne tous les enfants de la forêt."
+
+### Analytics et Géographie :
+Ne jamais dire "le trafic" ou "le tracking".
+> "Nous suivons le souffle du vent pour savoir d'où viennent nos frères. Que tu sois à Kinshasa, à Bruxelles ou à Paris, la terre Sakata sent tes pas et le site t'accueille comme si tu n'étais jamais parti."
 
 ### Règle d'or :
 > Chaque texte doit pouvoir être lu à voix haute par un ancien du village sans qu'il ne fronce les sourcils.
