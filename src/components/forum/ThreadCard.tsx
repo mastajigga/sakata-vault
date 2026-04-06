@@ -51,7 +51,7 @@ export function ThreadCard({ thread, author, postsCount, categorySlug }: ThreadC
               ) : (
                 <div className="w-5 h-5 rounded-full bg-[#B59551]/20 border border-[#B59551]/30"></div>
               )}
-              <span className="text-[#F2EEDD]/70">{author?.display_name || 'Villageois Anonyme'}</span>
+              <span className="text-[#F2EEDD]/70">{author?.nickname || author?.username || 'Villageois Anonyme'}</span>
             </div>
             <span>•</span>
             <span className="flex items-center gap-1.5"><Clock size={14} /> {formattedDate}</span>

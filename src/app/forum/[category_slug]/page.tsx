@@ -17,6 +17,11 @@ export default async function ForumCategoryPage(props: { params: Promise<{ categ
     .eq("slug", params.category_slug)
     .single();
 
+  console.log(`[ForumCategory] Fetching category details for slug: ${params.category_slug}`);
+  if (catError) {
+    console.error(`[ForumCategory] Error fetching category:`, catError);
+  }
+
   if (catError || !category) {
     return notFound();
   }
@@ -32,22 +37,18 @@ export default async function ForumCategoryPage(props: { params: Promise<{ categ
     .from("forum_threads")
     .select(`
       *,
-      profiles ( display_name, avatar_url ),
+      profiles ( username, avatar_url, nickname ),
       forum_posts ( count )
     `)
     .eq("category_id", category.id)
     .order("is_pinned", { ascending: false })
     .order("updated_at", { ascending: false });
 
-  console.log(`[ForumCategory] Supabase Response Status: ${status}`);
-
+  console.log(`[ForumCategory] Supabase Threads Status: ${status}`);
   if (threadsError) {
-    console.error(`[ForumCategory] Error fetching threads:`, threadsError);
+    console.error(`[ForumCategory] Detailed Threads Error:`, threadsError);
   } else {
-    console.log(`[ForumCategory] Number of threads found: ${threads?.length || 0}`);
-    if (threads && threads.length > 0) {
-      console.log(`[ForumCategory] Sample thread:`, JSON.stringify(threads[0], null, 2));
-    }
+    console.log(`[ForumCategory] Success: ${threads?.length || 0} threads found.`);
   }
 
   return (

@@ -33,8 +33,9 @@ export default async function ForumIndex() {
     `)
     .order("order", { ascending: true });
 
+  console.log(`[ForumIndex] Fetching ${categories?.length || 0} categories.`);
   if (error) {
-    console.error("Error fetching forum categories:", error);
+    console.error("[ForumIndex] Supabase Error:", error);
   }
 
   return (
