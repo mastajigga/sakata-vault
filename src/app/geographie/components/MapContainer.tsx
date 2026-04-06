@@ -9,6 +9,9 @@ import HydrographyLayer from "./layers/HydrographyLayer";
 import SubtribesLayer from "./layers/SubtribesLayer";
 import VillagesLayer from "./layers/VillagesLayer";
 import ChiefdomsLayer from "./layers/ChiefdomsLayer";
+import DialectsLayer from "./layers/DialectsLayer";
+import ClansLayer from "./layers/ClansLayer";
+import ForestLayer from "./layers/ForestLayer";
 import type { SelectedFeature } from "../GeographieClient";
 import type { LayerState } from "../hooks/useLayerVisibility";
 
@@ -24,6 +27,9 @@ const MapContainer = forwardRef<MapRef, MapContainerProps>(
   const [subtribesData, setSubtribesData] = useState<GeoJSON.FeatureCollection<GeoJSON.Polygon | GeoJSON.MultiPolygon> | null>(null);
   const [villagesData, setVillagesData] = useState<GeoJSON.FeatureCollection<GeoJSON.Point> | null>(null);
   const [chiefdomsData, setChiefdomsData] = useState<GeoJSON.FeatureCollection<GeoJSON.Polygon> | null>(null);
+  const [dialectsData, setDialectsData] = useState<GeoJSON.FeatureCollection<GeoJSON.Polygon> | null>(null);
+  const [clansData, setClansData] = useState<GeoJSON.FeatureCollection<GeoJSON.Polygon> | null>(null);
+  const [forestData, setForestData] = useState<GeoJSON.FeatureCollection<GeoJSON.Polygon> | null>(null);
 
     useEffect(() => {
       fetch("/geographie/data/rivers.geojson")
@@ -44,6 +50,21 @@ const MapContainer = forwardRef<MapRef, MapContainerProps>(
       fetch("/geographie/data/chiefdoms.geojson")
         .then((r) => r.json())
         .then(setChiefdomsData)
+        .catch(console.error);
+
+      fetch("/geographie/data/dialects.geojson")
+        .then((r) => r.json())
+        .then(setDialectsData)
+        .catch(console.error);
+
+      fetch("/geographie/data/clans.geojson")
+        .then((r) => r.json())
+        .then(setClansData)
+        .catch(console.error);
+
+      fetch("/geographie/data/forest.geojson")
+        .then((r) => r.json())
+        .then(setForestData)
         .catch(console.error);
     }, []);
 
@@ -78,13 +99,19 @@ const MapContainer = forwardRef<MapRef, MapContainerProps>(
             properties: feature.properties ?? {},
             coordinates: (feature.geometry as { type: "Point"; coordinates: [number, number] })?.coordinates,
           });
+        } else if (layerId?.startsWith("chiefdoms")) {
+          onFeatureClick({
+            type: "subtribe",
+            properties: feature.properties ?? {},
+            coordinates: [e.lngLat.lng, e.lngLat.lat],
+          });
         }
       },
       [onFeatureClick]
     );
 
     const interactiveLayerIds = useMemo(
-      () => ["rivers-line", "subtribes-fill", "villages-circle"],
+      () => ["rivers-line", "subtribes-fill", "villages-circle", "chiefdoms-fill"],
       []
     );
 
@@ -104,6 +131,31 @@ const MapContainer = forwardRef<MapRef, MapContainerProps>(
         >
           <NavigationControl position="top-left" showCompass showZoom visualizePitch />
 
+          {/* Couche forêt & savane — en arrière-plan */}
+          {isVisible("forest") && forestData && (
+            <ForestLayer data={forestData} />
+          )}
+
+          {/* Couche clans — strata sociaux */}
+          {isVisible("clans") && clansData && (
+            <ClansLayer data={clansData} />
+          )}
+
+          {/* Couche chefferies — 7 chefferies */}
+          {isVisible("chiefdoms") && chiefdomsData && (
+            <ChiefdomsLayer data={chiefdomsData} />
+          )}
+
+          {/* Couche dialectes — 6 zones dialectales */}
+          {isVisible("dialects") && dialectsData && (
+            <DialectsLayer data={dialectsData} />
+          )}
+
+          {/* Couche sous-tribus */}
+          {isVisible("subtribes") && subtribesData && (
+            <SubtribesLayer data={subtribesData} />
+          )}
+
           {/* Couche rivières */}
           {isVisible("hydro") && riversData && (
             <HydrographyLayer
@@ -112,19 +164,9 @@ const MapContainer = forwardRef<MapRef, MapContainerProps>(
             />
           )}
 
-          {/* Couche sous-tribus */}
-          {isVisible("subtribes") && subtribesData && (
-            <SubtribesLayer data={subtribesData} />
-          )}
-
           {/* Couche villages et ports */}
           {isVisible("villages") && villagesData && (
             <VillagesLayer data={villagesData} />
-          )}
-
-          {/* Couche chefferies */}
-          {isVisible("chiefdoms") && chiefdomsData && (
-            <ChiefdomsLayer data={chiefdomsData} />
           )}
         </Map>
       </div>

@@ -1,0 +1,59 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Badju",
+        "name_skt": "Badju",
+        "stratum": "Haut rang",
+        "description": "Clan de haut rang, détenteur des titres de chefferie et des savoirs ésotériques. Ils descendent des premiers chefs guerriers de la migration.",
+        "role": "Chefs traditionnels, gardiens des rites"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [17.50, -2.60], [18.00, -2.60], [18.10, -2.80],
+          [18.00, -3.00], [17.60, -3.00], [17.45, -2.80],
+          [17.50, -2.60]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Bambe",
+        "name_skt": "Bambe",
+        "stratum": "Propriétaires terriens",
+        "description": "Clan des propriétaires terriens, maîtres du sol et des forêts. Ils contrôlent l'accès aux terres agricoles et aux ressources forestières.",
+        "role": "Gestion des terres, agriculture"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [17.40, -2.80], [17.60, -3.00], [18.00, -3.00],
+          [18.10, -3.20], [17.70, -3.30], [17.40, -3.10],
+          [17.40, -2.80]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Nsane",
+        "name_skt": "Nsane",
+        "stratum": "Commun",
+        "description": "Clan du commun, le plus nombreux. Composé des familles arrivées lors des vagues migratoires successives. Artisans, pêcheurs, cultivateurs.",
+        "role": "Artisanat, pêche, culture"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [17.70, -3.00], [18.10, -3.00], [18.30, -3.10],
+          [18.20, -3.40], [17.80, -3.50], [17.60, -3.30],
+          [17.70, -3.00]
+        ]]
+      }
+    }
+  ]
+}

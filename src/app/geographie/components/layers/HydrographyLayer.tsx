@@ -28,12 +28,12 @@ export default function HydrographyLayer({
     return `rgb(${r}, ${g}, ${b})`;
   }, [seasonProgress]);
 
-  // Largeur des rivières selon la saison
-  const riverWidth = 1.5 + seasonProgress * 1.5;
+  // Largeur des rivières selon la saison — plus visible
+  const riverWidth = 2.5 + seasonProgress * 2;
 
   // Animation dasharray selon la saison
-  const dashGap = 8 - seasonProgress * 3;
-  const dashLength = 4 + seasonProgress * 4;
+  const dashGap = 6 - seasonProgress * 2;
+  const dashLength = 6 + seasonProgress * 5;
 
   const lineLayer: LineLayer = useMemo(
     () => ({
@@ -47,7 +47,7 @@ export default function HydrographyLayer({
       paint: {
         "line-color": waterColor,
         "line-width": riverWidth,
-        "line-opacity": 0.85,
+        "line-opacity": 0.9,
       },
     }),
     [waterColor, riverWidth]
@@ -63,8 +63,8 @@ export default function HydrographyLayer({
       },
       paint: {
         "line-color": KISAKATA_COLORS.orAncestral,
-        "line-width": riverWidth * 0.6,
-        "line-opacity": 0.3 + seasonProgress * 0.3,
+        "line-width": riverWidth * 0.5,
+        "line-opacity": 0.4 + seasonProgress * 0.3,
         "line-dasharray": [dashLength, dashGap],
       },
     }),

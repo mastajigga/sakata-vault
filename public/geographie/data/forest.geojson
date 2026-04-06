@@ -1,0 +1,107 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Forêt dense du nord",
+        "type": "forest",
+        "description": "Forêt tropicale dense couvrant le nord du territoire. Zone de cueillette et de chasse traditionnelle.",
+        "biodiversity": "Élevée — essences précieuses, plantes médicinales"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [17.40, -2.50], [18.30, -2.50], [18.40, -2.65],
+          [18.30, -2.80], [17.50, -2.80], [17.35, -2.65],
+          [17.40, -2.50]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Forêt de la Lukenie",
+        "type": "forest",
+        "description": "Forêt riveraine le long de la Lukenie. Zone sacrée pour les rites d'initiation.",
+        "biodiversity": "Moyenne — palmiers raphia, arbres à palabres"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [17.80, -2.50], [18.50, -2.50], [18.55, -2.70],
+          [18.40, -2.90], [17.90, -2.85], [17.80, -2.65],
+          [17.80, -2.50]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Forêt centrale de Kutu",
+        "type": "forest",
+        "description": "Forêt entourant le centre administratif. Zone de culture sur brûlis et de chasse.",
+        "biodiversity": "Moyenne — zones dégradées par l'agriculture"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [17.50, -2.80], [18.00, -2.80], [18.10, -3.00],
+          [17.95, -3.15], [17.55, -3.10], [17.45, -2.95],
+          [17.50, -2.80]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Savane du sud",
+        "type": "savanna",
+        "description": "Savane arborée au sud du territoire. Zone d'élevage et d'agriculture extensive.",
+        "biodiversity": "Faible — herbes hautes, arbres dispersés"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [17.40, -3.10], [17.90, -3.15], [18.20, -3.20],
+          [18.10, -3.50], [17.50, -3.50], [17.35, -3.30],
+          [17.40, -3.10]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Savane de Kengengei",
+        "type": "savanna",
+        "description": "Grande savane au sud-ouest. Zone de transhumance et de pêche saisonnière.",
+        "biodiversity": "Faible — zones humides saisonnières"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [17.35, -3.00], [17.60, -3.10], [17.80, -3.20],
+          [17.70, -3.50], [17.30, -3.45], [17.25, -3.20],
+          [17.35, -3.00]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Forêt de l'est (Bayi)",
+        "type": "forest",
+        "description": "Forêt de l'est, territoire des Bayi. Zone riche en biodiversité et en sites sacrés.",
+        "biodiversity": "Élevée — essences rares, sites rituels"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [18.10, -2.80], [18.55, -2.70], [18.60, -2.95],
+          [18.45, -3.20], [18.15, -3.15], [18.10, -2.95],
+          [18.10, -2.80]
+        ]]
+      }
+    }
+  ]
+}

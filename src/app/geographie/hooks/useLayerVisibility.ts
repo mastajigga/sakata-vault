@@ -9,6 +9,7 @@ export type LayerId =
   | "dialects"
   | "villages"
   | "chiefdoms"
+  | "clans"
   | "community";
 
 export interface LayerState {
@@ -68,6 +69,14 @@ const DEFAULT_LAYERS: LayerState[] = [
     icon: "map",
     visible: false,
     description: "7 chefferies du territoire Sakata",
+  },
+  {
+    id: "clans",
+    label: "Clans",
+    labelSkt: "Makanda",
+    icon: "shield",
+    visible: false,
+    description: "3 strata sociaux — Badju (haut rang), Bambe (propriétaires), Nsane (commun)",
   },
   {
     id: "community",

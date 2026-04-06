@@ -8,3 +8,6 @@
     at se (https://sakata.netlify.app/_next/static/chunks/0l4e3as18eexy.js:1:133931)
     at s$ (https://sakata.netlify.app/_next/static/chunks/0l4e3as18eexy.js:1:160495)
     at MessagePort.O (https://sakata.netlify.app/_next/static/chunks/0l4e3as18eexy.js:1:8660)
+[19944448ms] [LOG] Fetching articles from Supabase... @ https://sakata.netlify.app/_next/static/chunks/102rw30yml7.l.js:10
+[19944844ms] [LOG] Articles loaded from DB: 12 @ https://sakata.netlify.app/_next/static/chunks/102rw30yml7.l.js:10
+[19953556ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://demotiles.maplibre.org/font/Open%20Sans%20Regular/0-255.pbf:0

@@ -54,6 +54,14 @@ const DEFAULT_LAYERS: LayerState[] = [
     description: '7 chefferies du territoire Sakata',
   },
   {
+    id: 'clans',
+    label: 'Clans',
+    labelSkt: 'Makanda',
+    icon: 'shield',
+    visible: false,
+    description: '3 strata sociaux — Badju (haut rang), Bambe (propriétaires), Nsane (commun)',
+  },
+  {
     id: 'community',
     label: 'Communauté',
     labelSkt: 'Bato',
@@ -82,8 +90,8 @@ function isLayerVisible(layers: LayerState[], id: LayerId): boolean {
 
 describe('useLayerVisibility - logique pure', () => {
   describe('DEFAULT_LAYERS', () => {
-    it('should have 7 layers', () => {
-      expect(DEFAULT_LAYERS).toHaveLength(7);
+    it('should have 8 layers', () => {
+      expect(DEFAULT_LAYERS).toHaveLength(8);
     });
 
     it('should have correct layer IDs in order', () => {
@@ -94,6 +102,7 @@ describe('useLayerVisibility - logique pure', () => {
         'dialects',
         'villages',
         'chiefdoms',
+        'clans',
         'community',
       ]);
     });
@@ -103,7 +112,7 @@ describe('useLayerVisibility - logique pure', () => {
       expect(visibleLayers.map((l) => l.id)).toEqual(['hydro', 'subtribes', 'villages']);
 
       const hiddenLayers = DEFAULT_LAYERS.filter((l) => !l.visible);
-      expect(hiddenLayers.map((l) => l.id)).toEqual(['forest', 'dialects', 'chiefdoms', 'community']);
+      expect(hiddenLayers.map((l) => l.id)).toEqual(['forest', 'dialects', 'chiefdoms', 'clans', 'community']);
     });
 
     it('should have correct layer metadata for hydro', () => {
@@ -128,6 +137,14 @@ describe('useLayerVisibility - logique pure', () => {
       expect(subtribes!.label).toBe('Sous-tribus');
       expect(subtribes!.labelSkt).toBe('Bikolo');
       expect(subtribes!.icon).toBe('users');
+    });
+
+    it('should have correct layer metadata for clans', () => {
+      const clans = DEFAULT_LAYERS.find((l) => l.id === 'clans');
+      expect(clans).toBeDefined();
+      expect(clans!.label).toBe('Clans');
+      expect(clans!.labelSkt).toBe('Makanda');
+      expect(clans!.icon).toBe('shield');
     });
   });
 
@@ -164,7 +181,7 @@ describe('useLayerVisibility - logique pure', () => {
       const unchangedCount = result.filter(
         (l, i) => l.id !== 'forest' && l.visible === DEFAULT_LAYERS[i].visible
       ).length;
-      expect(unchangedCount).toBe(6);
+      expect(unchangedCount).toBe(7);
     });
   });
 
@@ -196,6 +213,7 @@ describe('useLayerVisibility - logique pure', () => {
       expect(isLayerVisible(DEFAULT_LAYERS, 'forest')).toBe(false);
       expect(isLayerVisible(DEFAULT_LAYERS, 'dialects')).toBe(false);
       expect(isLayerVisible(DEFAULT_LAYERS, 'chiefdoms')).toBe(false);
+      expect(isLayerVisible(DEFAULT_LAYERS, 'clans')).toBe(false);
       expect(isLayerVisible(DEFAULT_LAYERS, 'community')).toBe(false);
     });
 

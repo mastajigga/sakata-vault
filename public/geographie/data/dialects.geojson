@@ -1,0 +1,112 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Waria",
+        "name_skt": "Waria",
+        "speakers": "~30 000",
+        "description": "Dialecte du nord, considéré comme la forme la plus archaïque du kisakata. Parlé par le groupe Waria en contact avec les Ntomba.",
+        "characteristics": "Voyelles nasales prononcées, tons descendants"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [17.40, -2.50], [17.80, -2.50], [17.85, -2.65],
+          [17.80, -2.80], [17.50, -2.85], [17.35, -2.70],
+          [17.40, -2.50]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Kebai",
+        "name_skt": "Kebai",
+        "speakers": "~25 000",
+        "description": "Dialecte du nord-est, parlé par les Bobai au-delà de la Lukenie. Influencé par les parlers Nkundo.",
+        "characteristics": "Consonnes occlusives renforcées, vocabulaire de pêche"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [17.80, -2.50], [18.30, -2.50], [18.35, -2.70],
+          [18.20, -2.85], [17.85, -2.80], [17.80, -2.65],
+          [17.80, -2.50]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Mokan",
+        "name_skt": "Mokan",
+        "speakers": "~35 000",
+        "description": "Dialecte central, le plus parlé du kisakata. Parlé au cœur du territoire autour de Kutu.",
+        "characteristics": "Forme standard, utilisé dans l'enseignement"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [17.40, -2.80], [17.85, -2.80], [18.20, -2.85],
+          [18.15, -3.15], [17.80, -3.25], [17.45, -3.10],
+          [17.35, -2.95], [17.40, -2.80]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Kengengei",
+        "name_skt": "Kengengei",
+        "speakers": "~18 000",
+        "description": "Dialecte du sud, à la lisière de la savane. Influencé par les parlers Yanzi voisins.",
+        "characteristics": "Tons montants, emprunts au kiyansi"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [17.45, -3.10], [17.80, -3.25], [18.10, -3.30],
+          [18.00, -3.50], [17.50, -3.50], [17.35, -3.30],
+          [17.45, -3.10]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Kitere",
+        "name_skt": "Kitere",
+        "speakers": "~15 000",
+        "description": "Dialecte de l'est, parlé par les Bayi. Connu pour ses chants rituels et sa poésie orale.",
+        "characteristics": "Rythme mélodique, vocabulaire rituel riche"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [18.15, -2.85], [18.50, -2.75], [18.55, -2.95],
+          [18.45, -3.20], [18.15, -3.15], [18.20, -2.85],
+          [18.15, -2.85]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Kintuntulu",
+        "name_skt": "Kintuntulu",
+        "speakers": "~12 000",
+        "description": "Dialecte du sud-est, le plus méridional. Forte influence des langues voisines, en danger.",
+        "characteristics": "Simplification tonale, emprunts massifs"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [18.00, -3.30], [18.45, -3.20], [18.50, -3.40],
+          [18.20, -3.55], [17.90, -3.50], [18.00, -3.30]
+        ]]
+      }
+    }
+  ]
+}
