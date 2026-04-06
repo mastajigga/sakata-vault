@@ -17,6 +17,13 @@ export const UI_TRANSLATIONS = {
       swa: "Maarifa",
       tsh: "Dinyina",
     },
+    geography: {
+      fr: "Géographie",
+      skt: "Mabele",
+      lin: "Mabele",
+      swa: "Jiografia",
+      tsh: "Mabele",
+    },
     community: {
       fr: "Communauté",
       skt: "Mboka",

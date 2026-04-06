@@ -12,6 +12,7 @@ import { LogOut, LayoutDashboard, UserCircle } from "lucide-react";
 const navLinks = [
   { key: "nav.home", href: "/" },
   { key: "nav.knowledge", href: "/savoir" },
+  { key: "nav.geography", href: "/geographie" },
   { key: "nav.community", href: "/forum" },
 ];
 
