@@ -40,12 +40,14 @@ export default function HydrographyLayer({
       id: "rivers-line",
       type: "line",
       source: sourceId,
+      layout: {
+        "line-cap": "round",
+        "line-join": "round",
+      },
       paint: {
         "line-color": waterColor,
         "line-width": riverWidth,
         "line-opacity": 0.85,
-        "line-cap": "round",
-        "line-join": "round",
       },
     }),
     [waterColor, riverWidth]
@@ -56,12 +58,14 @@ export default function HydrographyLayer({
       id: "rivers-animated",
       type: "line",
       source: sourceId,
+      layout: {
+        "line-cap": "round",
+      },
       paint: {
         "line-color": KISAKATA_COLORS.orAncestral,
         "line-width": riverWidth * 0.6,
         "line-opacity": 0.3 + seasonProgress * 0.3,
         "line-dasharray": [dashLength, dashGap],
-        "line-cap": "round",
       },
     }),
     [riverWidth, seasonProgress, dashLength, dashGap]
