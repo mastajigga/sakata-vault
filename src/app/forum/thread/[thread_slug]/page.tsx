@@ -15,7 +15,7 @@ export default async function ThreadPage(props: { params: Promise<{ thread_slug:
     .from("forum_threads")
     .select(`
       *,
-      profiles:created_by ( id, display_name, avatar_url, role ),
+      profiles:created_by ( id, username, nickname, avatar_url, role ),
       forum_categories ( slug, name )
     `)
     .eq("slug", params.thread_slug)
@@ -30,7 +30,7 @@ export default async function ThreadPage(props: { params: Promise<{ thread_slug:
     .from("forum_posts")
     .select(`
       *,
-      profiles:author_id ( id, display_name, avatar_url, role )
+      profiles:author_id ( id, username, nickname, avatar_url, role )
     `)
     .eq("thread_id", thread.id)
     .order("created_at", { ascending: true });
@@ -72,7 +72,7 @@ export default async function ThreadPage(props: { params: Promise<{ thread_slug:
               ) : (
                 <div className="w-6 h-6 rounded-full bg-[#B59551]/20 border border-[#B59551]/30"></div>
               )}
-              <span className="text-[#F2EEDD]/80 font-medium">{thread.profiles?.display_name || 'Anonyme'}</span>
+              <span className="text-[#F2EEDD]/80 font-medium">{thread.profiles?.nickname || thread.profiles?.username || 'Anonyme'}</span>
             </div>
             <span className="flex items-center gap-1.5"><Clock size={16} /> {formattedDate}</span>
             <span className="flex items-center gap-1.5"><Eye size={16} /> {thread.views_count || 0} vues</span>

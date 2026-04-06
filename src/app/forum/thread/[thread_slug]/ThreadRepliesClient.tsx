@@ -14,7 +14,8 @@ interface Post {
   author_id: string;
   profiles?: {
     id: string;
-    display_name: string;
+    username: string;
+    nickname: string | null;
     avatar_url: string | null;
     role: string;
   };
@@ -55,7 +56,7 @@ export default function ThreadRepliesClient({ threadId, initialPosts, isLocked }
           if(!posts.find(p => p.id === newPost.id)) {
             const { data: profile } = await supabase
               .from('profiles')
-              .select('id, display_name, avatar_url, role')
+              .select('id, username, nickname, avatar_url, role')
               .eq('id', newPost.author_id)
               .single();
               
@@ -123,12 +124,12 @@ export default function ThreadRepliesClient({ threadId, initialPosts, isLocked }
                     <img src={post.profiles.avatar_url} alt="author" className="w-10 h-10 rounded-full object-cover border border-[#B59551]/40" />
                   ) : (
                     <div className="w-10 h-10 rounded-full bg-[#B59551]/10 border border-[#B59551]/40 flex items-center justify-center text-[#B59551] font-semibold">
-                      {post.profiles?.display_name?.charAt(0).toUpperCase() || 'V'}
+                      {(post.profiles?.nickname || post.profiles?.username || 'V').charAt(0).toUpperCase()}
                     </div>
                   )}
                   <div>
                     <h4 className="text-[#F2EEDD] font-medium flex items-center gap-2">
-                      {post.profiles?.display_name || 'Villageois Anonyme'}
+                      {post.profiles?.nickname || post.profiles?.username || 'Villageois Anonyme'}
                       {['admin', 'manager'].includes(post.profiles?.role || '') && (
                         <span className="text-[10px] uppercase tracking-widest bg-[#B59551]/20 text-[#B59551] px-2 py-0.5 rounded-full">
                           {post.profiles?.role}

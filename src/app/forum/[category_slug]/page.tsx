@@ -85,20 +85,10 @@ export default async function ForumCategoryPage(props: { params: Promise<{ categ
         </div>
 
         <div className="space-y-4">
-          {/* Debug Info for Admin/Dev */}
-          <div className="hidden">
-            Debug: CatID: {category.id} | Threads Found: {threads?.length || 0}
-          </div>
-
           {(!threads || threads.length === 0) ? (
             <div className="text-center py-20 bg-[#122A1E]/30 border border-[#B59551]/10 rounded-2xl">
               <p className="text-[#F2EEDD]/50 text-lg font-light">Aucun sujet n'a encore été lancé ici.</p>
               <p className="text-[#B59551] mt-2">Soyez le premier à ouvrir la discussion !</p>
-              {threadsError && (
-                <p className="text-red-400/50 mt-4 text-xs font-mono">
-                  Erreur: {JSON.stringify(threadsError)}
-                </p>
-              )}
             </div>
           ) : (
             threads.map((thread) => {
