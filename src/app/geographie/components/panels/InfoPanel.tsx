@@ -272,10 +272,10 @@ export default function InfoPanel({ feature, onClose }: InfoPanelProps) {
 
   return (
     <motion.div
-      className="fixed top-0 right-0 h-full z-30 w-full max-w-md"
-      initial={{ x: "100%" }}
+      className="fixed top-0 left-0 h-full z-30 w-full max-w-md"
+      initial={{ x: "-100%" }}
       animate={{ x: 0 }}
-      exit={{ x: "100%" }}
+      exit={{ x: "-100%" }}
       transition={{ type: "spring", damping: 25, stiffness: 200 }}
     >
       <div
@@ -283,7 +283,7 @@ export default function InfoPanel({ feature, onClose }: InfoPanelProps) {
         style={{
           background: "rgba(10, 31, 21, 0.95)",
           backdropFilter: "blur(20px)",
-          borderLeft: "1px solid rgba(196, 160, 53, 0.2)",
+          borderRight: "1px solid rgba(196, 160, 53, 0.2)",
         }}
       >
         {/* Header */}
