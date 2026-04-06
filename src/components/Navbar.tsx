@@ -246,27 +246,76 @@ const Navbar = () => {
                 </motion.div>
               ))}
 
-              <motion.div
-                initial={{ y: 40, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ duration: 0.5, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                className="mt-8"
-              >
-                <Link
-                  href="/auth"
-                  onClick={() => {
-                    setMenuOpen(false);
-                    startLoading();
-                  }}
-                  className="inline-flex items-center px-8 py-4 rounded-full text-sm font-semibold"
-                  style={{
-                    background: "var(--emerald-deep)",
-                    color: "var(--ivory-warm)",
-                  }}
+              {/* Mobile Profile & Sign Out */}
+              {user ? (
+                <>
+                  <motion.div
+                    initial={{ y: 40, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    exit={{ y: 20, opacity: 0 }}
+                    transition={{
+                      duration: 0.5,
+                      delay: 0.1 + navLinks.length * 0.08,
+                      ease: [0.16, 1, 0.3, 1],
+                    }}
+                  >
+                    <Link
+                      href="/profil"
+                      onClick={() => {
+                        setMenuOpen(false);
+                        startLoading();
+                      }}
+                      className="text-3xl font-bold tracking-tight transition-colors"
+                      style={{ color: "var(--or-ancestral)" }}
+                    >
+                      {t("nav.profile") || "Mon Profil"}
+                    </Link>
+                  </motion.div>
+                  <motion.div
+                    initial={{ y: 40, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    exit={{ y: 20, opacity: 0 }}
+                    transition={{
+                      duration: 0.5,
+                      delay: 0.1 + (navLinks.length + 1) * 0.08,
+                      ease: [0.16, 1, 0.3, 1],
+                    }}
+                  >
+                    <button
+                      onClick={() => {
+                        setMenuOpen(false);
+                        signOut();
+                      }}
+                      className="text-3xl font-bold tracking-tight transition-colors opacity-60"
+                      style={{ color: "var(--ivory-warm)" }}
+                    >
+                      {t("nav.logout") || "Déconnexion"}
+                    </button>
+                  </motion.div>
+                </>
+              ) : (
+                <motion.div
+                  initial={{ y: 40, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ duration: 0.5, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                  className="mt-8"
                 >
-                  {t("nav.join")}
-                </Link>
-              </motion.div>
+                  <Link
+                    href="/auth"
+                    onClick={() => {
+                      setMenuOpen(false);
+                      startLoading();
+                    }}
+                    className="inline-flex items-center px-8 py-4 rounded-full text-sm font-semibold"
+                    style={{
+                      background: "var(--emerald-deep)",
+                      color: "var(--ivory-warm)",
+                    }}
+                  >
+                    {t("nav.join")}
+                  </Link>
+                </motion.div>
+              )}
             </nav>
           </motion.div>
         )}

@@ -19,7 +19,9 @@ import {
   AlertCircle,
   FileText,
   ChevronLeft,
-  LayoutDashboard
+  LayoutDashboard,
+  ImagePlus,
+  Loader2
 } from "lucide-react";
 
 const ProfilePage = () => {
@@ -40,31 +42,81 @@ const ProfilePage = () => {
   });
   
   const [contributorStatus, setContributorStatus] = useState<string>("none");
+  const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
+  const [uploading, setUploading] = useState(false);
 
   useEffect(() => {
     if (user) {
       const fetchProfile = async () => {
-        const { data, error } = await supabase
-          .from("profiles")
-          .select("*")
-          .eq("id", user.id)
-          .single();
+        try {
+          const { data, error } = await supabase
+            .from("profiles")
+            .select("*")
+            .eq("id", user.id)
+            .single();
 
-        if (data) {
-          setFormData({
-            first_name: data.first_name || "",
-            last_name: data.last_name || "",
-            nickname: data.nickname || "",
-            username: data.username || "",
-            bio: data.bio || "",
-            location: data.location || "",
-          });
-          setContributorStatus(data.contributor_status || "none");
+          if (data) {
+            setFormData({
+              first_name: data.first_name || "",
+              last_name: data.last_name || "",
+              nickname: data.nickname || "",
+              username: data.username || "",
+              bio: data.bio || "",
+              location: data.location || "",
+            });
+            setContributorStatus(data.contributor_status || "none");
+            setAvatarUrl(data.avatar_url || null);
+          }
+        } catch (err) {
+          console.error("Error fetching profile:", err);
         }
       };
       fetchProfile();
     }
   }, [user]);
+
+  const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    try {
+      setUploading(true);
+      setError(null);
+
+      if (!event.target.files || event.target.files.length === 0) {
+        return;
+      }
+
+      const file = event.target.files[0];
+      const fileExt = file.name.split(".").pop();
+      const filePath = `${user!.id}/${Math.random()}.${fileExt}`;
+
+      // Upload to Supabase Storage
+      const { error: uploadError } = await supabase.storage
+        .from("avatars")
+        .upload(filePath, file);
+
+      if (uploadError) throw uploadError;
+
+      // Get public URL
+      const { data: { publicUrl } } = supabase.storage
+        .from("avatars")
+        .getPublicUrl(filePath);
+
+      // Update profile
+      const { error: updateError } = await supabase
+        .from("profiles")
+        .update({ avatar_url: publicUrl })
+        .eq("id", user!.id);
+
+      if (updateError) throw updateError;
+
+      setAvatarUrl(publicUrl);
+      setSuccess(true);
+      setTimeout(() => setSuccess(false), 3000);
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setUploading(false);
+    }
+  };
 
   const handleUpdateProfile = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -323,10 +375,38 @@ const ProfilePage = () => {
               className="p-6 rounded-2xl border border-white/5 bg-white/[0.02] backdrop-blur-xl"
             >
               <div className="flex flex-col items-center text-center">
-                <div className="w-20 h-20 rounded-full border-2 border-or/20 p-1 mb-4">
-                  <div className="w-full h-full rounded-full bg-or-ancestral/10 flex items-center justify-center">
-                    <User className="w-10 h-10 text-or-ancestral" />
+                <div className="relative group mb-6">
+                  <div className="w-24 h-24 rounded-full border-2 border-or/20 p-1 overflow-hidden shadow-2xl shadow-black/40">
+                    {avatarUrl ? (
+                      <img 
+                        src={avatarUrl} 
+                        alt="Avatar" 
+                        className="w-full h-full rounded-full object-cover"
+                      />
+                    ) : (
+                      <div className="w-full h-full rounded-full bg-or-ancestral/10 flex items-center justify-center">
+                        <User className="w-12 h-12 text-or-ancestral" />
+                      </div>
+                    )}
                   </div>
+                  
+                  <label 
+                    className={`absolute bottom-0 right-0 p-2 rounded-full bg-or-ancestral text-foret-nocturne cursor-pointer shadow-lg hover:scale-110 active:scale-95 transition-all ${uploading ? 'opacity-50 cursor-not-allowed' : ''}`}
+                    title="Changer d'image"
+                  >
+                    {uploading ? (
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                    ) : (
+                      <ImagePlus className="w-4 h-4" />
+                    )}
+                    <input 
+                      type="file" 
+                      className="hidden" 
+                      accept="image/*" 
+                      onChange={handleImageUpload} 
+                      disabled={uploading}
+                    />
+                  </label>
                 </div>
                 <h3 className="text-lg font-display text-ivoire-ancien font-bold mb-1">
                   {formData.nickname || (formData.first_name ? `${formData.first_name} ${formData.last_name}` : user.email?.split("@")[0])}

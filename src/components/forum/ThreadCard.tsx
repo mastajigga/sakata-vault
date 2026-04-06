@@ -34,6 +34,11 @@ export function ThreadCard({ thread, author, postsCount, categorySlug }: ThreadC
                 <Lock size={12} className="mr-1" /> Fermé
               </span>
             )}
+            {thread.article_id && (
+              <span className="flex items-center text-[#B59551] text-[10px] font-bold uppercase tracking-widest bg-[#B59551]/10 border border-[#B59551]/30 px-2 py-0.5 rounded-full">
+                Savoir
+              </span>
+            )}
             <h3 className="text-xl md:text-2xl font-light text-[#F2EEDD] group-hover:text-[#B59551] transition-colors line-clamp-1">
               {thread.title}
             </h3>
