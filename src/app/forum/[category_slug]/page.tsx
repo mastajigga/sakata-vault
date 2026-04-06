@@ -6,8 +6,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, MessageSquarePlus } from "lucide-react";
 
-export const revalidate = 0; 
-export const dynamic = "force-dynamic";
+export const revalidate = 60; // 60 seconds
 
 export default async function ForumCategoryPage(props: { params: Promise<{ category_slug: string }> }) {
   const params = await props.params;
@@ -18,16 +17,9 @@ export default async function ForumCategoryPage(props: { params: Promise<{ categ
     .eq("slug", params.category_slug)
     .single();
 
-  console.log(`[ForumCategory] Fetching category details for slug: ${params.category_slug}`);
-  if (catError) {
-    console.error(`[ForumCategory] Error fetching category:`, catError);
-  }
-
   if (catError || !category) {
     return notFound();
   }
-
-  console.log(`[ForumCategory] category found with ID: ${category.id}`);
   // Handle multilingual names
   const catName = typeof category.name === 'string' ? JSON.parse(category.name) : category.name;
   const catDesc = typeof category.description === 'string' ? JSON.parse(category.description) : category.description;
