@@ -26,7 +26,9 @@ export default async function ForumCategoryPage(props: { params: Promise<{ categ
   const catDesc = typeof category.description === 'string' ? JSON.parse(category.description) : category.description;
 
   // 2. Fetch Threads in this category
-  const { data: threads, error: threadsError } = await supabasePublic
+  console.log(`[ForumCategory] Fetching threads for category_id: ${category.id}`);
+
+  const { data: threads, error: threadsError, status } = await supabasePublic
     .from("forum_threads")
     .select(`
       *,
@@ -37,8 +39,15 @@ export default async function ForumCategoryPage(props: { params: Promise<{ categ
     .order("is_pinned", { ascending: false })
     .order("updated_at", { ascending: false });
 
+  console.log(`[ForumCategory] Supabase Response Status: ${status}`);
+
   if (threadsError) {
-    console.error("Error fetching threads:", threadsError);
+    console.error(`[ForumCategory] Error fetching threads:`, threadsError);
+  } else {
+    console.log(`[ForumCategory] Number of threads found: ${threads?.length || 0}`);
+    if (threads && threads.length > 0) {
+      console.log(`[ForumCategory] Sample thread:`, JSON.stringify(threads[0], null, 2));
+    }
   }
 
   return (
