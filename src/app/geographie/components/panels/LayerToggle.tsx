@@ -9,6 +9,7 @@ import {
   Languages,
   MapPin,
   MessageCircle,
+  Map,
   ChevronDown,
   ChevronUp,
 } from "lucide-react";
@@ -26,6 +27,7 @@ const iconMap: Record<string, React.ElementType> = {
   languages: Languages,
   "map-pin": MapPin,
   "message-circle": MessageCircle,
+  map: Map,
 };
 
 export default function LayerToggle({ layers, onToggle }: LayerToggleProps) {

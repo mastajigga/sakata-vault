@@ -26,7 +26,7 @@ export interface SelectedFeature {
 
 export default function GeographieClient() {
   const mapRef = useRef<MapRef | null>(null);
-  const [showFlythrough, setShowFlythrough] = useState(true);
+  const [showFlythrough, setShowFlythrough] = useState(false);
   const [selectedFeature, setSelectedFeature] = useState<SelectedFeature | null>(null);
   const [showCommunityFeed, setShowCommunityFeed] = useState(false);
   const [brightness, setBrightness] = useState(75); // Default: jour (75%)
@@ -144,7 +144,7 @@ export default function GeographieClient() {
 
             {/* Panneau droit — en haut à droite */}
             <motion.div
-              className="absolute top-24 right-4 z-20 flex flex-col gap-3"
+              className="absolute top-20 right-4 z-20 flex flex-col gap-2"
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
@@ -154,13 +154,21 @@ export default function GeographieClient() {
                 layers={layers}
                 onToggle={toggleLayer}
               />
-              {/* Contrôle de luminosité */}
+              {/* Légende */}
+              <LegendPanel />
+            </motion.div>
+
+            {/* Contrôle de luminosité — en bas à gauche */}
+            <motion.div
+              className="absolute bottom-20 left-4 z-20"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+            >
               <BrightnessControl
                 brightness={brightness}
                 onBrightnessChange={setBrightness}
               />
-              {/* Légende */}
-              <LegendPanel />
             </motion.div>
 
             {/* Slider saisonnier — en bas */}
