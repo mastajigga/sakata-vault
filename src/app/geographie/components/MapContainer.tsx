@@ -29,8 +29,13 @@ const MapContainer = forwardRef<MapRef, MapContainerProps>(
   const [chiefdomsData, setChiefdomsData] = useState<GeoJSON.FeatureCollection<GeoJSON.Polygon> | null>(null);
   const [chiefdomsPointsData, setChiefdomsPointsData] = useState<GeoJSON.FeatureCollection<GeoJSON.Point> | null>(null);
   const [dialectsData, setDialectsData] = useState<GeoJSON.FeatureCollection<GeoJSON.Polygon> | null>(null);
+  const [dialectsPointsData, setDialectsPointsData] = useState<GeoJSON.FeatureCollection<GeoJSON.Point> | null>(null);
   const [clansData, setClansData] = useState<GeoJSON.FeatureCollection<GeoJSON.Polygon> | null>(null);
+  const [clansPointsData, setClansPointsData] = useState<GeoJSON.FeatureCollection<GeoJSON.Point> | null>(null);
   const [forestData, setForestData] = useState<GeoJSON.FeatureCollection<GeoJSON.Polygon> | null>(null);
+  const [forestPointsData, setForestPointsData] = useState<GeoJSON.FeatureCollection<GeoJSON.Point> | null>(null);
+  const [riversPointsData, setRiversPointsData] = useState<GeoJSON.FeatureCollection<GeoJSON.Point> | null>(null);
+  const [subtribesPointsData, setSubtribesPointsData] = useState<GeoJSON.FeatureCollection<GeoJSON.Point> | null>(null);
 
     useEffect(() => {
       fetch("/geographie/data/rivers.geojson")
@@ -58,9 +63,19 @@ const MapContainer = forwardRef<MapRef, MapContainerProps>(
         .then(setChiefdomsPointsData)
         .catch(console.error);
 
+      fetch("/geographie/data/subtribes-points.geojson")
+        .then((r) => r.json())
+        .then(setSubtribesPointsData)
+        .catch(console.error);
+
       fetch("/geographie/data/dialects.geojson")
         .then((r) => r.json())
         .then(setDialectsData)
+        .catch(console.error);
+
+      fetch("/geographie/data/dialects-points.geojson")
+        .then((r) => r.json())
+        .then(setDialectsPointsData)
         .catch(console.error);
 
       fetch("/geographie/data/clans.geojson")
@@ -68,9 +83,24 @@ const MapContainer = forwardRef<MapRef, MapContainerProps>(
         .then(setClansData)
         .catch(console.error);
 
+      fetch("/geographie/data/clans-points.geojson")
+        .then((r) => r.json())
+        .then(setClansPointsData)
+        .catch(console.error);
+
       fetch("/geographie/data/forest.geojson")
         .then((r) => r.json())
         .then(setForestData)
+        .catch(console.error);
+
+      fetch("/geographie/data/forest-points.geojson")
+        .then((r) => r.json())
+        .then(setForestPointsData)
+        .catch(console.error);
+
+      fetch("/geographie/data/rivers-points.geojson")
+        .then((r) => r.json())
+        .then(setRiversPointsData)
         .catch(console.error);
     }, []);
 
@@ -139,12 +169,12 @@ const MapContainer = forwardRef<MapRef, MapContainerProps>(
 
           {/* Couche forêt & savane — en arrière-plan */}
           {isVisible("forest") && forestData && (
-            <ForestLayer data={forestData} />
+            <ForestLayer data={forestData} pointsData={forestPointsData ?? undefined} />
           )}
 
           {/* Couche clans — strata sociaux */}
           {isVisible("clans") && clansData && (
-            <ClansLayer data={clansData} />
+            <ClansLayer data={clansData} pointsData={clansPointsData ?? undefined} />
           )}
 
           {/* Couche chefferies — 7 chefferies */}
@@ -154,12 +184,12 @@ const MapContainer = forwardRef<MapRef, MapContainerProps>(
 
           {/* Couche dialectes — 6 zones dialectales */}
           {isVisible("dialects") && dialectsData && (
-            <DialectsLayer data={dialectsData} />
+            <DialectsLayer data={dialectsData} pointsData={dialectsPointsData ?? undefined} />
           )}
 
           {/* Couche sous-tribus */}
           {isVisible("subtribes") && subtribesData && (
-            <SubtribesLayer data={subtribesData} />
+            <SubtribesLayer data={subtribesData} pointsData={subtribesPointsData ?? undefined} />
           )}
 
           {/* Couche rivières */}
@@ -167,6 +197,7 @@ const MapContainer = forwardRef<MapRef, MapContainerProps>(
             <HydrographyLayer
               data={riversData}
               seasonProgress={seasonProgress}
+              pointsData={riversPointsData ?? undefined}
             />
           )}
 

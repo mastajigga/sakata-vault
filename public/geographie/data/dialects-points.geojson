@@ -1,0 +1,83 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Waria",
+        "name_skt": "Waria",
+        "speakers": "~30 000",
+        "description": "Dialecte du nord, forme la plus archaïque du kisakata."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [17.60, -2.65]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Kebai",
+        "name_skt": "Kebai",
+        "speakers": "~25 000",
+        "description": "Dialecte du nord-est, influencé par les parlers Nkundo."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [18.10, -2.65]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Mokan",
+        "name_skt": "Mokan",
+        "speakers": "~35 000",
+        "description": "Dialecte central, le plus parlé du kisakata."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [17.80, -3.00]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Kengengei",
+        "name_skt": "Kengengei",
+        "speakers": "~18 000",
+        "description": "Dialecte du sud, à la lisière de la savane."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [17.70, -3.35]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Kitere",
+        "name_skt": "Kitere",
+        "speakers": "~15 000",
+        "description": "Dialecte de l'est, connu pour ses chants rituels."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [18.35, -3.00]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Kintuntulu",
+        "name_skt": "Kintuntulu",
+        "speakers": "~12 000",
+        "description": "Dialecte du sud-est, le plus méridional."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [18.20, -3.40]
+      }
+    }
+  ]
+}

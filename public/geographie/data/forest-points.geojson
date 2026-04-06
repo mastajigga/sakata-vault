@@ -1,0 +1,77 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Forêt dense du nord",
+        "type": "forest",
+        "description": "Forêt tropicale dense — cueillette et chasse."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [17.85, -2.65]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Forêt de la Lukenie",
+        "type": "forest",
+        "description": "Forêt riveraine sacrée — rites d'initiation."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [18.15, -2.70]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Forêt centrale de Kutu",
+        "type": "forest",
+        "description": "Forêt du centre — culture sur brûlis."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [17.75, -2.95]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Savane du sud",
+        "type": "savanna",
+        "description": "Savane arborée — élevage et agriculture."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [17.75, -3.30]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Savane de Kengengei",
+        "type": "savanna",
+        "description": "Grande savane — transhumance et pêche."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [17.50, -3.25]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Forêt de l'est (Bayi)",
+        "type": "forest",
+        "description": "Forêt des Bayi — biodiversité et sites sacrés."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [18.35, -2.95]
+      }
+    }
+  ]
+}

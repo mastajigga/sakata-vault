@@ -1,0 +1,44 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Badju",
+        "name_skt": "Badju",
+        "rank": "Haut rang",
+        "description": "Clan des chefs et des nobles — lignée royale."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [17.75, -2.85]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Bambe",
+        "name_skt": "Bambe",
+        "rank": "Propriétaires",
+        "description": "Clan des propriétaires terriens — gardiens du sol."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [17.90, -3.05]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Nsane",
+        "name_skt": "Nsane",
+        "rank": "Commun",
+        "description": "Clan du peuple — artisans, pêcheurs, agriculteurs."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [17.55, -3.15]
+      }
+    }
+  ]
+}

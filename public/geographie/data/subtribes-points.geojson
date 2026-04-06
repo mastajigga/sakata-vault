@@ -1,0 +1,65 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Bobai",
+        "name_skt": "Bobai",
+        "description": "Sous-tribu du nord-est, au-delà de la Lukenie."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [18.15, -2.65]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Waria",
+        "name_skt": "Waria",
+        "description": "Sous-tribu du nord, en contact avec les Ntomba."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [17.60, -2.65]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Bayi",
+        "name_skt": "Bayi",
+        "description": "Sous-tribu de l'est, connue pour ses chants rituels."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [18.35, -3.00]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Nkundo",
+        "name_skt": "Nkundo",
+        "description": "Sous-tribu du sud-est, à la frontière des Yanzi."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [18.00, -3.30]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Ntomba",
+        "name_skt": "Ntomba",
+        "description": "Sous-tribu de l'ouest, près du lac Mai-Ndombe."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [17.20, -2.85]
+      }
+    }
+  ]
+}

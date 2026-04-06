@@ -74,6 +74,7 @@ export default function VillagesLayer({ data }: VillagesLayerProps) {
         "text-anchor": "top",
         "text-offset": [0, 1.2],
         "text-allow-overlap": false,
+        "text-padding": 2,
       },
       paint: {
         "text-color": KISAKATA_COLORS.sableDoux,
