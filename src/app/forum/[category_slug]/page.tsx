@@ -26,9 +26,7 @@ export default async function ForumCategoryPage(props: { params: Promise<{ categ
   const catDesc = typeof category.description === 'string' ? JSON.parse(category.description) : category.description;
 
   // 2. Fetch Threads in this category
-  // Using supabaseAdmin here to ensure system-generated threads (created_by: null) are visible
-  // and bypassing any RLS issues during initial stabilize.
-  const { data: threads, error: threadsError } = await supabaseAdmin
+  const { data: threads, error: threadsError } = await supabasePublic
     .from("forum_threads")
     .select(`
       *,

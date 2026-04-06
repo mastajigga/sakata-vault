@@ -23,8 +23,7 @@ export function LoadingProvider({ children }: { children: React.ReactNode }) {
     if (isLoading) {
       // 1. Min display time for smooth feel (400ms)
       const timer = setTimeout(() => {
-        // We only auto-hide if it's a "soft" loading from a link
-        // Hard loading (manual) should be stopped by stopLoading()
+        setIsLoading(false);
       }, 400);
 
       // 2. Max safety timeout (4s) - NEVER stay stuck
