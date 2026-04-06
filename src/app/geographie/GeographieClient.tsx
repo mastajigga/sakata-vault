@@ -1,12 +1,14 @@
 "use client";
 
-import React, { useState, useCallback, useRef } from "react";
+import React, { useState, useCallback, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import MapContainer from "./components/MapContainer";
 import InfoPanel from "./components/panels/InfoPanel";
 import LayerToggle from "./components/panels/LayerToggle";
 import SeasonSlider from "./components/panels/SeasonSlider";
+import BrightnessControl from "./components/panels/BrightnessControl";
+import SearchPanel from "./components/panels/SearchPanel";
 import CinematicFlythrough from "./components/CinematicFlythrough";
 import CommunityFeed from "./components/community/CommunityFeed";
 import { useLayerVisibility, type LayerId } from "./hooks/useLayerVisibility";
@@ -25,10 +27,47 @@ export default function GeographieClient() {
   const [showFlythrough, setShowFlythrough] = useState(true);
   const [selectedFeature, setSelectedFeature] = useState<SelectedFeature | null>(null);
   const [showCommunityFeed, setShowCommunityFeed] = useState(false);
+  const [brightness, setBrightness] = useState(40); // Default: aube (40%)
+  const [villagesData, setVillagesData] = useState<GeoJSON.FeatureCollection<GeoJSON.Point> | null>(null);
 
   const { layers, toggleLayer, isLayerVisible } = useLayerVisibility();
   const { seasonProgress, setSeasonProgress, isAnimating, toggleAnimation } =
     useSeasonAnimation();
+
+  // Charger les données des villages pour la recherche
+  useEffect(() => {
+    fetch("/geographie/data/villages.geojson")
+      .then((r) => r.json())
+      .then(setVillagesData)
+      .catch(console.error);
+  }, []);
+
+  // Appliquer la luminosité au style de la carte
+  useEffect(() => {
+    const map = mapRef.current?.getMap();
+    if (!map) return;
+
+    const brightnessValue = brightness / 100;
+    const rasterLayer = map.getLayer("osm-base");
+    if (rasterLayer) {
+      map.setPaintProperty("osm-base", "raster-brightness-max", Math.max(0.15, brightnessValue * 0.8));
+      map.setPaintProperty("osm-base", "raster-opacity", Math.max(0.15, brightnessValue * 0.6));
+    }
+
+    // Ajuster le sky
+    const skyColor = `hsl(210, 30%, ${brightnessValue * 30}%)`;
+    const horizonColor = `hsl(150, 20%, ${brightnessValue * 20}%)`;
+    const fogColor = `hsl(140, 25%, ${brightnessValue * 15}%)`;
+    
+    map.setSky({
+      "sky-color": skyColor,
+      "sky-horizon-blend": 0.5,
+      "horizon-color": horizonColor,
+      "horizon-fog-blend": 0.8,
+      "fog-color": fogColor,
+      "fog-ground-blend": 0.9,
+    });
+  }, [brightness]);
 
   const handleFlythroughComplete = useCallback(() => {
     setShowFlythrough(false);
@@ -41,6 +80,23 @@ export default function GeographieClient() {
 
   const handleClosePanel = useCallback(() => {
     setSelectedFeature(null);
+  }, []);
+
+  const handleSearchResultClick = useCallback((coordinates: [number, number], feature: { name: string; type?: string }) => {
+    // Voler vers le résultat
+    mapRef.current?.flyTo({
+      center: coordinates,
+      zoom: 12,
+      pitch: 60,
+      duration: 2000,
+    });
+
+    // Sélectionner le feature
+    setSelectedFeature({
+      type: "village",
+      properties: { name: feature.name, type: feature.type },
+      coordinates,
+    });
   }, []);
 
   return (
@@ -72,6 +128,18 @@ export default function GeographieClient() {
       <AnimatePresence>
         {!showFlythrough && (
           <>
+            {/* Barre de recherche — en haut à gauche */}
+            <motion.div
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+            >
+              <SearchPanel
+                villagesData={villagesData}
+                onResultClick={handleSearchResultClick}
+              />
+            </motion.div>
+
             {/* Toggle des couches — en haut à droite */}
             <motion.div
               className="absolute top-24 right-4 z-20"
@@ -82,6 +150,18 @@ export default function GeographieClient() {
               <LayerToggle
                 layers={layers}
                 onToggle={toggleLayer}
+              />
+            </motion.div>
+
+            {/* Contrôle de luminosité — en bas à gauche */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+            >
+              <BrightnessControl
+                brightness={brightness}
+                onBrightnessChange={setBrightness}
               />
             </motion.div>
 
@@ -133,7 +213,7 @@ export default function GeographieClient() {
 
             {/* Coordonnées et info en bas à gauche */}
             <motion.div
-              className="absolute bottom-24 left-4 z-20"
+              className="absolute bottom-6 left-1/2 translate-x-48 z-20"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.8 }}
