@@ -2,7 +2,7 @@
 
 import React, { useMemo } from "react";
 import { Source, Layer } from "react-map-gl/maplibre";
-import type { FillLayer, LineLayer, SymbolLayer, GeoJSONSourceRaw } from "react-map-gl/maplibre";
+import type { FillLayer, LineLayer, SymbolLayer, CircleLayer, GeoJSONSourceRaw } from "react-map-gl/maplibre";
 
 interface ChiefdomsLayerProps {
   data: GeoJSON.FeatureCollection<GeoJSON.Polygon>;
@@ -74,6 +74,82 @@ export default function ChiefdomsLayer({ data }: ChiefdomsLayerProps) {
     []
   );
 
+  // Icône de chefferie — cercle avec glow, toujours visible comme Google Maps
+  const iconLayer: CircleLayer = useMemo(
+    () => ({
+      id: "chiefdoms-icon",
+      type: "circle",
+      source: sourceId,
+      paint: {
+        "circle-radius": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          4, 6,
+          6, 8,
+          8, 10,
+          10, 14,
+          12, 18,
+          14, 24,
+        ],
+        "circle-color": [
+          "match",
+          ["get", "name"],
+          "Mabie", CHIEFDOM_COLORS[0],
+          "Mbamushie", CHIEFDOM_COLORS[1],
+          "Mbantin", CHIEFDOM_COLORS[2],
+          "Lemvia-Nord", CHIEFDOM_COLORS[3],
+          "Batere", CHIEFDOM_COLORS[4],
+          "Lemvia-Sud", CHIEFDOM_COLORS[5],
+          "Nduele", CHIEFDOM_COLORS[6],
+          "#666666",
+        ],
+        "circle-stroke-color": "#F0EDE5",
+        "circle-stroke-width": 2,
+        "circle-opacity": 0.9,
+      },
+    }),
+    []
+  );
+
+  // Glow autour de l'icône
+  const iconGlowLayer: CircleLayer = useMemo(
+    () => ({
+      id: "chiefdoms-icon-glow",
+      type: "circle",
+      source: sourceId,
+      paint: {
+        "circle-radius": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          4, 12,
+          6, 16,
+          8, 20,
+          10, 28,
+          12, 36,
+          14, 48,
+        ],
+        "circle-color": [
+          "match",
+          ["get", "name"],
+          "Mabie", CHIEFDOM_COLORS[0],
+          "Mbamushie", CHIEFDOM_COLORS[1],
+          "Mbantin", CHIEFDOM_COLORS[2],
+          "Lemvia-Nord", CHIEFDOM_COLORS[3],
+          "Batere", CHIEFDOM_COLORS[4],
+          "Lemvia-Sud", CHIEFDOM_COLORS[5],
+          "Nduele", CHIEFDOM_COLORS[6],
+          "#666666",
+        ],
+        "circle-opacity": 0.15,
+        "circle-blur": 1,
+      },
+    }),
+    []
+  );
+
+  // Label avec offset pour ne pas chevaucher l'icône
   const labelLayer: SymbolLayer = useMemo(
     () => ({
       id: "chiefdoms-label",
@@ -81,28 +157,29 @@ export default function ChiefdomsLayer({ data }: ChiefdomsLayerProps) {
       source: sourceId,
       layout: {
         "text-field": ["get", "name"],
-        "text-font": ["Open Sans Regular"],
+        "text-font": ["Open Sans Bold"],
         "text-size": [
           "interpolate",
           ["linear"],
           ["zoom"],
-          6, 10,
+          4, 9,
+          6, 11,
           8, 13,
           10, 16,
           12, 20,
           14, 26,
         ],
-        "text-anchor": "center",
-        "text-offset": [0, 0],
+        "text-anchor": "top",
+        "text-offset": [0, 1.2],
         "text-allow-overlap": false,
-        "text-padding": 4,
+        "text-padding": 2,
         "text-ignore-placement": false,
       },
       paint: {
         "text-color": "#F0EDE5",
         "text-halo-color": "#0A1F15",
-        "text-halo-width": 2.5,
-        "text-halo-blur": 0.5,
+        "text-halo-width": 3,
+        "text-halo-blur": 1,
       },
     }),
     []
@@ -112,6 +189,8 @@ export default function ChiefdomsLayer({ data }: ChiefdomsLayerProps) {
     <Source id={sourceId} type="geojson" data={data as unknown as GeoJSONSourceRaw["data"]}>
       <Layer {...fillLayer} />
       <Layer {...outlineLayer} />
+      <Layer {...iconGlowLayer} />
+      <Layer {...iconLayer} />
       <Layer {...labelLayer} />
     </Source>
   );
