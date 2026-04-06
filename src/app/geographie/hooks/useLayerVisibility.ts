@@ -8,6 +8,7 @@ export type LayerId =
   | "subtribes"
   | "dialects"
   | "villages"
+  | "chiefdoms"
   | "community";
 
 export interface LayerState {
@@ -59,6 +60,14 @@ const DEFAULT_LAYERS: LayerState[] = [
     icon: "map-pin",
     visible: true,
     description: "Villages, ports historiques et sites importants",
+  },
+  {
+    id: "chiefdoms",
+    label: "Chefferies",
+    labelSkt: "Idju",
+    icon: "map",
+    visible: false,
+    description: "7 chefferies du territoire Sakata",
   },
   {
     id: "community",

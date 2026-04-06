@@ -1,0 +1,110 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Mabie",
+        "name_skt": "Mabie",
+        "capital": "Ndwakombe",
+        "population": 45000,
+        "villages": 12,
+        "description": "Chefferie centrale, cœur historique du territoire Sakata."
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[[17.55, -2.85], [17.70, -2.80], [17.75, -2.95], [17.60, -3.00], [17.55, -2.85]]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Mbamushie",
+        "name_skt": "Mbamushie",
+        "capital": "Mongobele",
+        "population": 38000,
+        "villages": 9,
+        "description": "Chefferie du nord, bordée par la rivière Mfimi."
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[[17.70, -2.70], [17.90, -2.65], [17.95, -2.80], [17.75, -2.85], [17.70, -2.70]]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Mbantin",
+        "name_skt": "Mbantin",
+        "capital": "Kempa",
+        "population": 42000,
+        "villages": 10,
+        "description": "Chefferie de l'est, terre des rites Ngongo."
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[[17.90, -2.75], [18.10, -2.70], [18.15, -2.90], [17.95, -2.95], [17.90, -2.75]]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Lemvia-Nord",
+        "name_skt": "Lemvia-Nord",
+        "capital": "Mbaizakwi",
+        "population": 35000,
+        "villages": 8,
+        "description": "Chefferie du nord-ouest, berceau des ancêtres Sakata."
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[[17.40, -2.65], [17.60, -2.60], [17.65, -2.80], [17.45, -2.85], [17.40, -2.65]]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Batere",
+        "name_skt": "Batere",
+        "capital": "Nsobie",
+        "population": 40000,
+        "villages": 11,
+        "description": "Chefferie du sud-est, connue pour ses artisans forgerons."
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[[18.00, -2.90], [18.20, -2.85], [18.25, -3.05], [18.05, -3.10], [18.00, -2.90]]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Lemvia-Sud",
+        "name_skt": "Lemvia-Sud",
+        "capital": "Ikoko",
+        "population": 37000,
+        "villages": 9,
+        "description": "Chefferie du sud, première terre d'accueil des migrants Sakata."
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[[17.60, -2.95], [17.80, -2.90], [17.85, -3.10], [17.65, -3.15], [17.60, -2.95]]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Nduele",
+        "name_skt": "Nduele",
+        "capital": "Nselekoko",
+        "population": 33000,
+        "villages": 7,
+        "description": "Chefferie de l'ouest, porte d'entrée vers le lac Mai-Ndombe."
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[[17.35, -2.80], [17.55, -2.75], [17.60, -2.95], [17.40, -3.00], [17.35, -2.80]]]
+      }
+    }
+  ]
+}

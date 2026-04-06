@@ -8,6 +8,7 @@ import { kisakataMapStyle, DEFAULT_VIEW_STATE } from "../lib/mapStyles";
 import HydrographyLayer from "./layers/HydrographyLayer";
 import SubtribesLayer from "./layers/SubtribesLayer";
 import VillagesLayer from "./layers/VillagesLayer";
+import ChiefdomsLayer from "./layers/ChiefdomsLayer";
 import type { SelectedFeature } from "../GeographieClient";
 import type { LayerState } from "../hooks/useLayerVisibility";
 
@@ -19,9 +20,10 @@ interface MapContainerProps {
 
 const MapContainer = forwardRef<MapRef, MapContainerProps>(
   ({ seasonProgress, visibleLayers, onFeatureClick }, ref) => {
-    const [riversData, setRiversData] = useState<GeoJSON.FeatureCollection<GeoJSON.LineString> | null>(null);
-    const [subtribesData, setSubtribesData] = useState<GeoJSON.FeatureCollection<GeoJSON.Polygon | GeoJSON.MultiPolygon> | null>(null);
-    const [villagesData, setVillagesData] = useState<GeoJSON.FeatureCollection<GeoJSON.Point> | null>(null);
+  const [riversData, setRiversData] = useState<GeoJSON.FeatureCollection<GeoJSON.LineString> | null>(null);
+  const [subtribesData, setSubtribesData] = useState<GeoJSON.FeatureCollection<GeoJSON.Polygon | GeoJSON.MultiPolygon> | null>(null);
+  const [villagesData, setVillagesData] = useState<GeoJSON.FeatureCollection<GeoJSON.Point> | null>(null);
+  const [chiefdomsData, setChiefdomsData] = useState<GeoJSON.FeatureCollection<GeoJSON.Polygon> | null>(null);
 
     useEffect(() => {
       fetch("/geographie/data/rivers.geojson")
@@ -37,6 +39,11 @@ const MapContainer = forwardRef<MapRef, MapContainerProps>(
       fetch("/geographie/data/villages.geojson")
         .then((r) => r.json())
         .then(setVillagesData)
+        .catch(console.error);
+
+      fetch("/geographie/data/chiefdoms.geojson")
+        .then((r) => r.json())
+        .then(setChiefdomsData)
         .catch(console.error);
     }, []);
 
@@ -113,6 +120,11 @@ const MapContainer = forwardRef<MapRef, MapContainerProps>(
           {/* Couche villages et ports */}
           {isVisible("villages") && villagesData && (
             <VillagesLayer data={villagesData} />
+          )}
+
+          {/* Couche chefferies */}
+          {isVisible("chiefdoms") && chiefdomsData && (
+            <ChiefdomsLayer data={chiefdomsData} />
           )}
         </Map>
       </div>

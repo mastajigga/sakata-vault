@@ -2,6 +2,7 @@
 
 import React, { useState, useCallback, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import MapContainer from "./components/MapContainer";
 import InfoPanel from "./components/panels/InfoPanel";
@@ -9,6 +10,7 @@ import LayerToggle from "./components/panels/LayerToggle";
 import SeasonSlider from "./components/panels/SeasonSlider";
 import BrightnessControl from "./components/panels/BrightnessControl";
 import SearchPanel from "./components/panels/SearchPanel";
+import LegendPanel from "./components/panels/LegendPanel";
 import CinematicFlythrough from "./components/CinematicFlythrough";
 import CommunityFeed from "./components/community/CommunityFeed";
 import { useLayerVisibility, type LayerId } from "./hooks/useLayerVisibility";
@@ -157,6 +159,8 @@ export default function GeographieClient() {
                 brightness={brightness}
                 onBrightnessChange={setBrightness}
               />
+              {/* Légende */}
+              <LegendPanel />
             </motion.div>
 
             {/* Slider saisonnier — en bas */}
@@ -204,6 +208,28 @@ export default function GeographieClient() {
               </svg>
               Communauté
             </motion.button>
+
+            {/* Bouton aide — en bas à droite, sous communauté */}
+            <Link
+              href="/geographie/aide"
+              className="absolute bottom-6 right-4 z-20 flex items-center gap-2 px-4 py-2.5 rounded-xl transition-all duration-300"
+              style={{
+                background: "rgba(10, 31, 21, 0.8)",
+                backdropFilter: "blur(12px)",
+                border: "1px solid rgba(196, 160, 53, 0.15)",
+                color: "var(--brume-matinale)",
+                fontFamily: "var(--font-geist-mono)",
+                fontSize: "0.75rem",
+                letterSpacing: "0.05em",
+              }}
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                <circle cx="12" cy="12" r="10" />
+                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+                <line x1="12" y1="17" x2="12.01" y2="17" />
+              </svg>
+              Aide
+            </Link>
 
           </>
         )}
