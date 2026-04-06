@@ -1,0 +1,100 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Bobai",
+        "name_skt": "Bobai",
+        "dialect": "kebai",
+        "position": "Nord de la Lukenie",
+        "population_estimate": "~25 000",
+        "description": "Sous-tribu occupant le nord du territoire, au-delà de la Lukenie. Réputés pour leur maîtrise de la pêche en eaux profondes."
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [17.80, -2.50], [18.20, -2.50], [18.30, -2.60],
+          [18.30, -2.75], [18.10, -2.80], [17.80, -2.75],
+          [17.70, -2.60], [17.80, -2.50]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Waria / Dia",
+        "name_skt": "Waria",
+        "dialect": "waria",
+        "position": "Nord du territoire",
+        "population_estimate": "~30 000",
+        "description": "Groupe le plus septentrional, en contact avec les peuples Ntomba. Le dialecte waria est considéré comme la forme la plus archaïque du kisakata."
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [17.50, -2.50], [17.80, -2.50], [17.70, -2.60],
+          [17.80, -2.75], [17.60, -2.80], [17.40, -2.70],
+          [17.40, -2.55], [17.50, -2.50]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Bayi",
+        "name_skt": "Bayi",
+        "dialect": "mokan",
+        "position": "Est du territoire",
+        "population_estimate": "~20 000",
+        "description": "Sous-tribu de l'est, voisine des Nkundo. Connue pour ses chants rituels et ses forgerons."
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [18.10, -2.80], [18.40, -2.75], [18.50, -2.90],
+          [18.45, -3.10], [18.20, -3.15], [18.05, -3.00],
+          [18.10, -2.80]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Mokan",
+        "name_skt": "Mokan",
+        "dialect": "mokan",
+        "position": "Centre du territoire",
+        "population_estimate": "~35 000",
+        "description": "Cœur du territoire Basakata, autour de Kutu. Le dialecte mokan est la variante la plus parlée du kisakata."
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [17.50, -2.80], [17.90, -2.80], [18.10, -2.85],
+          [18.05, -3.10], [17.80, -3.20], [17.55, -3.15],
+          [17.40, -3.00], [17.50, -2.80]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Kengengei",
+        "name_skt": "Kengengei",
+        "dialect": "kengengei",
+        "position": "Sud du territoire",
+        "population_estimate": "~18 000",
+        "description": "Sous-tribu méridionale, à la lisière de la savane. Pratique l'agriculture sur brûlis et l'élevage de petit bétail."
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [17.55, -3.15], [17.90, -3.20], [18.00, -3.35],
+          [17.80, -3.50], [17.50, -3.45], [17.40, -3.30],
+          [17.55, -3.15]
+        ]]
+      }
+    }
+  ]
+}

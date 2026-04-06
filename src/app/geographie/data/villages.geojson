@@ -1,0 +1,85 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Nioki",
+        "type": "port",
+        "description": "Port historique sur le Kasaï. Centre commercial majeur des Basakata.",
+        "historical": true
+      },
+      "geometry": { "type": "Point", "coordinates": [17.68, -2.72] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Kilako",
+        "type": "port",
+        "description": "Ancien port fluvial, point de départ des routes de pirogues vers le lac.",
+        "historical": true
+      },
+      "geometry": { "type": "Point", "coordinates": [17.90, -2.85] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Kutu",
+        "type": "centre",
+        "description": "Centre administratif du territoire. Cœur de la vie Basakata.",
+        "historical": false
+      },
+      "geometry": { "type": "Point", "coordinates": [17.75, -2.95] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Inongo",
+        "type": "capital",
+        "description": "Chef-lieu de la province Mai-Ndombe, sur les rives du lac.",
+        "historical": false
+      },
+      "geometry": { "type": "Point", "coordinates": [18.28, -1.95] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Kwamouth",
+        "type": "village",
+        "description": "Village situé au confluent du Kasaï et du Congo.",
+        "historical": true
+      },
+      "geometry": { "type": "Point", "coordinates": [16.60, -3.18] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Bandundu",
+        "type": "city",
+        "description": "Ville majeure de la région, ancienne capitale provinciale.",
+        "historical": false
+      },
+      "geometry": { "type": "Point", "coordinates": [17.38, -3.32] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Bokala",
+        "type": "village",
+        "description": "Village Bobai au nord de la Lukenie, connu pour ses pêcheurs.",
+        "historical": false
+      },
+      "geometry": { "type": "Point", "coordinates": [18.05, -2.58] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Mbelo",
+        "type": "village",
+        "description": "Village de l'intérieur, zone de forêt dense.",
+        "historical": false
+      },
+      "geometry": { "type": "Point", "coordinates": [17.85, -3.05] }
+    }
+  ]
+}

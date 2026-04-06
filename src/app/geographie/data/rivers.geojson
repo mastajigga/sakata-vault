@@ -1,0 +1,187 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Lebili",
+        "name_skt": "Lebili",
+        "navigable": true,
+        "length_km": 85,
+        "fishing_points": 4,
+        "cultural_note": "Rivière sacrée dans les rites d'initiation des jeunes Basakata."
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [17.45, -2.70], [17.52, -2.73], [17.60, -2.78],
+          [17.68, -2.82], [17.75, -2.88], [17.82, -2.92]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Lekobe",
+        "name_skt": "Lekobe",
+        "navigable": true,
+        "length_km": 62,
+        "fishing_points": 3,
+        "cultural_note": "Affluent du Kasaï, voie commerciale historique vers Nioki."
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [17.55, -2.80], [17.60, -2.85], [17.65, -2.88],
+          [17.70, -2.90], [17.78, -2.95]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Molibampei",
+        "name_skt": "Molibampei",
+        "navigable": false,
+        "length_km": 45,
+        "fishing_points": 2,
+        "cultural_note": "Petite rivière dont le nom signifie 'celle qui nourrit les enfants'."
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [17.80, -2.65], [17.85, -2.70], [17.88, -2.75],
+          [17.92, -2.80], [17.95, -2.85]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Lemomo",
+        "name_skt": "Lemomo",
+        "navigable": true,
+        "length_km": 70,
+        "fishing_points": 5,
+        "cultural_note": "Rivière poissonneuse, point de rassemblement pour la pêche collective."
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [17.90, -2.60], [17.95, -2.68], [18.00, -2.75],
+          [18.05, -2.82], [18.10, -2.88]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Lebuku",
+        "name_skt": "Lebuku",
+        "navigable": false,
+        "length_km": 38,
+        "fishing_points": 2,
+        "cultural_note": "Bordée de forêt dense, lieu de cueillette de plantes médicinales."
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [18.10, -2.55], [18.15, -2.60], [18.18, -2.65],
+          [18.22, -2.72]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Sow",
+        "name_skt": "Sow",
+        "navigable": true,
+        "length_km": 55,
+        "fishing_points": 3,
+        "cultural_note": "Voie fluviale reliant plusieurs villages du centre du territoire."
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [17.60, -2.90], [17.65, -2.95], [17.70, -3.00],
+          [17.75, -3.05], [17.80, -3.10]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Lelaw",
+        "name_skt": "Lelaw",
+        "navigable": false,
+        "length_km": 42,
+        "fishing_points": 2,
+        "cultural_note": "Rivière saisonnière, très active en saison des pluies."
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [18.20, -2.80], [18.25, -2.85], [18.30, -2.90],
+          [18.35, -2.95]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Mokaw",
+        "name_skt": "Mokaw",
+        "navigable": true,
+        "length_km": 48,
+        "fishing_points": 3,
+        "cultural_note": "Affluent qui rejoint le réseau lacustre du Mai-Ndombe."
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [18.15, -2.40], [18.20, -2.35], [18.25, -2.28],
+          [18.30, -2.20], [18.33, -2.12]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Kasaï",
+        "name_skt": "Kasayi",
+        "navigable": true,
+        "length_km": 2150,
+        "fishing_points": 12,
+        "cultural_note": "Grande rivière à l'ouest du territoire, artère vitale du commerce Basakata."
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [17.30, -2.40], [17.35, -2.55], [17.40, -2.65],
+          [17.45, -2.75], [17.50, -2.85], [17.55, -2.95],
+          [17.60, -3.10], [17.65, -3.25], [17.68, -3.40]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Lukenie",
+        "name_skt": "Lukeni-mfimie",
+        "navigable": true,
+        "length_km": 900,
+        "fishing_points": 8,
+        "cultural_note": "Frontière naturelle à l'est du territoire, sépare les Basakata des Nkundo."
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [18.50, -2.50], [18.45, -2.60], [18.40, -2.70],
+          [18.35, -2.80], [18.30, -2.90], [18.25, -3.00],
+          [18.20, -3.10], [18.15, -3.25]
+        ]
+      }
+    }
+  ]
+}
