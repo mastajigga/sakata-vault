@@ -60,6 +60,7 @@ const Navbar = () => {
             href="/"
             className="font-display font-bold tracking-tighter"
             style={{ fontSize: "1.4rem", color: "var(--or-ancestral)" }}
+            onClick={() => startLoading()}
           >
             KISAKATA
           </Link>

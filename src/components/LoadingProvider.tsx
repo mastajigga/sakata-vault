@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, { createContext, useContext, useState, useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
 import LoadingScreen from "./LoadingScreen";
 
@@ -15,32 +15,46 @@ const LoadingContext = createContext<LoadingContextType | undefined>(undefined);
 export function LoadingProvider({ children }: { children: React.ReactNode }) {
   const [isLoading, setIsLoading] = useState(false);
   const pathname = usePathname();
+  const minDisplayTimer = useRef<NodeJS.Timeout | null>(null);
+  const safetyTimer = useRef<NodeJS.Timeout | null>(null);
 
-  // Auto-hide loading when route changes or after a safety timeout
+  // Auto-show loading on route change
   useEffect(() => {
-    let safetyTimer: NodeJS.Timeout;
+    // Show loading when route changes
+    setIsLoading(true);
 
-    if (isLoading) {
-      // 1. Min display time for smooth feel (400ms)
-      const timer = setTimeout(() => {
-        setIsLoading(false);
-      }, 400);
+    // Clear any existing timers
+    if (minDisplayTimer.current) clearTimeout(minDisplayTimer.current);
+    if (safetyTimer.current) clearTimeout(safetyTimer.current);
 
-      // 2. Max safety timeout (4s) - NEVER stay stuck
-      safetyTimer = setTimeout(() => {
-        console.warn("LoadingProvider: Safety timeout reached. Forcing stop.");
-        setIsLoading(false);
-      }, 4000);
+    // Min display time for smooth feel (600ms)
+    minDisplayTimer.current = setTimeout(() => {
+      setIsLoading(false);
+    }, 600);
 
-      return () => {
-        clearTimeout(timer);
-        clearTimeout(safetyTimer);
-      };
-    }
-  }, [pathname, isLoading]);
+    // Max safety timeout (5s) - NEVER stay stuck
+    safetyTimer.current = setTimeout(() => {
+      console.warn("LoadingProvider: Safety timeout reached. Forcing stop.");
+      setIsLoading(false);
+    }, 5000);
 
-  const startLoading = () => setIsLoading(true);
-  const stopLoading = () => setIsLoading(false);
+    return () => {
+      if (minDisplayTimer.current) clearTimeout(minDisplayTimer.current);
+      if (safetyTimer.current) clearTimeout(safetyTimer.current);
+    };
+  }, [pathname]);
+
+  const startLoading = () => {
+    if (safetyTimer.current) clearTimeout(safetyTimer.current);
+    if (minDisplayTimer.current) clearTimeout(minDisplayTimer.current);
+    setIsLoading(true);
+  };
+
+  const stopLoading = () => {
+    if (minDisplayTimer.current) clearTimeout(minDisplayTimer.current);
+    if (safetyTimer.current) clearTimeout(safetyTimer.current);
+    setIsLoading(false);
+  };
 
   return (
     <LoadingContext.Provider value={{ isLoading, startLoading, stopLoading }}>
