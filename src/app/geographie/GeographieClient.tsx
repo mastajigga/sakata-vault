@@ -19,7 +19,7 @@ import { useSeasonAnimation } from "./hooks/useSeasonAnimation";
 import type { MapRef } from "react-map-gl/maplibre";
 
 export interface SelectedFeature {
-  type: "river" | "village" | "subtribe" | "community_pin";
+  type: "river" | "village" | "subtribe" | "community_pin" | "clan";
   properties: Record<string, unknown>;
   coordinates?: [number, number];
 }

@@ -21,6 +21,8 @@ export default function InfoPanel({ feature, onClose }: InfoPanelProps) {
         return <MapPin size={20} style={{ color: "#C4A035" }} />;
       case "subtribe":
         return <Users size={20} style={{ color: "#B87333" }} />;
+      case "clan":
+        return <Users size={20} style={{ color: "#C4A035" }} />;
       case "community_pin":
         return properties?.annotation_type === "video" ? (
           <Video size={20} style={{ color: "#C4A035" }} />
@@ -45,6 +47,43 @@ export default function InfoPanel({ feature, onClose }: InfoPanelProps) {
 
   const getDetails = () => {
     const props = properties as Record<string, string | number | boolean>;
+
+    if (type === "clan") {
+      return (
+        <div className="space-y-3">
+          {props.name_skt && (
+            <p
+              className="text-sm italic"
+              style={{ color: "rgba(196, 160, 53, 0.7)" }}
+            >
+              &laquo; {String(props.name_skt)} &raquo;
+            </p>
+          )}
+          {props.rank && (
+            <div className="flex justify-between items-center py-2 border-b border-white/5">
+              <span className="text-xs opacity-60">Rang social</span>
+              <span
+                className="text-xs font-medium"
+                style={{ color: "var(--or-ancestral)" }}
+              >
+                {String(props.rank)}
+              </span>
+            </div>
+          )}
+          {props.description && (
+            <div className="pt-3">
+              <p className="text-xs opacity-60 mb-1">Description</p>
+              <p
+                className="text-sm leading-relaxed"
+                style={{ color: "var(--brume-matinale)" }}
+              >
+                {String(props.description)}
+              </p>
+            </div>
+          )}
+        </div>
+      );
+    }
 
     if (type === "river") {
       return (

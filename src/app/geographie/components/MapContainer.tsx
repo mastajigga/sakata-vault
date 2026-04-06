@@ -141,13 +141,19 @@ const MapContainer = forwardRef<MapRef, MapContainerProps>(
             properties: feature.properties ?? {},
             coordinates: [e.lngLat.lng, e.lngLat.lat],
           });
+        } else if (layerId?.startsWith("clans")) {
+          onFeatureClick({
+            type: "clan",
+            properties: feature.properties ?? {},
+            coordinates: [e.lngLat.lng, e.lngLat.lat],
+          });
         }
       },
       [onFeatureClick]
     );
 
     const interactiveLayerIds = useMemo(
-      () => ["rivers-line", "subtribes-fill", "villages-circle", "chiefdoms-fill"],
+      () => ["rivers-water-main", "rivers-water-tributary", "subtribes-fill", "villages-circle", "chiefdoms-fill", "clans-fill"],
       []
     );
 
@@ -197,7 +203,6 @@ const MapContainer = forwardRef<MapRef, MapContainerProps>(
             <HydrographyLayer
               data={riversData}
               seasonProgress={seasonProgress}
-              pointsData={riversPointsData ?? undefined}
             />
           )}
 
