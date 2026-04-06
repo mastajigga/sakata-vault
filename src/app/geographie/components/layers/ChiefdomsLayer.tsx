@@ -6,6 +6,7 @@ import type { FillLayer, LineLayer, SymbolLayer, CircleLayer, GeoJSONSourceRaw }
 
 interface ChiefdomsLayerProps {
   data: GeoJSON.FeatureCollection<GeoJSON.Polygon>;
+  pointsData?: GeoJSON.FeatureCollection<GeoJSON.Point>;
 }
 
 const CHIEFDOM_COLORS = [
@@ -18,8 +19,9 @@ const CHIEFDOM_COLORS = [
   "#DEB887", // Nduele - burlywood
 ];
 
-export default function ChiefdomsLayer({ data }: ChiefdomsLayerProps) {
+export default function ChiefdomsLayer({ data, pointsData }: ChiefdomsLayerProps) {
   const sourceId = "chiefdoms-source";
+  const pointsSourceId = "chiefdoms-points-source";
 
   const fillLayer: FillLayer = useMemo(
     () => ({
@@ -79,7 +81,7 @@ export default function ChiefdomsLayer({ data }: ChiefdomsLayerProps) {
     () => ({
       id: "chiefdoms-icon",
       type: "circle",
-      source: sourceId,
+      source: pointsSourceId,
       paint: {
         "circle-radius": [
           "interpolate",
@@ -106,7 +108,7 @@ export default function ChiefdomsLayer({ data }: ChiefdomsLayerProps) {
         ],
         "circle-stroke-color": "#F0EDE5",
         "circle-stroke-width": 2,
-        "circle-opacity": 0.9,
+        "circle-opacity": 0.95,
       },
     }),
     []
@@ -117,7 +119,7 @@ export default function ChiefdomsLayer({ data }: ChiefdomsLayerProps) {
     () => ({
       id: "chiefdoms-icon-glow",
       type: "circle",
-      source: sourceId,
+      source: pointsSourceId,
       paint: {
         "circle-radius": [
           "interpolate",
@@ -142,7 +144,7 @@ export default function ChiefdomsLayer({ data }: ChiefdomsLayerProps) {
           "Nduele", CHIEFDOM_COLORS[6],
           "#666666",
         ],
-        "circle-opacity": 0.15,
+        "circle-opacity": 0.2,
         "circle-blur": 1,
       },
     }),
@@ -154,7 +156,7 @@ export default function ChiefdomsLayer({ data }: ChiefdomsLayerProps) {
     () => ({
       id: "chiefdoms-label",
       type: "symbol",
-      source: sourceId,
+      source: pointsSourceId,
       layout: {
         "text-field": ["get", "name"],
         "text-font": ["Open Sans Bold"],
@@ -170,7 +172,7 @@ export default function ChiefdomsLayer({ data }: ChiefdomsLayerProps) {
           14, 26,
         ],
         "text-anchor": "top",
-        "text-offset": [0, 1.2],
+        "text-offset": [0, 1.5],
         "text-allow-overlap": false,
         "text-padding": 2,
         "text-ignore-placement": false,
@@ -186,12 +188,18 @@ export default function ChiefdomsLayer({ data }: ChiefdomsLayerProps) {
   );
 
   return (
-    <Source id={sourceId} type="geojson" data={data as unknown as GeoJSONSourceRaw["data"]}>
-      <Layer {...fillLayer} />
-      <Layer {...outlineLayer} />
-      <Layer {...iconGlowLayer} />
-      <Layer {...iconLayer} />
-      <Layer {...labelLayer} />
-    </Source>
+    <>
+      <Source id={sourceId} type="geojson" data={data as unknown as GeoJSONSourceRaw["data"]}>
+        <Layer {...fillLayer} />
+        <Layer {...outlineLayer} />
+      </Source>
+      {pointsData && (
+        <Source id={pointsSourceId} type="geojson" data={pointsData as unknown as GeoJSONSourceRaw["data"]}>
+          <Layer {...iconGlowLayer} />
+          <Layer {...iconLayer} />
+          <Layer {...labelLayer} />
+        </Source>
+      )}
+    </>
   );
 }

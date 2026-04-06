@@ -27,6 +27,7 @@ const MapContainer = forwardRef<MapRef, MapContainerProps>(
   const [subtribesData, setSubtribesData] = useState<GeoJSON.FeatureCollection<GeoJSON.Polygon | GeoJSON.MultiPolygon> | null>(null);
   const [villagesData, setVillagesData] = useState<GeoJSON.FeatureCollection<GeoJSON.Point> | null>(null);
   const [chiefdomsData, setChiefdomsData] = useState<GeoJSON.FeatureCollection<GeoJSON.Polygon> | null>(null);
+  const [chiefdomsPointsData, setChiefdomsPointsData] = useState<GeoJSON.FeatureCollection<GeoJSON.Point> | null>(null);
   const [dialectsData, setDialectsData] = useState<GeoJSON.FeatureCollection<GeoJSON.Polygon> | null>(null);
   const [clansData, setClansData] = useState<GeoJSON.FeatureCollection<GeoJSON.Polygon> | null>(null);
   const [forestData, setForestData] = useState<GeoJSON.FeatureCollection<GeoJSON.Polygon> | null>(null);
@@ -50,6 +51,11 @@ const MapContainer = forwardRef<MapRef, MapContainerProps>(
       fetch("/geographie/data/chiefdoms.geojson")
         .then((r) => r.json())
         .then(setChiefdomsData)
+        .catch(console.error);
+
+      fetch("/geographie/data/chiefdoms-points.geojson")
+        .then((r) => r.json())
+        .then(setChiefdomsPointsData)
         .catch(console.error);
 
       fetch("/geographie/data/dialects.geojson")
@@ -143,7 +149,7 @@ const MapContainer = forwardRef<MapRef, MapContainerProps>(
 
           {/* Couche chefferies — 7 chefferies */}
           {isVisible("chiefdoms") && chiefdomsData && (
-            <ChiefdomsLayer data={chiefdomsData} />
+            <ChiefdomsLayer data={chiefdomsData} pointsData={chiefdomsPointsData ?? undefined} />
           )}
 
           {/* Couche dialectes — 6 zones dialectales */}
