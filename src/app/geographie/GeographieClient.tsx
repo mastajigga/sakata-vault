@@ -27,7 +27,7 @@ export default function GeographieClient() {
   const [showFlythrough, setShowFlythrough] = useState(true);
   const [selectedFeature, setSelectedFeature] = useState<SelectedFeature | null>(null);
   const [showCommunityFeed, setShowCommunityFeed] = useState(false);
-  const [brightness, setBrightness] = useState(40); // Default: aube (40%)
+  const [brightness, setBrightness] = useState(75); // Default: jour (75%)
   const [villagesData, setVillagesData] = useState<GeoJSON.FeatureCollection<GeoJSON.Point> | null>(null);
 
   const { layers, toggleLayer, isLayerVisible } = useLayerVisibility();
@@ -140,25 +140,19 @@ export default function GeographieClient() {
               />
             </motion.div>
 
-            {/* Toggle des couches — en haut à droite */}
+            {/* Panneau droit — en haut à droite */}
             <motion.div
-              className="absolute top-24 right-4 z-20"
+              className="absolute top-24 right-4 z-20 flex flex-col gap-3"
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
             >
+              {/* Toggle des couches */}
               <LayerToggle
                 layers={layers}
                 onToggle={toggleLayer}
               />
-            </motion.div>
-
-            {/* Contrôle de luminosité — en bas à gauche */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.3 }}
-            >
+              {/* Contrôle de luminosité */}
               <BrightnessControl
                 brightness={brightness}
                 onBrightnessChange={setBrightness}
@@ -211,23 +205,6 @@ export default function GeographieClient() {
               Communauté
             </motion.button>
 
-            {/* Coordonnées et info en bas à gauche */}
-            <motion.div
-              className="absolute bottom-6 left-1/2 translate-x-48 z-20"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.8 }}
-            >
-              <p
-                className="text-xs opacity-50"
-                style={{
-                  color: "var(--brume-matinale)",
-                  fontFamily: "var(--font-geist-mono)",
-                }}
-              >
-                Territoire de Kutu — ~18 000 km² — Province Mai-Ndombe
-              </p>
-            </motion.div>
           </>
         )}
       </AnimatePresence>

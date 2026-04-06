@@ -139,7 +139,8 @@ export default function CinematicFlythrough({
         className="relative z-10 text-center px-6"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: textOpacity, y: 0 }}
-        transition={{ duration: 0.8, delay: 0.3 }}
+        exit={{ opacity: 0, y: -20, scale: 0.95 }}
+        transition={{ duration: 0.6 }}
       >
         <h1
           className="text-3xl md:text-5xl font-bold tracking-[0.15em] uppercase mb-3"
