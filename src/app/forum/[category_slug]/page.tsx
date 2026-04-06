@@ -1,4 +1,4 @@
-import { supabasePublic } from "@/lib/supabase/admin";
+import { supabasePublic, supabaseAdmin } from "@/lib/supabase/admin";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { ThreadCard } from "@/components/forum/ThreadCard";
@@ -26,12 +26,13 @@ export default async function ForumCategoryPage(props: { params: Promise<{ categ
   const catDesc = typeof category.description === 'string' ? JSON.parse(category.description) : category.description;
 
   // 2. Fetch Threads in this category
-  // Using a join with profiles to get the author's display name and avatar
-  const { data: threads, error: threadsError } = await supabasePublic
+  // Using supabaseAdmin here to ensure system-generated threads (created_by: null) are visible
+  // and bypassing any RLS issues during initial stabilize.
+  const { data: threads, error: threadsError } = await supabaseAdmin
     .from("forum_threads")
     .select(`
       *,
-      profiles:created_by ( display_name, avatar_url ),
+      profiles ( display_name, avatar_url ),
       forum_posts ( count )
     `)
     .eq("category_id", category.id)
