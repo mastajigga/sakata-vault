@@ -15,14 +15,24 @@ export default async function ThreadPage(props: { params: Promise<{ thread_slug:
     .from("forum_threads")
     .select(`
       *,
-      profiles:created_by ( id, username, nickname, avatar_url, role ),
+      profiles ( id, username, nickname, avatar_url, role ),
       forum_categories ( slug, name )
     `)
     .eq("slug", params.thread_slug)
     .single();
 
   if (threadError || !thread) {
-    return notFound();
+    console.error(`[ThreadPage] Error for slug ${params.thread_slug}:`, threadError);
+    return (
+      <div className="min-h-screen bg-[#0A1F15] text-[#F2EEDD] flex flex-col items-center justify-center p-4">
+        <h1 className="text-2xl mb-4 font-light">Sujet introuvable</h1>
+        <p className="text-[#F2EEDD]/50 mb-8 max-w-md text-center">Le sujet "{params.thread_slug}" n'existe pas ou n'est plus accessible.</p>
+        {threadError && <pre className="bg-black/30 p-4 rounded text-xs overflow-auto max-w-full">{JSON.stringify(threadError, null, 2)}</pre>}
+        <Link href="/forum" className="mt-8 text-[#B59551] hover:underline flex items-center gap-2">
+          <ArrowLeft size={16} /> Retour au forum
+        </Link>
+      </div>
+    );
   }
 
   // Fetch initial posts associated with this thread
@@ -30,7 +40,7 @@ export default async function ThreadPage(props: { params: Promise<{ thread_slug:
     .from("forum_posts")
     .select(`
       *,
-      profiles:author_id ( id, username, nickname, avatar_url, role )
+      profiles ( id, username, nickname, avatar_url, role )
     `)
     .eq("thread_id", thread.id)
     .order("created_at", { ascending: true });
