@@ -99,17 +99,27 @@ const AdminDashboard = () => {
           { name: "Autres", value: Math.floor(uniqueIps.size * 0.05) || 1 }
         ];
 
-        // Group by day for Recharts
-        const groupedData: any = {};
+        // Group by day for Recharts with 7-day padding
+        const last7Days = Array.from({ length: 7 }, (_, i) => {
+          const d = new Date();
+          d.setDate(d.getDate() - (6 - i));
+          return d.toLocaleDateString('fr-FR', { day: '2-digit', month: 'short' });
+        });
+
+        const groupedByDay: any = {};
+        last7Days.forEach(day => groupedByDay[day] = 0);
+
         analyticsData?.forEach(v => {
           const date = new Date(v.created_at).toLocaleDateString('fr-FR', { day: '2-digit', month: 'short' });
-          groupedData[date] = (groupedData[date] || 0) + 1;
+          if (groupedByDay[date] !== undefined) {
+             groupedByDay[date] += 1;
+          }
         });
         
-        const formattedChartData = Object.keys(groupedData).map(date => ({
+        const formattedChartData = last7Days.map(date => ({
           name: date,
-          visits: groupedData[date]
-        })).slice(-7);
+          visits: groupedByDay[date]
+        }));
 
         setStats({
           totalArticles: articleCount || 0,
