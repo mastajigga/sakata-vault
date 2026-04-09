@@ -24,7 +24,7 @@ export default async function ThreadPage(props: { params: Promise<{ thread_slug:
   if (threadError || !thread) {
     console.error(`[ThreadPage] Error for slug ${params.thread_slug}:`, threadError);
     return (
-      <div className="min-h-screen bg-[#0A1F15] text-[#F2EEDD] flex flex-col items-center justify-center p-4">
+      <div className="min-h-[100dvh] bg-[#0A1F15] text-[#F2EEDD] flex flex-col items-center justify-center p-4">
         <h1 className="text-2xl mb-4 font-light">Sujet introuvable</h1>
         <p className="text-[#F2EEDD]/50 mb-8 max-w-md text-center">Le sujet "{params.thread_slug}" n'existe pas ou n'est plus accessible.</p>
         {threadError && <pre className="bg-black/30 p-4 rounded text-xs overflow-auto max-w-full">{JSON.stringify(threadError, null, 2)}</pre>}

@@ -6,7 +6,7 @@ import { ArrowLeft, MousePointer2, Layers, Search, Sun, Users, MapPin, Info } fr
 
 export default function AidePage() {
   return (
-    <main className="min-h-screen bg-[var(--foret-nocturne)] text-[var(--ivoire-ancien)]">
+    <main className="min-h-[100dvh] bg-[var(--foret-nocturne)] text-[var(--ivoire-ancien)]">
       {/* Header */}
       <header className="border-b border-white/5">
         <div className="max-w-4xl mx-auto px-6 py-4 flex items-center justify-between">
