@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLanguage } from "./LanguageProvider";
 import { useAuth } from "./AuthProvider";
@@ -21,8 +22,16 @@ const Navbar = () => {
   const { t } = useLanguage();
   const { user, isLoading: authLoading, connectionError, signOut } = useAuth();
   const { startLoading } = useLoading();
+  const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+
+  const maybeStartLoading = (href: string) => {
+    if (href.startsWith("#") || href === pathname) {
+      return;
+    }
+    startLoading();
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -61,7 +70,7 @@ const Navbar = () => {
             href="/"
             className="font-display font-bold tracking-tighter"
             style={{ fontSize: "1.4rem", color: "var(--or-ancestral)" }}
-            onClick={() => startLoading()}
+            onClick={() => maybeStartLoading("/")}
           >
             KISAKATA
           </Link>
@@ -80,7 +89,7 @@ const Navbar = () => {
                   transitionTimingFunction: "var(--ease-smooth)",
                 }}
                 onClick={() => {
-                  if (!link.href.startsWith("#")) startLoading();
+                  maybeStartLoading(link.href);
                 }}
                 onMouseEnter={(e) => {
                   (e.target as HTMLElement).style.opacity = "1";
@@ -110,7 +119,7 @@ const Navbar = () => {
                       background: "rgba(181, 149, 81, 0.05)",
                       color: "var(--or-ancestral)",
                     }}
-                    onClick={() => startLoading()}
+                    onClick={() => maybeStartLoading("/profil")}
                   >
                     <div className="relative">
                       <UserCircle className="w-5 h-5 opacity-80" />
@@ -138,7 +147,7 @@ const Navbar = () => {
                     transitionDuration: "var(--duration-base)",
                     transitionTimingFunction: "var(--ease-smooth)",
                   }}
-                  onClick={() => startLoading()}
+                  onClick={() => maybeStartLoading("/auth")}
                   onMouseEnter={(e) => {
                     (e.target as HTMLElement).style.background = "var(--or-ancestral)";
                     (e.target as HTMLElement).style.color = "var(--foret-nocturne)";
@@ -231,7 +240,7 @@ const Navbar = () => {
                     href={link.href}
                     onClick={() => {
                       setMenuOpen(false);
-                      if (!link.href.startsWith("#")) startLoading();
+                      maybeStartLoading(link.href);
                     }}
                     className="text-3xl font-bold tracking-tight transition-colors"
                     style={{ color: "var(--ivory-warm)" }}
@@ -266,7 +275,7 @@ const Navbar = () => {
                       href="/profil"
                       onClick={() => {
                         setMenuOpen(false);
-                        startLoading();
+                        maybeStartLoading("/profil");
                       }}
                       className="text-3xl font-bold tracking-tight transition-colors"
                       style={{ color: "var(--or-ancestral)" }}
@@ -307,7 +316,7 @@ const Navbar = () => {
                     href="/auth"
                     onClick={() => {
                       setMenuOpen(false);
-                      startLoading();
+                      maybeStartLoading("/auth");
                     }}
                     className="inline-flex items-center px-8 py-4 rounded-full text-sm font-semibold"
                     style={{

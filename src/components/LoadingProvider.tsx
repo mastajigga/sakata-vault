@@ -1,6 +1,13 @@
 "use client";
 
-import React, { createContext, useContext, useState, useEffect, useRef } from "react";
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  useRef,
+  useCallback,
+} from "react";
 import { usePathname } from "next/navigation";
 import LoadingScreen from "./LoadingScreen";
 
@@ -17,42 +24,57 @@ export function LoadingProvider({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const minDisplayTimer = useRef<NodeJS.Timeout | null>(null);
   const safetyTimer = useRef<NodeJS.Timeout | null>(null);
+  const previousPathname = useRef(pathname);
 
-  // Auto-show loading on route change
-  useEffect(() => {
-    // Show loading when route changes
-    setIsLoading(true);
-
-    // Clear any existing timers
+  const clearTimers = useCallback(() => {
     if (minDisplayTimer.current) clearTimeout(minDisplayTimer.current);
     if (safetyTimer.current) clearTimeout(safetyTimer.current);
+  }, []);
 
-    // Min display time for smooth feel (600ms)
+  const scheduleStop = useCallback(() => {
+    clearTimers();
+
     minDisplayTimer.current = setTimeout(() => {
       setIsLoading(false);
     }, 600);
 
-    // Max safety timeout (5s) - NEVER stay stuck
     safetyTimer.current = setTimeout(() => {
       console.warn("LoadingProvider: Safety timeout reached. Forcing stop.");
       setIsLoading(false);
     }, 5000);
+  }, [clearTimers]);
+
+  useEffect(() => {
+    if (previousPathname.current === pathname) {
+      return;
+    }
+
+    previousPathname.current = pathname;
+    scheduleStop();
 
     return () => {
-      if (minDisplayTimer.current) clearTimeout(minDisplayTimer.current);
-      if (safetyTimer.current) clearTimeout(safetyTimer.current);
+      clearTimers();
     };
-  }, [pathname]);
+  }, [pathname, scheduleStop, clearTimers]);
+
+  useEffect(() => {
+    return () => {
+      clearTimers();
+    };
+  }, [clearTimers]);
 
   const startLoading = () => {
-    if (safetyTimer.current) clearTimeout(safetyTimer.current);
-    if (minDisplayTimer.current) clearTimeout(minDisplayTimer.current);
+    clearTimers();
     setIsLoading(true);
+
+    safetyTimer.current = setTimeout(() => {
+      console.warn("LoadingProvider: Safety timeout reached. Forcing stop.");
+      setIsLoading(false);
+    }, 5000);
   };
 
   const stopLoading = () => {
-    if (minDisplayTimer.current) clearTimeout(minDisplayTimer.current);
-    if (safetyTimer.current) clearTimeout(safetyTimer.current);
+    clearTimers();
     setIsLoading(false);
   };
 
