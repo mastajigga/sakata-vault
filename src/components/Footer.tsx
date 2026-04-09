@@ -27,6 +27,7 @@ const Footer = () => {
         <div className="flex gap-8">
           {[
             { label: "CULTURE", href: "/savoir" },
+            { label: "ECOLE", href: "/ecole" },
             { label: "LANGUE", href: "/#langue" },
             { label: "HISTOIRE", href: "/#histoire" },
             { label: "FORUM", href: "/forum" }

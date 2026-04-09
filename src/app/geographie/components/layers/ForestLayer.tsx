@@ -6,8 +6,11 @@ import type { FillLayer, LineLayer, SymbolLayer, CircleLayer, GeoJSONSourceRaw }
 import { KISAKATA_COLORS } from "../../lib/mapStyles";
 
 interface ForestLayerProps {
-  data: GeoJSON.FeatureCollection<GeoJSON.Polygon | GeoJSON.MultiPolygon>;
+  data: GeoJSON.FeatureCollection<
+    GeoJSON.Polygon | GeoJSON.MultiPolygon | GeoJSON.MultiLineString
+  >;
   pointsData?: GeoJSON.FeatureCollection<GeoJSON.Point>;
+  seasonProgress?: number;
 }
 
 export default function ForestLayer({ data, pointsData }: ForestLayerProps) {
@@ -19,6 +22,7 @@ export default function ForestLayer({ data, pointsData }: ForestLayerProps) {
       id: "forest-fill",
       type: "fill",
       source: sourceId,
+      filter: ["in", "$type", "Polygon", "MultiPolygon"],
       paint: {
         "fill-color": [
           "match",

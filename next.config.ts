@@ -1,6 +1,8 @@
 import type { NextConfig } from "next";
+import createMDX from "@next/mdx";
 
 const nextConfig: NextConfig = {
+  pageExtensions: ["ts", "tsx", "md", "mdx"],
   // Optimisation du caching pour les assets statiques
   async headers() {
     return [
@@ -26,4 +28,12 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+const withMDX = createMDX({
+  extension: /\.(md|mdx)$/,
+  options: {
+    remarkPlugins: ["remark-math"],
+    rehypePlugins: ["rehype-katex"],
+  },
+});
+
+export default withMDX(nextConfig);

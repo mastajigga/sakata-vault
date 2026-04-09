@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Outfit, Schibsted_Grotesk, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import "katex/dist/katex.min.css";
 import { LanguageProvider } from "@/components/LanguageProvider";
 import { AuthProvider } from "@/components/AuthProvider";
 import { LoadingProvider } from "@/components/LoadingProvider";
@@ -39,7 +40,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="fr" className={`${outfit.variable} ${schibsted.variable} ${geistMono.variable}`}>
+    <html lang="fr" data-scroll-behavior="smooth" className={`${outfit.variable} ${schibsted.variable} ${geistMono.variable}`}>
       <body className="antialiased">
         <AuthProvider>
           <LanguageProvider>

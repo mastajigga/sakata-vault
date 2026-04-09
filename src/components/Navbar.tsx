@@ -7,18 +7,19 @@ import { useLanguage } from "./LanguageProvider";
 import { useAuth } from "./AuthProvider";
 import { useLoading } from "./LoadingProvider";
 import LanguageSwitcher from "./LanguageSwitcher";
-import { LogOut, LayoutDashboard, UserCircle } from "lucide-react";
+import { LogOut, UserCircle } from "lucide-react";
 
 const navLinks = [
   { key: "nav.home", href: "/" },
   { key: "nav.knowledge", href: "/savoir" },
+  { key: "nav.school", href: "/ecole" },
   { key: "nav.geography", href: "/geographie" },
   { key: "nav.community", href: "/forum" },
 ];
 
 const Navbar = () => {
   const { t } = useLanguage();
-  const { user, role, isLoading: authLoading, connectionError, refreshConnection, signOut } = useAuth();
+  const { user, isLoading: authLoading, connectionError, signOut } = useAuth();
   const { startLoading } = useLoading();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);

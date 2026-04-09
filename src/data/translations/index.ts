@@ -1,5 +1,4 @@
 // src/data/translations/index.ts
-import { Language } from "@/types/i18n";
 
 export const UI_TRANSLATIONS = {
   nav: {
@@ -16,6 +15,13 @@ export const UI_TRANSLATIONS = {
       lin: "Boyebi",
       swa: "Maarifa",
       tsh: "Dinyina",
+    },
+    school: {
+      fr: "École",
+      skt: "Etelo",
+      lin: "Eteyelo",
+      swa: "Shule",
+      tsh: "Shikola",
     },
     geography: {
       fr: "Géographie",

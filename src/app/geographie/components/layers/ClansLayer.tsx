@@ -2,12 +2,11 @@
 
 import React, { useMemo } from "react";
 import { Source, Layer } from "react-map-gl/maplibre";
-import type { FillLayer, LineLayer, SymbolLayer, CircleLayer, GeoJSONSourceRaw } from "react-map-gl/maplibre";
+import type { SymbolLayer, CircleLayer, GeoJSONSourceRaw } from "react-map-gl/maplibre";
 import { KISAKATA_COLORS } from "../../lib/mapStyles";
 
 interface ClansLayerProps {
-  data: GeoJSON.FeatureCollection<GeoJSON.Polygon | GeoJSON.MultiPolygon>;
-  pointsData?: GeoJSON.FeatureCollection<GeoJSON.Point>;
+  data: GeoJSON.FeatureCollection<GeoJSON.Point | GeoJSON.MultiPoint>;
 }
 
 const CLAN_COLORS: Record<string, string> = {
@@ -16,52 +15,15 @@ const CLAN_COLORS: Record<string, string> = {
   Nsane: "#8B7355",
 };
 
-export default function ClansLayer({ data, pointsData }: ClansLayerProps) {
+export default function ClansLayer({ data }: ClansLayerProps) {
   const sourceId = "clans-source";
-  const pointsSourceId = "clans-points-source";
-
-  const fillLayer: FillLayer = useMemo(
-    () => ({
-      id: "clans-fill",
-      type: "fill",
-      source: sourceId,
-      paint: {
-        "fill-color": [
-          "match",
-          ["get", "name"],
-          ...Object.entries(CLAN_COLORS).flatMap(([name, color]) => [name, color]),
-          "#666666",
-        ] as any,
-        "fill-opacity": 0.25,
-      },
-    }),
-    []
-  );
-
-  const outlineLayer: LineLayer = useMemo(
-    () => ({
-      id: "clans-outline",
-      type: "line",
-      source: sourceId,
-      layout: {
-        "line-cap": "round",
-        "line-join": "round",
-      },
-      paint: {
-        "line-color": KISAKATA_COLORS.cuivreArtisanal,
-        "line-width": 1.5,
-        "line-opacity": 0.6,
-      },
-    }),
-    []
-  );
 
   // Icône clan — cercle avec glow
   const iconLayer: CircleLayer = useMemo(
     () => ({
       id: "clans-icon",
       type: "circle",
-      source: pointsSourceId,
+      source: sourceId,
       paint: {
         "circle-radius": [
           "interpolate",
@@ -94,7 +56,7 @@ export default function ClansLayer({ data, pointsData }: ClansLayerProps) {
     () => ({
       id: "clans-icon-glow",
       type: "circle",
-      source: pointsSourceId,
+      source: sourceId,
       paint: {
         "circle-radius": [
           "interpolate",
@@ -126,7 +88,7 @@ export default function ClansLayer({ data, pointsData }: ClansLayerProps) {
     () => ({
       id: "clans-label",
       type: "symbol",
-      source: pointsSourceId,
+      source: sourceId,
       layout: {
         "text-field": ["get", "name"],
         "text-font": ["Open Sans Bold"],
@@ -157,18 +119,10 @@ export default function ClansLayer({ data, pointsData }: ClansLayerProps) {
   );
 
   return (
-    <>
-      <Source id={sourceId} type="geojson" data={data as unknown as GeoJSONSourceRaw["data"]}>
-        <Layer {...fillLayer} />
-        <Layer {...outlineLayer} />
-      </Source>
-      {pointsData && (
-        <Source id={pointsSourceId} type="geojson" data={pointsData as unknown as GeoJSONSourceRaw["data"]}>
-          <Layer {...iconGlowLayer} />
-          <Layer {...iconLayer} />
-          <Layer {...labelLayer} />
-        </Source>
-      )}
-    </>
+    <Source id={sourceId} type="geojson" data={data as unknown as GeoJSONSourceRaw["data"]}>
+      <Layer {...iconGlowLayer} />
+      <Layer {...iconLayer} />
+      <Layer {...labelLayer} />
+    </Source>
   );
 }
