@@ -14,7 +14,7 @@ import EcoleHero from "./components/EcoleHero";
 import KnowledgeRivers from "./components/KnowledgeRivers";
 import MathCurriculumStudio from "./components/MathCurriculumStudio";
 import PremiereAnneeIntro from "./content/premiere-annee-intro.mdx";
-import { knowledgeRivers, mathematicsPrograms } from "./data/mathematics-curriculum";
+import { knowledgeRivers, mathematicsPrograms, secondairePrograms } from "./data/mathematics-curriculum";
 
 export const metadata: Metadata = {
   title: "L'Ecole de la Brume | Kisakata",
@@ -82,7 +82,7 @@ export default function EcolePage() {
             <div className="mt-6 space-y-4">
               {[
                 "Une route /ecole integree a la navigation existante.",
-                "Un parcours 6 annees conforme a l esprit du primaire RDC.",
+                "Un parcours primaire complet : 6 annees du degre elementaire au degre terminal.",
                 "Une premiere annee deja demonstrable avec contenu et exercices.",
                 "Une base Supabase prete pour la progression, les tentatives et le temps reel.",
               ].map((item) => (
@@ -155,6 +155,8 @@ export default function EcolePage() {
       </section>
 
       <MathCurriculumStudio programs={mathematicsPrograms} />
+
+      <MathCurriculumStudio programs={secondairePrograms} level="secondaire" />
 
       <section className="section-container pb-24 pt-8 md:pb-32">
         <div className="mist-panel rounded-[2rem] p-6 md:p-8">
