@@ -6,8 +6,7 @@ import { supabase } from "@/lib/supabase";
 import type { MathematicsProgramYear } from "../data/mathematics-curriculum";
 import { calculateCompletion } from "../lib/assessment";
 
-const STORAGE_KEY = "ecole-brume-progress";
-const useSessionStorage = true; // Use sessionStorage instead of localStorage for security
+const BASE_STORAGE_KEY = "ecole-brume-progress";
 
 type ProgressMap = Record<string, string[]>;
 type SyncStatus = "local" | "syncing" | "cloud";
@@ -16,7 +15,7 @@ function createEmptyState(programs: MathematicsProgramYear[]) {
   return Object.fromEntries(programs.map((program) => [program.slug, []])) as ProgressMap;
 }
 
-function getInitialProgress(programs: MathematicsProgramYear[]) {
+function getInitialProgress(programs: MathematicsProgramYear[], storageKey: string) {
   const initialState = createEmptyState(programs);
 
   if (typeof window === "undefined") {
@@ -24,7 +23,7 @@ function getInitialProgress(programs: MathematicsProgramYear[]) {
   }
 
   try {
-    const rawValue = (useSessionStorage ? window.sessionStorage : window.localStorage).getItem(STORAGE_KEY);
+    const rawValue = window.sessionStorage.getItem(storageKey);
     if (!rawValue) {
       return initialState;
     }
@@ -36,18 +35,19 @@ function getInitialProgress(programs: MathematicsProgramYear[]) {
   }
 }
 
-export function useEcoleProgress(programs: MathematicsProgramYear[]) {
+export function useEcoleProgress(programs: MathematicsProgramYear[], namespace = "primaire") {
   const { user } = useAuth();
-  const [completedByYear, setCompletedByYear] = useState<ProgressMap>(() => getInitialProgress(programs));
+  const storageKey = `${BASE_STORAGE_KEY}-${namespace}`;
+  const [completedByYear, setCompletedByYear] = useState<ProgressMap>(() => getInitialProgress(programs, storageKey));
   const [syncStatus, setSyncStatus] = useState<SyncStatus>("local");
 
   useEffect(() => {
     try {
-      (useSessionStorage ? window.sessionStorage : window.localStorage).setItem(STORAGE_KEY, JSON.stringify(completedByYear));
+      window.sessionStorage.setItem(storageKey, JSON.stringify(completedByYear));
     } catch (error) {
       console.warn("[ecole] Impossible d'écrire la progression locale", error);
     }
-  }, [completedByYear]);
+  }, [completedByYear, storageKey]);
 
   useEffect(() => {
     if (!user) {
@@ -97,7 +97,7 @@ export function useEcoleProgress(programs: MathematicsProgramYear[]) {
     loadRemoteProgress().catch(() => setSyncStatus("local"));
 
     const channel = supabase
-      .channel(`ecole-progress-${user.id}`)
+      .channel(`ecole-progress-${namespace}-${user.id}`)
       .on(
         "postgres_changes",
         {
@@ -128,7 +128,7 @@ export function useEcoleProgress(programs: MathematicsProgramYear[]) {
       isMounted = false;
       supabase.removeChannel(channel);
     };
-  }, [programs, user]);
+  }, [namespace, programs, user]);
 
   const completeExercise = async (yearSlug: string, exerciseId: string, totalExercises: number) => {
     let nextCompletedExercises: string[] = [];
