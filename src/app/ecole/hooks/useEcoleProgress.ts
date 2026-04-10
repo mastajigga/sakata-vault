@@ -7,6 +7,7 @@ import type { MathematicsProgramYear } from "../data/mathematics-curriculum";
 import { calculateCompletion } from "../lib/assessment";
 
 const STORAGE_KEY = "ecole-brume-progress";
+const useSessionStorage = true; // Use sessionStorage instead of localStorage for security
 
 type ProgressMap = Record<string, string[]>;
 type SyncStatus = "local" | "syncing" | "cloud";
@@ -23,7 +24,7 @@ function getInitialProgress(programs: MathematicsProgramYear[]) {
   }
 
   try {
-    const rawValue = window.localStorage.getItem(STORAGE_KEY);
+    const rawValue = (useSessionStorage ? window.sessionStorage : window.localStorage).getItem(STORAGE_KEY);
     if (!rawValue) {
       return initialState;
     }
@@ -42,7 +43,7 @@ export function useEcoleProgress(programs: MathematicsProgramYear[]) {
 
   useEffect(() => {
     try {
-      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(completedByYear));
+      (useSessionStorage ? window.sessionStorage : window.localStorage).setItem(STORAGE_KEY, JSON.stringify(completedByYear));
     } catch (error) {
       console.warn("[ecole] Impossible d'écrire la progression locale", error);
     }

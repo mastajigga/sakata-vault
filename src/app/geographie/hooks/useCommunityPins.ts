@@ -72,8 +72,6 @@ export function useCommunityPins() {
       //   .gte("location", bounds?.west)
       //   .lte("location", bounds?.east);
       
-      // Simulation de latence réseau
-      await new Promise((resolve) => setTimeout(resolve, 500));
       setPins(bounds ? mockPins : mockPins);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Erreur inconnue");

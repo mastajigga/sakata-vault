@@ -96,10 +96,14 @@ const ArticlePage = () => {
     if (!article || !slug) return;
     
     const trackRead = async () => {
-      await supabase.rpc('increment_article_reads', { article_slug: slug });
+      try {
+        await supabase.rpc('increment_article_reads', { article_slug: slug });
+      } catch (err) {
+        console.warn('[ArticlePage] Failed to track read:', err);
+      }
     };
-    
-    const timer = setTimeout(trackRead, 2000);
+
+    const timer = setTimeout(trackRead, 100);
     return () => clearTimeout(timer);
   }, [article?.id, slug]);
 
@@ -207,7 +211,7 @@ const ArticlePage = () => {
             }}
           >
             {displayTitle.split("").map((char: string, i: number) => (
-              <span key={i} className="char inline-block">{char === " " ? "\u00A0" : char}</span>
+              <span key={`${char}-${i}`} className="char inline-block">{char === " " ? "\u00A0" : char}</span>
             ))}
           </h1>
         </div>

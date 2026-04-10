@@ -46,10 +46,24 @@ export default async function ThreadPage(props: { params: Promise<{ thread_slug:
     .order("created_at", { ascending: true });
 
   // Increment views in background safely
-  supabaseAdmin.rpc('increment_thread_views', { t_id: thread.id }).then(); 
-  // Note: if `increment_thread_views` RPC doesn't exist, we can ignore or update directly via an API route. 
-  // Assuming a direct update for simplicity if we can't guarantee RPC.
-  supabaseAdmin.from('forum_threads').update({ views_count: (thread.views_count || 0) + 1 }).eq('id', thread.id).then();
+  (async () => {
+    try {
+      await supabaseAdmin.rpc('increment_thread_views', { t_id: thread.id });
+    } catch (err) {
+      console.error('[ThreadPage] Failed to increment views:', err);
+    }
+  })().catch(() => {}); // Ignore any unhandled promise rejections
+
+  // Fallback: direct update if RPC fails
+  (async () => {
+    try {
+      await supabaseAdmin.from('forum_threads')
+        .update({ views_count: (thread.views_count || 0) + 1 })
+        .eq('id', thread.id);
+    } catch (err) {
+      console.error('[ThreadPage] Failed to update views count:', err);
+    }
+  })().catch(() => {});
 
   const formattedDate = new Date(thread.created_at).toLocaleDateString("fr-FR", { day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' });
   const catName = typeof thread.forum_categories?.name === 'string' 

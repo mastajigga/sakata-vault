@@ -19,11 +19,6 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-// Cache de session pour éviter les requêtes inutiles
-let cachedProfile: { role: string; subscription_tier: string } | null = null;
-let profileCacheTime = 0;
-const PROFILE_CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
-
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
@@ -31,15 +26,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [subscriptionTier, setSubscriptionTier] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [connectionError, setConnectionError] = useState<string | null>(null);
+  const [isMounted, setIsMounted] = useState(false);
 
   const fetchProfile = useCallback(async (userId: string) => {
-    // Utiliser le cache si disponible et pas expiré
-    const now = Date.now();
-    if (cachedProfile && (now - profileCacheTime) < PROFILE_CACHE_DURATION) {
-      setRole(cachedProfile.role as UserRole);
-      setSubscriptionTier(cachedProfile.subscription_tier || 'free');
-      return;
-    }
+    if (!isMounted) return;
 
     const { data, error } = await supabase
       .from("profiles")
@@ -47,27 +37,18 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       .eq("id", userId)
       .maybeSingle();
 
-    if (!error && data) {
-      cachedProfile = { role: data.role, subscription_tier: data.subscription_tier || 'free' };
-      profileCacheTime = now;
+    if (!error && data && isMounted) {
       setRole(data.role as UserRole);
       setSubscriptionTier(data.subscription_tier || 'free');
     }
-  }, []);
+  }, [isMounted]);
 
   const checkConnection = useCallback(async () => {
     try {
-      // Utiliser un timeout pour éviter les blocages
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 3000);
-
       const { error } = await supabase
         .from("profiles")
         .select("id")
-        .limit(1)
-        .abortSignal(controller.signal);
-      
-      clearTimeout(timeoutId);
+        .limit(1);
 
       if (error && error.message.includes("Failed to fetch")) {
         setConnectionError("Impossible de contacter le Grand Sanctuaire (Problème de connexion ou DNS).");
@@ -80,43 +61,43 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   useEffect(() => {
+    setIsMounted(true);
+
     const setData = async () => {
       try {
         const { data: { session }, error } = await supabase.auth.getSession();
-        
+
         if (session) {
           setSession(session);
           setUser(session.user);
-          // Charger le profil en arrière-plan sans bloquer
-          fetchProfile(session.user.id).catch(console.error);
+          // Charger le profil avec await pour s'assurer que le state est mis à jour
+          await fetchProfile(session.user.id);
         }
       } catch (e) {
         console.error("Error getting session:", e);
       } finally {
-        // Réduire le temps de chargement initial
         setIsLoading(false);
       }
     };
 
-    // Vérification de connexion en arrière-plan (non bloquant)
     checkConnection().catch(console.error);
     setData();
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
       setSession(session);
       setUser(session?.user ?? null);
-      
+
       if (session?.user) {
         await fetchProfile(session.user.id);
       } else {
         setRole(null);
         setSubscriptionTier(null);
-        cachedProfile = null;
       }
       setIsLoading(false);
     });
 
     return () => {
+      setIsMounted(false);
       subscription.unsubscribe();
     };
   }, [fetchProfile, checkConnection]);

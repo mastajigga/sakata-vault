@@ -41,7 +41,7 @@ export function LoadingProvider({ children }: { children: React.ReactNode }) {
     safetyTimer.current = setTimeout(() => {
       console.warn("LoadingProvider: Safety timeout reached. Forcing stop.");
       setIsLoading(false);
-    }, 5000);
+    }, 4000);
   }, [clearTimers]);
 
   useEffect(() => {
@@ -70,7 +70,7 @@ export function LoadingProvider({ children }: { children: React.ReactNode }) {
     safetyTimer.current = setTimeout(() => {
       console.warn("LoadingProvider: Safety timeout reached. Forcing stop.");
       setIsLoading(false);
-    }, 5000);
+    }, 4000);
   };
 
   const stopLoading = () => {
