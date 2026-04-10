@@ -38,7 +38,7 @@ export default function MathCurriculumStudio({
     getYearProgress,
     overallProgress,
     syncStatus,
-  } = useEcoleProgress(programs);
+  } = useEcoleProgress(programs, level);
 
   const activeProgram = useMemo(
     () =>
