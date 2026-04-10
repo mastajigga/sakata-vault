@@ -16,6 +16,7 @@ import MathExerciseCard from "./MathExerciseCard";
 
 interface MathCurriculumStudioProps {
   programs: MathematicsProgramYear[];
+  level?: "primaire" | "secondaire";
 }
 
 const syncLabels = {
@@ -26,6 +27,7 @@ const syncLabels = {
 
 export default function MathCurriculumStudio({
   programs,
+  level = "primaire",
 }: MathCurriculumStudioProps) {
   const [selectedYear, setSelectedYear] = useState(programs[0]?.slug ?? "");
   const deferredSelectedYear = useDeferredValue(selectedYear);
@@ -51,19 +53,22 @@ export default function MathCurriculumStudio({
 
   return (
     <section
-      id="mathematiques"
+      id={level === "secondaire" ? "mathematiques-secondaire" : "mathematiques"}
       className="section-container relative py-24 md:py-32"
     >
       <div className="mb-12 max-w-3xl">
-        <span className="eyebrow">Brilliant Basakata</span>
+        <span className="eyebrow">
+          {level === "secondaire" ? "Secondaire Basakata" : "Brilliant Basakata"}
+        </span>
         <h2 className="mt-6 font-display text-4xl tracking-[-0.05em] text-[var(--ivoire-ancien)] md:text-6xl">
-          Un studio mathematique progressif, ancre dans la vie Sakata.
+          {level === "secondaire"
+            ? "Six annees de secondaire, du premier cycle au terminal."
+            : "Un studio mathematique progressif, ancre dans la vie Sakata."}
         </h2>
         <p className="mt-5 text-base leading-8 text-[rgba(212,221,215,0.78)] md:text-lg">
-          Chaque annee suit l&apos;esprit du programme national primaire de la
-          RDC, puis le traduit en lecons guidees, calculs rendus avec KaTeX,
-          saisie vivante avec MathLive et progression sauvegardee pour chaque
-          eleve.
+          {level === "secondaire"
+            ? "Algebre, geometrie, trigonometrie, analyse et probabilites : chaque niveau suit le programme RDC et l ancre dans les territoires, les rivières et les gestes du peuple Sakata."
+            : "Chaque annee suit l esprit du programme national primaire de la RDC, puis le traduit en lecons guidees, calculs rendus avec KaTeX, saisie vivante avec MathLive et progression sauvegardee pour chaque eleve."}
         </p>
       </div>
 
