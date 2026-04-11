@@ -8,7 +8,13 @@
     "start": "next start",
     "lint": "eslint",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "pinecone": "ts-node scripts/pinecone-memory.ts",
+    "pinecone:search": "ts-node scripts/pinecone-memory.ts search",
+    "pinecone:stats": "ts-node scripts/pinecone-memory.ts stats",
+    "pinecone:index-articles": "ts-node scripts/pinecone-memory.ts index-articles",
+    "pinecone:index-exercises": "ts-node scripts/pinecone-memory.ts index-exercises",
+    "pinecone:list": "ts-node scripts/pinecone-memory.ts list"
   },
   "dependencies": {
     "@deck.gl/core": "^9.1.0",
@@ -61,6 +67,7 @@
     "jsdom": "^29.0.1",
     "postcss": "^8.5.8",
     "tailwindcss": "^3.4.19",
+    "ts-node": "^10.9.2",
     "typescript": "^5",
     "vitest": "^4.1.2"
   }

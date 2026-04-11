@@ -1,4 +1,71 @@
-// src/data/articles.ts
+/**
+ * src/data/articles.ts
+ *
+ * BASE DE CONNAISSANCE SAKATA — Distinction Article vs Livre
+ * ==========================================================
+ *
+ * Ce fichier contient la base complète de savoir du projet Kisakata.
+ * Chaque entrée fonctionne à DEUX NIVEAUX :
+ *
+ * ┌─────────────────────────────────────────────────────────────────────┐
+ * │ NIVEAU 1 : ARTICLE (Métadonnées + Résumé court)                     │
+ * │                                                                       │
+ * │ Utilisé pour :                                                       │
+ * │ • Listes et cartes de contenu (/savoir)                             │
+ * │ • Navigation et découverte                                          │
+ * │ • Métadonnées SEO et preview                                        │
+ * │ • Catégorisation (langue, culture, spiritualité, histoire)          │
+ * │                                                                       │
+ * │ Champs : slug, title, category, summary, image, videoBackground    │
+ * │ Longueur : 100-200 mots par langue                                  │
+ * └─────────────────────────────────────────────────────────────────────┘
+ *
+ * ┌─────────────────────────────────────────────────────────────────────┐
+ * │ NIVEAU 2 : LIVRE / BOOK (Contenu complet et profond)               │
+ * │                                                                       │
+ * │ Utilisé pour :                                                       │
+ * │ • Lecture immersive et prolongée (/savoir/[slug])                   │
+ * │ • Indexation sémantique dans Pinecone (iluo_livres)                │
+ * │ • Recherche par concept spirituel, historique, linguistique         │
+ * │ • Apprentissage profond et contextuel                               │
+ * │                                                                       │
+ * │ Champs : .content uniquement                                        │
+ * │ Longueur : 2000-4000 mots par langue                                │
+ * │ Style : Poétique, narratif, richement contextualisé                 │
+ * └─────────────────────────────────────────────────────────────────────┘
+ *
+ * RÈGLES D'INDEXATION PINECONE :
+ * =============================
+ * ✅ INDEXER : .content (le livre complet)
+ * ❌ NE PAS INDEXER : .summary (l'article court)
+ * ❌ NE PAS INDEXER : metadata seule
+ *
+ * Namespaces :
+ * • iluo_livres     → contenu profond (2000+ mots)
+ * • iluo_articles   → SUPPRIMÉ / non utilisé
+ * • iluo_exercices  → contextes locaux dans exercices d'école
+ *
+ * EXEMPLE : ILUO (Double spirituel)
+ * ==================================
+ *
+ * ARTICLE (résumé court) :
+ * "L'Iluo est le double spirituel du peuple Sakata. C'est la part de nous
+ *  qui nous protège mais qui exige une droiture absolue."
+ * → Utilisé : /savoir (listing), preview, métadonnées
+ *
+ * LIVRE (contenu profond) :
+ * "C'est le temps des enseignements secrets. On parle de l'Iluo...
+ *  [2500 mots de poésie, cosmologie, initiation, exemples historiques,
+ *   rituels, explications philosophiques du concept]"
+ * → Utilisé : /savoir/iluo-regard-du-pouvoir (page complète)
+ * → Indexé dans Pinecone pour recherche sémantique
+ *
+ * Quand un utilisateur cherche "Iluo" dans la recherche :
+ * 1. Pinecone retourne le LIVRE complet (2500 mots)
+ * 2. Pas juste le résumé d'article (qui serait superficiel)
+ * 3. La réponse est riche, contextualisée, transformatrice
+ */
+
 import { ArticleData } from "@/types/i18n";
 
 export const ARTICLES: ArticleData[] = [
