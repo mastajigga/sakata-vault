@@ -51,9 +51,13 @@ export default function CoursPage({ program }: CoursPageProps) {
 
   if (!activeChapter) return null;
 
-  // Theory blocks that belong to this chapter (match by position in array)
+  // Use chapter's own theory blocks if present, else fall back to the program's block at that index
   const chapterIndex = chapters.indexOf(activeChapter);
-  const theoryBlock = program.theoryBlocks[chapterIndex] ? [program.theoryBlocks[chapterIndex]] : program.theoryBlocks;
+  const theoryBlock = activeChapter.theoryBlocks?.length
+    ? activeChapter.theoryBlocks
+    : program.theoryBlocks[chapterIndex]
+      ? [program.theoryBlocks[chapterIndex]]
+      : program.theoryBlocks;
 
   const handleChapterComplete = () => {
     setCompletedChapterIds((prev) => new Set([...prev, activeChapterId]));

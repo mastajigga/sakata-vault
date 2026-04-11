@@ -86,6 +86,146 @@ const STATIC_ENRICHMENTS: Record<string, Omit<SemanticEnrichment, "cached">> = {
       { title: "Vanzila Munsi — The Sakata Society in the Congo", score: 0.69 },
     ],
   },
+  // --- 2e secondaire ---
+  "ch1-fonctions": {
+    enrichedContext:
+      "Les fonctions affines décrivent les échanges économiques le long de la Lukenie : le prix du poisson, le coût d'une traversée, le rendement d'un champ. Les commerçants Sakata utilisaient intuitivement ces relations linéaires dans leurs calculs de troc et de profit, bien avant la formalisation algébrique.",
+    culturalAnchors: [
+      "Prix du poisson fumé : tarif fixe + coût par kilo",
+      "Transport sur la Lukenie : frais fixes + coût par kilomètre",
+      "Rendement d'un champ : production de base + gain par saison",
+    ],
+    mathInsights: [
+      "y = ax + b : a est le taux de variation, b la valeur initiale",
+      "Une fonction affine est représentée par une droite dans le plan",
+      "Trouver x à partir de y : résoudre ax + b = y pour x = (y − b)/a",
+    ],
+    sources: [
+      { title: "Van Everbroeck — Religion et magie chez les Basakata", score: 0.71 },
+      { title: "Vanzila Munsi — The Sakata Society in the Congo", score: 0.65 },
+    ],
+  },
+  "ch2-systemes": {
+    enrichedContext:
+      "La résolution de problèmes à deux inconnues est une compétence ancestrale des marchands Sakata. Déterminer les quantités de deux marchandises à partir de leur somme et de leur différence était une opération courante sur les marchés de la Lukenie — les systèmes d'équations en formalisent la logique.",
+    culturalAnchors: [
+      "Deux vendeurs dont on connaît le total et la différence de stocks",
+      "Deux pirogues : somme des passagers et écart entre elles",
+      "Répartition des récoltes entre deux champs de même surface totale",
+    ],
+    mathInsights: [
+      "Deux équations linéaires indépendantes déterminent uniquement le couple (x, y)",
+      "Substitution : isoler une variable puis remplacer dans l'autre équation",
+      "Élimination : additionner les équations pour supprimer une variable",
+    ],
+    sources: [
+      { title: "Van Everbroeck — Religion et magie chez les Basakata", score: 0.73 },
+    ],
+  },
+  "ch3-geometrie": {
+    enrichedContext:
+      "La géométrie des angles est intimement liée à l'architecture traditionnelle Sakata : inclinaison des toitures, orientation des charpentes, découpage des terrains. Les artisans Sakata calculaient empiriquement ces angles par expérience — les règles formelles des triangles en rendent compte.",
+    culturalAnchors: [
+      "Inclinaison de la toiture d'une case : angle au sommet du triangle",
+      "Orientation d'un sentier par rapport à un cours d'eau",
+      "Découpage équitable d'un terrain en triangles isocèles",
+    ],
+    mathInsights: [
+      "Somme des angles d'un triangle : α + β + γ = 180°",
+      "Triangle isocèle : deux angles à la base égaux",
+      "Angles complémentaires (somme 90°) et supplémentaires (somme 180°)",
+    ],
+    sources: [
+      { title: "Van Everbroeck — Religion et magie chez les Basakata", score: 0.69 },
+    ],
+  },
+  "ch4-triangles": {
+    enrichedContext:
+      "La mesure de distances inaccessibles — largeur d'une rivière, hauteur d'un arbre — est une pratique ancestrale dans les territoires Sakata. Le théorème de Thalès et les triangles semblables formalisent cette technique intuitive, permettant aux géomètres et navigateurs de la Lukenie de mesurer sans toucher.",
+    culturalAnchors: [
+      "Mesurer la largeur de la Lukenie depuis la rive avec des jalons",
+      "Estimer la hauteur des arbres sacrés par leur ombre",
+      "Cartographie des sentiers de chasse : échelles et proportions",
+    ],
+    mathInsights: [
+      "Triangles semblables : angles égaux → côtés proportionnels",
+      "Rapport de similitude k = côté grand / côté petit",
+      "Thalès : une droite parallèle à un côté divise les autres proportionnellement",
+    ],
+    sources: [
+      { title: "Vanzila Munsi — The Sakata Society in the Congo", score: 0.72 },
+    ],
+  },
+  // --- 3e secondaire ---
+  "ch1-quadratique": {
+    enrichedContext:
+      "Les équations du second degré apparaissent naturellement dans les calculs d'aire et de volume. Les constructeurs Sakata, en calculant la surface d'un champ en fonction d'une inconnue de longueur, rencontraient implicitement des problèmes quadratiques — deux solutions correspondant aux deux orientations possibles du problème.",
+    culturalAnchors: [
+      "Aire d'un champ rectangulaire dont une dimension est inconnue",
+      "Volume d'un grenier cylindrique : rayon calculé à partir du volume",
+      "Partage d'un terrain : les deux solutions représentent deux configurations",
+    ],
+    mathInsights: [
+      "ax² + bx + c = 0 : la variable est au carré",
+      "Δ = b² − 4ac détermine le nombre de solutions réelles",
+      "Différence de carrés : a² − b² = (a − b)(a + b)",
+    ],
+    sources: [
+      { title: "Van Everbroeck — Religion et magie chez les Basakata", score: 0.70 },
+    ],
+  },
+  "ch2-pythagore": {
+    enrichedContext:
+      "Le théorème de Pythagore, bien que formalisé en Grèce antique, reflète une connaissance pratique universelle. Les pêcheurs Sakata qui tendaient leurs filets en triangle rectangle pour créer des angles droits, et les chasseurs qui mesuraient les distances en forêt, utilisaient implicitement ce principe géométrique fondamental.",
+    culturalAnchors: [
+      "Filets tendus à angle droit : le triplet 3-4-5 garantit la perpendicularité",
+      "Distance en ligne droite à travers la forêt vs chemin détourné",
+      "Hauteur d'un arbre sacré calculée à partir de son ombre",
+    ],
+    mathInsights: [
+      "c² = a² + b² dans tout triangle rectangle",
+      "Triplets classiques : (3,4,5), (5,12,13), (6,8,10), (8,15,17)",
+      "Réciproque : si c² = a² + b², le triangle est rectangle",
+    ],
+    sources: [
+      { title: "Vanzila Munsi — The Sakata Society in the Congo", score: 0.74 },
+      { title: "Van Everbroeck — Religion et magie chez les Basakata", score: 0.67 },
+    ],
+  },
+  "ch3-statistiques": {
+    enrichedContext:
+      "Les statistiques descriptives trouvent leur origine dans la gestion des ressources communautaires. Les chefs Sakata tenaient des décomptes de captures, de récoltes et de population pour organiser la redistribution. Calculer une moyenne ou une médiane, c'est synthétiser ces données en une information exploitable.",
+    culturalAnchors: [
+      "Relevés de captures journalières : moyenne pour planifier les échanges",
+      "Répartition des récoltes : médiane pour éviter les inégalités",
+      "Fréquence des espèces : mode pour identifier les ressources dominantes",
+    ],
+    mathInsights: [
+      "Moyenne : sensible aux valeurs extrêmes (un jour exceptionnel la fausse)",
+      "Médiane : robuste aux extrêmes, reflète mieux la performance habituelle",
+      "Mode : utile pour les données qualitatives ou très répétées",
+    ],
+    sources: [
+      { title: "Van Everbroeck — Religion et magie chez les Basakata", score: 0.72 },
+    ],
+  },
+  "ch4-diagrammes": {
+    enrichedContext:
+      "La représentation visuelle des données est un outil de communication puissant. Dans les communautés Sakata, les calendriers de pêche et les relevés saisonniers étaient transmis oralement — les diagrammes modernes permettent de voir en un coup d'œil ce que ces traditions encodaient dans la mémoire collective.",
+    culturalAnchors: [
+      "Cycles saisonniers de la Lukenie : courbe des niveaux d'eau et des captures",
+      "Répartition des espèces par territoire : camembert des ressources",
+      "Évolution des chefferies au fil des générations : graphique temporel",
+    ],
+    mathInsights: [
+      "Diagramme en bâtons : données discrètes, hauteur = effectif ou fréquence",
+      "Diagramme circulaire : angle = fréquence × 360°",
+      "Courbe : données temporelles, pente = tendance",
+    ],
+    sources: [
+      { title: "Vanzila Munsi — The Sakata Society in the Congo", score: 0.68 },
+    ],
+  },
 };
 
 export async function POST(request: NextRequest) {

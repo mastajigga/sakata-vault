@@ -1,0 +1,26 @@
+import { Suspense } from "react";
+import { notFound } from "next/navigation";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+import { secondairePrograms } from "@/app/ecole/data/mathematics-curriculum";
+import ExercicesPage from "../../1ere-secondaire/exercices/ExercicesPage";
+
+export const metadata = {
+  title: "Exercices — 2e Secondaire | Kisakata École",
+  description: "Exercices interactifs de fonctions, systèmes d'équations et géométrie pour la 2e secondaire.",
+};
+
+export default function Page() {
+  const program = secondairePrograms.find((p) => p.slug === "2e-secondaire");
+  if (!program) notFound();
+
+  return (
+    <main className="grain-overlay min-h-[100dvh] bg-[var(--foret-nocturne)]">
+      <Navbar />
+      <Suspense>
+        <ExercicesPage program={program} />
+      </Suspense>
+      <Footer />
+    </main>
+  );
+}
