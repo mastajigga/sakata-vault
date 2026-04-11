@@ -203,6 +203,35 @@ def synthesize_with_llm(question: str, search_results: list) -> dict:
     }
 
 
+def format_response_as_markdown(result: dict, query: str) -> str:
+    """Format semantic search result as readable markdown."""
+    lines = []
+    lines.append(f"# Recherche Sémantique: {query}\n")
+    lines.append("---\n")
+
+    # Add the synthesized answer
+    lines.append("## Réponse Intelligente\n")
+    lines.append(result.get("answer", "No answer generated") + "\n")
+
+    # Add sources
+    sources = result.get("sources", [])
+    if sources:
+        lines.append("\n## Sources\n")
+        for i, source in enumerate(sources, 1):
+            title = source.get("title", "Unknown")
+            score = source.get("score", 0)
+            source_type = source.get("type", "document")
+            doc_id = source.get("id", "unknown")
+            lines.append(f"{i}. **{title}** ({source_type}) — Pertinence: {score*100:.1f}%")
+            lines.append(f"   ID: `{doc_id}`\n")
+
+    # Add metadata
+    count = result.get("searchResultCount", 0)
+    lines.append(f"\n---\n*{count} résultats trouvés*\n")
+
+    return "".join(lines)
+
+
 def cmd_search(args):
     """Search the index with a natural language query."""
     index = get_pinecone()
@@ -221,7 +250,19 @@ def cmd_search(args):
     # If semantic synthesis requested, use LLM
     if args.semantic:
         result = synthesize_with_llm(args.query, results.matches)
-        print(json.dumps(result, indent=2, ensure_ascii=False))
+
+        # If save-as is specified, save to markdown file
+        if hasattr(args, 'save_as') and args.save_as:
+            markdown_content = format_response_as_markdown(result, args.query)
+            with open(args.save_as, 'w', encoding='utf-8') as f:
+                f.write(markdown_content)
+            print(json.dumps({
+                "status": "saved",
+                "file": args.save_as,
+                "searchResultCount": result.get("searchResultCount", 0)
+            }, indent=2, ensure_ascii=False))
+        else:
+            print(json.dumps(result, indent=2, ensure_ascii=False))
     else:
         # Otherwise return raw results
         output = []
@@ -303,6 +344,7 @@ def main():
     p_search.add_argument("query", help="Natural language query")
     p_search.add_argument("--top_k", type=int, default=5, help="Number of results (default: 5)")
     p_search.add_argument("--semantic", action="store_true", help="Use LLM synthesis for intelligent response")
+    p_search.add_argument("--save-as", default=None, help="Save semantic search response to markdown file")
 
     # store
     p_store = subparsers.add_parser("store", help="Store a new vector")
