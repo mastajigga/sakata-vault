@@ -1,8 +1,10 @@
 "use client";
 
 import { startTransition, useDeferredValue, useMemo, useState } from "react";
+import Link from "next/link";
 import { motion } from "framer-motion";
 import {
+  ArrowRight,
   BookOpenCheck,
   DatabaseZap,
   Flame,
@@ -305,6 +307,33 @@ export default function MathCurriculumStudio({
               />
             ))}
           </div>
+
+          {activeProgram.courseSlug ? (
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-20px" }}
+              transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+              className="rounded-[1.8rem] border border-[rgba(196,160,53,0.22)] bg-[rgba(196,160,53,0.06)] p-6 md:p-8"
+            >
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--amber-light)]">
+                Cours complet disponible
+              </p>
+              <h4 className="mt-3 font-display text-2xl tracking-tight text-[var(--ivoire-ancien)] md:text-3xl">
+                {activeProgram.focus} — parcours animé
+              </h4>
+              <p className="mt-3 max-w-xl text-sm leading-7 text-[rgba(212,221,215,0.76)]">
+                Explorez chaque concept pas à pas avec des visualisations interactives, des animations fluides et des contextes Basakata. Comme Brilliant.org, mais ancré dans la culture Sakata.
+              </p>
+              <Link
+                href={`/ecole/secondaire/${activeProgram.courseSlug}/cours`}
+                className="mt-5 inline-flex items-center gap-2 rounded-full border border-[rgba(196,160,53,0.3)] bg-[rgba(196,160,53,0.1)] px-6 py-3 text-sm font-semibold text-[var(--or-ancestral)] transition-all duration-300 hover:bg-[rgba(196,160,53,0.18)] active:scale-[0.98]"
+              >
+                Voir le cours complet
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+            </motion.div>
+          ) : null}
         </div>
       </div>
     </section>

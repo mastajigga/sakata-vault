@@ -389,3 +389,82 @@ src/
 **Dernière mise à jour:** 2026-04-10
 **Audit par:** Claude Code Audit Agent
 **Prochaines étapes:** Démarrer Phase 1
+
+---
+
+---
+
+# Roadmap — École : Cours Complet 1ère Secondaire (Style Brilliant.org)
+
+**Date:** 2026-04-12
+**Status:** 🟡 IN PROGRESS
+
+## Objectif
+
+À la fin de la démo "1ère secondaire" dans MathCurriculumStudio, un lien vers un cours complet animé enrichi par Pinecone, avec visualisations interactives. À la fin de chaque chapitre, un lien vers des exercices randomisés.
+
+## Nouvelles routes
+
+| Route | Description |
+|-------|-------------|
+| `/ecole/secondaire/1ere-secondaire/cours` | Cours complet animé (4 chapitres) |
+| `/ecole/secondaire/1ere-secondaire/exercices` | Exercices randomisés (`?chapter=chX`) |
+| `POST /api/ecole/semantic-content` | Enrichissement Pinecone (cache 24h Supabase) |
+
+## Chapitres du cours
+
+| ID | Titre | Exercices liés | Visualisation |
+|----|-------|----------------|---------------|
+| `ch1-variables` | Variables & Inconnues | `1s-balance` | Balance SVG animée |
+| `ch2-algebre` | Expressions algébriques | — | Blocs texte/formule |
+| `ch3-equations` | Équations du 1er degré | `1s-pirogue`, `1s-recette` | Balance interactive 3 étapes |
+| `ch4-ensembles` | Théorie des ensembles | `1s-ensemble-poissons` | Venn SVG interactif |
+
+## Nouveaux fichiers
+
+```
+src/app/ecole/secondaire/1ere-secondaire/
+  cours/
+    page.tsx                  — Server Component
+    CoursPage.tsx             — "use client" orchestrateur
+    ChapterNav.tsx            — sidebar sticky + pills mobile
+    AnimatedTheoryBlock.tsx   — reveal blur-to-sharp staggeré
+    BalanceVisualization.tsx  — SVG + Framer Motion spring
+    VennVisualization.tsx     — SVG + 4 modes highlight
+  exercices/
+    page.tsx                  — Server Component
+    ExercicesPage.tsx         — "use client" + randomisation Fisher-Yates
+
+src/app/api/ecole/semantic-content/route.ts
+```
+
+## Fichiers modifiés
+
+| Fichier | Modification |
+|---------|-------------|
+| `src/app/ecole/data/mathematics-curriculum.ts` | Interface `CourseChapter` + données 4 chapitres |
+| `src/app/ecole/components/MathCurriculumStudio.tsx` | CTA conditionnel (slug === "1ere-secondaire") |
+
+## Infrastructure Supabase
+
+```sql
+CREATE TABLE IF NOT EXISTS ecole_semantic_cache (
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  chapter_id text UNIQUE NOT NULL,
+  content jsonb NOT NULL DEFAULT '{}',
+  created_at timestamptz DEFAULT now()
+);
+```
+
+## Checklist
+
+- [x] ROADMAP.md mis à jour
+- [x] Types curriculum étendus (`CourseChapter`, `courseSlug`)
+- [x] Migration Supabase `ecole_semantic_cache`
+- [x] API route `/api/ecole/semantic-content`
+- [x] CTA dans `MathCurriculumStudio`
+- [x] `cours/page.tsx` + `CoursPage.tsx` + `ChapterNav.tsx`
+- [x] `AnimatedTheoryBlock.tsx`
+- [x] `BalanceVisualization.tsx` + `VennVisualization.tsx`
+- [x] `exercices/page.tsx` + `ExercicesPage.tsx`
+- [ ] Appliquer la migration SQL `ecole_semantic_cache` sur Supabase (via dashboard)

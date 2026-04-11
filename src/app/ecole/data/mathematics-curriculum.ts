@@ -32,6 +32,15 @@ export interface GuidedExercise {
   choices?: ExerciseChoice[];
 }
 
+export interface CourseChapter {
+  id: string;
+  title: string;
+  subtitle: string;
+  exerciseIds: string[];
+  sakataContext: string;
+  visualizationType?: "balance" | "venn" | "none";
+}
+
 export interface MathematicsProgramYear {
   slug: string;
   title: string;
@@ -42,6 +51,8 @@ export interface MathematicsProgramYear {
   localContexts: string[];
   theoryBlocks: TheoryBlock[];
   exercises: GuidedExercise[];
+  courseSlug?: string;
+  courseChapters?: CourseChapter[];
 }
 
 export const knowledgeRivers: KnowledgeRiver[] = [
@@ -913,6 +924,41 @@ export const secondairePrograms: MathematicsProgramYear[] = [
           "3x = 3 000 → x = 1 000 F.",
         ],
         challenge: "Quel est alors le salaire de la mère ?",
+      },
+    ],
+    courseSlug: "1ere-secondaire",
+    courseChapters: [
+      {
+        id: "ch1-variables",
+        title: "Variables & Inconnues",
+        subtitle: "La lettre qui cache ce qu'on cherche",
+        exerciseIds: ["1s-balance"],
+        sakataContext: "Un sac de manioc de poids inconnu sur la balance du marché — x représente ce qu'on ne sait pas encore.",
+        visualizationType: "balance",
+      },
+      {
+        id: "ch2-algebre",
+        title: "Expressions algébriques",
+        subtitle: "Combiner, simplifier, nommer",
+        exerciseIds: [],
+        sakataContext: "Trois pirogues de même taille : 3x. Ajouter une demi-pirogue : 3x + 0,5x. Nommer le tout : 3,5x.",
+        visualizationType: "none",
+      },
+      {
+        id: "ch3-equations",
+        title: "Équations du 1er degré",
+        subtitle: "Trouver l'inconnue par l'équilibre",
+        exerciseIds: ["1s-pirogue", "1s-recette"],
+        sakataContext: "Le menuisier connaît le total mais pas le prix unitaire — l'équation retrouve ce qui manque.",
+        visualizationType: "balance",
+      },
+      {
+        id: "ch4-ensembles",
+        title: "Théorie des ensembles",
+        subtitle: "Classer, réunir, distinguer",
+        exerciseIds: ["1s-ensemble-poissons"],
+        sakataContext: "Les espèces pêchées lundi et mercredi — quelles sont les communes ? Quelles sont celles d'un seul jour ?",
+        visualizationType: "venn",
       },
     ],
   },
