@@ -82,6 +82,10 @@ import os
 import io
 import json
 import argparse
+from dotenv import load_dotenv
+
+# Load environment variables from .env.local
+load_dotenv(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), '.env.local'))
 
 # Force UTF-8 output on Windows
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='replace')
@@ -91,12 +95,11 @@ from pinecone import Pinecone
 from sentence_transformers import SentenceTransformer
 
 # Import LLM providers for semantic synthesis
-import sys
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from lib.llm_providers import LLMProviderFactory
 
 # --- Configuration ---
-API_KEY = "pcsk_7Y6nQP_98RdPcDMvzHsLxSYMnDpiDvvgYyRjVxmfNYPztjM45ujRx9ZFA23KYp8rtgLPUC"
+API_KEY = os.getenv('PINECONE_API_KEY', 'pcsk_7Y6nQP_98RdPcDMvzHsLxSYMnDpiDvvgYyRjVxmfNYPztjM45ujRx9ZFA23KYp8rtgLPUC')
 INDEX_NAME = "sakata"
 MODEL_NAME = "intfloat/multilingual-e5-base"
 

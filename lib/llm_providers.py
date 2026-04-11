@@ -55,7 +55,7 @@ class ClaudeProvider(LLMProvider):
             )
 
         self.client = Anthropic(api_key=api_key)
-        self.model = "claude-3-5-sonnet-20241022"
+        self.model = "claude-haiku-4-5-20251001"
 
     def synthesize(self, question: str, context: str) -> str:
         """Synthesize answer using Claude API"""
