@@ -24,6 +24,7 @@ export default function MembreProfilePage() {
   const router = useRouter();
   const { user: currentUser } = useAuth();
   const [profile, setProfile] = useState<Profile | null>(null);
+  const [galleryItems, setGalleryItems] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [creatingChat, setCreatingChat] = useState(false);
 
@@ -38,6 +39,16 @@ export default function MembreProfilePage() {
         
       if (data) {
         setProfile(data as Profile);
+
+        const { data: galleryData } = await supabase
+          .from("profile_gallery")
+          .select("*")
+          .eq("user_id", data.id)
+          .order("created_at", { ascending: false });
+          
+        if (galleryData) {
+          setGalleryItems(galleryData);
+        }
       }
       setLoading(false);
     }
@@ -178,12 +189,16 @@ export default function MembreProfilePage() {
               @{profile.username}
             </p>
           </div>
-
           <div className="flex flex-wrap gap-4 mb-12">
-            {profile.location && (
+            {profile.location ? (
               <div className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#183125] border border-[#B59551]/30 text-[#F2EEDD]">
                 <MapPin size={18} className="text-[#B59551]" />
                 <span className="text-sm font-medium">{profile.location}</span>
+              </div>
+            ) : (
+              <div className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/5 border border-white/5 text-[#F2EEDD]/40">
+                <MapPin size={18} className="text-[#F2EEDD]/20" />
+                <span className="text-sm font-medium italic">Le vent n'a pas encore porté son emplacement...</span>
               </div>
             )}
             
@@ -201,21 +216,53 @@ export default function MembreProfilePage() {
           </div>
 
           {/* Bios & Details */}
-          {profile.short_bio && (
-            <div className="mb-12 relative">
-              <Quote className="absolute -top-4 -left-4 w-12 h-12 text-[#B59551]/10" />
+          <div className="mb-12 relative">
+            <Quote className="absolute -top-4 -left-4 w-12 h-12 text-[#B59551]/10" />
+            {profile.short_bio ? (
               <p className="text-[#B59551] text-2xl font-serif italic leading-relaxed pl-6 border-l-2 border-[#B59551]/30">
                 "{profile.short_bio}"
               </p>
-            </div>
-          )}
+            ) : (
+              <p className="text-[#B59551]/40 text-xl font-serif italic leading-relaxed pl-6 border-l-2 border-[#B59551]/10">
+                Cet esprit n'a pas encore partagé son histoire, mais sa présence parle d'elle-même...
+              </p>
+            )}
+          </div>
 
-          {profile.bio && (
-            <div className="mb-10">
-              <h3 className="text-sm uppercase tracking-widest text-[#F2EEDD]/40 font-semibold mb-4">À Propos</h3>
+          <div className="mb-10">
+            <h3 className="text-sm uppercase tracking-widest text-[#F2EEDD]/40 font-semibold mb-4">À Propos</h3>
+            {profile.bio ? (
               <p className="text-[#F2EEDD]/80 leading-relaxed text-lg font-light">
                 {profile.bio}
               </p>
+            ) : (
+              <p className="text-[#F2EEDD]/30 leading-relaxed text-lg font-light italic">
+                Les ancêtres gardent encore secrets les détails de ce parcours.
+              </p>
+            )}
+          </div>
+          
+          {/* Gallery Section */}
+          {galleryItems.length > 0 && (
+            <div className="mb-10">
+              <h3 className="text-sm uppercase tracking-widest text-[#F2EEDD]/40 font-semibold mb-4">Galerie Partagée</h3>
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                {galleryItems.map((item) => (
+                  <div key={item.id} className="relative aspect-square rounded-xl overflow-hidden bg-black/40 border border-white/5 group">
+                    {item.file_type === 'image' ? (
+                      <img 
+                        src={item.file_url} 
+                        alt="Gallery item"
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" 
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center bg-white/5 text-[#F2EEDD]/60 text-xs text-center p-2">
+                        Document {item.file_type}
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
             </div>
           )}
           

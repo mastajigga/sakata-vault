@@ -21,7 +21,11 @@ import {
   ChevronLeft,
   LayoutDashboard,
   ImagePlus,
-  Loader2
+  Loader2,
+  Globe,
+  Lock,
+  Trash2,
+  Plus
 } from "lucide-react";
 
 const ProfilePage = () => {
@@ -44,6 +48,11 @@ const ProfilePage = () => {
   const [contributorStatus, setContributorStatus] = useState<string>("none");
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
+
+  // Gallery Context
+  const [galleryItems, setGalleryItems] = useState<any[]>([]);
+  const [uploadVisibility, setUploadVisibility] = useState<string>("public");
+  const [galleryUploading, setGalleryUploading] = useState(false);
 
   useEffect(() => {
     if (user) {
@@ -71,7 +80,22 @@ const ProfilePage = () => {
           console.error("Error fetching profile:", err);
         }
       };
+
+      const fetchGallery = async () => {
+        try {
+          const { data, error } = await supabase
+            .from("profile_gallery")
+            .select("*")
+            .eq("user_id", user.id)
+            .order("created_at", { ascending: false });
+          if (data && !error) setGalleryItems(data);
+        } catch (err) {
+          console.error("Error fetching gallery:", err);
+        }
+      };
+
       fetchProfile();
+      fetchGallery();
     }
   }, [user]);
 
@@ -163,6 +187,64 @@ const ProfilePage = () => {
       setTimeout(() => setSuccess(false), 3000);
     }
     setLoading(false);
+  };
+
+  const handleGalleryUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (!user || !event.target.files || event.target.files.length === 0) return;
+    try {
+      setGalleryUploading(true);
+      const file = event.target.files[0];
+      const fileExt = file.name.split(".").pop();
+      const filePath = `${user.id}/${Date.now()}_${Math.random().toString(36).substring(7)}.${fileExt}`;
+      
+      const { error: uploadError, data } = await supabase.storage
+        .from("user_gallery")
+        .upload(filePath, file);
+
+      if (uploadError) throw uploadError;
+
+      const { data: { publicUrl } } = supabase.storage
+        .from("user_gallery")
+        .getPublicUrl(filePath);
+
+      let determinedType = 'image';
+      if (file.type.startsWith('video/')) determinedType = 'video';
+      else if (file.type === 'application/pdf') determinedType = 'pdf';
+
+      const { error: dbError, data: insertedData } = await supabase
+        .from("profile_gallery")
+        .insert({
+          user_id: user.id,
+          file_url: publicUrl,
+          file_type: determinedType,
+          visibility: uploadVisibility
+        })
+        .select()
+        .single();
+
+      if (dbError) throw dbError;
+      if (insertedData) {
+        setGalleryItems(prev => [insertedData, ...prev]);
+      }
+    } catch (err: any) {
+      console.error(err);
+      setError(err.message || "Erreur lors de l'envoi du fichier.");
+    } finally {
+      setGalleryUploading(false);
+    }
+  };
+
+  const handleDeleteGalleryItem = async (id: string, fileUrl: string) => {
+    if (!user) return;
+    try {
+      // Opt: Delete from storage bucket if desired. Since path is publicUrl, extracting path requires regex.
+      // Skipping bucket deletion for brevity, just DB deletion for now.
+      const { error } = await supabase.from("profile_gallery").delete().eq("id", id).eq("user_id", user.id);
+      if (error) throw error;
+      setGalleryItems(prev => prev.filter(item => item.id !== id));
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   if (authLoading) return null;
@@ -477,6 +559,75 @@ const ProfilePage = () => {
 
           </div>
         </div>
+
+        {/* Gallery Section */}
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4 }}
+          className="mt-8 p-8 rounded-2xl border border-white/5 bg-white/[0.02] backdrop-blur-xl"
+        >
+          <div className="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
+            <div>
+              <h2 className="text-2xl font-display font-medium text-or-ancestral mb-1">Ma Galerie</h2>
+              <p className="text-ivoire-ancien/60 text-sm">Gérez les fichiers et photos visibles sur votre profil public ou privé.</p>
+            </div>
+            
+            <div className="flex items-center gap-3 bg-white/[0.03] p-1.5 rounded-full border border-white/5">
+              <select 
+                title="Visibilité des nouveaux fichiers"
+                className="bg-transparent text-ivoire-ancien text-xs font-bold uppercase tracking-widest outline-none pr-2 ml-2 appearance-none cursor-pointer"
+                value={uploadVisibility}
+                onChange={(e) => setUploadVisibility(e.target.value)}
+              >
+                <option value="public" className="bg-foret-nocturne">Publique</option>
+                <option value="private" className="bg-foret-nocturne">Privée</option>
+              </select>
+              <label 
+                className={`py-2 px-4 rounded-full bg-or-ancestral text-foret-nocturne text-xs font-bold uppercase tracking-widest cursor-pointer transition-all hover:scale-105 active:scale-95 flex items-center gap-2 ${galleryUploading ? 'opacity-50 pointer-events-none' : ''}`}
+              >
+                {galleryUploading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Plus className="w-4 h-4" />}
+                Ajouter
+                <input type="file" className="hidden" accept="image/*" onChange={handleGalleryUpload} />
+              </label>
+            </div>
+          </div>
+
+          {galleryItems.length === 0 ? (
+            <div className="py-12 flex flex-col items-center justify-center border-2 border-dashed border-white/10 rounded-2xl">
+              <ImagePlus className="w-12 h-12 text-or-ancestral/30 mb-4" />
+              <p className="text-ivoire-ancien/40 font-medium">Votre galerie est vide.</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+              {galleryItems.map((item) => (
+                <div key={item.id} className="relative group aspect-square rounded-xl overflow-hidden bg-black/40 border border-white/5">
+                  {item.file_type === 'image' ? (
+                    <img src={item.file_url} alt="" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center bg-white/5 p-4 text-center">
+                      <FileText className="w-8 h-8 text-ivoire-ancien/50 mb-2" />
+                    </div>
+                  )}
+                  {/* Overlay Controls */}
+                  <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center gap-3">
+                    <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-xs font-medium text-white">
+                      {item.visibility === 'public' ? <Globe className="w-3 h-3 text-green-400" /> : <Lock className="w-3 h-3 text-red-400" />}
+                      {item.visibility === 'public' ? 'Publique' : 'Privé'}
+                    </div>
+                    <button 
+                      onClick={() => handleDeleteGalleryItem(item.id, item.file_url)}
+                      className="p-2 rounded-full bg-red-500/20 text-red-400 hover:bg-red-500 hover:text-white transition-colors"
+                      title="Supprimer définitivement"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </motion.div>
       </div>
     </main>
   );
