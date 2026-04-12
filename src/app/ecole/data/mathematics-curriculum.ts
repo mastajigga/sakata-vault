@@ -38,7 +38,7 @@ export interface CourseChapter {
   subtitle: string;
   exerciseIds: string[];
   sakataContext: string;
-  visualizationType?: "balance" | "venn" | "none";
+  visualizationType?: "balance" | "venn" | "function-plot" | "system" | "angle-triangle" | "proportion" | "parabola" | "pythagorean-squares" | "statistics-bars" | "pie-chart" | "none";
   theoryBlocks?: TheoryBlock[];
 }
 
@@ -1446,7 +1446,7 @@ export const secondairePrograms: MathematicsProgramYear[] = [
         subtitle: "y = ax + b — la droite qui modélise",
         exerciseIds: ["2s-prix-poisson", "2s-pente", "2s-table-valeurs"],
         sakataContext: "Le prix du poisson au marché de Mushie augmente avec le poids : y = 150x + 200. La droite trace la relation entre quantité et coût.",
-        visualizationType: "none",
+        visualizationType: "function-plot",
         theoryBlocks: [
           {
             title: "Qu'est-ce qu'une fonction ?",
@@ -1486,7 +1486,7 @@ export const secondairePrograms: MathematicsProgramYear[] = [
         subtitle: "Deux inconnues, deux équations",
         exerciseIds: ["2s-systeme", "2s-systeme-pirogue", "2s-distance-riviere"],
         sakataContext: "Deux vendeurs au marché de Nioki : la somme de leurs stocks est connue, et la différence aussi. Deux équations, deux inconnues — on retrouve les deux quantités.",
-        visualizationType: "none",
+        visualizationType: "system",
         theoryBlocks: [
           {
             title: "Pourquoi deux équations ?",
@@ -1526,7 +1526,7 @@ export const secondairePrograms: MathematicsProgramYear[] = [
         subtitle: "Angles, triangles et propriétés",
         exerciseIds: ["2s-angle-toiture", "2s-angles-complementaires", "2s-triangle-isocele"],
         sakataContext: "La toiture d'une maison Sakata forme un triangle. Les charpentiers calculent les angles pour que la structure tienne — la géométrie est une technique de construction ancestrale.",
-        visualizationType: "none",
+        visualizationType: "angle-triangle",
         theoryBlocks: [
           {
             title: "Les types d'angles",
@@ -1566,7 +1566,7 @@ export const secondairePrograms: MathematicsProgramYear[] = [
         subtitle: "Proportions et distances inaccessibles",
         exerciseIds: ["2s-ombre-arbre"],
         sakataContext: "Pour mesurer la hauteur d'un arbre ou la largeur d'une rivière sans y accéder, on utilise l'ombre et les triangles semblables — une technique que les géomètres Sakata pratiquaient intuitivement.",
-        visualizationType: "none",
+        visualizationType: "proportion",
         theoryBlocks: [
           {
             title: "Triangles semblables — définition",
@@ -1860,7 +1860,7 @@ export const secondairePrograms: MathematicsProgramYear[] = [
         subtitle: "ax² + bx + c = 0 et le discriminant",
         exerciseIds: ["3s-quadratique", "3s-delta-nul", "3s-deux-solutions", "3s-factorisation"],
         sakataContext: "L'aire d'un champ en fonction de sa largeur inconnue donne une équation du 2nd degré — les deux solutions possibles correspondent aux deux orientations du problème.",
-        visualizationType: "none",
+        visualizationType: "parabola",
         theoryBlocks: [
           {
             title: "La forme générale ax² + bx + c = 0",
@@ -1900,7 +1900,7 @@ export const secondairePrograms: MathematicsProgramYear[] = [
         subtitle: "Distances, triangles rectangles, triplets",
         exerciseIds: ["3s-pythagore", "3s-diagonale", "3s-hauteur-arbre"],
         sakataContext: "Pour traverser un marécage sans s'y aventurer, le chasseur Sakata calcule la distance diagonale à partir des deux distances accessibles — c'est Pythagore en pratique.",
-        visualizationType: "none",
+        visualizationType: "pythagorean-squares",
         theoryBlocks: [
           {
             title: "Le triangle rectangle",
@@ -1940,7 +1940,7 @@ export const secondairePrograms: MathematicsProgramYear[] = [
         subtitle: "Organiser, résumer, interpréter les données",
         exerciseIds: ["3s-moyenne", "3s-mediane", "3s-mode", "3s-ecart-moyenne"],
         sakataContext: "Un chef de village qui suit les captures journalières de ses pêcheurs fait de la statistique — il cherche la tendance centrale, les jours exceptionnels, et les variations.",
-        visualizationType: "none",
+        visualizationType: "statistics-bars",
         theoryBlocks: [
           {
             title: "La moyenne arithmétique",
@@ -1980,7 +1980,7 @@ export const secondairePrograms: MathematicsProgramYear[] = [
         subtitle: "Lire et construire des diagrammes",
         exerciseIds: [],
         sakataContext: "Les relevés de capture au fil des saisons, tracés sur un graphique, révèlent les cycles naturels des poissons dans la Lukenie — la statistique visuelle est un outil de gestion des ressources.",
-        visualizationType: "none",
+        visualizationType: "pie-chart",
         theoryBlocks: [
           {
             title: "Le diagramme en bâtons",
