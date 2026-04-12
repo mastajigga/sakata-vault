@@ -28,6 +28,16 @@ import DecimalGrid from "./DecimalGrid";
 import BarModel from "./BarModel";
 import ShapeExplorer from "./ShapeExplorer";
 import ClockFace from "./ClockFace";
+import EquationSteps from "./EquationSteps";
+import NumberSets from "./NumberSets";
+import CoordinatePlane from "./CoordinatePlane";
+import SlopeExplorer from "./SlopeExplorer";
+import DiscriminantViz from "./DiscriminantViz";
+import AngleMeasurer from "./AngleMeasurer";
+import Histogram from "./Histogram";
+import ScatterPlot from "./ScatterPlot";
+import AlgebraicTiles from "./AlgebraicTiles";
+import TruthTable from "./TruthTable";
 
 interface VisualizationTabsProps {
   visualizations: Visualization[];
@@ -60,6 +70,16 @@ const renderVisualization = (type: Visualization["type"]) => {
     case "bar-model": return <BarModel />;
     case "shape-explorer": return <ShapeExplorer />;
     case "clock-face": return <ClockFace />;
+    case "equation-steps": return <EquationSteps />;
+    case "number-sets": return <NumberSets />;
+    case "coordinate-plane": return <CoordinatePlane />;
+    case "slope-explorer": return <SlopeExplorer />;
+    case "discriminant-viz": return <DiscriminantViz />;
+    case "angle-measurer": return <AngleMeasurer />;
+    case "histogram": return <Histogram />;
+    case "scatter-plot": return <ScatterPlot />;
+    case "algebraic-tiles": return <AlgebraicTiles />;
+    case "truth-table": return <TruthTable />;
     case "none": return null;
     default: return null;
   }

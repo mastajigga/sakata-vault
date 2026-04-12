@@ -33,7 +33,7 @@ export interface GuidedExercise {
 }
 
 export interface Visualization {
-  type: "balance" | "venn" | "function-plot" | "system" | "angle-triangle" | "proportion" | "parabola" | "pythagorean-squares" | "statistics-bars" | "pie-chart" | "number-line" | "place-value-grid" | "area-rectangle" | "fraction-circle" | "timeline" | "counting-beads" | "number-bonds" | "coin-counter" | "ruler-measure" | "multiplication-grid" | "fraction-bar" | "decimal-grid" | "bar-model" | "shape-explorer" | "clock-face" | "none";
+  type: "balance" | "venn" | "function-plot" | "system" | "angle-triangle" | "proportion" | "parabola" | "pythagorean-squares" | "statistics-bars" | "pie-chart" | "number-line" | "place-value-grid" | "area-rectangle" | "fraction-circle" | "timeline" | "counting-beads" | "number-bonds" | "coin-counter" | "ruler-measure" | "multiplication-grid" | "fraction-bar" | "decimal-grid" | "bar-model" | "shape-explorer" | "clock-face" | "equation-steps" | "number-sets" | "coordinate-plane" | "slope-explorer" | "discriminant-viz" | "angle-measurer" | "histogram" | "scatter-plot" | "algebraic-tiles" | "truth-table" | "none";
   title: string;
   description?: string;
 }
@@ -1060,10 +1060,10 @@ export const secondairePrograms: MathematicsProgramYear[] = [
         exerciseIds: ["1s-balance", "1s-mangue", "1s-pirogue-long"],
         sakataContext: "Un sac de manioc de poids inconnu sur la balance du marché — x représente ce qu'on ne sait pas encore.",
         visualizations: [
-          { type: "balance", title: "Balance interactive", description: "Visualiser l'équilibre entre deux côtés" },
-          { type: "number-line", title: "Droite des nombres", description: "Localiser la valeur de x sur une droite" },
-          { type: "proportion", title: "Proportion visuelle", description: "Comprendre les rapports entre les valeurs" },
-          { type: "area-rectangle", title: "Grille de surface", description: "Décomposer les zones en parties égales" }
+          { type: "algebraic-tiles", title: "Tuiles algébriques", description: "Représenter x² et x avec des tuiles colorées pour comprendre les inconnues" },
+          { type: "balance", title: "Balance interactive", description: "Poser l'équation comme un équilibre : le sac inconnu x d'un côté, les poids connus de l'autre" },
+          { type: "equation-steps", title: "Résolution pas à pas", description: "Isoler x étape par étape en maintenant l'équilibre" },
+          { type: "number-line", title: "Droite des nombres", description: "Localiser la valeur de x sur une droite numérique" }
         ],
         theoryBlocks: [
           {
@@ -1105,10 +1105,10 @@ export const secondairePrograms: MathematicsProgramYear[] = [
         exerciseIds: ["1s-champs"],
         sakataContext: "Trois pirogues de même taille : 3x. Ajouter une demi-pirogue : 3x + 0,5x. Nommer le tout : 3,5x.",
         visualizations: [
-          { type: "function-plot", title: "Graphique d'expressions", description: "Tracer des expressions algébriques" },
-          { type: "area-rectangle", title: "Zones colorées", description: "Visualiser la distributivité par zones" },
-          { type: "timeline", title: "Ordre des opérations", description: "Suivre l'ordre de simplification" },
-          { type: "balance", title: "Équilibre des termes", description: "Regrouper les termes semblables" }
+          { type: "algebraic-tiles", title: "Tuiles algébriques", description: "Modéliser 2x² + 3x + 4 avec des grandes tuiles bleues (x²), des rectangles verts (x) et des petits carrés jaunes (unités)" },
+          { type: "equation-steps", title: "Simplification guidée", description: "Réduire une expression en regroupant les termes semblables étape par étape" },
+          { type: "coordinate-plane", title: "Plan cartésien", description: "Tracer des expressions algébriques sur le plan pour observer leur évolution" },
+          { type: "balance", title: "Équilibre des termes", description: "Vérifier l'égalité après simplification — les deux membres restent en équilibre" }
         ],
         theoryBlocks: [
           {
@@ -1150,10 +1150,10 @@ export const secondairePrograms: MathematicsProgramYear[] = [
         exerciseIds: ["1s-pirogue", "1s-recette", "1s-deux-pecheurs"],
         sakataContext: "Le menuisier connaît le total mais pas le prix unitaire — l'équation retrouve ce qui manque.",
         visualizations: [
-          { type: "balance", title: "Balance d'équation", description: "Équilibrer les deux côtés" },
-          { type: "venn", title: "Diagramme de Venn", description: "Représenter les solutions" },
-          { type: "number-line", title: "Droite numérique", description: "Situer la solution sur une droite" },
-          { type: "proportion", title: "Proportions", description: "Visualiser les rapports d'équilibre" }
+          { type: "equation-steps", title: "Résolution pas à pas", description: "Résoudre 2x + 5 = 13 en suivant chaque étape animée : soustraction, division, solution finale" },
+          { type: "balance", title: "Balance d'équation", description: "Maintenir l'équilibre en effectuant les mêmes opérations des deux côtés" },
+          { type: "number-line", title: "Droite numérique", description: "Localiser la solution x sur la droite des nombres après résolution" },
+          { type: "coordinate-plane", title: "Plan cartésien", description: "Voir graphiquement où la droite y = 2x + 5 croise y = 13 — c'est la solution" }
         ],
         theoryBlocks: [
           {
@@ -1195,10 +1195,10 @@ export const secondairePrograms: MathematicsProgramYear[] = [
         exerciseIds: ["1s-ensemble-poissons", "1s-union", "1s-card-inter"],
         sakataContext: "Les espèces pêchées lundi et mercredi — quelles sont les communes ? Quelles sont celles d'un seul jour ?",
         visualizations: [
-          { type: "venn", title: "Diagramme de Venn", description: "Visualiser unions et intersections" },
-          { type: "proportion", title: "Parts proportionnelles", description: "Voir les proportions d'éléments" },
-          { type: "function-plot", title: "Graphe des relations", description: "Tracer les relations entre ensembles" },
-          { type: "area-rectangle", title: "Grille de classification", description: "Organiser les éléments en zones" }
+          { type: "number-sets", title: "Ensembles de nombres", description: "Voir ℕ ⊂ ℤ ⊂ ℚ ⊂ ℝ en cercles concentriques — cliquer pour explorer les exemples de chaque ensemble" },
+          { type: "truth-table", title: "Table d'appartenance", description: "Tester interactivement si un élément appartient à A, B, A∩B ou A∪B" },
+          { type: "venn", title: "Diagramme de Venn", description: "Visualiser graphiquement les unions et intersections entre les deux ensembles de poissons" },
+          { type: "statistics-bars", title: "Cardinalité des ensembles", description: "Comparer le nombre d'éléments dans A, B, A∩B et A∪B avec des barres" }
         ],
         theoryBlocks: [
           {
@@ -1473,10 +1473,10 @@ export const secondairePrograms: MathematicsProgramYear[] = [
         exerciseIds: ["2s-prix-poisson", "2s-pente", "2s-table-valeurs"],
         sakataContext: "Le prix du poisson au marché de Mushie augmente avec le poids : y = 150x + 200. La droite trace la relation entre quantité et coût.",
         visualizations: [
-          { type: "function-plot", title: "Graphe de la fonction", description: "Tracer la droite y = ax + b" },
-          { type: "proportion", title: "Pente et proportions", description: "Comprendre la pente de la droite" },
-          { type: "area-rectangle", title: "Zones sous la courbe", description: "Visualiser les aires sous la droite" },
-          { type: "timeline", title: "Évolution temporelle", description: "Suivre l'évolution avec le temps" }
+          { type: "slope-explorer", title: "Explorateur de pente", description: "Modifier la pente a et l'ordonnée b pour voir comment la droite y = ax + b se transforme en temps réel" },
+          { type: "coordinate-plane", title: "Plan cartésien interactif", description: "Déplacer le point sur le plan et lire ses coordonnées — observer comment chaque point satisfait l'équation" },
+          { type: "function-plot", title: "Graphe de la fonction", description: "Tracer la droite y = ax + b et lire les images et antécédents" },
+          { type: "statistics-bars", title: "Table de valeurs", description: "Comparer les images f(1), f(2), f(3)... sous forme de barres pour voir la croissance linéaire" }
         ],
         theoryBlocks: [
           {
@@ -1518,10 +1518,10 @@ export const secondairePrograms: MathematicsProgramYear[] = [
         exerciseIds: ["2s-systeme", "2s-systeme-pirogue", "2s-distance-riviere"],
         sakataContext: "Deux vendeurs au marché de Nioki : la somme de leurs stocks est connue, et la différence aussi. Deux équations, deux inconnues — on retrouve les deux quantités.",
         visualizations: [
-          { type: "system", title: "Intersection de deux droites", description: "Voir le point où les droites se croisent" },
-          { type: "function-plot", title: "Graphe des deux fonctions", description: "Tracer les deux équations" },
-          { type: "balance", title: "Double équilibre", description: "Équilibrer deux équations à la fois" },
-          { type: "proportion", title: "Ratios d'équilibre", description: "Comprendre les rapports entre équations" }
+          { type: "coordinate-plane", title: "Intersection graphique", description: "Les deux équations sont deux droites — leur point d'intersection est la solution unique du système" },
+          { type: "balance", title: "Double équilibre", description: "Visualiser les deux équations simultanément comme deux balances qui doivent être en équilibre en même temps" },
+          { type: "equation-steps", title: "Méthode de substitution", description: "Résoudre le système étape par étape : isoler y dans l'équation 1, substituer dans l'équation 2" },
+          { type: "slope-explorer", title: "Les deux droites", description: "Ajuster les pentes pour voir quand deux droites se croisent, sont parallèles ou confondues" }
         ],
         theoryBlocks: [
           {
@@ -1563,10 +1563,10 @@ export const secondairePrograms: MathematicsProgramYear[] = [
         exerciseIds: ["2s-angle-toiture", "2s-angles-complementaires", "2s-triangle-isocele"],
         sakataContext: "La toiture d'une maison Sakata forme un triangle. Les charpentiers calculent les angles pour que la structure tienne — la géométrie est une technique de construction ancestrale.",
         visualizations: [
-          { type: "angle-triangle", title: "Angles et triangles", description: "Visualiser les angles et leurs propriétés" },
-          { type: "area-rectangle", title: "Surface des formes", description: "Calculer les aires de triangles et rectangles" },
-          { type: "proportion", title: "Rapports géométriques", description: "Voir les proportions dans les figures" },
-          { type: "timeline", title: "Construction pas à pas", description: "Suivre l'ordre de construction d'une figure" }
+          { type: "angle-measurer", title: "Rapporteur interactif", description: "Mesurer des angles de 0° à 180° — classification automatique : aigu, droit, obtus, plat" },
+          { type: "angle-triangle", title: "Angles du triangle", description: "Visualiser la somme des angles intérieurs = 180° et les propriétés des triangles isocèles" },
+          { type: "shape-explorer", title: "Explorateur de formes", description: "Explorer les propriétés géométriques des triangles, carrés et autres polygones" },
+          { type: "ruler-measure", title: "Mesurer les côtés", description: "Mesurer les longueurs des côtés pour vérifier les propriétés des triangles" }
         ],
         theoryBlocks: [
           {
@@ -1608,10 +1608,10 @@ export const secondairePrograms: MathematicsProgramYear[] = [
         exerciseIds: ["2s-ombre-arbre"],
         sakataContext: "Pour mesurer la hauteur d'un arbre ou la largeur d'une rivière sans y accéder, on utilise l'ombre et les triangles semblables — une technique que les géomètres Sakata pratiquaient intuitivement.",
         visualizations: [
-          { type: "proportion", title: "Proportions visuelles", description: "Voir les rapports entre côtés semblables" },
-          { type: "angle-triangle", title: "Triangles semblables", description: "Visualiser les triangles et leurs angles" },
-          { type: "area-rectangle", title: "Aires proportionnelles", description: "Comparer les surfaces de triangles semblables" },
-          { type: "number-line", title: "Échelle de longueur", description: "Voir les rapports linéaires sur une droite" }
+          { type: "proportion", title: "Rapports de similitude", description: "Vérifier que a/a' = b/b' = c/c' — le rapport entre côtés homologues est constant" },
+          { type: "angle-measurer", title: "Angles égaux", description: "Vérifier que les angles des deux triangles semblables sont égaux deux à deux" },
+          { type: "ruler-measure", title: "Mesurer et proportionner", description: "Mesurer les côtés et calculer le rapport de similitude k" },
+          { type: "scatter-plot", title: "Nuage de points", description: "Tracer les paires (ombre, hauteur) pour voir la relation linéaire de proportionnalité" }
         ],
         theoryBlocks: [
           {
@@ -1907,10 +1907,10 @@ export const secondairePrograms: MathematicsProgramYear[] = [
         exerciseIds: ["3s-quadratique", "3s-delta-nul", "3s-deux-solutions", "3s-factorisation"],
         sakataContext: "L'aire d'un champ en fonction de sa largeur inconnue donne une équation du 2nd degré — les deux solutions possibles correspondent aux deux orientations du problème.",
         visualizations: [
-          { type: "parabola", title: "Graphe parabolique", description: "Voir la parabole y = ax² + bx + c" },
-          { type: "number-line", title: "Racines sur la droite", description: "Localiser les solutions sur une droite" },
-          { type: "area-rectangle", title: "Surface et équations", description: "Visualiser les aires liées à l'équation" },
-          { type: "function-plot", title: "Évolution graphique", description: "Tracer l'allure générale de la fonction" }
+          { type: "discriminant-viz", title: "Discriminant et paraboles", description: "Faire varier Δ pour voir les 3 cas : deux intersections (Δ>0), tangente (Δ=0), aucune intersection réelle (Δ<0)" },
+          { type: "parabola", title: "Graphe parabolique", description: "Voir la parabole y = ax² + bx + c et ses racines sur le plan" },
+          { type: "coordinate-plane", title: "Plan cartésien", description: "Localiser graphiquement les racines x₁ et x₂ là où la parabole croise l'axe des abscisses" },
+          { type: "equation-steps", title: "Méthode du discriminant", description: "Calculer Δ = b² − 4ac et appliquer la formule x = (−b ± √Δ) / 2a étape par étape" }
         ],
         theoryBlocks: [
           {
@@ -1952,10 +1952,10 @@ export const secondairePrograms: MathematicsProgramYear[] = [
         exerciseIds: ["3s-pythagore", "3s-diagonale", "3s-hauteur-arbre"],
         sakataContext: "Pour traverser un marécage sans s'y aventurer, le chasseur Sakata calcule la distance diagonale à partir des deux distances accessibles — c'est Pythagore en pratique.",
         visualizations: [
-          { type: "pythagorean-squares", title: "Carrés de Pythagore", description: "Voir la relation c² = a² + b² avec des carrés" },
-          { type: "angle-triangle", title: "Triangles rectangles", description: "Visualiser les triangles et leurs angles" },
-          { type: "area-rectangle", title: "Aires des carrés", description: "Comparer les surfaces des trois carrés" },
-          { type: "number-line", title: "Longueurs proportionnelles", description: "Voir les rapports entre les côtés" }
+          { type: "pythagorean-squares", title: "Carrés de Pythagore", description: "Voir visuellement que l'aire du grand carré (c²) égale la somme des deux petits (a² + b²)" },
+          { type: "angle-measurer", title: "L'angle droit", description: "Identifier l'angle droit à 90° — la condition nécessaire pour appliquer le théorème de Pythagore" },
+          { type: "ruler-measure", title: "Mesurer les côtés", description: "Mesurer les cathètes a et b pour calculer l'hypoténuse c = √(a² + b²)" },
+          { type: "coordinate-plane", title: "Distance entre deux points", description: "Calculer la distance entre deux points (x₁,y₁) et (x₂,y₂) avec Pythagore sur le plan cartésien" }
         ],
         theoryBlocks: [
           {
@@ -1997,10 +1997,10 @@ export const secondairePrograms: MathematicsProgramYear[] = [
         exerciseIds: ["3s-moyenne", "3s-mediane", "3s-mode", "3s-ecart-moyenne"],
         sakataContext: "Un chef de village qui suit les captures journalières de ses pêcheurs fait de la statistique — il cherche la tendance centrale, les jours exceptionnels, et les variations.",
         visualizations: [
-          { type: "statistics-bars", title: "Diagramme en barres", description: "Visualiser les données avec des barres" },
-          { type: "pie-chart", title: "Diagramme circulaire", description: "Voir les proportions en camembert" },
-          { type: "number-line", title: "Droite de données", description: "Localiser les valeurs et la moyenne" },
-          { type: "proportion", title: "Rapports statistiques", description: "Comprendre les ratios dans les données" }
+          { type: "histogram", title: "Histogramme de fréquences", description: "Distribution des poids de poissons capturés par tranches — modifier les effectifs et voir la moyenne, médiane et mode recalculés en temps réel" },
+          { type: "scatter-plot", title: "Nuage de points", description: "Visualiser la relation entre jours de pêche et quantité capturée — afficher la droite de tendance" },
+          { type: "statistics-bars", title: "Diagramme en barres", description: "Comparer les captures journalières avec un repère visuel de la moyenne" },
+          { type: "pie-chart", title: "Répartition par espèce", description: "Visualiser la proportion de chaque espèce pêchée sous forme de camembert" }
         ],
         theoryBlocks: [
           {
@@ -2042,10 +2042,10 @@ export const secondairePrograms: MathematicsProgramYear[] = [
         exerciseIds: [],
         sakataContext: "Les relevés de capture au fil des saisons, tracés sur un graphique, révèlent les cycles naturels des poissons dans la Lukenie — la statistique visuelle est un outil de gestion des ressources.",
         visualizations: [
-          { type: "pie-chart", title: "Diagramme circulaire", description: "Voir les proportions en secteurs" },
-          { type: "statistics-bars", title: "Diagramme en barres", description: "Comparer les valeurs avec des barres" },
-          { type: "function-plot", title: "Courbe d'évolution", description: "Tracer l'évolution des données dans le temps" },
-          { type: "timeline", title: "Axe chronologique", description: "Suivre l'ordre des observations" }
+          { type: "scatter-plot", title: "Nuage de points", description: "10 points — jours en mer vs kg pêchés — avec droite de régression pour dégager la tendance générale" },
+          { type: "histogram", title: "Histogramme de distribution", description: "Distribuer les captures par intervalles et lire la forme de la distribution : symétrique, étalée, concentrée" },
+          { type: "statistics-bars", title: "Diagramme en bâtons", description: "Représenter les captures quotidiennes sous forme de barres comparatives" },
+          { type: "coordinate-plane", title: "Graphique personnalisé", description: "Placer manuellement des points de données sur le plan cartésien pour construire votre propre diagramme" }
         ],
         theoryBlocks: [
           {
