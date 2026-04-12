@@ -16,6 +16,7 @@ const navLinks = [
   { key: "nav.school", href: "/ecole" },
   { key: "nav.geography", href: "/geographie" },
   { key: "nav.community", href: "/forum" },
+  { key: "nav.members", href: "/membres" },
   { key: "nav.chat", href: "/chat" },
 ];
 
