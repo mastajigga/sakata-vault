@@ -19,12 +19,12 @@ export default function ChapterNav({
   return (
     <>
       {/* Desktop sidebar */}
-      <aside className="hidden xl:block xl:sticky xl:top-24">
+      <aside className="hidden xl:block xl:sticky xl:top-24" aria-label="Navigation des chapitres">
         <div className="mist-panel rounded-[2rem] p-5">
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--amber-light)]">
             Chapitres
           </p>
-          <nav className="mt-5 space-y-3">
+          <nav className="mt-5 space-y-3" aria-label="Liste des chapitres">
             {chapters.map((chapter, i) => {
               const isActive = chapter.id === activeChapterId;
               const isDone = completedChapterIds.has(chapter.id);
@@ -34,7 +34,9 @@ export default function ChapterNav({
                   key={chapter.id}
                   type="button"
                   onClick={() => onSelect(chapter.id)}
-                  className="w-full rounded-[1.4rem] border px-4 py-4 text-left transition-all duration-300 active:scale-[0.99]"
+                  aria-current={isActive ? "page" : undefined}
+                  aria-label={`Chapitre ${i + 1}: ${chapter.title}${isDone ? " (complété)" : ""}`}
+                  className="w-full rounded-[1.4rem] border px-4 py-4 text-left transition-all duration-300 active:scale-[0.99] focus:outline-none focus:ring-2 focus:ring-[var(--or-ancestral)] focus:ring-offset-2 focus:ring-offset-[var(--foret-nocturne)]"
                   style={{
                     borderColor: isActive
                       ? "rgba(196, 160, 53, 0.36)"
@@ -87,7 +89,7 @@ export default function ChapterNav({
       </aside>
 
       {/* Mobile horizontal pills */}
-      <div className="xl:hidden overflow-x-auto pb-1 -mx-4 px-4">
+      <nav className="xl:hidden overflow-x-auto pb-1 -mx-4 px-4" aria-label="Navigation des chapitres">
         <div className="flex gap-2 w-max">
           {chapters.map((chapter, i) => {
             const isActive = chapter.id === activeChapterId;
@@ -98,7 +100,9 @@ export default function ChapterNav({
                 key={chapter.id}
                 type="button"
                 onClick={() => onSelect(chapter.id)}
-                className="flex shrink-0 items-center gap-2 rounded-full border px-4 py-2 text-sm transition-all duration-300 active:scale-[0.97]"
+                aria-current={isActive ? "page" : undefined}
+                aria-label={`Chapitre ${i + 1}: ${chapter.title}${isDone ? " (complété)" : ""}`}
+                className="flex shrink-0 items-center gap-2 rounded-full border px-4 py-2 text-sm transition-all duration-300 active:scale-[0.97] focus:outline-none focus:ring-2 focus:ring-[var(--or-ancestral)] focus:ring-offset-2 focus:ring-offset-[var(--foret-nocturne)]"
                 style={{
                   borderColor: isActive
                     ? "rgba(196, 160, 53, 0.4)"
@@ -116,7 +120,7 @@ export default function ChapterNav({
             );
           })}
         </div>
-      </div>
+      </nav>
     </>
   );
 }

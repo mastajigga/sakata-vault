@@ -49,17 +49,38 @@ export default function VisualizationTabs({ visualizations }: VisualizationTabsP
   const [activeIndex, setActiveIndex] = useState(0);
   const activeViz = visualizations[activeIndex];
 
+  const handleKeyDown = (e: React.KeyboardEvent, index: number) => {
+    if (e.key === "ArrowLeft" && index > 0) {
+      setActiveIndex(index - 1);
+    } else if (e.key === "ArrowRight" && index < visualizations.length - 1) {
+      setActiveIndex(index + 1);
+    } else if (e.key === "Home") {
+      setActiveIndex(0);
+    } else if (e.key === "End") {
+      setActiveIndex(visualizations.length - 1);
+    }
+  };
+
   if (!activeViz || visualizations.length === 0) return null;
 
   return (
     <div className="mt-10">
       {/* Tab buttons */}
-      <div className="flex flex-wrap gap-2 border-b border-[rgba(196,160,53,0.2)] pb-4 mb-6">
+      <div
+        role="tablist"
+        className="flex flex-wrap gap-2 border-b border-[rgba(196,160,53,0.2)] pb-4 mb-6"
+        aria-label="Visualisations du chapitre"
+      >
         {visualizations.map((viz, index) => (
           <button
             key={index}
+            role="tab"
+            aria-selected={activeIndex === index}
+            aria-controls={`viz-panel-${index}`}
+            tabIndex={activeIndex === index ? 0 : -1}
             onClick={() => setActiveIndex(index)}
-            className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
+            onKeyDown={(e) => handleKeyDown(e, index)}
+            className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[var(--or-ancestral)] focus:ring-offset-2 focus:ring-offset-[var(--foret-nocturne)] ${
               activeIndex === index
                 ? "bg-[rgba(196,160,53,0.15)] text-[var(--or-ancestral)] border border-[rgba(196,160,53,0.4)]"
                 : "text-[rgba(212,221,215,0.65)] hover:text-[rgba(212,221,215,0.85)] border border-transparent"
@@ -72,6 +93,8 @@ export default function VisualizationTabs({ visualizations }: VisualizationTabsP
 
       {/* Tab content with animation */}
       <motion.div
+        id={`viz-panel-${activeIndex}`}
+        role="tabpanel"
         key={activeIndex}
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
