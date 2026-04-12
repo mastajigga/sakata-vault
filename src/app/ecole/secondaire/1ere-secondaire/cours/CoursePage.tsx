@@ -7,16 +7,7 @@ import type { MathematicsProgramYear } from "@/app/ecole/data/mathematics-curric
 import type { SemanticEnrichment } from "@/app/api/ecole/semantic-content/route";
 import ChapterNav from "./ChapterNav";
 import AnimatedTheoryBlock from "./AnimatedTheoryBlock";
-import BalanceVisualization from "./BalanceVisualization";
-import VennVisualization from "./VennVisualization";
-import FunctionPlot from "./FunctionPlot";
-import SystemVisualization from "./SystemVisualization";
-import AngleTriangle from "./AngleTriangle";
-import ProportionVisualization from "./ProportionVisualization";
-import ParabolaVisualization from "./ParabolaVisualization";
-import PythagoreanSquares from "./PythagoreanSquares";
-import StatisticsViz from "./StatisticsViz";
-import PieChartViz from "./PieChartViz";
+import VisualizationTabs from "./VisualizationTabs";
 
 interface CoursPageProps { program: MathematicsProgramYear; }
 
@@ -58,21 +49,6 @@ export default function CoursePage({ program }: CoursPageProps) {
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
   };
-  const renderVisualization = () => {
-    switch (activeChapter.visualizationType) {
-      case "balance": return <BalanceVisualization />;
-      case "venn": return <VennVisualization />;
-      case "function-plot": return <FunctionPlot />;
-      case "system": return <SystemVisualization />;
-      case "angle-triangle": return <AngleTriangle />;
-      case "proportion": return <ProportionVisualization />;
-      case "parabola": return <ParabolaVisualization />;
-      case "pythagorean-squares": return <PythagoreanSquares />;
-      case "statistics-bars": return <StatisticsViz />;
-      case "pie-chart": return <PieChartViz />;
-      default: return null;
-    }
-  };
   return (
     <div className="section-container py-12 md:py-20">
       <nav className="mb-8 flex items-center gap-2 text-[0.7rem] uppercase tracking-[0.18em] text-[rgba(212,221,215,0.45)]">
@@ -91,9 +67,9 @@ export default function CoursePage({ program }: CoursPageProps) {
         <ChapterNav chapters={chapters} activeChapterId={activeChapterId} completedChapterIds={completedChapterIds} onSelect={(id) => { handleChapterComplete(); setActiveChapterId(id); window.scrollTo({ top: 0, behavior: "smooth" }); }} />
         <div className="space-y-10">
           <AnimatedTheoryBlock key={`theory-${activeChapterId}`} chapter={activeChapter} theoryBlocks={theoryBlocks} enrichment={enrichments[activeChapterId] ?? null} />
-          {activeChapter.visualizationType && activeChapter.visualizationType !== "none" && (
-            <motion.div key={`viz-${activeChapterId}`} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.2 }} viewport={{ once: true, margin: "0px 0px -100px 0px" }} className="mt-10">
-              {renderVisualization()}
+          {activeChapter.visualizations && activeChapter.visualizations.length > 0 && (
+            <motion.div key={`viz-${activeChapterId}`} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.2 }} viewport={{ once: true, margin: "0px 0px -100px 0px" }}>
+              <VisualizationTabs visualizations={activeChapter.visualizations} />
             </motion.div>
           )}
           <motion.div key={`nav-${activeChapterId}`} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.4 }} className="mt-12 flex flex-col gap-4 border-t border-[rgba(196,160,53,0.15)] pt-8 sm:flex-row sm:items-center sm:justify-between">

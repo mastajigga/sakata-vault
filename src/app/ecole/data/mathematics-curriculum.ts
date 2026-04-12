@@ -32,13 +32,19 @@ export interface GuidedExercise {
   choices?: ExerciseChoice[];
 }
 
+export interface Visualization {
+  type: "balance" | "venn" | "function-plot" | "system" | "angle-triangle" | "proportion" | "parabola" | "pythagorean-squares" | "statistics-bars" | "pie-chart" | "number-line" | "place-value-grid" | "area-rectangle" | "fraction-circle" | "timeline" | "none";
+  title: string;
+  description?: string;
+}
+
 export interface CourseChapter {
   id: string;
   title: string;
   subtitle: string;
   exerciseIds: string[];
   sakataContext: string;
-  visualizationType?: "balance" | "venn" | "function-plot" | "system" | "angle-triangle" | "proportion" | "parabola" | "pythagorean-squares" | "statistics-bars" | "pie-chart" | "none";
+  visualizations?: Visualization[];
   theoryBlocks?: TheoryBlock[];
 }
 
@@ -1053,7 +1059,12 @@ export const secondairePrograms: MathematicsProgramYear[] = [
         subtitle: "La lettre qui cache ce qu'on cherche",
         exerciseIds: ["1s-balance", "1s-mangue", "1s-pirogue-long"],
         sakataContext: "Un sac de manioc de poids inconnu sur la balance du marché — x représente ce qu'on ne sait pas encore.",
-        visualizationType: "balance",
+        visualizations: [
+          { type: "balance", title: "Balance interactive", description: "Visualiser l'équilibre entre deux côtés" },
+          { type: "number-line", title: "Droite des nombres", description: "Localiser la valeur de x sur une droite" },
+          { type: "proportion", title: "Proportion visuelle", description: "Comprendre les rapports entre les valeurs" },
+          { type: "area-rectangle", title: "Grille de surface", description: "Décomposer les zones en parties égales" }
+        ],
         theoryBlocks: [
           {
             title: "La variable représente une inconnue",
@@ -1093,7 +1104,12 @@ export const secondairePrograms: MathematicsProgramYear[] = [
         subtitle: "Combiner, simplifier, nommer",
         exerciseIds: ["1s-champs"],
         sakataContext: "Trois pirogues de même taille : 3x. Ajouter une demi-pirogue : 3x + 0,5x. Nommer le tout : 3,5x.",
-        visualizationType: "none",
+        visualizations: [
+          { type: "function-plot", title: "Graphique d'expressions", description: "Tracer des expressions algébriques" },
+          { type: "area-rectangle", title: "Zones colorées", description: "Visualiser la distributivité par zones" },
+          { type: "timeline", title: "Ordre des opérations", description: "Suivre l'ordre de simplification" },
+          { type: "balance", title: "Équilibre des termes", description: "Regrouper les termes semblables" }
+        ],
         theoryBlocks: [
           {
             title: "Termes et coefficients",
@@ -1133,7 +1149,12 @@ export const secondairePrograms: MathematicsProgramYear[] = [
         subtitle: "Trouver l'inconnue par l'équilibre",
         exerciseIds: ["1s-pirogue", "1s-recette", "1s-deux-pecheurs"],
         sakataContext: "Le menuisier connaît le total mais pas le prix unitaire — l'équation retrouve ce qui manque.",
-        visualizationType: "balance",
+        visualizations: [
+          { type: "balance", title: "Balance d'équation", description: "Équilibrer les deux côtés" },
+          { type: "venn", title: "Diagramme de Venn", description: "Représenter les solutions" },
+          { type: "number-line", title: "Droite numérique", description: "Situer la solution sur une droite" },
+          { type: "proportion", title: "Proportions", description: "Visualiser les rapports d'équilibre" }
+        ],
         theoryBlocks: [
           {
             title: "Qu'est-ce qu'une équation ?",
@@ -1173,7 +1194,12 @@ export const secondairePrograms: MathematicsProgramYear[] = [
         subtitle: "Classer, réunir, distinguer",
         exerciseIds: ["1s-ensemble-poissons", "1s-union", "1s-card-inter"],
         sakataContext: "Les espèces pêchées lundi et mercredi — quelles sont les communes ? Quelles sont celles d'un seul jour ?",
-        visualizationType: "venn",
+        visualizations: [
+          { type: "venn", title: "Diagramme de Venn", description: "Visualiser unions et intersections" },
+          { type: "proportion", title: "Parts proportionnelles", description: "Voir les proportions d'éléments" },
+          { type: "function-plot", title: "Graphe des relations", description: "Tracer les relations entre ensembles" },
+          { type: "area-rectangle", title: "Grille de classification", description: "Organiser les éléments en zones" }
+        ],
         theoryBlocks: [
           {
             title: "Définition d'un ensemble",
@@ -1446,7 +1472,12 @@ export const secondairePrograms: MathematicsProgramYear[] = [
         subtitle: "y = ax + b — la droite qui modélise",
         exerciseIds: ["2s-prix-poisson", "2s-pente", "2s-table-valeurs"],
         sakataContext: "Le prix du poisson au marché de Mushie augmente avec le poids : y = 150x + 200. La droite trace la relation entre quantité et coût.",
-        visualizationType: "function-plot",
+        visualizations: [
+          { type: "function-plot", title: "Graphe de la fonction", description: "Tracer la droite y = ax + b" },
+          { type: "proportion", title: "Pente et proportions", description: "Comprendre la pente de la droite" },
+          { type: "area-rectangle", title: "Zones sous la courbe", description: "Visualiser les aires sous la droite" },
+          { type: "timeline", title: "Évolution temporelle", description: "Suivre l'évolution avec le temps" }
+        ],
         theoryBlocks: [
           {
             title: "Qu'est-ce qu'une fonction ?",
@@ -1486,7 +1517,12 @@ export const secondairePrograms: MathematicsProgramYear[] = [
         subtitle: "Deux inconnues, deux équations",
         exerciseIds: ["2s-systeme", "2s-systeme-pirogue", "2s-distance-riviere"],
         sakataContext: "Deux vendeurs au marché de Nioki : la somme de leurs stocks est connue, et la différence aussi. Deux équations, deux inconnues — on retrouve les deux quantités.",
-        visualizationType: "system",
+        visualizations: [
+          { type: "system", title: "Intersection de deux droites", description: "Voir le point où les droites se croisent" },
+          { type: "function-plot", title: "Graphe des deux fonctions", description: "Tracer les deux équations" },
+          { type: "balance", title: "Double équilibre", description: "Équilibrer deux équations à la fois" },
+          { type: "proportion", title: "Ratios d'équilibre", description: "Comprendre les rapports entre équations" }
+        ],
         theoryBlocks: [
           {
             title: "Pourquoi deux équations ?",
@@ -1526,7 +1562,12 @@ export const secondairePrograms: MathematicsProgramYear[] = [
         subtitle: "Angles, triangles et propriétés",
         exerciseIds: ["2s-angle-toiture", "2s-angles-complementaires", "2s-triangle-isocele"],
         sakataContext: "La toiture d'une maison Sakata forme un triangle. Les charpentiers calculent les angles pour que la structure tienne — la géométrie est une technique de construction ancestrale.",
-        visualizationType: "angle-triangle",
+        visualizations: [
+          { type: "angle-triangle", title: "Angles et triangles", description: "Visualiser les angles et leurs propriétés" },
+          { type: "area-rectangle", title: "Surface des formes", description: "Calculer les aires de triangles et rectangles" },
+          { type: "proportion", title: "Rapports géométriques", description: "Voir les proportions dans les figures" },
+          { type: "timeline", title: "Construction pas à pas", description: "Suivre l'ordre de construction d'une figure" }
+        ],
         theoryBlocks: [
           {
             title: "Les types d'angles",
@@ -1566,7 +1607,12 @@ export const secondairePrograms: MathematicsProgramYear[] = [
         subtitle: "Proportions et distances inaccessibles",
         exerciseIds: ["2s-ombre-arbre"],
         sakataContext: "Pour mesurer la hauteur d'un arbre ou la largeur d'une rivière sans y accéder, on utilise l'ombre et les triangles semblables — une technique que les géomètres Sakata pratiquaient intuitivement.",
-        visualizationType: "proportion",
+        visualizations: [
+          { type: "proportion", title: "Proportions visuelles", description: "Voir les rapports entre côtés semblables" },
+          { type: "angle-triangle", title: "Triangles semblables", description: "Visualiser les triangles et leurs angles" },
+          { type: "area-rectangle", title: "Aires proportionnelles", description: "Comparer les surfaces de triangles semblables" },
+          { type: "number-line", title: "Échelle de longueur", description: "Voir les rapports linéaires sur une droite" }
+        ],
         theoryBlocks: [
           {
             title: "Triangles semblables — définition",
@@ -1860,7 +1906,12 @@ export const secondairePrograms: MathematicsProgramYear[] = [
         subtitle: "ax² + bx + c = 0 et le discriminant",
         exerciseIds: ["3s-quadratique", "3s-delta-nul", "3s-deux-solutions", "3s-factorisation"],
         sakataContext: "L'aire d'un champ en fonction de sa largeur inconnue donne une équation du 2nd degré — les deux solutions possibles correspondent aux deux orientations du problème.",
-        visualizationType: "parabola",
+        visualizations: [
+          { type: "parabola", title: "Graphe parabolique", description: "Voir la parabole y = ax² + bx + c" },
+          { type: "number-line", title: "Racines sur la droite", description: "Localiser les solutions sur une droite" },
+          { type: "area-rectangle", title: "Surface et équations", description: "Visualiser les aires liées à l'équation" },
+          { type: "function-plot", title: "Évolution graphique", description: "Tracer l'allure générale de la fonction" }
+        ],
         theoryBlocks: [
           {
             title: "La forme générale ax² + bx + c = 0",
@@ -1900,7 +1951,12 @@ export const secondairePrograms: MathematicsProgramYear[] = [
         subtitle: "Distances, triangles rectangles, triplets",
         exerciseIds: ["3s-pythagore", "3s-diagonale", "3s-hauteur-arbre"],
         sakataContext: "Pour traverser un marécage sans s'y aventurer, le chasseur Sakata calcule la distance diagonale à partir des deux distances accessibles — c'est Pythagore en pratique.",
-        visualizationType: "pythagorean-squares",
+        visualizations: [
+          { type: "pythagorean-squares", title: "Carrés de Pythagore", description: "Voir la relation c² = a² + b² avec des carrés" },
+          { type: "angle-triangle", title: "Triangles rectangles", description: "Visualiser les triangles et leurs angles" },
+          { type: "area-rectangle", title: "Aires des carrés", description: "Comparer les surfaces des trois carrés" },
+          { type: "number-line", title: "Longueurs proportionnelles", description: "Voir les rapports entre les côtés" }
+        ],
         theoryBlocks: [
           {
             title: "Le triangle rectangle",
@@ -1940,7 +1996,12 @@ export const secondairePrograms: MathematicsProgramYear[] = [
         subtitle: "Organiser, résumer, interpréter les données",
         exerciseIds: ["3s-moyenne", "3s-mediane", "3s-mode", "3s-ecart-moyenne"],
         sakataContext: "Un chef de village qui suit les captures journalières de ses pêcheurs fait de la statistique — il cherche la tendance centrale, les jours exceptionnels, et les variations.",
-        visualizationType: "statistics-bars",
+        visualizations: [
+          { type: "statistics-bars", title: "Diagramme en barres", description: "Visualiser les données avec des barres" },
+          { type: "pie-chart", title: "Diagramme circulaire", description: "Voir les proportions en camembert" },
+          { type: "number-line", title: "Droite de données", description: "Localiser les valeurs et la moyenne" },
+          { type: "proportion", title: "Rapports statistiques", description: "Comprendre les ratios dans les données" }
+        ],
         theoryBlocks: [
           {
             title: "La moyenne arithmétique",
@@ -1980,7 +2041,12 @@ export const secondairePrograms: MathematicsProgramYear[] = [
         subtitle: "Lire et construire des diagrammes",
         exerciseIds: [],
         sakataContext: "Les relevés de capture au fil des saisons, tracés sur un graphique, révèlent les cycles naturels des poissons dans la Lukenie — la statistique visuelle est un outil de gestion des ressources.",
-        visualizationType: "pie-chart",
+        visualizations: [
+          { type: "pie-chart", title: "Diagramme circulaire", description: "Voir les proportions en secteurs" },
+          { type: "statistics-bars", title: "Diagramme en barres", description: "Comparer les valeurs avec des barres" },
+          { type: "function-plot", title: "Courbe d'évolution", description: "Tracer l'évolution des données dans le temps" },
+          { type: "timeline", title: "Axe chronologique", description: "Suivre l'ordre des observations" }
+        ],
         theoryBlocks: [
           {
             title: "Le diagramme en bâtons",
