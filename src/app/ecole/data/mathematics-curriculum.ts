@@ -2509,6 +2509,6 @@ export const secondairePrograms: MathematicsProgramYear[] = [
   ] },
 ];
 
-export const primaryPrograms: MathematicsProgramYear[] = mathematicsPrograms.filter((p) =>
+export const primaryPrograms: MathematicsProgramYear[] = secondairePrograms.filter((p) =>
   ["primaire-1", "primaire-2", "primaire-3", "primaire-4", "primaire-5", "primaire-6"].includes(p.slug)
 );
