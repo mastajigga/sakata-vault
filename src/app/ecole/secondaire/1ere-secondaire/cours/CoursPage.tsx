@@ -8,16 +8,7 @@ import type { MathematicsProgramYear } from "@/app/ecole/data/mathematics-curric
 import type { SemanticEnrichment } from "@/app/api/ecole/semantic-content/route";
 import ChapterNav from "./ChapterNav";
 import AnimatedTheoryBlock from "./AnimatedTheoryBlock";
-import BalanceVisualization from "./BalanceVisualization";
-import VennVisualization from "./VennVisualization";
-import FunctionPlot from "./FunctionPlot";
-import SystemVisualization from "./SystemVisualization";
-import AngleTriangle from "./AngleTriangle";
-import ProportionVisualization from "./ProportionVisualization";
-import ParabolaVisualization from "./ParabolaVisualization";
-import PythagoreanSquares from "./PythagoreanSquares";
-import StatisticsViz from "./StatisticsViz";
-import PieChartViz from "./PieChartViz";
+import VisualizationTabs from "./VisualizationTabs";
 
 interface CoursPageProps {
   program: MathematicsProgramYear;
@@ -179,22 +170,17 @@ export default function CoursPage({ program }: CoursPageProps) {
             enrichment={enrichments[activeChapterId] ?? null}
           />
 
-          {/* Interactive visualization */}
-          {activeChapter.visualizationType && activeChapter.visualizationType !== "none" && (() => {
-            switch (activeChapter.visualizationType) {
-              case "balance": return <BalanceVisualization />;
-              case "venn": return <VennVisualization />;
-              case "function-plot": return <FunctionPlot />;
-              case "system": return <SystemVisualization />;
-              case "angle-triangle": return <AngleTriangle />;
-              case "proportion": return <ProportionVisualization />;
-              case "parabola": return <ParabolaVisualization />;
-              case "pythagorean-squares": return <PythagoreanSquares />;
-              case "statistics-bars": return <StatisticsViz />;
-              case "pie-chart": return <PieChartViz />;
-              default: return null;
-            }
-          })()}
+          {activeChapter.visualizations && activeChapter.visualizations.length > 0 && (
+            <motion.div
+              key={`viz-${activeChapterId}`}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              viewport={{ once: true, margin: "0px 0px -100px 0px" }}
+            >
+              <VisualizationTabs visualizations={activeChapter.visualizations} />
+            </motion.div>
+          )}
 
           {/* Chapter footer: practice + navigation */}
           <div className="rounded-[1.8rem] border border-[rgba(212,221,215,0.08)] bg-[rgba(4,17,13,0.45)] p-6">
