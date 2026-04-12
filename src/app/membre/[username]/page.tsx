@@ -49,6 +49,30 @@ export default function MembreProfilePage() {
     setCreatingChat(true);
 
     try {
+      // 1. Check if a direct conversation already exists
+      const { data: myConvs } = await supabase
+        .from('chat_participants')
+        .select('conversation_id, chat_conversations!inner(type)')
+        .eq('user_id', currentUser.id)
+        .eq('chat_conversations.type', 'direct');
+
+      if (myConvs && myConvs.length > 0) {
+        const myConvIds = myConvs.map(c => c.conversation_id);
+        const { data: sharedConv } = await supabase
+          .from('chat_participants')
+          .select('conversation_id')
+          .in('conversation_id', myConvIds)
+          .eq('user_id', profile.id)
+          .limit(1)
+          .maybeSingle();
+
+        if (sharedConv) {
+          router.push(`/chat/${sharedConv.conversation_id}`);
+          return;
+        }
+      }
+
+      // 2. Insert new discussion if one ignores
       const { data: convData, error: convError } = await supabase
         .from('chat_conversations')
         .insert({
