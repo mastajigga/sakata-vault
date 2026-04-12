@@ -1,7 +1,103 @@
 import { NextRequest, NextResponse } from "next/server";
 import { supabaseAdmin } from "@/lib/supabase/admin";
+import { getPineconeIndex } from "@/lib/pinecone/client";
 
 const CACHE_TTL_MS = 24 * 60 * 60 * 1000; // 24h
+
+// Helper to cache enrichment in Supabase
+async function cacheEnrichment(chapterId: string, enrichment: SemanticEnrichment) {
+  try {
+    await supabaseAdmin
+      .from("ecole_semantic_cache")
+      .upsert(
+        {
+          chapter_id: chapterId,
+          content: enrichment,
+          created_at: new Date().toISOString(),
+        },
+        { onConflict: "chapter_id" }
+      );
+  } catch (err) {
+    console.warn("[semantic-content] Failed to cache enrichment:", err);
+    // Non-critical: enrichment still works without cache
+  }
+}
+
+// Helper to query Pinecone (if available)
+async function getPineconeEnrichment(
+  chapterId: string,
+  gradeLevel: string
+): Promise<Omit<SemanticEnrichment, "cached"> | null> {
+  try {
+    // Check if Pinecone API key is available
+    if (!process.env.PINECONE_API_KEY) {
+      console.debug("[semantic-content] Pinecone API key not configured, skipping Pinecone query");
+      return null;
+    }
+
+    const index = getPineconeIndex();
+
+    // Simple semantic search: use chapter ID as query identifier
+    // In production, this would use embeddings from an API like OpenAI
+    const queryVector = generateSimpleEmbedding(chapterId);
+
+    const results = await index.query({
+      vector: queryVector,
+      topK: 3,
+      includeMetadata: true,
+      filter: {
+        gradeLevel: { $eq: gradeLevel },
+      },
+    });
+
+    if (!results.matches || results.matches.length === 0) {
+      console.debug(
+        `[semantic-content] No Pinecone results for ${chapterId}, falling back to static`
+      );
+      return null;
+    }
+
+    // Transform Pinecone results into SemanticEnrichment format
+    const enrichment = transformPineconeResults(results.matches);
+    return enrichment;
+  } catch (err) {
+    console.warn("[semantic-content] Pinecone query failed:", err);
+    return null; // Graceful fallback to static enrichments
+  }
+}
+
+// Generate a simple deterministic embedding from chapter ID (demo)
+// In production, use OpenAI embeddings or similar
+function generateSimpleEmbedding(chapterId: string): number[] {
+  const chars = chapterId.split("");
+  const embedding = new Array(1536).fill(0); // Standard embedding size
+  chars.forEach((char, idx) => {
+    const charCode = char.charCodeAt(0);
+    embedding[idx % embedding.length] = (charCode / 255) * 2 - 1;
+  });
+  return embedding;
+}
+
+// Transform Pinecone match results into SemanticEnrichment format
+function transformPineconeResults(matches: any[]): Omit<SemanticEnrichment, "cached"> {
+  const sources = matches.map((m) => ({
+    title: m.metadata?.title || "Unknown source",
+    score: m.score || 0,
+  }));
+
+  return {
+    enrichedContext:
+      matches[0]?.metadata?.enrichedContext ||
+      "Enrichment from semantic search.",
+    culturalAnchors: matches
+      .flatMap((m) => m.metadata?.culturalAnchors || [])
+      .slice(0, 5),
+    mathInsights: matches
+      .flatMap((m) => m.metadata?.mathInsights || [])
+      .slice(0, 5),
+    sources,
+  };
+}
 
 export interface SemanticEnrichment {
   enrichedContext: string;
@@ -230,13 +326,14 @@ const STATIC_ENRICHMENTS: Record<string, Omit<SemanticEnrichment, "cached">> = {
 
 export async function POST(request: NextRequest) {
   try {
-    const { chapter } = await request.json() as { chapter: string; query?: string };
+    const body = await request.json() as { chapter: string; gradeLevel?: string };
+    const { chapter, gradeLevel = "secondary" } = body;
 
     if (!chapter) {
       return NextResponse.json({ error: "chapter is required" }, { status: 400 });
     }
 
-    // 1. Check Supabase cache
+    // 1. Check Supabase cache first
     try {
       const { data: cached } = await supabaseAdmin
         .from("ecole_semantic_cache")
@@ -247,6 +344,7 @@ export async function POST(request: NextRequest) {
       if (cached?.content) {
         const age = Date.now() - new Date(cached.created_at as string).getTime();
         if (age < CACHE_TTL_MS) {
+          console.debug(`[semantic-content] Cache hit for ${chapter}`);
           return NextResponse.json({
             ...(cached.content as object),
             cached: true,
@@ -254,19 +352,30 @@ export async function POST(request: NextRequest) {
         }
       }
     } catch {
-      // Cache table may not exist yet — fall through to static
+      // Cache table may not exist yet — fall through to Pinecone
     }
 
-    // 2. Use static fallback enrichment
-    const staticContent = STATIC_ENRICHMENTS[chapter];
-    if (!staticContent) {
-      return NextResponse.json({ error: "Unknown chapter" }, { status: 404 });
+    // 2. Try Pinecone enrichment
+    let enrichment: Omit<SemanticEnrichment, "cached"> | null = null;
+    enrichment = await getPineconeEnrichment(chapter, gradeLevel);
+
+    // 3. Fall back to static enrichments if Pinecone fails
+    if (!enrichment) {
+      const staticContent = STATIC_ENRICHMENTS[chapter];
+      if (!staticContent) {
+        return NextResponse.json({ error: "Unknown chapter" }, { status: 404 });
+      }
+      enrichment = staticContent;
     }
 
-    return NextResponse.json({
-      ...staticContent,
+    // Cache the enrichment for future requests
+    const response: SemanticEnrichment = {
+      ...enrichment,
       cached: false,
-    } as SemanticEnrichment);
+    };
+    await cacheEnrichment(chapter, response);
+
+    return NextResponse.json(response);
   } catch (err) {
     console.error("[semantic-content]", err);
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
