@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { secondairePrograms } from "@/app/ecole/data/mathematics-curriculum";
-import CoursPage from "./CoursPage";
+import CoursPage from "./CoursePage";
 
 export const metadata: Metadata = {
   title: "1ère Secondaire — Cours complet | Kisakata École",

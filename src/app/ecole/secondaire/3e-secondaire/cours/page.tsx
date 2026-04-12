@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { secondairePrograms } from "@/app/ecole/data/mathematics-curriculum";
-import CoursPage from "../../1ere-secondaire/cours/CoursPage";
+import CoursePage from "../../1ere-secondaire/cours/CoursePage";
 
 export const metadata: Metadata = {
   title: "3e Secondaire — Cours complet | Kisakata École",
@@ -18,7 +18,7 @@ export default function Page() {
   return (
     <main className="grain-overlay min-h-[100dvh] bg-[var(--foret-nocturne)]">
       <Navbar />
-      <CoursPage program={program} />
+      <CoursePage program={program} />
       <Footer />
     </main>
   );
