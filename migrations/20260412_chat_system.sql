@@ -46,6 +46,7 @@ ALTER TABLE public.chat_messages ENABLE ROW LEVEL SECURITY;
 DROP POLICY IF EXISTS "Users can view their conversations" ON public.chat_conversations;
 CREATE POLICY "Users can view their conversations" ON public.chat_conversations
 FOR SELECT USING (
+    auth.uid() = created_by OR
     EXISTS (
         SELECT 1 FROM public.chat_participants cp
         WHERE cp.conversation_id = chat_conversations.id AND cp.user_id = auth.uid()
