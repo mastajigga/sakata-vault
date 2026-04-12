@@ -451,6 +451,9 @@ export const UI_TRANSLATIONS = {
     feat4: {
       fr: "Interface \"Brume de la Rivière\" fluidifiée",
     },
+    feat5: {
+      fr: "Messagerie instantanée (Privée & Groupes)",
+    },
     up1: {
       fr: "L'Accès aux Archives Supérieures (Paywall)",
     },

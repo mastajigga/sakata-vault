@@ -14,7 +14,7 @@ export default function WelcomeModal() {
   useEffect(() => {
     setMounted(true);
     try {
-      const hasSeen = localStorage.getItem("sakata_welcome_seen");
+      const hasSeen = localStorage.getItem("sakata_welcome_seen_v2");
       if (!hasSeen) {
         setIsOpen(true);
       }
@@ -31,7 +31,7 @@ export default function WelcomeModal() {
   const handleClose = () => {
     setIsOpen(false);
     try {
-      localStorage.setItem("sakata_welcome_seen", "true");
+      localStorage.setItem("sakata_welcome_seen_v2", "true");
     } catch (e) {
       console.warn("Could not save welcome state to localStorage");
     }
@@ -126,6 +126,7 @@ export default function WelcomeModal() {
                   {t("welcome.deployed")}
                 </h3>
                 <ul className="text-[#F2EEDD]/70 text-sm space-y-2 list-disc pl-4">
+                  <li dangerouslySetInnerHTML={{ __html: t("welcome.feat5").replace("Messagerie instantanée", "<strong>Messagerie instantanée</strong>") }} />
                   <li dangerouslySetInnerHTML={{ __html: t("welcome.feat1").replace("Forum Mboka", "<strong>Forum Mboka</strong>") }} />
                   <li>{t("welcome.feat2")}</li>
                   <li>{t("welcome.feat3")}</li>
