@@ -32,6 +32,7 @@
     "@turf/turf": "^7.2.0",
     "@types/gsap": "^1.20.2",
     "@types/mdx": "^2.0.13",
+    "@types/web-push": "^3.6.4",
     "browser-image-compression": "^2.0.2",
     "clsx": "^2.1.1",
     "framer-motion": "^12.38.0",
@@ -51,7 +52,8 @@
     "remark-gfm": "^4.0.1",
     "remark-math": "^6.0.0",
     "tailwind-merge": "^3.5.0",
-    "three": "^0.172.0"
+    "three": "^0.172.0",
+    "web-push": "^3.6.7"
   },
   "devDependencies": {
     "@pinecone-database/pinecone": "^7.2.0",

@@ -15,10 +15,10 @@ export default function ChatRootLayout({
 }) {
   return (
     <div className="flex flex-col h-[100dvh] overflow-hidden">
-      <div className="hidden md:block flex-shrink-0">
+      <div className="hidden md:block">
         <Navbar />
       </div>
-      <div className="flex-1 overflow-hidden relative">
+      <div className="flex-1 overflow-hidden relative md:pt-[80px]">
         <ChatLayout>
           {children}
         </ChatLayout>

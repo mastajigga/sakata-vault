@@ -5,6 +5,7 @@ import { ArrowLeft, MoreVertical } from "lucide-react";
 import { MessageBubble } from "./MessageBubble";
 import { ChatInput } from "./ChatInput";
 import { useMessages } from "@/hooks/chat/useMessages";
+import { useTyping } from "@/hooks/chat/useTyping";
 
 export type Message = {
   id: string;
@@ -26,6 +27,7 @@ interface ChatWindowProps {
 export function ChatWindow({ conversationId, onBack }: ChatWindowProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const { messages, loading, sendMessage } = useMessages(conversationId);
+  const { typingUsers, updateTyping } = useTyping(conversationId);
 
   useEffect(() => {
     if (scrollRef.current) {
@@ -79,8 +81,20 @@ export function ChatWindow({ conversationId, onBack }: ChatWindowProps) {
         ))}
       </div>
 
+      {/* Typing Indicator */}
+      {typingUsers.length > 0 && (
+        <div className="px-4 md:px-6 pb-2 text-xs italic text-stone-500 flex items-center gap-2">
+          <div className="flex space-x-1">
+            <div className="w-1.5 h-1.5 bg-stone-400 rounded-full animate-bounce [animation-delay:-0.3s]"></div>
+            <div className="w-1.5 h-1.5 bg-stone-400 rounded-full animate-bounce [animation-delay:-0.15s]"></div>
+            <div className="w-1.5 h-1.5 bg-stone-400 rounded-full animate-bounce"></div>
+          </div>
+          <span>{typingUsers.join(', ')} {typingUsers.length > 1 ? 'écrivent' : 'écrit'}...</span>
+        </div>
+      )}
+
       {/* Input */}
-      <ChatInput onSend={handleSendMessage} />
+      <ChatInput onSend={handleSendMessage} onTyping={updateTyping} />
     </div>
   );
 }

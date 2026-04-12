@@ -5,20 +5,36 @@ import { Send, Paperclip, Mic, X, Clock } from "lucide-react";
 
 interface ChatInputProps {
   onSend: (content: string, attachment?: File | null, expiresIn?: string) => void;
+  onTyping?: (isTyping: boolean) => void;
 }
 
-export function ChatInput({ onSend }: ChatInputProps) {
+export function ChatInput({ onSend, onTyping }: ChatInputProps) {
   const [content, setContent] = useState("");
   const [showOptions, setShowOptions] = useState(false);
   const [expiresIn, setExpiresIn] = useState<"never" | "7_days" | "30_days">("never");
   const inputRef = useRef<HTMLInputElement>(null);
+  const typingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!content.trim()) return;
     
+    if (onTyping) onTyping(false);
     onSend(content, null, expiresIn);
     setContent("");
+    if (typingTimeoutRef.current) clearTimeout(typingTimeoutRef.current);
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setContent(e.target.value);
+    
+    if (onTyping) {
+      onTyping(true);
+      if (typingTimeoutRef.current) clearTimeout(typingTimeoutRef.current);
+      typingTimeoutRef.current = setTimeout(() => {
+        onTyping(false);
+      }, 3000); // Stop typing after 3s of inactivity
+    }
   };
 
   return (
@@ -84,7 +100,7 @@ export function ChatInput({ onSend }: ChatInputProps) {
             className="w-full bg-transparent px-4 py-3 focus:outline-none text-stone-900 dark:text-stone-100 placeholder-stone-500"
             placeholder="Écrire un message..."
             value={content}
-            onChange={(e) => setContent(e.target.value)}
+            onChange={handleChange}
           />
         </div>
 

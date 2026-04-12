@@ -14,37 +14,42 @@ export function useMessages(conversationId: string) {
     let userId = "";
 
     async function fetchMessages() {
-      const { data: activeSession } = await supabase.auth.getSession();
-      userId = activeSession?.session?.user?.id || "";
+      try {
+        const { data: activeSession } = await supabase.auth.getSession();
+        userId = activeSession?.session?.user?.id || "";
 
-      const { data, error } = await supabase
-        .from('chat_messages')
-        .select(`
-          id, content, file_url, file_type, created_at, expires_in,
-          sender_id,
-          profiles:sender_id ( nickname, username )
-        `)
-        .eq('conversation_id', conversationId)
-        .eq('is_deleted', false)
-        .order('created_at', { ascending: true });
+        const { data, error } = await supabase
+          .from('chat_messages')
+          .select(`
+            id, content, file_url, file_type, created_at, expires_in,
+            sender_id,
+            profiles:sender_id ( nickname, username )
+          `)
+          .eq('conversation_id', conversationId)
+          .eq('is_deleted', false)
+          .order('created_at', { ascending: true });
 
-      if (error) {
-        console.error("Error fetching messages:", error);
-      } else if (data) {
-        const formattedMessages: Message[] = data.map((msg: any) => ({
-          id: msg.id,
-          senderId: msg.sender_id,
-          senderName: msg.profiles?.nickname || msg.profiles?.username || "Inconnu",
-          content: msg.content || "",
-          fileUrl: msg.file_url,
-          fileType: msg.file_type,
-          createdAt: new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-          isMe: msg.sender_id === userId,
-          expiresIn: msg.expires_in,
-        }));
-        setMessages(formattedMessages);
+        if (error) {
+          console.error("Error fetching messages:", error);
+        } else if (data) {
+          const formattedMessages: Message[] = data.map((msg: any) => ({
+            id: msg.id,
+            senderId: msg.sender_id,
+            senderName: msg.profiles?.nickname || msg.profiles?.username || "Inconnu",
+            content: msg.content || "",
+            fileUrl: msg.file_url,
+            fileType: msg.file_type,
+            createdAt: new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+            isMe: msg.sender_id === userId,
+            expiresIn: msg.expires_in,
+          }));
+          setMessages(formattedMessages);
+        }
+      } catch (err) {
+        console.error("JS Exception fetching messages:", err);
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     }
 
     fetchMessages();

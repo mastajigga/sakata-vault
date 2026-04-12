@@ -37,12 +37,24 @@ export default function MembresPage() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#0A1F15] pt-24 pb-12">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-[#0A1F15] pb-12">
+      
+      {/* Hero Banner Section */}
+      <div className="relative w-full h-[40vh] min-h-[300px]">
+        <img 
+          src="/images/community-banner.png" 
+          alt="Sakata Community" 
+          className="absolute inset-0 w-full h-full object-cover object-[center_30%]"
+        />
+        {/* Gradient transition to match site background */}
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#0A1F15]/60 to-[#0A1F15]" />
+      </div>
+
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-24">
         
         <div className="mb-12 text-center md:text-left">
           <h1 className="text-4xl md:text-5xl font-display text-[#B59551] mb-4">La Communauté</h1>
-          <p className="text-[#F2EEDD]/70 max-w-2xl text-lg">
+          <p className="text-[#F2EEDD]/90 max-w-2xl text-lg drop-shadow-md">
             Découvrez les gardiens du savoir, les documentalistes et les membres de la famille Sakata à travers le monde.
           </p>
         </div>
