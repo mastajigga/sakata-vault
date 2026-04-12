@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { Search, Users, User, Plus } from "lucide-react";
+import { Search, Users, User, Plus, ArrowLeft } from "lucide-react";
 import { useConversations } from "@/hooks/chat/useConversations";
 import { NewChatModal } from "./NewChatModal";
 
@@ -33,7 +33,16 @@ export function ChatSidebar({ activeId }: ChatSidebarProps) {
       <NewChatModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
       {/* Header */}
       <div className="p-4 border-b border-stone-200 dark:border-stone-800 flex justify-between items-center bg-white dark:bg-stone-900">
-        <h2 className="text-xl font-bold font-serif text-stone-900 dark:text-stone-100">Discussions</h2>
+        <div className="flex items-center gap-3">
+          <Link 
+            href="/membres" 
+            className="md:hidden p-2 -ml-2 text-stone-500 hover:text-stone-900 dark:hover:text-stone-100 transition rounded-full hover:bg-stone-100 dark:hover:bg-stone-800"
+            aria-label="Retour au site"
+          >
+            <ArrowLeft size={20} />
+          </Link>
+          <h2 className="text-xl font-bold font-serif text-stone-900 dark:text-stone-100">Discussions</h2>
+        </div>
         <button 
           onClick={() => setIsModalOpen(true)}
           className="p-2 bg-amber-600 text-white rounded-full hover:bg-amber-700 transition"

@@ -9,7 +9,7 @@ export function ChatLayout({ children }: { children: React.ReactNode }) {
   const activeConversationId = params.id as string | undefined;
 
   return (
-    <div className="flex h-[calc(100vh-64px)] w-full overflow-hidden bg-white dark:bg-stone-900 border-t border-stone-200 dark:border-stone-800">
+    <div className="flex h-full w-full overflow-hidden bg-white dark:bg-stone-900 border-t border-stone-200 dark:border-stone-800">
       {/* Sidebar - Hidden on mobile if a chat is active */}
       <div 
         className={`w-full md:w-80 flex-shrink-0 border-r border-stone-200 dark:border-stone-800 md:block ${

@@ -1,6 +1,7 @@
 import React from "react";
 import { Metadata } from "next";
 import { ChatLayout } from "@/components/chat/ChatLayout";
+import Navbar from "@/components/Navbar";
 
 export const metadata: Metadata = {
   title: "Messagerie | Kisakata",
@@ -13,8 +14,15 @@ export default function ChatRootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <ChatLayout>
-      {children}
-    </ChatLayout>
+    <div className="flex flex-col h-[100dvh] overflow-hidden">
+      <div className="hidden md:block flex-shrink-0">
+        <Navbar />
+      </div>
+      <div className="flex-1 overflow-hidden relative">
+        <ChatLayout>
+          {children}
+        </ChatLayout>
+      </div>
+    </div>
   );
 }
