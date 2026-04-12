@@ -1,0 +1,71 @@
+C:\Users\Fortuné\Projects\Sakata\scripts\pinecone_index_articles.py:195: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+  return datetime.utcnow().isoformat() + "Z"
+📖 Loading articles from src/data/articles.ts
+✅ Found 12 articles in TypeScript file
+
+📚 Indexing 12 articles
+   Namespace: iluo_livres_site
+   Dry run: False
+────────────────────────────────────────────────────────────────────────────────
+  ✗ Error indexing site-epopee-peuple-sakata
+  ✗ Error indexing site-rite-ngongo-sagesse
+  ✗ Error indexing site-lukeni-lua-nimi-fondateur
+  ✗ Error indexing site-origines-bantou-basakata
+  ✗ Error indexing site-royaume-congo-racines
+  ✗ Error indexing site-iluo-regard-du-pouvoir
+  ✗ Error indexing site-corps-esprit-souffle
+  ✗ Error indexing site-energie-vitale-moyo
+  ✗ Error indexing site-culture-generale-mboka
+  ⊘ langue-kisakata-introduction: Content too short (72 words, need 100+)
+  ⊘ proverbes-nkundi-sagesse: Content too short (51 words, need 100+)
+  ⊘ artisanat-masques-sculptures: Content too short (25 words, need 100+)
+────────────────────────────────────────────────────────────────────────────────
+
+✅ INDEXING COMPLETE
+   Indexed: 9
+   Skipped: 3
+   Errors: 9
+
+❌ Errors:
+   - site-epopee-peuple-sakata: usage: pinecone_cli.py [-h] [--namespace NAMESPACE]
+                       {stats,search,store,fetch,delete,list} ...
+pinecone_cli.py: error: unrecognized arguments: --namespace iluo_livres_site
+
+   - site-rite-ngongo-sagesse: usage: pinecone_cli.py [-h] [--namespace NAMESPACE]
+                       {stats,search,store,fetch,delete,list} ...
+pinecone_cli.py: error: unrecognized arguments: --namespace iluo_livres_site
+
+   - site-lukeni-lua-nimi-fondateur: usage: pinecone_cli.py [-h] [--namespace NAMESPACE]
+                       {stats,search,store,fetch,delete,list} ...
+pinecone_cli.py: error: unrecognized arguments: --namespace iluo_livres_site
+
+   - site-origines-bantou-basakata: usage: pinecone_cli.py [-h] [--namespace NAMESPACE]
+                       {stats,search,store,fetch,delete,list} ...
+pinecone_cli.py: error: unrecognized arguments: --namespace iluo_livres_site
+
+   - site-royaume-congo-racines: usage: pinecone_cli.py [-h] [--namespace NAMESPACE]
+                       {stats,search,store,fetch,delete,list} ...
+pinecone_cli.py: error: unrecognized arguments: --namespace iluo_livres_site
+
+   - site-iluo-regard-du-pouvoir: usage: pinecone_cli.py [-h] [--namespace NAMESPACE]
+                       {stats,search,store,fetch,delete,list} ...
+pinecone_cli.py: error: unrecognized arguments: --namespace iluo_livres_site
+
+   - site-corps-esprit-souffle: usage: pinecone_cli.py [-h] [--namespace NAMESPACE]
+                       {stats,search,store,fetch,delete,list} ...
+pinecone_cli.py: error: unrecognized arguments: --namespace iluo_livres_site
+
+   - site-energie-vitale-moyo: usage: pinecone_cli.py [-h] [--namespace NAMESPACE]
+                       {stats,search,store,fetch,delete,list} ...
+pinecone_cli.py: error: unrecognized arguments: --namespace iluo_livres_site
+
+   - site-culture-generale-mboka: usage: pinecone_cli.py [-h] [--namespace NAMESPACE]
+                       {stats,search,store,fetch,delete,list} ...
+pinecone_cli.py: error: unrecognized arguments: --namespace iluo_livres_site
+
+
+📊 Namespace Structure:
+   iluo_livres_academiques  → Academic PDFs (existing 1534 vectors)
+   iluo_livres_site         → Site articles (just indexed)
+   iluo_exercices           → School exercises (pending)
+   iluo_chefferies          → Territory descriptions (pending)
