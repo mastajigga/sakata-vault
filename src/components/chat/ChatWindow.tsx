@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { ArrowLeft, MoreVertical } from "lucide-react";
 import { MessageBubble } from "./MessageBubble";
 import { ChatInput } from "./ChatInput";
@@ -28,6 +28,7 @@ export function ChatWindow({ conversationId, onBack }: ChatWindowProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const { messages, loading, sendMessage } = useMessages(conversationId);
   const { typingUsers, updateTyping } = useTyping(conversationId);
+  const [showMenu, setShowMenu] = useState(false);
 
   useEffect(() => {
     if (scrollRef.current) {
@@ -37,6 +38,25 @@ export function ChatWindow({ conversationId, onBack }: ChatWindowProps) {
 
   const handleSendMessage = async (content: string, attachment?: File | null, expiresIn?: string) => {
     await sendMessage(content, attachment, expiresIn);
+  };
+
+  const handleMenuAction = async (action: 'mute' | 'save' | 'delete') => {
+    setShowMenu(false);
+    if (action === 'save') {
+      const text = messages.map(m => `[${m.createdAt}] ${m.senderName}: ${m.content}${m.fileUrl ? ' [Pièce jointe]' : ''}`).join('\\n');
+      const blob = new Blob([text], { type: 'text/plain' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = `sakata_chat_export.txt`;
+      a.click();
+    } else if (action === 'mute') {
+      alert("Conversation mise en sourdine. (Notifications désactivées)");
+    } else if (action === 'delete') {
+      if (confirm("Êtes-vous sûr de vouloir supprimer cette conversation définitivement ?")) {
+        // En sprint futur: await supabase.from('chat_participants').delete() ...
+        alert("Action programmée. Les suppressions permanentes seront activées au prochain batch.");
+      }
+    }
   };
 
   return (
@@ -56,10 +76,28 @@ export function ChatWindow({ conversationId, onBack }: ChatWindowProps) {
           </div>
         </div>
         
-        <div className="flex items-center text-stone-500 gap-1 md:gap-3">
-          <button className="p-2 rounded-full hover:bg-stone-100 dark:hover:bg-stone-800">
+        <div className="flex items-center text-stone-500 gap-1 md:gap-3 relative">
+          <button 
+            onClick={() => setShowMenu(!showMenu)}
+            className="p-2 rounded-full hover:bg-stone-100 dark:hover:bg-stone-800"
+          >
             <MoreVertical size={20} />
           </button>
+          
+          {showMenu && (
+            <div className="absolute top-full right-0 mt-2 bg-white dark:bg-stone-800 border border-stone-200 dark:border-stone-700 shadow-xl rounded-lg overflow-hidden flex flex-col w-48 z-50">
+              <button onClick={() => handleMenuAction('mute')} className="p-3 text-sm text-left hover:bg-stone-50 dark:hover:bg-stone-700/50 text-stone-700 dark:text-stone-300">
+                🔕 Mettre en sourdine
+              </button>
+              <button onClick={() => handleMenuAction('save')} className="p-3 text-sm text-left hover:bg-stone-50 dark:hover:bg-stone-700/50 text-stone-700 dark:text-stone-300">
+                📥 Sauvegarder (Export)
+              </button>
+              <div className="border-t border-stone-100 dark:border-stone-700"></div>
+              <button onClick={() => handleMenuAction('delete')} className="p-3 text-sm text-left hover:bg-rose-50 dark:hover:bg-rose-900/20 text-rose-600 font-medium">
+                🗑 Supprimer
+              </button>
+            </div>
+          )}
         </div>
       </div>
 

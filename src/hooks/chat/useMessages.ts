@@ -101,11 +101,25 @@ export function useMessages(conversationId: string) {
     let fileType = null;
 
     if (attachment) {
-      // In production, upload to Supabase Storage first
-      // const fileExt = attachment.name.split('.').pop();
-      // const fileName = `${Math.random()}.${fileExt}`;
-      // const { data } = await supabase.storage.from('chat_attachments').upload(fileName, attachment);
-      // fileUrl = data?.path; // public URL mapping later
+      if (attachment.type.startsWith('audio/')) fileType = 'audio';
+      else if (attachment.type.startsWith('image/')) fileType = 'image';
+      else if (attachment.type === 'application/pdf') fileType = 'pdf';
+      else fileType = 'pdf'; // fallback or adjust DB schema if you want 'other'
+
+      const fileExt = attachment.name.split('.').pop() || 'tmp';
+      const fileName = `${user.id}/${Date.now()}_${Math.random().toString(36).substring(7)}.${fileExt}`;
+      
+      const { data, error } = await supabase.storage.from('chat_attachments').upload(fileName, attachment, {
+        cacheControl: '3600',
+        upsert: false
+      });
+
+      if (error) {
+        console.error("Erreur lors de l'upload de la pièce jointe:", error);
+      } else if (data) {
+        const { data: publicData } = supabase.storage.from('chat_attachments').getPublicUrl(data.path);
+        fileUrl = publicData.publicUrl;
+      }
     }
 
     await supabase.from('chat_messages').insert({
