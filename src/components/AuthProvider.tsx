@@ -26,22 +26,18 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [subscriptionTier, setSubscriptionTier] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [connectionError, setConnectionError] = useState<string | null>(null);
-  const [isMounted, setIsMounted] = useState(false);
-
   const fetchProfile = useCallback(async (userId: string) => {
-    if (!isMounted) return;
-
     const { data, error } = await supabase
       .from("profiles")
       .select("role, subscription_tier")
       .eq("id", userId)
       .maybeSingle();
 
-    if (!error && data && isMounted) {
+    if (!error && data) {
       setRole(data.role as UserRole);
       setSubscriptionTier(data.subscription_tier || 'free');
     }
-  }, [isMounted]);
+  }, []);
 
   const checkConnection = useCallback(async () => {
     try {
@@ -61,7 +57,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   useEffect(() => {
-    setIsMounted(true);
 
     const setData = async () => {
       try {
@@ -97,7 +92,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     });
 
     return () => {
-      setIsMounted(false);
       subscription.unsubscribe();
     };
   }, [fetchProfile, checkConnection]);
