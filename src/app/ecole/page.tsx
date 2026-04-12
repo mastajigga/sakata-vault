@@ -12,7 +12,7 @@ import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import EcoleHero from "./components/EcoleHero";
 import KnowledgeRivers from "./components/KnowledgeRivers";
-import MathCurriculumStudio from "./components/MathCurriculumStudio";
+import MathCurriculumSwitcher from "./components/MathCurriculumSwitcher";
 import PremiereAnneeIntro from "./content/premiere-annee-intro.mdx";
 import {
   knowledgeRivers,
@@ -158,9 +158,10 @@ export default function EcolePage() {
         </div>
       </section>
 
-      <MathCurriculumStudio programs={primaryPrograms} />
-
-      <MathCurriculumStudio programs={secondairePrograms} level="secondaire" />
+      <MathCurriculumSwitcher
+        primaryPrograms={primaryPrograms}
+        secondaryPrograms={secondairePrograms}
+      />
 
       <section className="section-container pb-24 pt-8 md:pb-32">
         <div className="mist-panel rounded-[2rem] p-6 md:p-8">
