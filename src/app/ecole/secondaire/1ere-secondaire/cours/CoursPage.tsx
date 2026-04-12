@@ -10,6 +10,14 @@ import ChapterNav from "./ChapterNav";
 import AnimatedTheoryBlock from "./AnimatedTheoryBlock";
 import BalanceVisualization from "./BalanceVisualization";
 import VennVisualization from "./VennVisualization";
+import FunctionPlot from "./FunctionPlot";
+import SystemVisualization from "./SystemVisualization";
+import AngleTriangle from "./AngleTriangle";
+import ProportionVisualization from "./ProportionVisualization";
+import ParabolaVisualization from "./ParabolaVisualization";
+import PythagoreanSquares from "./PythagoreanSquares";
+import StatisticsViz from "./StatisticsViz";
+import PieChartViz from "./PieChartViz";
 
 interface CoursPageProps {
   program: MathematicsProgramYear;
@@ -172,11 +180,21 @@ export default function CoursPage({ program }: CoursPageProps) {
           />
 
           {/* Interactive visualization */}
-          {activeChapter.visualizationType === "balance" ? (
-            <BalanceVisualization />
-          ) : activeChapter.visualizationType === "venn" ? (
-            <VennVisualization />
-          ) : null}
+          {activeChapter.visualizationType && activeChapter.visualizationType !== "none" && (() => {
+            switch (activeChapter.visualizationType) {
+              case "balance": return <BalanceVisualization />;
+              case "venn": return <VennVisualization />;
+              case "function-plot": return <FunctionPlot />;
+              case "system": return <SystemVisualization />;
+              case "angle-triangle": return <AngleTriangle />;
+              case "proportion": return <ProportionVisualization />;
+              case "parabola": return <ParabolaVisualization />;
+              case "pythagorean-squares": return <PythagoreanSquares />;
+              case "statistics-bars": return <StatisticsViz />;
+              case "pie-chart": return <PieChartViz />;
+              default: return null;
+            }
+          })()}
 
           {/* Chapter footer: practice + navigation */}
           <div className="rounded-[1.8rem] border border-[rgba(212,221,215,0.08)] bg-[rgba(4,17,13,0.45)] p-6">
