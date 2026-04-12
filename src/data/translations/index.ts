@@ -37,6 +37,13 @@ export const UI_TRANSLATIONS = {
       swa: "Jamii",
       tsh: "Tshisumbu",
     },
+    chat: {
+      fr: "Messagerie",
+      skt: "Masolo",
+      lin: "Masolo",
+      swa: "Soga",
+      tsh: "Kuyukila",
+    },
     join: {
       fr: "Rejoindre",
       skt: "Okoka",
