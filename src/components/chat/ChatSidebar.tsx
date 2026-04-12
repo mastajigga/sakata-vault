@@ -9,9 +9,19 @@ interface ChatSidebarProps {
   activeId: string | null;
 }
 
+export type ConversationItem = {
+  id: string;
+  type: "direct" | "group";
+  name?: string;
+  lastMessage?: string;
+  lastMessageAt?: string;
+  unreadCount: number;
+};
+
 export function ChatSidebar({ activeId }: ChatSidebarProps) {
   const [searchQuery, setSearchQuery] = useState("");
   const { conversations, loading } = useConversations();
+
 
   const filtered = conversations.filter(c => 
     c.name?.toLowerCase().includes(searchQuery.toLowerCase())

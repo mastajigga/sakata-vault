@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
-import { ConversationItem } from "@/components/chat/ChatLayout"; // Using the exported type
+import { ConversationItem } from "@/components/chat/ChatSidebar"; // Using the exported type
 
 export function useConversations() {
   const [conversations, setConversations] = useState<ConversationItem[]>([]);
