@@ -48,3 +48,4 @@ __pycache__/
 *_report.md
 task.md
 walkthrough.md
+.claude/worktrees/
