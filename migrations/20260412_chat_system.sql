@@ -41,41 +41,48 @@ ALTER TABLE public.chat_conversations ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.chat_participants ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.chat_messages ENABLE ROW LEVEL SECURITY;
 
--- 5. RLS Policies for chat_conversations
+-- 5. Helper Functions to prevent RLS recursion
+CREATE OR REPLACE FUNCTION public.is_chat_participant(conv_id UUID, uid UUID)
+RETURNS BOOLEAN AS $$
+  SELECT EXISTS (
+    SELECT 1 FROM public.chat_participants
+    WHERE conversation_id = conv_id AND user_id = uid
+  );
+$$ LANGUAGE sql SECURITY DEFINER;
 
+CREATE OR REPLACE FUNCTION public.is_chat_admin(conv_id UUID, uid UUID)
+RETURNS BOOLEAN AS $$
+  SELECT EXISTS (
+    SELECT 1 FROM public.chat_participants
+    WHERE conversation_id = conv_id AND user_id = uid AND role IN ('admin', 'mbey')
+  );
+$$ LANGUAGE sql SECURITY DEFINER;
+
+-- 6. RLS Policies for chat_conversations
 DROP POLICY IF EXISTS "Users can view their conversations" ON public.chat_conversations;
 CREATE POLICY "Users can view their conversations" ON public.chat_conversations
 FOR SELECT USING (
     auth.uid() = created_by OR
-    EXISTS (
-        SELECT 1 FROM public.chat_participants cp
-        WHERE cp.conversation_id = chat_conversations.id AND cp.user_id = auth.uid()
-    )
+    public.is_chat_participant(id, auth.uid())
 );
 
 DROP POLICY IF EXISTS "Authenticated users can create conversations" ON public.chat_conversations;
 CREATE POLICY "Authenticated users can create conversations" ON public.chat_conversations
 FOR INSERT WITH CHECK (auth.role() = 'authenticated');
 
--- 6. RLS Policies for chat_participants
-
+-- 7. RLS Policies for chat_participants
 DROP POLICY IF EXISTS "Users can view participants of their conversations" ON public.chat_participants;
 CREATE POLICY "Users can view participants of their conversations" ON public.chat_participants
 FOR SELECT USING (
-    EXISTS (
-        SELECT 1 FROM public.chat_participants AS cp
-        WHERE cp.conversation_id = chat_participants.conversation_id AND cp.user_id = auth.uid()
-    )
+    user_id = auth.uid() OR
+    public.is_chat_participant(conversation_id, auth.uid())
 );
 
 DROP POLICY IF EXISTS "Users and admins can add participants" ON public.chat_participants;
 CREATE POLICY "Users and admins can add participants" ON public.chat_participants
 FOR INSERT WITH CHECK (
     auth.uid() = user_id OR 
-    EXISTS (
-        SELECT 1 FROM public.chat_participants cp
-        WHERE cp.conversation_id = chat_participants.conversation_id AND cp.user_id = auth.uid() AND cp.role IN ('admin', 'mbey')
-    ) OR
+    public.is_chat_admin(conversation_id, auth.uid()) OR
     EXISTS (
         SELECT 1 FROM public.chat_conversations cc
         WHERE cc.id = chat_participants.conversation_id AND cc.created_by = auth.uid()
@@ -86,44 +93,30 @@ DROP POLICY IF EXISTS "Admins or self can remove participants" ON public.chat_pa
 CREATE POLICY "Admins or self can remove participants" ON public.chat_participants
 FOR DELETE USING (
     auth.uid() = user_id OR 
-    EXISTS (
-        SELECT 1 FROM public.chat_participants cp
-        WHERE cp.conversation_id = chat_participants.conversation_id AND cp.user_id = auth.uid() AND cp.role IN ('admin', 'mbey')
-    )
+    public.is_chat_admin(conversation_id, auth.uid())
 );
 
--- 7. RLS Policies for chat_messages
-
+-- 8. RLS Policies for chat_messages
 DROP POLICY IF EXISTS "Users can view messages in their conversations" ON public.chat_messages;
 CREATE POLICY "Users can view messages in their conversations" ON public.chat_messages
 FOR SELECT USING (
-    EXISTS (
-        SELECT 1 FROM public.chat_participants cp
-        WHERE cp.conversation_id = chat_messages.conversation_id AND cp.user_id = auth.uid()
-    )
+    public.is_chat_participant(conversation_id, auth.uid())
 );
 
 DROP POLICY IF EXISTS "Users can insert messages to their conversations" ON public.chat_messages;
 CREATE POLICY "Users can insert messages to their conversations" ON public.chat_messages
 FOR INSERT WITH CHECK (
-    EXISTS (
-        SELECT 1 FROM public.chat_participants cp
-        WHERE cp.conversation_id = chat_messages.conversation_id AND cp.user_id = auth.uid()
-    )
-    AND auth.uid() = sender_id
+    public.is_chat_participant(conversation_id, auth.uid()) AND auth.uid() = sender_id
 );
 
 DROP POLICY IF EXISTS "Senders and admins can update messages" ON public.chat_messages;
 CREATE POLICY "Senders and admins can update messages" ON public.chat_messages
 FOR UPDATE USING (
     auth.uid() = sender_id OR 
-    EXISTS (
-        SELECT 1 FROM public.chat_participants cp
-        WHERE cp.conversation_id = chat_messages.conversation_id AND cp.user_id = auth.uid() AND cp.role IN ('admin', 'mbey')
-    )
+    public.is_chat_admin(conversation_id, auth.uid())
 );
 
--- 8. Functions & Triggers for auto-updating timestamps
+-- 9. Functions & Triggers for auto-updating timestamps
 
 CREATE OR REPLACE FUNCTION public.update_last_read_at()
 RETURNS TRIGGER AS $$
