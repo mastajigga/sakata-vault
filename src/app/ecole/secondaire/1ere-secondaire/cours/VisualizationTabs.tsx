@@ -13,6 +13,11 @@ import ParabolaVisualization from "./ParabolaVisualization";
 import PythagoreanSquares from "./PythagoreanSquares";
 import StatisticsViz from "./StatisticsViz";
 import PieChartViz from "./PieChartViz";
+import NumberLineViz from "./NumberLineViz";
+import PlaceValueGrid from "./PlaceValueGrid";
+import AreaRectangle from "./AreaRectangle";
+import FractionCircle from "./FractionCircle";
+import Timeline from "./Timeline";
 
 interface VisualizationTabsProps {
   visualizations: Visualization[];
@@ -30,11 +35,11 @@ const renderVisualization = (type: Visualization["type"]) => {
     case "pythagorean-squares": return <PythagoreanSquares />;
     case "statistics-bars": return <StatisticsViz />;
     case "pie-chart": return <PieChartViz />;
-    case "number-line": return <div className="text-center py-8 text-[rgba(212,221,215,0.6)]">Droite des nombres — À venir</div>;
-    case "place-value-grid": return <div className="text-center py-8 text-[rgba(212,221,215,0.6)]">Grille de valeurs — À venir</div>;
-    case "area-rectangle": return <div className="text-center py-8 text-[rgba(212,221,215,0.6)]">Surface rectangulaire — À venir</div>;
-    case "fraction-circle": return <div className="text-center py-8 text-[rgba(212,221,215,0.6)]">Cercle de fractions — À venir</div>;
-    case "timeline": return <div className="text-center py-8 text-[rgba(212,221,215,0.6)]">Ligne de temps — À venir</div>;
+    case "number-line": return <NumberLineViz />;
+    case "place-value-grid": return <PlaceValueGrid />;
+    case "area-rectangle": return <AreaRectangle />;
+    case "fraction-circle": return <FractionCircle />;
+    case "timeline": return <Timeline />;
     case "none": return null;
     default: return null;
   }
