@@ -83,9 +83,20 @@ export default function CoursePage({ program }: CoursPageProps) {
         </span>
       </nav>
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }} className="mist-panel mb-10 rounded-[2rem] p-6 md:p-8">
-        <div className="flex flex-wrap items-center gap-3">
-          <span className="eyebrow">{program.title}</span>
-          <span className="rounded-full border border-[rgba(212,221,215,0.12)] px-3 py-1 text-[0.72rem] uppercase tracking-[0.18em] text-[rgba(212,221,215,0.6)]">{chapters.length} chapitres</span>
+        <div className="flex flex-wrap items-center justify-between gap-4">
+          <div className="flex flex-wrap items-center gap-3">
+            <span className="eyebrow">{program.title}</span>
+            <span className="rounded-full border border-[rgba(212,221,215,0.12)] px-3 py-1 text-[0.72rem] uppercase tracking-[0.18em] text-[rgba(212,221,215,0.6)]">{chapters.length} chapitres</span>
+          </div>
+          {exercisesPath && (
+            <Link
+              href={exercisesPath}
+              className="flex shrink-0 items-center gap-2 rounded-full border border-[rgba(196,160,53,0.35)] bg-[rgba(196,160,53,0.08)] px-4 py-2 text-sm font-medium text-[var(--or-ancestral)] transition-all hover:bg-[rgba(196,160,53,0.15)] focus:outline-none focus:ring-2 focus:ring-[var(--or-ancestral)] focus:ring-offset-2 focus:ring-offset-[var(--foret-nocturne)]"
+              aria-label="Accéder aux exercices interactifs"
+            >
+              Exercices <ArrowRight size={14} aria-hidden="true" />
+            </Link>
+          )}
         </div>
         <h1 className="heading-xl mt-3">Parcours animé — Cours complet</h1>
       </motion.div>
