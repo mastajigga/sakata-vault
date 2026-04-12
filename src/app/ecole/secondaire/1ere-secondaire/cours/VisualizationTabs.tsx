@@ -18,6 +18,16 @@ import PlaceValueGrid from "./PlaceValueGrid";
 import AreaRectangle from "./AreaRectangle";
 import FractionCircle from "./FractionCircle";
 import Timeline from "./Timeline";
+import CountingBeads from "./CountingBeads";
+import NumberBonds from "./NumberBonds";
+import CoinCounter from "./CoinCounter";
+import RulerMeasure from "./RulerMeasure";
+import MultiplicationGrid from "./MultiplicationGrid";
+import FractionBar from "./FractionBar";
+import DecimalGrid from "./DecimalGrid";
+import BarModel from "./BarModel";
+import ShapeExplorer from "./ShapeExplorer";
+import ClockFace from "./ClockFace";
 
 interface VisualizationTabsProps {
   visualizations: Visualization[];
@@ -40,6 +50,16 @@ const renderVisualization = (type: Visualization["type"]) => {
     case "area-rectangle": return <AreaRectangle />;
     case "fraction-circle": return <FractionCircle />;
     case "timeline": return <Timeline />;
+    case "counting-beads": return <CountingBeads />;
+    case "number-bonds": return <NumberBonds />;
+    case "coin-counter": return <CoinCounter />;
+    case "ruler-measure": return <RulerMeasure />;
+    case "multiplication-grid": return <MultiplicationGrid />;
+    case "fraction-bar": return <FractionBar />;
+    case "decimal-grid": return <DecimalGrid />;
+    case "bar-model": return <BarModel />;
+    case "shape-explorer": return <ShapeExplorer />;
+    case "clock-face": return <ClockFace />;
     case "none": return null;
     default: return null;
   }
