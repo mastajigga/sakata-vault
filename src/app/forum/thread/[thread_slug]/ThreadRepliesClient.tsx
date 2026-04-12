@@ -50,23 +50,22 @@ export default function ThreadRepliesClient({ threadId, initialPosts, isLocked }
           filter: `thread_id=eq.${threadId}`
         },
         async (payload) => {
-          // Fetch the full profile of the new post author to display correctly
           const newPost = payload.new as Post;
           
-          if(!posts.find(p => p.id === newPost.id)) {
-            const { data: profile } = await supabase
-              .from('profiles')
-              .select('id, username, nickname, avatar_url, role')
-              .eq('id', newPost.author_id)
-              .single();
-              
-            setPosts(prev => [...prev, { ...newPost, profiles: (profile || undefined) as any }]);
+          const { data: profile } = await supabase
+            .from('profiles')
+            .select('id, username, nickname, avatar_url, role')
+            .eq('id', newPost.author_id)
+            .single();
             
-            // Subtle scroll on new message
-            setTimeout(() => {
-              endOfPostsRef.current?.scrollIntoView({ behavior: "smooth" });
-            }, 100);
-          }
+          setPosts(prev => {
+            if (prev.find(p => p.id === newPost.id)) return prev;
+            return [...prev, { ...newPost, profiles: (profile || undefined) as any }];
+          });
+          
+          setTimeout(() => {
+            endOfPostsRef.current?.scrollIntoView({ behavior: "smooth" });
+          }, 100);
         }
       )
       .subscribe();
@@ -74,7 +73,7 @@ export default function ThreadRepliesClient({ threadId, initialPosts, isLocked }
     return () => {
       supabase.removeChannel(channel);
     };
-  }, [threadId, supabase, posts]);
+  }, [threadId]);
 
   const handleReplySubmit = async (e: React.FormEvent) => {
     e.preventDefault();

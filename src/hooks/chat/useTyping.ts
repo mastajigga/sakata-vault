@@ -31,13 +31,15 @@ export function useTyping(conversationId: string) {
           },
         },
       });
+      // Store room immediately to ensure cleanup can find it even if still subscribing
+      channelRef.current = { room, username: currentUsername };
 
       room.on('presence', { event: 'sync' }, () => {
         if (!isMounted) return;
         const state = room.presenceState();
         const typers: string[] = [];
         for (const [key, presences] of Object.entries(state)) {
-          if (key === currentUserId) continue; // Don't show myself as typing
+          if (key === currentUserId) continue;
           for (const p of presences as any[]) {
             if (p.typing && p.name && !typers.includes(p.name)) {
               typers.push(p.name);
@@ -47,11 +49,7 @@ export function useTyping(conversationId: string) {
         setTypingUsers(typers);
       });
 
-      room.subscribe(async (status) => {
-        if (status === 'SUBSCRIBED' && isMounted) {
-          channelRef.current = { room, username: currentUsername };
-        }
-      });
+      room.subscribe();
     }
 
     initPresence();
