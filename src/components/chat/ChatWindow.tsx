@@ -6,6 +6,7 @@ import { MessageBubble } from "./MessageBubble";
 import { ChatInput } from "./ChatInput";
 import { useMessages } from "@/hooks/chat/useMessages";
 import { useTyping } from "@/hooks/chat/useTyping";
+import { supabase } from "@/lib/supabase";
 
 export type Message = {
   id: string;
@@ -52,9 +53,22 @@ export function ChatWindow({ conversationId, onBack }: ChatWindowProps) {
     } else if (action === 'mute') {
       alert("Conversation mise en sourdine. (Notifications désactivées)");
     } else if (action === 'delete') {
-      if (confirm("Êtes-vous sûr de vouloir supprimer cette conversation définitivement ?")) {
-        // En sprint futur: await supabase.from('chat_participants').delete() ...
-        alert("Action programmée. Les suppressions permanentes seront activées au prochain batch.");
+      if (window.confirm("Êtes-vous sûr de vouloir supprimer cette conversation définitivement ?")) {
+        try {
+          // Delete from database
+          const { error } = await supabase
+            .from('chat_conversations')
+            .delete()
+            .eq('id', conversationId);
+
+          if (error) throw error;
+          
+          // Go back to the conversation list
+          onBack();
+        } catch (error) {
+          console.error("Error deleting conversation:", error);
+          alert("Une erreur est survenue lors de la suppression de la conversation.");
+        }
       }
     }
   };
