@@ -6,6 +6,7 @@ import { useParams, useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { MapPin, MessageCircle, ChevronLeft, Quote, User as UserIcon } from "lucide-react";
 import Link from "next/link";
+import Navbar from "@/components/Navbar";
 import { useAuth } from "@/components/AuthProvider";
 
 interface Profile {
@@ -129,6 +130,7 @@ export default function MembreProfilePage() {
   if (!profile) {
     return (
       <div className="min-h-screen bg-[#0A1F15] flex flex-col items-center justify-center p-4 text-center">
+        <Navbar />
         <h1 className="text-4xl font-display text-[#B59551] mb-6">Profil introuvable</h1>
         <p className="text-[#F2EEDD]/70 mb-8 max-w-md">Cet esprit n'a pas encore laissé de trace dans la brume.</p>
         <Link href="/membres" className="px-6 py-3 bg-white/5 border border-white/10 rounded-full text-white hover:bg-white/10 transition">
@@ -142,14 +144,9 @@ export default function MembreProfilePage() {
 
   return (
     <div className="min-h-screen bg-[#0A1F15] flex flex-col md:flex-row relative">
+      <Navbar />
       
-      {/* Mobile/Floating Back Button */}
-      <Link 
-        href="/membres" 
-        className="fixed top-24 left-6 z-50 w-12 h-12 rounded-full bg-black/40 backdrop-blur-md border border-white/10 flex items-center justify-center text-white hover:bg-black/60 transition-colors"
-      >
-        <ChevronLeft size={24} />
-      </Link>
+      {/* Left fixed section for photo */}
 
       {/* Picture / Graphic Half (Full screen on mobile, left half on desktop) */}
       <div className="relative w-full h-[60vh] md:h-screen md:flex-1 md:sticky md:top-0 bg-[#0A1F15] overflow-hidden">

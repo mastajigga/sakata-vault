@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase";
+import Navbar from "@/components/Navbar";
 import { motion } from "framer-motion";
 import { MapPin, MessageCircle } from "lucide-react";
 
@@ -38,6 +39,7 @@ export default function MembresPage() {
 
   return (
     <div className="min-h-screen bg-[#0A1F15] pb-12">
+      <Navbar />
       
       {/* Hero Banner Section */}
       <div className="relative w-full h-[40vh] min-h-[300px]">
