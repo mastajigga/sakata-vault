@@ -53,6 +53,13 @@ export default function MathCurriculumStudio({
     return null;
   }
 
+  const coursePath = activeProgram.courseSlug
+    ? level === "secondaire"
+      ? `/ecole/secondaire/${activeProgram.courseSlug}/cours`
+      : `/ecole/primaire/${activeProgram.courseSlug}/cours`
+    : null;
+  const chapterPreview = activeProgram.courseChapters ?? [];
+
   return (
     <section
       id={level === "secondaire" ? "mathematiques-secondaire" : "mathematiques"}
@@ -64,7 +71,7 @@ export default function MathCurriculumStudio({
         </span>
         <h2 className="mt-6 font-display text-4xl tracking-[-0.05em] text-[var(--ivoire-ancien)] md:text-6xl">
           {level === "secondaire"
-            ? "Six annees de secondaire, du premier cycle au terminal."
+            ? "Trois annees de secondaire, du premier cycle au tronc commun."
             : "Un studio mathematique progressif, ancre dans la vie Sakata."}
         </h2>
         <p className="mt-5 text-base leading-8 text-[rgba(212,221,215,0.78)] md:text-lg">
@@ -230,85 +237,128 @@ export default function MathCurriculumStudio({
             </div>
           </motion.article>
 
-          <div className="grid gap-5 lg:grid-cols-2">
-            {activeProgram.theoryBlocks.map((block) => (
-              <motion.article
-                key={block.title}
-                initial={{ opacity: 0, y: 22 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-20px" }}
-                transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
-                className="mist-panel rounded-[1.8rem] p-5 md:p-6"
-              >
-                <div className="flex items-center gap-3 text-[var(--amber-light)]">
-                  <Sparkles className="h-5 w-5" />
-                  <p className="text-xs font-semibold uppercase tracking-[0.2em]">
-                    Theorie guidee
+          {activeProgram.theoryBlocks.length > 0 ? (
+            <div className="grid gap-5 lg:grid-cols-2">
+              {activeProgram.theoryBlocks.map((block) => (
+                <motion.article
+                  key={block.title}
+                  initial={{ opacity: 0, y: 22 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-20px" }}
+                  transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+                  className="mist-panel rounded-[1.8rem] p-5 md:p-6"
+                >
+                  <div className="flex items-center gap-3 text-[var(--amber-light)]">
+                    <Sparkles className="h-5 w-5" />
+                    <p className="text-xs font-semibold uppercase tracking-[0.2em]">
+                      Theorie guidee
+                    </p>
+                  </div>
+                  <h4 className="mt-4 font-display text-2xl tracking-tight text-[var(--ivoire-ancien)]">
+                    {block.title}
+                  </h4>
+                  <p className="mt-4 text-sm leading-7 text-[rgba(240,237,229,0.8)]">
+                    {block.explanation}
                   </p>
-                </div>
-                <h4 className="mt-4 font-display text-2xl tracking-tight text-[var(--ivoire-ancien)]">
-                  {block.title}
-                </h4>
-                <p className="mt-4 text-sm leading-7 text-[rgba(240,237,229,0.8)]">
-                  {block.explanation}
-                </p>
 
-                {block.formula ? (
-                  <div className="mt-5">
-                    <MathExpression expression={block.formula} displayMode />
-                  </div>
-                ) : null}
+                  {block.formula ? (
+                    <div className="mt-5">
+                      <MathExpression expression={block.formula} displayMode />
+                    </div>
+                  ) : null}
 
-                {block.example ? (
-                  <div className="mt-5 rounded-[1.35rem] border border-[rgba(212,221,215,0.08)] bg-[rgba(4,17,13,0.45)] p-4">
-                    <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[rgba(212,221,215,0.56)]">
-                      Exemple local
-                    </p>
-                    <p className="mt-2 text-sm leading-7 text-[rgba(240,237,229,0.78)]">
-                      {block.example}
-                    </p>
-                  </div>
-                ) : null}
-              </motion.article>
-            ))}
-          </div>
-
-          <div className="space-y-5">
-            <div className="flex items-center gap-3 text-[var(--amber-light)]">
-              <Flame className="h-5 w-5" />
-              <p className="text-xs font-semibold uppercase tracking-[0.2em]">
-                Exercices interactifs et correction immediate
-              </p>
+                  {block.example ? (
+                    <div className="mt-5 rounded-[1.35rem] border border-[rgba(212,221,215,0.08)] bg-[rgba(4,17,13,0.45)] p-4">
+                      <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[rgba(212,221,215,0.56)]">
+                        Exemple local
+                      </p>
+                      <p className="mt-2 text-sm leading-7 text-[rgba(240,237,229,0.78)]">
+                        {block.example}
+                      </p>
+                    </div>
+                  ) : null}
+                </motion.article>
+              ))}
             </div>
+          ) : chapterPreview.length > 0 ? (
+            <div className="grid gap-5 lg:grid-cols-2">
+              {chapterPreview.map((chapter, index) => (
+                <motion.article
+                  key={chapter.id}
+                  initial={{ opacity: 0, y: 22 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-20px" }}
+                  transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+                  className="mist-panel rounded-[1.8rem] p-5 md:p-6"
+                >
+                  <div className="flex items-center gap-3 text-[var(--amber-light)]">
+                    <Sparkles className="h-5 w-5" />
+                    <p className="text-xs font-semibold uppercase tracking-[0.2em]">
+                      Chapitre {index + 1}
+                    </p>
+                  </div>
+                  <h4 className="mt-4 font-display text-2xl tracking-tight text-[var(--ivoire-ancien)]">
+                    {chapter.title}
+                  </h4>
+                  <p className="mt-3 text-sm leading-7 text-[rgba(212,221,215,0.72)]">
+                    {chapter.subtitle}
+                  </p>
+                  <p className="mt-4 text-sm leading-7 text-[rgba(240,237,229,0.8)]">
+                    {chapter.sakataContext}
+                  </p>
+                  <div className="mt-5 flex flex-wrap gap-2">
+                    {(chapter.visualizations ?? []).slice(0, 4).map((visualization) => (
+                      <span
+                        key={`${chapter.id}-${visualization.type}`}
+                        className="rounded-full border border-[rgba(212,221,215,0.08)] bg-[rgba(4,17,13,0.45)] px-3 py-2 text-xs uppercase tracking-[0.16em] text-[rgba(212,221,215,0.72)]"
+                      >
+                        {visualization.title}
+                      </span>
+                    ))}
+                  </div>
+                </motion.article>
+              ))}
+            </div>
+          ) : null}
 
-            {activeProgram.exercises.map((exercise) => (
-              <MathExerciseCard
-                key={exercise.id}
-                yearSlug={activeProgram.slug}
-                exercise={exercise}
-                completed={getCompletedExercises(activeProgram.slug).includes(
-                  exercise.id
-                )}
-                onAttempt={(attempt) =>
-                  recordAttempt(
-                    attempt.yearSlug,
-                    attempt.exerciseId,
-                    attempt.submittedAnswer,
-                    attempt.isCorrect
-                  )
-                }
-                onComplete={() =>
-                  completeExercise(
-                    activeProgram.slug,
-                    exercise.id,
-                    activeProgram.exercises.length
-                  )
-                }
-              />
-            ))}
-          </div>
+          {activeProgram.exercises.length > 0 ? (
+            <div className="space-y-5">
+              <div className="flex items-center gap-3 text-[var(--amber-light)]">
+                <Flame className="h-5 w-5" />
+                <p className="text-xs font-semibold uppercase tracking-[0.2em]">
+                  Exercices interactifs et correction immediate
+                </p>
+              </div>
 
-          {activeProgram.courseSlug ? (
+              {activeProgram.exercises.map((exercise) => (
+                <MathExerciseCard
+                  key={exercise.id}
+                  yearSlug={activeProgram.slug}
+                  exercise={exercise}
+                  completed={getCompletedExercises(activeProgram.slug).includes(
+                    exercise.id
+                  )}
+                  onAttempt={(attempt) =>
+                    recordAttempt(
+                      attempt.yearSlug,
+                      attempt.exerciseId,
+                      attempt.submittedAnswer,
+                      attempt.isCorrect
+                    )
+                  }
+                  onComplete={() =>
+                    completeExercise(
+                      activeProgram.slug,
+                      exercise.id,
+                      activeProgram.exercises.length
+                    )
+                  }
+                />
+              ))}
+            </div>
+          ) : null}
+
+          {coursePath ? (
             <motion.div
               initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -326,7 +376,7 @@ export default function MathCurriculumStudio({
                 Explorez chaque concept pas à pas avec des visualisations interactives, des animations fluides et des contextes Basakata. Comme Brilliant.org, mais ancré dans la culture Sakata.
               </p>
               <Link
-                href={`/ecole/secondaire/${activeProgram.courseSlug}/cours`}
+                href={coursePath}
                 className="mt-5 inline-flex items-center gap-2 rounded-full border border-[rgba(196,160,53,0.3)] bg-[rgba(196,160,53,0.1)] px-6 py-3 text-sm font-semibold text-[var(--or-ancestral)] transition-all duration-300 hover:bg-[rgba(196,160,53,0.18)] active:scale-[0.98]"
               >
                 Voir le cours complet

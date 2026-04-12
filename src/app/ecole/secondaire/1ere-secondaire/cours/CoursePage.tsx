@@ -13,6 +13,10 @@ interface CoursPageProps { program: MathematicsProgramYear; }
 
 export default function CoursePage({ program }: CoursPageProps) {
   const chapters = program.courseChapters ?? [];
+  const isPrimary = program.slug.startsWith("primaire-");
+  const levelLabel = isPrimary ? "Primaire" : "Secondaire";
+  const levelAnchor = isPrimary ? "/ecole#mathematiques" : "/ecole#mathematiques-secondaire";
+  const exercisesPath = isPrimary ? null : `/ecole/secondaire/${program.courseSlug}/exercices`;
   const [activeChapterId, setActiveChapterId] = useState(chapters[0]?.id ?? "");
   const [completedChapterIds, setCompletedChapterIds] = useState<Set<string>>(new Set());
   const [enrichments, setEnrichments] = useState<Record<string, SemanticEnrichment | null>>({});
@@ -38,7 +42,11 @@ export default function CoursePage({ program }: CoursPageProps) {
   }, [activeChapterId, fetchEnrichment]);
   if (!activeChapter) return null;
   const chapterIndex = chapters.indexOf(activeChapter);
-  const theoryBlocks = program.theoryBlocks[chapterIndex] ? [program.theoryBlocks[chapterIndex]] : [];
+  const theoryBlocks = activeChapter.theoryBlocks?.length
+    ? activeChapter.theoryBlocks
+    : program.theoryBlocks[chapterIndex]
+      ? [program.theoryBlocks[chapterIndex]]
+      : program.theoryBlocks;
   const handleChapterComplete = () => {
     setCompletedChapterIds((prev) => new Set([...prev, activeChapterId]));
   };
@@ -52,7 +60,7 @@ export default function CoursePage({ program }: CoursPageProps) {
   return (
     <div className="section-container py-12 md:py-20">
       <nav className="mb-8 flex items-center gap-2 text-[0.7rem] uppercase tracking-[0.18em] text-[rgba(212,221,215,0.45)]">
-        <Link href="/ecole">École</Link><span>›</span><Link href="/ecole#mathematiques-secondaire">Secondaire</Link><span>›</span>
+        <Link href="/ecole">École</Link><span>›</span><Link href={levelAnchor}>{levelLabel}</Link><span>›</span>
         <span className="text-[rgba(212,221,215,0.65)]">{program.title}</span><span>›</span>
         <span className="text-[var(--or-ancestral)]">Cours complet</span>
       </nav>
@@ -89,8 +97,8 @@ export default function CoursePage({ program }: CoursPageProps) {
                   Chapitre suivant <ArrowRight size={16} />
                 </button>
               )}
-              {activeChapterIndex === chapters.length - 1 && (
-                <Link href={`/ecole/secondaire/${program.courseSlug}/exercices`} className="btn-primary flex items-center gap-2">
+              {activeChapterIndex === chapters.length - 1 && exercisesPath && (
+                <Link href={exercisesPath} className="btn-primary flex items-center gap-2">
                   Vers les exercices <ArrowRight size={16} />
                 </Link>
               )}

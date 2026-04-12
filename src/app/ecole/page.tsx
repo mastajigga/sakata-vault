@@ -14,7 +14,11 @@ import EcoleHero from "./components/EcoleHero";
 import KnowledgeRivers from "./components/KnowledgeRivers";
 import MathCurriculumStudio from "./components/MathCurriculumStudio";
 import PremiereAnneeIntro from "./content/premiere-annee-intro.mdx";
-import { knowledgeRivers, mathematicsPrograms, secondairePrograms } from "./data/mathematics-curriculum";
+import {
+  knowledgeRivers,
+  primaryPrograms,
+  secondairePrograms,
+} from "./data/mathematics-curriculum";
 
 export const metadata: Metadata = {
   title: "L'Ecole de la Brume | Kisakata",
@@ -154,7 +158,7 @@ export default function EcolePage() {
         </div>
       </section>
 
-      <MathCurriculumStudio programs={mathematicsPrograms} />
+      <MathCurriculumStudio programs={primaryPrograms} />
 
       <MathCurriculumStudio programs={secondairePrograms} level="secondaire" />
 
