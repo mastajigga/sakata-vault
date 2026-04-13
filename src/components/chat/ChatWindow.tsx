@@ -7,6 +7,7 @@ import { ChatInput } from "./ChatInput";
 import { useMessages } from "@/hooks/chat/useMessages";
 import { useTyping } from "@/hooks/chat/useTyping";
 import { supabase } from "@/lib/supabase";
+import { useAuth } from "../AuthProvider";
 
 export type Message = {
   id: string;
@@ -18,6 +19,9 @@ export type Message = {
   createdAt: string;
   isMe: boolean;
   expiresIn?: "24h" | "48h" | "7_days" | "30_days" | "never";
+  maxViews?: 1 | 2;
+  viewCount?: number;
+  hasBeenViewedByMe?: boolean;
 };
 
 interface ChatWindowProps {
@@ -26,6 +30,7 @@ interface ChatWindowProps {
 }
 
 export function ChatWindow({ conversationId, onBack }: ChatWindowProps) {
+  const { user } = useAuth();
   const scrollRef = useRef<HTMLDivElement>(null);
   const { messages, loading, sendMessage } = useMessages(conversationId);
   const { typingUsers, updateTyping } = useTyping(conversationId);
@@ -57,9 +62,10 @@ export function ChatWindow({ conversationId, onBack }: ChatWindowProps) {
   const handleSendMessage = async (
     content: string,
     attachment?: File | null,
-    expiresIn?: string
+    expiresIn?: string,
+    maxViews?: 1 | 2
   ) => {
-    await sendMessage(content, attachment, expiresIn);
+    await sendMessage(content, attachment, expiresIn, maxViews);
   };
 
   const activateEphemeral = (duration: "24h" | "48h") => {
@@ -94,17 +100,19 @@ export function ChatWindow({ conversationId, onBack }: ChatWindowProps) {
     } else if (action === "delete") {
       if (
         window.confirm(
-          "Êtes-vous sûr de vouloir supprimer cette conversation définitivement ?"
+          "Êtes-vous sûr de vouloir supprimer cette conversation ?"
         )
       ) {
         try {
+          if (!user) return;
           const { error } = await supabase
-            .from("chat_conversations")
+            .from("chat_participants")
             .delete()
-            .eq("id", conversationId);
+            .match({ conversation_id: conversationId, user_id: user.id });
 
           if (error) throw error;
-          onBack();
+          
+          window.location.reload();
         } catch (error) {
           console.error("Error deleting conversation:", error);
           alert("Une erreur est survenue lors de la suppression de la conversation.");

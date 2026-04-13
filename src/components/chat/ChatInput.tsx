@@ -1,16 +1,107 @@
 "use client";
 
 import React, { useState, useRef, useEffect, useCallback } from "react";
-import { Send, Paperclip, Mic, X, Clock, Play, Pause } from "lucide-react";
+import { Send, Paperclip, Mic, X, Clock, Play, Pause, Eye } from "lucide-react";
 
 interface ChatInputProps {
-  onSend: (content: string, attachment?: File | null, expiresIn?: string) => void;
+  onSend: (content: string, attachment?: File | null, expiresIn?: string, maxViews?: 1 | 2) => void;
   onTyping?: (isTyping: boolean) => void;
   isTemporaryConversation?: boolean;
   temporaryDuration?: "24h" | "48h";
 }
 
 const WAVEFORM_BARS = [4, 8, 14, 10, 18, 12, 20, 9, 16, 11, 19, 7, 15, 13, 6, 17, 10, 14, 8, 16];
+
+type ImageViewMode = "normal" | "once" | "twice";
+
+// ─── Ephemeral Image Picker panel ────────────────────────────────────────────
+
+function EphemeralImagePicker({
+  file,
+  mode,
+  onModeChange,
+  onRemove,
+}: {
+  file: File;
+  mode: ImageViewMode;
+  onModeChange: (m: ImageViewMode) => void;
+  onRemove: () => void;
+}) {
+  const [thumbUrl, setThumbUrl] = useState<string | null>(null);
+
+  useEffect(() => {
+    const url = URL.createObjectURL(file);
+    setThumbUrl(url);
+    return () => URL.revokeObjectURL(url);
+  }, [file]);
+
+  const sizeKb = (file.size / 1024).toFixed(1);
+
+  const modeOptions: { value: ImageViewMode; label: string }[] = [
+    { value: "normal", label: "Normal" },
+    { value: "once", label: "👁 Vue 1×" },
+    { value: "twice", label: "👁 Vue 2×" },
+  ];
+
+  return (
+    <div className="absolute bottom-full left-4 right-4 mb-2 bg-white dark:bg-stone-800 border border-stone-200 dark:border-stone-700 shadow-xl rounded-xl p-3 z-20 flex flex-col gap-3">
+      {/* File info row */}
+      <div className="flex items-center gap-3">
+        {thumbUrl && (
+          <div
+            className="w-12 h-12 rounded-lg bg-cover bg-center flex-shrink-0 border border-stone-200 dark:border-stone-700"
+            style={{ backgroundImage: `url(${thumbUrl})` }}
+          />
+        )}
+        <div className="flex flex-col flex-1 min-w-0">
+          <span className="text-sm font-medium text-stone-700 dark:text-stone-200 truncate">
+            {file.name}
+          </span>
+          <span className="text-xs text-stone-500">{sizeKb} KB</span>
+        </div>
+        <button
+          type="button"
+          onClick={onRemove}
+          className="p-1.5 hover:bg-stone-100 dark:hover:bg-stone-700 rounded-full flex-shrink-0 transition-colors"
+        >
+          <X size={15} className="text-rose-500" />
+        </button>
+      </div>
+
+      {/* Mode selector */}
+      <div className="flex items-center gap-2 flex-wrap">
+        <span className="text-xs text-stone-500 font-medium mr-1 flex-shrink-0">
+          Mode envoi :
+        </span>
+        {modeOptions.map(({ value, label }) => (
+          <button
+            key={value}
+            type="button"
+            onClick={() => onModeChange(value)}
+            className={`px-3 py-1.5 rounded-lg text-xs font-semibold border transition-all ${
+              mode === value
+                ? "bg-amber-600 border-amber-600 text-white shadow-sm"
+                : "bg-stone-100 dark:bg-stone-700 border-stone-200 dark:border-stone-600 text-stone-600 dark:text-stone-300 hover:border-amber-400 hover:text-amber-600 dark:hover:text-amber-400"
+            }`}
+          >
+            {label}
+          </button>
+        ))}
+      </div>
+
+      {mode !== "normal" && (
+        <p className="text-[10px] text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-900/20 rounded-lg px-2.5 py-1.5 flex items-center gap-1.5">
+          <Eye size={11} className="flex-shrink-0" />
+          {mode === "once"
+            ? "L'image disparaîtra après avoir été vue une fois (5 secondes)."
+            : "L'image disparaîtra après avoir été vue 2 fois (10 secondes chacune)."}
+        </p>
+      )}
+    </div>
+  );
+}
+
+// ─── ChatInput ────────────────────────────────────────────────────────────────
 
 export function ChatInput({
   onSend,
@@ -29,6 +120,11 @@ export function ChatInput({
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [attachment, setAttachment] = useState<File | null>(null);
 
+  // Image view mode for the ephemeral picker
+  const [imageViewMode, setImageViewMode] = useState<ImageViewMode>(
+    isTemporaryConversation ? "once" : "normal"
+  );
+
   // Voice recording
   const [isRecording, setIsRecording] = useState(false);
   const [recordingTime, setRecordingTime] = useState(0);
@@ -44,14 +140,26 @@ export function ChatInput({
 
   const typingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
+  // Derive whether the current attachment is an image (non-audio)
+  const isImageAttachment = !!(attachment && attachment.type.startsWith("image/") && !audioPreviewUrl);
+
   // Sync expiresIn when parent toggles temporary mode
   useEffect(() => {
     if (isTemporaryConversation) {
       setExpiresIn(temporaryDuration ?? "24h");
+      setImageViewMode("once");
     } else {
       setExpiresIn("never");
+      setImageViewMode("normal");
     }
   }, [isTemporaryConversation, temporaryDuration]);
+
+  // Reset image view mode when attachment is removed
+  useEffect(() => {
+    if (!attachment) {
+      setImageViewMode(isTemporaryConversation ? "once" : "normal");
+    }
+  }, [attachment, isTemporaryConversation]);
 
   // Cleanup on unmount
   useEffect(() => {
@@ -72,6 +180,13 @@ export function ChatInput({
     return `${mins}:${secs.toString().padStart(2, "0")}`;
   };
 
+  const resolveMaxViews = (): 1 | 2 | undefined => {
+    if (!isImageAttachment) return undefined;
+    if (imageViewMode === "once") return 1;
+    if (imageViewMode === "twice") return 2;
+    return undefined;
+  };
+
   const handleSubmit = (e?: React.FormEvent) => {
     if (e) e.preventDefault();
 
@@ -87,7 +202,7 @@ export function ChatInput({
     if (!content.trim() && !attachment) return;
 
     if (onTyping) onTyping(false);
-    onSend(content, attachment, expiresIn);
+    onSend(content, attachment, expiresIn, resolveMaxViews());
     setContent("");
     setAttachment(null);
     if (typingTimeoutRef.current) clearTimeout(typingTimeoutRef.current);
@@ -108,8 +223,15 @@ export function ChatInput({
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
-      setAttachment(e.target.files[0]);
+      const file = e.target.files[0];
+      setAttachment(file);
+      // Default image view mode depends on conversation type
+      if (file.type.startsWith("image/")) {
+        setImageViewMode(isTemporaryConversation ? "once" : "normal");
+      }
     }
+    // Reset input so same file can be re-selected
+    e.target.value = "";
   };
 
   const startRecording = async () => {
@@ -130,7 +252,6 @@ export function ChatInput({
         setAttachment(audioFile);
         setAudioPreviewUrl(previewUrl);
 
-        // Create audio element to get duration
         const audio = new Audio(previewUrl);
         previewAudioRef.current = audio;
         audio.onloadedmetadata = () => {
@@ -243,18 +364,21 @@ export function ChatInput({
         </div>
       )}
 
-      {/* Non-audio attachment preview */}
-      {attachment && !audioPreviewUrl && (
+      {/* Ephemeral image picker — shown for image attachments (not audio) */}
+      {isImageAttachment && (
+        <EphemeralImagePicker
+          file={attachment!}
+          mode={imageViewMode}
+          onModeChange={setImageViewMode}
+          onRemove={() => setAttachment(null)}
+        />
+      )}
+
+      {/* Generic non-image / non-audio attachment preview */}
+      {attachment && !audioPreviewUrl && !isImageAttachment && (
         <div className="absolute bottom-full left-4 mb-2 bg-stone-100 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 shadow-sm rounded-lg p-2 flex items-center gap-3 z-10">
           <div className="bg-white dark:bg-stone-900 p-2 rounded">
-            {attachment.type.startsWith("image/") ? (
-              <div
-                className="w-8 h-8 bg-cover bg-center rounded"
-                style={{ backgroundImage: `url(${URL.createObjectURL(attachment)})` }}
-              />
-            ) : (
-              <Paperclip size={20} className="text-stone-500" />
-            )}
+            <Paperclip size={20} className="text-stone-500" />
           </div>
           <div className="flex flex-col max-w-xs">
             <span className="text-sm font-medium text-stone-700 dark:text-stone-300 truncate">
@@ -372,6 +496,8 @@ export function ChatInput({
                 placeholder={
                   audioPreviewUrl
                     ? "Ajouter un commentaire au vocal..."
+                    : isImageAttachment
+                    ? "Ajouter un commentaire..."
                     : attachment
                     ? "Ajouter un commentaire..."
                     : "Écrire un message..."

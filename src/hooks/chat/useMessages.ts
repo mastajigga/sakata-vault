@@ -22,7 +22,7 @@ export function useMessages(conversationId: string) {
           .from('chat_messages')
           .select(`
             id, content, file_url, file_type, created_at, expires_in,
-            sender_id,
+            sender_id, max_views,
             profiles:sender_id ( nickname, username )
           `)
           .eq('conversation_id', conversationId)
@@ -42,6 +42,7 @@ export function useMessages(conversationId: string) {
             createdAt: new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
             isMe: msg.sender_id === userId,
             expiresIn: msg.expires_in,
+            maxViews: msg.max_views,
           }));
           setMessages(formattedMessages);
         }
@@ -82,6 +83,7 @@ export function useMessages(conversationId: string) {
           createdAt: new Date(newMsg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
           isMe: newMsg.sender_id === userId,
           expiresIn: newMsg.expires_in,
+          maxViews: newMsg.max_views,
         };
 
         setMessages(prev => [...prev, formattedNewMsg]);
@@ -93,7 +95,7 @@ export function useMessages(conversationId: string) {
     };
   }, [conversationId]);
 
-  const sendMessage = async (content: string, attachment?: File | null, expiresIn?: string) => {
+  const sendMessage = async (content: string, attachment?: File | null, expiresIn?: string, maxViews?: 1 | 2) => {
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return;
 
@@ -128,7 +130,8 @@ export function useMessages(conversationId: string) {
       content,
       file_url: fileUrl,
       file_type: fileType,
-      expires_in: expiresIn || "never"
+      expires_in: expiresIn || "never",
+      max_views: maxViews
     });
   };
 
