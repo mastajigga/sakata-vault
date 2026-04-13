@@ -55,9 +55,9 @@ export default function MembresPage() {
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-24">
         
         <div className="mb-12 text-center md:text-left">
-          <h1 className="text-4xl md:text-5xl font-display text-[#B59551] mb-4">La Communauté</h1>
+          <h1 className="text-4xl md:text-5xl font-display text-[#B59551] mb-4">Les Membres de la Communauté</h1>
           <p className="text-[#F2EEDD]/90 max-w-2xl text-lg drop-shadow-md">
-            Découvrez les gardiens du savoir, les documentalistes et les membres de la famille Sakata à travers le monde.
+            Découvrez les gardiens du savoir, les documentalistes, les membres de la famille Sakata ainsi que les amis à travers le monde.
           </p>
         </div>
 
