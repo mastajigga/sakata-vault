@@ -7,7 +7,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useLanguage } from "./LanguageProvider";
 import { useAuth } from "./AuthProvider";
 import LanguageSwitcher from "./LanguageSwitcher";
-import { LogOut, UserCircle } from "lucide-react";
+import { LogOut, UserCircle, RefreshCw, X } from "lucide-react";
 
 const navLinks = [
   { key: "nav.home", href: "/" },
@@ -21,9 +21,10 @@ const navLinks = [
 
 const Navbar = () => {
   const { t } = useLanguage();
-  const { user, isLoading: authLoading, connectionError, signOut } = useAuth();
+  const { user, isLoading: authLoading, connectionError, sessionExpired, signOut } = useAuth();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [dismissedExpiry, setDismissedExpiry] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -33,8 +34,47 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const showExpiryBanner = sessionExpired && !user && !dismissedExpiry;
+
   return (
     <>
+      {/* Session expiry banner — shown when token rotation silently logs user out */}
+      <AnimatePresence>
+        {showExpiryBanner && (
+          <motion.div
+            initial={{ y: -60, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: -60, opacity: 0 }}
+            transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+            className="fixed top-0 left-0 right-0 z-[60] flex items-center justify-between px-4 py-2.5"
+            style={{
+              background: "rgba(196,130,53,0.12)",
+              backdropFilter: "blur(12px)",
+              WebkitBackdropFilter: "blur(12px)",
+              borderBottom: "1px solid rgba(196,130,53,0.3)",
+            }}
+          >
+            <div className="flex items-center gap-2 text-sm" style={{ color: "var(--or-ancestral)" }}>
+              <RefreshCw size={14} className="shrink-0" />
+              <span>Votre session a expiré (reconnexion depuis un autre appareil).</span>
+              <Link
+                href="/auth"
+                className="font-semibold underline underline-offset-2 ml-1 hover:opacity-80 transition-opacity"
+              >
+                Se reconnecter →
+              </Link>
+            </div>
+            <button
+              onClick={() => setDismissedExpiry(true)}
+              aria-label="Fermer la notification"
+              className="p-1 rounded-full hover:bg-white/10 transition-colors ml-3"
+            >
+              <X size={14} style={{ color: "var(--or-ancestral)" }} />
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <motion.nav
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
