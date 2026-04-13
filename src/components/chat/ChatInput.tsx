@@ -1,45 +1,91 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from "react";
-import { Send, Paperclip, Mic, X, Clock } from "lucide-react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
+import { Send, Paperclip, Mic, X, Clock, Play, Pause } from "lucide-react";
 
 interface ChatInputProps {
   onSend: (content: string, attachment?: File | null, expiresIn?: string) => void;
   onTyping?: (isTyping: boolean) => void;
+  isTemporaryConversation?: boolean;
+  temporaryDuration?: "24h" | "48h";
 }
 
-export function ChatInput({ onSend, onTyping }: ChatInputProps) {
+const WAVEFORM_BARS = [4, 8, 14, 10, 18, 12, 20, 9, 16, 11, 19, 7, 15, 13, 6, 17, 10, 14, 8, 16];
+
+export function ChatInput({
+  onSend,
+  onTyping,
+  isTemporaryConversation,
+  temporaryDuration,
+}: ChatInputProps) {
   const [content, setContent] = useState("");
   const [showOptions, setShowOptions] = useState(false);
-  const [expiresIn, setExpiresIn] = useState<"never" | "7_days" | "30_days">("never");
-  
+  const [expiresIn, setExpiresIn] = useState<"never" | "24h" | "48h" | "7_days" | "30_days">(
+    isTemporaryConversation ? (temporaryDuration ?? "24h") : "never"
+  );
+
   // Attachments
   const inputRef = useRef<HTMLInputElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [attachment, setAttachment] = useState<File | null>(null);
-  
-  // Voice
+
+  // Voice recording
   const [isRecording, setIsRecording] = useState(false);
   const [recordingTime, setRecordingTime] = useState(0);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const audioChunksRef = useRef<Blob[]>([]);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
+  // Audio preview
+  const [audioPreviewUrl, setAudioPreviewUrl] = useState<string | null>(null);
+  const [isPlayingPreview, setIsPlayingPreview] = useState(false);
+  const [previewDuration, setPreviewDuration] = useState(0);
+  const previewAudioRef = useRef<HTMLAudioElement | null>(null);
+
   const typingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
+  // Sync expiresIn when parent toggles temporary mode
+  useEffect(() => {
+    if (isTemporaryConversation) {
+      setExpiresIn(temporaryDuration ?? "24h");
+    } else {
+      setExpiresIn("never");
+    }
+  }, [isTemporaryConversation, temporaryDuration]);
+
+  // Cleanup on unmount
   useEffect(() => {
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
       if (mediaRecorderRef.current && mediaRecorderRef.current.state === "recording") {
         mediaRecorderRef.current.stop();
       }
+      if (audioPreviewUrl) URL.revokeObjectURL(audioPreviewUrl);
+      previewAudioRef.current?.pause();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const formatTime = (seconds: number) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins}:${secs.toString().padStart(2, "0")}`;
+  };
 
   const handleSubmit = (e?: React.FormEvent) => {
     if (e) e.preventDefault();
+
+    // If there's an audio preview pending, send it
+    if (audioPreviewUrl && attachment) {
+      if (onTyping) onTyping(false);
+      onSend(content, attachment, expiresIn);
+      cancelAudioPreview();
+      setContent("");
+      return;
+    }
+
     if (!content.trim() && !attachment) return;
-    
+
     if (onTyping) onTyping(false);
     onSend(content, attachment, expiresIn);
     setContent("");
@@ -49,19 +95,16 @@ export function ChatInput({ onSend, onTyping }: ChatInputProps) {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setContent(e.target.value);
-    
     if (onTyping) {
       onTyping(true);
       if (typingTimeoutRef.current) clearTimeout(typingTimeoutRef.current);
       typingTimeoutRef.current = setTimeout(() => {
         onTyping(false);
-      }, 3000); // Stop typing after 3s of inactivity
+      }, 3000);
     }
   };
 
-  const handleFileClick = () => {
-    fileInputRef.current?.click();
-  };
+  const handleFileClick = () => fileInputRef.current?.click();
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
@@ -76,26 +119,35 @@ export function ChatInput({ onSend, onTyping }: ChatInputProps) {
       audioChunksRef.current = [];
 
       mediaRecorderRef.current.ondataavailable = (event) => {
-        if (event.data.size > 0) {
-          audioChunksRef.current.push(event.data);
-        }
+        if (event.data.size > 0) audioChunksRef.current.push(event.data);
       };
 
       mediaRecorderRef.current.onstop = () => {
-        const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/webm' });
-        const audioFile = new File([audioBlob], `vocal_${Date.now()}.webm`, { type: 'audio/webm' });
+        const audioBlob = new Blob(audioChunksRef.current, { type: "audio/webm" });
+        const audioFile = new File([audioBlob], `vocal_${Date.now()}.webm`, { type: "audio/webm" });
+        const previewUrl = URL.createObjectURL(audioBlob);
+
         setAttachment(audioFile);
-        stream.getTracks().forEach(track => track.stop());
+        setAudioPreviewUrl(previewUrl);
+
+        // Create audio element to get duration
+        const audio = new Audio(previewUrl);
+        previewAudioRef.current = audio;
+        audio.onloadedmetadata = () => {
+          setPreviewDuration(Math.round(audio.duration));
+        };
+        audio.onended = () => setIsPlayingPreview(false);
+
+        stream.getTracks().forEach((track) => track.stop());
       };
 
       mediaRecorderRef.current.start();
       setIsRecording(true);
       setRecordingTime(0);
-      
+
       timerRef.current = setInterval(() => {
-        setRecordingTime(prev => prev + 1);
+        setRecordingTime((prev) => prev + 1);
       }, 1000);
-      
     } catch (err) {
       console.error("Microphone access denied:", err);
       alert("Accès au microphone refusé.");
@@ -103,62 +155,103 @@ export function ChatInput({ onSend, onTyping }: ChatInputProps) {
   };
 
   const stopRecording = () => {
-    if (mediaRecorderRef.current && mediaRecorderRef.current.state === 'recording') {
+    if (mediaRecorderRef.current && mediaRecorderRef.current.state === "recording") {
       mediaRecorderRef.current.stop();
       setIsRecording(false);
       if (timerRef.current) clearInterval(timerRef.current);
     }
   };
 
-  const formatTime = (seconds: number) => {
-    const mins = Math.floor(seconds / 60);
-    const secs = seconds % 60;
-    return `${mins}:${secs.toString().padStart(2, '0')}`;
+  const cancelAudioPreview = useCallback(() => {
+    previewAudioRef.current?.pause();
+    setIsPlayingPreview(false);
+    if (audioPreviewUrl) URL.revokeObjectURL(audioPreviewUrl);
+    setAudioPreviewUrl(null);
+    setAttachment(null);
+    setPreviewDuration(0);
+    previewAudioRef.current = null;
+  }, [audioPreviewUrl]);
+
+  const togglePreviewPlayback = () => {
+    if (!previewAudioRef.current) return;
+    if (isPlayingPreview) {
+      previewAudioRef.current.pause();
+      setIsPlayingPreview(false);
+    } else {
+      previewAudioRef.current.play();
+      setIsPlayingPreview(true);
+    }
   };
+
+  const sendAudioMessage = () => {
+    if (!attachment) return;
+    if (onTyping) onTyping(false);
+    onSend(content, attachment, expiresIn);
+    cancelAudioPreview();
+    setContent("");
+  };
+
+  const ephemeralLabel = (val: typeof expiresIn) => {
+    switch (val) {
+      case "24h": return "Éphémère · 24h";
+      case "48h": return "Éphémère · 48h";
+      case "7_days": return "Éphémère · 7 jours";
+      case "30_days": return "Éphémère · 30 jours";
+      default: return "Permanent";
+    }
+  };
+
+  const isEphemeral = expiresIn !== "never";
 
   return (
     <div className="bg-white dark:bg-stone-900 border-t border-stone-200 dark:border-stone-800 p-3 md:p-4 relative">
-      {/* Expiration Options Popup */}
+      {/* Ephemeral Options Popup */}
       {showOptions && (
-        <div className="absolute bottom-full left-4 mb-2 bg-white dark:bg-stone-800 border border-stone-200 dark:border-stone-700 shadow-xl rounded-lg overflow-hidden flex flex-col z-20 w-48">
+        <div className="absolute bottom-full left-4 mb-2 bg-white dark:bg-stone-800 border border-stone-200 dark:border-stone-700 shadow-xl rounded-lg overflow-hidden flex flex-col z-20 w-52">
           <div className="p-2 border-b border-stone-100 dark:border-stone-700 text-xs font-semibold text-stone-500 uppercase tracking-wider flex justify-between items-center bg-stone-50 dark:bg-stone-900/50">
-            <span>Auto-destruction</span>
-            <button onClick={() => setShowOptions(false)}><X size={14} /></button>
+            <span>Durée de vie</span>
+            <button onClick={() => setShowOptions(false)}>
+              <X size={14} />
+            </button>
           </div>
-          <button 
-            type="button"
-            className={`p-3 text-sm text-left hover:bg-stone-50 dark:hover:bg-stone-700/50 ${expiresIn === 'never' ? 'text-amber-600 font-medium bg-amber-50 dark:bg-stone-700' : 'text-stone-700 dark:text-stone-300'}`}
-            onClick={() => { setExpiresIn("never"); setShowOptions(false); }}
-          >
-            Jamais (Conserver)
-          </button>
-          <button 
-            type="button"
-            className={`p-3 text-sm text-left hover:bg-stone-50 dark:hover:bg-stone-700/50 flex items-center ${expiresIn === '30_days' ? 'text-amber-600 font-medium bg-amber-50 dark:bg-stone-700' : 'text-stone-700 dark:text-stone-300'}`}
-            onClick={() => { setExpiresIn("30_days"); setShowOptions(false); }}
-          >
-            <Clock size={14} className="mr-2" />
-            Après 30 jours
-          </button>
-          <button 
-            type="button"
-            className={`p-3 text-sm text-left hover:bg-stone-50 dark:hover:bg-stone-700/50 flex items-center ${expiresIn === '7_days' ? 'text-amber-600 font-medium bg-amber-50 dark:bg-stone-700' : 'text-stone-700 dark:text-stone-300'}`}
-            onClick={() => { setExpiresIn("7_days"); setShowOptions(false); }}
-          >
-            <Clock size={14} className="mr-2 text-rose-500" />
-            Après 7 jours
-          </button>
+          {(
+            [
+              { value: "never", label: "Permanent (conserver)", icon: null },
+              { value: "24h", label: "Éphémère · 24 heures", icon: "🕛" },
+              { value: "48h", label: "Éphémère · 48 heures", icon: "🕑" },
+              { value: "7_days", label: "Éphémère · 7 jours", icon: "📆" },
+              { value: "30_days", label: "Éphémère · 30 jours", icon: "🗓" },
+            ] as { value: typeof expiresIn; label: string; icon: string | null }[]
+          ).map(({ value, label, icon }) => (
+            <button
+              key={value}
+              type="button"
+              className={`p-3 text-sm text-left hover:bg-stone-50 dark:hover:bg-stone-700/50 flex items-center gap-2 ${
+                expiresIn === value
+                  ? "text-amber-600 font-medium bg-amber-50 dark:bg-stone-700"
+                  : "text-stone-700 dark:text-stone-300"
+              }`}
+              onClick={() => {
+                setExpiresIn(value);
+                setShowOptions(false);
+              }}
+            >
+              {icon ? <span className="text-base leading-none">{icon}</span> : <Clock size={14} />}
+              {label}
+            </button>
+          ))}
         </div>
       )}
 
-      {/* Attachment Preview */}
-      {attachment && (
+      {/* Non-audio attachment preview */}
+      {attachment && !audioPreviewUrl && (
         <div className="absolute bottom-full left-4 mb-2 bg-stone-100 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 shadow-sm rounded-lg p-2 flex items-center gap-3 z-10">
           <div className="bg-white dark:bg-stone-900 p-2 rounded">
-            {attachment.type.startsWith('image/') ? (
-              <div className="w-8 h-8 bg-cover bg-center rounded" style={{ backgroundImage: `url(${URL.createObjectURL(attachment)})` }} />
-            ) : attachment.type.startsWith('audio/') ? (
-              <Mic size={20} className="text-amber-500" />
+            {attachment.type.startsWith("image/") ? (
+              <div
+                className="w-8 h-8 bg-cover bg-center rounded"
+                style={{ backgroundImage: `url(${URL.createObjectURL(attachment)})` }}
+              />
             ) : (
               <Paperclip size={20} className="text-stone-500" />
             )}
@@ -167,37 +260,89 @@ export function ChatInput({ onSend, onTyping }: ChatInputProps) {
             <span className="text-sm font-medium text-stone-700 dark:text-stone-300 truncate">
               {attachment.name}
             </span>
-            <span className="text-xs text-stone-500">
-              {(attachment.size / 1024).toFixed(1)} KB
-            </span>
+            <span className="text-xs text-stone-500">{(attachment.size / 1024).toFixed(1)} KB</span>
           </div>
-          <button type="button" onClick={() => setAttachment(null)} className="p-1 hover:bg-stone-200 dark:hover:bg-stone-700 rounded-full">
+          <button
+            type="button"
+            onClick={() => setAttachment(null)}
+            className="p-1 hover:bg-stone-200 dark:hover:bg-stone-700 rounded-full"
+          >
             <X size={16} className="text-rose-500" />
           </button>
         </div>
       )}
 
+      {/* Audio preview bar — WhatsApp-style */}
+      {audioPreviewUrl && (
+        <div className="mb-3 bg-stone-100 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 rounded-2xl px-3 py-2 flex items-center gap-3">
+          {/* Cancel */}
+          <button
+            type="button"
+            onClick={cancelAudioPreview}
+            className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-stone-200 dark:hover:bg-stone-700 flex-shrink-0 transition-colors"
+          >
+            <X size={16} className="text-rose-500" />
+          </button>
+
+          {/* Play/Pause */}
+          <button
+            type="button"
+            onClick={togglePreviewPlayback}
+            className="w-9 h-9 flex items-center justify-center rounded-full bg-amber-600 hover:bg-amber-700 text-white flex-shrink-0 transition-colors shadow-md"
+          >
+            {isPlayingPreview ? <Pause size={16} /> : <Play size={16} className="ml-0.5" />}
+          </button>
+
+          {/* Waveform bars */}
+          <div className="flex items-center gap-[2px] flex-1 h-8">
+            {WAVEFORM_BARS.map((height, i) => (
+              <div
+                key={i}
+                className={`rounded-full flex-1 transition-all duration-150 ${
+                  isPlayingPreview ? "bg-amber-500 animate-pulse" : "bg-stone-400 dark:bg-stone-500"
+                }`}
+                style={{
+                  height: `${height}px`,
+                  animationDelay: isPlayingPreview ? `${(i * 50) % 400}ms` : "0ms",
+                }}
+              />
+            ))}
+          </div>
+
+          {/* Duration */}
+          <span className="text-xs font-mono text-stone-500 dark:text-stone-400 flex-shrink-0 w-10 text-right">
+            {formatTime(previewDuration || recordingTime)}
+          </span>
+
+          {/* Send button */}
+          <button
+            type="button"
+            onClick={sendAudioMessage}
+            className="flex items-center gap-1.5 px-3 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-sm font-medium flex-shrink-0 transition-colors shadow-md"
+          >
+            <Send size={14} />
+            <span className="hidden sm:inline">Envoyer</span>
+          </button>
+        </div>
+      )}
+
       <form onSubmit={handleSubmit} className="flex items-end gap-2 max-w-4xl mx-auto">
-        <button 
+        {/* Ephemeral timer button */}
+        <button
           type="button"
           onClick={() => setShowOptions(!showOptions)}
-          title="Paramètres d'auto-destruction"
+          title={ephemeralLabel(expiresIn)}
           className={`p-3 rounded-full flex-shrink-0 transition-colors duration-200 hidden sm:block ${
-            expiresIn !== 'never' 
-              ? 'bg-rose-100 text-rose-600 dark:bg-rose-900/30 dark:text-rose-400' 
-              : 'text-stone-400 hover:text-stone-600 hover:bg-stone-100 dark:hover:bg-stone-800'
+            isEphemeral
+              ? "bg-amber-100 text-amber-600 dark:bg-amber-900/30 dark:text-amber-400"
+              : "text-stone-400 hover:text-stone-600 hover:bg-stone-100 dark:hover:bg-stone-800"
           }`}
         >
           <Clock size={20} />
         </button>
 
-        <input 
-          type="file" 
-          ref={fileInputRef} 
-          onChange={handleFileChange} 
-          className="hidden" 
-        />
-        <button 
+        <input type="file" ref={fileInputRef} onChange={handleFileChange} className="hidden" />
+        <button
           type="button"
           onClick={handleFileClick}
           className="p-3 text-stone-400 hover:text-stone-600 hover:bg-stone-100 dark:hover:bg-stone-800 rounded-full flex-shrink-0 transition-colors"
@@ -209,10 +354,14 @@ export function ChatInput({ onSend, onTyping }: ChatInputProps) {
           {isRecording ? (
             <div className="h-[48px] bg-red-50 dark:bg-rose-900/20 rounded-3xl flex items-center justify-between px-4 border border-red-200 dark:border-rose-800/30 animate-pulse">
               <div className="flex items-center gap-2">
-                <div className="w-2 h-2 rounded-full bg-red-500"></div>
-                <span className="text-red-600 dark:text-rose-400 font-mono text-sm">{formatTime(recordingTime)}</span>
+                <div className="w-2 h-2 rounded-full bg-red-500" />
+                <span className="text-red-600 dark:text-rose-400 font-mono text-sm">
+                  {formatTime(recordingTime)}
+                </span>
               </div>
-              <span className="text-red-500 text-xs uppercase tracking-wider font-semibold">Enregistrement...</span>
+              <span className="text-red-500 text-xs uppercase tracking-wider font-semibold">
+                Enregistrement...
+              </span>
             </div>
           ) : (
             <div className="bg-stone-100 dark:bg-stone-800 rounded-3xl relative overflow-hidden flex items-center shadow-inner">
@@ -220,7 +369,13 @@ export function ChatInput({ onSend, onTyping }: ChatInputProps) {
                 ref={inputRef}
                 type="text"
                 className="w-full bg-transparent px-4 py-3 focus:outline-none text-stone-900 dark:text-stone-100 placeholder-stone-500"
-                placeholder={attachment ? "Ajouter un commentaire..." : "Écrire un message..."}
+                placeholder={
+                  audioPreviewUrl
+                    ? "Ajouter un commentaire au vocal..."
+                    : attachment
+                    ? "Ajouter un commentaire..."
+                    : "Écrire un message..."
+                }
                 value={content}
                 onChange={handleChange}
               />
@@ -228,28 +383,29 @@ export function ChatInput({ onSend, onTyping }: ChatInputProps) {
           )}
         </div>
 
-        {content.trim() || attachment ? (
-          <button 
+        {/* Send or Mic button */}
+        {content.trim() || (attachment && !audioPreviewUrl) ? (
+          <button
             type="submit"
             className="p-3 bg-amber-600 text-white rounded-full flex-shrink-0 hover:bg-amber-700 transition shadow-md hover:scale-105 active:scale-95 flex items-center justify-center h-12 w-12"
           >
             <Send size={20} className="ml-1" />
           </button>
-        ) : (
-          <button 
+        ) : !audioPreviewUrl ? (
+          <button
             type="button"
             onPointerDown={startRecording}
             onPointerUp={stopRecording}
             onPointerCancel={stopRecording}
             className={`p-3 rounded-full flex-shrink-0 transition flex items-center justify-center h-12 w-12 ${
-              isRecording 
-                ? 'bg-red-500 text-white shadow-lg scale-110' 
-                : 'bg-stone-100 dark:bg-stone-800 text-stone-500 hover:bg-stone-200 dark:hover:bg-stone-700'
+              isRecording
+                ? "bg-red-500 text-white shadow-lg scale-110"
+                : "bg-stone-100 dark:bg-stone-800 text-stone-500 hover:bg-stone-200 dark:hover:bg-stone-700"
             }`}
           >
             <Mic size={20} className={isRecording ? "animate-pulse" : ""} />
           </button>
-        )}
+        ) : null}
       </form>
     </div>
   );
