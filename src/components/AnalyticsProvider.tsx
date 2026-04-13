@@ -47,7 +47,7 @@ export function AnalyticsProvider({ children }: { children: React.ReactNode }) {
         const isMobile = typeof window !== "undefined" ? window.innerWidth < 768 : false;
 
         try {
-          await supabase.from("site_analytics").insert({
+          const payload = {
             path: pathname,
             user_id: user?.id || null,
             language: language,
@@ -64,17 +64,19 @@ export function AnalyticsProvider({ children }: { children: React.ReactNode }) {
               device_type: isMobile ? "mobile" : "desktop",
               timestamp: new Date().toISOString(),
             },
+          };
+
+          // Send to API Route to bypass AdBlockers and capture precise Geographic IP
+          fetch("/api/track", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(payload),
+            // Use keepalive to ensure request finishes even if user navigates away rapidly
+            keepalive: true
           });
 
-          // Increment article reads counter (atomic RPC)
-          if (pathname.startsWith("/savoir/") && pathname !== "/savoir") {
-            const slug = pathname.replace("/savoir/", "");
-            if (slug) {
-              await supabase.rpc("increment_article_reads", {
-                article_slug: slug,
-              });
-            }
-          }
         } catch {
           // Silent failure — analytics must never block the UI
         }

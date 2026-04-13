@@ -24,7 +24,8 @@ const AdminDashboard = () => {
     langDistribution: [] as any[],
     deviceDistribution: [] as any[],
     topLocations: [] as any[],
-    recentIps: [] as any[]
+    recentIps: [] as any[],
+    topSources: [] as any[]
   });
 
   const { connectionError, refreshConnection } = useAuth();
@@ -32,6 +33,7 @@ const AdminDashboard = () => {
   const [chartData, setChartData] = useState<any[]>([]);
   const [topArticles, setTopArticles] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [timeframe, setTimeframe] = useState<"7_days" | "30_days" | "6_months">("7_days");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -48,14 +50,33 @@ const AdminDashboard = () => {
         const totalReads = allArticles?.reduce((acc, curr) => acc + (curr.reads_count || 0), 0) || 0;
 
         // Fetch Analytics for chart and insights
+        let dateFilter = new Date();
+        if (timeframe === "7_days") dateFilter.setDate(dateFilter.getDate() - 7);
+        else if (timeframe === "30_days") dateFilter.setDate(dateFilter.getDate() - 30);
+        else if (timeframe === "6_months") dateFilter.setMonth(dateFilter.getMonth() - 6);
+
         const { data: analyticsData } = await supabase
           .from("site_analytics")
-          .select("created_at, language, session_id, metadata, ip_address")
+          .select("created_at, language, session_id, metadata, ip_address, referrer, path")
+          .gte("created_at", dateFilter.toISOString())
           .order('created_at', { ascending: true });
 
         // Calculate unique visitors (Real session counting)
         const uniqueSids = new Set(analyticsData?.map(v => v.session_id).filter(id => id)).size;
         
+        // Calculate Top Sources (Referrers)
+        const referrers: any = {};
+        analyticsData?.forEach(v => {
+          let ref = v.referrer || "direct";
+          if (ref.includes("sakata.netlify.app") || ref.includes("localhost")) return; // ignore internal
+          if (ref.startsWith("https://")) ref = ref.replace("https://", "").split("/")[0];
+          referrers[ref] = (referrers[ref] || 0) + 1;
+        });
+        const topSources = Object.keys(referrers)
+          .sort((a, b) => referrers[b] - referrers[a])
+          .slice(0, 5)
+          .map(ref => ({ name: ref.slice(0, 20), count: referrers[ref] }));
+
         // Calculate Language stats
         const langs: any = {};
         analyticsData?.forEach(v => {
@@ -74,68 +95,86 @@ const AdminDashboard = () => {
         });
         const formattedDevices = Object.keys(devices).map(d => ({ name: d, value: devices[d] }));
         
-        // Group by IP for Locations (Simulated mapping for now, or real if we had a table)
-        const ips: any = {};
-        const uniqueIps = new Set();
+        // Real Geographic Mapping using the Country extracted via Edge API
+        const countries: any = {};
+        const uniqueGeoIps = new Set();
         analyticsData?.forEach(v => {
-          if (v.ip_address) {
-            ips[v.ip_address] = (ips[v.ip_address] || 0) + 1;
-            uniqueIps.add(v.ip_address);
+          if (v.ip_address && !uniqueGeoIps.has(v.ip_address)) {
+             uniqueGeoIps.add(v.ip_address);
+             const c = v.metadata?.country || "Inconnu";
+             countries[c] = (countries[c] || 0) + 1;
           }
         });
-        
-        // Sort IPs by frequency
-        const sortedIps = Object.keys(ips)
-          .sort((a, b) => ips[b] - ips[a])
+
+        const locations = Object.keys(countries)
+          .sort((a, b) => countries[b] - countries[a])
           .slice(0, 5)
-          .map(ip => ({ ip, count: ips[ip] }));
+          .map(country => ({
+             name: country === "Inconnu" ? "Origine Inconnue" : country,
+             value: countries[country]
+          }));
 
-        // Mapping IPs to estimated locations (Mocking for initial view since logs are new)
-        const locations = [
-          { name: "Kinshasa, RDC", value: Math.floor(uniqueIps.size * 0.45) || 12 },
-          { name: "Bruxelles, BE", value: Math.floor(uniqueIps.size * 0.25) || 7 },
-          { name: "Paris, FR", value: Math.floor(uniqueIps.size * 0.15) || 4 },
-          { name: "Lubumbashi, RDC", value: Math.floor(uniqueIps.size * 0.10) || 3 },
-          { name: "Autres", value: Math.floor(uniqueIps.size * 0.05) || 1 }
-        ];
+        if (locations.length === 0) {
+           locations.push({ name: "En attente de trafic", value: 0 });
+        }
 
-        // Group by day for Recharts with 7-day padding
-        const last7Days = Array.from({ length: 7 }, (_, i) => {
-          const d = new Date();
-          d.setDate(d.getDate() - (6 - i));
-          return d.toLocaleDateString('fr-FR', { day: '2-digit', month: 'short' });
-        });
+        // Chart Data Builder
+        let chartPoints: any[] = [];
+        const groupedByTime: any = {};
 
-        const groupedByDay: any = {};
-        last7Days.forEach(day => groupedByDay[day] = 0);
+        if (timeframe === "7_days" || timeframe === "30_days") {
+          const length = timeframe === "7_days" ? 7 : 30;
+          chartPoints = Array.from({ length }, (_, i) => {
+            const d = new Date();
+            d.setDate(d.getDate() - (length - 1 - i));
+            return d.toLocaleDateString('fr-FR', { day: '2-digit', month: 'short' });
+          });
 
-        analyticsData?.forEach(v => {
-          const date = new Date(v.created_at).toLocaleDateString('fr-FR', { day: '2-digit', month: 'short' });
-          if (groupedByDay[date] !== undefined) {
-             groupedByDay[date] += 1;
-          }
-        });
-        
-        const formattedChartData = last7Days.map(date => ({
-          name: date,
-          visits: groupedByDay[date]
+          chartPoints.forEach(day => groupedByTime[day] = 0);
+
+          analyticsData?.forEach(v => {
+            const date = new Date(v.created_at).toLocaleDateString('fr-FR', { day: '2-digit', month: 'short' });
+            if (groupedByTime[date] !== undefined) {
+               groupedByTime[date] += 1;
+            }
+          });
+        } else if (timeframe === "6_months") {
+          chartPoints = Array.from({ length: 6 }, (_, i) => {
+            const d = new Date();
+            d.setMonth(d.getMonth() - (5 - i));
+            return d.toLocaleDateString('fr-FR', { month: 'short', year: 'numeric' });
+          });
+
+          chartPoints.forEach(month => groupedByTime[month] = 0);
+
+          analyticsData?.forEach(v => {
+            const month = new Date(v.created_at).toLocaleDateString('fr-FR', { month: 'short', year: 'numeric' });
+            if (groupedByTime[month] !== undefined) {
+               groupedByTime[month] += 1;
+            }
+          });
+        }
+
+        const formattedChartData = chartPoints.map(point => ({
+          name: point,
+          visits: groupedByTime[point]
         }));
 
         setStats({
           totalArticles: articleCount || 0,
-          totalVisits: totalReads || 0,
+          totalVisits: analyticsData?.length || totalReads || 0,
           uniqueVisitors: uniqueSids || Math.max(0, Math.floor(totalReads * 0.65)),
           totalUsers: userCount || 0,
           totalLikes: totalLikes,
           langDistribution: formattedLangs,
           deviceDistribution: formattedDevices,
           topLocations: locations,
-          recentIps: sortedIps
-        });
+          recentIps: [],
+          topSources: topSources
+        } as any);
 
         setChartData(formattedChartData.length > 0 ? formattedChartData : [
-          { name: "Lun", visits: 45 }, { name: "Mar", visits: 52 }, { name: "Mer", visits: 48 }, 
-          { name: "Jeu", visits: 61 }, { name: "Ven", visits: 55 }, { name: "Sam", visits: 67 }, { name: "Dim", visits: 72 }
+          { name: "Lun", visits: 0 }
         ]);
         
         setTopArticles(articlesData || []);
@@ -147,7 +186,7 @@ const AdminDashboard = () => {
     };
 
     fetchData();
-  }, []);
+  }, [timeframe]);
 
   return (
     <div className="space-y-12 pb-12">
@@ -183,12 +222,16 @@ const AdminDashboard = () => {
           <div className="flex justify-between items-center mb-12">
             <div>
               <h3 className="font-display text-xl font-bold">Évolution de l'Audience</h3>
-              <p className="text-xs opacity-40 uppercase tracking-widest mt-1">Flux de conscience journalier</p>
+              <p className="text-xs opacity-40 uppercase tracking-widest mt-1">Flux de conscience {timeframe === '6_months' ? 'MENSUEL' : 'JOURNALIER'}</p>
             </div>
-            <select className="bg-transparent border-none text-xs text-or-ancestral font-bold cursor-pointer outline-none">
-               <option>7 DERNIERS JOURS</option>
-               <option>30 JOURS</option>
-               <option>6 MOIS</option>
+            <select 
+              value={timeframe} 
+              onChange={(e) => setTimeframe(e.target.value as any)}
+              className="bg-transparent border-none text-xs text-or-ancestral font-bold cursor-pointer outline-none"
+            >
+               <option value="7_days">7 DERNIERS JOURS</option>
+               <option value="30_days">30 JOURS</option>
+               <option value="6_months">6 MOIS</option>
             </select>
           </div>
           
@@ -381,6 +424,23 @@ const AdminDashboard = () => {
                        ))}
                     </div>
                  </div>
+
+                 {/* Top Sources */}
+                 {stats.topSources && stats.topSources.length > 0 && (
+                 <div className="space-y-4 pt-4 border-t border-white/5">
+                    <p className="text-[10px] uppercase tracking-widest opacity-40 font-bold flex items-center justify-between">
+                      <span>Sources d'Acquisition (Referrers)</span>
+                    </p>
+                    <div className="space-y-3">
+                       {stats.topSources.map((source: any, i: number) => (
+                         <div key={`src-${i}`} className="flex items-center justify-between">
+                            <span className="text-xs font-medium text-ivoire-ancien/80">{source.name}</span>
+                            <span className="text-[10px] font-mono text-or-ancestral bg-or-ancestral/10 px-2 py-0.5 rounded-full">{source.count}</span>
+                         </div>
+                       ))}
+                    </div>
+                 </div>
+                 )}
               </div>
              
              <div className="mt-8 p-6 bg-white/5 rounded-3xl border border-white/5 flex items-center justify-between">
