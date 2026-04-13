@@ -13,7 +13,24 @@ const metrics = [
 export default function EcoleHero() {
   return (
     <section className="relative min-h-[100dvh] overflow-hidden">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(212,221,215,0.14),transparent_28%),radial-gradient(circle_at_right,rgba(196,160,53,0.16),transparent_22%),linear-gradient(180deg,#10271f_0%,#0A1F15_52%,#081811_100%)]" />
+      {/* Background Video with inward gradient mask */}
+      <div className="absolute top-0 left-0 w-full h-full z-0 overflow-hidden pointer-events-none">
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover opacity-50 mix-blend-screen"
+          style={{
+            maskImage: "radial-gradient(ellipse at center, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 80%)",
+            WebkitMaskImage: "radial-gradient(ellipse at center, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 80%)"
+          }}
+        >
+          <source src="/videos/ecole_bg_587.mp4" type="video/mp4" />
+        </video>
+        {/* Color overlay to merge smoothly with the site's dark forest background below */}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(212,221,215,0.1),transparent_28%),radial-gradient(circle_at_right,rgba(196,160,53,0.1),transparent_22%),linear-gradient(180deg,transparent_0%,#0A1F15_82%,#081811_100%)] mix-blend-multiply" />
+      </div>
       <div className="river-curve left-[-10%] top-[18%] h-[18rem] w-[44rem]" />
       <div className="river-curve right-[-14%] top-[34%] h-[22rem] w-[52rem]" />
       <div className="river-curve left-[12%] bottom-[8%] h-[12rem] w-[30rem]" />
