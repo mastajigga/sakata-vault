@@ -22,8 +22,25 @@ export default function SavoirClientContent({ articles }: SavoirClientContentPro
 
   return (
     <>
+      {/* Background Video with inward gradient mask */}
+      <div className="absolute top-0 left-0 w-full h-[80vh] z-0 overflow-hidden pointer-events-none">
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover opacity-60"
+          style={{
+            maskImage: "radial-gradient(ellipse at center, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 70%)",
+            WebkitMaskImage: "radial-gradient(ellipse at center, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 70%)"
+          }}
+        >
+          <source src="/videos/savoir_bg_4071.mp4" type="video/mp4" />
+        </video>
+      </div>
+
       {/* Header Section */}
-      <section className="pt-48 pb-24 px-8 md:px-24">
+      <section className="relative z-10 pt-48 pb-24 px-8 md:px-24">
         <div className="max-w-[1400px] mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -54,7 +71,7 @@ export default function SavoirClientContent({ articles }: SavoirClientContentPro
       </section>
 
       {/* Grid Section - Asymmetric Bento style */}
-      <section className="px-8 md:px-24">
+      <section className="relative z-10 px-8 md:px-24">
         <div className="max-w-[1400px] mx-auto">
           {articles.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
