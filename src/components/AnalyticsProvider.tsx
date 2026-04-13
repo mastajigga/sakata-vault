@@ -47,15 +47,16 @@ export function AnalyticsProvider({ children }: { children: React.ReactNode }) {
         const isMobile = typeof window !== "undefined" ? window.innerWidth < 768 : false;
 
         try {
+          // Parse UTM source if available for precise campaign tracking
+          const params = typeof window !== "undefined" ? new URLSearchParams(window.location.search) : null;
+          const utmSource = params?.get("utm_source");
+
           const payload = {
             path: pathname,
             user_id: user?.id || null,
             language: language,
             session_id: sessionId,
-            referrer:
-              typeof document !== "undefined"
-                ? document.referrer || "direct"
-                : "server",
+            referrer: utmSource ? `UTM: ${utmSource}` : (typeof document !== "undefined" ? document.referrer || "direct" : "server"),
             user_agent:
               typeof navigator !== "undefined" ? navigator.userAgent : "unknown",
             metadata: {

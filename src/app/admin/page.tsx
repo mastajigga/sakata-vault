@@ -68,8 +68,22 @@ const AdminDashboard = () => {
         const referrers: any = {};
         analyticsData?.forEach(v => {
           let ref = v.referrer || "direct";
+          
           if (ref.includes("sakata.netlify.app") || ref.includes("localhost")) return; // ignore internal
-          if (ref.startsWith("https://")) ref = ref.replace("https://", "").split("/")[0];
+          if (ref.startsWith("https://")) ref = ref.replace("https://", "").replace("http://", "").split("/")[0];
+          
+          // Beautify standard sources
+          if (ref === "direct" || ref === "server") ref = "Accès Direct / Favoris";
+          else if (ref.includes("google.")) ref = "Google (Recherche)";
+          else if (ref.includes("bing.")) ref = "Bing (Recherche)";
+          else if (ref.includes("yahoo.")) ref = "Yahoo (Recherche)";
+          else if (ref.includes("facebook.com") || ref.includes("m.facebook.com") || ref.includes("l.facebook.com")) ref = "Facebook";
+          else if (ref.includes("instagram.com")) ref = "Instagram";
+          else if (ref.includes("t.co") || ref.includes("twitter.com") || ref.includes("x.com")) ref = "X (Twitter)";
+          else if (ref.includes("linkedin.com")) ref = "LinkedIn";
+          else if (ref.includes("whatsapp.com") || ref.includes("wa.me")) ref = "WhatsApp";
+          else if (ref.startsWith("UTM: ")) ref = ref.replace("UTM: ", "Campagne: ");
+
           referrers[ref] = (referrers[ref] || 0) + 1;
         });
         const topSources = Object.keys(referrers)
