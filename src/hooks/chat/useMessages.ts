@@ -16,6 +16,9 @@ export function useMessages(conversationId: string) {
 
     async function fetchMessages() {
       try {
+        // Trigger server-side cleanup before fetching to ensure freshness
+        await supabase.rpc('cleanup_expired_messages');
+
         const { data: activeSession } = await supabase.auth.getSession();
         userId = activeSession?.session?.user?.id || "";
 

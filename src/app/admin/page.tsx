@@ -27,8 +27,14 @@ const AdminDashboard = () => {
     deviceDistribution: [] as any[],
     topLocations: [] as any[],
     recentIps: [] as any[],
-    topSources: [] as any[]
+    topSources: [] as any[],
+    // distributions du jour
+    todayLangDistribution: [] as any[],
+    todayDeviceDistribution: [] as any[],
+    todayTopLocations: [] as any[],
+    todayTopSources: [] as any[],
   });
+  const [insightView, setInsightView] = useState<"total" | "today">("today");
 
   const { connectionError, refreshConnection } = useAuth();
 
@@ -71,10 +77,59 @@ const AdminDashboard = () => {
         todayStart.setHours(0, 0, 0, 0);
         const { data: todayData } = await supabase
           .from("site_analytics")
-          .select("session_id")
+          .select("created_at, language, session_id, metadata, ip_address, referrer, path")
           .gte("created_at", todayStart.toISOString());
         const todayVisits = todayData?.length || 0;
         const todayUniqueVisitors = new Set(todayData?.map(v => v.session_id).filter(Boolean)).size;
+
+        // Helper : calcule les distributions à partir d'un dataset analytics
+        const computeDistributions = (data: any[]) => {
+          // Langues
+          const langsMap: any = {};
+          data.forEach(v => { if (v.language) langsMap[v.language] = (langsMap[v.language] || 0) + 1; });
+          const langs = Object.keys(langsMap).sort((a, b) => langsMap[b] - langsMap[a]).map(l => ({
+            name: l === "fr" ? "Français" : l === "ln" ? "Lingala" : l === "sak" ? "Kisakata" : l,
+            value: langsMap[l],
+          }));
+          // Appareils
+          const devMap: any = { mobile: 0, desktop: 0 };
+          data.forEach(v => { const d = v.metadata?.device_type || "desktop"; devMap[d] = (devMap[d] || 0) + 1; });
+          const devices = Object.keys(devMap).map(d => ({ name: d, value: devMap[d] }));
+          // Géographie
+          const countryMap: any = {};
+          const seenIps = new Set();
+          data.forEach(v => {
+            if (v.ip_address && !seenIps.has(v.ip_address)) {
+              seenIps.add(v.ip_address);
+              const c = v.metadata?.country || "Inconnu";
+              countryMap[c] = (countryMap[c] || 0) + 1;
+            }
+          });
+          const locs = Object.keys(countryMap).sort((a, b) => countryMap[b] - countryMap[a]).slice(0, 5)
+            .map(c => ({ name: c === "Inconnu" ? "Origine Inconnue" : c, value: countryMap[c] }));
+          if (locs.length === 0) locs.push({ name: "En attente de trafic", value: 0 });
+          // Sources
+          const refMap: any = {};
+          data.forEach(v => {
+            let ref = v.referrer || "direct";
+            if (ref.includes("sakata.netlify.app") || ref.includes("localhost")) return;
+            if (ref.startsWith("https://")) ref = ref.replace("https://", "").replace("http://", "").split("/")[0];
+            if (ref === "direct" || ref === "server") ref = "Accès Direct / Favoris";
+            else if (ref.includes("google.")) ref = "Google (Recherche)";
+            else if (ref.includes("bing.")) ref = "Bing (Recherche)";
+            else if (ref.includes("facebook.com") || ref.includes("m.facebook.com")) ref = "Facebook";
+            else if (ref.includes("instagram.com")) ref = "Instagram";
+            else if (ref.includes("t.co") || ref.includes("twitter.com") || ref.includes("x.com")) ref = "X (Twitter)";
+            else if (ref.includes("linkedin.com")) ref = "LinkedIn";
+            else if (ref.includes("whatsapp.com") || ref.includes("wa.me")) ref = "WhatsApp";
+            refMap[ref] = (refMap[ref] || 0) + 1;
+          });
+          const sources = Object.keys(refMap).sort((a, b) => refMap[b] - refMap[a]).slice(0, 5)
+            .map(r => ({ name: r.slice(0, 25), count: refMap[r] }));
+          return { langs, devices, locs, sources };
+        };
+
+        const todayDistrib = computeDistributions(todayData || []);
         
         // Calculate Top Sources (Referrers)
         const referrers: any = {};
@@ -194,6 +249,10 @@ const AdminDashboard = () => {
           todayUniqueVisitors,
           totalUsers: userCount || 0,
           totalLikes: totalLikes,
+          todayLangDistribution: todayDistrib.langs,
+          todayDeviceDistribution: todayDistrib.devices,
+          todayTopLocations: todayDistrib.locs,
+          todayTopSources: todayDistrib.sources,
           langDistribution: formattedLangs,
           deviceDistribution: formattedDevices,
           topLocations: locations,
@@ -397,38 +456,64 @@ const AdminDashboard = () => {
         </motion.div>
 
         {/* Languages & Devices - 5 cols */}
-        <motion.div 
+        <motion.div
            initial={{ opacity: 0, x: 20 }}
            animate={{ opacity: 1, x: 0 }}
            className="lg:col-span-5 p-8 rounded-[2.5rem] bg-white/5 border border-white/10 backdrop-blur-xl flex flex-col"
         >
-          <div className="flex items-center gap-3 mb-8">
-            <Globe className="w-5 h-5 text-emerald-400" />
-            <h3 className="font-display text-xl font-bold">Langues & Terminaux</h3>
+          <div className="flex items-center justify-between mb-8">
+            <div className="flex items-center gap-3">
+              <Globe className="w-5 h-5 text-emerald-400" />
+              <h3 className="font-display text-xl font-bold">Langues & Terminaux</h3>
+            </div>
+            {/* Toggle Aujourd'hui / Total */}
+            <div className="flex items-center gap-1 bg-white/5 rounded-full p-1 border border-white/10">
+              <button
+                onClick={() => setInsightView("today")}
+                className={`text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full transition-all ${insightView === "today" ? "bg-emerald-500/20 text-emerald-400" : "opacity-40 hover:opacity-70"}`}
+              >
+                Aujourd'hui
+              </button>
+              <button
+                onClick={() => setInsightView("total")}
+                className={`text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full transition-all ${insightView === "total" ? "bg-white/10 text-ivoire-ancien" : "opacity-40 hover:opacity-70"}`}
+              >
+                Total
+              </button>
+            </div>
           </div>
-          
+
+          {(() => {
+            const langs   = insightView === "today" ? stats.todayLangDistribution   : stats.langDistribution;
+            const devices = insightView === "today" ? stats.todayDeviceDistribution : stats.deviceDistribution;
+            const locs    = insightView === "today" ? stats.todayTopLocations       : stats.topLocations;
+            const sources = insightView === "today" ? stats.todayTopSources         : stats.topSources;
+            const totalV  = insightView === "today" ? stats.todayVisits             : stats.totalVisits;
+            const totalU  = insightView === "today" ? stats.todayUniqueVisitors     : stats.uniqueVisitors;
+            return (
           <div className="flex-1 flex flex-col justify-between">
              <div className="space-y-8">
                 {/* Languages */}
                 <div className="space-y-4">
                    <p className="text-[10px] uppercase tracking-widest opacity-40 font-bold">Préférences Linguistiques</p>
                    <div className="space-y-2">
-                      {stats.langDistribution.length > 0 ? stats.langDistribution.map((lang, i) => (
+                      {langs.length > 0 ? langs.map((lang: any, i: number) => (
                         <div key={i} className="space-y-1">
                            <div className="flex justify-between text-[10px] font-bold">
                               <span className="opacity-60 uppercase tracking-tighter">{lang.name}</span>
                               <span className="font-mono text-ivoire-ancien">{lang.value}</span>
                            </div>
                            <div className="h-1 w-full bg-white/5 rounded-full overflow-hidden">
-                              <motion.div 
+                              <motion.div
+                                 key={`${insightView}-lang-${i}`}
                                  initial={{ width: 0 }}
-                                 animate={{ width: `${Math.min(100, (lang.value / (stats.totalVisits || 1)) * 100)}%` }}
+                                 animate={{ width: `${Math.min(100, (lang.value / (totalV || 1)) * 100)}%` }}
                                  className="h-full bg-or-ancestral rounded-full"
                               />
                            </div>
                         </div>
                       )) : (
-                        <p className="text-xs opacity-40 italic">En attente de connexion...</p>
+                        <p className="text-xs opacity-40 italic">Aucune donnée pour cette période</p>
                       )}
                    </div>
                 </div>
@@ -436,7 +521,7 @@ const AdminDashboard = () => {
                  <div className="space-y-4">
                     <p className="text-[10px] uppercase tracking-widest opacity-40 font-bold">Types d'Appareils</p>
                     <div className="grid grid-cols-2 gap-4">
-                       {stats.deviceDistribution.map((device, i) => (
+                       {devices.map((device: any, i: number) => (
                          <div key={i} className="bg-white/5 p-4 rounded-3xl border border-white/5 text-center">
                             <p className="text-[10px] uppercase tracking-tighter opacity-40 mb-1">{device.name}</p>
                             <p className="text-xl font-mono font-bold text-ivoire-ancien">{device.value}</p>
@@ -449,14 +534,15 @@ const AdminDashboard = () => {
                  <div className="space-y-4 pt-4">
                     <p className="text-[10px] uppercase tracking-widest opacity-40 font-bold">Distribution Géographique (IP)</p>
                     <div className="space-y-3">
-                       {stats.topLocations.map((loc, i) => (
+                       {locs.map((loc: any, i: number) => (
                          <div key={i} className="flex items-center justify-between">
                             <span className="text-xs font-medium text-ivoire-ancien/80">{loc.name}</span>
                             <div className="flex items-center gap-3">
                                <div className="w-24 h-1.5 bg-white/5 rounded-full overflow-hidden">
-                                  <motion.div 
+                                  <motion.div
+                                    key={`${insightView}-loc-${i}`}
                                     initial={{ width: 0 }}
-                                    animate={{ width: `${(loc.value / (stats.uniqueVisitors || 1)) * 100}%` }}
+                                    animate={{ width: `${(loc.value / (totalU || 1)) * 100}%` }}
                                     className="h-full bg-emerald-500/50"
                                   />
                                </div>
@@ -468,13 +554,13 @@ const AdminDashboard = () => {
                  </div>
 
                  {/* Top Sources */}
-                 {stats.topSources && stats.topSources.length > 0 && (
+                 {sources && sources.length > 0 && (
                  <div className="space-y-4 pt-4 border-t border-white/5">
                     <p className="text-[10px] uppercase tracking-widest opacity-40 font-bold flex items-center justify-between">
                       <span>Sources d'Acquisition (Referrers)</span>
                     </p>
                     <div className="space-y-3">
-                       {stats.topSources.map((source: any, i: number) => (
+                       {sources.map((source: any, i: number) => (
                          <div key={`src-${i}`} className="flex items-center justify-between">
                             <span className="text-xs font-medium text-ivoire-ancien/80">{source.name}</span>
                             <span className="text-[10px] font-mono text-or-ancestral bg-or-ancestral/10 px-2 py-0.5 rounded-full">{source.count}</span>
@@ -484,7 +570,7 @@ const AdminDashboard = () => {
                  </div>
                  )}
               </div>
-             
+
              <div className="mt-8 p-6 bg-white/5 rounded-3xl border border-white/5 flex items-center justify-between">
                 <div>
                    <p className="text-[10px] opacity-40 uppercase font-bold tracking-widest flex items-center gap-2">Télémétrie Live <span className="bg-emerald-500/20 text-emerald-400 px-1 rounded text-[8px]">H24</span></p>
@@ -495,6 +581,8 @@ const AdminDashboard = () => {
                 </div>
              </div>
           </div>
+            );
+          })()}
         </motion.div>
 
       </div>
