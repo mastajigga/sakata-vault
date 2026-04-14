@@ -27,6 +27,7 @@
     "@next/mdx": "^16.2.3",
     "@react-three/drei": "^10.0.0",
     "@react-three/fiber": "^9.1.0",
+    "@stripe/stripe-js": "^9.2.0",
     "@supabase/ssr": "^0.10.0",
     "@supabase/supabase-js": "^2.101.1",
     "@turf/turf": "^7.2.0",
@@ -51,6 +52,7 @@
     "rehype-katex": "^7.0.1",
     "remark-gfm": "^4.0.1",
     "remark-math": "^6.0.0",
+    "stripe": "^22.0.1",
     "tailwind-merge": "^3.5.0",
     "three": "^0.172.0",
     "web-push": "^3.6.7"
