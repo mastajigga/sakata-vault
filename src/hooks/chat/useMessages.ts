@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import { Message } from "@/components/chat/ChatWindow";
+import { DB_TABLES, DB_BUCKETS } from "@/lib/constants/db";
 
 export function useMessages(conversationId: string) {
   const [messages, setMessages] = useState<Message[]>([]);
@@ -19,7 +20,7 @@ export function useMessages(conversationId: string) {
         userId = activeSession?.session?.user?.id || "";
 
         const { data, error } = await supabase
-          .from('chat_messages')
+          .from(DB_TABLES.CHAT_MESSAGES)
           .select(`
             id, content, file_url, file_type, created_at, expires_in,
             sender_id, max_views,
@@ -57,18 +58,18 @@ export function useMessages(conversationId: string) {
 
     // Subscribe to real-time messages
     const channel = supabase.channel(`messages:${conversationId}`)
-      .on('postgres_changes', { 
-        event: 'INSERT', 
-        schema: 'public', 
-        table: 'chat_messages',
+      .on('postgres_changes', {
+        event: 'INSERT',
+        schema: 'public',
+        table: DB_TABLES.CHAT_MESSAGES,
         filter: `conversation_id=eq.${conversationId}`
       }, async (payload) => {
         // Quick fetch or adapt payload
         const newMsg = payload.new;
-        
+
         // Fetch sender details
         const { data: profileData } = await supabase
-          .from('profiles')
+          .from(DB_TABLES.PROFILES)
           .select('nickname, username')
           .eq('id', newMsg.sender_id)
           .single();
@@ -111,7 +112,7 @@ export function useMessages(conversationId: string) {
       const fileExt = attachment.name.split('.').pop() || 'tmp';
       const fileName = `${user.id}/${Date.now()}_${Math.random().toString(36).substring(7)}.${fileExt}`;
       
-      const { data, error } = await supabase.storage.from('chat_attachments').upload(fileName, attachment, {
+      const { data, error } = await supabase.storage.from(DB_BUCKETS.CHAT_ATTACHMENTS).upload(fileName, attachment, {
         cacheControl: '3600',
         upsert: false
       });
@@ -119,12 +120,12 @@ export function useMessages(conversationId: string) {
       if (error) {
         console.error("Erreur lors de l'upload de la pièce jointe:", error);
       } else if (data) {
-        const { data: publicData } = supabase.storage.from('chat_attachments').getPublicUrl(data.path);
+        const { data: publicData } = supabase.storage.from(DB_BUCKETS.CHAT_ATTACHMENTS).getPublicUrl(data.path);
         fileUrl = publicData.publicUrl;
       }
     }
 
-    await supabase.from('chat_messages').insert({
+    await supabase.from(DB_TABLES.CHAT_MESSAGES).insert({
       conversation_id: conversationId,
       sender_id: user.id,
       content,

@@ -4,6 +4,7 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { Language as LangType } from "@/types/i18n";
 import { UI_TRANSLATIONS as Translations } from "@/data/translations";
+import { STORAGE_KEYS } from "@/lib/constants/storage";
 
 interface LanguageContextType {
   language: LangType;
@@ -18,7 +19,7 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     try {
-      const saved = localStorage.getItem("sakata-lang") as LangType;
+      const saved = localStorage.getItem(STORAGE_KEYS.LANG) as LangType;
       if (saved) setLanguage(saved);
     } catch (e) {
       console.warn("localStorage access restricted - Defaulting to fr");
@@ -28,7 +29,7 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
   const handleSetLanguage = (lang: LangType) => {
     setLanguage(lang);
     try {
-      localStorage.setItem("sakata-lang", lang);
+      localStorage.setItem(STORAGE_KEYS.LANG, lang);
     } catch (e) {
       console.warn("localStorage access restricted - Cannot save preference");
     }

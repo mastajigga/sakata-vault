@@ -4,12 +4,13 @@ import React, { createContext, useContext, useEffect, useState, useCallback, use
 import { User, Session } from "@supabase/supabase-js";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
+import { APP_VERSION, SUBSCRIPTION_TIERS } from "@/lib/constants/business";
+import { STORAGE_KEYS } from "@/lib/constants/storage";
 
 export type UserRole = "admin" | "manager" | "contributor" | "user";
 
-// App version — bump this string on each deploy to auto-invalidate stale localStorage entries
-const APP_VERSION = "2.1.0";
-const VERSION_KEY = "sakata-app-version";
+// Version key — bump APP_VERSION in business.ts on each deploy to auto-invalidate stale localStorage entries
+const VERSION_KEY = STORAGE_KEYS.APP_VERSION;
 
 interface AuthContextType {
   user: User | null;
@@ -48,7 +49,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         const keysToRemove: string[] = [];
         for (let i = 0; i < localStorage.length; i++) {
           const key = localStorage.key(i);
-          if (key && key.startsWith("sakata-") && key !== VERSION_KEY) {
+          if (key && key.startsWith("sakata-") && key !== STORAGE_KEYS.APP_VERSION) {
             keysToRemove.push(key);
           }
         }
@@ -72,7 +73,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
     if (!error && data) {
       setRole(data.role as UserRole);
-      setSubscriptionTier(data.subscription_tier || "free");
+      setSubscriptionTier(data.subscription_tier || SUBSCRIPTION_TIERS.FREE);
     }
   }, []);
 

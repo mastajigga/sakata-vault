@@ -2,6 +2,13 @@
 
 import React, { useState, useRef, useEffect, useCallback } from "react";
 import { Send, Paperclip, Mic, X, Clock, Play, Pause, Eye } from "lucide-react";
+import { TIMINGS } from "@/lib/constants/timings";
+import {
+  IMAGE_VIEW_MODES,
+  EXPIRY_DURATIONS,
+  type ImageViewMode as ImageViewModeType,
+  type ExpiryDuration,
+} from "@/lib/constants/business";
 
 interface ChatInputProps {
   onSend: (content: string, attachment?: File | null, expiresIn?: string, maxViews?: 1 | 2) => void;
@@ -12,7 +19,8 @@ interface ChatInputProps {
 
 const WAVEFORM_BARS = [4, 8, 14, 10, 18, 12, 20, 9, 16, 11, 19, 7, 15, 13, 6, 17, 10, 14, 8, 16];
 
-type ImageViewMode = "normal" | "once" | "twice";
+// ImageViewMode is imported from @/lib/constants/business
+type ImageViewMode = ImageViewModeType;
 
 // ─── Ephemeral Image Picker panel ────────────────────────────────────────────
 
@@ -38,9 +46,9 @@ function EphemeralImagePicker({
   const sizeKb = (file.size / 1024).toFixed(1);
 
   const modeOptions: { value: ImageViewMode; label: string }[] = [
-    { value: "normal", label: "Normal" },
-    { value: "once", label: "👁 Vue 1×" },
-    { value: "twice", label: "👁 Vue 2×" },
+    { value: IMAGE_VIEW_MODES.NORMAL, label: "Normal" },
+    { value: IMAGE_VIEW_MODES.ONCE, label: "👁 Vue 1×" },
+    { value: IMAGE_VIEW_MODES.TWICE, label: "👁 Vue 2×" },
   ];
 
   return (
@@ -89,12 +97,12 @@ function EphemeralImagePicker({
         ))}
       </div>
 
-      {mode !== "normal" && (
+      {mode !== IMAGE_VIEW_MODES.NORMAL && (
         <p className="text-[10px] text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-900/20 rounded-lg px-2.5 py-1.5 flex items-center gap-1.5">
           <Eye size={11} className="flex-shrink-0" />
-          {mode === "once"
-            ? "L'image disparaîtra après avoir été vue une fois (5 secondes)."
-            : "L'image disparaîtra après avoir été vue 2 fois (10 secondes chacune)."}
+          {mode === IMAGE_VIEW_MODES.ONCE
+            ? `L'image disparaîtra après avoir été vue une fois (${TIMINGS.VIEW_ONCE_COUNTDOWN} secondes).`
+            : `L'image disparaîtra après avoir été vue 2 fois (${TIMINGS.VIEW_TWICE_COUNTDOWN} secondes chacune).`}
         </p>
       )}
     </div>
@@ -111,8 +119,8 @@ export function ChatInput({
 }: ChatInputProps) {
   const [content, setContent] = useState("");
   const [showOptions, setShowOptions] = useState(false);
-  const [expiresIn, setExpiresIn] = useState<"never" | "24h" | "48h" | "7_days" | "30_days">(
-    isTemporaryConversation ? (temporaryDuration ?? "24h") : "never"
+  const [expiresIn, setExpiresIn] = useState<ExpiryDuration>(
+    isTemporaryConversation ? (temporaryDuration ?? EXPIRY_DURATIONS.H24) : EXPIRY_DURATIONS.NEVER
   );
 
   // Attachments
@@ -122,7 +130,7 @@ export function ChatInput({
 
   // Image view mode for the ephemeral picker
   const [imageViewMode, setImageViewMode] = useState<ImageViewMode>(
-    isTemporaryConversation ? "once" : "normal"
+    isTemporaryConversation ? IMAGE_VIEW_MODES.ONCE : IMAGE_VIEW_MODES.NORMAL
   );
 
   // Voice recording
@@ -146,18 +154,18 @@ export function ChatInput({
   // Sync expiresIn when parent toggles temporary mode
   useEffect(() => {
     if (isTemporaryConversation) {
-      setExpiresIn(temporaryDuration ?? "24h");
-      setImageViewMode("once");
+      setExpiresIn(temporaryDuration ?? EXPIRY_DURATIONS.H24);
+      setImageViewMode(IMAGE_VIEW_MODES.ONCE);
     } else {
-      setExpiresIn("never");
-      setImageViewMode("normal");
+      setExpiresIn(EXPIRY_DURATIONS.NEVER);
+      setImageViewMode(IMAGE_VIEW_MODES.NORMAL);
     }
   }, [isTemporaryConversation, temporaryDuration]);
 
   // Reset image view mode when attachment is removed
   useEffect(() => {
     if (!attachment) {
-      setImageViewMode(isTemporaryConversation ? "once" : "normal");
+      setImageViewMode(isTemporaryConversation ? IMAGE_VIEW_MODES.ONCE : IMAGE_VIEW_MODES.NORMAL);
     }
   }, [attachment, isTemporaryConversation]);
 
@@ -182,8 +190,8 @@ export function ChatInput({
 
   const resolveMaxViews = (): 1 | 2 | undefined => {
     if (!isImageAttachment) return undefined;
-    if (imageViewMode === "once") return 1;
-    if (imageViewMode === "twice") return 2;
+    if (imageViewMode === IMAGE_VIEW_MODES.ONCE) return 1;
+    if (imageViewMode === IMAGE_VIEW_MODES.TWICE) return 2;
     return undefined;
   };
 
@@ -215,7 +223,7 @@ export function ChatInput({
       if (typingTimeoutRef.current) clearTimeout(typingTimeoutRef.current);
       typingTimeoutRef.current = setTimeout(() => {
         onTyping(false);
-      }, 3000);
+      }, TIMINGS.TYPING_STOP_DELAY);
     }
   };
 
@@ -227,7 +235,7 @@ export function ChatInput({
       setAttachment(file);
       // Default image view mode depends on conversation type
       if (file.type.startsWith("image/")) {
-        setImageViewMode(isTemporaryConversation ? "once" : "normal");
+        setImageViewMode(isTemporaryConversation ? IMAGE_VIEW_MODES.ONCE : IMAGE_VIEW_MODES.NORMAL);
       }
     }
     // Reset input so same file can be re-selected
@@ -314,15 +322,15 @@ export function ChatInput({
 
   const ephemeralLabel = (val: typeof expiresIn) => {
     switch (val) {
-      case "24h": return "Éphémère · 24h";
-      case "48h": return "Éphémère · 48h";
-      case "7_days": return "Éphémère · 7 jours";
-      case "30_days": return "Éphémère · 30 jours";
+      case EXPIRY_DURATIONS.H24: return "Éphémère · 24h";
+      case EXPIRY_DURATIONS.H48: return "Éphémère · 48h";
+      case EXPIRY_DURATIONS.DAYS_7: return "Éphémère · 7 jours";
+      case EXPIRY_DURATIONS.DAYS_30: return "Éphémère · 30 jours";
       default: return "Permanent";
     }
   };
 
-  const isEphemeral = expiresIn !== "never";
+  const isEphemeral = expiresIn !== EXPIRY_DURATIONS.NEVER;
 
   return (
     <div className="bg-white dark:bg-stone-900 border-t border-stone-200 dark:border-stone-800 p-3 md:p-4 relative">
@@ -337,11 +345,11 @@ export function ChatInput({
           </div>
           {(
             [
-              { value: "never", label: "Permanent (conserver)", icon: null },
-              { value: "24h", label: "Éphémère · 24 heures", icon: "🕛" },
-              { value: "48h", label: "Éphémère · 48 heures", icon: "🕑" },
-              { value: "7_days", label: "Éphémère · 7 jours", icon: "📆" },
-              { value: "30_days", label: "Éphémère · 30 jours", icon: "🗓" },
+              { value: EXPIRY_DURATIONS.NEVER, label: "Permanent (conserver)", icon: null },
+              { value: EXPIRY_DURATIONS.H24, label: "Éphémère · 24 heures", icon: "🕛" },
+              { value: EXPIRY_DURATIONS.H48, label: "Éphémère · 48 heures", icon: "🕑" },
+              { value: EXPIRY_DURATIONS.DAYS_7, label: "Éphémère · 7 jours", icon: "📆" },
+              { value: EXPIRY_DURATIONS.DAYS_30, label: "Éphémère · 30 jours", icon: "🗓" },
             ] as { value: typeof expiresIn; label: string; icon: string | null }[]
           ).map(({ value, label, icon }) => (
             <button

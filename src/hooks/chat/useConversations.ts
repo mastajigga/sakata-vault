@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import { ConversationItem } from "@/components/chat/ChatSidebar";
+import { DB_TABLES } from "@/lib/constants/db";
 
 export function useConversations() {
   const [conversations, setConversations] = useState<ConversationItem[]>([]);
@@ -31,7 +32,7 @@ export function useConversations() {
         }
 
         const { data: participations, error } = await supabase
-          .from("chat_participants")
+          .from(DB_TABLES.CHAT_PARTICIPANTS)
           .select(`
             conversation_id,
             user_id,
@@ -108,7 +109,7 @@ export function useConversations() {
       .channel("conversations_changes")
       .on(
         "postgres_changes",
-        { event: "*", schema: "public", table: "chat_participants" },
+        { event: "*", schema: "public", table: DB_TABLES.CHAT_PARTICIPANTS },
         () => { fetchConversations(false); }
       )
       .subscribe();

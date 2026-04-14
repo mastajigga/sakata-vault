@@ -3,6 +3,8 @@
 import React, { useRef, useState, useEffect, useCallback } from "react";
 import { Message } from "./ChatWindow";
 import { FileText, Clock, Play, Pause, Download, Lock, Eye } from "lucide-react";
+import { TIMINGS } from "@/lib/constants/timings";
+import { msgViewedKey } from "@/lib/constants/storage";
 
 interface MessageBubbleProps {
   message: Message;
@@ -136,8 +138,8 @@ function ProtectedImage({
   isTemporary?: boolean;
 }) {
   const { fileUrl, id, maxViews, isMe } = message;
-  const countdownTotal = maxViews === 1 ? 5 : 10;
-  const storageKey = `msg-viewed-${id}`;
+  const countdownTotal = maxViews === 1 ? TIMINGS.VIEW_ONCE_COUNTDOWN : TIMINGS.VIEW_TWICE_COUNTDOWN;
+  const storageKey = msgViewedKey(id);
 
   // Senders always see their own image — no lock, no countdown
   // Only the receiver is subject to view limits
@@ -150,7 +152,7 @@ function ProtectedImage({
     }
   });
 
-  const [countdown, setCountdown] = useState(countdownTotal);
+  const [countdown, setCountdown] = useState<number>(countdownTotal);
   const [showCaptureAlert, setShowCaptureAlert] = useState(false);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const alertTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -163,14 +165,14 @@ function ProtectedImage({
     const handleBlur = () => {
       setShowCaptureAlert(true);
       if (alertTimeoutRef.current) clearTimeout(alertTimeoutRef.current);
-      alertTimeoutRef.current = setTimeout(() => setShowCaptureAlert(false), 2000);
+      alertTimeoutRef.current = setTimeout(() => setShowCaptureAlert(false), TIMINGS.CAPTURE_ALERT_DURATION);
     };
 
     const handleVisibilityChange = () => {
       if (document.hidden) {
         setShowCaptureAlert(true);
         if (alertTimeoutRef.current) clearTimeout(alertTimeoutRef.current);
-        alertTimeoutRef.current = setTimeout(() => setShowCaptureAlert(false), 2000);
+        alertTimeoutRef.current = setTimeout(() => setShowCaptureAlert(false), TIMINGS.CAPTURE_ALERT_DURATION);
       } else {
         setShowCaptureAlert(false);
       }

@@ -10,6 +10,7 @@ import React, {
 } from "react";
 import { usePathname } from "next/navigation";
 import LoadingScreen from "./LoadingScreen";
+import { TIMINGS } from "@/lib/constants/timings";
 
 interface LoadingContextType {
   isLoading: boolean;
@@ -36,12 +37,12 @@ export function LoadingProvider({ children }: { children: React.ReactNode }) {
 
     minDisplayTimer.current = setTimeout(() => {
       setIsLoading(false);
-    }, 600);
+    }, TIMINGS.LOADING_MIN_DISPLAY);
 
     safetyTimer.current = setTimeout(() => {
       console.warn("LoadingProvider: Safety timeout reached. Forcing stop.");
       setIsLoading(false);
-    }, 4000);
+    }, TIMINGS.LOADING_SAFETY_TIMEOUT);
   }, [clearTimers]);
 
   useEffect(() => {
@@ -70,7 +71,7 @@ export function LoadingProvider({ children }: { children: React.ReactNode }) {
     safetyTimer.current = setTimeout(() => {
       console.warn("LoadingProvider: Safety timeout reached. Forcing stop.");
       setIsLoading(false);
-    }, 4000);
+    }, TIMINGS.LOADING_SAFETY_TIMEOUT);
   };
 
   const stopLoading = () => {

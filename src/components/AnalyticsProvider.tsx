@@ -5,11 +5,10 @@ import { usePathname } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 import { useLanguage } from "./LanguageProvider";
 import { useAuth } from "./AuthProvider";
+import { TIMINGS } from "@/lib/constants/timings";
+import { SESSION_KEYS } from "@/lib/constants/storage";
 
 const AnalyticsContext = createContext({});
-
-// Minimum delay between analytics calls for the same path (ms)
-const ANALYTICS_DEBOUNCE_MS = 1500;
 
 export function AnalyticsProvider({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -23,11 +22,11 @@ export function AnalyticsProvider({ children }: { children: React.ReactNode }) {
     if (debounceTimer.current) clearTimeout(debounceTimer.current);
 
     debounceTimer.current = setTimeout(async () => {
-      // Deduplicate: don't re-track the same path within 10 seconds
+      // Deduplicate: don't re-track the same path within ANALYTICS_DEDUP_WINDOW ms
       const now = Date.now();
       if (
         lastTracked.current?.path === pathname &&
-        now - lastTracked.current.time < 10_000
+        now - lastTracked.current.time < TIMINGS.ANALYTICS_DEDUP_WINDOW
       ) {
         return;
       }
@@ -37,11 +36,11 @@ export function AnalyticsProvider({ children }: { children: React.ReactNode }) {
       const trackVisit = async () => {
         let sessionId =
           typeof window !== "undefined"
-            ? sessionStorage.getItem("sakata_session_id")
+            ? sessionStorage.getItem(SESSION_KEYS.SESSION_ID)
             : null;
         if (!sessionId && typeof window !== "undefined") {
           sessionId = crypto.randomUUID();
-          sessionStorage.setItem("sakata_session_id", sessionId);
+          sessionStorage.setItem(SESSION_KEYS.SESSION_ID, sessionId);
         }
 
         const isMobile = typeof window !== "undefined" ? window.innerWidth < 768 : false;
@@ -84,7 +83,7 @@ export function AnalyticsProvider({ children }: { children: React.ReactNode }) {
       };
 
       trackVisit();
-    }, ANALYTICS_DEBOUNCE_MS);
+    }, TIMINGS.ANALYTICS_DEBOUNCE);
 
     return () => {
       if (debounceTimer.current) clearTimeout(debounceTimer.current);

@@ -8,15 +8,16 @@ import { useLanguage } from "./LanguageProvider";
 import { useAuth } from "./AuthProvider";
 import LanguageSwitcher from "./LanguageSwitcher";
 import { LogOut, UserCircle, RefreshCw, X } from "lucide-react";
+import { ROUTES } from "@/lib/constants/routes";
 
 const navLinks = [
-  { key: "nav.home", href: "/" },
-  { key: "nav.knowledge", href: "/savoir" },
-  { key: "nav.school", href: "/ecole" },
-  { key: "nav.geography", href: "/geographie" },
-  { key: "nav.community", href: "/forum" },
-  { key: "nav.members", href: "/membres" },
-  { key: "nav.chat", href: "/chat" },
+  { key: "nav.home", href: ROUTES.HOME },
+  { key: "nav.knowledge", href: ROUTES.SAVOIR },
+  { key: "nav.school", href: ROUTES.ECOLE },
+  { key: "nav.geography", href: ROUTES.GEOGRAPHIE },
+  { key: "nav.community", href: ROUTES.FORUM },
+  { key: "nav.members", href: ROUTES.MEMBRES },
+  { key: "nav.chat", href: ROUTES.CHAT },
 ];
 
 const Navbar = () => {
@@ -58,7 +59,7 @@ const Navbar = () => {
               <RefreshCw size={14} className="shrink-0" />
               <span>Votre session a expiré (reconnexion depuis un autre appareil).</span>
               <Link
-                href="/auth"
+                href={ROUTES.AUTH}
                 className="font-semibold underline underline-offset-2 ml-1 hover:opacity-80 transition-opacity"
               >
                 Se reconnecter →
@@ -141,7 +142,7 @@ const Navbar = () => {
               user ? (
                 <div className="hidden md:flex items-center gap-4">
                   <Link
-                    href="/profil"
+                    href={ROUTES.PROFIL}
                     className="inline-flex items-center gap-2.5 px-5 py-2 rounded-full text-sm font-semibold transition-all border border-or/20 hover:border-or/50"
                     style={{
                       background: "rgba(181, 149, 81, 0.05)",
@@ -166,7 +167,7 @@ const Navbar = () => {
                 </div>
               ) : (
                 <Link
-                  href="/auth"
+                  href={ROUTES.AUTH}
                   className="hidden md:inline-flex items-center px-6 py-2.5 rounded-full text-sm font-semibold transition-all border border-or/30 hover:border-or"
                   style={{
                     background: "transparent",
@@ -297,7 +298,7 @@ const Navbar = () => {
                     }}
                   >
                     <Link
-                      href="/profil"
+                      href={ROUTES.PROFIL}
                       onClick={() => {
                         setMenuOpen(false);
                       }}
@@ -337,7 +338,7 @@ const Navbar = () => {
                   className="mt-8"
                 >
                   <Link
-                    href="/auth"
+                    href={ROUTES.AUTH}
                     onClick={() => {
                       setMenuOpen(false);
                     }}
