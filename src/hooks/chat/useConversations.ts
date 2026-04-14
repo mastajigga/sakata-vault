@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import { ConversationItem } from "@/components/chat/ChatSidebar";
 import { DB_TABLES } from "@/lib/constants/db";
@@ -94,5 +94,12 @@ export function useConversations() {
     };
   }, []);
 
-  return { conversations, loading };
+  // Mise à jour optimiste : efface immédiatement le badge quand on ouvre une conversation
+  const markConversationRead = useCallback((conversationId: string) => {
+    setConversations(prev =>
+      prev.map(c => c.id === conversationId ? { ...c, unreadCount: 0 } : c)
+    );
+  }, []);
+
+  return { conversations, loading, markConversationRead };
 }

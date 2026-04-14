@@ -22,7 +22,7 @@ export type ConversationItem = {
 export function ChatSidebar({ activeId }: ChatSidebarProps) {
   const [searchQuery, setSearchQuery] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { conversations, loading } = useConversations();
+  const { conversations, loading, markConversationRead } = useConversations();
 
   const filtered = conversations.filter(c => 
     c.name?.toLowerCase().includes(searchQuery.toLowerCase())
@@ -71,6 +71,7 @@ export function ChatSidebar({ activeId }: ChatSidebarProps) {
           <Link
             key={chat.id}
             href={`/chat/${chat.id}`}
+            onClick={() => markConversationRead(chat.id)}
             className={`w-full flex items-center p-4 py-3 hover:bg-white dark:hover:bg-stone-800 border-b border-stone-100 dark:border-stone-800/50 transition ${
               activeId === chat.id ? "bg-white dark:bg-stone-800 shadow-sm" : ""
             }`}
@@ -88,7 +89,7 @@ export function ChatSidebar({ activeId }: ChatSidebarProps) {
                 <span className="text-sm text-stone-500 dark:text-stone-400 truncate max-w-[180px]">
                   {chat.lastMessage}
                 </span>
-                {chat.unreadCount > 0 && (
+                {chat.unreadCount > 0 && activeId !== chat.id && (
                   <span className="flex-shrink-0 w-5 h-5 rounded-full bg-amber-600 flex items-center justify-center text-[10px] text-white font-bold ml-2">
                     {chat.unreadCount}
                   </span>
