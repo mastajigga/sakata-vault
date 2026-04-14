@@ -33,6 +33,7 @@ export const metadata: Metadata = {
 };
 
 import { AnalyticsProvider } from "@/components/AnalyticsProvider";
+import { ChatUnreadProvider } from "@/contexts/ChatUnreadContext";
 
 export default function RootLayout({
   children,
@@ -46,8 +47,10 @@ export default function RootLayout({
           <LanguageProvider>
             <LoadingProvider>
               <AnalyticsProvider>
-                <WelcomeModal />
-                {children}
+                <ChatUnreadProvider>
+                  <WelcomeModal />
+                  {children}
+                </ChatUnreadProvider>
               </AnalyticsProvider>
             </LoadingProvider>
           </LanguageProvider>
