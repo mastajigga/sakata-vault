@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { stripe } from '@/lib/stripe';
-import { supabaseAdmin } from '@/lib/supabase/admin';
+import { supabaseAdmin, supabasePublic } from '@/lib/supabase/admin';
 import { DB_TABLES } from '@/lib/constants/db';
 
 export async function GET(req: Request) {
@@ -19,8 +19,8 @@ export async function GET(req: Request) {
       return NextResponse.json({ error: "Non autorisé." }, { status: 401 });
     }
 
-    // Vérifier l'identité de l'appelant
-    const { data: { user }, error: authError } = await supabaseAdmin.auth.getUser(token);
+    // Vérifier l'identité de l'appelant (client anon suffit pour valider le JWT)
+    const { data: { user }, error: authError } = await supabasePublic.auth.getUser(token);
     if (authError || !user) {
       return NextResponse.json({ error: "Jeton invalide." }, { status: 401 });
     }

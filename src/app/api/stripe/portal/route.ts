@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { stripe } from '@/lib/stripe';
-import { supabaseAdmin } from '@/lib/supabase/admin';
+import { supabaseAdmin, supabasePublic } from '@/lib/supabase/admin';
 import { DB_TABLES } from '@/lib/constants/db';
 
 export async function POST(req: Request) {
@@ -12,7 +12,8 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Non autorisé. Jeton manquant." }, { status: 401 });
     }
 
-    const { data: { user }, error: authError } = await supabaseAdmin.auth.getUser(token);
+    // Validation JWT avec le client anon (ne nécessite pas la service role key)
+    const { data: { user }, error: authError } = await supabasePublic.auth.getUser(token);
 
     if (authError || !user) {
       return NextResponse.json({ error: "Non autorisé. Jeton invalide." }, { status: 401 });
