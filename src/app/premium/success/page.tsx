@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 import Navbar from '@/components/Navbar';
 import { motion } from 'framer-motion';
 import { CheckCircle2, Loader2, XCircle } from 'lucide-react';
@@ -9,7 +9,7 @@ import { useSearchParams } from 'next/navigation';
 import { supabase } from '@/lib/supabase';
 import { useAuth } from '@/components/AuthProvider';
 
-export default function PremiumSuccessPage() {
+function PremiumSuccessContent() {
   const searchParams = useSearchParams();
   const sessionId = searchParams.get('session_id');
   const { refreshProfile } = useAuth() as any;
@@ -138,5 +138,17 @@ export default function PremiumSuccessPage() {
 
       </main>
     </div>
+  );
+}
+
+export default function PremiumSuccessPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-black text-[#F4F4F5] flex items-center justify-center">
+        <Loader2 className="w-10 h-10 text-[#C16B34] animate-spin" />
+      </div>
+    }>
+      <PremiumSuccessContent />
+    </Suspense>
   );
 }
