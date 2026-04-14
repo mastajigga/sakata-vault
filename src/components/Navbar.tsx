@@ -98,11 +98,23 @@ const Navbar = () => {
           className="section-container flex items-center justify-between"
           style={{ height: "var(--header-height)" }}
         >
-          {/* Logo — hard navigation pour vider le cache Router et tous les états */}
+          {/* Logo — équivalent Ctrl+Shift+R : vide tous les caches avant de recharger */}
           <a
             href="/"
             onClick={(e) => {
               e.preventDefault();
+              // 1. Vider les clés applicatives du localStorage (sakata-*)
+              try {
+                Object.keys(localStorage)
+                  .filter((k) => k.startsWith("sakata-") || k.startsWith("sb-"))
+                  .forEach((k) => localStorage.removeItem(k));
+                sessionStorage.clear();
+              } catch {}
+              // 2. Vider le cache Service Worker / Next.js (Cache API)
+              if ("caches" in window) {
+                caches.keys().then((keys) => keys.forEach((k) => caches.delete(k)));
+              }
+              // 3. Navigation dure : vide le Router Cache Next.js + tous les états React
               window.location.href = "/";
             }}
             className="font-display font-bold tracking-tighter cursor-pointer"
