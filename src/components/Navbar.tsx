@@ -19,11 +19,12 @@ const navLinks = [
   { key: "nav.community", href: ROUTES.FORUM },
   { key: "nav.members", href: ROUTES.MEMBRES },
   { key: "nav.chat", href: ROUTES.CHAT },
+  { key: "nav.premium", href: ROUTES.PREMIUM },
 ];
 
 const Navbar = () => {
   const { t } = useLanguage();
-  const { user, isLoading: authLoading, connectionError, sessionExpired, signOut } = useAuth();
+  const { user, isLoading: authLoading, connectionError, sessionExpired, signOut, subscriptionTier } = useAuth() as any;
   const totalUnread = useGlobalUnreadCount();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -170,19 +171,33 @@ const Navbar = () => {
                 <div className="hidden md:flex items-center gap-4">
                   <Link
                     href={ROUTES.PROFIL}
-                    className="inline-flex items-center gap-2.5 px-5 py-2 rounded-full text-sm font-semibold transition-all border border-or/20 hover:border-or/50"
+                    className="inline-flex items-center gap-2.5 px-5 py-2 rounded-full text-sm font-semibold transition-all border hover:border-or/50"
                     style={{
-                      background: "rgba(181, 149, 81, 0.05)",
-                      color: "var(--or-ancestral)",
+                      background: subscriptionTier === 'premium'
+                        ? "rgba(193, 107, 52, 0.08)"
+                        : "rgba(181, 149, 81, 0.05)",
+                      borderColor: subscriptionTier === 'premium'
+                        ? "rgba(193,107,52,0.4)"
+                        : "rgba(181,149,81,0.2)",
+                      color: subscriptionTier === 'premium' ? "#C16B34" : "var(--or-ancestral)",
                     }}
                   >
                     <div className="relative">
                       <UserCircle className="w-5 h-5 opacity-80" />
-                      {!connectionError && <div className="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-or-ancestral border-2 border-foret-nocturne animate-pulse" />}
+                      {!connectionError && (
+                        <div className={`absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full border-2 border-foret-nocturne ${
+                          subscriptionTier === 'premium' ? 'bg-[#C16B34]' : 'bg-or-ancestral animate-pulse'
+                        }`} />
+                      )}
                     </div>
                     <span className="max-w-[120px] truncate">
                       {user.user_metadata?.full_name || user.email?.split("@")[0]}
                     </span>
+                    {subscriptionTier === 'premium' && (
+                      <span className="text-[9px] font-mono bg-[#C16B34]/20 text-[#C16B34] px-1.5 py-0.5 rounded-full uppercase tracking-wider">
+                        Premium
+                      </span>
+                    )}
                   </Link>
                   <button
                     onClick={() => signOut()}

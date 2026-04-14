@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { useAuth } from "@/components/AuthProvider";
 import { supabase } from "@/lib/supabase";
 import { useLanguage } from "@/components/LanguageProvider";
+import { ROUTES } from "@/lib/constants/routes";
 import Navbar from "@/components/Navbar";
 import Link from "next/link";
 import { 
@@ -29,7 +30,7 @@ import {
 } from "lucide-react";
 
 const ProfilePage = () => {
-  const { user, role, isLoading: authLoading } = useAuth();
+  const { user, role, subscriptionTier, isLoading: authLoading } = useAuth() as any;
   const { t } = useLanguage();
   
   const [loading, setLoading] = useState(false);
@@ -47,6 +48,9 @@ const ProfilePage = () => {
   
   const [contributorStatus, setContributorStatus] = useState<string>("none");
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
+  const [subStatus, setSubStatus] = useState<string | null>(null);
+  const [subEndDate, setSubEndDate] = useState<string | null>(null);
+  const [portalLoading, setPortalLoading] = useState(false);
   const [uploading, setUploading] = useState(false);
   const successTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -79,6 +83,8 @@ const ProfilePage = () => {
             });
             setContributorStatus(data.contributor_status || "none");
             setAvatarUrl(data.avatar_url || null);
+            setSubStatus(data.subscription_status || null);
+            setSubEndDate(data.subscription_end_date || null);
           }
         } catch (err) {
           console.error("Error fetching profile:", err);
@@ -194,6 +200,26 @@ const ProfilePage = () => {
       successTimerRef.current = setTimeout(() => setSuccess(false), 3000);
     }
     setLoading(false);
+  };
+
+  const handlePortal = async () => {
+    if (!user) return;
+    try {
+      setPortalLoading(true);
+      const { data: { session } } = await supabase.auth.getSession();
+      const token = session?.access_token;
+      const res = await fetch('/api/stripe/portal', {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const data = await res.json();
+      if (data.url) window.location.href = data.url;
+      else alert(data.error || "Erreur lors de l'ouverture du portail.");
+    } catch {
+      alert("Erreur de connexion au portail Stripe.");
+    } finally {
+      setPortalLoading(false);
+    }
   };
 
   const handleGalleryUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -520,6 +546,74 @@ const ProfilePage = () => {
                   </div>
                 </div>
               </div>
+            </motion.div>
+
+            {/* Subscription Card */}
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.25 }}
+              className={`p-6 rounded-2xl border overflow-hidden relative ${
+                subscriptionTier === 'premium'
+                  ? 'border-[#C16B34]/30 bg-[#C16B34]/[0.04]'
+                  : 'border-white/5 bg-white/[0.02]'
+              }`}
+            >
+              <div className="relative z-10">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className={`p-2 rounded ${subscriptionTier === 'premium' ? 'bg-[#C16B34]/20' : 'bg-white/5'}`}>
+                    <Lock className={`w-4 h-4 ${subscriptionTier === 'premium' ? 'text-[#C16B34]' : 'text-ivoire-ancien/40'}`} />
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-bold text-ivoire-ancien">Mon Abonnement</h3>
+                    <span className={`text-[10px] font-mono uppercase tracking-wider ${
+                      subscriptionTier === 'premium' ? 'text-[#C16B34]' : 'text-ivoire-ancien/30'
+                    }`}>
+                      {subscriptionTier === 'premium' ? '✦ Gardien de l\'Héritage' : 'Accès Libre'}
+                    </span>
+                  </div>
+                </div>
+
+                {subscriptionTier === 'premium' ? (
+                  <>
+                    {subStatus && (
+                      <p className="text-[11px] text-ivoire-ancien/50 mb-1">
+                        Statut : <span className={`font-semibold ${subStatus === 'active' ? 'text-green-400' : 'text-amber-400'}`}>
+                          {subStatus === 'active' ? 'Actif' : subStatus === 'past_due' ? 'Paiement en retard' : subStatus}
+                        </span>
+                      </p>
+                    )}
+                    {subEndDate && (
+                      <p className="text-[11px] text-ivoire-ancien/40 mb-4">
+                        Renouvellement : {new Date(subEndDate).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}
+                      </p>
+                    )}
+                    <button
+                      onClick={handlePortal}
+                      disabled={portalLoading}
+                      className="w-full py-2.5 rounded-xl border border-[#C16B34]/40 text-[#C16B34] text-[11px] font-bold uppercase tracking-widest transition-all hover:bg-[#C16B34] hover:text-white flex items-center justify-center gap-2"
+                    >
+                      {portalLoading ? <Loader2 className="w-3 h-3 animate-spin" /> : null}
+                      Gérer mon abonnement
+                    </button>
+                    <p className="text-[9px] text-ivoire-ancien/20 mt-2 text-center">Via le portail sécurisé Stripe</p>
+                  </>
+                ) : (
+                  <>
+                    <p className="text-xs text-ivoire-ancien/50 leading-relaxed mb-4">
+                      Débloquez l'accès illimité aux archives et soutenez la préservation culturelle.
+                    </p>
+                    <Link href={ROUTES.PREMIUM}>
+                      <span className="block w-full py-2.5 rounded-xl bg-[#C16B34]/10 border border-[#C16B34]/20 text-[#C16B34] text-[11px] font-bold uppercase tracking-widest text-center transition-all hover:bg-[#C16B34] hover:text-white">
+                        Passer à Premium — 4.99€/mois
+                      </span>
+                    </Link>
+                  </>
+                )}
+              </div>
+              {subscriptionTier === 'premium' && (
+                <div className="absolute top-0 right-0 -mr-8 -mt-8 w-32 h-32 bg-[#C16B34]/10 blur-[60px] rounded-full pointer-events-none" />
+              )}
             </motion.div>
 
             {/* Contributor Request Card */}
