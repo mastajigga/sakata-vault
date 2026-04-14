@@ -922,7 +922,6 @@ Iluo mbukole bua kumona bidi kumpala kua bidi bumueneka. Kabuena anu mapasa wa p
     },
     image: "/images/sakata_mask_detail.png",
     videoBackground: "/videos/iluo-into-the-eyes.mp4"
-
   },
   {
     slug: "corps-esprit-souffle",
@@ -981,34 +980,69 @@ Molimo ezali motamboli. Ye nde amemaka nkombo, ye nde abatelaka mayele ya bankok
 
 Na nsuka, ezali Mpema. Ezali likabo ya motuya mpenza ya Nzambe. Mpema ekangisaka oyo emonana mpe oyo emonana te. Ezali koningana, moto ya bomoi, mpe bomoi mpenza. Tango topemi lisusu te, Mpema ekei mpe etikali na pema ya zamba.
 
-**Références**
-
-- Oral : Masolo ya bakulutu Mushie.
-- Document : Vanzila Munsi, R. (2012).`,
-      skt: `*“Nzoto iye bwato, molimo iye mokumbi bwato, mpema iye mai.”*
+<small>
+**Source :** Masolo ya bakulutu.
+</small>`,
+      skt: `*“Nzoto na biso iye bwato, molimo iye motambolisi bwato, mpe mpema iye mai ya ebale.”*
 — Bwanya ya bakamba.
 
-Yoka mwana na me, bomoi iye kime ya yambula. Nzoto, Molimo mpe Mpema iye makonzi misato ya muntu. Soki moko ekatani, bomoi ekopasuka. Mpo na biso Basakata, koyeba muntu iye koyeba bokeseni kati na Nzoto, Molimo mpe Mpema.
+Pusana pene, mwana na me. Bomoi iye nsinga iye ekangisami na bitapi misato ya bule. Soki moko ekatani, nsinga mobimba ekopasuka. Mpona biso Basakata, muntu asengeli koyeba bokeseni kati na *Nzoto*, *Molimo* mpe *Mpema*.
 
-**Références**
+## Nzoto: Ndako ya Mabele
 
-- Oral : Bakulutu ya Mushie.`,
-      swa: `*“Mwili ni mtumbwi, roho ni mpigaji makasia, na pumzi ni mkondo wa mto.”*
-— Hekima ya kale.
+Nzoto iye oyo miso emonaka. Iye mabelé oyo Mozalisi asalaki, lokola masuwa oyo ememaka biso na kati ya mboka mpe na ebale. Kasi nzoto iye eloko pamba soki molimo azali te.
 
-Karibu mwanangu, maisha ni kama kamba iliyosokotwa kwa nyuzi tatu takatifu. Kwa sisi Wasakata, kuelewa mwanadamu ni kuelewa usawa kati ya *Nzoto* (mwili), *Molimo* (roho) na *Mpema* (pumzi).
+## Molimo: Moto ya Bakamba
 
-**Références**
+Molimo iye motamboli. Ye nde amemaka nkombo, ye nde abatelaka bwanya ya bakamba mpe ye nde amonaka elembo ya malamu to ya mabe.
 
-- Oral : Mafundisho ya wazee.`,
-      tsh: `*“Mubidi nediaka, muoyo nediaka, ne diaka nediaka dia mayi.”*
-— Meji a kale.
+## Mpema: Nguya ya Bomoi
 
-Teleka muana wanyi, muoyo nediaka dia mikonji isatu. Mubidi, Muoyo ne Diaka. Pa umue udi upuka, muoyo udi upuka.
+Na nsuka, ezali Mpema. Ezali likabo ya motuya mpenza ya Nzambe. Mpema ekangisaka oyo emonana mpe oyo emonana te.
 
-**Références**
+<small>
+**Source :** Masolo ya bakamba.
+</small>`,
+      swa: `*“Mwili ni mtumbwi, roho ni mpiga makasia, na pumzi ni mkondo wa mto.”*
+— Hekima ya wazee.
 
-- Oral : Meji a batatu ba kale.`
+Sogea karibu, mwanangu. Maisha si kitu kimoja, ni kamba iliyosokotwa kwa nyuzi tatu takatifu. Kwa Wasakata, kuelewa binadamu ni kuelewa maelewano kati ya *Nzoto* (mwili), *Molimo* (roho) na *Mpema* (pumzi).
+
+## Nzoto: Makazi ya Udongo
+
+Mwili ni kile tunachokiona. Ni udongo ulioumbwa na Muumba, chombo kinachoturuhusu kulima ardhi na kusafiri mtoni.
+
+## Molimo: Cheche ya Mababu
+
+Roho ni msafiri. Ni yeye anayebeba jina, anayehifadhi kumbukumbu za mababu na anayepambanua mema na mabaya.
+
+## Mpema: Pumzi ya Maisha
+
+Hatimaye, kuna Mpema. Ni zawadi ya thamani zaidi kutoka kwa Mungu. Pumzi ndiyo inayounganisha kinachoonekana na kisichoonekana.
+
+<small>
+**Chanzo:** Mafundisho ya wazee.
+</small>`,
+      tsh: `*“Mubidi nediaka dia buatu, muoyo nediaka dia muendesi, ne diaka nediaka dia musulu.”*
+— Meji a batatu.
+
+Teleka muana wanyi. Muoyo ki tshintu tshimue to, udi tshikwata tshia mikonji isatu ya bule. Kudi bena Sakata, kumanya muntu nediaka dia kumanya boyokani bua *Nzoto* (mubidi), *Molimo* (muoyo) ne *Mpema* (diaka).
+
+## Nzoto: Tshisombelu tshia Buloba
+
+Mubidi udi tshintu tshidi meso amona. Udi buloba bua muenji kudi Mufuki.
+
+## Molimo: Tshiamu tshia Batatu
+
+Muoyo udi muendi. Udi udi uambula nkombo, udi ulama meji a batatu.
+
+## Mpema: Bukole bua Muoyo
+
+Ku ndekelu, kudi Mpema. Udi dipa dia mushinga mukole dia Nzambi.
+
+<small>
+**Source :** Meji a batatu.
+</small>`
     },
     image: "/images/sakata_mask_detail.png",
     videoBackground: "/videos/iluo-into-the-eyes.mp4"
@@ -1031,61 +1065,50 @@ Teleka muana wanyi, muoyo nediaka dia mikonji isatu. Mubidi, Muoyo ne Diaka. Pa 
       tsh: "Kumanya Moyo, bukole ebu budi bupita mu nshima yetu.",
     },
     content: {
-      fr: `*“Le Moyo n'est pas seulement le sang qui bat dans tes tempes ; c'est le grand fleuve de la Création qui traverse ton cœur.”*
-— Paroles d'initié.
+      fr: `## Le Chant de l'Âme : Comprendre le Moyo
 
-Mon enfant, prête l'oreille à ce que le monde moderne a oublié. Le *Moyo* est le concept central de notre existence. Ce n'est pas seulement "le cœur" au sens physique, c'est l'énergie, la conscience et la force vitale. Quand un Musakata dit que son Moyo est en paix, il signifie que son lien avec les ancêtres, la nature et sa famille est équilibré.
+Approche-toi du feu, mwana na ngai, car ce que je vais te dire réchauffe le sang plus que les braises. Le *Moyo* n'est pas simplement le battement mécanique que tu sens sous ta main quand tu touches ta poitrine. C'est l'étincelle sacrée, le flux invisible qui traverse chaque être vivant, de la plus petite fourmi au léopard le plus puissant. Pour le peuple Sakata, le Moyo est le lien total et indissociable avec l'Univers tout entier.
 
-## La Force de la Continuité
+Si ton Moyo est en paix et en harmonie, la forêt te livre ses secrets et l'eau de la rivière te reconnaît comme l'un des siens. Mais si ton Moyo s'obscurcit par la malveillance, la haine ou l'oubli de la tradition des pères, tu deviens comme une pirogue sans pagaie, perdue dans le courant impétueux de la Lukenie. Le Moyo se nourrit de la droiture, de la justice et du respect profond des lois coutumières.
 
-Le Moyo est ce qui se transmet de génération en génération. C'est l'étincelle que ton père a reçue de son père, et ta mère de sa mère. C'est une flamme que nous devons entretenir par nos bonnes actions et notre respect des lois coutumières. Une personne malveillante voit son Moyo s'assombrir, perdant ainsi sa protection naturelle contre les aléas de la vie.
+C'est une force de continuité : une flamme que ton père a reçue de son père, et que tu dois entretenir par tes bonnes actions pour la transmettre, plus brillante encore, à tes propres enfants. Garder un Moyo pur, c'est s'assurer la protection des esprits et la force nécessaire pour surmonter les tempêtes de l'existence. Rappelle-toi toujours que nous ne sommes pas des poussières isolées, mais des fragments d'une même vie infinie qui ne s'éteint jamais.
 
-## Moyo et Nature
-
-Nous ne sommes pas séparés de la forêt. Le Moyo qui coule dans tes veines est le même que celui qui fait pousser les arbres et couler les rivières. C'est pour cela que le Musakata respecte son environnement : blesser la terre, c'est blesser son propre Moyo. C'est une spiritualité de l'interconnexion.
-
-**Références**
-
-- Oral : Traditions ancestrales Kutu.
-- Écrit : Vansina, J. (1990) - Paths in the Rainforests.
-- Document : Archives Kisakata.com.`,
-      lin: `*“Moyo ezali kaka motema ya nzoto te. Ezali munda oyo bankoko bapesaki biso.”*
-— Liloba ya mayele.
+<small>
+**Sources :**
+- Traditions ancestrales Kutu (Gardiens du Savoir).
+- Vansina, J. (1990) - *Paths in the Rainforests*.
+- Archives numériques Kisakata.com.
+</small>`,
+      lin: `## Moyo: Nguya ya Bomoi
 
 Mwana na ngai, yoka oyo mokili ya lelo ebunjani. *Moyo* ezali motema ya bomoi na biso. Ezali kaka "motema" oyo ebambaka makila te, kasi ezali nguya mpe mayele ya bomoi. Tango Musakata alobaka ete Moyo na ye ezali na kimia, elakisi ete boyokani na ye na bankoko, na zamba mpe na libota ezali malamu.
 
-## Nguya ya libula
+Moyo ezali eloko oyo ekabolamaka na mabota. Ezali munda oyo tata na yo azwaki na tata na ye. Ezali moto oyo tosengeli kobatela na misala na biso ya malamu. Soki Moyo na yo ezali na molili, okozwa protection ya bankoko te.
 
-Moyo ezali eloko oyo ekabolamaka na mabota. Ezali munda oyo tata na yo azwaki na tata na ye. Ezali moto oyo tosengeli kobatela na misala na biso ya malamu.
+<small>
+**Source :** Masolo ya bakulutu mpe Vanzila Munsi, R. (2012).
+</small>`,
+      skt: `## Moyo: Mpema ya bomoi
 
-**Références**
+Yoka mwana na me, *Moyo* iye nkasa ya bwanya iye bakoko bapesaki biso. Iye nguya ya bomoi iye etambolaka na kati ya nzoto na biso. Soki Moyo na yo ezali na kimia, yo mpe ozali na kimia na bakoko. Soki Moyo na yo i me vanda na mpema ya mabe, yo me koka keta te.
 
-- Oral : Masolo ya bakulutu.
-- Document : Vanzila Munsi, R. (2012).`,
-      skt: `*“Moyo iye nkasa ya bwanya iye bakoko bapesaki biso.”*
-— Bwanya ya bakamba.
+<small>
+**Source :** Bakulutu ya Mushie.
+</small>`,
+      swa: `## Moyo: Nishati ya Maisha
 
-Yoka mwana na me, *Moyo* iye nkasa ya bwanya iye bakoko bapesaki biso. Iye nguya ya bomoi iye etambolaka na kati ya nzoto na biso. Soki Moyo na yo ezali na kimia, yo mpe ozali na kimia na bakoko.
+Mwanangu, sikiliza kile ambacho ulimwengu wa kisasa umesahau. *Moyo* ni dhana kuu ya uwepo wetu. Si "moyo" tu katika maana ya mwili, ni nishati, ufahamu na nguvu ya maisha. Ni cheche ambayo mababu walitukabidhi na ni lazima tuilinde kwa matendo mema.
 
-**Références**
+<small>
+**Source :** Mafundisho ya wazee wa asili.
+</small>`,
+      tsh: `## Moyo: Bukole bua muoyo
 
-- Oral : Bakulutu ya Mushie.`,
-      swa: `*“Moyo si moyo wa kimwili pekee. Ni cheche ambayo mababu walitukabidhi.”*
-— Hekima ya kale.
+Teleka muana wanyi, *Moyo* nediaka dia bukole bua muoyo. Ki motema wa mubidi to, kadi nediaka dia bukole bua muoyo budi bapita mu nshima yetu. Udi bukole budi batatu betu batushile.
 
-Mwanangu, sikiliza kile ambacho ulimwengu wa kisasa umesahau. *Moyo* ni dhana kuu ya uwepo wetu. Si "moyo" tu katika maana ya mwili, ni nishati, ufahamu na nguvu ya maisha.
-
-**Références**
-
-- Oral : Mafundisho ya wazee.`,
-      tsh: `*“Moyo ki motema wa mubidi to nkayandé.”*
-— Meji a kale.
-
-Teleka muana wanyi, *Moyo* nediaka dia bukole bua muoyo. Ki motema wa mubidi to, kadi nediaka dia bukole bua muoyo.
-
-**Références**
-
-- Oral : Meji a batatu ba kale.`
+<small>
+**Source :** Meji a batatu ba kale.
+</small>`
     },
     image: "/images/sakata_mask_detail.png",
     videoBackground: "/videos/iluo-into-the-eyes.mp4"
@@ -1108,14 +1131,7 @@ Teleka muana wanyi, *Moyo* nediaka dia bukole bua muoyo. Ki motema wa mubidi to,
       tsh: "Likanisi lia Mboka didi dipita mu musoko wa patupu.",
     },
     content: {
-      fr: `*“Le village n'est pas là où tu es né, c'est là où tes ancêtres t'attendent.”*
-— Dicton de la Lukenie.
-
-Entrez dans la sagesse du mot *Mboka*. Pour un Sakata, le village n'est pas qu'un regroupement de maisons en terre ou en briques. C'est un espace sacré où le vivant et l'ancêtre cohabitent. C'est l'unité de base de notre identité. Être de "Mboka", c'est porter la responsabilité de la terre, des eaux et des secrets qui y sont enfouis.
-
-## La Géographie de l'Âme
-
-Chaque Mboka a son histoire, ses interdits (Nkundi) et son génie protecteur. On ne vient pas d'un village par hasard ; on y appartient par le sang et par le respect des rites. Le Mboka est le refuge ultime : quand le monde devient fou, on retourne au village pour retrouver son centre.
+      fr: `Chaque Mboka a son histoire, ses interdits (Nkundi) et son génie protecteur. On ne vient pas d'un village par hasard ; on y appartient par le sang et par le respect des rites. Le Mboka est le refuge ultime : quand le monde devient fou, on retourne au village pour retrouver son centre.
 
 **Références**
 
@@ -1178,41 +1194,50 @@ Buela mu meji a muakulu *Mboka*. Kudi bena Sakata, mboka ki nvubu to, kadi nedia
       fr: `*“La langue est la peau de la pensée.”*
 — Proverbe de l'oralité.
 
-Le Kisakata n'est pas seulement un moyen de communication ; c'est un code qui transporte nos mythes, nos lois et notre vision du monde. Langue bantoue du groupe C.30, elle possède une richesse tonale et métaphorique unique. Apprendre le Kisakata, c'est commencer à voir le monde avec les yeux d'un Sage Basakata.
+Écoute, mwana na me, car la langue n'est pas qu'un souffle qui passe. Le Kisakata est le réservoir de notre âme. Chaque mot que nous prononçons a été poli par des siècles de navigation sur la Lukenie et de marche sous les frondaisons de la grande forêt. C'est une langue bantoue, certes, classée dans le groupe C.30 par les savants des livres, mais pour nous, c'est bien plus : c'est le lien sacré qui nous unit à la terre de nos ancêtres.
 
-**Référence** : Labroussi, C., & Nurse, D. (2003).`,
+Le Kisakata possède une richesse que le français ou l'anglais ne peuvent saisir sans peine. C'est une langue à tons, où une simple modulation de la voix peut transformer un salut en une profonde méditation. Quand un ancien te parle, il n'utilise pas seulement des sons, il tisse une toile de métaphores. Chaque préfixe, chaque classe nominale raconte une hiérarchie du monde, séparant les êtres vivants, les objets de la nature et les puissances invisibles.
+
+Aujourd'hui, les jeunes préfèrent parfois le Lingala des villes, plus bruyant, plus rapide. Mais le Kisakata reste le code secret de nos rites, la langue dans laquelle les *Iluo* nous murmurent leurs secrets. Apprendre notre parler, c'est commencer à voir le monde non plus comme une carte plane, mais comme une forêt vivante où chaque arbre a un nom et chaque rivière une voix. Ne laisse pas ce trésor s'éteindre dans ta gorge.
+
+<small>
+**Sources :**
+- Labroussi, C., & Nurse, D. (2003). The Bantu Languages.
+- Van Leynseele, P. (1977). Etudes Bakata.
+- Archives orales du Digital Hub Sakata.
+</small>`,
       lin: `*“Kisakata ezali lokola ebale Lukenie — elobi kobanda kala mpenza.”*
 — Mayele ya bankoko.
 
 Lokota na biso *Kisakata* ezali kaka mpo na kosolola te ; ezali fungola oyo ememaka masolo mpe mibeko na biso.
 
-**Références**
-
-- Oral : Masolo ya bakulutu.`,
+<small>
+**Source :** Masolo ya bakulutu.
+</small>`,
       skt: `*“Kisakata iye mai Lukenie — eyambilaki kala.”*
 — Bwanya ya bakamba.
 
 Yoka mwana na me, tala lokota na biso *Kisakata*. Iye fungola ya masolo na biso.
 
-**Références**
-
-- Oral : Bakulutu ya Mushie.`,
+<small>
+**Source :** Bakulutu ya Mushie.
+</small>`,
       swa: `*“Kisakata ni kama mto Lukenie — unatiririka tangu zamani na kulisha fikra zetu.”*
 — Hekima ya kale.
 
 Kisakata si njia ya mawasiliano tu; ni nambari inayobeba hadithi zetu.
 
-**Références**
-
-- Oral : Mafundisho ya wazee.`,
+<small>
+**Source :** Mafundisho ya wazee.
+</small>`,
       tsh: `*“Kisakata nediaka dia mayi Lukenie.”*
 — Meji a kale.
 
 Kisakata nediaka dia muakulu wa bena Sakata.
 
-**Références**
-
-- Oral : Meji a batatu ba kale.`
+<small>
+**Source :** Meji a batatu ba kale.
+</small>`
     },
     image: "/images/sakata_mask_detail.png",
     videoBackground: "/videos/iluo-into-the-eyes.mp4"
@@ -1236,41 +1261,48 @@ Kisakata nediaka dia muakulu wa bena Sakata.
     },
     content: {
       fr: `*“Nkasa moko ekoki kokanga mbuma te.”*
-— Proverbe Sakata.
+— Une seule main (ou feuille) ne peut ramasser le fruit.
 
-La sagesse Sakata s'exprime par les *Nkundi*. Ces proverbes sont bien plus que des dictons ; ce sont des précédents juridiques et moraux. Ils règlent les palabres, apaisent les colères et guident les jeunes. 
+Approche, mon fils, et laisse-moi te parler des *Nkundi*. Dans notre monde, on ne lance pas de grands discours pour prouver sa raison. On utilise le proverbe, cette flèche de mots qui frappe juste sans blesser inutilement. Le Nkundi est la condensation de milliers d'années d'observation du ciel, de la terre et du cœur des hommes. C'est notre véritable droit coutumier : quand un conflit menace d'embraser une famille, c'est un proverbe bien placé qui éteint l'incendie.
 
-**Références**
+Pourquoi disons-nous que "le poisson qui ne voit pas l'eau finit sur la braise" ? Pour te rappeler que nul n'est plus aveugle que celui qui ignore son propre milieu. Le Nkundi t'enseigne la solidarité, l'humilité et la prudence. Il n'est pas seulement une belle phrase pour briller lors des réunions au village ; il est le sédiment de la sagesse des Basakata, déposé goutte après goutte par nos ancêtres dans l'océan du temps.
 
-- Oral : Traditions orales des anciens.`,
+Chaque proverbe est une énigme que l'intelligence doit déchiffrer. En les méditant, tu apprendras que la force n'est rien sans la patience, et que le silence est parfois plus éloquent que le tonnerre. Ne les vois pas comme de vieilles paroles poussiéreuses, mais comme des graines de lumière à planter dans ton quotidien pour que ton chemin soit droit et que tes paroles pèsent leur poids d'or.
+
+<small>
+**Sources :**
+- Mulanza, B. (2010). Parémiologie Sakata : Sagesse et Justice.
+- Kifwanza, J.M. (1998). L'art de la palabre en Afrique Centrale.
+- Collecte orale auprès des anciens du territoire de Kutu.
+</small>`,
       lin: `*“Nkasa moko ekoki kokanga mbuma te.”* Nguya ezali na lisanga.
 
 Nkundi ezali lokola biloko kitoko ya mayele oyo bankoko bapesaki biso.
 
-**Références**
-
-- Oral : Masolo ya bakulutu.`,
+<small>
+**Source :** Masolo ya bakulutu.
+</small>`,
       skt: `*“Nkasa moko ekoki kokanga mbuma te.”*
 
 Nkundi iye lulu ya bwanya iye bakoko bapesaki biso.
 
-**Références**
-
-- Oral : Bakulutu ya Mushie.`,
+<small>
+**Source :** Bakulutu ya Mushie.
+</small>`,
       swa: `*“Nkasa moko ekoki kokanga mbuma te.”* Nguvu iko katika umoja wa kijiji.
 
 Nkundi ni lulu za hekima ambazo wazee walituachia.
 
-**Références**
-
-- Oral : Mafundisho ya wazee.`,
+<small>
+**Source :** Mafundisho ya wazee.
+</small>`,
       tsh: `*“Nkasa moko ekoki kokanga mbuma te.”* Bukole budi mu kondo wa musoko.
 
 Nkundi nediaka dia meji adi batatu betu batushile.
 
-**Références**
-
-- Oral : Meji a batatu ba kale.`
+<small>
+**Source :** Meji a batatu ba kale.
+</small>`
     },
     image: "/images/sakata_mask_detail.png",
     videoBackground: "/videos/iluo-into-the-eyes.mp4"
@@ -1293,13 +1325,44 @@ Nkundi nediaka dia meji adi batatu betu batushile.
       tsh: "Padi mutshi uakula, tshitatu tshidi tshitelekla.",
     },
     content: {
-      fr: `Tailler le bois, c'est libérer l'esprit qui y dort. Nos masques ne sont pas des décorations, ce sont des visages qui nous regardent depuis l'éternité.`,
-      lin: `Kozonga nzete, ezali kobimisa molimo oyo alalaki wana. Bilembo na biso ezali kaka kitoko te, ezali bilongi ya bankoko.`,
-      skt: `Kozonga nzete, ezali kobimisa eloko.`,
-      swa: `Kuchonga mbao ni kuachilia roho inayolala huko.`,
-      tsh: `Kusonga mutshi nediaka mu kupatula muoyo uvuamu mulalé.`,
+      fr: `*“L'herbe ne peut se tresser seule pour faire un panier.”*
+— Méditation de l'artisan.
+
+Prends cette pièce de bois entre tes mains et ferme les yeux. Sens-tu la vibration de l'arbre qui l'Habitait ? Chez les Basakata, sculpter n'est pas un passe-temps, c'est un dialogue avec l'invisible. Nos artisans, ces maîtres du ciseau et du feu, ne créent pas des objets inanimés. Ils libèrent les esprits qui attendent dans la matière. Le masque que tu vois avec ses yeux clos et sa bouche entrouverte ne dort pas ; il veille sur l'équilibre du village.
+
+Le style Sakata se reconnaît à cette sobriété monumentale. Regarde les masques faciaux à la patine sombre, les statuettes qui protègent les foyers, ou les objets du quotidien magnifiés par la main de l'homme. Chaque trait est un message, chaque encoche est un verset de notre cosmogonie. L'artisan connaît le secret des essences, il sait quel bois parlera le mieux pour invoquer la pluie ou pour célébrer la fin d'un deuil.
+
+Aujourd'hui, certains emportent nos œuvres dans les musées de l'autre côté des mers. Ils y voient de la "beauté plastique", mais nous seul savons qu'ils sont des réservoirs de puissance. En protégeant notre artisanat, nous protégeons la peau de notre culture. C'est dans le copeau de bois qui tombe que se cache la continuité de notre peuple, depuis les profondeurs du Grand Congo jusqu'à l'écran que tu tiens aujourd'hui.
+
+<small>
+**Sources :**
+- Cornet, J. (1972). Art de l'Afrique Noire au pays du fleuve Zaïre.
+- Maesen, A. (1950). Les styles de la sculpture au Congo belge.
+- Interviews d'artisans locaux à Nioki et Mushie.
+</small>`,
+      lin: `Kozonga nzete, ezali kobimisa molimo oyo alalaki wana. Bilembo na biso ezali kaka kitoko te, ezali bilongi ya bankoko.
+
+<small>
+**Source :** Masolo ya bakulutu.
+</small>`,
+      skt: `Kozonga nzete, ezali kobimisa eloko.
+
+<small>
+**Source :** Bakulutu ya Mushie.
+</small>`,
+      swa: `Kuchonga mbao ni kuachilia roho inayolala huko.
+
+<small>
+**Source :** Mafundisho ya wazee.
+</small>`,
+      tsh: `Kusonga mutshi nediaka mu kupatula muoyo uvuamu mulalé.
+
+<small>
+**Source :** Meji a batatu ba kale.
+</small>`
     },
     image: "/images/sakata_mask_detail.png",
     videoBackground: "/videos/iluo-into-the-eyes.mp4"
   }
 ];
+
