@@ -149,6 +149,104 @@ export default function Home() {
         )}
       </section>
 
+      {/* ── Dernières mises à jour ─────────────────────────────────────────── */}
+      <section
+        className="section-container"
+        style={{ paddingTop: "4rem", paddingBottom: "6rem" }}
+      >
+        <div className="mb-10">
+          <span className="eyebrow mb-4 block">Plateforme</span>
+          <h2
+            className="font-display font-bold"
+            style={{
+              fontSize: "clamp(1.5rem, 3vw, 2.25rem)",
+              color: "var(--ivoire-ancien)",
+            }}
+          >
+            Dernières mises à jour
+          </h2>
+          <p className="mt-3 text-sm opacity-60" style={{ color: "var(--brume-matinale)", maxWidth: "480px" }}>
+            La plateforme évolue continuellement pour vous offrir une expérience plus riche et sécurisée.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {[
+            {
+              icon: "💬",
+              title: "Messagerie éphémère",
+              date: "Avril 2026",
+              desc: "Envoyez des messages qui s'effacent automatiquement après 24h ou 48h. Mode conversation temporaire intégré.",
+            },
+            {
+              icon: "👁",
+              title: "Images protégées",
+              date: "Avril 2026",
+              desc: "Partagez des images visibles une seule fois ou deux fois, avec countdown et détection de capture d'écran.",
+            },
+            {
+              icon: "🎙",
+              title: "Aperçu audio avant envoi",
+              date: "Avril 2026",
+              desc: "Enregistrez un message vocal, écoutez-le avant de l'envoyer — comme WhatsApp. Téléchargement disponible.",
+            },
+            {
+              icon: "⚡",
+              title: "Chargement optimisé",
+              date: "Avril 2026",
+              desc: "Correction du chargement infini après navigation. Les pages s'affichent instantanément.",
+            },
+            {
+              icon: "🎬",
+              title: "Vidéos fluides",
+              date: "Avril 2026",
+              desc: "Les vidéos dans les en-têtes de pages apparaissent maintenant avec un fondu progressif sans flash.",
+            },
+            {
+              icon: "🔐",
+              title: "Sessions multi-appareils",
+              date: "Avril 2026",
+              desc: "Gestion améliorée des sessions expirées lors d'une connexion depuis un autre appareil.",
+            },
+          ].map((item) => (
+            <div
+              key={item.title}
+              className="rounded-2xl p-5 border"
+              style={{
+                background: "rgba(255,255,255,0.02)",
+                borderColor: "var(--bordure-brume)",
+              }}
+            >
+              <div className="flex items-start gap-3">
+                <span className="text-2xl flex-shrink-0 mt-0.5">{item.icon}</span>
+                <div>
+                  <div className="flex items-center gap-2 mb-1">
+                    <span
+                      className="text-sm font-semibold"
+                      style={{ color: "var(--ivoire-ancien)" }}
+                    >
+                      {item.title}
+                    </span>
+                    <span
+                      className="text-[10px] font-mono px-1.5 py-0.5 rounded-full"
+                      style={{
+                        background: "rgba(181,149,81,0.12)",
+                        color: "var(--or-ancestral)",
+                      }}
+                    >
+                      {item.date}
+                    </span>
+                  </div>
+                  <p className="text-xs leading-relaxed opacity-60" style={{ color: "var(--brume-matinale)" }}>
+                    {item.desc}
+                  </p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
       <CommunityCallout />
       <Footer />
     </main>
