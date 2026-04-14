@@ -28,13 +28,24 @@ const AdminDashboard = () => {
     topLocations: [] as any[],
     recentIps: [] as any[],
     topSources: [] as any[],
-    // distributions du jour
+    // distributions du jour (toutes visites)
     todayLangDistribution: [] as any[],
     todayDeviceDistribution: [] as any[],
     todayTopLocations: [] as any[],
     todayTopSources: [] as any[],
+    // distributions du jour (uniques)
+    todayLangDistribUniq: [] as any[],
+    todayDeviceDistribUniq: [] as any[],
+    todayTopLocationsUniq: [] as any[],
+    todayTopSourcesUniq: [] as any[],
+    // distributions totales (uniques)
+    totalLangDistribUniq: [] as any[],
+    totalDeviceDistribUniq: [] as any[],
+    totalTopLocationsUniq: [] as any[],
+    totalTopSourcesUniq: [] as any[],
   });
   const [insightView, setInsightView] = useState<"total" | "today">("today");
+  const [insightUnique, setInsightUnique] = useState(false);
 
   const { connectionError, refreshConnection } = useAuth();
 
@@ -83,19 +94,32 @@ const AdminDashboard = () => {
         const todayUniqueVisitors = new Set(todayData?.map(v => v.session_id).filter(Boolean)).size;
 
         // Helper : calcule les distributions à partir d'un dataset analytics
-        const computeDistributions = (data: any[]) => {
+        // unique=true → déduplique par session_id avant de compter
+        const computeDistributions = (data: any[], unique = false) => {
+          // En mode unique, on ne garde que la première occurrence par session
+          const rows = unique
+            ? (() => {
+                const seen = new Set<string>();
+                return data.filter(v => {
+                  const sid = v.session_id || v.ip_address;
+                  if (!sid || seen.has(sid)) return false;
+                  seen.add(sid); return true;
+                });
+              })()
+            : data;
+
           // Langues
           const langsMap: any = {};
-          data.forEach(v => { if (v.language) langsMap[v.language] = (langsMap[v.language] || 0) + 1; });
+          rows.forEach(v => { if (v.language) langsMap[v.language] = (langsMap[v.language] || 0) + 1; });
           const langs = Object.keys(langsMap).sort((a, b) => langsMap[b] - langsMap[a]).map(l => ({
             name: l === "fr" ? "Français" : l === "ln" ? "Lingala" : l === "sak" ? "Kisakata" : l,
             value: langsMap[l],
           }));
           // Appareils
           const devMap: any = { mobile: 0, desktop: 0 };
-          data.forEach(v => { const d = v.metadata?.device_type || "desktop"; devMap[d] = (devMap[d] || 0) + 1; });
+          rows.forEach(v => { const d = v.metadata?.device_type || "desktop"; devMap[d] = (devMap[d] || 0) + 1; });
           const devices = Object.keys(devMap).map(d => ({ name: d, value: devMap[d] }));
-          // Géographie
+          // Géographie (toujours par IP unique, peu importe le mode)
           const countryMap: any = {};
           const seenIps = new Set();
           data.forEach(v => {
@@ -110,7 +134,7 @@ const AdminDashboard = () => {
           if (locs.length === 0) locs.push({ name: "En attente de trafic", value: 0 });
           // Sources
           const refMap: any = {};
-          data.forEach(v => {
+          rows.forEach(v => {
             let ref = v.referrer || "direct";
             if (ref.includes("sakata.netlify.app") || ref.includes("localhost")) return;
             if (ref.startsWith("https://")) ref = ref.replace("https://", "").replace("http://", "").split("/")[0];
@@ -129,7 +153,11 @@ const AdminDashboard = () => {
           return { langs, devices, locs, sources };
         };
 
-        const todayDistrib = computeDistributions(todayData || []);
+        // Pré-calcul des 4 combinaisons (aujourd'hui/total × toutes/uniques)
+        const todayDistrib       = computeDistributions(todayData || [], false);
+        const todayDistribUniq   = computeDistributions(todayData || [], true);
+        const totalDistrib       = computeDistributions(analyticsData || [], false);
+        const totalDistribUniq   = computeDistributions(analyticsData || [], true);
         
         // Calculate Top Sources (Referrers)
         const referrers: any = {};
@@ -253,6 +281,14 @@ const AdminDashboard = () => {
           todayDeviceDistribution: todayDistrib.devices,
           todayTopLocations: todayDistrib.locs,
           todayTopSources: todayDistrib.sources,
+          todayLangDistribUniq: todayDistribUniq.langs,
+          todayDeviceDistribUniq: todayDistribUniq.devices,
+          todayTopLocationsUniq: todayDistribUniq.locs,
+          todayTopSourcesUniq: todayDistribUniq.sources,
+          totalLangDistribUniq: totalDistribUniq.langs,
+          totalDeviceDistribUniq: totalDistribUniq.devices,
+          totalTopLocationsUniq: totalDistribUniq.locs,
+          totalTopSourcesUniq: totalDistribUniq.sources,
           langDistribution: formattedLangs,
           deviceDistribution: formattedDevices,
           topLocations: locations,
@@ -461,35 +497,53 @@ const AdminDashboard = () => {
            animate={{ opacity: 1, x: 0 }}
            className="lg:col-span-5 p-8 rounded-[2.5rem] bg-white/5 border border-white/10 backdrop-blur-xl flex flex-col"
         >
-          <div className="flex items-center justify-between mb-8">
+          <div className="flex flex-col gap-3 mb-8">
             <div className="flex items-center gap-3">
               <Globe className="w-5 h-5 text-emerald-400" />
               <h3 className="font-display text-xl font-bold">Langues & Terminaux</h3>
             </div>
-            {/* Toggle Aujourd'hui / Total */}
-            <div className="flex items-center gap-1 bg-white/5 rounded-full p-1 border border-white/10">
-              <button
-                onClick={() => setInsightView("today")}
-                className={`text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full transition-all ${insightView === "today" ? "bg-emerald-500/20 text-emerald-400" : "opacity-40 hover:opacity-70"}`}
-              >
-                Aujourd'hui
-              </button>
-              <button
-                onClick={() => setInsightView("total")}
-                className={`text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full transition-all ${insightView === "total" ? "bg-white/10 text-ivoire-ancien" : "opacity-40 hover:opacity-70"}`}
-              >
-                Total
-              </button>
+            <div className="flex items-center gap-2">
+              {/* Toggle Aujourd'hui / Total */}
+              <div className="flex items-center gap-1 bg-white/5 rounded-full p-1 border border-white/10">
+                <button
+                  onClick={() => setInsightView("today")}
+                  className={`text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full transition-all ${insightView === "today" ? "bg-emerald-500/20 text-emerald-400" : "opacity-40 hover:opacity-70"}`}
+                >
+                  Aujourd'hui
+                </button>
+                <button
+                  onClick={() => setInsightView("total")}
+                  className={`text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full transition-all ${insightView === "total" ? "bg-white/10 text-ivoire-ancien" : "opacity-40 hover:opacity-70"}`}
+                >
+                  Total
+                </button>
+              </div>
+              {/* Toggle Toutes visites / Uniques */}
+              <div className="flex items-center gap-1 bg-white/5 rounded-full p-1 border border-white/10">
+                <button
+                  onClick={() => setInsightUnique(false)}
+                  className={`text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full transition-all ${!insightUnique ? "bg-white/10 text-ivoire-ancien" : "opacity-40 hover:opacity-70"}`}
+                >
+                  Toutes
+                </button>
+                <button
+                  onClick={() => setInsightUnique(true)}
+                  className={`text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full transition-all ${insightUnique ? "bg-or-ancestral/20 text-or-ancestral" : "opacity-40 hover:opacity-70"}`}
+                >
+                  Uniques
+                </button>
+              </div>
             </div>
           </div>
 
           {(() => {
-            const langs   = insightView === "today" ? stats.todayLangDistribution   : stats.langDistribution;
-            const devices = insightView === "today" ? stats.todayDeviceDistribution : stats.deviceDistribution;
-            const locs    = insightView === "today" ? stats.todayTopLocations       : stats.topLocations;
-            const sources = insightView === "today" ? stats.todayTopSources         : stats.topSources;
-            const totalV  = insightView === "today" ? stats.todayVisits             : stats.totalVisits;
-            const totalU  = insightView === "today" ? stats.todayUniqueVisitors     : stats.uniqueVisitors;
+            const isToday = insightView === "today";
+            const langs   = isToday ? (insightUnique ? stats.todayLangDistribUniq   : stats.todayLangDistribution)   : (insightUnique ? stats.totalLangDistribUniq   : stats.langDistribution);
+            const devices = isToday ? (insightUnique ? stats.todayDeviceDistribUniq : stats.todayDeviceDistribution) : (insightUnique ? stats.totalDeviceDistribUniq : stats.deviceDistribution);
+            const locs    = isToday ? (insightUnique ? stats.todayTopLocationsUniq  : stats.todayTopLocations)       : (insightUnique ? stats.totalTopLocationsUniq  : stats.topLocations);
+            const sources = isToday ? (insightUnique ? stats.todayTopSourcesUniq    : stats.todayTopSources)         : (insightUnique ? stats.totalTopSourcesUniq    : stats.topSources);
+            const totalV  = isToday ? stats.todayVisits       : stats.totalVisits;
+            const totalU  = isToday ? stats.todayUniqueVisitors : stats.uniqueVisitors;
             return (
           <div className="flex-1 flex flex-col justify-between">
              <div className="space-y-8">
@@ -505,7 +559,7 @@ const AdminDashboard = () => {
                            </div>
                            <div className="h-1 w-full bg-white/5 rounded-full overflow-hidden">
                               <motion.div
-                                 key={`${insightView}-lang-${i}`}
+                                 key={`${insightView}-${insightUnique}-lang-${i}`}
                                  initial={{ width: 0 }}
                                  animate={{ width: `${Math.min(100, (lang.value / (totalV || 1)) * 100)}%` }}
                                  className="h-full bg-or-ancestral rounded-full"
@@ -540,7 +594,7 @@ const AdminDashboard = () => {
                             <div className="flex items-center gap-3">
                                <div className="w-24 h-1.5 bg-white/5 rounded-full overflow-hidden">
                                   <motion.div
-                                    key={`${insightView}-loc-${i}`}
+                                    key={`${insightView}-${insightUnique}-loc-${i}`}
                                     initial={{ width: 0 }}
                                     animate={{ width: `${(loc.value / (totalU || 1)) * 100}%` }}
                                     className="h-full bg-emerald-500/50"
