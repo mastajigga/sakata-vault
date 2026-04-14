@@ -7,8 +7,9 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useLanguage } from "./LanguageProvider";
 import { useAuth } from "./AuthProvider";
 import LanguageSwitcher from "./LanguageSwitcher";
-import { LogOut, UserCircle, RefreshCw, X } from "lucide-react";
+import { LogOut, UserCircle, RefreshCw, X, MessageSquare } from "lucide-react";
 import { ROUTES } from "@/lib/constants/routes";
+import { useGlobalUnreadCount } from "@/hooks/chat/useGlobalUnreadCount";
 
 const navLinks = [
   { key: "nav.home", href: ROUTES.HOME },
@@ -23,6 +24,7 @@ const navLinks = [
 const Navbar = () => {
   const { t } = useLanguage();
   const { user, isLoading: authLoading, connectionError, sessionExpired, signOut } = useAuth();
+  const totalUnread = useGlobalUnreadCount();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [dismissedExpiry, setDismissedExpiry] = useState(false);
@@ -145,7 +147,16 @@ const Navbar = () => {
                   (e.target as HTMLElement).style.color = "var(--brume-matinale)";
                 }}
               >
-                {t(link.key)}
+                <span className="relative inline-flex items-center">
+                  {t(link.key)}
+                  {link.href === ROUTES.CHAT && totalUnread > 0 && (
+                    <motion.span
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      className="absolute -right-2.5 -top-1 w-2 h-2 rounded-full bg-amber-500 shadow-[0_0_8px_rgba(245,158,11,0.5)]"
+                    />
+                  )}
+                </span>
               </Link>
             ))}
           </div>
@@ -295,7 +306,12 @@ const Navbar = () => {
                         "var(--ivory-warm)";
                     }}
                   >
-                    {t(link.key)}
+                    <span className="relative">
+                      {t(link.key)}
+                      {link.href === ROUTES.CHAT && totalUnread > 0 && (
+                        <span className="absolute -right-4 top-0 w-3 h-3 bg-amber-500 rounded-full border-2 border-foret-nocturne" />
+                      )}
+                    </span>
                   </Link>
                 </motion.div>
               ))}

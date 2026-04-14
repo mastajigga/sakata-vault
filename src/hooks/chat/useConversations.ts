@@ -31,65 +31,34 @@ export function useConversations() {
           return;
         }
 
-        const { data: participations, error } = await supabase
-          .from(DB_TABLES.CHAT_PARTICIPANTS)
-          .select(`
-            conversation_id,
-            user_id,
-            last_read_at,
-            chat_conversations (
-              id, type, name, created_at
-            ),
-            profiles:user_id ( nickname, username )
-          `);
+        // Appel de la nouvelle fonction RPC pour obtenir les stats de conversation
+        const { data: convData, error } = await supabase.rpc('get_user_conversations_v4', {
+          p_user_id: userId
+        });
 
         if (cancelled) return;
 
         if (error) {
-          console.error("Error fetching conversations:", error);
+          console.error("Error fetching conversations via RPC:", error);
           return;
         }
 
-        if (participations) {
-          const grouped = participations.reduce((acc: any, p: any) => {
-            const convId = p.conversation_id;
-            if (!acc[convId]) {
-              acc[convId] = {
-                id: p.chat_conversations?.id,
-                type: p.chat_conversations?.type,
-                name: p.chat_conversations?.name,
-                created_at: p.chat_conversations?.created_at,
-                participants: [],
-              };
-            }
-            acc[convId].participants.push({
-              user_id: p.user_id,
-              name: p.profiles?.nickname || p.profiles?.username || "Inconnu",
-            });
-            return acc;
-          }, {});
-
-          const mapped: ConversationItem[] = Object.values(grouped).map((conv: any) => {
+        if (convData) {
+          const mapped: ConversationItem[] = convData.map((conv: any) => {
             let displayName = conv.name;
             if (conv.type === "direct") {
-              const other = conv.participants.find((cp: any) => cp.user_id !== userId);
-              displayName = other ? other.name : "Moi-même";
+              const other = conv.participants?.find((p: any) => p.user_id !== userId);
+              displayName = other ? (other.nickname || other.username) : "Moi-même";
             }
             return {
               id: conv.id,
               type: conv.type,
               name: displayName || "Conversation",
-              unreadCount: 0,
-              lastMessage: "...",
-              lastMessageAt: conv.created_at,
+              unreadCount: Number(conv.unread_count),
+              lastMessage: conv.last_message,
+              lastMessageAt: conv.last_message_at,
             };
           });
-
-          mapped.sort(
-            (a, b) =>
-              new Date(b.lastMessageAt || 0).getTime() -
-              new Date(a.lastMessageAt || 0).getTime()
-          );
 
           if (!cancelled) setConversations(mapped);
         }
@@ -101,15 +70,20 @@ export function useConversations() {
       }
     }
 
-    // Initial load — show spinner
+    // Initial load
     fetchConversations(true);
 
-    // Subscription-triggered refresh — silent (no spinner)
+    // Subscription to REFRESH on ANY relevant change
     const channel = supabase
-      .channel("conversations_changes")
+      .channel("chat_updates")
       .on(
         "postgres_changes",
         { event: "*", schema: "public", table: DB_TABLES.CHAT_PARTICIPANTS },
+        () => { fetchConversations(false); }
+      )
+      .on(
+        "postgres_changes",
+        { event: "INSERT", schema: "public", table: DB_TABLES.CHAT_MESSAGES },
         () => { fetchConversations(false); }
       )
       .subscribe();

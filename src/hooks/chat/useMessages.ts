@@ -14,6 +14,18 @@ export function useMessages(conversationId: string) {
 
     let userId = "";
 
+    async function markAsRead() {
+      const { data: { session } } = await supabase.auth.getSession();
+      const currentUserId = session?.user?.id;
+      if (!currentUserId || !conversationId) return;
+
+      await supabase
+        .from(DB_TABLES.CHAT_PARTICIPANTS)
+        .update({ last_read_at: new Date().toISOString() })
+        .eq('conversation_id', conversationId)
+        .eq('user_id', currentUserId);
+    }
+
     async function fetchMessages() {
       try {
         // Trigger server-side cleanup before fetching to ensure freshness
@@ -49,6 +61,9 @@ export function useMessages(conversationId: string) {
             maxViews: msg.max_views,
           }));
           setMessages(formattedMessages);
+          
+          // Mark as read after successful fetch
+          markAsRead();
         }
       } catch (err) {
         console.error("JS Exception fetching messages:", err);
@@ -91,6 +106,11 @@ export function useMessages(conversationId: string) {
         };
 
         setMessages(prev => [...prev, formattedNewMsg]);
+        
+        // Mark as read if we are currently looking at this conversation
+        if (newMsg.sender_id !== userId) {
+          markAsRead();
+        }
       })
       .subscribe();
 
@@ -98,6 +118,7 @@ export function useMessages(conversationId: string) {
       supabase.removeChannel(channel);
     };
   }, [conversationId]);
+
 
   const sendMessage = async (content: string, attachment?: File | null, expiresIn?: string, maxViews?: 1 | 2) => {
     const { data: { user } } = await supabase.auth.getUser();
