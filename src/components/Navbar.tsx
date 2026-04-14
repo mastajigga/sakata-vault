@@ -98,14 +98,18 @@ const Navbar = () => {
           className="section-container flex items-center justify-between"
           style={{ height: "var(--header-height)" }}
         >
-          {/* Logo */}
-          <Link
+          {/* Logo — hard navigation pour vider le cache Router et tous les états */}
+          <a
             href="/"
-            className="font-display font-bold tracking-tighter"
+            onClick={(e) => {
+              e.preventDefault();
+              window.location.href = "/";
+            }}
+            className="font-display font-bold tracking-tighter cursor-pointer"
             style={{ fontSize: "1.4rem", color: "var(--or-ancestral)" }}
           >
             KISAKATA
-          </Link>
+          </a>
 
           {/* Desktop nav links */}
           <div className="hidden md:flex items-center gap-8">
