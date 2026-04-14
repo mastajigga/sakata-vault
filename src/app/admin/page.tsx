@@ -19,6 +19,8 @@ const AdminDashboard = () => {
     totalArticles: 0,
     totalVisits: 0,
     uniqueVisitors: 0,
+    todayVisits: 0,
+    todayUniqueVisitors: 0,
     totalUsers: 0,
     totalLikes: 0,
     langDistribution: [] as any[],
@@ -63,6 +65,16 @@ const AdminDashboard = () => {
 
         // Calculate unique visitors (Real session counting)
         const uniqueSids = new Set(analyticsData?.map(v => v.session_id).filter(id => id)).size;
+
+        // Stats précises du jour (minuit heure locale → UTC)
+        const todayStart = new Date();
+        todayStart.setHours(0, 0, 0, 0);
+        const { data: todayData } = await supabase
+          .from("site_analytics")
+          .select("session_id")
+          .gte("created_at", todayStart.toISOString());
+        const todayVisits = todayData?.length || 0;
+        const todayUniqueVisitors = new Set(todayData?.map(v => v.session_id).filter(Boolean)).size;
         
         // Calculate Top Sources (Referrers)
         const referrers: any = {};
@@ -178,6 +190,8 @@ const AdminDashboard = () => {
           totalArticles: articleCount || 0,
           totalVisits: analyticsData?.length || totalReads || 0,
           uniqueVisitors: uniqueSids || Math.max(0, Math.floor(totalReads * 0.65)),
+          todayVisits,
+          todayUniqueVisitors,
           totalUsers: userCount || 0,
           totalLikes: totalLikes,
           langDistribution: formattedLangs,
@@ -313,14 +327,15 @@ const AdminDashboard = () => {
            </div>
 
            {/* Stat: Visitors */}
-           <div 
+           <div
              className="p-8 rounded-[2.5rem] bg-white/5 border border-white/10 flex flex-col justify-between backdrop-blur-xl group cursor-help"
-             title="Données actuelles basées sur le nombre de lectures d'articles. L'analyse IP sera bientôt intégrée."
+             title="Données actuelles basées sur les sessions analytiques."
            >
               <div className="flex justify-between items-start">
                 <Eye className="w-6 h-6 text-emerald-400" />
                 <span className="text-[10px] font-mono opacity-40 border border-white/10 px-2 py-0.5 rounded-full">Donnée Approximative</span>
               </div>
+              {/* Totaux (période sélectionnée) */}
               <div className="mt-8 flex justify-between items-end">
                 <div>
                    <span className="text-5xl font-mono font-bold text-ivoire-ancien">{stats.uniqueVisitors}</span>
@@ -329,6 +344,19 @@ const AdminDashboard = () => {
                 <div className="text-right">
                    <span className="text-xl font-mono font-bold text-ivoire-ancien/60">{stats.totalVisits}</span>
                    <p className="text-[10px] uppercase tracking-widest font-bold mt-1 opacity-40">Visites Tot.</p>
+                </div>
+              </div>
+              {/* Séparateur */}
+              <div className="my-4 border-t border-white/10" />
+              {/* Stats précises du jour */}
+              <div className="flex justify-between items-end">
+                <div>
+                  <span className="text-2xl font-mono font-bold text-emerald-400">{stats.todayUniqueVisitors}</span>
+                  <p className="text-[10px] uppercase tracking-widest font-bold mt-1 text-emerald-400/70">Uniques Aujourd'hui</p>
+                </div>
+                <div className="text-right">
+                  <span className="text-2xl font-mono font-bold text-ivoire-ancien/80">{stats.todayVisits}</span>
+                  <p className="text-[10px] uppercase tracking-widest font-bold mt-1 opacity-40">Visites Aujourd'hui</p>
                 </div>
               </div>
            </div>
