@@ -24,6 +24,16 @@ const nextConfig: NextConfig = {
           },
         ],
       },
+      // Routes API — jamais mises en cache (analytics, tracking, contenu dynamique)
+      {
+        source: "/api/:path*",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "no-store, no-cache, must-revalidate",
+          },
+        ],
+      },
     ];
   },
 };

@@ -56,6 +56,33 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         keysToRemove.forEach((k) => localStorage.removeItem(k));
         localStorage.setItem(VERSION_KEY, APP_VERSION);
       }
+
+      // ------------------------------------------------------------------
+      // Nettoyage des clés msg-viewed accumulées
+      // Ces clés (sakata-msg-viewed-*) s'accumulent à chaque image éphémère
+      // consultée. On les purge si leur nombre dépasse 200, ou si elles ont
+      // plus de 7 jours (approximé par un index de date stocké séparément).
+      // ------------------------------------------------------------------
+      const MSG_VIEWED_PREFIX = "sakata-msg-viewed-";
+      const MSG_VIEWED_TS_KEY = "sakata-msg-viewed-last-purge";
+      const SEVEN_DAYS_MS = 7 * 24 * 60 * 60 * 1000;
+      const MAX_MSG_VIEWED_KEYS = 200;
+
+      const lastPurge = parseInt(localStorage.getItem(MSG_VIEWED_TS_KEY) || "0", 10);
+      const msgViewedKeys: string[] = [];
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key?.startsWith(MSG_VIEWED_PREFIX)) msgViewedKeys.push(key);
+      }
+
+      const shouldPurge =
+        msgViewedKeys.length > MAX_MSG_VIEWED_KEYS ||
+        Date.now() - lastPurge > SEVEN_DAYS_MS;
+
+      if (shouldPurge && msgViewedKeys.length > 0) {
+        msgViewedKeys.forEach((k) => localStorage.removeItem(k));
+        localStorage.setItem(MSG_VIEWED_TS_KEY, String(Date.now()));
+      }
     } catch {
       // localStorage may be restricted (private mode)
     }

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { useAuth } from "@/components/AuthProvider";
 import { supabase } from "@/lib/supabase";
@@ -48,6 +48,10 @@ const ProfilePage = () => {
   const [contributorStatus, setContributorStatus] = useState<string>("none");
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
+  const successTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Nettoyage du timer success à l'unmount
+  useEffect(() => () => { if (successTimerRef.current) clearTimeout(successTimerRef.current); }, []);
 
   // Gallery Context
   const [galleryItems, setGalleryItems] = useState<any[]>([]);
@@ -134,7 +138,8 @@ const ProfilePage = () => {
 
       setAvatarUrl(publicUrl);
       setSuccess(true);
-      setTimeout(() => setSuccess(false), 3000);
+      if (successTimerRef.current) clearTimeout(successTimerRef.current);
+      successTimerRef.current = setTimeout(() => setSuccess(false), 3000);
     } catch (err: any) {
       setError(err.message);
     } finally {
@@ -162,7 +167,8 @@ const ProfilePage = () => {
       setError(updateError.message);
     } else {
       setSuccess(true);
-      setTimeout(() => setSuccess(false), 3000);
+      if (successTimerRef.current) clearTimeout(successTimerRef.current);
+      successTimerRef.current = setTimeout(() => setSuccess(false), 3000);
     }
     setLoading(false);
   };
@@ -184,7 +190,8 @@ const ProfilePage = () => {
     } else {
       setContributorStatus("pending");
       setSuccess(true);
-      setTimeout(() => setSuccess(false), 3000);
+      if (successTimerRef.current) clearTimeout(successTimerRef.current);
+      successTimerRef.current = setTimeout(() => setSuccess(false), 3000);
     }
     setLoading(false);
   };

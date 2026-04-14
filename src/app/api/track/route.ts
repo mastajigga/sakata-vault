@@ -37,9 +37,15 @@ export async function POST(req: Request) {
       }
     }
 
-    return NextResponse.json({ success: true });
+    return NextResponse.json(
+      { success: true },
+      { headers: { "Cache-Control": "no-store, no-cache, must-revalidate" } }
+    );
   } catch (err) {
     console.error("Server Tracking Error:", err);
-    return NextResponse.json({ error: 'Failed' }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed" },
+      { status: 500, headers: { "Cache-Control": "no-store, no-cache, must-revalidate" } }
+    );
   }
 }

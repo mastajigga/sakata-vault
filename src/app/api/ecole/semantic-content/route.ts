@@ -330,7 +330,10 @@ export async function POST(request: NextRequest) {
     const { chapter, gradeLevel = "secondary" } = body;
 
     if (!chapter) {
-      return NextResponse.json({ error: "chapter is required" }, { status: 400 });
+      return NextResponse.json(
+        { error: "chapter is required" },
+        { status: 400, headers: { "Cache-Control": "no-store" } }
+      );
     }
 
     // 1. Check Supabase cache first
@@ -345,10 +348,12 @@ export async function POST(request: NextRequest) {
         const age = Date.now() - new Date(cached.created_at as string).getTime();
         if (age < CACHE_TTL_MS) {
           console.debug(`[semantic-content] Cache hit for ${chapter}`);
-          return NextResponse.json({
-            ...(cached.content as object),
-            cached: true,
-          } as SemanticEnrichment);
+          // Cache hit — communique la durée restante au navigateur
+          const remainingTtlSec = Math.floor((CACHE_TTL_MS - age) / 1000);
+          return NextResponse.json(
+            { ...(cached.content as object), cached: true } as SemanticEnrichment,
+            { headers: { "Cache-Control": `public, max-age=${remainingTtlSec}, stale-while-revalidate=3600` } }
+          );
         }
       }
     } catch {
@@ -363,21 +368,27 @@ export async function POST(request: NextRequest) {
     if (!enrichment) {
       const staticContent = STATIC_ENRICHMENTS[chapter];
       if (!staticContent) {
-        return NextResponse.json({ error: "Unknown chapter" }, { status: 404 });
+        return NextResponse.json(
+          { error: "Unknown chapter" },
+          { status: 404, headers: { "Cache-Control": "no-store" } }
+        );
       }
       enrichment = staticContent;
     }
 
     // Cache the enrichment for future requests
-    const response: SemanticEnrichment = {
-      ...enrichment,
-      cached: false,
-    };
+    const response: SemanticEnrichment = { ...enrichment, cached: false };
     await cacheEnrichment(chapter, response);
 
-    return NextResponse.json(response);
+    // Nouvelle réponse — pas encore en cache navigateur
+    return NextResponse.json(response, {
+      headers: { "Cache-Control": "no-store" },
+    });
   } catch (err) {
     console.error("[semantic-content]", err);
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Internal server error" },
+      { status: 500, headers: { "Cache-Control": "no-store" } }
+    );
   }
 }
