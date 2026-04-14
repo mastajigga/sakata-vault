@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useLanguage } from "./LanguageProvider";
@@ -28,6 +28,7 @@ const Hero = () => {
   const sectionRef = useRef<HTMLElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
+  const [videoReady, setVideoReady] = React.useState(false);
 
   useEffect(() => {
     if (!sectionRef.current || !videoRef.current || !contentRef.current) return;
@@ -82,16 +83,24 @@ const Hero = () => {
         className="sticky top-0 w-full overflow-hidden"
         style={{ height: "100dvh" }}
       >
+        {/* Dark placeholder — visible until video is ready to play */}
+        {!videoReady && (
+          <div className="absolute inset-0 bg-[#0A1F15]" />
+        )}
         <video
           ref={videoRef}
           autoPlay
           muted
           loop
           playsInline
+          preload="auto"
+          onCanPlay={() => setVideoReady(true)}
           className="absolute inset-0 w-full h-full object-cover video-mask"
           style={{
             filter: "brightness(0.3) contrast(1.1)",
             willChange: "transform",
+            opacity: videoReady ? 1 : 0,
+            transition: "opacity 0.8s ease",
           }}
         >
           <source src="/videos/iluo-into-the-eyes.mp4" type="video/mp4" />

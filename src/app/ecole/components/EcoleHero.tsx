@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowRight, BookOpenText, GraduationCap, Sigma } from "lucide-react";
+import { useState } from "react";
 
 const metrics = [
   { label: "Rivières de savoir", value: "3" },
@@ -11,6 +12,8 @@ const metrics = [
 ];
 
 export default function EcoleHero() {
+  const [videoReady, setVideoReady] = useState(false);
+
   return (
     <section className="relative min-h-[100dvh] overflow-hidden">
       {/* Background Video with inward gradient mask */}
@@ -20,10 +23,14 @@ export default function EcoleHero() {
           loop
           muted
           playsInline
+          preload="auto"
+          onCanPlay={() => setVideoReady(true)}
           className="absolute inset-0 w-full h-full object-cover opacity-50 mix-blend-screen"
           style={{
             maskImage: "radial-gradient(ellipse at center, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 80%)",
-            WebkitMaskImage: "radial-gradient(ellipse at center, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 80%)"
+            WebkitMaskImage: "radial-gradient(ellipse at center, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 80%)",
+            opacity: videoReady ? 0.5 : 0,
+            transition: "opacity 0.8s ease",
           }}
         >
           <source src="/videos/ecole_bg_587.mp4" type="video/mp4" />

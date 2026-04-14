@@ -135,12 +135,14 @@ function ProtectedImage({
   message: Message;
   isTemporary?: boolean;
 }) {
-  const { fileUrl, id, maxViews } = message;
+  const { fileUrl, id, maxViews, isMe } = message;
   const countdownTotal = maxViews === 1 ? 5 : 10;
   const storageKey = `msg-viewed-${id}`;
 
-  // Determine initial state from localStorage
+  // Senders always see their own image — no lock, no countdown
+  // Only the receiver is subject to view limits
   const [viewState, setViewState] = useState<ViewState>(() => {
+    if (isMe) return "revealed"; // sender: always revealed
     try {
       return localStorage.getItem(storageKey) ? "expired" : "locked";
     } catch {
@@ -153,9 +155,10 @@ function ProtectedImage({
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const alertTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  // Screen capture detection while image is revealed
+  // Screen capture detection while image is revealed — only for receiver
   useEffect(() => {
     if (viewState !== "revealed") return;
+    if (isMe) return; // sender can screenshot their own sent image
 
     const handleBlur = () => {
       setShowCaptureAlert(true);
@@ -183,9 +186,10 @@ function ProtectedImage({
     };
   }, [viewState]);
 
-  // Countdown timer on reveal
+  // Countdown timer on reveal — only for receiver (not sender)
   useEffect(() => {
     if (viewState !== "revealed") return;
+    if (isMe) return; // sender has no countdown
 
     setCountdown(countdownTotal);
     intervalRef.current = setInterval(() => {

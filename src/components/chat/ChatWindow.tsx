@@ -36,6 +36,32 @@ export function ChatWindow({ conversationId, onBack }: ChatWindowProps) {
   const { typingUsers, updateTyping } = useTyping(conversationId);
   const [showMenu, setShowMenu] = useState(false);
 
+  // Dynamic conversation name + initial
+  const [conversationName, setConversationName] = useState("Conversation");
+  const [conversationInitial, setConversationInitial] = useState("C");
+
+  useEffect(() => {
+    if (!conversationId || !user) return;
+    let cancelled = false;
+    async function loadConversationMeta() {
+      // Find the OTHER participant in this conversation
+      const { data } = await supabase
+        .from("chat_participants")
+        .select("profiles:user_id(nickname, username)")
+        .eq("conversation_id", conversationId)
+        .neq("user_id", user!.id)
+        .limit(1)
+        .maybeSingle();
+      if (cancelled || !data) return;
+      const profile = (data as any).profiles;
+      const name: string = profile?.nickname || profile?.username || "Conversation";
+      setConversationName(name);
+      setConversationInitial(name.charAt(0).toUpperCase());
+    }
+    loadConversationMeta();
+    return () => { cancelled = true; };
+  }, [conversationId, user]);
+
   // Ephemeral mode state
   const [isTemporaryConversation, setIsTemporaryConversation] = useState(false);
   const [temporaryDuration, setTemporaryDuration] = useState<"24h" | "48h">("24h");
@@ -132,12 +158,12 @@ export function ChatWindow({ conversationId, onBack }: ChatWindowProps) {
           >
             <ArrowLeft size={20} className="text-stone-700 dark:text-stone-300" />
           </button>
-          <div className="w-10 h-10 rounded-full bg-amber-600 flex items-center justify-center text-white mr-3 shadow-md">
-            C
+          <div className="w-10 h-10 rounded-full bg-amber-600 flex items-center justify-center text-white mr-3 shadow-md font-bold text-sm">
+            {conversationInitial}
           </div>
           <div>
             <h3 className="font-bold text-stone-900 dark:text-stone-100 font-serif leading-tight">
-              Conversation
+              {conversationName}
             </h3>
             <p className="text-xs text-amber-600 dark:text-amber-500 opacity-90">En ligne</p>
           </div>

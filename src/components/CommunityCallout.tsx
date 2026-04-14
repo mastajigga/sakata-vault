@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ArrowRight } from "lucide-react";
@@ -13,6 +13,7 @@ const CommunityCallout = () => {
   const sectionRef = useRef<HTMLElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
+  const [videoReady, setVideoReady] = useState(false);
 
   useEffect(() => {
     if (!sectionRef.current || !videoRef.current || !contentRef.current) return;
@@ -72,10 +73,14 @@ const CommunityCallout = () => {
           muted
           loop
           playsInline
+          preload="auto"
+          onCanPlay={() => setVideoReady(true)}
           className="absolute inset-0 w-full h-full object-cover"
           style={{
             filter: "brightness(0.5) contrast(1.1)",
             willChange: "transform",
+            opacity: videoReady ? 1 : 0,
+            transition: "opacity 0.8s ease",
           }}
         >
           <source src="/videos/wan-iluo-into-the-eyes.mp4" type="video/mp4" />

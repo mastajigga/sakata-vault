@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import SectionCard from "@/components/SectionCard";
 import { motion } from "framer-motion";
 import { useLanguage } from "@/components/LanguageProvider";
@@ -19,6 +19,7 @@ interface SavoirClientContentProps {
 
 export default function SavoirClientContent({ articles }: SavoirClientContentProps) {
   const { language, t } = useLanguage();
+  const [videoReady, setVideoReady] = useState(false);
 
   return (
     <>
@@ -29,10 +30,14 @@ export default function SavoirClientContent({ articles }: SavoirClientContentPro
           loop
           muted
           playsInline
-          className="absolute inset-0 w-full h-full object-cover opacity-60"
+          preload="auto"
+          onCanPlay={() => setVideoReady(true)}
+          className="absolute inset-0 w-full h-full object-cover"
           style={{
             maskImage: "radial-gradient(ellipse at center, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 70%)",
-            WebkitMaskImage: "radial-gradient(ellipse at center, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 70%)"
+            WebkitMaskImage: "radial-gradient(ellipse at center, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 70%)",
+            opacity: videoReady ? 0.6 : 0,
+            transition: "opacity 0.8s ease",
           }}
         >
           <source src="/videos/savoir_bg_4071.mp4" type="video/mp4" />
