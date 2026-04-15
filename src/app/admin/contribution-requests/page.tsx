@@ -25,15 +25,15 @@ interface ContributionRequest {
 }
 
 export default function ContributionRequestsPage() {
-  const { user, userRole } = useAuth() as any;
+  const { user, role } = useAuth() as any;
   const [requests, setRequests] = useState<ContributionRequest[]>([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState<"all" | "pending" | "approved" | "rejected">("pending");
   const [reviewingId, setReviewingId] = useState<string | null>(null);
   const [reviewNotes, setReviewNotes] = useState("");
 
-  // Check admin access
-  if (userRole !== "admin") {
+  // Check admin/manager access
+  if (role !== "admin" && role !== "manager") {
     return (
       <div className="min-h-screen bg-black flex items-center justify-center">
         <div className="text-center">
