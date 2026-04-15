@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown, Users, MessageCircle, Users2 } from "lucide-react";
@@ -8,10 +8,15 @@ import { ROUTES } from "@/lib/constants/routes";
 import { useLanguage } from "@/components/LanguageProvider";
 import { useGlobalUnreadCount } from "@/hooks/chat/useGlobalUnreadCount";
 
-export function CommunityMenu() {
+interface CommunityMenuProps {
+  open: boolean;
+  onOpen: () => void;
+  onClose: () => void;
+}
+
+export function CommunityMenu({ open, onOpen, onClose }: CommunityMenuProps) {
   const { t } = useLanguage();
   const totalUnread = useGlobalUnreadCount();
-  const [open, setOpen] = useState(false);
 
   const submenu = [
     {
@@ -38,7 +43,7 @@ export function CommunityMenu() {
   return (
     <div className="relative group">
       <button
-        onClick={() => setOpen(!open)}
+        onClick={() => (open ? onClose() : onOpen())}
         className="flex items-center gap-2 text-sm font-medium transition-all relative"
         style={{
           color: "var(--brume-matinale)",
@@ -82,10 +87,10 @@ export function CommunityMenu() {
                 <Link
                   key={item.href}
                   href={item.href}
-                  onClick={() => setOpen(false)}
+                  onClick={() => onClose()}
                   className="flex items-center gap-3 px-4 py-3 hover:bg-white/5 transition-colors border-b border-white/10 last:border-b-0 relative"
                 >
-                  <Icon size={16} className="text-[#C16B34]" />
+                  <Icon size={16} style={{ color: "var(--or-ancestral)" }} />
                   <div className="flex-1">
                     <p className="text-sm font-medium">{item.label}</p>
                     <p className="text-xs text-gray-400">{item.description}</p>

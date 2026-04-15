@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { UserCircle, ChevronDown, LogOut, Settings, FileText, Users } from "lucide-react";
@@ -13,6 +13,9 @@ interface UserMenuProps {
   role: UserRole | null;
   isApprovedContributor: boolean;
   onSignOut: () => void;
+  open: boolean;
+  onOpen: () => void;
+  onClose: () => void;
 }
 
 export function UserMenu({
@@ -21,13 +24,15 @@ export function UserMenu({
   role,
   isApprovedContributor,
   onSignOut,
+  open,
+  onOpen,
+  onClose,
 }: UserMenuProps) {
-  const [open, setOpen] = useState(false);
 
   return (
     <div className="relative group">
       <button
-        onClick={() => setOpen(!open)}
+        onClick={() => (open ? onClose() : onOpen())}
         className="inline-flex items-center gap-2.5 px-5 py-2 rounded-full text-sm font-semibold transition-all border"
         style={{
           background: subscriptionTier === "premium"
@@ -66,10 +71,10 @@ export function UserMenu({
             {/* Profile */}
             <Link
               href={ROUTES.PROFIL}
-              onClick={() => setOpen(false)}
+              onClick={() => onClose()}
               className="flex items-center gap-3 px-4 py-3 hover:bg-white/5 transition-colors border-b border-white/10"
             >
-              <UserCircle size={16} className="text-[#C16B34]" />
+              <UserCircle size={16} style={{ color: "var(--or-ancestral)" }} />
               <div>
                 <p className="text-sm font-medium">Mon profil</p>
                 <p className="text-xs text-gray-400">Gérer mon compte</p>
@@ -82,10 +87,10 @@ export function UserMenu({
                 {role === "admin" || role === "manager" ? (
                   <Link
                     href={ROUTES.CONTRIBUTION_REQUESTS}
-                    onClick={() => setOpen(false)}
+                    onClick={() => onClose()}
                     className="flex items-center gap-3 px-4 py-3 hover:bg-white/5 transition-colors border-b border-white/10"
                   >
-                    <Users size={16} className="text-[#C16B34]" />
+                    <Users size={16} style={{ color: "var(--or-ancestral)" }} />
                     <div>
                       <p className="text-sm font-medium">Demandes de contribution</p>
                       <p className="text-xs text-gray-400">Gérer les candidatures</p>
@@ -96,10 +101,10 @@ export function UserMenu({
                 {isApprovedContributor && (
                   <Link
                     href={ROUTES.ARTICLE_NEW}
-                    onClick={() => setOpen(false)}
+                    onClick={() => onClose()}
                     className="flex items-center gap-3 px-4 py-3 hover:bg-white/5 transition-colors border-b border-white/10"
                   >
-                    <FileText size={16} className="text-[#C16B34]" />
+                    <FileText size={16} style={{ color: "var(--or-ancestral)" }} />
                     <div>
                       <p className="text-sm font-medium">Écrire un article</p>
                       <p className="text-xs text-gray-400">Créer ou modifier</p>
@@ -110,10 +115,10 @@ export function UserMenu({
                 {isApprovedContributor && (
                   <Link
                     href={ROUTES.CONTRIBUTEUR}
-                    onClick={() => setOpen(false)}
+                    onClick={() => onClose()}
                     className="flex items-center gap-3 px-4 py-3 hover:bg-white/5 transition-colors border-b border-white/10"
                   >
-                    <FileText size={16} className="text-[#C16B34]" />
+                    <FileText size={16} style={{ color: "var(--or-ancestral)" }} />
                     <div>
                       <p className="text-sm font-medium">Mon tableau de bord</p>
                       <p className="text-xs text-gray-400">Mes articles</p>
@@ -123,10 +128,38 @@ export function UserMenu({
               </>
             )}
 
+            {/* Help & Documentation */}
+            <Link
+              href={ROUTES.HELP_PHILOSOPHY}
+              onClick={() => onClose()}
+              className="flex items-center gap-3 px-4 py-3 hover:bg-white/5 transition-colors border-b border-white/10"
+            >
+              <FileText size={16} style={{ color: "var(--or-ancestral)" }} />
+              <div>
+                <p className="text-sm font-medium">Aide</p>
+                <p className="text-xs text-gray-400">Documentation et guides</p>
+              </div>
+            </Link>
+
+            {/* Admin Center */}
+            {(role === "admin" || role === "manager") && (
+              <Link
+                href={ROUTES.CONTRIBUTION_REQUESTS}
+                onClick={() => onClose()}
+                className="flex items-center gap-3 px-4 py-3 hover:bg-white/5 transition-colors border-b border-white/10"
+              >
+                <Users size={16} style={{ color: "var(--or-ancestral)" }} />
+                <div>
+                  <p className="text-sm font-medium">Admin Center</p>
+                  <p className="text-xs text-gray-400">Gestion du site</p>
+                </div>
+              </Link>
+            )}
+
             {/* Sign Out */}
             <button
               onClick={() => {
-                setOpen(false);
+                onClose();
                 onSignOut();
               }}
               className="w-full flex items-center gap-3 px-4 py-3 hover:bg-white/5 transition-colors text-left"

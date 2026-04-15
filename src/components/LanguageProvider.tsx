@@ -15,14 +15,28 @@ interface LanguageContextType {
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
-  const [language, setLanguage] = useState<LangType>("fr");
+  const [language, setLanguage] = useState<LangType>("en");
 
   useEffect(() => {
     try {
       const saved = localStorage.getItem(STORAGE_KEYS.LANG) as LangType;
-      if (saved) setLanguage(saved);
+      if (saved) {
+        setLanguage(saved);
+        return;
+      }
+
+      // Auto-detect browser language on first visit
+      const browserLang = navigator.language.split("-")[0];
+      const supportedLangs: LangType[] = ["en", "fr", "skt", "lin", "swa", "tsh"];
+      const detectedLang: LangType = supportedLangs.includes(browserLang as LangType)
+        ? (browserLang as LangType)
+        : "en";
+
+      setLanguage(detectedLang);
+      localStorage.setItem(STORAGE_KEYS.LANG, detectedLang);
     } catch (e) {
-      console.warn("localStorage access restricted - Defaulting to fr");
+      console.warn("localStorage access restricted - Defaulting to en");
+      setLanguage("en");
     }
   }, []);
 

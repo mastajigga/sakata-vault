@@ -1,15 +1,20 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronDown, BookOpen, GraduationCap, Map, Radio } from "lucide-react";
+import { ChevronDown, BookOpen, GraduationCap, Map } from "lucide-react";
 import { ROUTES } from "@/lib/constants/routes";
 import { useLanguage } from "@/components/LanguageProvider";
 
-export function SavoirMenu() {
+interface SavoirMenuProps {
+  open: boolean;
+  onOpen: () => void;
+  onClose: () => void;
+}
+
+export function SavoirMenu({ open, onOpen, onClose }: SavoirMenuProps) {
   const { t } = useLanguage();
-  const [open, setOpen] = useState(false);
 
   const submenu = [
     {
@@ -30,18 +35,12 @@ export function SavoirMenu() {
       href: ROUTES.GEOGRAPHIE,
       icon: Map,
     },
-    {
-      label: "Réseaux",
-      description: "Communautés connectées",
-      href: ROUTES.FORUM,
-      icon: Radio,
-    },
   ];
 
   return (
     <div className="relative group">
       <button
-        onClick={() => setOpen(!open)}
+        onClick={() => (open ? onClose() : onOpen())}
         className="flex items-center gap-2 text-sm font-medium transition-all"
         style={{
           color: "var(--brume-matinale)",
@@ -78,10 +77,10 @@ export function SavoirMenu() {
                 <Link
                   key={item.href}
                   href={item.href}
-                  onClick={() => setOpen(false)}
+                  onClick={() => onClose()}
                   className="flex items-center gap-3 px-4 py-3 hover:bg-white/5 transition-colors border-b border-white/10 last:border-b-0"
                 >
-                  <Icon size={16} className="text-[#C16B34]" />
+                  <Icon size={16} style={{ color: "var(--or-ancestral)" }} />
                   <div>
                     <p className="text-sm font-medium">{item.label}</p>
                     <p className="text-xs text-gray-400">{item.description}</p>

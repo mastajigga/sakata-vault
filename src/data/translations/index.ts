@@ -4,6 +4,7 @@ export const UI_TRANSLATIONS = {
   nav: {
     home: {
       fr: "Accueil",
+      en: "Home",
       skt: "Okomo",
       lin: "Boyei bolamu",
       swa: "Nyumbani",
@@ -11,6 +12,7 @@ export const UI_TRANSLATIONS = {
     },
     knowledge: {
       fr: "Savoir",
+      en: "Knowledge",
       skt: "Mayele",
       lin: "Boyebi",
       swa: "Maarifa",
@@ -18,6 +20,7 @@ export const UI_TRANSLATIONS = {
     },
     school: {
       fr: "École",
+      en: "School",
       skt: "Etelo",
       lin: "Eteyelo",
       swa: "Shule",
@@ -25,6 +28,7 @@ export const UI_TRANSLATIONS = {
     },
     geography: {
       fr: "Géographie",
+      en: "Geography",
       skt: "Mabele",
       lin: "Mabele",
       swa: "Jiografia",
@@ -32,6 +36,7 @@ export const UI_TRANSLATIONS = {
     },
     community: {
       fr: "Communauté",
+      en: "Community",
       skt: "Mboka",
       lin: "Lisanga",
       swa: "Jamii",
@@ -39,6 +44,7 @@ export const UI_TRANSLATIONS = {
     },
     members: {
       fr: "Membres",
+      en: "Members",
       skt: "Bayekoli",
       lin: "Bato",
       swa: "Wanachama",
@@ -46,6 +52,7 @@ export const UI_TRANSLATIONS = {
     },
     chat: {
       fr: "Messagerie",
+      en: "Messaging",
       skt: "Masolo",
       lin: "Masolo",
       swa: "Soga",
@@ -53,6 +60,7 @@ export const UI_TRANSLATIONS = {
     },
     join: {
       fr: "Rejoindre",
+      en: "Join",
       skt: "Okoka",
       lin: "Kota",
       swa: "Jiunge",
@@ -60,6 +68,7 @@ export const UI_TRANSLATIONS = {
     },
     login: {
       fr: "Connexion",
+      en: "Login",
       skt: "Olukoke",
       lin: "Kokota",
       swa: "Ingia",
@@ -67,6 +76,7 @@ export const UI_TRANSLATIONS = {
     },
     dashboard: {
       fr: "Tableau de Bord",
+      en: "Dashboard",
       skt: "Esika ya boyangeli",
       lin: "Etando ya boyangeli",
       swa: "Dashibodi",
@@ -74,6 +84,7 @@ export const UI_TRANSLATIONS = {
     },
     premium: {
       fr: "Premium",
+      en: "Premium",
       skt: "Wali ya premium",
       lin: "Mokolongi",
       swa: "Premium",
@@ -83,6 +94,7 @@ export const UI_TRANSLATIONS = {
   loading: {
     message: {
       fr: "Transmission des savoirs...",
+      en: "Transmitting wisdom...",
       skt: "Mayele o nsoni...",
       lin: "Boyebi ezali koya...",
       swa: "Maarifa yanakuja...",
@@ -92,6 +104,7 @@ export const UI_TRANSLATIONS = {
   hero: {
     eyebrow: {
       fr: "BIBLIOTHÈQUE ANCESTRALE",
+      en: "ANCESTRAL LIBRARY",
       skt: "BIBLIOTHÈQUE ANCESTRALE",
       lin: "BIBLIOTHÈQUE ANCESTRALE",
       swa: "BIBLIOTHÈQUE ANCESTRALE",
@@ -99,6 +112,7 @@ export const UI_TRANSLATIONS = {
     },
     title: {
       fr: "Les Savoirs de la Brume",
+      en: "Wisdom of the Mist",
       skt: "Mayele ya Nsoni",
       lin: "Boyebi ya Mbonge",
       swa: "Maarifa ya Ukungu",
@@ -106,6 +120,7 @@ export const UI_TRANSLATIONS = {
     },
     subtitle: {
       fr: "Plonger dans les profondeurs de notre héritage. Chaque article est un souffle, chaque mot est une haie-baisée par nos pères pour guider la diaspora et les générations futures.",
+      en: "Immerse yourself in the depths of our heritage. Each article is a breath of wisdom, each word a legacy bestowed by our ancestors to guide the diaspora and future generations.",
       skt: "Tonga o nsoni ya bakoko. Konso lisolo ezali molimo, konso liloba ezali libula ya bankoko mpo na biso na bana.",
       lin: "Kozonga na molili ya libula na biso. Konso article ezali molimo, konso liloba ezali libula ya bankoko mpo na diaspora na bana.",
       swa: "Kuzama katika kina cha urithi wetu. Kila makala ni pumzi, kila neno ni urithi kutoka kwa baba zetu kuongoza diaspora na vizazi vijavyo.",
@@ -113,6 +128,7 @@ export const UI_TRANSLATIONS = {
     },
     cta: {
       fr: "Explorer le Savoir",
+      en: "Explore the Knowledge",
       skt: "Komema Mayele",
       lin: "Luka Boyebi",
       swa: "Gundua Maarifa",
@@ -122,6 +138,7 @@ export const UI_TRANSLATIONS = {
   mission: {
     eyebrow: {
       fr: "Notre Vision",
+      en: "Our Vision",
       skt: "Makanisi ma biso",
       lin: "Makanisi na biso",
       swa: "Maono Yetu",
@@ -129,6 +146,7 @@ export const UI_TRANSLATIONS = {
     },
     title: {
       fr: "Plus qu'une archive, un héritage vivant.",
+      en: "More than an archive, a living heritage.",
       skt: "Leki ndimbu, libula ya bomoi.",
       lin: "Leká mbuma, libula ya bomoi.",
       swa: "Zaidi ya kumbukumbu, urithi hai.",
@@ -136,6 +154,7 @@ export const UI_TRANSLATIONS = {
     },
     p1: {
       fr: "La langue kisakata est comme la rivière Lukenie — elle coule depuis la nuit des temps, elle contourne les obstacles, elle nourrit tout ce qu'elle touche. Si elle s'assèche, c'est tout le village qui a soif.",
+      en: "The Kisakata language flows like the Lukenie river—timeless waters that bend around all obstacles, nourishing everything they touch. Should these waters run dry, the entire village thirsts.",
       skt: "Nsoni ya kisakata etali mai ma Lukenie — ememi nsoni ma yambo, ekoti nsoni ma lobi. Soki ekauki, mboka mobimba ekoli na posa.",
       lin: "Monoko ya kisakata ezali lokola ebale ya Lukenie — ekolaka uta kala, ekimaka mikakatano, epesaka bomoi na nionso etimbi. Soki ekauki, mboka mobimba ekozala na posa ya mai.",
       swa: "Lugha ya kisakata ni kama mto Lukenie — inatiririka tangu enzi na enzi, inasonga mbele licha ya vikwazo, inalisha kila inachogusa. Ikishauka, kijiji kizima kitapata kiu.",
@@ -143,18 +162,20 @@ export const UI_TRANSLATIONS = {
     },
     p2: {
       fr: "Notre mboka (terroir) ne se limite pas à un point sur la carte. C'est un endroit où la terre vous reconnait, où les arbres connaissent votre nom. Kisakata.com est le pont entre cet héritage et le monde moderne.",
+      en: "Our mboka (ancestral land) transcends any point on a map. It is a place where earth recognizes you, where trees know your name. Kisakata.com is the bridge between this heritage and the modern world.",
       skt: "Mboka ya biso etali ndimbu o karte te. Esika mabelé eyebi yo, nzete eyebi nkombo ya yo. Kisakata.com ezali gbagba o tina.",
       lin: "Mboka na biso ezali kaka te elembo na karte. Ezali esika mabelé eyebi yo, nzeté eyebi nkombo na yo. Kisakata.com ezali gbagba mpo na libula na biso.",
       swa: "Mboka (ardhi yetu) sio tu alama kwenye ramani. Ni mahali ambapo ardhi inakutambua, ambapo miti inajua jina lako. Kisakata.com ni daraja kati ya urithi huu na ulimwengu wa kisasa.",
       tsh: "Musoko wetu ki tshimanyinu tshia pa karte ni. Ndi muaba udi buloba bukuidila, mudi mitshi imanya diona diebe. Kisakata.com udi lufu lwa bumpianyi ebu.",
     },
-    stat1: { fr: "Fondation", skt: "Nsoni ya yambo", lin: "Moutu", swa: "Msingi", tsh: "Nshindamenu" },
-    stat2: { fr: "Langues", skt: "Nsoni", lin: "Minoko", swa: "Lugha", tsh: "Miakulu" },
-    stat3: { fr: "Berceau", skt: "Esika ya mbotama", lin: "Mbotama", swa: "Chimbuko", tsh: "Maledi" },
+    stat1: { fr: "Fondation", en: "Foundation", skt: "Nsoni ya yambo", lin: "Moutu", swa: "Msingi", tsh: "Nshindamenu" },
+    stat2: { fr: "Langues", en: "Languages", skt: "Nsoni", lin: "Minoko", swa: "Lugha", tsh: "Miakulu" },
+    stat3: { fr: "Berceau", en: "Cradle", skt: "Esika ya mbotama", lin: "Mbotama", swa: "Chimbuko", tsh: "Maledi" },
   },
   community: {
     eyebrow: {
       fr: "Communauté & Savoir",
+      en: "Community & Knowledge",
       skt: "Mboka na Mayele",
       lin: "Lisanga na Boyebi",
       swa: "Jamii na Maarifa",
@@ -162,6 +183,7 @@ export const UI_TRANSLATIONS = {
     },
     title: {
       fr: "Contribuez au savoir",
+      en: "Contribute to Our Knowledge",
       skt: "Okoka o Mayele",
       lin: "Tanga Boyebi",
       swa: "Changia Maarifa",
@@ -169,6 +191,7 @@ export const UI_TRANSLATIONS = {
     },
     p: {
       fr: "Votre histoire est une partie de la nôtre. Devenez documentaliste culturel et aidez-nous à préserver les traditions Sakata pour les prochaines générations.",
+      en: "Your story is woven into ours. Become a cultural documentarian and help us preserve Sakata traditions for generations to come.",
       skt: "Lina ya yo etali lina ya biso. Okoka o documentaliste na kopesa mayele ya bakoko o bǎna ya biso.",
       lin: "Lisolo na yo ezali eteni ya lisolo na biso. Koma mongengi ya mambi ya kala mpe salisa biso mpo na kobatela mimeseno ya Basakata mpo na bikolo ya lobi.",
       swa: "Historia yako ni sehemu ya yetu. Kuwa mwanahistoria wa utamaduni na utusaidie kuhifadhi mila za Wasakata kwa vizazi vijavyo.",
@@ -176,6 +199,7 @@ export const UI_TRANSLATIONS = {
     },
     cta: {
       fr: "Devenir Contributeur",
+      en: "Become a Contributor",
       skt: "Okoka o documentaliste",
       lin: "Koma mosungi",
       swa: "Kuwa mchangiaji",
@@ -185,6 +209,7 @@ export const UI_TRANSLATIONS = {
   home: {
     gridEyebrow: {
       fr: "Patrimoine Vivant",
+      en: "Living Heritage",
       skt: "Nsoni ya bomoi",
       lin: "Libula ya bomoi",
       swa: "Urithi Hai",
@@ -192,6 +217,7 @@ export const UI_TRANSLATIONS = {
     },
     gridTitle: {
       fr: "Explorer les Savoirs",
+      en: "Explore the Knowledge",
       skt: "Okoka Mayele",
       lin: "Luka Boyebi",
       swa: "Gundua Maarifa",
@@ -201,6 +227,7 @@ export const UI_TRANSLATIONS = {
   savoir: {
     empty: {
       fr: "La brume est encore épaisse, aucun savoir n'est encore apparu.",
+      en: "The mist still lingers thick, no wisdom has yet emerged.",
       skt: "Nsoni eyei yambo, mayele manso ma kukanina.",
       lin: "Mbonge ezali koyebisa biso naino te, boyebi moko te emonani.",
       swa: "Ukungu bado ni mzito, hakuna maarifa yaliyoonekana bado.",
@@ -210,6 +237,7 @@ export const UI_TRANSLATIONS = {
   footer: {
     rights: {
       fr: "© 2026 — Brume de la Rivière. Tous droits réservés.",
+      en: "© 2026 — River's Mist. All rights reserved.",
       skt: "© 2026 — Nsoni ya Mai. Mayele manso ma kukanina.",
       lin: "© 2026 — Ebale ya Mai-Ndombe. Lotomo nionso ebatelami.",
       swa: "© 2026 — Ukungu wa Mto. Haki zote zimehifadhiwa.",
@@ -219,6 +247,7 @@ export const UI_TRANSLATIONS = {
   common: {
     readMore: {
       fr: "Lire la parole",
+      en: "Read the wisdom",
       skt: "Okoka nsoni",
       lin: "Tanga liloba",
       swa: "Soma neno",
@@ -226,6 +255,7 @@ export const UI_TRANSLATIONS = {
     },
     back: {
       fr: "Retour à la rivière",
+      en: "Return to the river",
       skt: "Okana o mai",
       lin: "Zonga na ebale",
       swa: "Rudi mtoni",
@@ -233,6 +263,7 @@ export const UI_TRANSLATIONS = {
     },
     explore: {
       fr: "Explorer",
+      en: "Explore",
       skt: "Kotala",
       lin: "Kotala",
       swa: "Chunguza",
@@ -242,6 +273,7 @@ export const UI_TRANSLATIONS = {
   auth: {
     signupSuccessTitle: {
       fr: "Vérifiez vos emails",
+      en: "Check your email",
       skt: "Olukoke o email na yo",
       lin: "Talá na email na yo",
       swa: "Angalia barua pepe yako",
@@ -249,6 +281,7 @@ export const UI_TRANSLATIONS = {
     },
     signupSuccessMessage: {
       fr: "Un lien de confirmation a été envoyé à votre adresse. Veuillez valider votre compte pour accéder au sanctuaire.",
+      en: "A confirmation link has been sent to your address. Please verify your account to access the sanctuary.",
       skt: "Lina moko ya confirmation etungisami na email na yo. Okoka o compte na yo mpo na kokota o sanctuaire.",
       lin: "Etinda moko ya kondimisa etindami na email na yo. Ondimisa compte na yo mpo na kokota na sanctuaire.",
       swa: "Kiungo cha uthibitisho kimetumwa kwa anwani yako. Tafadhali thibitisha akaunti yako ili kufikia patakatifu.",
@@ -256,6 +289,7 @@ export const UI_TRANSLATIONS = {
     },
     signupSuccessAction: {
       fr: "J'ai compris",
+      en: "I understand",
       skt: "Nayebi",
       lin: "Nayebi",
       swa: "Nimeelewa",
@@ -265,6 +299,7 @@ export const UI_TRANSLATIONS = {
   profile: {
     title: {
       fr: "Votre Sanctuaire",
+      en: "Your Sanctuary",
       skt: "Esika ya yo",
       lin: "Etando na yo",
       swa: "Patakatifu Pako",
@@ -272,6 +307,7 @@ export const UI_TRANSLATIONS = {
     },
     subtitle: {
       fr: "Gérez votre identité numérique et contribuez à l'éveil des savoirs.",
+      en: "Manage your digital identity and contribute to the awakening of knowledge.",
       skt: "Okoka o lina ya yo mpe okoka o mayele.",
       lin: "Bakisa nkombo na yo mpe salisa mpo na boyebi.",
       swa: "Simamia utambulisho wako na uchangie katika kuamsha maarifa.",
@@ -279,6 +315,7 @@ export const UI_TRANSLATIONS = {
     },
     fullName: {
       fr: "Nom Complet",
+      en: "Full Name",
       skt: "Nkombo mobimba",
       lin: "Nkombo mobimba",
       swa: "Jina Kamili",
@@ -286,6 +323,7 @@ export const UI_TRANSLATIONS = {
     },
     username: {
       fr: "Nom d'utilisateur",
+      en: "Username",
       skt: "Lina la yo",
       lin: "Nkombo ya mosali",
       swa: "Jina la mtumiaji",
@@ -293,6 +331,7 @@ export const UI_TRANSLATIONS = {
     },
     bio: {
       fr: "Parole (Bio)",
+      en: "Word (Bio)",
       skt: "Maloba",
       lin: "Maloba",
       swa: "Maelezo",
@@ -300,6 +339,7 @@ export const UI_TRANSLATIONS = {
     },
     location: {
       fr: "Terroir (Localisation)",
+      en: "Terroir (Location)",
       skt: "Esika ya mboka",
       lin: "Esika ya mboka",
       swa: "Mahali",
@@ -307,6 +347,7 @@ export const UI_TRANSLATIONS = {
     },
     saveChanges: {
       fr: "Enregistrer les modifications",
+      en: "Save Changes",
       skt: "Okana o nkombo",
       lin: "Bomba mbongwana",
       swa: "Hifadhi mabadiliko",
@@ -314,6 +355,7 @@ export const UI_TRANSLATIONS = {
     },
     contributorRequestTitle: {
       fr: "Devenir Documentaliste Culturel",
+      en: "Become a Cultural Documentarian",
       skt: "Okoka o documentaliste",
       lin: "Koma mongengi ya mambi",
       swa: "Kuwa Mtaalam wa Utamaduni",
@@ -321,6 +363,7 @@ export const UI_TRANSLATIONS = {
     },
     contributorRequestText: {
       fr: "En demandant ce statut, vous vous engagez à partager des savoirs authentiques et vérifiés sur le patrimoine Sakata.",
+      en: "By requesting this status, you commit to sharing authentic and verified knowledge about Sakata heritage.",
       skt: "Opesi liloba na kotala mayele ya bakoko.",
       lin: "Pesá liloba mpo na kokabola boyebi ya bankoko na bosolo.",
       swa: "Kwa kuomba hali hii, unajitolea kushiriki maarifa halisi na yaliyothibitishwa juu ya urithi wa Wasakata.",
@@ -328,19 +371,21 @@ export const UI_TRANSLATIONS = {
     },
     contributorRequestAction: {
       fr: "Soumettre ma requête",
+      en: "Submit my request",
       skt: "Okoka o mayele",
       lin: "Tinda mosala na yo",
       swa: "Tuma ombi langu",
       tsh: "Tuma muanda webe",
     },
-    statusNone: { fr: "Membre", skt: "Ndimbu", lin: "Mosungi", swa: "Mwanachama", tsh: "Muntu" },
-    statusPending: { fr: "Demande en cours...", skt: "Makanisi...", lin: "Exali koya...", swa: "Ombi liko njiani...", tsh: "Tshisumbu..." },
-    statusApproved: { fr: "Documentaliste Approuvé", skt: "Documentaliste ya solo", lin: "Mosungi andimami", swa: "Mtaalam Aliyeidhinishwa", tsh: "Mufidi muanyishibue" },
-    statusRejected: { fr: "Non Approuvé", skt: "Eandimami te", lin: "Endimami te", swa: "Haijaidhinishwa", tsh: "Kayidie muanyishibue" },
+    statusNone: { fr: "Membre", en: "Member", skt: "Ndimbu", lin: "Mosungi", swa: "Mwanachama", tsh: "Muntu" },
+    statusPending: { fr: "Demande en cours...", en: "Request pending...", skt: "Makanisi...", lin: "Exali koya...", swa: "Ombi liko njiani...", tsh: "Tshisumbu..." },
+    statusApproved: { fr: "Documentaliste Approuvé", en: "Approved Documentarian", skt: "Documentaliste ya solo", lin: "Mosungi andimami", swa: "Mtaalam Aliyeidhinishwa", tsh: "Mufidi muanyishibue" },
+    statusRejected: { fr: "Non Approuvé", en: "Not Approved", skt: "Eandimami te", lin: "Endimami te", swa: "Haijaidhinishwa", tsh: "Kayidie muanyishibue" },
   },
   article: {
     like: {
       fr: "J'aime",
+      en: "Like",
       skt: "Nalingi",
       lin: "Nalingi",
       swa: "Napenda",
@@ -348,6 +393,7 @@ export const UI_TRANSLATIONS = {
     },
     likes: {
       fr: "Appréciations",
+      en: "Appreciations",
       skt: "Balingi",
       lin: "Balongi",
       swa: "Mapendano",
@@ -355,6 +401,7 @@ export const UI_TRANSLATIONS = {
     },
     reads: {
       fr: "Lectures",
+      en: "Reads",
       skt: "Botangi",
       lin: "Botangi",
       swa: "Masomo",
@@ -364,6 +411,7 @@ export const UI_TRANSLATIONS = {
   welcome: {
     step1Title: {
       fr: "Bienvenue sur Kisakata",
+      en: "Welcome to Kisakata",
       skt: "Boyei bolamu o Kisakata",
       lin: "Boyei bolamu na Kisakata",
       swa: "Karibu Kisakata",
@@ -371,6 +419,7 @@ export const UI_TRANSLATIONS = {
     },
     step1Desc1: {
       fr: "Ce portail est un sanctuaire numérique dédié à la préservation et à la transmission de l'identité culturelle du peuple Sakata.",
+      en: "This portal is a digital sanctuary dedicated to preserving and transmitting the cultural identity of the Sakata people.",
       skt: "Ce portail est un sanctuaire numérique dédié à la préservation et à la transmission de l'identité culturelle du peuple Sakata.",
       lin: "Ce portail est un sanctuaire numérique dédié à la préservation et à la transmission de l'identité culturelle du peuple Sakata.",
       swa: "Ce portail est un sanctuaire numérique dédié à la préservation et à la transmission de l'identité culturelle du peuple Sakata.",
@@ -378,6 +427,7 @@ export const UI_TRANSLATIONS = {
     },
     step1Desc2: {
       fr: "Notre objectif est d'unir nos racines ancestrales avec la splendeur numérique moderne, en offrant à la fois des archives vivantes, des sagesses intemporelles et un forum d'échange intergénérationnel.",
+      en: "Our mission is to unite our ancestral roots with modern digital splendor, offering living archives, timeless wisdom, and intergenerational dialogue.",
       skt: "Notre objectif est d'unir nos racines ancestrales avec la splendeur numérique moderne, en offrant à la fois des archives vivantes, des sagesses intemporelles et un forum d'échange intergénérationnel.",
       lin: "Notre objectif est d'unir nos racines ancestrales avec la splendeur numérique moderne, en offrant à la fois des archives vivantes, des sagesses intemporelles et un forum d'échange intergénérationnel.",
       swa: "Notre objectif est d'unir nos racines ancestrales.",
@@ -385,6 +435,7 @@ export const UI_TRANSLATIONS = {
     },
     next: {
       fr: "Suivant",
+      en: "Next",
       skt: "Liboso",
       lin: "Liboso",
       swa: "Suivant",
@@ -392,6 +443,7 @@ export const UI_TRANSLATIONS = {
     },
     step2Title: {
       fr: "Site en cours de construction",
+      en: "Site Under Construction",
       skt: "Site en cours de construction",
       lin: "Site en cours de construction",
       swa: "Site en cours de construction",
@@ -399,6 +451,7 @@ export const UI_TRANSLATIONS = {
     },
     step2Notice: {
       fr: "Veuillez noter que Kisakata est une initiative en évolution permanente.",
+      en: "Please note that Kisakata is an initiative in constant evolution.",
       skt: "Veuillez noter que Kisakata est une initiative en évolution permanente.",
       lin: "Veuillez noter que Kisakata est une initiative en évolution permanente.",
       swa: "Veuillez noter que Kisakata est une initiative en évolution permanente.",
@@ -406,6 +459,7 @@ export const UI_TRANSLATIONS = {
     },
     step2L1: {
       fr: "Le portail est actuellement en mode construction.",
+      en: "The portal is currently in construction mode.",
       skt: "Le portail est actuellement en mode construction.",
       lin: "Le portail est actuellement en mode construction.",
       swa: "Le portail est actuellement en mode construction.",
@@ -413,6 +467,7 @@ export const UI_TRANSLATIONS = {
     },
     step2L2: {
       fr: "Des améliorations visuelles et structurelles surviennent quotidiennement.",
+      en: "Visual and structural improvements occur daily.",
       skt: "Des améliorations visuelles et structurelles surviennent quotidiennement.",
       lin: "Des améliorations visuelles et structurelles surviennent quotidiennement.",
       swa: "Des améliorations visuelles et structurelles surviennent quotidiennement.",
@@ -420,6 +475,7 @@ export const UI_TRANSLATIONS = {
     },
     step2L3: {
       fr: "Les articles du savoir sont édités et enrichis manuellement plusieurs fois par jour.",
+      en: "Knowledge articles are manually edited and enriched multiple times daily.",
       skt: "Les articles du savoir sont édités et enrichis manuellement plusieurs fois par jour.",
       lin: "Les articles du savoir sont édités et enrichis manuellement plusieurs fois par jour.",
       swa: "Les articles du savoir sont édités et enrichis manuellement plusieurs fois par jour.",
@@ -427,6 +483,7 @@ export const UI_TRANSLATIONS = {
     },
     enterButton: {
       fr: "Entrer dans le Sanctuaire",
+      en: "Enter the Sanctuary",
       skt: "Okota o Sanctuaire",
       lin: "Kota na Sanctuaire",
       swa: "Ingia",
@@ -434,6 +491,7 @@ export const UI_TRANSLATIONS = {
     },
     step3Title: {
       fr: "Nouveautés & Horizon",
+      en: "What's New & Beyond",
       skt: "Nouveautés & Horizon",
       lin: "Nouveautés & Horizon",
       swa: "Nouveautés & Horizon",
@@ -441,6 +499,7 @@ export const UI_TRANSLATIONS = {
     },
     deployed: {
       fr: "Récemment Déployé",
+      en: "Recently Deployed",
       skt: "Récemment Déployé",
       lin: "Récemment Déployé",
       swa: "Récemment Déployé",
@@ -448,6 +507,7 @@ export const UI_TRANSLATIONS = {
     },
     upcoming: {
       fr: "Prochainement",
+      en: "Coming Soon",
       skt: "Prochainement",
       lin: "Prochainement",
       swa: "Prochainement",
@@ -455,30 +515,39 @@ export const UI_TRANSLATIONS = {
     },
     feat1: {
       fr: "Forum Mboka (Discussions en temps réel)",
+      en: "Mboka Forum (Real-time Discussions)",
     },
     feat2: {
       fr: "Liaison automatique Savoir ↔ Forum",
+      en: "Automatic Knowledge ↔ Forum Linking",
     },
     feat3: {
       fr: "Système de traduction et mémorisation optimisé",
+      en: "Optimized Translation & Memorization System",
     },
     feat4: {
       fr: "Interface \"Brume de la Rivière\" fluidifiée",
+      en: "Streamlined \"River's Mist\" Interface",
     },
     feat5: {
       fr: "Messagerie instantanée (Privée & Groupes)",
+      en: "Instant Messaging (Private & Groups)",
     },
     up1: {
       fr: "L'Accès aux Archives Supérieures (Paywall)",
+      en: "Access to Premium Archives (Paywall)",
     },
     up2: {
       fr: "Paiement intégré sécurisé via Stripe",
+      en: "Secure Integrated Payment via Stripe",
     },
     up3: {
       fr: "Tableau de bord de télémétrie",
+      en: "Telemetry Dashboard",
     },
     up4: {
       fr: "Enrichissement participatif",
+      en: "Participatory Enrichment",
     },
   },
 } as const;

@@ -1,8 +1,9 @@
 // src/types/i18n.ts
 
-export type Language = "fr" | "skt" | "lin" | "swa" | "tsh";
+export type Language = "en" | "fr" | "skt" | "lin" | "swa" | "tsh";
 
 export interface TranslatedText {
+  en?: string;
   fr: string;
   skt?: string;
   lin?: string;

@@ -26,6 +26,7 @@ const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [dismissedExpiry, setDismissedExpiry] = useState(false);
+  const [openMenu, setOpenMenu] = useState<string | null>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -148,10 +149,18 @@ const Navbar = () => {
             </Link>
 
             {/* Savoir dropdown */}
-            <SavoirMenu />
+            <SavoirMenu
+              open={openMenu === "savoir"}
+              onOpen={() => setOpenMenu("savoir")}
+              onClose={() => setOpenMenu(null)}
+            />
 
             {/* Community dropdown */}
-            <CommunityMenu />
+            <CommunityMenu
+              open={openMenu === "community"}
+              onOpen={() => setOpenMenu("community")}
+              onClose={() => setOpenMenu(null)}
+            />
 
             {/* Premium link */}
             <Link
@@ -189,6 +198,9 @@ const Navbar = () => {
                     role={role}
                     isApprovedContributor={contributorStatus === "approved"}
                     onSignOut={() => signOut()}
+                    open={openMenu === "user"}
+                    onOpen={() => setOpenMenu("user")}
+                    onClose={() => setOpenMenu(null)}
                   />
                 </div>
               ) : (

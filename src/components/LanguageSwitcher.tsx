@@ -8,6 +8,7 @@ import { useState, useRef, useEffect } from "react";
 import { Globe, Check, ChevronDown } from "lucide-react";
 
 const LANGUAGES: { code: Language; label: string; short: string }[] = [
+  { code: "en", label: "English", short: "EN" },
   { code: "fr", label: "Français", short: "FR" },
   { code: "skt", label: "Kisakata", short: "SKT" },
   { code: "lin", label: "Lingala", short: "LIN" },
