@@ -34,15 +34,14 @@ export function LoadingProvider({ children }: { children: React.ReactNode }) {
 
   const scheduleStop = useCallback(() => {
     clearTimers();
-
+    // scheduleStop() est appelé à chaque changement de route pour s'assurer
+    // que le loading screen s'arrête. Il ne met PAS isLoading=true, donc
+    // on ne programme PAS de safetyTimer ici — cela créait un warn parasite
+    // à chaque navigation même quand rien ne chargeait.
+    // Le safetyTimer reste uniquement dans startLoading().
     minDisplayTimer.current = setTimeout(() => {
       setIsLoading(false);
     }, TIMINGS.LOADING_MIN_DISPLAY);
-
-    safetyTimer.current = setTimeout(() => {
-      console.warn("LoadingProvider: Safety timeout reached. Forcing stop.");
-      setIsLoading(false);
-    }, TIMINGS.LOADING_SAFETY_TIMEOUT);
   }, [clearTimers]);
 
   useEffect(() => {
