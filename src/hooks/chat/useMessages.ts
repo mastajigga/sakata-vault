@@ -48,8 +48,9 @@ export function useMessages(conversationId: string) {
 
     async function fetchMessages() {
       try {
-        // Cleanup non-critique — fire and forget (les messages expirés seront nettoyés au prochain fetch)
-        void (supabase.rpc('cleanup_expired_messages') as unknown as Promise<unknown>).catch(() => {});
+        // Cleanup non-critique — fire and forget, enveloppé dans Promise.resolve() car
+        // supabase.rpc() retourne un PromiseLike (pas une vraie Promise) sans .catch() natif
+        Promise.resolve(supabase.rpc('cleanup_expired_messages')).catch(() => {});
 
         // P2-D fix: on lit toujours la ref (jamais une variable locale stale)
         const uid = userIdRef.current;
