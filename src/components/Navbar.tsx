@@ -6,20 +6,16 @@ import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLanguage } from "./LanguageProvider";
 import { useAuth } from "./AuthProvider";
-import { ContributorDropdown } from "./navbar/ContributorDropdown";
+import { SavoirMenu } from "./navbar/SavoirMenu";
+import { CommunityMenu } from "./navbar/CommunityMenu";
+import { UserMenu } from "./navbar/UserMenu";
 import LanguageSwitcher from "./LanguageSwitcher";
-import { LogOut, UserCircle, RefreshCw, X, MessageSquare } from "lucide-react";
-import { ROUTES } from "@/lib/constants/routes";
 import { useGlobalUnreadCount } from "@/hooks/chat/useGlobalUnreadCount";
+import { RefreshCw, X } from "lucide-react";
+import { ROUTES } from "@/lib/constants/routes";
 
 const navLinks = [
   { key: "nav.home", href: ROUTES.HOME },
-  { key: "nav.knowledge", href: ROUTES.SAVOIR },
-  { key: "nav.school", href: ROUTES.ECOLE },
-  { key: "nav.geography", href: ROUTES.GEOGRAPHIE },
-  { key: "nav.community", href: ROUTES.FORUM },
-  { key: "nav.members", href: ROUTES.MEMBRES },
-  { key: "nav.chat", href: ROUTES.CHAT },
   { key: "nav.premium", href: ROUTES.PREMIUM },
 ];
 
@@ -127,96 +123,73 @@ const Navbar = () => {
             KISAKATA
           </a>
 
-          {/* Desktop nav links */}
+          {/* Desktop nav links — restructured with dropdowns */}
           <div className="hidden md:flex items-center gap-8">
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="text-sm font-medium transition-all"
-                style={{
-                  color: "var(--brume-matinale)",
-                  opacity: 0.7,
-                  transitionDuration: "var(--duration-base)",
-                  transitionTimingFunction: "var(--ease-smooth)",
-                }}
-                onMouseEnter={(e) => {
-                  (e.target as HTMLElement).style.opacity = "1";
-                  (e.target as HTMLElement).style.color = "var(--or-ancestral)";
-                }}
-                onMouseLeave={(e) => {
-                  (e.target as HTMLElement).style.opacity = "0.7";
-                  (e.target as HTMLElement).style.color = "var(--brume-matinale)";
-                }}
-              >
-                <span className="relative inline-flex items-center">
-                  {t(link.key)}
-                  {link.href === ROUTES.CHAT && totalUnread > 0 && (
-                    <motion.span
-                      initial={{ scale: 0 }}
-                      animate={{ scale: 1 }}
-                      className="absolute -right-2.5 -top-1 w-2 h-2 rounded-full bg-amber-500 shadow-[0_0_8px_rgba(245,158,11,0.5)]"
-                    />
-                  )}
-                </span>
-              </Link>
-            ))}
+            {/* Home link */}
+            <Link
+              href={ROUTES.HOME}
+              className="text-sm font-medium transition-all"
+              style={{
+                color: "var(--brume-matinale)",
+                opacity: 0.7,
+                transitionDuration: "var(--duration-base)",
+                transitionTimingFunction: "var(--ease-smooth)",
+              }}
+              onMouseEnter={(e) => {
+                (e.target as HTMLElement).style.opacity = "1";
+                (e.target as HTMLElement).style.color = "var(--or-ancestral)";
+              }}
+              onMouseLeave={(e) => {
+                (e.target as HTMLElement).style.opacity = "0.7";
+                (e.target as HTMLElement).style.color = "var(--brume-matinale)";
+              }}
+            >
+              {t("nav.home")}
+            </Link>
+
+            {/* Savoir dropdown */}
+            <SavoirMenu />
+
+            {/* Community dropdown */}
+            <CommunityMenu />
+
+            {/* Premium link */}
+            <Link
+              href={ROUTES.PREMIUM}
+              className="text-sm font-medium transition-all"
+              style={{
+                color: "var(--brume-matinale)",
+                opacity: 0.7,
+                transitionDuration: "var(--duration-base)",
+                transitionTimingFunction: "var(--ease-smooth)",
+              }}
+              onMouseEnter={(e) => {
+                (e.target as HTMLElement).style.opacity = "1";
+                (e.target as HTMLElement).style.color = "var(--or-ancestral)";
+              }}
+              onMouseLeave={(e) => {
+                (e.target as HTMLElement).style.opacity = "0.7";
+                (e.target as HTMLElement).style.color = "var(--brume-matinale)";
+              }}
+            >
+              {t("nav.premium")}
+            </Link>
           </div>
 
           {/* CTA + Hamburger */}
           <div className="flex items-center gap-4">
-            {/* Contributor dropdown — visible only for admins/managers/approved contributors */}
-            {!authLoading && user && (
-              <div className="hidden md:block">
-                <ContributorDropdown
-                  role={role}
-                  isApproved={contributorStatus === "approved"}
-                />
-              </div>
-            )}
-
             <LanguageSwitcher />
 
             {!authLoading && (
               user ? (
-                <div className="hidden md:flex items-center gap-4">
-                  <Link
-                    href={ROUTES.PROFIL}
-                    className="inline-flex items-center gap-2.5 px-5 py-2 rounded-full text-sm font-semibold transition-all border hover:border-or/50"
-                    style={{
-                      background: subscriptionTier === 'premium'
-                        ? "rgba(193, 107, 52, 0.08)"
-                        : "rgba(181, 149, 81, 0.05)",
-                      borderColor: subscriptionTier === 'premium'
-                        ? "rgba(193,107,52,0.4)"
-                        : "rgba(181,149,81,0.2)",
-                      color: subscriptionTier === 'premium' ? "#C16B34" : "var(--or-ancestral)",
-                    }}
-                  >
-                    <div className="relative">
-                      <UserCircle className="w-5 h-5 opacity-80" />
-                      {!connectionError && (
-                        <div className={`absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full border-2 border-foret-nocturne ${
-                          subscriptionTier === 'premium' ? 'bg-[#C16B34]' : 'bg-or-ancestral animate-pulse'
-                        }`} />
-                      )}
-                    </div>
-                    <span className="max-w-[120px] truncate">
-                      {user.user_metadata?.full_name || user.email?.split("@")[0]}
-                    </span>
-                    {subscriptionTier === 'premium' && (
-                      <span className="text-[9px] font-mono bg-[#C16B34]/20 text-[#C16B34] px-1.5 py-0.5 rounded-full uppercase tracking-wider">
-                        Premium
-                      </span>
-                    )}
-                  </Link>
-                  <button
-                    onClick={() => signOut()}
-                    className="p-2 rounded-full border border-white/5 hover:bg-white/10 transition-all opacity-40 hover:opacity-100"
-                    title="Déconnexion"
-                  >
-                    <LogOut className="w-4 h-4 text-ivoire-ancien" />
-                  </button>
+                <div className="hidden md:block">
+                  <UserMenu
+                    userName={user.user_metadata?.full_name || user.email?.split("@")[0]}
+                    subscriptionTier={subscriptionTier}
+                    role={role}
+                    isApprovedContributor={contributorStatus === "approved"}
+                    onSignOut={() => signOut()}
+                  />
                 </div>
               ) : (
                 <Link
@@ -296,51 +269,198 @@ const Navbar = () => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-            className="fixed inset-0 z-40 flex flex-col items-center justify-center"
+            className="fixed inset-0 z-40 flex flex-col items-center justify-center overflow-y-auto"
             style={{
               background: "rgba(10, 31, 21, 0.98)", // Foret Nocturne almost opaque
               backdropFilter: "blur(30px)",
               WebkitBackdropFilter: "blur(30px)",
             }}
           >
-            <nav className="flex flex-col items-center gap-8">
-              {navLinks.map((link, i) => (
-                <motion.div
-                  key={link.href}
-                  initial={{ y: 40, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  exit={{ y: 20, opacity: 0 }}
-                  transition={{
-                    duration: 0.5,
-                    delay: 0.1 + i * 0.08,
-                    ease: [0.16, 1, 0.3, 1],
+            <nav className="flex flex-col items-center gap-8 py-12">
+              {/* Home */}
+              <motion.div
+                initial={{ y: 40, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                exit={{ y: 20, opacity: 0 }}
+                transition={{
+                  duration: 0.5,
+                  delay: 0.1,
+                  ease: [0.16, 1, 0.3, 1],
+                }}
+              >
+                <Link
+                  href={ROUTES.HOME}
+                  onClick={() => setMenuOpen(false)}
+                  className="text-3xl font-bold tracking-tight transition-colors"
+                  style={{ color: "var(--ivory-warm)" }}
+                  onMouseEnter={(e) => {
+                    (e.target as HTMLElement).style.color = "var(--amber-light)";
+                  }}
+                  onMouseLeave={(e) => {
+                    (e.target as HTMLElement).style.color = "var(--ivory-warm)";
                   }}
                 >
-                  <Link
-                    href={link.href}
-                    onClick={() => {
-                      setMenuOpen(false);
-                    }}
-                    className="text-3xl font-bold tracking-tight transition-colors"
-                    style={{ color: "var(--ivory-warm)" }}
-                    onMouseEnter={(e) => {
-                      (e.target as HTMLElement).style.color =
-                        "var(--amber-light)";
-                    }}
-                    onMouseLeave={(e) => {
-                      (e.target as HTMLElement).style.color =
-                        "var(--ivory-warm)";
-                    }}
-                  >
-                    <span className="relative">
-                      {t(link.key)}
-                      {link.href === ROUTES.CHAT && totalUnread > 0 && (
-                        <span className="absolute -right-4 top-0 w-3 h-3 bg-amber-500 rounded-full border-2 border-foret-nocturne" />
-                      )}
-                    </span>
-                  </Link>
-                </motion.div>
-              ))}
+                  {t("nav.home")}
+                </Link>
+              </motion.div>
+
+              {/* Savoir submenu items */}
+              <motion.div
+                initial={{ y: 40, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                exit={{ y: 20, opacity: 0 }}
+                transition={{
+                  duration: 0.5,
+                  delay: 0.18,
+                  ease: [0.16, 1, 0.3, 1],
+                }}
+                className="flex flex-col items-center gap-4 text-sm text-slate-400"
+              >
+                <p className="uppercase tracking-widest text-xs opacity-50">Savoir</p>
+                <Link
+                  href={ROUTES.SAVOIR}
+                  onClick={() => setMenuOpen(false)}
+                  className="text-xl font-semibold transition-colors"
+                  style={{ color: "var(--ivory-warm)" }}
+                  onMouseEnter={(e) => {
+                    (e.target as HTMLElement).style.color = "var(--amber-light)";
+                  }}
+                  onMouseLeave={(e) => {
+                    (e.target as HTMLElement).style.color = "var(--ivory-warm)";
+                  }}
+                >
+                  Articles
+                </Link>
+                <Link
+                  href={ROUTES.ECOLE}
+                  onClick={() => setMenuOpen(false)}
+                  className="text-xl font-semibold transition-colors"
+                  style={{ color: "var(--ivory-warm)" }}
+                  onMouseEnter={(e) => {
+                    (e.target as HTMLElement).style.color = "var(--amber-light)";
+                  }}
+                  onMouseLeave={(e) => {
+                    (e.target as HTMLElement).style.color = "var(--ivory-warm)";
+                  }}
+                >
+                  École
+                </Link>
+                <Link
+                  href={ROUTES.GEOGRAPHIE}
+                  onClick={() => setMenuOpen(false)}
+                  className="text-xl font-semibold transition-colors"
+                  style={{ color: "var(--ivory-warm)" }}
+                  onMouseEnter={(e) => {
+                    (e.target as HTMLElement).style.color = "var(--amber-light)";
+                  }}
+                  onMouseLeave={(e) => {
+                    (e.target as HTMLElement).style.color = "var(--ivory-warm)";
+                  }}
+                >
+                  Géographie
+                </Link>
+                <Link
+                  href={ROUTES.FORUM}
+                  onClick={() => setMenuOpen(false)}
+                  className="text-xl font-semibold transition-colors"
+                  style={{ color: "var(--ivory-warm)" }}
+                  onMouseEnter={(e) => {
+                    (e.target as HTMLElement).style.color = "var(--amber-light)";
+                  }}
+                  onMouseLeave={(e) => {
+                    (e.target as HTMLElement).style.color = "var(--ivory-warm)";
+                  }}
+                >
+                  Réseaux
+                </Link>
+              </motion.div>
+
+              {/* Communauté submenu items */}
+              <motion.div
+                initial={{ y: 40, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                exit={{ y: 20, opacity: 0 }}
+                transition={{
+                  duration: 0.5,
+                  delay: 0.26,
+                  ease: [0.16, 1, 0.3, 1],
+                }}
+                className="flex flex-col items-center gap-4 text-sm text-slate-400"
+              >
+                <p className="uppercase tracking-widest text-xs opacity-50">Communauté</p>
+                <Link
+                  href={ROUTES.FORUM}
+                  onClick={() => setMenuOpen(false)}
+                  className="text-xl font-semibold transition-colors"
+                  style={{ color: "var(--ivory-warm)" }}
+                  onMouseEnter={(e) => {
+                    (e.target as HTMLElement).style.color = "var(--amber-light)";
+                  }}
+                  onMouseLeave={(e) => {
+                    (e.target as HTMLElement).style.color = "var(--ivory-warm)";
+                  }}
+                >
+                  Communauté
+                </Link>
+                <Link
+                  href={ROUTES.MEMBRES}
+                  onClick={() => setMenuOpen(false)}
+                  className="text-xl font-semibold transition-colors"
+                  style={{ color: "var(--ivory-warm)" }}
+                  onMouseEnter={(e) => {
+                    (e.target as HTMLElement).style.color = "var(--amber-light)";
+                  }}
+                  onMouseLeave={(e) => {
+                    (e.target as HTMLElement).style.color = "var(--ivory-warm)";
+                  }}
+                >
+                  Membres
+                </Link>
+                <Link
+                  href={ROUTES.CHAT}
+                  onClick={() => setMenuOpen(false)}
+                  className="text-xl font-semibold transition-colors relative"
+                  style={{ color: "var(--ivory-warm)" }}
+                  onMouseEnter={(e) => {
+                    (e.target as HTMLElement).style.color = "var(--amber-light)";
+                  }}
+                  onMouseLeave={(e) => {
+                    (e.target as HTMLElement).style.color = "var(--ivory-warm)";
+                  }}
+                >
+                  Messagerie
+                  {totalUnread > 0 && (
+                    <span className="absolute -right-4 top-0 w-3 h-3 bg-amber-500 rounded-full border-2 border-foret-nocturne" />
+                  )}
+                </Link>
+              </motion.div>
+
+              {/* Premium */}
+              <motion.div
+                initial={{ y: 40, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                exit={{ y: 20, opacity: 0 }}
+                transition={{
+                  duration: 0.5,
+                  delay: 0.34,
+                  ease: [0.16, 1, 0.3, 1],
+                }}
+              >
+                <Link
+                  href={ROUTES.PREMIUM}
+                  onClick={() => setMenuOpen(false)}
+                  className="text-3xl font-bold tracking-tight transition-colors"
+                  style={{ color: "var(--ivory-warm)" }}
+                  onMouseEnter={(e) => {
+                    (e.target as HTMLElement).style.color = "var(--amber-light)";
+                  }}
+                  onMouseLeave={(e) => {
+                    (e.target as HTMLElement).style.color = "var(--ivory-warm)";
+                  }}
+                >
+                  {t("nav.premium")}
+                </Link>
+              </motion.div>
 
               {/* Mobile Profile & Sign Out */}
               {user ? (
@@ -351,7 +471,7 @@ const Navbar = () => {
                     exit={{ y: 20, opacity: 0 }}
                     transition={{
                       duration: 0.5,
-                      delay: 0.1 + navLinks.length * 0.08,
+                      delay: 0.42,
                       ease: [0.16, 1, 0.3, 1],
                     }}
                   >
@@ -372,7 +492,7 @@ const Navbar = () => {
                     exit={{ y: 20, opacity: 0 }}
                     transition={{
                       duration: 0.5,
-                      delay: 0.1 + (navLinks.length + 1) * 0.08,
+                      delay: 0.5,
                       ease: [0.16, 1, 0.3, 1],
                     }}
                   >
@@ -392,8 +512,7 @@ const Navbar = () => {
                 <motion.div
                   initial={{ y: 40, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
-                  transition={{ duration: 0.5, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                  className="mt-8"
+                  transition={{ duration: 0.5, delay: 0.42, ease: [0.16, 1, 0.3, 1] }}
                 >
                   <Link
                     href={ROUTES.AUTH}
