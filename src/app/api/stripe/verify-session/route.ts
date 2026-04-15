@@ -51,17 +51,56 @@ export async function GET(req: Request) {
 
     if (profile?.subscription_tier !== 'premium') {
       const sub = session.subscription as any;
+      const customer = session.customer as any;
+      const subId = typeof sub === 'string' ? sub : sub?.id;
+      const customerId = typeof customer === 'string' ? customer : customer?.id;
+      const periodEnd = sub?.current_period_end
+        ? new Date(sub.current_period_end * 1000).toISOString()
+        : null;
+
+      // Update profiles
       await supabaseAdmin
         .from(DB_TABLES.PROFILES)
         .update({
-          stripe_subscription_id: typeof sub === 'string' ? sub : sub?.id,
+          stripe_subscription_id: subId,
           subscription_tier: 'premium',
           subscription_status: 'active',
-          subscription_end_date: sub?.current_period_end
-            ? new Date(sub.current_period_end * 1000).toISOString()
-            : null,
+          subscription_end_date: periodEnd,
         })
         .eq('id', user.id);
+
+      // Create or update chat_subscriptions
+      const { data: existingSub } = await supabaseAdmin
+        .from('chat_subscriptions')
+        .select('*')
+        .eq('user_id', user.id)
+        .single();
+
+      if (existingSub) {
+        await supabaseAdmin
+          .from('chat_subscriptions')
+          .update({
+            stripe_customer_id: customerId,
+            stripe_subscription_id: subId,
+            tier: 'premium',
+            status: 'active',
+            current_period_end: periodEnd,
+            updated_at: new Date().toISOString(),
+          })
+          .eq('user_id', user.id);
+      } else {
+        await supabaseAdmin
+          .from('chat_subscriptions')
+          .insert({
+            user_id: user.id,
+            stripe_customer_id: customerId,
+            stripe_subscription_id: subId,
+            tier: 'premium',
+            status: 'active',
+            current_period_start: new Date().toISOString(),
+            current_period_end: periodEnd,
+          });
+      }
     }
 
     return NextResponse.json(

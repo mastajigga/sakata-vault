@@ -27,6 +27,25 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Identifiant de prix manquant." }, { status: 400 });
     }
 
+    // Check if user already has active premium subscription (prevent double-buy)
+    const { data: existingSub } = await supabaseAdmin
+      .from('chat_subscriptions')
+      .select('*')
+      .eq('user_id', userId)
+      .eq('tier', 'premium')
+      .eq('status', 'active')
+      .single();
+
+    if (
+      existingSub &&
+      new Date(existingSub.current_period_end) > new Date()
+    ) {
+      return NextResponse.json(
+        { error: "Vous êtes déjà Premium jusqu'au " + new Date(existingSub.current_period_end).toLocaleDateString('fr-FR') },
+        { status: 400 }
+      );
+    }
+
     // Récupérer le profil pour voir s'il a déjà un stripe_customer_id
     const { data: profile } = await supabaseAdmin
       .from(DB_TABLES.PROFILES)
@@ -81,7 +100,16 @@ export async function POST(req: Request) {
       }
     });
 
-    return NextResponse.json({ url: checkoutSession.url });
+    // Store session in subscription_sessions to track and prevent duplicates
+    await supabaseAdmin.from('subscription_sessions').insert({
+      user_id: userId,
+      stripe_session_id: checkoutSession.id,
+      status: 'pending',
+      amount: 0,
+      currency: 'EUR',
+    });
+
+    return NextResponse.json({ url: checkoutSession.url, sessionId: checkoutSession.id });
 
   } catch (err: any) {
     console.error("Erreur lors de la création de la session checkout:", err);

@@ -27,9 +27,61 @@ export async function POST(req: Request) {
         const customerId = session.customer as string;
         const subscriptionId = session.subscription as string;
         const userId = session.metadata?.supabase_user_id;
+        const sessionId = session.id;
 
-        if (userId) {
-          // Attribuer le grade Premium (par défaut, ajuster selon le `priceId` si besoin de 'elite')
+        if (userId && subscriptionId) {
+          // Get subscription details from Stripe
+          const subscription = await stripe.subscriptions.retrieve(subscriptionId) as any;
+          const currentPeriodStart = new Date(subscription.current_period_start * 1000);
+          const currentPeriodEnd = new Date(subscription.current_period_end * 1000);
+
+          // Create or update chat_subscriptions entry
+          const { data: existingSub } = await supabaseAdmin
+            .from('chat_subscriptions')
+            .select('*')
+            .eq('user_id', userId)
+            .single();
+
+          if (existingSub) {
+            // Update existing
+            await supabaseAdmin
+              .from('chat_subscriptions')
+              .update({
+                stripe_customer_id: customerId,
+                stripe_subscription_id: subscriptionId,
+                tier: 'premium',
+                status: 'active',
+                current_period_start: currentPeriodStart.toISOString(),
+                current_period_end: currentPeriodEnd.toISOString(),
+                updated_at: new Date().toISOString(),
+              })
+              .eq('user_id', userId);
+          } else {
+            // Create new
+            await supabaseAdmin
+              .from('chat_subscriptions')
+              .insert({
+                user_id: userId,
+                stripe_customer_id: customerId,
+                stripe_subscription_id: subscriptionId,
+                tier: 'premium',
+                status: 'active',
+                current_period_start: currentPeriodStart.toISOString(),
+                current_period_end: currentPeriodEnd.toISOString(),
+              });
+          }
+
+          // Mark session as completed
+          await supabaseAdmin
+            .from('subscription_sessions')
+            .update({
+              status: 'active',
+              stripe_subscription_id: subscriptionId,
+              completed_at: new Date().toISOString(),
+            })
+            .eq('stripe_session_id', sessionId);
+
+          // Also update profiles for backward compatibility
           await supabaseAdmin
             .from(DB_TABLES.PROFILES)
             .update({
@@ -46,30 +98,48 @@ export async function POST(req: Request) {
       case 'customer.subscription.updated': {
         const subscription = event.data.object as any;
         const customerId = subscription.customer as string;
+        const status = subscription.status;
+        const currentPeriodEnd = new Date(subscription.current_period_end * 1000);
 
-        // update status and end date
+        // Update chat_subscriptions
         await supabaseAdmin
-          .from(DB_TABLES.PROFILES)
+          .from('chat_subscriptions')
           .update({
-            subscription_status: subscription.status,
-            subscription_end_date: new Date(subscription.current_period_end * 1000).toISOString(),
+            status: status === 'active' ? 'active' : status === 'past_due' ? 'past_due' : 'cancelled',
+            current_period_end: currentPeriodEnd.toISOString(),
+            updated_at: new Date().toISOString(),
           })
           .eq('stripe_customer_id', customerId);
 
-        // If unpaid or canceled, downgrade gracefully if required.
-        if (['canceled', 'unpaid', 'past_due'].includes(subscription.status)) {
+        // Update profiles for backward compatibility
+        await supabaseAdmin
+          .from(DB_TABLES.PROFILES)
+          .update({
+            subscription_status: status,
+            subscription_end_date: currentPeriodEnd.toISOString(),
+          })
+          .eq('stripe_customer_id', customerId);
+
+        // If unpaid or canceled, downgrade
+        if (['canceled', 'unpaid', 'past_due'].includes(status)) {
              await supabaseAdmin
                .from(DB_TABLES.PROFILES)
-               .update({
-                  subscription_tier: 'free'
-               })
+               .update({ subscription_tier: 'free' })
                .eq('stripe_customer_id', customerId);
-        } else if (subscription.status === 'active') {
+
+             await supabaseAdmin
+               .from('chat_subscriptions')
+               .update({ tier: 'free' })
+               .eq('stripe_customer_id', customerId);
+        } else if (status === 'active') {
              await supabaseAdmin
                .from(DB_TABLES.PROFILES)
-               .update({
-                  subscription_tier: 'premium'
-               })
+               .update({ subscription_tier: 'premium' })
+               .eq('stripe_customer_id', customerId);
+
+             await supabaseAdmin
+               .from('chat_subscriptions')
+               .update({ tier: 'premium' })
                .eq('stripe_customer_id', customerId);
         }
         break;
@@ -79,7 +149,17 @@ export async function POST(req: Request) {
         const subscription = event.data.object as any;
         const customerId = subscription.customer as string;
 
-        // Downgrade to free entirely
+        // Update chat_subscriptions
+        await supabaseAdmin
+          .from('chat_subscriptions')
+          .update({
+            status: 'cancelled',
+            tier: 'free',
+            updated_at: new Date().toISOString(),
+          })
+          .eq('stripe_customer_id', customerId);
+
+        // Downgrade to free in profiles
         await supabaseAdmin
           .from(DB_TABLES.PROFILES)
           .update({
