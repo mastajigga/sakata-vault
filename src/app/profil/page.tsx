@@ -3,20 +3,21 @@
 import React, { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { useAuth } from "@/components/AuthProvider";
+import { ContributorBadge } from "@/components/badges/ContributorBadge";
 import { supabase } from "@/lib/supabase";
 import { useLanguage } from "@/components/LanguageProvider";
 import { ROUTES } from "@/lib/constants/routes";
 import Navbar from "@/components/Navbar";
 import Link from "next/link";
-import { 
-  User, 
-  Mail, 
-  MapPin, 
-  AlignLeft, 
-  AtSign, 
-  Save, 
-  CheckCircle2, 
-  Clock, 
+import {
+  User,
+  Mail,
+  MapPin,
+  AlignLeft,
+  AtSign,
+  Save,
+  CheckCircle2,
+  Clock,
   AlertCircle,
   FileText,
   ChevronLeft,
@@ -322,7 +323,7 @@ const ProfilePage = () => {
         </motion.div>
 
         {/* Header section */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="mb-12"
@@ -333,6 +334,14 @@ const ProfilePage = () => {
           <p className="text-ivoire-ancien/60 max-w-2xl">
             {t("profile.subtitle")}
           </p>
+
+          {/* Contributor Status Badge */}
+          <div className="mt-4">
+            <ContributorBadge
+              status={contributorStatus as "approved" | "pending" | "rejected" | "none"}
+              size="lg"
+            />
+          </div>
         </motion.div>
 
         {/* Layout with Bento-style sections */}

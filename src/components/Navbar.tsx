@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLanguage } from "./LanguageProvider";
 import { useAuth } from "./AuthProvider";
+import { ContributorDropdown } from "./navbar/ContributorDropdown";
 import LanguageSwitcher from "./LanguageSwitcher";
 import { LogOut, UserCircle, RefreshCw, X, MessageSquare } from "lucide-react";
 import { ROUTES } from "@/lib/constants/routes";
@@ -24,7 +25,7 @@ const navLinks = [
 
 const Navbar = () => {
   const { t } = useLanguage();
-  const { user, isLoading: authLoading, connectionError, sessionExpired, signOut, subscriptionTier } = useAuth() as any;
+  const { user, isLoading: authLoading, connectionError, sessionExpired, signOut, subscriptionTier, role, contributorStatus } = useAuth() as any;
   const totalUnread = useGlobalUnreadCount();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -164,8 +165,18 @@ const Navbar = () => {
 
           {/* CTA + Hamburger */}
           <div className="flex items-center gap-4">
+            {/* Contributor dropdown — visible only for admins/managers/approved contributors */}
+            {!authLoading && user && (
+              <div className="hidden md:block">
+                <ContributorDropdown
+                  role={role}
+                  isApproved={contributorStatus === "approved"}
+                />
+              </div>
+            )}
+
             <LanguageSwitcher />
-            
+
             {!authLoading && (
               user ? (
                 <div className="hidden md:flex items-center gap-4">
