@@ -3,10 +3,13 @@
 import { useEffect, useMemo, useState } from "react";
 import { useAuth } from "@/components/AuthProvider";
 import { supabase } from "@/lib/supabase";
+import { withRetry } from "@/lib/supabase-retry";
+import { ecoleProgressKey } from "@/lib/constants/storage";
 import type { MathematicsProgramYear } from "../data/mathematics-curriculum";
 import { calculateCompletion } from "../lib/assessment";
 
-const BASE_STORAGE_KEY = "ecole-brume-progress";
+// P2-C fix: clé préfixée "sakata-" pour être couverte par le version-bump d'AuthProvider
+// La fonction ecoleProgressKey() est définie dans src/lib/constants/storage.ts
 
 type ProgressMap = Record<string, string[]>;
 type SyncStatus = "local" | "syncing" | "cloud";
@@ -22,8 +25,9 @@ function getInitialProgress(programs: MathematicsProgramYear[], storageKey: stri
     return initialState;
   }
 
+  // P2-C fix: localStorage (non sessionStorage) → survit à la fermeture d'onglet
   try {
-    const rawValue = window.sessionStorage.getItem(storageKey);
+    const rawValue = window.localStorage.getItem(storageKey);
     if (!rawValue) {
       return initialState;
     }
@@ -37,13 +41,14 @@ function getInitialProgress(programs: MathematicsProgramYear[], storageKey: stri
 
 export function useEcoleProgress(programs: MathematicsProgramYear[], namespace = "primaire") {
   const { user } = useAuth();
-  const storageKey = `${BASE_STORAGE_KEY}-${namespace}`;
+  const storageKey = ecoleProgressKey(namespace); // "sakata-ecole-progress-{namespace}"
   const [completedByYear, setCompletedByYear] = useState<ProgressMap>(() => getInitialProgress(programs, storageKey));
   const [syncStatus, setSyncStatus] = useState<SyncStatus>("local");
 
   useEffect(() => {
+    // P2-C fix: localStorage → progression sauvegardée même si l'onglet est fermé
     try {
-      window.sessionStorage.setItem(storageKey, JSON.stringify(completedByYear));
+      window.localStorage.setItem(storageKey, JSON.stringify(completedByYear));
     } catch (error) {
       console.warn("[ecole] Impossible d'écrire la progression locale", error);
     }
@@ -155,17 +160,18 @@ export function useEcoleProgress(programs: MathematicsProgramYear[], namespace =
 
     const masteryScore = calculateCompletion(totalExercises, nextCompletedExercises.length);
 
-    const { error } = await supabase.from("ecole_progress").upsert(
-      {
-        user_id: user.id,
-        year_slug: yearSlug,
-        completed_exercises: nextCompletedExercises,
-        mastery_score: masteryScore,
-        last_activity_at: new Date().toISOString(),
-      },
-      {
-        onConflict: "user_id,year_slug",
-      }
+    // P1-D fix: retry sur l'upsert — la progression ne doit jamais être silencieusement perdue
+    const { error } = await withRetry(async () =>
+      supabase.from("ecole_progress").upsert(
+        {
+          user_id: user.id,
+          year_slug: yearSlug,
+          completed_exercises: nextCompletedExercises,
+          mastery_score: masteryScore,
+          last_activity_at: new Date().toISOString(),
+        },
+        { onConflict: "user_id,year_slug" }
+      )
     );
 
     setSyncStatus(error ? "local" : "cloud");

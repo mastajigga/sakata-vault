@@ -34,13 +34,24 @@ export function AnalyticsProvider({ children }: { children: React.ReactNode }) {
       lastTracked.current = { path: pathname, time: now };
 
       const trackVisit = async () => {
-        let sessionId =
-          typeof window !== "undefined"
-            ? sessionStorage.getItem(SESSION_KEYS.SESSION_ID)
-            : null;
-        if (!sessionId && typeof window !== "undefined") {
-          sessionId = crypto.randomUUID();
-          sessionStorage.setItem(SESSION_KEYS.SESSION_ID, sessionId);
+        // P2-A fix: localStorage (vs sessionStorage) → SESSION_ID partagé entre onglets
+        // P3-A fix: Si l'utilisateur est connecté, on préfère son user.id comme session stable
+        //           pour unifier les sessions cross-device dans les analytics.
+        let sessionId: string | null = null;
+        if (typeof window !== "undefined") {
+          if (user?.id) {
+            // Utilisateur authentifié → session stable = user.id (cross-device)
+            sessionId = `user-${user.id}`;
+          } else {
+            // Visiteur anonyme → session persistée en localStorage (cross-tab)
+            sessionId = localStorage.getItem(SESSION_KEYS.SESSION_ID);
+            if (!sessionId) {
+              sessionId = crypto.randomUUID();
+              try {
+                localStorage.setItem(SESSION_KEYS.SESSION_ID, sessionId);
+              } catch { /* localStorage restreint (mode privé) */ }
+            }
+          }
         }
 
         const isMobile = typeof window !== "undefined" ? window.innerWidth < 768 : false;

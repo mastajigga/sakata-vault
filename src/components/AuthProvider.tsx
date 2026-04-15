@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 import { withRetry } from "@/lib/supabase-retry";
 import { APP_VERSION, SUBSCRIPTION_TIERS } from "@/lib/constants/business";
-import { STORAGE_KEYS } from "@/lib/constants/storage";
+import { STORAGE_KEYS, SESSION_KEYS } from "@/lib/constants/storage";
 
 export type UserRole = "admin" | "manager" | "contributor" | "user";
 
@@ -18,6 +18,9 @@ interface AuthContextType {
   isLoading: boolean;
   connectionError: string | null;
   sessionExpired: boolean;
+  /** P2-B: true pendant les ~30-60s de rotation de token JWT. Les mutations critiques
+   * doivent attendre ou afficher un indicateur pendant cette fenêtre. */
+  tokenRefreshPending: boolean;
   refreshConnection: () => Promise<void>;
   signOut: () => Promise<void>;
 }
@@ -33,12 +36,14 @@ const SAKATA_KEY_WHITELIST = new Set<string>([
   STORAGE_KEYS.APP_VERSION,         // "sakata-app-version"
   STORAGE_KEYS.LANG,                 // "sakata-lang"
   STORAGE_KEYS.WELCOME_SEEN,         // "sakata-welcome-seen-v2"
-  // Les clés "sakata-msg-viewed-*" sont gérées séparément (pattern, pas valeur fixe)
+  SESSION_KEYS.SESSION_ID,           // "sakata-session-id"
+  "sakata-msg-viewed-last-purge",    // timestamp de la dernière purge des clés msg-viewed
 ]);
 
 function isKnownSakataKey(key: string): boolean {
   if (SAKATA_KEY_WHITELIST.has(key)) return true;
-  if (key.startsWith("sakata-msg-viewed-")) return true; // vues éphémères — purgées cycliquement
+  if (key.startsWith("sakata-msg-viewed-")) return true;     // vues éphémères — purgées cycliquement
+  if (key.startsWith("sakata-ecole-progress-")) return true; // progression école par namespace
   return false;
 }
 
@@ -51,6 +56,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [connectionError, setConnectionError] = useState<string | null>(null);
   const [sessionExpired, setSessionExpired] = useState(false);
+  // P2-B: flag pendant la fenêtre de rotation de token (TOKEN_REFRESHED event)
+  const [tokenRefreshPending, setTokenRefreshPending] = useState(false);
 
   // -------------------------------------------------------------------------
   // Version-based localStorage invalidation
@@ -122,6 +129,27 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         localStorage.setItem(MSG_VIEWED_TS_KEY, String(Date.now()));
         console.info(`[AuthProvider] Purge msg-viewed: ${msgViewedKeys.length} clés supprimées.`);
       }
+
+      // -----------------------------------------------------------------------
+      // P4-B: Monitoring du quota localStorage
+      // On estime la taille totale en sérialisant toutes les clés+valeurs.
+      // Si on dépasse 80% du quota estimé (~4MB sur 5MB), on log un avertissement.
+      // -----------------------------------------------------------------------
+      try {
+        let totalSize = 0;
+        for (let i = 0; i < localStorage.length; i++) {
+          const key = localStorage.key(i);
+          if (key) {
+            totalSize += key.length + (localStorage.getItem(key)?.length || 0);
+          }
+        }
+        const estimatedBytes = totalSize * 2; // UTF-16 = 2 bytes par caractère
+        const quotaWarningThreshold = 4 * 1024 * 1024; // 4MB = 80% de 5MB
+        if (estimatedBytes > quotaWarningThreshold) {
+          console.warn(`[AuthProvider] ⚠️ localStorage approche du quota: ~${Math.round(estimatedBytes / 1024)}KB utilisés`);
+        }
+      } catch { /* ignore */ }
+
     } catch {
       // localStorage peut être restreint (mode privé Safari)
     }
@@ -214,6 +242,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
         case "TOKEN_REFRESHED":
           // Nouveau JWT émis (rotation depuis un autre device)
+          // P2-B: on désactive le flag pending dès que le token est prêt
+          setTokenRefreshPending(false);
           setSession(newSession);
           setUser(newSession?.user ?? null);
           if (newSession?.user) await fetchProfile(newSession.user.id);
@@ -289,6 +319,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         isLoading,
         connectionError,
         sessionExpired,
+        tokenRefreshPending,
         refreshConnection: checkConnection,
         signOut,
       }}

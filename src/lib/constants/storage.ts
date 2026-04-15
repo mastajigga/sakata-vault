@@ -15,5 +15,11 @@ export function msgViewedKey(id: string): string {
 }
 
 export const SESSION_KEYS = {
-  SESSION_ID: "sakata_session_id",
+  // IMPORTANT: Must use "sakata-" prefix (dash) to be covered by version-bump sweep
+  SESSION_ID: "sakata-session-id",
 } as const;
+
+/** localStorage key for ecole progress per namespace (e.g. "sakata-ecole-progress-primaire") */
+export function ecoleProgressKey(namespace: string): string {
+  return `sakata-ecole-progress-${namespace}`;
+}

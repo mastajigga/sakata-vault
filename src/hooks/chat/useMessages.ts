@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import { withRetry } from "@/lib/supabase-retry";
 import { Message } from "@/components/chat/ChatWindow";
@@ -9,22 +9,41 @@ import { DB_TABLES, DB_BUCKETS } from "@/lib/constants/db";
 export function useMessages(conversationId: string) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [loading, setLoading] = useState(true);
+  const [currentUserId, setCurrentUserId] = useState<string>("");
+
+  // P2-D fix: userIdRef évite les stale closures dans les callbacks realtime.
+  // La ref est toujours à jour même si l'userId change (logout/login dans le même onglet).
+  const userIdRef = useRef<string>("");
+
+  // Résoudre l'userId une seule fois au montage, puis le mettre à jour si la session change
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data }) => {
+      const uid = data.session?.user?.id || "";
+      userIdRef.current = uid;
+      setCurrentUserId(uid);
+    });
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      const uid = session?.user?.id || "";
+      userIdRef.current = uid;
+      setCurrentUserId(uid);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
 
   useEffect(() => {
     if (!conversationId) return;
 
-    let userId = "";
-
     async function markAsRead() {
-      const { data: { session } } = await supabase.auth.getSession();
-      const currentUserId = session?.user?.id;
-      if (!currentUserId || !conversationId) return;
+      const uid = userIdRef.current;
+      if (!uid || !conversationId) return;
 
       await supabase
         .from(DB_TABLES.CHAT_PARTICIPANTS)
         .update({ last_read_at: new Date().toISOString() })
         .eq('conversation_id', conversationId)
-        .eq('user_id', currentUserId);
+        .eq('user_id', uid);
     }
 
     async function fetchMessages() {
@@ -32,8 +51,8 @@ export function useMessages(conversationId: string) {
         // Cleanup non-critique — fire and forget (les messages expirés seront nettoyés au prochain fetch)
         void (supabase.rpc('cleanup_expired_messages') as unknown as Promise<unknown>).catch(() => {});
 
-        const { data: activeSession } = await supabase.auth.getSession();
-        userId = activeSession?.session?.user?.id || "";
+        // P2-D fix: on lit toujours la ref (jamais une variable locale stale)
+        const uid = userIdRef.current;
 
         // Retry sur le fetch principal — critique pour l'UX
         const { data, error } = await withRetry(async () =>
@@ -60,7 +79,7 @@ export function useMessages(conversationId: string) {
             fileUrl: msg.file_url,
             fileType: msg.file_type,
             createdAt: new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-            isMe: msg.sender_id === userId,
+            isMe: msg.sender_id === uid,
             expiresIn: msg.expires_in,
             maxViews: msg.max_views,
           }));
@@ -96,6 +115,9 @@ export function useMessages(conversationId: string) {
           .eq('id', newMsg.sender_id)
           .single();
 
+        // P2-D fix: userIdRef.current toujours à jour même après logout/login
+        const uid = userIdRef.current;
+
         const formattedNewMsg: Message = {
           id: newMsg.id,
           senderId: newMsg.sender_id,
@@ -104,15 +126,15 @@ export function useMessages(conversationId: string) {
           fileUrl: newMsg.file_url,
           fileType: newMsg.file_type,
           createdAt: new Date(newMsg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-          isMe: newMsg.sender_id === userId,
+          isMe: newMsg.sender_id === uid,
           expiresIn: newMsg.expires_in,
           maxViews: newMsg.max_views,
         };
 
         setMessages(prev => [...prev, formattedNewMsg]);
-        
-        // Mark as read if we are currently looking at this conversation
-        if (newMsg.sender_id !== userId) {
+
+        // Mark as read si on regarde cette conversation (jamais pour nos propres messages)
+        if (newMsg.sender_id !== uid) {
           markAsRead();
         }
       })
@@ -121,7 +143,9 @@ export function useMessages(conversationId: string) {
     return () => {
       supabase.removeChannel(channel);
     };
-  }, [conversationId]);
+  // P2-D fix: re-subscribe si conversationId OU userId change
+  // (ex: logout/login dans le même onglet → le channel realtime est rechargé avec le bon userId)
+  }, [conversationId, currentUserId]);
 
 
   const sendMessage = async (content: string, attachment?: File | null, expiresIn?: string, maxViews?: 1 | 2) => {

@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import { ArrowRight, Leaf, Construction } from "lucide-react";
 import LanguageSwitcher from "./LanguageSwitcher";
 import { useLanguage } from "./LanguageProvider";
+import { STORAGE_KEYS } from "@/lib/constants/storage";
 
 export default function WelcomeModal() {
   const [mounted, setMounted] = useState(false);
@@ -14,7 +15,7 @@ export default function WelcomeModal() {
   useEffect(() => {
     setMounted(true);
     try {
-      const hasSeen = localStorage.getItem("sakata_welcome_seen_v2");
+      const hasSeen = localStorage.getItem(STORAGE_KEYS.WELCOME_SEEN);
       if (!hasSeen) {
         setIsOpen(true);
       }
@@ -31,7 +32,7 @@ export default function WelcomeModal() {
   const handleClose = () => {
     setIsOpen(false);
     try {
-      localStorage.setItem("sakata_welcome_seen_v2", "true");
+      localStorage.setItem(STORAGE_KEYS.WELCOME_SEEN, "true");
     } catch (e) {
       console.warn("Could not save welcome state to localStorage");
     }
