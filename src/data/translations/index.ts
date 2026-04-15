@@ -72,6 +72,13 @@ export const UI_TRANSLATIONS = {
       swa: "Dashibodi",
       tsh: "Muaba wa dikonkonwa",
     },
+    premium: {
+      fr: "Premium",
+      skt: "Wali ya premium",
+      lin: "Mokolongi",
+      swa: "Premium",
+      tsh: "Shilinde",
+    },
   },
   loading: {
     message: {

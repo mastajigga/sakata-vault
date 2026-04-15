@@ -22,6 +22,7 @@ interface AuthContextType {
    * doivent attendre ou afficher un indicateur pendant cette fenêtre. */
   tokenRefreshPending: boolean;
   refreshConnection: () => Promise<void>;
+  refreshProfile: () => Promise<void>;
   signOut: () => Promise<void>;
 }
 
@@ -195,6 +196,16 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   // -------------------------------------------------------------------------
+  // Refresh profile — refetch subscription tier after payment
+  // Used by success page after Stripe payment verification
+  // -------------------------------------------------------------------------
+  const refreshProfile = useCallback(async () => {
+    if (user?.id) {
+      await fetchProfile(user.id);
+    }
+  }, [user?.id, fetchProfile]);
+
+  // -------------------------------------------------------------------------
   // Core auth lifecycle via onAuthStateChange
   //
   // IMPORTANT: On utilise UNIQUEMENT onAuthStateChange pour gérer :
@@ -321,6 +332,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         sessionExpired,
         tokenRefreshPending,
         refreshConnection: checkConnection,
+        refreshProfile,
         signOut,
       }}
     >

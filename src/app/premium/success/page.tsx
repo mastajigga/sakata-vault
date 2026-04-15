@@ -24,16 +24,8 @@ function PremiumSuccessContent() {
 
     let cancelled = false;
 
-    const verify = async () => {
+    const verifyPayment = async (token: string) => {
       try {
-        const { data: { session } } = await supabase.auth.getSession();
-        const token = session?.access_token;
-
-        if (!token) {
-          if (!cancelled) setStatus('error');
-          return;
-        }
-
         const res = await fetch(`/api/stripe/verify-session?session_id=${sessionId}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
@@ -42,7 +34,6 @@ function PremiumSuccessContent() {
         if (!cancelled) {
           if (data.verified) {
             setStatus('verified');
-            // Rafraîchir le profil dans AuthProvider pour propager le nouveau tier
             if (typeof refreshProfile === 'function') refreshProfile();
           } else {
             setStatus('error');
@@ -53,7 +44,46 @@ function PremiumSuccessContent() {
       }
     };
 
-    verify();
+    const attemptVerify = async () => {
+      // Après un redirect Stripe (cross-origin), la session Supabase
+      // peut prendre quelques ms à être restaurée depuis localStorage.
+      // On essaye immédiatement, puis on attend onAuthStateChange si vide.
+      const { data: { session } } = await supabase.auth.getSession();
+
+      if (session?.access_token) {
+        return verifyPayment(session.access_token);
+      }
+
+      // Session pas prête — attendre l'événement de restauration (INITIAL_SESSION)
+      const { data: { subscription } } = supabase.auth.onAuthStateChange(
+        async (event, newSession) => {
+          if (cancelled) return;
+
+          if (
+            (event === 'INITIAL_SESSION' || event === 'SIGNED_IN') &&
+            newSession?.access_token
+          ) {
+            subscription.unsubscribe();
+            return verifyPayment(newSession.access_token);
+          }
+        }
+      );
+
+      // Timeout de sécurité — 10s max avant erreur
+      const timeout = setTimeout(() => {
+        if (!cancelled) {
+          subscription.unsubscribe();
+          setStatus('error');
+        }
+      }, 10000);
+
+      return () => {
+        clearTimeout(timeout);
+        subscription.unsubscribe();
+      };
+    };
+
+    attemptVerify();
     return () => { cancelled = true; };
   }, [sessionId]);
 
