@@ -47,20 +47,22 @@ src/
       useMessages.ts       # Charge les messages d'une conversation + realtime.
       useTyping.ts         # Indicateur de frappe en temps réel.
   lib/
-    supabase/admin.ts  # Client de contournement RLS (Service Key). Utiliser avec parcimonie.
+    supabase/admin.ts    # Client de contournement RLS (Service Key). Utiliser avec parcimonie.
+    supabase-retry.ts    # withRetry() / withRetryRaw() — retry backoff exponentiel pour tous les appels Supabase critiques.
     constants/
       routes.ts     # ROUTES — toutes les URLs de l'application.
       db.ts         # DB_TABLES, DB_BUCKETS — noms des tables/buckets Supabase.
-      storage.ts    # STORAGE_KEYS, SESSION_KEYS, msgViewedKey(id).
+      storage.ts    # STORAGE_KEYS, SESSION_KEYS, msgViewedKey(id), ecoleProgressKey(ns).
       timings.ts    # TIMINGS — délais et durées centralisés.
       business.ts   # USER_ROLES, SUBSCRIPTION_TIERS, EXPIRY_DURATIONS, IMAGE_VIEW_MODES, APP_VERSION.
       index.ts      # Barrel re-export de toutes les constantes.
 docs/
-  HARDCODED_AUDIT.md     # Audit complet des valeurs codées en dur (P0→P4).
-  BUGS_AND_TODOS.md      # Bugs connus et tâches restantes.
+  HARDCODED_AUDIT.md        # Audit complet des valeurs codées en dur (P0→P4).
+  BUGS_AND_TODOS.md         # Bugs connus et tâches restantes.
   ACCESSIBILITY_AUDIT.md
-  ROADMAP.md             # Feuille de route curriculum mathématiques (écoles primaires).
+  ROADMAP.md                # Feuille de route curriculum mathématiques (écoles primaires).
   VISUALIZATION_ROADMAP.md
+  CACHE_SUPABASE_AUDIT.md   # Audit cache navigateur & accès Supabase — 15 problèmes P1→P4 (tous corrigés).
 ```
 
 ---
@@ -109,14 +111,16 @@ import { ROUTES } from "@/lib/constants/routes";
 // Tables Supabase
 import { DB_TABLES, DB_BUCKETS } from "@/lib/constants/db";
 // localStorage keys
-import { STORAGE_KEYS, msgViewedKey } from "@/lib/constants/storage";
+import { STORAGE_KEYS, SESSION_KEYS, msgViewedKey, ecoleProgressKey } from "@/lib/constants/storage";
 // Timings
 import { TIMINGS } from "@/lib/constants/timings";
 // Métier
 import { USER_ROLES, SUBSCRIPTION_TIERS, EXPIRY_DURATIONS, IMAGE_VIEW_MODES, APP_VERSION } from "@/lib/constants/business";
+// Retry Supabase (OBLIGATOIRE pour toute mutation critique)
+import { withRetry, withRetryRaw } from "@/lib/supabase-retry";
 ```
 
-**APP_VERSION** : Bumper à chaque déploiement majeur dans `business.ts` pour invalider automatiquement les entrées localStorage périmées (`sakata-*`).
+**APP_VERSION** : Bumper à chaque déploiement majeur dans `business.ts` pour invalider automatiquement les entrées localStorage périmées (`sakata-*`). Version actuelle : `2.2.0`.
 
 ---
 
@@ -131,15 +135,26 @@ import { USER_ROLES, SUBSCRIPTION_TIERS, EXPIRY_DURATIONS, IMAGE_VIEW_MODES, APP
 - **TypeScript `as const` + `useState`:** Quand une constante `as const` a un type littéral (ex: `5`), utiliser `useState<number>(val)` explicitement pour éviter l'erreur `Type 'number' is not assignable to type '5 | 10'`.
 - **Vidéos dans les Hero :** Toujours utiliser `preload="auto"` + `onCanPlay={() => setVideoReady(true)}` + transition `opacity 0.8s` pour éviter le flash de vidéo après chargement de page.
 - **Nom de conversation:** Toujours fetcher dynamiquement depuis `chat_participants` + `profiles` — ne jamais hardcoder "Conversation" ou "C".
+- **withRetry() OBLIGATOIRE** : Tout appel Supabase critique (`.insert()`, `.upsert()`, `.update()`, `.select()` sur données utilisateur) **DOIT** utiliser `withRetry()` de `@/lib/supabase-retry`. Les appels fire-and-forget (analytics, cleanup) sont exemptés.
+- **Set<string\> explicite** : Quand un `Set` est initialisé depuis des constantes `as const`, typer explicitement `new Set<string>(...)` pour éviter l'erreur TypeScript sur `.has(key: string)`.
 
 ---
 
 ## 7. AuthProvider — Session Management
 
 - **`sessionExpired`** : Flag qui détecte une déconnexion forcée (rotation de token multi-appareils). Affiche un banner dans la Navbar.
-- **Cross-tab sync** : `storage` event listener sur les clés `sb-*` pour synchroniser la session entre onglets.
-- **Versioning localStorage** : `APP_VERSION` dans `business.ts` — à bumper pour invalider les clés `sakata-*` stales.
+- **`tokenRefreshPending`** : Flag exposé dans le contexte Auth — `true` pendant la fenêtre de ~30-60s de rotation JWT. Les composants critiques peuvent l'utiliser pour afficher un indicateur de chargement.
+- **Cross-tab sync** : Géré nativement par `supabase.auth.onAuthStateChange()`. **NE PAS** ajouter de `window.addEventListener("storage", ...)` sur les clés `"sb-*"` — c'est redondant et fragile.
+- **Versioning localStorage** : `APP_VERSION` dans `business.ts` — à bumper pour invalider les clés `sakata-*` stales. La purge couvre toute clé `sakata-*` non whitelistée + les vieilles clés `sakata_*` (underscore) et `msg-viewed-*` (sans préfixe) créées par d'anciens bugs.
 - **`TOKEN_REFRESHED`** : Toujours géré dans `onAuthStateChange` pour rafraîchir le Router Cache Next.js.
+- **Whitelist localStorage** : La constante `SAKATA_KEY_WHITELIST` dans `AuthProvider.tsx` doit être mise à jour à chaque ajout d'une nouvelle clé `sakata-*`.
+
+### Règles absolues localStorage (⚠️ NE JAMAIS VIOLER)
+1. **Toute clé DOIT commencer par `"sakata-"` (tiret, jamais underscore).**
+2. **Toute nouvelle clé DOIT être déclarée dans `src/lib/constants/storage.ts`.**
+3. **Toute nouvelle clé DOIT être ajoutée à `SAKATA_KEY_WHITELIST` dans `AuthProvider.tsx`.**
+4. **Ne jamais utiliser `sessionStorage` pour des données critiques** (progression, session ID) — utiliser `localStorage`.
+5. **Ne jamais hardcoder une valeur de clé localStorage** — toujours utiliser la constante de `storage.ts`.
 
 ---
 
@@ -154,6 +169,21 @@ import { USER_ROLES, SUBSCRIPTION_TIERS, EXPIRY_DURATIONS, IMAGE_VIEW_MODES, APP
 
 | Date | Modification |
 |------|-------------|
+| 2026-04-15 | **FIX CACHE P1→P4** — Audit complet localStorage/Supabase. 15 problèmes corrigés. Voir `docs/CACHE_SUPABASE_AUDIT.md` |
+| 2026-04-15 | `withRetry()` — utilitaire centralisé retry + backoff expo. (`src/lib/supabase-retry.ts`) |
+| 2026-04-15 | `msgViewedKey()` corrigé → `"sakata-msg-viewed-{id}"` (préfixe manquant causait accumulation infinie) |
+| 2026-04-15 | `WELCOME_SEEN` corrigé → `"sakata-welcome-seen-v2"` (underscore → tiret) |
+| 2026-04-15 | AuthProvider — listener `storage "sb-*"` supprimé (redondant), `onAuthStateChange` seul |
+| 2026-04-15 | AuthProvider — whitelist localStorage exhaustive + purge des vieilles clés sans préfixe |
+| 2026-04-15 | AuthProvider — `tokenRefreshPending` flag exposé dans le contexte |
+| 2026-04-15 | AnalyticsProvider — `sessionStorage` → `localStorage` pour SESSION_ID; user connecté = session stable `user-{id}` |
+| 2026-04-15 | useEcoleProgress — `sessionStorage` → `localStorage` + withRetry sur upsert |
+| 2026-04-15 | useMessages — stale closure userId corrigé via `useRef` + re-subscribe si userId change |
+| 2026-04-15 | WelcomeModal — clé hardcodée `"sakata_welcome_seen_v2"` → `STORAGE_KEYS.WELCOME_SEEN` |
+| 2026-04-15 | APP_VERSION bumpé `2.1.0` → `2.2.0` pour purger toutes les clés stale chez les visiteurs |
+| 2026-04-15 | Stripe double-buy prevention — `subscription_sessions` + `chat_subscriptions` tables |
+| 2026-04-15 | Système unifié de demandes de contribution (`contribution_requests` table + admin page) |
+| 2026-04-15 | Éditeur d'articles riche (JSON sections + images + sources) + page review admin |
 | 2026-04 | Système de constantes centralisées (`src/lib/constants/`) — routes, db, storage, timings, business |
 | 2026-04 | Messagerie privée : enregistrement audio avec aperçu pre-envoi (style WhatsApp) |
 | 2026-04 | Images éphémères : vue unique/double, countdown, détection de capture d'écran |

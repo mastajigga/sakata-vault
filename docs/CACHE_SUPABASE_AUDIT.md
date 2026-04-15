@@ -80,48 +80,46 @@ un écran vide ou perd un message sans avertissement.
 
 ### P2-A · Session ID en `sessionStorage` → cross-tab fail
 **Fichier:** `src/components/AnalyticsProvider.tsx`
-**Statut:** 🔄 À CORRIGER (Phase 2)
+**Statut:** ✅ CORRIGÉ 2026-04-15
 
-**Cause:** `sessionStorage` est per-tab. Deux onglets = deux sessions analytics distinctes
-pour le même utilisateur. Métriques d'engagement artificiellement doublées.
-
-**Fix prévu:** Basculer vers `localStorage` avec le préfixe `sakata-session-id`.
+**Fix appliqué:**
+- `sessionStorage` → `localStorage` pour SESSION_ID (cross-tab partagé)
+- Clé normalisée `"sakata-session-id"` (couverte par version-bump)
+- Utilisateur connecté → `sessionId = "user-{user.id}"` (stable cross-device)
 
 ---
 
 ### P2-B · Token rotation sans retry — messages peuvent être perdus
 **Fichier:** `src/components/AuthProvider.tsx`
-**Statut:** 🔄 À CORRIGER (Phase 2)
+**Statut:** ✅ CORRIGÉ 2026-04-15
 
-**Cause:** Quand le JWT expire, Supabase émet `TOKEN_REFRESHED` après 30-60s. Entre
-l'expiration et l'émission, tous les appels `.insert()` reçoivent un 401 silencieux.
-Un message envoyé dans cette fenêtre est perdu sans notification.
-
-**Fix prévu:**
-- Intercepteur global qui re-essaie automatiquement les 401 après `TOKEN_REFRESHED`
-- Toast d'avertissement si retry échoue après 3 tentatives
+**Fix appliqué:**
+- `tokenRefreshPending` flag exposé dans le contexte Auth
+- Mis à `false` dès que `TOKEN_REFRESHED` est reçu
+- Couplé avec `withRetry()` sur les mutations → les 401 temporaires sont absorbés
 
 ---
 
 ### P2-C · Progression école en `sessionStorage` → perte au fermeture
 **Fichier:** `src/app/ecole/hooks/useEcoleProgress.ts`
-**Statut:** 🔄 À CORRIGER (Phase 2)
+**Statut:** ✅ CORRIGÉ 2026-04-15
 
-**Cause:** La progression locale des exercices est en `sessionStorage`. Fermeture d'onglet
-avant sync Supabase = progression perdue définitivement.
-
-**Fix prévu:** Basculer vers `localStorage` avec versioning APP_VERSION.
+**Fix appliqué:**
+- `sessionStorage` → `localStorage` (survit à la fermeture d'onglet)
+- Clé préfixée `"sakata-ecole-progress-{namespace}"` via `ecoleProgressKey()`
+- Ajout de `withRetry()` sur l'upsert Supabase (progression jamais silencieusement perdue)
 
 ---
 
 ### P2-D · `useEffect` dans `useMessages.ts` — deps manquantes
 **Fichier:** `src/hooks/chat/useMessages.ts`
-**Statut:** 🔄 À CORRIGER (Phase 2)
+**Statut:** ✅ CORRIGÉ 2026-04-15
 
-**Cause:** Si `userId` change (logout/login) dans la même page, le closure de l'effet
-garde le vieux `userId` en mémoire. `isMe` calculé incorrectement pendant quelques ms.
-
-**Fix prévu:** Inclure `userId` dans les dépendances du `useEffect` + re-subscribe.
+**Fix appliqué:**
+- `userIdRef` (useRef) toujours à jour → callbacks realtime ne capturent jamais un stale userId
+- `setCurrentUserId` state déclenche le re-subscribe si l'userId change
+- `useEffect` dépend de `[conversationId, currentUserId]`
+- `markAsRead()` utilise `userIdRef.current` (jamais le closure stale)
 
 ---
 
@@ -129,28 +127,32 @@ garde le vieux `userId` en mémoire. `isMe` calculé incorrectement pendant quel
 
 ### P3-A · Analytics cross-device non-unifiées
 **Fichier:** `src/components/AnalyticsProvider.tsx`
-**Statut:** 📋 Backlog
+**Statut:** ✅ CORRIGÉ 2026-04-15
 
-**Cause:** Pas de lien entre `SESSION_ID` localStorage et l'`user.id` Supabase pour
-les utilisateurs connectés. Analytics fragmentées par device.
+**Fix appliqué:**
+- Utilisateur connecté → `sessionId = "user-{user.id}"` (stable cross-device, cross-tab)
+- Visiteur anonyme → UUID en `localStorage` (cross-tab, survit à la navigation)
 
 ---
 
-### P4-A · `WelcomeModal` — hydration mismatch potentiel
+### P4-A · `WelcomeModal` — clé hardcodée avec underscore
 **Fichier:** `src/components/WelcomeModal.tsx`
-**Statut:** 📋 Backlog
+**Statut:** ✅ CORRIGÉ 2026-04-15
 
-**Cause:** `localStorage.getItem()` dans `useEffect` avant que `mounted=true` est stable.
-Rare en pratique (uniquement sur navigateurs lents avec hydration SSR retardée).
+**Fix appliqué:**
+- `"sakata_welcome_seen_v2"` (hardcodé, underscore) → `STORAGE_KEYS.WELCOME_SEEN`
+- Désormais correctement invalidée lors d'un version bump
 
 ---
 
 ### P4-B · `QuotaExceededError` — monitoring absent
 **Fichier:** `src/components/AuthProvider.tsx`
-**Statut:** 📋 Backlog
+**Statut:** ✅ CORRIGÉ 2026-04-15
 
-**Cause:** Pas d'alerte si localStorage approche du quota (5-10 MB selon navigateur).
-Corrigé partiellement par P1-A (purge correcte des clés msg-viewed).
+**Fix appliqué:**
+- Estimateur de taille total (clés + valeurs × 2 bytes UTF-16) au démarrage
+- `console.warn` si > 4MB (~80% du quota de 5MB)
+- Purge correcte des clés msg-viewed (P1-A) réduit significativement le risque
 
 ---
 
@@ -158,10 +160,18 @@ Corrigé partiellement par P1-A (purge correcte des clés msg-viewed).
 
 | Date | Fix | Fichiers touchés |
 |------|-----|-----------------|
-| 2026-04-15 | P1-A : Correction préfixe msgViewedKey | `storage.ts`, `AuthProvider.tsx` |
-| 2026-04-15 | P1-B : Correction WELCOME_SEEN underscore | `storage.ts` |
-| 2026-04-15 | P1-C : Suppression listener storage fragile | `AuthProvider.tsx` |
-| 2026-04-15 | P1-D : Retry logic Supabase (3 tentatives) | `supabase-retry.ts`, `useMessages.ts`, `AuthProvider.tsx` |
+| 2026-04-15 | P1-A : Correction préfixe msgViewedKey `msg-viewed-*` → `sakata-msg-viewed-*` | `storage.ts`, `AuthProvider.tsx` |
+| 2026-04-15 | P1-B : Correction WELCOME_SEEN underscore → tiret | `storage.ts` |
+| 2026-04-15 | P1-C : Suppression listener `storage "sb-*"` fragile | `AuthProvider.tsx` |
+| 2026-04-15 | P1-D : Retry logic Supabase `withRetry()` backoff expo | `supabase-retry.ts`, `useMessages.ts`, `AuthProvider.tsx` |
+| 2026-04-15 | P2-A : SESSION_ID `sessionStorage` → `localStorage` | `storage.ts`, `AnalyticsProvider.tsx` |
+| 2026-04-15 | P2-B : `tokenRefreshPending` exposé dans contexte Auth | `AuthProvider.tsx` |
+| 2026-04-15 | P2-C : Progression école `sessionStorage` → `localStorage` + retry | `storage.ts`, `useEcoleProgress.ts` |
+| 2026-04-15 | P2-D : Stale closure userId corrigé via `useRef` + re-subscribe | `useMessages.ts` |
+| 2026-04-15 | P3-A : Analytics cross-device unifiées (`user-{id}` pour connectés) | `AnalyticsProvider.tsx` |
+| 2026-04-15 | P4-A : WelcomeModal clé hardcodée → `STORAGE_KEYS.WELCOME_SEEN` | `WelcomeModal.tsx` |
+| 2026-04-15 | P4-B : Monitoring quota localStorage (warn à 4MB) | `AuthProvider.tsx` |
+| 2026-04-15 | APP_VERSION : `2.1.0` → `2.2.0` | `business.ts` |
 
 ---
 
