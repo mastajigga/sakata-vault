@@ -1,16 +1,14 @@
 "use client";
 
-import React, { createContext, useContext, useEffect, useState, useCallback, useRef } from "react";
+import React, { createContext, useContext, useEffect, useState, useCallback } from "react";
 import { User, Session } from "@supabase/supabase-js";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
+import { withRetry } from "@/lib/supabase-retry";
 import { APP_VERSION, SUBSCRIPTION_TIERS } from "@/lib/constants/business";
 import { STORAGE_KEYS } from "@/lib/constants/storage";
 
 export type UserRole = "admin" | "manager" | "contributor" | "user";
-
-// Version key — bump APP_VERSION in business.ts on each deploy to auto-invalidate stale localStorage entries
-const VERSION_KEY = STORAGE_KEYS.APP_VERSION;
 
 interface AuthContextType {
   user: User | null;
@@ -26,6 +24,24 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
+// ---------------------------------------------------------------------------
+// Whitelist exhaustive des clés localStorage légitimes.
+// Toute clé "sakata-*" NON listée ici sera supprimée lors d'un version bump.
+// RÈGLE : Toute nouvelle clé doit être ajoutée ici ET dans storage.ts.
+// ---------------------------------------------------------------------------
+const SAKATA_KEY_WHITELIST = new Set<string>([
+  STORAGE_KEYS.APP_VERSION,         // "sakata-app-version"
+  STORAGE_KEYS.LANG,                 // "sakata-lang"
+  STORAGE_KEYS.WELCOME_SEEN,         // "sakata-welcome-seen-v2"
+  // Les clés "sakata-msg-viewed-*" sont gérées séparément (pattern, pas valeur fixe)
+]);
+
+function isKnownSakataKey(key: string): boolean {
+  if (SAKATA_KEY_WHITELIST.has(key)) return true;
+  if (key.startsWith("sakata-msg-viewed-")) return true; // vues éphémères — purgées cycliquement
+  return false;
+}
+
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
   const [user, setUser] = useState<User | null>(null);
@@ -34,39 +50,59 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [subscriptionTier, setSubscriptionTier] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [connectionError, setConnectionError] = useState<string | null>(null);
-  // Signals that the user was silently logged out due to token rotation (multi-device)
   const [sessionExpired, setSessionExpired] = useState(false);
-  const refreshInProgress = useRef(false);
 
-  // ------------------------------------------------------------------
+  // -------------------------------------------------------------------------
   // Version-based localStorage invalidation
-  // If the app version changed since last visit, clear all sakata-* keys
-  // ------------------------------------------------------------------
+  // Si APP_VERSION a changé depuis la dernière visite :
+  //   1. Supprimer toutes les clés "sakata-*" inconnues (pas dans la whitelist)
+  //   2. Supprimer les clés orphelines sans préfixe sakata- (anciens bugs)
+  // -------------------------------------------------------------------------
   useEffect(() => {
     try {
-      const storedVersion = localStorage.getItem(VERSION_KEY);
+      const storedVersion = localStorage.getItem(STORAGE_KEYS.APP_VERSION);
       if (storedVersion !== APP_VERSION) {
         const keysToRemove: string[] = [];
         for (let i = 0; i < localStorage.length; i++) {
           const key = localStorage.key(i);
-          if (key && key.startsWith("sakata-") && key !== STORAGE_KEYS.APP_VERSION) {
+          if (!key) continue;
+
+          // Supprimer toute clé sakata-* NON whitelistée (vieilles clés stale)
+          if (key.startsWith("sakata-") && !isKnownSakataKey(key)) {
+            keysToRemove.push(key);
+          }
+
+          // Supprimer les vieilles clés sans préfixe sakata- créées par d'anciens bugs
+          // (ex: "msg-viewed-xxx" au lieu de "sakata-msg-viewed-xxx")
+          if (key.startsWith("msg-viewed-")) {
+            keysToRemove.push(key);
+          }
+
+          // Supprimer les vieilles clés avec underscore (ex: "sakata_welcome_seen_v2")
+          if (key.startsWith("sakata_")) {
             keysToRemove.push(key);
           }
         }
-        keysToRemove.forEach((k) => localStorage.removeItem(k));
-        localStorage.setItem(VERSION_KEY, APP_VERSION);
+
+        keysToRemove.forEach((k) => {
+          try { localStorage.removeItem(k); } catch { /* ignore */ }
+        });
+        localStorage.setItem(STORAGE_KEYS.APP_VERSION, APP_VERSION);
+
+        if (keysToRemove.length > 0) {
+          console.info(`[AuthProvider] Version bump ${storedVersion} → ${APP_VERSION}. ${keysToRemove.length} clés stale supprimées.`);
+        }
       }
 
-      // ------------------------------------------------------------------
-      // Nettoyage des clés msg-viewed accumulées
-      // Ces clés (sakata-msg-viewed-*) s'accumulent à chaque image éphémère
-      // consultée. On les purge si leur nombre dépasse 200, ou si elles ont
-      // plus de 7 jours (approximé par un index de date stocké séparément).
-      // ------------------------------------------------------------------
+      // -----------------------------------------------------------------------
+      // Purge cyclique des clés "sakata-msg-viewed-*"
+      // Ces clés s'accumulent à chaque image éphémère vue.
+      // Purge déclenchée si > 100 clés OU si > 7 jours depuis la dernière purge.
+      // -----------------------------------------------------------------------
       const MSG_VIEWED_PREFIX = "sakata-msg-viewed-";
       const MSG_VIEWED_TS_KEY = "sakata-msg-viewed-last-purge";
       const SEVEN_DAYS_MS = 7 * 24 * 60 * 60 * 1000;
-      const MAX_MSG_VIEWED_KEYS = 200;
+      const MAX_MSG_VIEWED_KEYS = 100; // Réduit de 200 → 100 pour marge de sécurité
 
       const lastPurge = parseInt(localStorage.getItem(MSG_VIEWED_TS_KEY) || "0", 10);
       const msgViewedKeys: string[] = [];
@@ -77,40 +113,50 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
       const shouldPurge =
         msgViewedKeys.length > MAX_MSG_VIEWED_KEYS ||
-        Date.now() - lastPurge > SEVEN_DAYS_MS;
+        (lastPurge > 0 && Date.now() - lastPurge > SEVEN_DAYS_MS);
 
       if (shouldPurge && msgViewedKeys.length > 0) {
-        msgViewedKeys.forEach((k) => localStorage.removeItem(k));
+        msgViewedKeys.forEach((k) => {
+          try { localStorage.removeItem(k); } catch { /* ignore */ }
+        });
         localStorage.setItem(MSG_VIEWED_TS_KEY, String(Date.now()));
+        console.info(`[AuthProvider] Purge msg-viewed: ${msgViewedKeys.length} clés supprimées.`);
       }
     } catch {
-      // localStorage may be restricted (private mode)
+      // localStorage peut être restreint (mode privé Safari)
     }
   }, []);
 
-  // ------------------------------------------------------------------
-  // Profile fetch
-  // ------------------------------------------------------------------
+  // -------------------------------------------------------------------------
+  // Profile fetch avec retry
+  // -------------------------------------------------------------------------
   const fetchProfile = useCallback(async (userId: string) => {
-    const { data, error } = await supabase
-      .from("profiles")
-      .select("role, subscription_tier")
-      .eq("id", userId)
-      .maybeSingle();
+    const { data, error } = await withRetry<{ role: string | null; subscription_tier: string | null }>(
+      async () =>
+        supabase
+          .from("profiles")
+          .select("role, subscription_tier")
+          .eq("id", userId)
+          .maybeSingle() as any
+    );
 
     if (!error && data) {
       setRole(data.role as UserRole);
       setSubscriptionTier(data.subscription_tier || SUBSCRIPTION_TIERS.FREE);
+    } else if (error) {
+      console.error("[AuthProvider] fetchProfile error after retries:", error.message);
     }
   }, []);
 
-  // ------------------------------------------------------------------
-  // Connection health check
-  // ------------------------------------------------------------------
+  // -------------------------------------------------------------------------
+  // Connection health check avec retry
+  // -------------------------------------------------------------------------
   const checkConnection = useCallback(async () => {
     try {
-      const { error } = await supabase.from("profiles").select("id").limit(1);
-      if (error && error.message.includes("Failed to fetch")) {
+      const { error } = await withRetry(async () =>
+        supabase.from("profiles").select("id").limit(1)
+      );
+      if (error && error.message?.includes("Failed to fetch")) {
         setConnectionError("Impossible de contacter le Grand Sanctuaire (Problème de connexion ou DNS).");
       } else {
         setConnectionError(null);
@@ -120,128 +166,113 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   }, []);
 
-  // ------------------------------------------------------------------
-  // Core auth lifecycle
-  // ------------------------------------------------------------------
+  // -------------------------------------------------------------------------
+  // Core auth lifecycle via onAuthStateChange
+  //
+  // IMPORTANT: On utilise UNIQUEMENT onAuthStateChange pour gérer :
+  //   - La synchro cross-tab (built-in, pas besoin du storage event listener)
+  //   - Le token refresh
+  //   - Le sign-in / sign-out
+  //
+  // L'ancien listener `window.addEventListener("storage", ...)` sur les clés
+  // "sb-*" a été SUPPRIMÉ car :
+  //   1. onAuthStateChange gère déjà la synchro multi-onglet nativement
+  //   2. Le préfixe "sb-" est interne à Supabase et peut changer
+  //   3. Le listener était redondant et pouvait créer des race conditions
+  // -------------------------------------------------------------------------
   useEffect(() => {
+    let mounted = true;
+
     const init = async () => {
       try {
         const { data: { session }, error } = await supabase.auth.getSession();
         if (error) {
-          console.error("AuthProvider: getSession error", error);
+          console.error("[AuthProvider] getSession error:", error);
         }
-        if (session) {
+        if (mounted && session) {
           setSession(session);
           setUser(session.user);
           await fetchProfile(session.user.id);
         }
       } catch (e) {
-        console.error("AuthProvider: init error", e);
+        console.error("[AuthProvider] init error:", e);
       } finally {
-        setIsLoading(false);
+        if (mounted) setIsLoading(false);
       }
     };
 
     checkConnection().catch(console.error);
     init();
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
-      // TOKEN_REFRESHED — a new JWT was issued (e.g., token rotated from another device)
-      if (event === "TOKEN_REFRESHED") {
-        setSession(session);
-        setUser(session?.user ?? null);
-        if (session?.user) await fetchProfile(session.user.id);
-        // Bust Next.js Router Cache so server components re-render with fresh session
-        router.refresh();
-        return;
-      }
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, newSession) => {
+      if (!mounted) return;
 
-      // SIGNED_IN — user authenticated (new login or cross-tab sync)
-      if (event === "SIGNED_IN") {
-        setSessionExpired(false);
-        setSession(session);
-        setUser(session?.user ?? null);
-        if (session?.user) await fetchProfile(session.user.id);
-        router.refresh();
-        setIsLoading(false);
-        return;
-      }
+      switch (event) {
+        case "INITIAL_SESSION":
+          // Géré par init() ci-dessus — on ignore pour éviter le double fetch
+          break;
 
-      // SIGNED_OUT — could be voluntary or due to token rotation failure (multi-device)
-      if (event === "SIGNED_OUT") {
-        setSession(null);
-        setUser(null);
-        setRole(null);
-        setSubscriptionTier(null);
-        setIsLoading(false);
-        // If there was previously a user, this is likely a forced token invalidation
-        // Show a "session expired" notice rather than just silently logging out
-        setSessionExpired(true);
-        router.refresh();
-        return;
-      }
+        case "TOKEN_REFRESHED":
+          // Nouveau JWT émis (rotation depuis un autre device)
+          setSession(newSession);
+          setUser(newSession?.user ?? null);
+          if (newSession?.user) await fetchProfile(newSession.user.id);
+          router.refresh(); // Invalide le Next.js Router Cache
+          break;
 
-      // Default fallback for other events (PASSWORD_RECOVERY, USER_UPDATED, etc.)
-      setSession(session);
-      setUser(session?.user ?? null);
-      if (session?.user) {
-        await fetchProfile(session.user.id);
-      } else {
-        setRole(null);
-        setSubscriptionTier(null);
+        case "SIGNED_IN":
+          setSessionExpired(false);
+          setSession(newSession);
+          setUser(newSession?.user ?? null);
+          if (newSession?.user) await fetchProfile(newSession.user.id);
+          router.refresh();
+          setIsLoading(false);
+          break;
+
+        case "SIGNED_OUT":
+          setSession(null);
+          setUser(null);
+          setRole(null);
+          setSubscriptionTier(null);
+          setIsLoading(false);
+          // Si un utilisateur était connecté, c'est probablement une invalidation forcée
+          setSessionExpired(true);
+          router.refresh();
+          break;
+
+        case "USER_UPDATED":
+          setSession(newSession);
+          setUser(newSession?.user ?? null);
+          if (newSession?.user) await fetchProfile(newSession.user.id);
+          break;
+
+        default:
+          // PASSWORD_RECOVERY, MFA_CHALLENGE_VERIFIED, etc.
+          setSession(newSession);
+          setUser(newSession?.user ?? null);
+          if (newSession?.user) {
+            await fetchProfile(newSession.user.id);
+          } else {
+            setRole(null);
+            setSubscriptionTier(null);
+          }
+          setIsLoading(false);
       }
-      setIsLoading(false);
     });
 
     return () => {
+      mounted = false;
       subscription.unsubscribe();
     };
   }, [fetchProfile, checkConnection, router]);
 
-  // ------------------------------------------------------------------
-  // Cross-tab / cross-window session sync via storage event
-  // When Supabase updates the auth token in localStorage on another tab,
-  // this listener picks it up and re-syncs the React state.
-  // ------------------------------------------------------------------
-  useEffect(() => {
-    const handleStorageChange = async (e: StorageEvent) => {
-      // Supabase stores auth data under keys starting with "sb-"
-      if (!e.key || !e.key.startsWith("sb-")) return;
-      if (refreshInProgress.current) return;
-
-      refreshInProgress.current = true;
-      try {
-        const { data: { session } } = await supabase.auth.getSession();
-        setSession(session);
-        setUser(session?.user ?? null);
-        if (session?.user) {
-          await fetchProfile(session.user.id);
-          setSessionExpired(false);
-        } else {
-          setRole(null);
-          setSubscriptionTier(null);
-          setSessionExpired(true);
-        }
-        router.refresh();
-      } catch (err) {
-        console.error("AuthProvider: cross-tab sync error", err);
-      } finally {
-        refreshInProgress.current = false;
-      }
-    };
-
-    window.addEventListener("storage", handleStorageChange);
-    return () => window.removeEventListener("storage", handleStorageChange);
-  }, [fetchProfile, router]);
-
-  // ------------------------------------------------------------------
+  // -------------------------------------------------------------------------
   // Sign out
-  // ------------------------------------------------------------------
+  // -------------------------------------------------------------------------
   const signOut = async () => {
     try {
       setIsLoading(true);
       await supabase.auth.signOut();
-      // Force whole-page refresh to purge Next.js Router Cache and all internal states
       window.location.href = "/";
     } catch {
       window.location.href = "/";

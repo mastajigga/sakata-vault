@@ -34,5 +34,5 @@ export const MAX_VIEWS = {
   TWICE: 2,
 } as const;
 
-export const APP_VERSION = "2.1.0";
+export const APP_VERSION = "2.2.0"; // Bumped 2026-04-15 — fix localStorage key prefix mismatch (P1-A/B)
 export const PINECONE_DEFAULT_INDEX = "sakata-mathematics";

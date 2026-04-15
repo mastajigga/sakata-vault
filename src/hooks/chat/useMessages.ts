@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
+import { withRetry } from "@/lib/supabase-retry";
 import { Message } from "@/components/chat/ChatWindow";
 import { DB_TABLES, DB_BUCKETS } from "@/lib/constants/db";
 
@@ -28,25 +29,28 @@ export function useMessages(conversationId: string) {
 
     async function fetchMessages() {
       try {
-        // Trigger server-side cleanup before fetching to ensure freshness
-        await supabase.rpc('cleanup_expired_messages');
+        // Cleanup non-critique — fire and forget (les messages expirés seront nettoyés au prochain fetch)
+        void (supabase.rpc('cleanup_expired_messages') as unknown as Promise<unknown>).catch(() => {});
 
         const { data: activeSession } = await supabase.auth.getSession();
         userId = activeSession?.session?.user?.id || "";
 
-        const { data, error } = await supabase
-          .from(DB_TABLES.CHAT_MESSAGES)
-          .select(`
-            id, content, file_url, file_type, created_at, expires_in,
-            sender_id, max_views,
-            profiles:sender_id ( nickname, username )
-          `)
-          .eq('conversation_id', conversationId)
-          .eq('is_deleted', false)
-          .order('created_at', { ascending: true });
+        // Retry sur le fetch principal — critique pour l'UX
+        const { data, error } = await withRetry(async () =>
+          supabase
+            .from(DB_TABLES.CHAT_MESSAGES)
+            .select(`
+              id, content, file_url, file_type, created_at, expires_in,
+              sender_id, max_views,
+              profiles:sender_id ( nickname, username )
+            `)
+            .eq('conversation_id', conversationId)
+            .eq('is_deleted', false)
+            .order('created_at', { ascending: true })
+        );
 
         if (error) {
-          console.error("Error fetching messages:", error);
+          console.error("Error fetching messages (after retries):", error);
         } else if (data) {
           const formattedMessages: Message[] = data.map((msg: any) => ({
             id: msg.id,
@@ -131,25 +135,29 @@ export function useMessages(conversationId: string) {
       if (attachment.type.startsWith('audio/')) fileType = 'audio';
       else if (attachment.type.startsWith('image/')) fileType = 'image';
       else if (attachment.type === 'application/pdf') fileType = 'pdf';
-      else fileType = 'pdf'; // fallback or adjust DB schema if you want 'other'
+      else fileType = 'pdf';
 
       const fileExt = attachment.name.split('.').pop() || 'tmp';
       const fileName = `${user.id}/${Date.now()}_${Math.random().toString(36).substring(7)}.${fileExt}`;
-      
-      const { data, error } = await supabase.storage.from(DB_BUCKETS.CHAT_ATTACHMENTS).upload(fileName, attachment, {
-        cacheControl: '3600',
-        upsert: false
-      });
+
+      // Upload avec retry — une coupure réseau ne doit pas perdre le fichier
+      const { data, error } = await withRetry(async () =>
+        supabase.storage.from(DB_BUCKETS.CHAT_ATTACHMENTS).upload(fileName, attachment, {
+          cacheControl: '3600',
+          upsert: false
+        })
+      );
 
       if (error) {
-        console.error("Erreur lors de l'upload de la pièce jointe:", error);
+        console.error("Erreur lors de l'upload de la pièce jointe (après retries):", error);
       } else if (data) {
         const { data: publicData } = supabase.storage.from(DB_BUCKETS.CHAT_ATTACHMENTS).getPublicUrl(data.path);
         fileUrl = publicData.publicUrl;
       }
     }
 
-    await supabase.from(DB_TABLES.CHAT_MESSAGES).insert({
+    // Insert avec retry — un message ne doit jamais être silencieusement perdu
+    await withRetry(async () => supabase.from(DB_TABLES.CHAT_MESSAGES).insert({
       conversation_id: conversationId,
       sender_id: user.id,
       content,
@@ -157,7 +165,7 @@ export function useMessages(conversationId: string) {
       file_type: fileType,
       expires_in: expiresIn || "never",
       max_views: maxViews
-    });
+    }));
   };
 
   return { messages, loading, sendMessage };
