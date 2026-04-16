@@ -1,7 +1,21 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
+// Routes that require authentication
+const PROTECTED_ROUTES = [
+  "/forum",
+  "/membres",
+  "/chat",
+  "/ecole",
+  "/geographie",
+  "/profil",
+  "/contributeur",
+  "/admin",
+];
+
 export async function proxy(request: NextRequest) {
+  const { pathname } = request.nextUrl;
+
   let supabaseResponse = NextResponse.next({
     request,
   });
@@ -27,9 +41,23 @@ export async function proxy(request: NextRequest) {
     }
   );
 
-  // IMPORTANT: Do NOT remove this getUser() call. 
+  // IMPORTANT: Do NOT remove this getUser() call.
   // It is essential for updating the session and keeping it sync across SSR.
-  await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  // Check if route is protected
+  const isProtectedRoute = PROTECTED_ROUTES.some(route =>
+    pathname === route || pathname.startsWith(route + "/")
+  );
+
+  // Redirect to auth if accessing protected route without being logged in
+  if (isProtectedRoute && !user) {
+    const loginUrl = new URL("/auth", request.url);
+    loginUrl.searchParams.set("redirect_to", pathname);
+    return NextResponse.redirect(loginUrl);
+  }
 
   return supabaseResponse;
 }
