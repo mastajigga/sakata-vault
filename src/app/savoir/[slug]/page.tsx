@@ -6,6 +6,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Navbar from "@/components/Navbar";
 import { motion } from "framer-motion";
+import Image from "next/image";
 import { useLanguage } from "@/components/LanguageProvider";
 import { useAuth } from "@/components/AuthProvider";
 import { supabase } from "@/lib/supabase";
@@ -174,10 +175,12 @@ const ArticlePage = () => {
       <section className="relative h-[65vh] md:h-[75vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 bg-[#0A1F15]">
            {article.featured_image ? (
-             <img 
-               src={article.featured_image} 
+             <Image
+               src={article.featured_image}
                alt={displayTitle}
-               className="absolute inset-0 w-full h-full object-cover opacity-40"
+               fill
+               priority={false}
+               className="absolute inset-0 object-cover opacity-40"
                style={{ filter: "brightness(0.5) contrast(1.1)" }}
              />
            ) : (
@@ -268,25 +271,29 @@ const ArticlePage = () => {
             <div className="sticky top-32 space-y-8">
               {/* Dual image stack */}
               <div className="space-y-4">
-                 <motion.div 
+                 <motion.div
                    whileHover={{ scale: 1.02 }}
                    className="p-1 rounded-[2.5rem] bg-white/5 border border-white/10 overflow-hidden shadow-2xl shadow-black/40"
                  >
-                    <img 
-                      src={article.featured_image || "/images/sakata_mask_detail.png"} 
+                    <Image
+                      src={article.featured_image || "/images/sakata_mask_detail.png"}
                       alt={displayTitle}
-                      className="w-full h-auto aspect-[4/5] object-cover rounded-[2.3rem]"
+                      width={400}
+                      height={500}
+                      className="w-full h-auto object-cover rounded-[2.3rem]"
                     />
                  </motion.div>
                  
-                 <motion.div 
+                 <motion.div
                    whileHover={{ scale: 1.02 }}
                    className="p-1 rounded-[2rem] bg-white/5 border border-white/10 overflow-hidden hidden md:block opacity-60 hover:opacity-100 transition-opacity"
                  >
-                    <img 
-                      src="/images/sakata_heritage_hero.png" 
+                    <Image
+                      src="/images/sakata_heritage_hero.png"
                       alt="Ambiance"
-                      className="w-full h-auto aspect-video object-cover rounded-[1.8rem]"
+                      width={400}
+                      height={225}
+                      className="w-full h-auto object-cover rounded-[1.8rem]"
                     />
                  </motion.div>
               </div>

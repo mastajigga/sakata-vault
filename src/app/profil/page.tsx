@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
+import Image from "next/image";
 import { useAuth } from "@/components/AuthProvider";
 import { ContributorBadge } from "@/components/badges/ContributorBadge";
 import { supabase } from "@/lib/supabase";
@@ -501,12 +502,13 @@ const ProfilePage = () => {
             >
               <div className="flex flex-col items-center text-center">
                 <div className="relative group mb-6">
-                  <div className="w-24 h-24 rounded-full border-2 border-or/20 p-1 overflow-hidden shadow-2xl shadow-black/40">
+                  <div className="w-24 h-24 rounded-full border-2 border-or/20 p-1 overflow-hidden shadow-2xl shadow-black/40 relative">
                     {avatarUrl ? (
-                      <img 
-                        src={avatarUrl} 
-                        alt="Avatar" 
-                        className="w-full h-full rounded-full object-cover"
+                      <Image
+                        src={avatarUrl}
+                        alt="Avatar"
+                        fill
+                        className="object-cover rounded-full"
                       />
                     ) : (
                       <div className="w-full h-full rounded-full bg-or-ancestral/10 flex items-center justify-center">
@@ -714,7 +716,7 @@ const ProfilePage = () => {
               {galleryItems.map((item) => (
                 <div key={item.id} className="relative group aspect-square rounded-xl overflow-hidden bg-black/40 border border-white/5">
                   {item.file_type === 'image' ? (
-                    <img src={item.file_url} alt="" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+                    <Image src={item.file_url} alt="" fill className="object-cover transition-transform duration-500 group-hover:scale-110" />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center bg-white/5 p-4 text-center">
                       <FileText className="w-8 h-8 text-ivoire-ancien/50 mb-2" />

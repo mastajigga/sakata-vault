@@ -3,6 +3,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import Image from "next/image";
 import { useLanguage } from "./LanguageProvider";
 import { TranslatedText } from "@/types/i18n";
 
@@ -63,9 +64,12 @@ const SectionCard = ({
             {/* Visual Header */}
             <div className="relative h-[240px] overflow-hidden">
               {image ? (
-                <img
+                <Image
                   src={image.replace('/articles/media/', '/media/')}
                   alt={displayTitle}
+                  width={600}
+                  height={240}
+                  priority={false}
                   className="w-full h-full object-cover scale-105 group-hover:scale-110 transition-transform duration-[2s] ease-[cubic-bezier(0.16,1,0.3,1)]"
                   style={{
                     opacity: 0.8,
