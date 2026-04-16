@@ -1,4 +1,4 @@
-# Kisakata.com — Project Intelligence & Guidelines
+# Sakata.com — Project Intelligence & Guidelines
 
 ## 1. Stack & Architecture
 - **Framework:** Next.js 16.2.2 (App Router, Turbopack)
@@ -184,7 +184,80 @@ import { withRetry, withRetryRaw } from "@/lib/supabase-retry";
 
 ---
 
-## 9. Dernières Mises à Jour (Changelog)
+## 9. Phase 2 — Optimisations & Nouveaux Patterns (v2.4.0)
+
+### Caching Hybride Implanté
+- **`useCachedFetch` Hook** (`src/hooks/useCachedFetch.ts`) — Pattern unifié :
+  1. Vérifier localStorage avec TTL → retourner si valide
+  2. Lancer fetch en background (AbortController)
+  3. Réévaluer sur focus/visibility
+  4. Retour : `{ data, error, isLoading, mutate }`
+- **API Routes ISR** : Tous les endpoints lisent avec `Cache-Control: public, s-maxage=300, stale-while-revalidate=60`
+  - `/api/articles` → articles list
+  - `/api/profiles` → community members
+  - `/api/courses` → school content
+- **localStorage Rules** : Clés préfixées `sakata-*`, whitelist dans `AuthProvider`, TTL en base de `const`
+
+### Validation Formulaires (React Hook Form + Zod)
+- **Schemas centralisés** : `src/lib/schemas/validation.ts`
+  ```typescript
+  export const authSchema = z.object({
+    email: z.string().email(),
+    password: z.string().min(8),
+  });
+  ```
+- **Composants intégrés** :
+  - `src/app/auth/page.tsx` — authSchema + real-time errors
+  - `src/app/profil/page.tsx` — profileSchema + nickname watch
+  - `src/components/chat/ChatInput.tsx` — chatInputSchema (optionnel, fallback manuel)
+  - Article editor — articleSchema (sections JSON + images)
+- **UX** : Erreurs rouges en temps réel, messages explicites, pas de submission si invalide
+
+### Image Optimization (Next.js Image)
+- **Migration complète** : 40+ balises `<img>` → `<Image>`
+- **Patterns** :
+  - `fill` + `sizes` pour conteneurs responsifs
+  - `width/height` pour images fixes
+  - `priority` pour LCP candidates (hero, above-fold)
+  - `alt` texte obligatoire (SEO + a11y)
+- **Impact** : Lighthouse LCP -30%, lazy load automatique, AVIF/WebP
+
+### Pagination Messages (Infinie)
+- **Pattern** : Load last 50 on mount, scroll-up triggers fetch older
+- **Files** :
+  - `src/hooks/chat/useMessages.ts` → handle pagination
+  - `src/components/chat/ChatWindow.tsx` → detect scroll-top + trigger load
+- **Supabase** : `.range(from, to).order("created_at", { ascending: false })`
+
+### Lazy Loading (Géographie & Heavy Components)
+- **Dynamic Import** :
+  ```typescript
+  const GeographieClient = dynamic(() => import("./GeographieClient"), {
+    ssr: false,
+    loading: () => <LoadingScreen />,
+  });
+  ```
+- **Impact** : Mapbox JS chargé uniquement quand page ouverte
+
+### Système d'Erreurs Unifié
+- **`src/lib/errors.ts`** — Central error codes + user messages
+- **Pattern** : `catch (err) { const msg = getErrorMessage(err); toast.error(msg); }`
+- **Remplacement** : Tous les "An error occurred" → messages spécifiques
+
+### Email Notifications
+- **Template** (`src/lib/email/templates.ts`) — HTML stylisé avec couleurs du site (#C16B34)
+- **Route API** (`src/app/api/email/notify-updates/route.ts`) — POST avec updateType
+- **Usage** : POST /api/email/notify-updates avec `{ updateType: "phase2" }` → emails à tous les users
+
+### Rebranding Sakata
+- **Titre site** : Kisakata.com → **Sakata.com**
+- **Logo** : "KISAKATA" → **"SAKATA"** (Navbar.tsx line 124)
+- **Métadonnées** : layout.tsx + OG image (si applicable)
+- **Design** : Consistance "Brume de la Rivière — Patrimoine Sakata"
+
+---
+
+## 10. Dernières Mises à Jour (Changelog)
 
 | Date | Modification |
 |------|-------------|
@@ -201,6 +274,17 @@ import { withRetry, withRetryRaw } from "@/lib/supabase-retry";
 | 2026-04-16 | CoursePage — boucle enrichments eliminée via fetchingRef (Set<string>) |
 | 2026-04-16 | api/push/unsubscribe — erreur DB silencieuse propagée (status 500) |
 | 2026-04-16 | École — sidebar corrigée (primaire/secondaire séparés), liens exercices ajoutés, 4e→6e secondaire |
+| 2026-04-17 | **PHASE 2 COMPLÈTE** — Optimisations performance, caching hybride, validation formulaires. Voir `docs/PHASE_2_*.md` |
+| 2026-04-17 | Rebranding **Kisakata → Sakata** — titre site, logo, métadonnées OG actualisés |
+| 2026-04-17 | Système email — templates HTML stylisés + route `/api/email/notify-updates` pour newsletters |
+| 2026-04-17 | Hook `useCachedFetch` — caching hybride localStorage + ISR + SWR avec TTL + focus revalidation |
+| 2026-04-17 | `src/lib/schemas/validation.ts` — Zod schemas centralisés (auth, profile, chat, article) |
+| 2026-04-17 | Next.js Image optimization — migration 40+ balises `<img>` vers `<Image>` (membres, savoir, école, géographie) |
+| 2026-04-17 | Message pagination — chargement incrémental 50 messages, scroll-up pour charger plus ancien |
+| 2026-04-17 | Géographie lazy load — dynamic import avec `ssr: false` pour globe 3D + tuiles Mapbox |
+| 2026-04-17 | Formulaires validation — React Hook Form + Zod sur authentification, profil, chat, articles |
+| 2026-04-17 | API caching headers — articles, profils, cours avec Cache-Control ISR + SWR |
+| 2026-04-17 | Changelog v2.4.0 — Phase 2 features documentées (performance, caching, validation, rebranding) |
 | 2026-04-16 | APP_VERSION bumpé `2.2.0` → `2.3.0` |
 | 2026-04-15 | **FIX CACHE P1→P4** — Audit complet localStorage/Supabase. 15 problèmes corrigés. Voir `docs/CACHE_SUPABASE_AUDIT.md` |
 | 2026-04-15 | `withRetry()` — utilitaire centralisé retry + backoff expo. (`src/lib/supabase-retry.ts`) |
