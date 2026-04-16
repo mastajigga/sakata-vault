@@ -27,39 +27,83 @@ export default function WelcomeModal() {
     }
   }, []);
 
-  // Premium sequential animations for step 3 content
+  // Premium sequential animations for all steps
   useEffect(() => {
-    if (step === 3 && contentRef.current) {
+    if (contentRef.current) {
       const ctx = gsap.context(() => {
-        const title = contentRef.current?.querySelector("h2");
-        const cards = contentRef.current?.querySelectorAll("[data-card]");
-        const button = contentRef.current?.querySelector("button");
-
-        // Stagger animation: title → cards → button
         const timeline = gsap.timeline();
 
-        if (title) {
-          timeline.fromTo(title,
-            { y: 30, opacity: 0 },
-            { y: 0, opacity: 1, duration: 0.6, ease: "power3.out" },
-            0
-          );
-        }
+        if (step === 1 || step === 2) {
+          // Animation pour steps 1 et 2: icon → title → descriptions → button
+          const icon = contentRef.current?.querySelector("[data-icon]");
+          const title = contentRef.current?.querySelector("h1, h2");
+          const descriptions = contentRef.current?.querySelectorAll("[data-description]");
+          const button = contentRef.current?.querySelector("button");
 
-        cards?.forEach((card, i) => {
-          timeline.fromTo(card,
-            { y: 40, opacity: 0, scale: 0.95 },
-            { y: 0, opacity: 1, scale: 1, duration: 0.5, ease: "power3.out" },
-            0.2 + i * 0.15
-          );
-        });
+          // Icon scale + fade
+          if (icon) {
+            timeline.fromTo(icon,
+              { scale: 0, opacity: 0, rotate: -20 },
+              { scale: 1, opacity: 1, rotate: 0, duration: 0.6, ease: "back.out" },
+              0
+            );
+          }
 
-        if (button) {
-          timeline.fromTo(button,
-            { y: 20, opacity: 0 },
-            { y: 0, opacity: 1, duration: 0.5, ease: "power3.out" },
-            "-=0.2"
-          );
+          // Title slides in
+          if (title) {
+            timeline.fromTo(title,
+              { y: 40, opacity: 0 },
+              { y: 0, opacity: 1, duration: 0.6, ease: "power3.out" },
+              0.1
+            );
+          }
+
+          // Descriptions stagger in
+          descriptions?.forEach((desc, i) => {
+            timeline.fromTo(desc,
+              { y: 30, opacity: 0 },
+              { y: 0, opacity: 1, duration: 0.5, ease: "power2.out" },
+              0.3 + i * 0.12
+            );
+          });
+
+          // Button at the end
+          if (button) {
+            timeline.fromTo(button,
+              { y: 20, opacity: 0 },
+              { y: 0, opacity: 1, duration: 0.5, ease: "power3.out" },
+              "-=0.15"
+            );
+          }
+        } else if (step === 3) {
+          // Animation pour step 3: title → cards → button
+          const title = contentRef.current?.querySelector("h2");
+          const cards = contentRef.current?.querySelectorAll("[data-card]");
+          const button = contentRef.current?.querySelector("button");
+
+          if (title) {
+            timeline.fromTo(title,
+              { y: 30, opacity: 0 },
+              { y: 0, opacity: 1, duration: 0.6, ease: "power3.out" },
+              0
+            );
+          }
+
+          cards?.forEach((card, i) => {
+            timeline.fromTo(card,
+              { y: 40, opacity: 0, scale: 0.95 },
+              { y: 0, opacity: 1, scale: 1, duration: 0.5, ease: "power3.out" },
+              0.2 + i * 0.15
+            );
+          });
+
+          if (button) {
+            timeline.fromTo(button,
+              { y: 20, opacity: 0 },
+              { y: 0, opacity: 1, duration: 0.5, ease: "power3.out" },
+              "-=0.2"
+            );
+          }
         }
       });
 
@@ -94,19 +138,19 @@ export default function WelcomeModal() {
       <div className="relative max-w-2xl w-full bg-[#122A1E]/80 border border-[#B59551]/30 rounded-3xl p-8 sm:p-12 shadow-2xl overflow-hidden flex flex-col">
         {/* Step 1: Project Goal */}
         {step === 1 && (
-          <div className="animate-in slide-in-from-bottom-4 fade-in duration-700 ease-out relative z-10 flex flex-col items-center text-center">
-            <div className="w-16 h-16 bg-gradient-to-br from-[#B59551]/20 to-[#B59551]/5 rounded-full flex items-center justify-center mb-6 border border-[#B59551]/40 hover:border-[#B59551]/70 transition-colors duration-300">
+          <div ref={contentRef} className="relative z-10 flex flex-col items-center text-center">
+            <div data-icon className="w-16 h-16 bg-gradient-to-br from-[#B59551]/20 to-[#B59551]/5 rounded-full flex items-center justify-center mb-6 border border-[#B59551]/40 hover:border-[#B59551]/70 transition-colors duration-300">
               <Leaf className="w-8 h-8 text-[#B59551]" />
             </div>
 
             <h1 className="text-3xl sm:text-4xl font-display text-[#B59551] mb-6">
               {t("welcome.step1Title")}
             </h1>
-            
-            <p className="text-[#F2EEDD]/80 text-lg leading-relaxed mb-6">
+
+            <p data-description className="text-[#F2EEDD]/80 text-lg leading-relaxed mb-6">
               <span dangerouslySetInnerHTML={{ __html: t("welcome.step1Desc1").replace("Sakata", "<strong>Sakata</strong>") }} />
             </p>
-            <p className="text-[#F2EEDD]/80 text-lg leading-relaxed mb-10">
+            <p data-description className="text-[#F2EEDD]/80 text-lg leading-relaxed mb-10">
               {t("welcome.step1Desc2")}
             </p>
 
@@ -122,16 +166,16 @@ export default function WelcomeModal() {
 
         {/* Step 2: Under Construction Warning */}
         {step === 2 && (
-          <div className="animate-in slide-in-from-bottom-4 fade-in duration-700 ease-out relative z-10 flex flex-col items-center text-center">
-            <div className="w-16 h-16 bg-white/10 rounded-full flex items-center justify-center mb-6 border border-white/20 hover:border-[#B59551]/30 transition-colors duration-300">
+          <div ref={contentRef} className="relative z-10 flex flex-col items-center text-center">
+            <div data-icon className="w-16 h-16 bg-white/10 rounded-full flex items-center justify-center mb-6 border border-white/20 hover:border-[#B59551]/30 transition-colors duration-300">
               <Construction className="w-8 h-8 text-white/70" />
             </div>
 
             <h2 className="text-3xl sm:text-4xl font-display text-white mb-6">
               {t("welcome.step2Title")}
             </h2>
-            
-            <div className="bg-black/20 border border-[#B59551]/20 rounded-2xl p-6 text-left mb-10 w-full">
+
+            <div data-description className="bg-black/20 border border-[#B59551]/20 rounded-2xl p-6 text-left mb-10 w-full">
               <p className="text-[#F2EEDD]/80 text-base leading-relaxed mb-4">
                 <span dangerouslySetInnerHTML={{ __html: t("welcome.step2Notice").replace("évolution permanente", "<strong>évolution permanente</strong>") }} />
               </p>
