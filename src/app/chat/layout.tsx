@@ -4,7 +4,7 @@ import { ChatLayout } from "@/components/chat/ChatLayout";
 import Navbar from "@/components/Navbar";
 
 export const metadata: Metadata = {
-  title: "Messagerie | Kisakata",
+  title: "Messagerie | Sakata",
   description: "Discussions privées et groupes thématiques de la communauté Sakata.",
 };
 

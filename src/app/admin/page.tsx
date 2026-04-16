@@ -211,7 +211,7 @@ const AdminDashboard = () => {
           const langsMap: any = {};
           rows.forEach(v => { if (v.language) langsMap[v.language] = (langsMap[v.language] || 0) + 1; });
           const langs = Object.keys(langsMap).sort((a, b) => langsMap[b] - langsMap[a]).map(l => ({
-            name: l === "fr" ? "Français" : l === "ln" ? "Lingala" : l === "sak" ? "Kisakata" : l,
+            name: l === "fr" ? "Français" : l === "ln" ? "Lingala" : l === "sak" ? "Sakata" : l,
             value: langsMap[l],
           }));
           // Appareils

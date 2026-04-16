@@ -1,4 +1,4 @@
-// Kisakata.com Brand Color System
+// Sakata.com Brand Color System
 // Extracted from design system "Brume de la Rivière"
 
 export const COLORS = {
