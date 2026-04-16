@@ -50,19 +50,6 @@ export async function POST(req: NextRequest) {
 
     const { subject, updateType = "phase2" } = await req.json();
 
-    // Create Supabase server client
-    const cookieStore = await cookies();
-    const supabase = createServerClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL || "",
-      process.env.SUPABASE_SERVICE_ROLE_KEY || "",
-      {
-        cookies: {
-          getAll: () => cookieStore.getAll(),
-          setAll: () => {},
-        },
-      }
-    );
-
     // Get all registered users (exclude admin/test accounts if needed)
     const { data: profiles, error: profileError } = await supabase
       .from(DB_TABLES.PROFILES)

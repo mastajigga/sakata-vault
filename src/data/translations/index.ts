@@ -410,12 +410,12 @@ export const UI_TRANSLATIONS = {
   },
   welcome: {
     step1Title: {
-      fr: "Bienvenue sur Kisakata",
-      en: "Welcome to Kisakata",
-      skt: "Boyei bolamu o Kisakata",
-      lin: "Boyei bolamu na Kisakata",
-      swa: "Karibu Kisakata",
-      tsh: "Bienvenue sur Kisakata",
+      fr: "Bienvenue sur Sakata",
+      en: "Welcome to Sakata",
+      skt: "Boyei bolamu o Sakata",
+      lin: "Boyei bolamu na Sakata",
+      swa: "Karibu Sakata",
+      tsh: "Bienvenue sur Sakata",
     },
     step1Desc1: {
       fr: "Ce portail est un sanctuaire numérique dédié à la préservation et à la transmission de l'identité culturelle du peuple Sakata.",
@@ -450,12 +450,12 @@ export const UI_TRANSLATIONS = {
       tsh: "Site en cours de construction",
     },
     step2Notice: {
-      fr: "Veuillez noter que Kisakata est une initiative en évolution permanente.",
-      en: "Please note that Kisakata is an initiative in constant evolution.",
-      skt: "Veuillez noter que Kisakata est une initiative en évolution permanente.",
-      lin: "Veuillez noter que Kisakata est une initiative en évolution permanente.",
-      swa: "Veuillez noter que Kisakata est une initiative en évolution permanente.",
-      tsh: "Veuillez noter que Kisakata est une initiative en évolution permanente.",
+      fr: "Veuillez noter que Sakata est une initiative en évolution permanente.",
+      en: "Please note that Sakata is an initiative in constant evolution.",
+      skt: "Veuillez noter que Sakata est une initiative en évolution permanente.",
+      lin: "Veuillez noter que Sakata est une initiative en évolution permanente.",
+      swa: "Veuillez noter que Sakata est une initiative en évolution permanente.",
+      tsh: "Veuillez noter que Sakata est une initiative en évolution permanente.",
     },
     step2L1: {
       fr: "Le portail est actuellement en mode construction.",
