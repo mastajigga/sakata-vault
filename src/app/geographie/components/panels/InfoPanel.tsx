@@ -123,6 +123,12 @@ export default function InfoPanel({ feature, onClose }: InfoPanelProps) {
                 <span className="text-xs font-medium text-ivoire-ancien">{String(props.population)}</span>
              </div>
            )}
+           {props.clan && (
+             <div className="flex justify-between items-center py-1 border-b border-white/5">
+                <span className="text-[10px] uppercase tracking-wider opacity-40">Clan Dominant</span>
+                <span className="text-xs font-medium text-or-ancestral">{String(props.clan)}</span>
+             </div>
+           )}
            {props.description && (
               <div className="pt-2">
                 <p className="text-[10px] uppercase tracking-wider opacity-40 mb-2">Chroniques</p>
