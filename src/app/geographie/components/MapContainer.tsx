@@ -22,6 +22,7 @@ interface MapContainerProps {
   visibleLayers: LayerState[];
   onFeatureClick: (feature: SelectedFeature) => void;
   onLoadingProgress?: (progress: number) => void;
+  onStyleLoad?: () => void;
 }
 
 const DATA_FILES = [
@@ -41,13 +42,12 @@ const DATA_FILES = [
 ];
 
 const MapContainer = forwardRef<MapRef, MapContainerProps>(
-  ({ seasonProgress, visibleLayers, onFeatureClick, onLoadingProgress }, ref) => {
+  ({ seasonProgress, visibleLayers, onFeatureClick, onLoadingProgress, onStyleLoad }, ref) => {
     const [data, setData] = useState<Record<string, any>>({});
     const [isLoaded, setIsLoaded] = useState(false);
 
-    // Mapbox Access Token should be set in .env.local
-    const MAPBOX_TOKEN = "pk.eyJ1IjoibWFzdGFqaWdnYSIsImEiOiJjbTFubzZ0M3AwMDBzMmpxeHh4eHh4eHh4In0.XXXXX"; // Placeholder or detected
-    // Actual implementation should use process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN
+    // Mapbox Access Token from .env.local
+    const MAPBOX_TOKEN = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN || "";
 
     useEffect(() => {
       let loadedCount = 0;
@@ -157,6 +157,7 @@ const MapContainer = forwardRef<MapRef, MapContainerProps>(
           onClick={handleClick}
           cursor="pointer"
           attributionControl={false}
+          onLoad={() => onStyleLoad?.()}
         >
           <Source id="mapbox-dem" type="raster-dem" url="mapbox://mapbox.mapbox-terrain-dem-v1" tileSize={512} maxzoom={14} />
           

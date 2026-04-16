@@ -31,6 +31,7 @@ export default function GeographieClient() {
   const [selectedFeature, setSelectedFeature] = useState<SelectedFeature | null>(null);
   const [loadingProgress, setLoadingProgress] = useState(0);
   const [isReady, setIsReady] = useState(false);
+  const [isStyleLoaded, setIsStyleLoaded] = useState(false);
   const [showFlythrough, setShowFlythrough] = useState(false);
 
   // Simulation/Animation de la saison
@@ -55,7 +56,7 @@ export default function GeographieClient() {
   // Map settings update based on brightness
   useEffect(() => {
     const map = mapRef.current?.getMap();
-    if (!map) return;
+    if (!map || !isStyleLoaded) return;
 
     const brightnessValue = brightness / 100;
     
@@ -66,7 +67,7 @@ export default function GeographieClient() {
       "space-color": `hsl(210, 50%, ${brightnessValue * 5}%)`,
       "horizon-blend": 0.5,
     } as any);
-  }, [brightness, isReady]);
+  }, [brightness, isReady, isStyleLoaded]);
 
   return (
     <div className="relative h-screen w-screen overflow-hidden bg-[#050B08] selection:bg-or-ancestral/30 text-ivoire-ancien">
@@ -139,6 +140,7 @@ export default function GeographieClient() {
           visibleLayers={layers}
           onFeatureClick={setSelectedFeature}
           onLoadingProgress={setLoadingProgress}
+          onStyleLoad={() => setIsStyleLoaded(true)}
         />
       </div>
 
