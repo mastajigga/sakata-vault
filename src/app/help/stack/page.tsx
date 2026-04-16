@@ -61,6 +61,12 @@ export default function StackPage() {
                 Animation avancée et contrôle précis des transitions au scroll.
               </p>
             </div>
+            <div className="bg-white/5 rounded-lg p-4 border border-white/10">
+              <h3 className="text-lg font-semibold mb-2">Mapbox GL JS v3</h3>
+              <p className="text-gray-300 text-sm">
+                Moteur cartographique haute performance pour la visualisation 3D planétaire (Globe), le terrain et l'atmosphère dynamique.
+              </p>
+            </div>
           </div>
         </section>
 
@@ -249,6 +255,12 @@ export default function StackPage() {
             <h3 className="text-lg font-semibold mb-2">GSAP</h3>
             <p className="text-gray-300 text-sm">
               Advanced animation and precise scroll-driven transition control.
+            </p>
+          </div>
+          <div className="bg-white/5 rounded-lg p-4 border border-white/10">
+            <h3 className="text-lg font-semibold mb-2">Mapbox GL JS v3</h3>
+            <p className="text-gray-300 text-sm">
+              High-performance mapping engine for planetary 3D visualization (Globe), terrain, and dynamic atmosphere.
             </p>
           </div>
         </div>

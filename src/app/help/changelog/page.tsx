@@ -28,10 +28,11 @@ export default function ChangelogPage() {
               <div>
                 <h3 className="font-semibold mb-1">🌍 Géographie — Command Center 3D</h3>
                 <ul className="text-sm space-y-1 ml-4">
-                  <li>• Refonte totale de l'interface en tableau de bord immersif (Command Center)</li>
+                  <li>• Migration Ultra-Premium vers **Mapbox GL JS v3**</li>
+                  <li>• Activation de la projection **Globe 3D** et du relief (Terrain)</li>
+                  <li>• Atmosphère dynamique avec éclairage environnemental en temps réel</li>
                   <li>• Optimisation massive du chargement des données (Promise.all) : -60% de temps d'attente</li>
                   <li>• Nouvelle cinématique "Projection 3D" (Flythrough) pour une exploration guidée</li>
-                  <li>• Sidebar en glassmorphism et HUD dynamique pour une expérience premium</li>
                 </ul>
               </div>
               <div>
@@ -213,10 +214,11 @@ export default function ChangelogPage() {
             <div>
               <h3 className="font-semibold mb-1">🌍 Geography — 3D Command Center</h3>
               <ul className="text-sm space-y-1 ml-4">
-                <li>• Total UI overhaul into an immersive dashboard (Command Center)</li>
+                <li>• Ultra-Premium migration to **Mapbox GL JS v3**</li>
+                <li>• Activation of **3D Globe** projection and 3D Terrain</li>
+                <li>• Dynamic atmosphere with real-time environmental lighting</li>
                 <li>• Massive data loading optimization (Promise.all): 60% reduction in wait time</li>
                 <li>• New "3D Projection" cinematic (Flythrough) for guided exploration</li>
-                <li>• Glassmorphism sidebars and dynamic HUD for a premium experience</li>
               </ul>
             </div>
             <div>

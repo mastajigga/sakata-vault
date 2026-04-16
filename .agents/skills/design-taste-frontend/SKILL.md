@@ -234,5 +234,12 @@ For Kisakata.com, override generic defaults with these sacred tokens:
 - **Données:** Utiliser `font-mono` pour tous les chiffres télémétriques.
 - **Réaction:** Pulse infini sur les indicateurs de statut (`animate-pulse`).
 
+## 12. ADVANCED GIS & MAPPING (MAPBOX V3)
+- **Engine:** Use exclusively **Mapbox GL JS v3** for premium 3D visualization.
+- **Projection:** Default to `globe` for high-end planetary views.
+- **Lighting:** Always configure `atmosphere` and `fog` to match the project's lighting (e.g., `#0A1F15` for night/forest).
+- **Interactivity:** Use `Terrain` 3D for depth and cinematic camera transitions (Flythrough).
+- **Performance:** Load GeoJSON layers in parallel via `Promise.all` and use shared `<Source>`/`<Layer>` components from `react-map-gl`.
+
 ---
 Évaluer votre code contre cette matrice avant de sortir.

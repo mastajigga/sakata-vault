@@ -2,7 +2,7 @@
 
 import React, { useRef, useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import type { MapRef } from "react-map-gl/maplibre";
+import type { MapRef } from "react-map-gl";
 import MapContainer from "./components/MapContainer";
 import Sidebar from "./components/panels/Sidebar";
 import InfoPanel from "./components/panels/InfoPanel";
@@ -58,21 +58,14 @@ export default function GeographieClient() {
     if (!map) return;
 
     const brightnessValue = brightness / 100;
-    const rasterLayer = map.getLayer("osm-base");
-
-    if (rasterLayer) {
-      map.setPaintProperty("osm-base", "raster-brightness-max", Math.max(0.15, brightnessValue * 0.8));
-      map.setPaintProperty("osm-base", "raster-opacity", Math.max(0.15, brightnessValue * 0.6));
-    }
-
-    map.setSky({
-      "sky-color": `hsl(210, 30%, ${brightnessValue * 30}%)`,
-      "sky-horizon-blend": 0.5,
-      "horizon-color": `hsl(150, 20%, ${brightnessValue * 20}%)`,
-      "horizon-fog-blend": 0.8,
-      "fog-color": `hsl(140, 25%, ${brightnessValue * 15}%)`,
-      "fog-ground-blend": 0.9,
-    });
+    
+    // In Mapbox Standard, we use setFog for atmosphere
+    map.setFog({
+      "color": `hsl(140, 25%, ${brightnessValue * 15}%)`,
+      "high-color": `hsl(210, 30%, ${brightnessValue * 30}%)`,
+      "space-color": `hsl(210, 50%, ${brightnessValue * 5}%)`,
+      "horizon-blend": 0.5,
+    } as any);
   }, [brightness, isReady]);
 
   return (

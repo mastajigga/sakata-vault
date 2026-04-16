@@ -96,3 +96,10 @@ Evaluate your code against this matrix before delivering. This is the last filte
 - [ ] All animations use only `transform` and `opacity` — no layout-triggering properties
 - [ ] `backdrop-blur` is only applied to fixed/sticky elements, never to scrolling content
 - [ ] The overall impression reads as "$150k agency build", not "template with nice fonts"
+
+## 9. ULTRA-PREMIUM GIS (MAPBOX V3)
+For all geographical visualizations, you MUST use **Mapbox GL JS v3**. 
+- **Projection:** Always default to `globe` for a cinematic feel.
+- **Terrain:** Enable 3D Terrain for authentic depth.
+- **Atmosphere:** Configure `atmosphere` and `fog` to create a moody, high-end environment (especially using the project's primary dark green `#0A1F15`).
+- **Performance:** Optimize data loading via `Promise.all` and ensure React components are memoized to maintain 60fps during map interactions.

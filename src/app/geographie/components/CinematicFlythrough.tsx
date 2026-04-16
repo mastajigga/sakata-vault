@@ -2,8 +2,7 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-// @ts-ignore
-import type { MapRef } from "react-map-gl/maplibre";
+import type { MapRef } from "react-map-gl";
 import { TERRITORY_CENTER } from "../lib/mapStyles";
 
 interface CinematicFlythroughProps {

@@ -181,10 +181,10 @@ export default function Home() {
               color: "rgba(233,196,106,0.1)"
             },
             {
-              icon: "👁",
-              title: "Images protégées",
+              icon: "🌍",
+              title: "Globe 3D Ultra-Premium",
               date: "Avril 2026",
-              desc: "Partagez des images visibles une seule fois ou deux fois.",
+              desc: "Nouvelle cartographie Mapbox GL JS v3 avec relief 3D, atmosphère dynamique et projection globe planétaire.",
               span: "md:col-span-2",
               color: "rgba(255,255,255,0.03)"
             },
