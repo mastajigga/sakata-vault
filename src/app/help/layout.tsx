@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { useLanguage } from "@/components/LanguageProvider";
 import { ROUTES } from "@/lib/constants/routes";
 import { BookOpen, Code2, RefreshCw, FileText, Shield } from "lucide-react";
+import Navbar from "@/components/Navbar";
 
 interface HelpLayoutProps {
   children: ReactNode;
@@ -49,11 +50,13 @@ export default function HelpLayout({ children }: HelpLayoutProps) {
   const { language } = useLanguage();
 
   return (
-    <div className="min-h-screen bg-black text-white pt-32">
-      <div className="max-w-7xl mx-auto px-6 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-          {/* Sidebar Navigation */}
-          <aside className="md:col-span-1">
+    <div className="min-h-screen bg-black text-white">
+      <Navbar />
+      <div className="pt-32">
+        <div className="max-w-7xl mx-auto px-6 py-12">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+            {/* Sidebar Navigation */}
+            <aside className="md:col-span-1">
             <div className="sticky top-32">
               <h2
                 className="text-lg font-bold mb-6"
@@ -87,14 +90,15 @@ export default function HelpLayout({ children }: HelpLayoutProps) {
                 })}
               </nav>
             </div>
-          </aside>
+            </aside>
 
-          {/* Main Content */}
-          <main className="md:col-span-3">
-            <div className="prose prose-invert max-w-none">
-              {children}
-            </div>
-          </main>
+            {/* Main Content */}
+            <main className="md:col-span-3">
+              <div className="prose prose-invert max-w-none">
+                {children}
+              </div>
+            </main>
+          </div>
         </div>
       </div>
     </div>
