@@ -302,6 +302,15 @@ export function useMessages(conversationId: string) {
       }
     }
 
+    const { data: profile } = await supabase
+      .from("profiles")
+      .select("nickname, username")
+      .eq("id", user.id)
+      .single();
+
+    const senderName = profile?.nickname || profile?.username || "Utilisateur";
+    const messagePreview = content.substring(0, 50) + (content.length > 50 ? "..." : "");
+
     await withRetry(async () => supabase.from(DB_TABLES.CHAT_MESSAGES).insert({
       conversation_id: conversationId,
       sender_id: user.id,
@@ -311,6 +320,18 @@ export function useMessages(conversationId: string) {
       expires_in: expiresIn || "never",
       max_views: maxViews
     }));
+
+    // Send push notifications to other participants
+    await fetch("/api/push/notify", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        conversationId,
+        senderName,
+        messagePreview,
+        senderId: user.id,
+      }),
+    }).catch(err => console.error("Failed to send push notifications:", err));
   };
 
   return { messages, loading, hasMore, loadingMore, loadMore, sendMessage, readTimestamps };

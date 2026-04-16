@@ -12,6 +12,7 @@ async function getSavoirArticles() {
     const { data, error } = await supabasePublic
       .from("articles")
       .select("*")
+      .is("deleted_at", null)
       .order("created_at", { ascending: false });
 
     if (error || !data || data.length === 0) {

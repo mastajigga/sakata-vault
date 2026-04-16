@@ -450,7 +450,7 @@ export function MessageBubble({ message, isTemporary, reactions = {}, myReaction
   const expLabel = expiresLabel();
 
   return (
-    <div className={`flex w-full ${isMe ? "justify-end" : "justify-start"} mb-2`}>
+    <div className={`flex w-full ${isMe ? "justify-end" : "justify-start"} mb-2`} data-message-id={message.id}>
       <div
         className={`flex flex-col max-w-[85%] md:max-w-[70%] ${
           isMe ? "items-end" : "items-start"
