@@ -188,7 +188,7 @@ import { withRetry, withRetryRaw } from "@/lib/supabase-retry";
 
 | Date | Modification |
 |------|-------------|
-| 2026-04-16 | **ULTRA-PREMIUM MAPBOX V3** — Migration de MapLibre vers Mapbox GL JS v3. Globe 3D, terrain, atmosphère dynamique et éclairage saisonnier. |
+| 2026-04-16 | **ULTRA-PREMIUM MAPBOX V3** — Migration de MapLibre vers Mapbox GL JS v3. Globe 3D, terrain, atmosphère dynamique. Correction de l'erreur "Style is not done loading" via synchronisation `onLoad`. |
 | 2026-04-16 | **GEOGRAPHIE 3D V2** — Refonte totale "Command Center" : layout dashboard, cinématique Flythrough, optimisation Promise.all |
 | 2026-04-16 | **AUDIT REALTIME V2** — 15 nouvelles corrections P1→P3. Voir `docs/REALTIME_CACHE_AUDIT_V2.md` |
 | 2026-04-16 | Injection LIKE neutralisée — whitelist lang + `escapeLike()` dans `api/articles/search/route.ts` |
