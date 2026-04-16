@@ -2,9 +2,9 @@
 
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { 
-  BarChart3, Users, FileText, Eye, TrendingUp, Clock, 
-  ArrowUpRight, Heart, Globe, Share2, ChevronLeft, UserCircle 
+import {
+  BarChart3, Users, FileText, Eye, TrendingUp, Clock,
+  ArrowUpRight, Heart, Globe, Share2, ChevronLeft, UserCircle, Mail
 } from "lucide-react";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase";
@@ -436,6 +436,9 @@ const AdminDashboard = () => {
         <div className="flex flex-wrap lg:flex-nowrap gap-4 lg:items-center">
            <Link href="/" className="flex items-center gap-2 px-4 py-2 bg-white/5 rounded-full border border-white/10 text-xs hover:border-white/30 transition-colors">
               <ChevronLeft className="w-4 h-4" /> Retour
+           </Link>
+           <Link href="/admin/notifications" className="flex items-center gap-2 px-4 py-2 bg-white/5 rounded-full border border-[#C16B34]/30 text-[#C16B34] text-xs hover:bg-[#C16B34]/10 transition-colors">
+              <Mail className="w-4 h-4" /> Notifications
            </Link>
            <Link href="/profil" className="flex items-center gap-2 px-4 py-2 bg-white/5 rounded-full border border-or/20 text-or-ancestral text-xs hover:bg-or/10 transition-colors">
               <UserCircle className="w-4 h-4" /> Mon Profil
