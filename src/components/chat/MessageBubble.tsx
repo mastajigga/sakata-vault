@@ -8,6 +8,23 @@ import { msgViewedKey } from "@/lib/constants/storage";
 import { supabase } from "@/lib/supabase";
 import { DB_BUCKETS } from "@/lib/constants/db";
 
+// Calculate signed URL expiry duration (in seconds) based on message settings
+function getSignedUrlDuration(maxViews?: 1 | 2, expiresIn?: string): number {
+  if (maxViews === 1) return TIMINGS.VIEW_ONCE_COUNTDOWN;
+  if (maxViews === 2) return TIMINGS.VIEW_TWICE_COUNTDOWN * 2;
+
+  // Map expiry durations to seconds
+  const durationMap: Record<string, number> = {
+    "24h": 24 * 3600,
+    "48h": 48 * 3600,
+    "7_days": 7 * 24 * 3600,
+    "30_days": 30 * 24 * 3600,
+    "never": 365 * 24 * 3600, // 1 year for public messages
+  };
+
+  return durationMap[expiresIn || "never"] || 3600; // default 1 hour
+}
+
 const REACTION_EMOJIS = ["👍", "❤️", "😂", "😮", "😢", "🔥"];
 
 interface MessageBubbleProps {
@@ -156,13 +173,18 @@ function ProtectedImage({
   useEffect(() => {
     if (!rawFileUrl?.startsWith("storage:")) return;
     const path = rawFileUrl.replace(`storage:${DB_BUCKETS.CHAT_ATTACHMENTS}/`, "");
+    const expirySeconds = getSignedUrlDuration(message.maxViews, message.expiresIn);
     supabase.storage
       .from(DB_BUCKETS.CHAT_ATTACHMENTS)
-      .createSignedUrl(path, 3600)
-      .then(({ data }) => {
+      .createSignedUrl(path, expirySeconds)
+      .then(({ data, error }) => {
+        if (error) {
+          console.error("[MessageBubble] Failed to generate signed URL:", error);
+          return;
+        }
         if (data?.signedUrl) setResolvedUrl(data.signedUrl);
       });
-  }, [rawFileUrl]);
+  }, [rawFileUrl, message.maxViews, message.expiresIn]);
 
   const fileUrl = resolvedUrl;
 

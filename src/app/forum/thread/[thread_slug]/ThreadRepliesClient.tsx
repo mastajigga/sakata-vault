@@ -68,7 +68,11 @@ export default function ThreadRepliesClient({ threadId, initialPosts, isLocked }
           }, 100);
         }
       )
-      .subscribe();
+      .subscribe((status, err) => {
+        if (status === "CHANNEL_ERROR" || err) {
+          console.error("[ThreadReplies] Subscription error:", err || status);
+        }
+      });
 
     return () => {
       supabase.removeChannel(channel);
