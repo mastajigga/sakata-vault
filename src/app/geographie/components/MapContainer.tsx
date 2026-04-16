@@ -157,7 +157,18 @@ const MapContainer = forwardRef<MapRef, MapContainerProps>(
           onClick={handleClick}
           cursor="pointer"
           attributionControl={false}
-          onLoad={() => onStyleLoad?.()}
+          onLoad={(e) => {
+            const map = e.target;
+            try {
+              // 'dusk' est idéal pour l'aspect "Brume de la Rivière" de Sakata V1
+              map.setConfigProperty('basemap', 'lightPreset', 'dusk');
+              map.setConfigProperty('basemap', 'showRoadLabels', true);
+              map.setConfigProperty('basemap', 'showPointOfInterestLabels', true);
+            } catch (err) {
+              console.warn("Mapbox Standard config failed:", err);
+            }
+            onStyleLoad?.();
+          }}
         >
           <Source id="mapbox-dem" type="raster-dem" url="mapbox://mapbox.mapbox-terrain-dem-v1" tileSize={512} maxzoom={14} />
           

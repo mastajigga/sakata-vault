@@ -32,23 +32,32 @@ export default function CinematicFlythrough({
       bearing: 0,
       duration: 0,
     },
-    // Phase 1: Descente vers le lac Mai-Ndombe
+    // Phase 1: Descente vers Mushie (Confluence Mfimi/Kasaï)
     {
-      longitude: 17.8,
-      latitude: -2.5,
-      zoom: 7,
-      pitch: 30,
-      bearing: -10,
-      duration: 2500,
+      longitude: 16.9,
+      latitude: -3.0,
+      zoom: 11,
+      pitch: 65,
+      bearing: -45,
+      duration: 4000,
     },
-    // Phase 2: Vue rapprochée du territoire
+    // Phase 2: Passage au-dessus de Nioki
     {
-      longitude: TERRITORY_CENTER.longitude,
-      latitude: TERRITORY_CENTER.latitude,
-      zoom: 8.5,
-      pitch: 55,
-      bearing: -15,
-      duration: 3000,
+      longitude: 17.68,
+      latitude: -2.71,
+      zoom: 10,
+      pitch: 50,
+      bearing: 15,
+      duration: 3500,
+    },
+    // Phase 3: Arrivée sur Kutu (Bord du lac Mai-Ndombe)
+    {
+      longitude: 18.13,
+      latitude: -2.72,
+      zoom: 9.5,
+      pitch: 60,
+      bearing: -20,
+      duration: 4000,
     },
   ];
 
@@ -80,7 +89,7 @@ export default function CinematicFlythrough({
       });
     }, 1500);
 
-    // Phase 2: Après 4.5s
+    // Phase 2: Après 6s
     const t2 = setTimeout(() => {
       setPhase(2);
       map.flyTo({
@@ -91,14 +100,27 @@ export default function CinematicFlythrough({
         duration: flythroughPhases[2].duration,
         essential: true,
       });
-    }, 4500);
+    }, 6000);
 
-    // Fin: Après 8s
+    // Phase 3: Après 10s
     const t3 = setTimeout(() => {
-      onComplete();
-    }, 8000);
+      setPhase(3);
+      map.flyTo({
+        center: [flythroughPhases[3].longitude, flythroughPhases[3].latitude],
+        zoom: flythroughPhases[3].zoom,
+        pitch: flythroughPhases[3].pitch,
+        bearing: flythroughPhases[3].bearing,
+        duration: flythroughPhases[3].duration,
+        essential: true,
+      });
+    }, 10000);
 
-    timeoutRefs.current = [t1, t2, t3];
+    // Fin: Après 15s
+    const t4 = setTimeout(() => {
+      onComplete();
+    }, 15000);
+
+    timeoutRefs.current = [t1, t2, t3, t4];
 
     return () => {
       timeoutRefs.current.forEach(clearTimeout);
@@ -107,16 +129,20 @@ export default function CinematicFlythrough({
 
   const titles = [
     {
-      title: "Territoire de Kutu",
-      subtitle: "Province Mai-Ndombe, RDC",
+      title: "Territoire Basakata",
+      subtitle: "Au cœur de l'écosystème Mai-Ndombe",
     },
     {
-      title: "Lac Mai-Ndombe",
-      subtitle: "~2 500 km² en saison des pluies",
+      title: "Confluence Mushie",
+      subtitle: "Là où la Mfimie rencontre le Kasaï",
     },
     {
-      title: "Terre des Basakata",
-      subtitle: "Forêt, rivières et mémoire ancestrale",
+      title: "Cité de Nioki",
+      subtitle: "Plateforme économique et historique",
+    },
+    {
+      title: "Port de Kutu",
+      subtitle: "Sentinelle du lac Mai-Ndombe",
     },
   ];
 

@@ -27,6 +27,8 @@ export const KISAKATA_COLORS = {
   // Couches cartographiques
   water: '#0C2920',
   waterDeep: '#081E18',
+  rivenDeep: '#051410', // Nouveau : lit de la rivière profond
+  eauProfonde: '#062018', // Nouveau : bleu-vert profond du Kasaï
   waterLabel: '#C4A035',
   forest: '#0F2C24',
   savanna: '#2A3A20',
