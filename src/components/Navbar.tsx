@@ -121,7 +121,7 @@ const Navbar = () => {
             className="font-display font-bold tracking-tighter cursor-pointer"
             style={{ fontSize: "1.4rem", color: "var(--or-ancestral)" }}
           >
-            KISAKATA
+            SAKATA
           </a>
 
           {/* Desktop nav links — restructured with dropdowns */}
