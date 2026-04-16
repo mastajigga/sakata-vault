@@ -4,7 +4,9 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/components/AuthProvider";
 import { canManageContent } from "@/lib/constants/business";
+import { emailTemplates, getPhase2Updates } from "@/lib/email/templates";
 import Link from "next/link";
+import { Eye, X, Send, AlertCircle, CheckCircle } from "lucide-react";
 
 interface NotificationResult {
   sent: number;
@@ -20,6 +22,8 @@ export default function AdminNotificationsPage() {
   const [result, setResult] = useState<NotificationResult | null>(null);
   const [selectedType, setSelectedType] = useState<string>("phase2");
   const [showSuccess, setShowSuccess] = useState(false);
+  const [showPreview, setShowPreview] = useState(false);
+  const [previewContent, setPreviewContent] = useState<{ subject: string; html: string } | null>(null);
 
   // Vérifier les droits admin
   useEffect(() => {
@@ -27,6 +31,19 @@ export default function AdminNotificationsPage() {
       router.push("/");
     }
   }, [user, router]);
+
+  const generatePreview = (updateType: string) => {
+    const userName = user?.user_metadata?.username || "Utilisateur";
+    let updates: string[] = [];
+
+    if (updateType === "phase2") {
+      updates = getPhase2Updates();
+    }
+
+    const template = emailTemplates.updateNotification(userName, updates);
+    setPreviewContent(template);
+    setShowPreview(true);
+  };
 
   const sendNotification = async (updateType: string) => {
     setLoading(true);
@@ -45,6 +62,7 @@ export default function AdminNotificationsPage() {
       if (response.ok) {
         setResult(data);
         setShowSuccess(true);
+        setShowPreview(false);
         // Auto-hide success message après 5s
         setTimeout(() => setShowSuccess(false), 5000);
       } else {
@@ -120,15 +138,24 @@ export default function AdminNotificationsPage() {
                     </p>
                   </div>
 
-                  <button
-                    onClick={() => sendNotification("phase2")}
-                    disabled={loading}
-                    className="px-6 py-2 bg-[#C16B34] text-[#050B08] rounded font-semibold hover:bg-[#9B4F24] transition disabled:opacity-50"
-                  >
-                    {loading && selectedType === "phase2"
-                      ? "Envoi en cours..."
-                      : "Envoyer Phase 2"}
-                  </button>
+                  <div className="flex gap-3">
+                    <button
+                      onClick={() => generatePreview("phase2")}
+                      className="flex items-center gap-2 px-6 py-2 border border-[#C16B34] text-[#C16B34] rounded font-semibold hover:bg-[#C16B34]/10 transition"
+                    >
+                      <Eye size={16} /> Aperçu
+                    </button>
+                    <button
+                      onClick={() => sendNotification("phase2")}
+                      disabled={loading}
+                      className="flex items-center gap-2 px-6 py-2 bg-[#C16B34] text-[#050B08] rounded font-semibold hover:bg-[#9B4F24] transition disabled:opacity-50"
+                    >
+                      <Send size={16} />
+                      {loading && selectedType === "phase2"
+                        ? "Envoi en cours..."
+                        : "Envoyer"}
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -176,29 +203,91 @@ export default function AdminNotificationsPage() {
           </div>
         </div>
 
-        {/* Result Message */}
-        {showSuccess && result && !result.error && (
-          <div className="border border-green-600/50 bg-green-500/10 rounded-lg p-6 mb-8">
-            <h3 className="text-lg font-bold text-green-400 mb-2">
-              ✅ Succès
-            </h3>
-            <p className="text-green-300 mb-2">
-              {result.sent} utilisateur{result.sent > 1 ? "s" : ""} notifié
-              {result.sent > 1 ? "s" : ""}.
-            </p>
-            <p className="text-green-200 text-sm">{result.message}</p>
+        {/* Preview Modal */}
+        {showPreview && previewContent && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4">
+            <div className="bg-[#0F1410] border border-[#C16B34] rounded-lg w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+              <div className="sticky top-0 flex items-center justify-between p-6 border-b border-[#C16B34]/30 bg-[#050B08]">
+                <h2 className="text-xl font-bold text-[#E9DCC9]">📧 Aperçu du Mail</h2>
+                <button
+                  onClick={() => setShowPreview(false)}
+                  className="p-2 hover:bg-[#C16B34]/20 rounded transition"
+                >
+                  <X size={20} className="text-[#C16B34]" />
+                </button>
+              </div>
+
+              <div className="p-6">
+                <div className="mb-6 p-4 bg-[#050B08] rounded border border-[#C16B34]/20">
+                  <p className="text-sm text-[#D4C5B0] mb-2">
+                    <strong>Sujet :</strong>
+                  </p>
+                  <p className="text-[#E9DCC9] font-mono text-sm">{previewContent.subject}</p>
+                </div>
+
+                <div className="mb-6">
+                  <p className="text-sm text-[#D4C5B0] mb-3 block">
+                    <strong>Aperçu du contenu :</strong>
+                  </p>
+                  <iframe
+                    srcDoc={previewContent.html}
+                    className="w-full border border-[#C16B34]/30 rounded bg-white"
+                    style={{ height: "500px" }}
+                    title="Email preview"
+                  />
+                </div>
+
+                <div className="flex gap-3">
+                  <button
+                    onClick={() => setShowPreview(false)}
+                    className="flex-1 px-6 py-3 border border-[#C16B34] text-[#C16B34] rounded font-semibold hover:bg-[#C16B34]/10 transition"
+                  >
+                    Annuler
+                  </button>
+                  <button
+                    onClick={() => sendNotification(selectedType)}
+                    disabled={loading}
+                    className="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-[#C16B34] text-[#050B08] rounded font-semibold hover:bg-[#9B4F24] transition disabled:opacity-50"
+                  >
+                    <Send size={18} />
+                    {loading ? "Envoi en cours..." : "Confirmer et envoyer"}
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
         )}
 
-        {result && result.error && (
-          <div className="border border-red-600/50 bg-red-500/10 rounded-lg p-6 mb-8">
-            <h3 className="text-lg font-bold text-red-400 mb-2">❌ Erreur</h3>
-            <p className="text-red-300">{result.error}</p>
-            {result.sent === 0 && (
-              <p className="text-red-200 text-sm mt-2">
-                Aucun utilisateur notifié.
+        {/* Result Message - Success */}
+        {showSuccess && result && !result.error && (
+          <div className="border border-green-600/50 bg-green-500/10 rounded-lg p-6 mb-8 flex items-start gap-4">
+            <CheckCircle className="text-green-400 flex-shrink-0 mt-0.5" size={24} />
+            <div className="flex-1">
+              <h3 className="text-lg font-bold text-green-400 mb-2">
+                Succès
+              </h3>
+              <p className="text-green-300 mb-2">
+                {result.sent} utilisateur{result.sent > 1 ? "s" : ""} notifié
+                {result.sent > 1 ? "s" : ""}.
               </p>
-            )}
+              <p className="text-green-200 text-sm">{result.message}</p>
+            </div>
+          </div>
+        )}
+
+        {/* Result Message - Error */}
+        {result && result.error && (
+          <div className="border border-red-600/50 bg-red-500/10 rounded-lg p-6 mb-8 flex items-start gap-4">
+            <AlertCircle className="text-red-400 flex-shrink-0 mt-0.5" size={24} />
+            <div className="flex-1">
+              <h3 className="text-lg font-bold text-red-400 mb-2">Erreur</h3>
+              <p className="text-red-300 mb-2">{result.error}</p>
+              {result.sent === 0 && (
+                <p className="text-red-200 text-sm">
+                  Aucun utilisateur notifié.
+                </p>
+              )}
+            </div>
           </div>
         )}
 
