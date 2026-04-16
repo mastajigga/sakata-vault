@@ -6,7 +6,7 @@ import type { LineLayer, SymbolLayer } from "react-map-gl";
 import { KISAKATA_COLORS } from "../../lib/mapStyles";
 
 interface HydrographyLayerProps {
-  data: GeoJSON.FeatureCollection<GeoJSON.LineString>;
+  data: GeoJSON.FeatureCollection<GeoJSON.Geometry>;
   seasonProgress: number;
 }
 
@@ -35,7 +35,7 @@ export default function HydrographyLayer({
       id: "rivers-bed-main",
       type: "line",
       source: sourceId,
-      filter: ["in", "name", "Kasaï", "Lukenie"],
+      filter: ["in", "name", "Kasaï", "Lukenie", "Kasai", "Mfimi", "Fimi"],
       layout: {
         "line-cap": "round",
         "line-join": "round",
@@ -55,7 +55,7 @@ export default function HydrographyLayer({
       id: "rivers-water-main",
       type: "line",
       source: sourceId,
-      filter: ["in", "name", "Kasaï", "Lukenie"],
+      filter: ["in", "name", "Kasaï", "Lukenie", "Kasai", "Mfimi", "Fimi"],
       layout: {
         "line-cap": "round",
         "line-join": "round",
@@ -63,7 +63,8 @@ export default function HydrographyLayer({
       paint: {
         "line-color": waterColor,
         "line-width": mainRiverWidth,
-        "line-opacity": 0.9,
+        "line-opacity": 0.4, // Reduced for hybridization (let Mapbox Standard shine through)
+        "line-blur": 2,      // Added for a soft "glow" effect
       },
     }),
     [waterColor, mainRiverWidth]
@@ -75,7 +76,10 @@ export default function HydrographyLayer({
       id: "rivers-bed-tributary",
       type: "line",
       source: sourceId,
-      filter: ["all", ["!=", "name", "Kasaï"], ["!=", "name", "Lukenie"]],
+      filter: ["all", 
+        ["!in", "name", "Kasaï", "Lukenie", "Kasai", "Mfimi", "Fimi"],
+        ["!in", "name", "river", "canal", "stream"] // Filter out raw OSM tags
+      ],
       layout: {
         "line-cap": "round",
         "line-join": "round",
@@ -95,7 +99,10 @@ export default function HydrographyLayer({
       id: "rivers-water-tributary",
       type: "line",
       source: sourceId,
-      filter: ["all", ["!=", "name", "Kasaï"], ["!=", "name", "Lukenie"]],
+      filter: ["all", 
+        ["!in", "name", "Kasaï", "Lukenie", "Kasai", "Mfimi", "Fimi"],
+        ["!in", "name", "river", "canal", "stream"] // Filter out raw OSM tags
+      ],
       layout: {
         "line-cap": "round",
         "line-join": "round",
@@ -115,7 +122,7 @@ export default function HydrographyLayer({
       id: "rivers-highlight",
       type: "line",
       source: sourceId,
-      filter: ["in", "name", "Kasaï", "Lukenie"],
+      filter: ["in", "name", "Kasaï", "Lukenie", "Kasai", "Mfimi", "Fimi"],
       layout: {
         "line-cap": "round",
       },
@@ -136,7 +143,7 @@ export default function HydrographyLayer({
       type: "symbol",
       source: sourceId,
       layout: {
-        "text-field": ["get", "name"],
+        "text-field": ["get", "name_skt"], // Focus on Kisakata names
         "text-font": ["Open Sans Bold"],
         "text-size": [
           "interpolate",
