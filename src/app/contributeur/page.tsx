@@ -51,7 +51,7 @@ export default function ContributorPage() {
   const fetchContributorData = async (userId: string) => {
     try {
       // Fetch contributor status
-      const { data: profile } = await withRetry(async () =>
+      const { data: profile } = await withRetry<{ contributor_status: string | null }>(async () =>
         supabase
           .from(DB_TABLES.PROFILES)
           .select("contributor_status")

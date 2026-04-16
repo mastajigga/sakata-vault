@@ -2,12 +2,29 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createServerClient } from '@supabase/ssr';
 import { cookies } from 'next/headers';
 
+// Langues autorisées — whitelist stricte pour éviter l'injection dans le filtre .or()
+const ALLOWED_LANGS = ['fr', 'en', 'ln', 'sw', 'ts'] as const;
+type AllowedLang = (typeof ALLOWED_LANGS)[number];
+
+/** Échappe les caractères spéciaux LIKE pour éviter les injections dans ilike */
+function escapeLike(value: string): string {
+  return value.replace(/[%_\\]/g, '\\$&');
+}
+
 export async function GET(req: NextRequest) {
-  const q = req.nextUrl.searchParams.get('q')?.trim();
-  const lang = (req.nextUrl.searchParams.get('lang') || 'fr') as string;
+  const rawQ = req.nextUrl.searchParams.get('q')?.trim() ?? '';
+  const rawLang = req.nextUrl.searchParams.get('lang') ?? 'fr';
+
+  // Validation lang contre whitelist
+  const lang: AllowedLang = (ALLOWED_LANGS as readonly string[]).includes(rawLang)
+    ? (rawLang as AllowedLang)
+    : 'fr';
+
+  // Sanitize q : longueur max 100, échappement LIKE
+  const q = escapeLike(rawQ.slice(0, 100));
 
   if (!q || q.length < 2) {
-    return NextResponse.json({ results: [], query: q, source: 'empty' });
+    return NextResponse.json({ results: [], query: rawQ, source: 'empty' });
   }
 
   const cookieStore = await cookies();
@@ -24,7 +41,7 @@ export async function GET(req: NextRequest) {
   }
 
   // Fallback: fulltext search dans Supabase
-  // On cherche dans title (jsonb) et summary (jsonb) selon la langue
+  // On cherche dans title (jsonb) et summary (jsonb) selon la langue validée
   const { data, error } = await supabase
     .from('articles')
     .select('id, slug, title, summary, category, image, subscription_required')
@@ -40,7 +57,7 @@ export async function GET(req: NextRequest) {
 
   return NextResponse.json({
     results: data || [],
-    query: q,
+    query: rawQ,
     source: process.env.PINECONE_API_KEY ? 'pinecone' : 'supabase-fallback',
     total: data?.length || 0,
   });

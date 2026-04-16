@@ -49,20 +49,32 @@ src/
   lib/
     supabase/admin.ts    # Client de contournement RLS (Service Key). Utiliser avec parcimonie.
     supabase-retry.ts    # withRetry() / withRetryRaw() — retry backoff exponentiel pour tous les appels Supabase critiques.
+    supabase.ts          # Singleton createBrowserClient — TOUJOURS importer ce fichier, jamais instancier createBrowserClient dans un composant.
     constants/
       routes.ts     # ROUTES — toutes les URLs de l'application.
-      db.ts         # DB_TABLES, DB_BUCKETS — noms des tables/buckets Supabase.
+      db.ts         # DB_TABLES, DB_BUCKETS — noms des tables/buckets Supabase (inclut CHAT_REACTIONS, PUSH_SUBSCRIPTIONS, ECOLE_SCORES).
       storage.ts    # STORAGE_KEYS, SESSION_KEYS, msgViewedKey(id), ecoleProgressKey(ns).
       timings.ts    # TIMINGS — délais et durées centralisés.
-      business.ts   # USER_ROLES, SUBSCRIPTION_TIERS, EXPIRY_DURATIONS, IMAGE_VIEW_MODES, APP_VERSION.
+      business.ts   # USER_ROLES, SUBSCRIPTION_TIERS, EXPIRY_DURATIONS, IMAGE_VIEW_MODES, APP_VERSION, ROLE_HIERARCHY, canManageContent(), canCreateArticles(), hasMinRole().
       index.ts      # Barrel re-export de toutes les constantes.
+  components/
+    ecole/
+      GameMode.tsx  # Mode exercice gamifié avec score, indices et sauvegarde Supabase.
+  hooks/
+    usePushNotifications.ts  # Subscribe/unsubscribe aux notifications Web Push.
+  app/
+    api/
+      push/subscribe/route.ts    # POST — upsert abonnement push en base.
+      push/unsubscribe/route.ts  # POST — suppression abonnement push (erreur DB propagée).
+      articles/search/route.ts   # GET — recherche articles ilike avec whitelist lang + échappement LIKE.
 docs/
-  HARDCODED_AUDIT.md        # Audit complet des valeurs codées en dur (P0→P4).
-  BUGS_AND_TODOS.md         # Bugs connus et tâches restantes.
+  HARDCODED_AUDIT.md            # Audit complet des valeurs codées en dur (P0→P4).
+  BUGS_AND_TODOS.md             # Bugs connus et tâches restantes.
   ACCESSIBILITY_AUDIT.md
-  ROADMAP.md                # Feuille de route curriculum mathématiques (écoles primaires).
+  ROADMAP.md                    # Feuille de route curriculum mathématiques.
   VISUALIZATION_ROADMAP.md
-  CACHE_SUPABASE_AUDIT.md   # Audit cache navigateur & accès Supabase — 15 problèmes P1→P4 (tous corrigés).
+  CACHE_SUPABASE_AUDIT.md       # Audit cache navigateur & accès Supabase v2.2.0 — 15 problèmes (tous corrigés).
+  REALTIME_CACHE_AUDIT_V2.md    # Audit Realtime & Cache v2.3.0 — 15 nouvelles corrections (BUG-01 à BUG-15).
 ```
 
 ---
@@ -120,7 +132,7 @@ import { USER_ROLES, SUBSCRIPTION_TIERS, EXPIRY_DURATIONS, IMAGE_VIEW_MODES, APP
 import { withRetry, withRetryRaw } from "@/lib/supabase-retry";
 ```
 
-**APP_VERSION** : Bumper à chaque déploiement majeur dans `business.ts` pour invalider automatiquement les entrées localStorage périmées (`sakata-*`). Version actuelle : `2.2.0`.
+**APP_VERSION** : Bumper à chaque déploiement majeur dans `business.ts` pour invalider automatiquement les entrées localStorage périmées (`sakata-*`). Version actuelle : `2.3.0`.
 
 ---
 
@@ -137,6 +149,13 @@ import { withRetry, withRetryRaw } from "@/lib/supabase-retry";
 - **Nom de conversation:** Toujours fetcher dynamiquement depuis `chat_participants` + `profiles` — ne jamais hardcoder "Conversation" ou "C".
 - **withRetry() OBLIGATOIRE** : Tout appel Supabase critique (`.insert()`, `.upsert()`, `.update()`, `.select()` sur données utilisateur) **DOIT** utiliser `withRetry()` de `@/lib/supabase-retry`. Les appels fire-and-forget (analytics, cleanup) sont exemptés.
 - **Set<string\> explicite** : Quand un `Set` est initialisé depuis des constantes `as const`, typer explicitement `new Set<string>(...)` pour éviter l'erreur TypeScript sur `.has(key: string)`.
+- **Singleton Supabase client** : NE JAMAIS appeler `createBrowserClient(...)` dans le corps d'un composant (recréé à chaque render → leak WebSocket). Toujours importer le singleton `import { supabase } from "@/lib/supabase"`. Si un `useMemo` est nécessaire (cas rare), le documenter.
+- **Subscribe handler d'erreur OBLIGATOIRE** : Toute `.subscribe()` Supabase **DOIT** inclure `(status, err) => { if (status === 'CHANNEL_ERROR' || err) { console.error(...); /* fallback */ } }`. Sans cela, une déconnexion WebSocket est invisible.
+- **Dep array subscription** : Les tableaux d'objets passés en props ne doivent **JAMAIS** figurer dans le dep array d'un `useEffect` de subscription. Utiliser un `ref` synchronisé par un effet séparé pour les données dérivées.
+- **Guard isMounted avant channel async** : Dans toute fonction `async` qui crée un channel Supabase, ajouter `if (!isMounted) return` avant `supabase.channel(...)` pour éviter les refs stales après démontage.
+- **Interpolation dans .or() / .filter()** : Les paramètres URL interpolés dans les filtres Supabase **DOIVENT** être validés contre une whitelist ET échappés via `escapeLike()` pour les valeurs `ilike`. Voir `src/app/api/articles/search/route.ts` comme référence.
+- **URL.createObjectURL** : Toujours révoquer avec `setTimeout(() => URL.revokeObjectURL(url), 100)` après usage pour éviter les leaks mémoire.
+- **Subscription filtrée** : Toujours vérifier dans le callback realtime que `payload.new.{key}` appartient aux données pertinentes avant de re-fetcher. Éviter les re-fetches pour des changements d'autres utilisateurs/conversations.
 
 ---
 
@@ -169,6 +188,18 @@ import { withRetry, withRetryRaw } from "@/lib/supabase-retry";
 
 | Date | Modification |
 |------|-------------|
+| 2026-04-16 | **AUDIT REALTIME V2** — 15 nouvelles corrections P1→P3. Voir `docs/REALTIME_CACHE_AUDIT_V2.md` |
+| 2026-04-16 | Injection LIKE neutralisée — whitelist lang + `escapeLike()` dans `api/articles/search/route.ts` |
+| 2026-04-16 | GameMode — singleton Supabase au lieu de `createBrowserClient` dans le composant (leak WebSocket) |
+| 2026-04-16 | useEcoleProgress — CHANNEL_ERROR handler + dep array sans `programs` + withRetry sur recordAttempt |
+| 2026-04-16 | ChatWindow — channel réactions découplé des messages + filtre payload + revokeObjectURL export |
+| 2026-04-16 | useTyping — subscribe handler d'erreur + guard isMounted avant channel async |
+| 2026-04-16 | contributeur/page — stale closure user.id corrigée + withRetry sur tous les fetches |
+| 2026-04-16 | membres/page — withRetry + gestion erreur + setLoading dans finally |
+| 2026-04-16 | CoursePage — boucle enrichments eliminée via fetchingRef (Set<string>) |
+| 2026-04-16 | api/push/unsubscribe — erreur DB silencieuse propagée (status 500) |
+| 2026-04-16 | École — sidebar corrigée (primaire/secondaire séparés), liens exercices ajoutés, 4e→6e secondaire |
+| 2026-04-16 | APP_VERSION bumpé `2.2.0` → `2.3.0` |
 | 2026-04-15 | **FIX CACHE P1→P4** — Audit complet localStorage/Supabase. 15 problèmes corrigés. Voir `docs/CACHE_SUPABASE_AUDIT.md` |
 | 2026-04-15 | `withRetry()` — utilitaire centralisé retry + backoff expo. (`src/lib/supabase-retry.ts`) |
 | 2026-04-15 | `msgViewedKey()` corrigé → `"sakata-msg-viewed-{id}"` (préfixe manquant causait accumulation infinie) |

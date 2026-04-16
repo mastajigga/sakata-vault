@@ -22,39 +22,77 @@ export default function ChangelogPage() {
 
         <div className="space-y-6">
           <section className="border-l-4 border-[#C16B34] pl-6">
-            <h2 className="text-2xl font-bold mb-2">v2.2.0 — Avril 2026</h2>
-            <p className="text-gray-400 text-sm mb-4">Aujourd'hui</p>
+            <h2 className="text-2xl font-bold mb-2">v2.3.0 — Avril 2026</h2>
+            <p className="text-gray-400 text-sm mb-4">Aujourd'hui — Audit Realtime, École complète, Chat réactif</p>
             <div className="space-y-3 text-gray-300">
               <div>
-                <h3 className="font-semibold mb-1">🎯 Navbar Améliorations</h3>
+                <h3 className="font-semibold mb-1">🔒 Audit Sécurité & Realtime (15 corrections)</h3>
                 <ul className="text-sm space-y-1 ml-4">
-                  <li>• Suppression du lien "Réseaux" dupliqué du menu Savoir</li>
-                  <li>• Comportement accordéon : un seul menu ouvert à la fois</li>
-                  <li>• Cohérence des couleurs d'icônes avec le design system</li>
+                  <li>• Injection LIKE neutralisée dans la recherche d'articles (whitelist + échappement)</li>
+                  <li>• Handlers CHANNEL_ERROR ajoutés sur toutes les subscriptions Supabase</li>
+                  <li>• Channel réactions chat séparé du cycle de vie des messages (anti-reconnexion)</li>
+                  <li>• Race condition corrigée dans useTyping au démontage du composant</li>
+                  <li>• Stale closure sur user.id corrigée dans la page Contributeur</li>
+                  <li>• Boucle de re-render CoursePage (enrichissement sémantique) éliminée</li>
+                  <li>• Erreur DB silencieuse dans l'API push/unsubscribe propagée correctement</li>
                 </ul>
               </div>
               <div>
-                <h3 className="font-semibold mb-1">🌐 Support Anglais Complet</h3>
+                <h3 className="font-semibold mb-1">📚 École — 4e, 5e, 6e Secondaire</h3>
                 <ul className="text-sm space-y-1 ml-4">
-                  <li>• Anglais ajouté comme 5e langue (après français, kisakata, lingala, swahili, tshiluba)</li>
-                  <li>• Détection automatique de la langue du navigateur</li>
-                  <li>• 477+ chaînes d'interface utilisateur traduites</li>
+                  <li>• 18 nouveaux chapitres : trigonométrie, vecteurs, logarithmes, probabilités, suites, dérivées</li>
+                  <li>• Correction sidebar (primaire/secondaire ne se mélangent plus)</li>
+                  <li>• Liens "Exercices" visibles sur chaque chapitre et en bas de chaque programme</li>
+                  <li>• Mode Exercice gamifié avec score, indices progressifs et sauvegarde Supabase</li>
                 </ul>
               </div>
               <div>
-                <h3 className="font-semibold mb-1">📚 Système d'Aide</h3>
+                <h3 className="font-semibold mb-1">💬 Chat — Réactions & Pagination</h3>
                 <ul className="text-sm space-y-1 ml-4">
-                  <li>• 5 pages d'aide dédiées : philosophie, stack, changelog, directives, GDPR</li>
-                  <li>• Menu utilisateur enrichi avec liens Help et Admin</li>
-                  <li>• Contenu traduit en français et anglais</li>
+                  <li>• Réactions émoji sur les messages (👍 ❤️ 😂 😮 😢)</li>
+                  <li>• Pagination infinie : 50 messages chargés à la fois, scroll vers le haut pour plus</li>
+                  <li>• Indicateurs de lecture (✓ envoyé / ✓✓ lu)</li>
+                  <li>• Signed URLs pour les images éphémères (contournement du bucket public)</li>
                 </ul>
               </div>
               <div>
-                <h3 className="font-semibold mb-1">👤 Architecture des Rôles Clarifiée</h3>
+                <h3 className="font-semibold mb-1">📊 Analytics Contributeur</h3>
                 <ul className="text-sm space-y-1 ml-4">
-                  <li>• Hiérarchie : admin → manager → contributeur → utilisateur</li>
-                  <li>• Permissions héritées pour les rôles supérieurs</li>
-                  <li>• Gestion des demandes de contribution améliorée</li>
+                  <li>• Vues réelles par article depuis site_analytics</li>
+                  <li>• Compteur de likes et 4e carte statistique</li>
+                  <li>• Fetches avec withRetry pour fiabilité réseau</li>
+                </ul>
+              </div>
+              <div>
+                <h3 className="font-semibold mb-1">🔔 Notifications Push</h3>
+                <ul className="text-sm space-y-1 ml-4">
+                  <li>• Service Worker avec gestion push + clic de notification</li>
+                  <li>• Hook usePushNotifications : subscribe/unsubscribe</li>
+                  <li>• Stockage des abonnements en base (push_subscriptions)</li>
+                </ul>
+              </div>
+              <div>
+                <h3 className="font-semibold mb-1">👥 Annuaire Membres Amélioré</h3>
+                <ul className="text-sm space-y-1 ml-4">
+                  <li>• Recherche en temps réel (filtre client-side)</li>
+                  <li>• Tri par date ou alphabétique</li>
+                  <li>• Pagination progressive (20 par lot)</li>
+                </ul>
+              </div>
+            </div>
+          </section>
+
+          <section className="border-l-4 border-white/20 pl-6">
+            <h2 className="text-2xl font-bold mb-2">v2.2.0 — Avril 2026</h2>
+            <p className="text-gray-400 text-sm mb-4">Navbar, Anglais, Aide, Rôles</p>
+            <div className="space-y-3 text-gray-300">
+              <div>
+                <h3 className="font-semibold mb-1">🎯 Navbar & Support Anglais</h3>
+                <ul className="text-sm space-y-1 ml-4">
+                  <li>• Accordéon Navbar : un seul menu ouvert à la fois</li>
+                  <li>• Anglais ajouté (5e langue) — 477+ chaînes traduites</li>
+                  <li>• 5 pages d'aide : philosophie, stack, changelog, directives, GDPR</li>
+                  <li>• Hiérarchie des rôles : admin → manager → contributeur → utilisateur</li>
                 </ul>
               </div>
             </div>
@@ -160,39 +198,77 @@ export default function ChangelogPage() {
 
       <div className="space-y-6">
         <section className="border-l-4 border-[#C16B34] pl-6">
-          <h2 className="text-2xl font-bold mb-2">v2.2.0 — April 2026</h2>
-          <p className="text-gray-400 text-sm mb-4">Today</p>
+          <h2 className="text-2xl font-bold mb-2">v2.3.0 — April 2026</h2>
+          <p className="text-gray-400 text-sm mb-4">Today — Realtime Audit, Full School, Reactive Chat</p>
           <div className="space-y-3 text-gray-300">
             <div>
-              <h3 className="font-semibold mb-1">🎯 Navbar Improvements</h3>
+              <h3 className="font-semibold mb-1">🔒 Security & Realtime Audit (15 fixes)</h3>
               <ul className="text-sm space-y-1 ml-4">
-                <li>• Removed duplicate "Networks" link from Knowledge menu</li>
-                <li>• Accordion behavior: only one menu open at a time</li>
-                <li>• Icon color consistency with design system</li>
+                <li>• LIKE injection neutralized in article search (whitelist + escaping)</li>
+                <li>• CHANNEL_ERROR handlers added to all Supabase subscriptions</li>
+                <li>• Chat reactions channel decoupled from message lifecycle</li>
+                <li>• Race condition fixed in useTyping on component unmount</li>
+                <li>• Stale closure on user.id fixed in Contributor page</li>
+                <li>• CoursePage re-render loop (semantic enrichment) eliminated</li>
+                <li>• Silent DB error in push/unsubscribe API now propagated correctly</li>
               </ul>
             </div>
             <div>
-              <h3 className="font-semibold mb-1">🌐 Complete English Support</h3>
+              <h3 className="font-semibold mb-1">📚 School — 4th, 5th, 6th Grade Secondary</h3>
               <ul className="text-sm space-y-1 ml-4">
-                <li>• English added as 5th language (after French, Kisakata, Lingala, Swahili, Tshiluba)</li>
-                <li>• Automatic browser language detection</li>
-                <li>• 477+ user interface strings translated</li>
+                <li>• 18 new chapters: trigonometry, vectors, logarithms, probability, sequences, derivatives</li>
+                <li>• Sidebar fix (primary/secondary no longer mixed)</li>
+                <li>• Exercise links visible on each chapter and at the bottom of each program</li>
+                <li>• Gamified Exercise Mode with score, progressive hints and Supabase save</li>
               </ul>
             </div>
             <div>
-              <h3 className="font-semibold mb-1">📚 Help System</h3>
+              <h3 className="font-semibold mb-1">💬 Chat — Reactions & Pagination</h3>
               <ul className="text-sm space-y-1 ml-4">
-                <li>• 5 dedicated help pages: philosophy, stack, changelog, guidelines, GDPR</li>
-                <li>• Enhanced user menu with Help and Admin links</li>
-                <li>• Content translated to French and English</li>
+                <li>• Emoji reactions on messages (👍 ❤️ 😂 😮 😢)</li>
+                <li>• Infinite pagination: 50 messages loaded at a time, scroll up for more</li>
+                <li>• Read indicators (✓ sent / ✓✓ read)</li>
+                <li>• Signed URLs for ephemeral images (bypass public bucket)</li>
               </ul>
             </div>
             <div>
-              <h3 className="font-semibold mb-1">👤 Clarified Role Architecture</h3>
+              <h3 className="font-semibold mb-1">📊 Contributor Analytics</h3>
               <ul className="text-sm space-y-1 ml-4">
-                <li>• Hierarchy: admin → manager → contributor → user</li>
-                <li>• Inherited permissions for higher roles</li>
-                <li>• Improved contribution request management</li>
+                <li>• Real article views from site_analytics</li>
+                <li>• Like counter and 4th stat card</li>
+                <li>• Fetches with withRetry for network reliability</li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="font-semibold mb-1">🔔 Push Notifications</h3>
+              <ul className="text-sm space-y-1 ml-4">
+                <li>• Service Worker with push handling + notification click</li>
+                <li>• usePushNotifications hook: subscribe/unsubscribe</li>
+                <li>• Subscription storage in database (push_subscriptions)</li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="font-semibold mb-1">👥 Enhanced Member Directory</h3>
+              <ul className="text-sm space-y-1 ml-4">
+                <li>• Real-time search (client-side filter)</li>
+                <li>• Sort by date or alphabetically</li>
+                <li>• Progressive pagination (20 per batch)</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <section className="border-l-4 border-white/20 pl-6">
+          <h2 className="text-2xl font-bold mb-2">v2.2.0 — April 2026</h2>
+          <p className="text-gray-400 text-sm mb-4">Navbar, English, Help, Roles</p>
+          <div className="space-y-3 text-gray-300">
+            <div>
+              <h3 className="font-semibold mb-1">🎯 Navbar & English Support</h3>
+              <ul className="text-sm space-y-1 ml-4">
+                <li>• Accordion Navbar: only one menu open at a time</li>
+                <li>• English added (5th language) — 477+ strings translated</li>
+                <li>• 5 help pages: philosophy, stack, changelog, guidelines, GDPR</li>
+                <li>• Role hierarchy: admin → manager → contributor → user</li>
               </ul>
             </div>
           </div>

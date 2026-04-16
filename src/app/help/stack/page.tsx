@@ -133,6 +133,36 @@ export default function StackPage() {
                 Authentification côté serveur et client pour Supabase avec Next.js.
               </p>
             </div>
+            <div className="bg-white/5 rounded-lg p-4 border border-white/10">
+              <h3 className="text-lg font-semibold mb-2">Web Push API</h3>
+              <p className="text-gray-300 text-sm">
+                Notifications push natives via Service Worker + VAPID. Stockage des abonnements dans la table <code>push_subscriptions</code>.
+              </p>
+            </div>
+            <div className="bg-white/5 rounded-lg p-4 border border-white/10">
+              <h3 className="text-lg font-semibold mb-2">KaTeX + MathLive</h3>
+              <p className="text-gray-300 text-sm">
+                Rendu mathématique LaTeX haute qualité et saisie d'expressions mathématiques pour l'École de la Brume.
+              </p>
+            </div>
+            <div className="bg-white/5 rounded-lg p-4 border border-white/10">
+              <h3 className="text-lg font-semibold mb-2">withRetry (interne)</h3>
+              <p className="text-gray-300 text-sm">
+                Utilitaire interne de retry avec backoff exponentiel (300ms → 900ms → 2700ms) pour tous les appels Supabase critiques. Obligatoire sur tout <code>.insert()</code>, <code>.upsert()</code>, <code>.update()</code>.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <h2 className="text-2xl font-bold mb-4" style={{ color: "var(--or-ancestral)" }}>
+            Tables Supabase (v2.3.0)
+          </h2>
+          <div className="space-y-2 text-gray-300 text-sm">
+            <p><code className="bg-white/10 px-1 rounded">chat_reactions</code> — Réactions émoji sur les messages (message_id, user_id, emoji)</p>
+            <p><code className="bg-white/10 px-1 rounded">push_subscriptions</code> — Abonnements Web Push par utilisateur</p>
+            <p><code className="bg-white/10 px-1 rounded">ecole_scores</code> — Scores du mode exercice par chapitre</p>
+            <p><code className="bg-white/10 px-1 rounded">chat_conversations</code> — Étendu avec is_group, group_name, created_by</p>
           </div>
         </section>
 
@@ -155,6 +185,9 @@ export default function StackPage() {
             </p>
             <p>
               <strong>Custom Hooks</strong> : Réutilisabilité de la logique complexe (messages, conversations, progression).
+            </p>
+            <p>
+              <strong>Anti-boucle Subscription</strong> : <code className="bg-white/10 px-1 rounded">isFetchingRef</code> + <code className="bg-white/10 px-1 rounded">fetchData(showLoading=false)</code> dans les callbacks realtime — jamais <code>setLoading(true)</code> dans une subscription.
             </p>
           </div>
         </section>
@@ -290,6 +323,36 @@ export default function StackPage() {
               Server and client-side authentication for Supabase with Next.js.
             </p>
           </div>
+          <div className="bg-white/5 rounded-lg p-4 border border-white/10">
+            <h3 className="text-lg font-semibold mb-2">Web Push API</h3>
+            <p className="text-gray-300 text-sm">
+              Native push notifications via Service Worker + VAPID. Subscriptions stored in the <code>push_subscriptions</code> table.
+            </p>
+          </div>
+          <div className="bg-white/5 rounded-lg p-4 border border-white/10">
+            <h3 className="text-lg font-semibold mb-2">KaTeX + MathLive</h3>
+            <p className="text-gray-300 text-sm">
+              High-quality LaTeX math rendering and expression input for the École de la Brume.
+            </p>
+          </div>
+          <div className="bg-white/5 rounded-lg p-4 border border-white/10">
+            <h3 className="text-lg font-semibold mb-2">withRetry (internal)</h3>
+            <p className="text-gray-300 text-sm">
+              Internal retry utility with exponential backoff (300ms → 900ms → 2700ms). Required on every <code>.insert()</code>, <code>.upsert()</code>, <code>.update()</code>.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2 className="text-2xl font-bold mb-4" style={{ color: "var(--or-ancestral)" }}>
+          Supabase Tables (v2.3.0)
+        </h2>
+        <div className="space-y-2 text-gray-300 text-sm">
+          <p><code className="bg-white/10 px-1 rounded">chat_reactions</code> — Emoji reactions on messages</p>
+          <p><code className="bg-white/10 px-1 rounded">push_subscriptions</code> — Web Push subscriptions per user</p>
+          <p><code className="bg-white/10 px-1 rounded">ecole_scores</code> — Exercise mode scores per chapter</p>
+          <p><code className="bg-white/10 px-1 rounded">chat_conversations</code> — Extended with is_group, group_name, created_by</p>
         </div>
       </section>
 
@@ -312,6 +375,9 @@ export default function StackPage() {
           </p>
           <p>
             <strong>Custom Hooks</strong> : Reusable complex logic (messages, conversations, progress).
+          </p>
+          <p>
+            <strong>Anti-loop Subscription</strong> : <code className="bg-white/10 px-1 rounded">isFetchingRef</code> + silent fetch in realtime callbacks — never <code>setLoading(true)</code> inside a subscription.
           </p>
         </div>
       </section>
