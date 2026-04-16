@@ -51,12 +51,12 @@ export async function POST(req: NextRequest) {
     const { subject, updateType = "phase2" } = await req.json();
 
     // Get all registered users (exclude admin/test accounts if needed)
-    const { data: profiles, error: profileError } = await supabase
+    const { data: profiles, error: profilesError } = await supabase
       .from(DB_TABLES.PROFILES)
       .select("id, email, username, nickname")
       .not("email", "is", null);
 
-    if (profileError || !profiles || profiles.length === 0) {
+    if (profilesError || !profiles || profiles.length === 0) {
       return NextResponse.json(
         { error: "No profiles found", sent: 0 },
         { status: 400 }
