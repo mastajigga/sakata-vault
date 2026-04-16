@@ -20,7 +20,7 @@ const Timeline = ({ onEraChange }: TimelineProps) => {
 
   return (
     <div className="w-full h-full flex flex-col justify-center">
-      <div className="flex items-center justify-between mb-6 px-4">
+      <div className="flex items-center justify-between mb-4 px-4">
         <div className="flex items-center gap-3">
           <div className="w-8 h-8 rounded-lg bg-or-ancestral/10 border border-or-ancestral/20 flex items-center justify-center text-or-ancestral">
             <History size={16} />
@@ -85,7 +85,7 @@ const Timeline = ({ onEraChange }: TimelineProps) => {
       </div>
       
       {/* Description Panel */}
-      <div className="mt-8 mx-4 p-4 rounded-2xl bg-black/40 border border-white/5 relative overflow-hidden group">
+      <div className="mt-4 mx-4 p-3 rounded-2xl bg-black/40 border border-white/5 relative overflow-hidden group">
         <div className="absolute top-0 left-0 w-1 h-full bg-or-ancestral/20 group-hover:bg-or-ancestral transition-colors duration-500" />
         <AnimatePresence mode="wait">
           <motion.div

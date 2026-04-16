@@ -184,7 +184,7 @@ export default function GeographieClient() {
 
       {/* Dashboard Layout */}
       {isReady && (
-        <div className="absolute inset-0 pt-32 p-8 z-30 pointer-events-none flex flex-col justify-between">
+        <div className="absolute inset-0 pt-24 md:pt-32 p-4 md:p-6 z-30 pointer-events-none flex flex-col">
           
           {/* Top Section */}
           <div className="flex justify-between items-start">
@@ -198,10 +198,10 @@ export default function GeographieClient() {
           </div>
 
           {/* Center Section */}
-          <div className="flex flex-1 justify-between gap-12 mt-12 mb-12">
+          <div className="flex flex-1 justify-between gap-6 md:gap-12 mt-4 md:mt-8 mb-4 md:mb-8 overflow-hidden min-h-0">
             
             {/* Left Column */}
-            <Sidebar position="left" className="pointer-events-auto flex flex-col gap-6 h-[calc(100vh-450px)] min-h-[400px]">
+            <Sidebar position="left" className="pointer-events-auto flex flex-col gap-6 h-full max-h-[600px]">
               <div className="flex-1 overflow-y-auto custom-scrollbar pr-2">
                  {selectedFeature ? (
                    <div className="relative">
@@ -237,7 +237,7 @@ export default function GeographieClient() {
             </Sidebar>
 
             {/* Right Column */}
-            <Sidebar position="right" className="pointer-events-auto flex flex-col gap-8 h-[calc(100vh-450px)] min-h-[400px]">
+            <Sidebar position="right" className="pointer-events-auto flex flex-col gap-8 h-full max-h-[600px]">
               <div className="space-y-8 flex-1 overflow-y-auto custom-scrollbar pr-2">
                  <LayerToggle layers={layers} onToggle={toggleLayer} />
                  <BrightnessControl brightness={brightness} onBrightnessChange={setBrightness} />
@@ -263,9 +263,9 @@ export default function GeographieClient() {
             initial={{ y: 50, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.8 }}
-            className="max-w-4xl mx-auto w-full pointer-events-auto"
+            className="max-w-4xl mx-auto w-full pointer-events-auto mt-auto"
           >
-            <div className="bg-black/40 backdrop-blur-2xl border border-white/10 rounded-3xl p-6 shadow-2xl relative group">
+            <div className="bg-black/40 backdrop-blur-2xl border border-white/10 rounded-3xl p-4 md:p-6 shadow-2xl relative group">
                <div className="absolute top-4 left-4 w-4 h-4 border-t-2 border-l-2 border-or-ancestral/30 rounded-tl-sm group-hover:border-or-ancestral/60 transition-colors" />
                <div className="absolute top-4 right-4 w-4 h-4 border-t-2 border-r-2 border-or-ancestral/30 rounded-tr-sm group-hover:border-or-ancestral/60 transition-colors" />
                
