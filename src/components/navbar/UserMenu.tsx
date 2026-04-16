@@ -144,7 +144,7 @@ export function UserMenu({
             {/* Admin Center */}
             {(role === "admin" || role === "manager") && (
               <Link
-                href={ROUTES.CONTRIBUTION_REQUESTS}
+                href={ROUTES.ADMIN}
                 onClick={() => onClose()}
                 className="flex items-center gap-3 px-4 py-3 hover:bg-white/5 transition-colors border-b border-white/10"
               >
