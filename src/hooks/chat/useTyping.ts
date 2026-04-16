@@ -24,6 +24,8 @@ export function useTyping(conversationId: string) {
         currentUsername = data?.nickname || data?.username || "Anonyme";
       }
 
+      if (!isMounted) return;
+
       const room = supabase.channel(channelName, {
         config: {
           presence: {
@@ -49,7 +51,11 @@ export function useTyping(conversationId: string) {
         setTypingUsers(typers);
       });
 
-      room.subscribe();
+      room.subscribe((status, err) => {
+        if (status === "CHANNEL_ERROR" || err) {
+          console.error("[Chat] Typing presence error:", err || status);
+        }
+      });
     }
 
     initPresence();

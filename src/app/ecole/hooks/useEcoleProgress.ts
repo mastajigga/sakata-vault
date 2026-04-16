@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useAuth } from "@/components/AuthProvider";
 import { supabase } from "@/lib/supabase";
 import { withRetry } from "@/lib/supabase-retry";
@@ -45,6 +45,10 @@ export function useEcoleProgress(programs: MathematicsProgramYear[], namespace =
   const [completedByYear, setCompletedByYear] = useState<ProgressMap>(() => getInitialProgress(programs, storageKey));
   const [syncStatus, setSyncStatus] = useState<SyncStatus>("local");
 
+  // Stable ref to programs — kept up-to-date but not added to the subscription effect's dep array
+  const programsRef = useRef(programs);
+  useEffect(() => { programsRef.current = programs; }, [programs]);
+
   useEffect(() => {
     // P2-C fix: localStorage → progression sauvegardée même si l'onglet est fermé
     try {
@@ -82,17 +86,17 @@ export function useEcoleProgress(programs: MathematicsProgramYear[], namespace =
         return;
       }
 
-      const remoteState = createEmptyState(programs);
+      const remoteState = createEmptyState(programsRef.current);
       for (const row of data ?? []) {
         remoteState[row.year_slug] = row.completed_exercises ?? [];
       }
 
       setCompletedByYear((previous) => {
         const merged: ProgressMap = { ...previous };
-        for (const program of programs) {
-          const localExercises = previous[program.slug] ?? [];
-          const remoteExercises = remoteState[program.slug] ?? [];
-          merged[program.slug] = Array.from(new Set([...localExercises, ...remoteExercises]));
+        for (const prog of programsRef.current) {
+          const localExercises = previous[prog.slug] ?? [];
+          const remoteExercises = remoteState[prog.slug] ?? [];
+          merged[prog.slug] = Array.from(new Set([...localExercises, ...remoteExercises]));
         }
         return merged;
       });
@@ -123,9 +127,12 @@ export function useEcoleProgress(programs: MathematicsProgramYear[], namespace =
           }));
         }
       )
-      .subscribe((status) => {
+      .subscribe((status, err) => {
         if (status === "SUBSCRIBED") {
           setSyncStatus("cloud");
+        } else if (status === "CHANNEL_ERROR" || err) {
+          console.error("[ecole] WebSocket error:", err || status);
+          setSyncStatus("local");
         }
       });
 
@@ -133,7 +140,7 @@ export function useEcoleProgress(programs: MathematicsProgramYear[], namespace =
       isMounted = false;
       supabase.removeChannel(channel);
     };
-  }, [namespace, programs, user]);
+  }, [namespace, user]);
 
   const completeExercise = async (yearSlug: string, exerciseId: string, totalExercises: number) => {
     let nextCompletedExercises: string[] = [];
@@ -187,13 +194,15 @@ export function useEcoleProgress(programs: MathematicsProgramYear[], namespace =
       return;
     }
 
-    const { error } = await supabase.from("ecole_attempts").insert({
-      user_id: user.id,
-      year_slug: yearSlug,
-      exercise_id: exerciseId,
-      submitted_answer: submittedAnswer,
-      is_correct: isCorrect,
-    });
+    const { error } = await withRetry(async () =>
+      supabase.from("ecole_attempts").insert({
+        user_id: user.id,
+        year_slug: yearSlug,
+        exercise_id: exerciseId,
+        submitted_answer: submittedAnswer,
+        is_correct: isCorrect,
+      })
+    );
 
     if (error) {
       console.warn("[ecole] Impossible d'enregistrer la tentative", error);

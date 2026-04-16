@@ -77,7 +77,7 @@ export function ChatWindow({ conversationId, onBack }: ChatWindowProps) {
     return () => { cancelled = true; };
   }, [conversationId, user]);
 
-  // Charger + souscrire aux réactions
+  // Fetch réactions quand les messages changent
   useEffect(() => {
     if (!conversationId || !user || messages.length === 0) return;
 
@@ -111,16 +111,51 @@ export function ChatWindow({ conversationId, onBack }: ChatWindowProps) {
     }
 
     fetchReactions();
+  }, [conversationId, user, messages]);
 
-    // Souscription realtime aux réactions
-    const channel = supabase.channel(`reactions:${conversationId}`)
+  // Souscription realtime aux réactions (stable — ne dépend pas de messages)
+  useEffect(() => {
+    if (!conversationId || !user) return;
+
+    // Snapshot des IDs courants pour le filtre payload (mis à jour via closure stable)
+    const getMessageIds = () => messages.map(m => m.id);
+
+    async function fetchReactions() {
+      const messageIds = getMessageIds();
+      if (messageIds.length === 0) return;
+      const { data } = await supabase
+        .from(DB_TABLES.CHAT_REACTIONS)
+        .select("message_id, user_id, emoji")
+        .in("message_id", messageIds);
+
+      if (!data) return;
+
+      const newAll: AllReactions = {};
+      const newMy: MyReactions = {};
+
+      for (const row of data) {
+        if (!newAll[row.message_id]) newAll[row.message_id] = {};
+        newAll[row.message_id][row.emoji] = (newAll[row.message_id][row.emoji] || 0) + 1;
+        if (row.user_id === user!.id) {
+          if (!newMy[row.message_id]) newMy[row.message_id] = new Set();
+          newMy[row.message_id].add(row.emoji);
+        }
+      }
+
+      setAllReactions(newAll);
+      setMyReactions(newMy);
+    }
+
+    const channel = supabase.channel(`reactions-sub:${conversationId}`)
       .on("postgres_changes", {
         event: "*",
         schema: "public",
         table: DB_TABLES.CHAT_REACTIONS,
-      }, () => {
-        // Re-fetch simple pour garder la cohérence
-        fetchReactions();
+      }, (payload) => {
+        const msgId = (payload.new as any)?.message_id || (payload.old as any)?.message_id;
+        if (msgId && getMessageIds().includes(msgId)) {
+          fetchReactions();
+        }
       })
       .subscribe((status, err) => {
         if (status === "CHANNEL_ERROR" || err) {
@@ -129,7 +164,7 @@ export function ChatWindow({ conversationId, onBack }: ChatWindowProps) {
       });
 
     return () => { supabase.removeChannel(channel); };
-  }, [conversationId, user, messages]);
+  }, [conversationId, user]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Toggle réaction
   const handleReact = useCallback(async (messageId: string, emoji: string) => {
@@ -237,10 +272,12 @@ export function ChatWindow({ conversationId, onBack }: ChatWindowProps) {
         .map((m) => `[${m.createdAt}] ${m.senderName}: ${m.content}${m.fileUrl ? " [Pièce jointe]" : ""}`)
         .join("\n");
       const blob = new Blob([text], { type: "text/plain" });
+      const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
-      a.href = URL.createObjectURL(blob);
+      a.href = url;
       a.download = `sakata_chat_export.txt`;
       a.click();
+      setTimeout(() => URL.revokeObjectURL(url), 100);
     } else if (action === "mute") {
       alert("Conversation mise en sourdine. (Notifications désactivées)");
     } else if (action === "delete") {

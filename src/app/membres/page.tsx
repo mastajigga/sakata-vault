@@ -3,6 +3,7 @@
 import React, { useEffect, useState, useMemo } from "react";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase";
+import { withRetry } from "@/lib/supabase-retry";
 import { DB_TABLES } from "@/lib/constants/db";
 import Navbar from "@/components/Navbar";
 import { motion } from "framer-motion";
@@ -33,14 +34,23 @@ export default function MembresPage() {
 
   useEffect(() => {
     async function fetchProfiles() {
-      const { data } = await supabase
-        .from(DB_TABLES.PROFILES)
-        .select("id, username, nickname, avatar_url, cover_photo_url, short_bio, location, contributor_status")
-        .not("username", "is", null)
-        .order("updated_at", { ascending: false });
+      try {
+        const { data, error } = await withRetry(async () =>
+          supabase
+            .from(DB_TABLES.PROFILES)
+            .select("id, username, nickname, avatar_url, cover_photo_url, short_bio, location, contributor_status")
+            .not("username", "is", null)
+            .order("updated_at", { ascending: false })
+        );
 
-      if (data) setProfiles(data as Profile[]);
-      setLoading(false);
+        if (error) {
+          console.error("[Membres] Fetch error:", error);
+        } else if (data) {
+          setProfiles(data as Profile[]);
+        }
+      } finally {
+        setLoading(false);
+      }
     }
     fetchProfiles();
   }, []);

@@ -4,7 +4,7 @@ import { useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, CheckCircle, XCircle, Trophy, ChevronRight } from "lucide-react";
 import type { GuidedExercise } from "@/app/ecole/data/mathematics-curriculum";
-import { createBrowserClient } from "@supabase/ssr";
+import { supabase } from "@/lib/supabase";
 import { withRetry } from "@/lib/supabase-retry";
 import { DB_TABLES } from "@/lib/constants/db";
 import { useAuth } from "@/components/AuthProvider";
@@ -37,11 +37,6 @@ export default function GameMode({ exercises, chapterId, onComplete, onClose }: 
   const currentExercise = exercises[currentIndex];
   const progress = ((currentIndex) / exercises.length) * 100;
 
-  const supabase = createBrowserClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-  );
-
   const saveScore = useCallback(
     async (finalScore: number) => {
       if (!user) return;
@@ -67,7 +62,7 @@ export default function GameMode({ exercises, chapterId, onComplete, onClose }: 
         setIsSaving(false);
       }
     },
-    [user, chapterId, maxScore, exercises.length, supabase]
+    [user, chapterId, maxScore, exercises.length]
   );
 
   const checkAnswer = useCallback(() => {

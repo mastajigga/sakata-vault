@@ -7,6 +7,7 @@ import Navbar from "@/components/Navbar";
 import { ContributorBadge } from "@/components/badges/ContributorBadge";
 import { useAuth } from "@/components/AuthProvider";
 import { supabase } from "@/lib/supabase";
+import { withRetry } from "@/lib/supabase-retry";
 import { ROUTES } from "@/lib/constants/routes";
 import { DB_TABLES } from "@/lib/constants/db";
 import { motion } from "framer-motion";
@@ -43,36 +44,42 @@ export default function ContributorPage() {
     }
 
     if (!isLoading && user) {
-      fetchContributorData();
+      fetchContributorData(user.id);
     }
-  }, [user, isLoading, router]);
+  }, [user?.id, isLoading, router]);
 
-  const fetchContributorData = async () => {
+  const fetchContributorData = async (userId: string) => {
     try {
       // Fetch contributor status
-      const { data: profile } = await supabase
-        .from(DB_TABLES.PROFILES)
-        .select("contributor_status")
-        .eq("id", user.id)
-        .single();
+      const { data: profile } = await withRetry(async () =>
+        supabase
+          .from(DB_TABLES.PROFILES)
+          .select("contributor_status")
+          .eq("id", userId)
+          .single()
+      );
 
       setContributorStatus(profile?.contributor_status || "none");
 
       // Fetch articles
-      const { data: articlesData } = await supabase
-        .from(DB_TABLES.ARTICLES)
-        .select("id, title, slug, status, created_at, updated_at")
-        .eq("author_id", user.id)
-        .order("updated_at", { ascending: false });
+      const { data: articlesData } = await withRetry(async () =>
+        supabase
+          .from(DB_TABLES.ARTICLES)
+          .select("id, title, slug, status, created_at, updated_at")
+          .eq("author_id", userId)
+          .order("updated_at", { ascending: false })
+      );
 
       if (articlesData) {
         // Fetch vues depuis site_analytics
         const slugs = articlesData.map((a: any) => `/savoir/${a.slug}`);
-        const { data: analyticsData } = await supabase
-          .from(DB_TABLES.SITE_ANALYTICS)
-          .select("page_path")
-          .eq("event_type", "page_view")
-          .in("page_path", slugs.length > 0 ? slugs : [""]);
+        const { data: analyticsData } = await withRetry(async () =>
+          supabase
+            .from(DB_TABLES.SITE_ANALYTICS)
+            .select("page_path")
+            .eq("event_type", "page_view")
+            .in("page_path", slugs.length > 0 ? slugs : [""])
+        );
 
         const viewsBySlug: Record<string, number> = {};
         analyticsData?.forEach((row: any) => {
@@ -82,10 +89,12 @@ export default function ContributorPage() {
 
         // Fetch likes depuis article_likes
         const articleIds = articlesData.map((a: any) => a.id);
-        const { data: likesData } = await supabase
-          .from(DB_TABLES.ARTICLE_LIKES)
-          .select("article_id")
-          .in("article_id", articleIds.length > 0 ? articleIds : [""]);
+        const { data: likesData } = await withRetry(async () =>
+          supabase
+            .from(DB_TABLES.ARTICLE_LIKES)
+            .select("article_id")
+            .in("article_id", articleIds.length > 0 ? articleIds : [""])
+        );
 
         const totalLikes = likesData?.length || 0;
 

@@ -1,5 +1,5 @@
 "use client";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowLeft, ArrowRight, Gamepad2 } from "lucide-react";
@@ -24,9 +24,16 @@ export default function CoursePage({ program }: CoursPageProps) {
   const [gameModeOpen, setGameModeOpen] = useState(false);
   const activeChapter = chapters.find((c) => c.id === activeChapterId) ?? chapters[0];
   const activeChapterIndex = chapters.findIndex((c) => c.id === activeChapterId);
+
+  const fetchingRef = useRef<Set<string>>(new Set());
+
   const fetchEnrichment = useCallback(async (chapterId: string) => {
-    if (enrichments[chapterId] !== undefined) return;
-    setEnrichments((prev) => ({ ...prev, [chapterId]: null }));
+    if (fetchingRef.current.has(chapterId)) return;
+    fetchingRef.current.add(chapterId);
+    setEnrichments((prev) => {
+      if (prev[chapterId] !== undefined) return prev;
+      return { ...prev, [chapterId]: null };
+    });
     try {
       const res = await fetch("/api/ecole/semantic-content", {
         method: "POST",
@@ -38,7 +45,7 @@ export default function CoursePage({ program }: CoursPageProps) {
         setEnrichments((prev) => ({ ...prev, [chapterId]: data }));
       }
     } catch {}
-  }, [enrichments]);
+  }, []); // no dep on enrichments
   useEffect(() => {
     if (activeChapterId) fetchEnrichment(activeChapterId);
   }, [activeChapterId, fetchEnrichment]);
