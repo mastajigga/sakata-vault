@@ -188,6 +188,7 @@ import { withRetry, withRetryRaw } from "@/lib/supabase-retry";
 
 | Date | Modification |
 |------|-------------|
+| 2026-04-16 | **GEOGRAPHIE 3D V2** — Refonte totale "Command Center" : layout dashboard, cinématique Flythrough, optimisation Promise.all |
 | 2026-04-16 | **AUDIT REALTIME V2** — 15 nouvelles corrections P1→P3. Voir `docs/REALTIME_CACHE_AUDIT_V2.md` |
 | 2026-04-16 | Injection LIKE neutralisée — whitelist lang + `escapeLike()` dans `api/articles/search/route.ts` |
 | 2026-04-16 | GameMode — singleton Supabase au lieu de `createBrowserClient` dans le composant (leak WebSocket) |

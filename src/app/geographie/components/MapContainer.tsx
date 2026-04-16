@@ -19,90 +19,62 @@ interface MapContainerProps {
   seasonProgress: number;
   visibleLayers: LayerState[];
   onFeatureClick: (feature: SelectedFeature) => void;
+  onLoadingProgress?: (progress: number) => void;
 }
 
+const DATA_FILES = [
+  { key: "rivers", url: "/geographie/data/rivers.geojson" },
+  { key: "subtribes", url: "/geographie/data/subtribes.geojson" },
+  { key: "villages", url: "/geographie/data/villages.geojson" },
+  { key: "chiefdoms", url: "/geographie/data/chiefdoms.geojson" },
+  { key: "chiefdomsPoints", url: "/geographie/data/chiefdoms-points.geojson" },
+  { key: "subtribesPoints", url: "/geographie/data/subtribes-points.geojson" },
+  { key: "dialects", url: "/geographie/data/dialects.geojson" },
+  { key: "dialectsPoints", url: "/geographie/data/dialects-points.geojson" },
+  { key: "clans", url: "/geographie/data/clans.geojson" },
+  { key: "clansPoints", url: "/geographie/data/clans-points.geojson" },
+  { key: "forest", url: "/geographie/data/forest.geojson" },
+  { key: "forestPoints", url: "/geographie/data/forest-points.geojson" },
+  { key: "riversPoints", url: "/geographie/data/rivers-points.geojson" },
+];
+
 const MapContainer = forwardRef<MapRef, MapContainerProps>(
-  ({ seasonProgress, visibleLayers, onFeatureClick }, ref) => {
-  const [riversData, setRiversData] = useState<GeoJSON.FeatureCollection<GeoJSON.LineString> | null>(null);
-  const [subtribesData, setSubtribesData] = useState<GeoJSON.FeatureCollection<GeoJSON.Polygon | GeoJSON.MultiPolygon> | null>(null);
-  const [villagesData, setVillagesData] = useState<GeoJSON.FeatureCollection<GeoJSON.Point> | null>(null);
-  const [chiefdomsData, setChiefdomsData] = useState<GeoJSON.FeatureCollection<GeoJSON.Polygon> | null>(null);
-  const [chiefdomsPointsData, setChiefdomsPointsData] = useState<GeoJSON.FeatureCollection<GeoJSON.Point> | null>(null);
-  const [dialectsData, setDialectsData] = useState<GeoJSON.FeatureCollection<GeoJSON.Polygon> | null>(null);
-  const [dialectsPointsData, setDialectsPointsData] = useState<GeoJSON.FeatureCollection<GeoJSON.Point> | null>(null);
-  const [clansData, setClansData] = useState<GeoJSON.FeatureCollection<GeoJSON.Polygon> | null>(null);
-  const [clansPointsData, setClansPointsData] = useState<GeoJSON.FeatureCollection<GeoJSON.Point> | null>(null);
-  const [forestData, setForestData] = useState<GeoJSON.FeatureCollection<GeoJSON.Polygon> | null>(null);
-  const [forestPointsData, setForestPointsData] = useState<GeoJSON.FeatureCollection<GeoJSON.Point> | null>(null);
-  const [riversPointsData, setRiversPointsData] = useState<GeoJSON.FeatureCollection<GeoJSON.Point> | null>(null);
-  const [subtribesPointsData, setSubtribesPointsData] = useState<GeoJSON.FeatureCollection<GeoJSON.Point> | null>(null);
+  ({ seasonProgress, visibleLayers, onFeatureClick, onLoadingProgress }, ref) => {
+    const [data, setData] = useState<Record<string, any>>({});
+    const [isLoaded, setIsLoaded] = useState(false);
 
     useEffect(() => {
-      fetch("/geographie/data/rivers.geojson")
-        .then((r) => r.json())
-        .then(setRiversData)
-        .catch(console.error);
+      let loadedCount = 0;
+      const total = DATA_FILES.length;
 
-      fetch("/geographie/data/subtribes.geojson")
-        .then((r) => r.json())
-        .then(setSubtribesData)
-        .catch(console.error);
+      const loadAll = async () => {
+        try {
+          // Use a staggered approach or just Promise.all if the server can handle it
+          // Promise.all is faster for the user if the server is fast.
+          const results = await Promise.all(
+            DATA_FILES.map(async (file) => {
+              const res = await fetch(file.url);
+              const json = await res.json();
+              loadedCount++;
+              onLoadingProgress?.((loadedCount / total) * 100);
+              return { key: file.key, json };
+            })
+          );
 
-      fetch("/geographie/data/villages.geojson")
-        .then((r) => r.json())
-        .then(setVillagesData)
-        .catch(console.error);
+          const newData = results.reduce((acc, curr) => {
+            acc[curr.key] = curr.json;
+            return acc;
+          }, {} as Record<string, any>);
 
-      fetch("/geographie/data/chiefdoms.geojson")
-        .then((r) => r.json())
-        .then(setChiefdomsData)
-        .catch(console.error);
+          setData(newData);
+          setIsLoaded(true);
+        } catch (error) {
+          console.error("Error loading GeoJSON data:", error);
+        }
+      };
 
-      fetch("/geographie/data/chiefdoms-points.geojson")
-        .then((r) => r.json())
-        .then(setChiefdomsPointsData)
-        .catch(console.error);
-
-      fetch("/geographie/data/subtribes-points.geojson")
-        .then((r) => r.json())
-        .then(setSubtribesPointsData)
-        .catch(console.error);
-
-      fetch("/geographie/data/dialects.geojson")
-        .then((r) => r.json())
-        .then(setDialectsData)
-        .catch(console.error);
-
-      fetch("/geographie/data/dialects-points.geojson")
-        .then((r) => r.json())
-        .then(setDialectsPointsData)
-        .catch(console.error);
-
-      fetch("/geographie/data/clans.geojson")
-        .then((r) => r.json())
-        .then(setClansData)
-        .catch(console.error);
-
-      fetch("/geographie/data/clans-points.geojson")
-        .then((r) => r.json())
-        .then(setClansPointsData)
-        .catch(console.error);
-
-      fetch("/geographie/data/forest.geojson")
-        .then((r) => r.json())
-        .then(setForestData)
-        .catch(console.error);
-
-      fetch("/geographie/data/forest-points.geojson")
-        .then((r) => r.json())
-        .then(setForestPointsData)
-        .catch(console.error);
-
-      fetch("/geographie/data/rivers-points.geojson")
-        .then((r) => r.json())
-        .then(setRiversPointsData)
-        .catch(console.error);
-    }, []);
+      loadAll();
+    }, [onLoadingProgress]);
 
     const isVisible = useCallback(
       (id: string) => visibleLayers.find((l) => l.id === id)?.visible ?? false,
@@ -137,7 +109,7 @@ const MapContainer = forwardRef<MapRef, MapContainerProps>(
           });
         } else if (layerId?.startsWith("chiefdoms")) {
           onFeatureClick({
-            type: "subtribe",
+            type: "subtribe", // Consistency with GeographieClient
             properties: feature.properties ?? {},
             coordinates: [e.lngLat.lng, e.lngLat.lat],
           });
@@ -173,42 +145,34 @@ const MapContainer = forwardRef<MapRef, MapContainerProps>(
         >
           <NavigationControl position="top-left" showCompass showZoom visualizePitch />
 
-          {/* Couche forêt & savane — en arrière-plan */}
-          {isVisible("forest") && forestData && (
-            <ForestLayer data={forestData} pointsData={forestPointsData ?? undefined} />
-          )}
-
-          {/* Couche clans — strata sociaux */}
-          {isVisible("clans") && clansData && (
-            <ClansLayer data={clansData} pointsData={clansPointsData ?? undefined} />
-          )}
-
-          {/* Couche chefferies — 7 chefferies */}
-          {isVisible("chiefdoms") && chiefdomsData && (
-            <ChiefdomsLayer data={chiefdomsData} pointsData={chiefdomsPointsData ?? undefined} />
-          )}
-
-          {/* Couche dialectes — 6 zones dialectales */}
-          {isVisible("dialects") && dialectsData && (
-            <DialectsLayer data={dialectsData} pointsData={dialectsPointsData ?? undefined} />
-          )}
-
-          {/* Couche sous-tribus */}
-          {isVisible("subtribes") && subtribesData && (
-            <SubtribesLayer data={subtribesData} pointsData={subtribesPointsData ?? undefined} />
-          )}
-
-          {/* Couche rivières */}
-          {isVisible("hydro") && riversData && (
-            <HydrographyLayer
-              data={riversData}
-              seasonProgress={seasonProgress}
-            />
-          )}
-
-          {/* Couche villages et ports */}
-          {isVisible("villages") && villagesData && (
-            <VillagesLayer data={villagesData} />
+          {/* Couches de données */}
+          {isLoaded && (
+            <>
+              {isVisible("forest") && data.forest && (
+                <ForestLayer data={data.forest} pointsData={data.forestPoints} />
+              )}
+              {isVisible("clans") && data.clans && (
+                <ClansLayer data={data.clans} pointsData={data.clansPoints} />
+              )}
+              {isVisible("chiefdoms") && data.chiefdoms && (
+                <ChiefdomsLayer data={data.chiefdoms} pointsData={data.chiefdomsPoints} />
+              )}
+              {isVisible("dialects") && data.dialects && (
+                <DialectsLayer data={data.dialects} pointsData={data.dialectsPoints} />
+              )}
+              {isVisible("subtribes") && data.subtribes && (
+                <SubtribesLayer data={data.subtribes} pointsData={data.subtribesPoints} />
+              )}
+              {isVisible("hydro") && data.rivers && (
+                <HydrographyLayer
+                  data={data.rivers}
+                  seasonProgress={seasonProgress}
+                />
+              )}
+              {isVisible("villages") && data.villages && (
+                <VillagesLayer data={data.villages} />
+              )}
+            </>
           )}
         </Map>
       </div>

@@ -1,7 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import React from "react";
 import {
   Droplets,
   Trees,
@@ -10,8 +9,7 @@ import {
   MapPin,
   MessageCircle,
   Map,
-  ChevronDown,
-  ChevronUp,
+  Layers,
 } from "lucide-react";
 import type { LayerState, LayerId } from "../../hooks/useLayerVisibility";
 
@@ -31,124 +29,62 @@ const iconMap: Record<string, React.ElementType> = {
 };
 
 export default function LayerToggle({ layers, onToggle }: LayerToggleProps) {
-  const [isOpen, setIsOpen] = useState(false);
-
-  const activeCount = layers.filter((l) => l.visible).length;
-
   return (
-    <div
-      className="rounded-xl overflow-hidden"
-      style={{
-        background: "rgba(10, 31, 21, 0.85)",
-        backdropFilter: "blur(16px)",
-        border: "1px solid rgba(196, 160, 53, 0.2)",
-        minWidth: "200px",
-      }}
-    >
-      {/* Bouton principal */}
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="w-full flex items-center justify-between px-4 py-3 transition-colors duration-200 hover:bg-white/5"
-        style={{
-          color: "var(--or-ancestral)",
-          fontFamily: "var(--font-geist-mono)",
-          fontSize: "0.7rem",
-          letterSpacing: "0.1em",
-          textTransform: "uppercase",
-        }}
-      >
-        <span>
-          Couches ({activeCount}/{layers.length})
-        </span>
-        {isOpen ? (
-          <ChevronUp size={14} />
-        ) : (
-          <ChevronDown size={14} />
-        )}
-      </button>
+    <div className="w-full space-y-4">
+      {/* Header */}
+      <div className="flex items-center justify-between mb-2">
+        <div className="flex items-center gap-2">
+          <Layers size={14} className="text-or-ancestral/60" />
+          <span className="text-[10px] font-mono tracking-widest uppercase text-white/40">
+            Matrices & Calques
+          </span>
+        </div>
+      </div>
 
-      {/* Liste des couches */}
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.25, ease: "easeInOut" }}
-          >
-            <div className="px-2 pb-2 space-y-0.5">
-              {layers.map((layer) => {
-                const Icon = iconMap[layer.icon] || MapPin;
-                return (
-                  <button
-                    key={layer.id}
-                    onClick={() => onToggle(layer.id as LayerId)}
-                    className="w-full flex items-center gap-3 px-3 py-2 rounded-lg transition-all duration-200 hover:bg-white/5 group"
-                    title={layer.description}
-                  >
-                    {/* Toggle indicator */}
-                    <div
-                      className="w-8 h-5 rounded-full relative transition-colors duration-300 flex-shrink-0"
-                      style={{
-                        background: layer.visible
-                          ? "rgba(196, 160, 53, 0.6)"
-                          : "rgba(255, 255, 255, 0.1)",
-                      }}
-                    >
-                      <div
-                        className="absolute top-0.5 w-4 h-4 rounded-full transition-all duration-300"
-                        style={{
-                          left: layer.visible ? "14px" : "2px",
-                          background: layer.visible
-                            ? "var(--or-ancestral)"
-                            : "rgba(255, 255, 255, 0.3)",
-                        }}
-                      />
-                    </div>
+      {/* Grid of Toggles */}
+      <div className="grid grid-cols-1 gap-2">
+        {layers.map((layer) => {
+          const Icon = iconMap[layer.icon] || MapPin;
+          return (
+            <button
+              key={layer.id}
+              onClick={() => onToggle(layer.id as LayerId)}
+              className={`group relative flex items-center justify-between p-3 rounded-2xl transition-all duration-300 border ${
+                layer.visible
+                  ? "bg-or-ancestral/5 border-or-ancestral/20"
+                  : "bg-black/20 border-white/5 hover:border-white/10"
+              }`}
+            >
+              <div className="flex items-center gap-3">
+                <div className={`p-2 rounded-xl transition-all duration-300 ${
+                  layer.visible ? "bg-or-ancestral text-foret-nocturne" : "bg-white/5 text-ivoire-ancien/40"
+                }`}>
+                  <Icon size={14} />
+                </div>
+                <div className="flex flex-col items-start">
+                  <span className={`text-[11px] font-medium transition-colors ${
+                    layer.visible ? "text-ivoire-ancien" : "text-ivoire-ancien/40"
+                  }`}>
+                    {layer.label}
+                  </span>
+                  {layer.labelSkt && (
+                    <span className="text-[9px] italic text-or-ancestral/40 leading-none">
+                      {layer.labelSkt}
+                    </span>
+                  )}
+                </div>
+              </div>
 
-                    {/* Icon */}
-                    <Icon
-                      size={14}
-                      style={{
-                        color: layer.visible
-                          ? "var(--or-ancestral)"
-                          : "rgba(212, 221, 215, 0.4)",
-                        flexShrink: 0,
-                      }}
-                    />
-
-                    {/* Label */}
-                    <div className="flex flex-col items-start min-w-0">
-                      <span
-                        className="text-xs font-medium truncate"
-                        style={{
-                          color: layer.visible
-                            ? "var(--ivoire-ancien)"
-                            : "rgba(212, 221, 215, 0.4)",
-                          fontFamily: "var(--font-geist-mono)",
-                        }}
-                      >
-                        {layer.label}
-                      </span>
-                      {layer.labelSkt && (
-                        <span
-                          className="text-[10px] italic truncate"
-                          style={{
-                            color: "rgba(196, 160, 53, 0.5)",
-                            fontFamily: "var(--font-geist-serif)",
-                          }}
-                        >
-                          {layer.labelSkt}
-                        </span>
-                      )}
-                    </div>
-                  </button>
-                );
-              })}
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+              {/* Status Indicator */}
+              <div className={`w-1.5 h-1.5 rounded-full transition-all duration-500 shadow-[0_0_8px] ${
+                layer.visible 
+                  ? "bg-or-ancestral shadow-or-ancestral/50 scale-125" 
+                  : "bg-white/10 shadow-transparent scale-100"
+              }`} />
+            </button>
+          );
+        })}
+      </div>
     </div>
   );
-}
+}

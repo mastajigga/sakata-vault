@@ -170,81 +170,97 @@ export default function Home() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 auto-rows-[180px]">
           {[
             {
               icon: "💬",
               title: "Messagerie éphémère",
               date: "Avril 2026",
               desc: "Envoyez des messages qui s'effacent automatiquement après 24h ou 48h. Mode conversation temporaire intégré.",
+              span: "md:col-span-2 md:row-span-2",
+              color: "rgba(233,196,106,0.1)"
             },
             {
               icon: "👁",
               title: "Images protégées",
               date: "Avril 2026",
-              desc: "Partagez des images visibles une seule fois ou deux fois, avec countdown et détection de capture d'écran.",
+              desc: "Partagez des images visibles une seule fois ou deux fois.",
+              span: "md:col-span-2",
+              color: "rgba(255,255,255,0.03)"
             },
             {
               icon: "🎙",
-              title: "Aperçu audio avant envoi",
+              title: "Aperçu audio",
               date: "Avril 2026",
-              desc: "Enregistrez un message vocal, écoutez-le avant de l'envoyer — comme WhatsApp. Téléchargement disponible.",
+              desc: "Écoutez avant d'envoyer.",
+              span: "md:col-span-1",
+              color: "rgba(255,255,255,0.03)"
             },
             {
               icon: "⚡",
-              title: "Chargement optimisé",
+              title: "Chargement éclair",
               date: "Avril 2026",
-              desc: "Correction du chargement infini après navigation. Les pages s'affichent instantanément.",
+              desc: "Navigation instantanée.",
+              span: "md:col-span-1",
+              color: "rgba(255,255,255,0.03)"
             },
             {
               icon: "🎬",
               title: "Vidéos fluides",
               date: "Avril 2026",
-              desc: "Les vidéos dans les en-têtes de pages apparaissent maintenant avec un fondu progressif sans flash.",
+              desc: "Fonder progressif sans flash.",
+              span: "md:col-span-2",
+              color: "rgba(255,255,255,0.03)"
             },
             {
               icon: "🔐",
-              title: "Sessions multi-appareils",
+              title: "Multi-accès",
               date: "Avril 2026",
-              desc: "Gestion améliorée des sessions expirées lors d'une connexion depuis un autre appareil.",
+              desc: "Sessions robustes.",
+              span: "md:col-span-2",
+              color: "rgba(233,196,106,0.05)"
             },
           ].map((item) => (
             <div
               key={item.title}
-              className="rounded-2xl p-5 border"
+              className={`group rounded-3xl p-6 border transition-all duration-700 hover:scale-[1.02] flex flex-col justify-between ${item.span}`}
               style={{
-                background: "rgba(255,255,255,0.02)",
-                borderColor: "var(--bordure-brume)",
+                background: item.color,
+                borderColor: "rgba(212, 221, 215, 0.08)",
+                backdropFilter: "blur(12px)",
               }}
             >
-              <div className="flex items-start gap-3">
-                <span className="text-2xl flex-shrink-0 mt-0.5">{item.icon}</span>
-                <div>
-                  <div className="flex items-center gap-2 mb-1">
-                    <span
-                      className="text-sm font-semibold"
-                      style={{ color: "var(--ivoire-ancien)" }}
-                    >
-                      {item.title}
-                    </span>
-                    <span
-                      className="text-[10px] font-mono px-1.5 py-0.5 rounded-full"
-                      style={{
-                        background: "rgba(181,149,81,0.12)",
-                        color: "var(--or-ancestral)",
-                      }}
-                    >
-                      {item.date}
-                    </span>
-                  </div>
-                  <p className="text-xs leading-relaxed opacity-60" style={{ color: "var(--brume-matinale)" }}>
-                    {item.desc}
-                  </p>
-                </div>
+              <div className="flex justify-between items-start mb-4">
+                <span className="text-3xl filter grayscale group-hover:grayscale-0 transition-all duration-500">
+                  {item.icon}
+                </span>
+                <span
+                  className="text-[9px] font-mono px-2 py-0.5 rounded-full border border-or-ancestral/20"
+                  style={{ color: "var(--or-ancestral)" }}
+                >
+                  {item.date}
+                </span>
+              </div>
+              
+              <div>
+                <h3
+                  className="text-base font-bold mb-2 text-ivoire-ancien group-hover:text-or-ancestral transition-colors"
+                >
+                  {item.title}
+                </h3>
+                <p className="text-xs leading-relaxed text-ivoire-ancien/40 line-clamp-3">
+                  {item.desc}
+                </p>
+              </div>
+              
+              <div className="mt-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center gap-2">
+                <div className="w-4 h-[1px] bg-or-ancestral/40" />
+                <span className="text-[8px] uppercase tracking-widest text-or-ancestral">Détails</span>
               </div>
             </div>
           ))}
         </div>
+
       </section>
 
       <CommunityCallout />

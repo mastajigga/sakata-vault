@@ -14,278 +14,174 @@ interface ContributionRequest {
   status: "pending" | "approved" | "rejected";
   message: string | null;
   created_at: string;
-  reviewed_at: string | null;
-  reviewed_by: string | null;
-  notes: string | null;
+  updated_at: string;
   profiles?: {
+    nickname: string;
     username: string;
-    email: string;
-    avatar_url: string | null;
   };
 }
 
 export default function ContributionRequestsPage() {
-  const { user, role } = useAuth() as any;
+  const { role } = useAuth();
   const [requests, setRequests] = useState<ContributionRequest[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [filter, setFilter] = useState<"all" | "pending" | "approved" | "rejected">("pending");
-  const [reviewingId, setReviewingId] = useState<string | null>(null);
-  const [reviewNotes, setReviewNotes] = useState("");
-
-  // Check admin/manager access
-  if (role !== "admin" && role !== "manager") {
-    return (
-      <div className="min-h-screen bg-black flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold text-white mb-2">Accès Refusé</h1>
-          <p className="text-slate-400">Seuls les administrateurs peuvent accéder à cette page.</p>
-        </div>
-      </div>
-    );
-  }
+  const [isLoading, setIsLoading] = useState(true);
+  const [processingId, setProcessingId] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchRequests = async () => {
-      try {
-        let query = supabase
-          .from("contribution_requests")
-          .select(`
-            *,
-            profiles:user_id (username, email, avatar_url)
-          `)
-          .order("created_at", { ascending: false });
-
-        if (filter !== "all") {
-          query = query.eq("status", filter);
-        }
-
-        const { data, error } = await query;
-
-        if (error) throw error;
-        setRequests(data || []);
-      } catch (err) {
-        console.error("Error fetching requests:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchRequests();
-  }, [filter]);
+  }, []);
 
-  const handleReview = async (requestId: string, newStatus: "approved" | "rejected") => {
+  async function fetchRequests() {
     try {
-      const { error } = await supabase
+      setIsLoading(true);
+      const { data, error } = await supabase
         .from("contribution_requests")
-        .update({
-          status: newStatus,
-          reviewed_at: new Date().toISOString(),
-          reviewed_by: user.id,
-          notes: reviewNotes || null,
-        })
-        .eq("id", requestId);
+        .select(`
+          *,
+          profiles:user_id (
+            nickname,
+            username
+          )
+        `)
+        .order("created_at", { ascending: false });
 
       if (error) throw error;
-
-      setRequests((prev) =>
-        prev.map((req) =>
-          req.id === requestId
-            ? { ...req, status: newStatus, reviewed_at: new Date().toISOString(), notes: reviewNotes || null }
-            : req
-        )
-      );
-
-      setReviewingId(null);
-      setReviewNotes("");
+      setRequests(data || []);
     } catch (err) {
-      console.error("Error updating request:", err);
+      console.error("Error fetching requests:", err);
+    } finally {
+      setIsLoading(false);
     }
-  };
+  }
 
-  const getStatusIcon = (status: string) => {
-    switch (status) {
-      case "approved":
-        return <Check className="w-5 h-5 text-green-400" />;
-      case "rejected":
-        return <X className="w-5 h-5 text-red-400" />;
-      case "pending":
-        return <Clock className="w-5 h-5 text-amber-400" />;
+  async function updateStatus(id: string, userId: string, type: string, status: "approved" | "rejected") {
+    try {
+      setProcessingId(id);
+      
+      // Update the request status
+      const { error: requestError } = await supabase
+        .from("contribution_requests")
+        .update({ status, updated_at: new Date().toISOString() })
+        .eq("id", id);
+
+      if (requestError) throw requestError;
+
+      // If approved, update user role/status in profiles
+      if (status === "approved") {
+        const updates: any = {};
+        if (type === "contributor") {
+          updates.role = "contributor";
+          updates.contributor_status = "approved";
+        } else if (type === "article_writer") {
+          // You might have specific logic for article writers
+          updates.role = "contributor";
+          updates.contributor_status = "approved";
+        }
+
+        const { error: profileError } = await supabase
+          .from("profiles")
+          .update(updates)
+          .eq("id", userId);
+
+        if (profileError) throw profileError;
+      }
+
+      await fetchRequests();
+    } catch (err) {
+      console.error("Error updating status:", err);
+      alert("Erreur lors de la mise à jour");
+    } finally {
+      setProcessingId(null);
     }
-  };
+  }
 
-  const getStatusLabel = (status: string) => {
-    const labels: Record<string, string> = {
-      pending: "En attente",
-      approved: "Approuvée",
-      rejected: "Rejetée",
-    };
-    return labels[status] || status;
-  };
-
-  const filteredRequests = filter === "all" ? requests : requests.filter((r) => r.status === filter);
-
-  if (loading) {
+  if (role !== "admin" && role !== "manager") {
     return (
-      <div className="min-h-screen bg-black flex items-center justify-center">
-        <Loader2 className="w-8 h-8 text-amber-500 animate-spin" />
+      <div className="flex items-center justify-center min-h-[400px]">
+        <p className="text-red-400">Accès réservé au Grand Conseil.</p>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-black text-white p-6">
-      <div className="max-w-6xl mx-auto">
-        {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold mb-2">Demandes de Contribution</h1>
-          <p className="text-slate-400">Gérez les demandes pour devenir documentaliste culturel ou contributeur</p>
-        </div>
+    <div className="space-y-8 animate-in fade-in duration-700">
+      <div>
+        <h1 className="text-3xl font-bold bg-gradient-to-r from-[#C16B34] to-[#E8D5B5] bg-clip-text text-transparent">
+          Demandes de Contribution
+        </h1>
+        <p className="text-gray-400">Gérez les nouveaux gardiens du savoir Sakata</p>
+      </div>
 
-        {/* Filters */}
-        <div className="flex gap-2 mb-6 flex-wrap">
-          {(["all", "pending", "approved", "rejected"] as const).map((f) => (
-            <button
-              key={f}
-              onClick={() => setFilter(f)}
-              className={`px-4 py-2 rounded-lg transition ${
-                filter === f
-                  ? "bg-amber-600 text-white"
-                  : "bg-slate-800 text-slate-300 hover:bg-slate-700"
-              }`}
+      <div className="grid gap-4">
+        {isLoading ? (
+          <div className="flex justify-center p-12">
+            <Loader2 className="w-8 h-8 animate-spin text-[#C16B34]" />
+          </div>
+        ) : requests.length === 0 ? (
+          <div className="p-8 border border-white/10 rounded-xl bg-white/5 text-center text-gray-500">
+            Aucune demande en attente
+          </div>
+        ) : (
+          requests.map((req) => (
+            <div
+              key={req.id}
+              className="p-6 border border-white/10 rounded-xl bg-black/40 backdrop-blur-md flex items-center justify-between group hover:border-[#C16B34]/30 transition-all duration-300"
             >
-              {f === "all" ? "Toutes" : getStatusLabel(f)}
-              <span className="ml-2 text-sm">
-                ({requests.filter((r) => f === "all" || r.status === f).length})
-              </span>
-            </button>
-          ))}
-        </div>
-
-        {/* Requests List */}
-        <div className="space-y-4">
-          {filteredRequests.length === 0 ? (
-            <div className="text-center py-12 bg-slate-900/50 rounded-lg border border-slate-800">
-              <p className="text-slate-400">Aucune demande à afficher</p>
-            </div>
-          ) : (
-            filteredRequests.map((request) => (
-              <div
-                key={request.id}
-                className="rounded-lg border border-slate-700 bg-slate-900/30 p-6 hover:border-slate-600 transition"
-              >
-                <div className="flex items-start justify-between gap-4 mb-4">
-                  <div className="flex items-start gap-4 flex-1">
-                    {request.profiles?.avatar_url ? (
-                      <img
-                        src={request.profiles.avatar_url}
-                        alt={request.profiles.username}
-                        className="w-12 h-12 rounded-full"
-                      />
-                    ) : (
-                      <div className="w-12 h-12 rounded-full bg-amber-600/20 flex items-center justify-center">
-                        <span className="text-amber-400 font-bold">
-                          {request.profiles?.username[0]?.toUpperCase()}
-                        </span>
-                      </div>
-                    )}
-                    <div className="flex-1">
-                      <h3 className="font-semibold text-white">
-                        {request.profiles?.username}
-                      </h3>
-                      <p className="text-sm text-slate-400">{request.profiles?.email}</p>
-                      <div className="mt-2 flex gap-2">
-                        <span className="inline-block px-2 py-1 bg-blue-500/20 text-blue-300 text-xs rounded">
-                          {request.request_type === "article_writer"
-                            ? "Documentaliste Culturel"
-                            : "Contributeur"}
-                        </span>
-                        <span className="inline-flex items-center gap-1 px-2 py-1 bg-slate-700/50 text-slate-300 text-xs rounded">
-                          {getStatusIcon(request.status)}
-                          {getStatusLabel(request.status)}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="text-right text-sm text-slate-400">
-                    {formatDistanceToNow(new Date(request.created_at), {
-                      addSuffix: true,
-                      locale: fr,
-                    })}
-                  </div>
+              <div className="space-y-1">
+                <div className="flex items-center gap-3">
+                  <span className="font-bold text-white">
+                    {req.profiles?.nickname || req.profiles?.username || "Inconnu"}
+                  </span>
+                  <span className="text-xs px-2 py-0.5 rounded-full bg-[#C16B34]/20 text-[#C16B34] border border-[#C16B34]/30 capitalize">
+                    {req.request_type === "article_writer" ? "Rédacteur" : "Contributeur"}
+                  </span>
+                  <span className={`text-xs px-2 py-0.5 rounded-full border ${
+                    req.status === "pending" ? "bg-yellow-500/10 text-yellow-500 border-yellow-500/30" :
+                    req.status === "approved" ? "bg-green-500/10 text-green-500 border-green-500/30" :
+                    "bg-red-500/10 text-red-500 border-red-500/30"
+                  }`}>
+                    {req.status === "pending" ? "En attente" : req.status === "approved" ? "Approuvé" : "Refusé"}
+                  </span>
                 </div>
-
-                {/* Message */}
-                {request.message && (
-                  <div className="mb-4 p-4 bg-slate-800/50 rounded border border-slate-700">
-                    <p className="text-sm text-slate-300">{request.message}</p>
-                  </div>
+                {req.message && (
+                  <p className="text-sm text-gray-400 italic">"{req.message}"</p>
                 )}
-
-                {/* Review Section */}
-                {request.status === "pending" && (
-                  <div className="space-y-3 mt-4 pt-4 border-t border-slate-700">
-                    {reviewingId === request.id ? (
-                      <>
-                        <textarea
-                          value={reviewNotes}
-                          onChange={(e) => setReviewNotes(e.target.value)}
-                          placeholder="Notes de révision (optionnel)"
-                          className="w-full rounded border border-slate-700 bg-slate-800 px-3 py-2 text-white placeholder-slate-500 focus:border-amber-600 focus:outline-none text-sm resize-none h-20"
-                        />
-                        <div className="flex gap-2">
-                          <button
-                            onClick={() => handleReview(request.id, "approved")}
-                            className="flex-1 px-4 py-2 bg-green-600 hover:bg-green-700 rounded text-white transition flex items-center justify-center gap-2"
-                          >
-                            <Check size={16} />
-                            Approuver
-                          </button>
-                          <button
-                            onClick={() => handleReview(request.id, "rejected")}
-                            className="flex-1 px-4 py-2 bg-red-600 hover:bg-red-700 rounded text-white transition flex items-center justify-center gap-2"
-                          >
-                            <X size={16} />
-                            Rejeter
-                          </button>
-                          <button
-                            onClick={() => {
-                              setReviewingId(null);
-                              setReviewNotes("");
-                            }}
-                            className="px-4 py-2 bg-slate-700 hover:bg-slate-600 rounded text-white transition"
-                          >
-                            Annuler
-                          </button>
-                        </div>
-                      </>
-                    ) : (
-                      <button
-                        onClick={() => setReviewingId(request.id)}
-                        className="w-full px-4 py-2 bg-slate-700 hover:bg-slate-600 rounded text-white transition"
-                      >
-                        Examiner
-                      </button>
-                    )}
-                  </div>
-                )}
-
-                {/* Reviewed Info */}
-                {request.reviewed_at && (
-                  <div className="mt-4 pt-4 border-t border-slate-700 text-xs text-slate-400">
-                    <p>
-                      Examinée le {format(new Date(request.reviewed_at), "d MMMM yyyy à HH:mm", { locale: fr })}
-                    </p>
-                    {request.notes && (
-                      <p className="mt-2 text-slate-300">
-                        <strong>Notes:</strong> {request.notes}
-                      </p>
-                    )}
-                  </div>
-                )}
+                <div className="flex items-center gap-2 text-[10px] text-gray-500">
+                  <Clock className="w-3 h-3" />
+                  {format(new Date(req.created_at), "d MMMM yyyy 'à' HH:mm", { locale: fr })}
+                  <span className="text-gray-600">
+                    ({formatDistanceToNow(new Date(req.created_at), { addSuffix: true, locale: fr })})
+                  </span>
+                </div>
               </div>
-            ))
-          )}
-        </div>
+
+              {req.status === "pending" && (
+                <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <button
+                    onClick={() => updateStatus(req.id, req.user_id, req.request_type, "approved")}
+                    disabled={processingId === req.id}
+                    className="p-2 rounded-lg bg-green-500/10 text-green-500 hover:bg-green-500 hover:text-white transition-all disabled:opacity-50"
+                    title="Approuver"
+                  >
+                    {processingId === req.id ? (
+                      <Loader2 className="w-5 h-5 animate-spin" />
+                    ) : (
+                      <Check className="w-5 h-5" />
+                    )}
+                  </button>
+                  <button
+                    onClick={() => updateStatus(req.id, req.user_id, req.request_type, "rejected")}
+                    disabled={processingId === req.id}
+                    className="p-2 rounded-lg bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white transition-all disabled:opacity-50"
+                    title="Refuser"
+                  >
+                    <X className="w-5 h-5" />
+                  </button>
+                </div>
+              )}
+            </div>
+          ))
+        )}
       </div>
     </div>
   );

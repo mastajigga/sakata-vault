@@ -152,20 +152,20 @@ export default function AidePage() {
               style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.05)" }}
             >
               <h3 className="text-sm font-semibold mb-2 flex items-center gap-2">
-                <Info className="w-3 h-3" />
-                Légende
+                <Layers className="w-3 h-3" />
+                Command Center
               </h3>
-              <p className="text-xs opacity-70">Consultez la légende pour comprendre les couleurs et symboles de chaque couche.</p>
+              <p className="text-xs opacity-70">Une interface immersive avec onglets latéraux pour une gestion centralisée des données.</p>
             </div>
             <div
               className="p-4 rounded-xl"
               style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.05)" }}
             >
               <h3 className="text-sm font-semibold mb-2 flex items-center gap-2">
-                <Users className="w-3 h-3" />
-                Communauté
+                <MapPin className="w-3 h-3" />
+                Projection 3D
               </h3>
-              <p className="text-xs opacity-70">Accédez aux contributions de la communauté : photos, récits, points d'intérêt.</p>
+              <p className="text-xs opacity-70">Lancez une séquence de survol (Flythrough) pour découvrir les lieux emblématiques sous un nouvel angle.</p>
             </div>
           </div>
         </section>

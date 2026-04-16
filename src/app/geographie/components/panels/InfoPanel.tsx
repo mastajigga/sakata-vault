@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import { motion } from "framer-motion";
 import { X, Droplets, MapPin, Users, Image, Video } from "lucide-react";
 import type { SelectedFeature } from "../../GeographieClient";
 
@@ -16,21 +15,21 @@ export default function InfoPanel({ feature, onClose }: InfoPanelProps) {
   const getTypeIcon = () => {
     switch (type) {
       case "river":
-        return <Droplets size={20} style={{ color: "#0C2920" }} />;
+        return <Droplets size={16} className="text-blue-400" />;
       case "village":
-        return <MapPin size={20} style={{ color: "#C4A035" }} />;
+        return <MapPin size={16} className="text-or-ancestral" />;
       case "subtribe":
-        return <Users size={20} style={{ color: "#B87333" }} />;
+        return <Users size={16} className="text-amber-600" />;
       case "clan":
-        return <Users size={20} style={{ color: "#C4A035" }} />;
+        return <Users size={16} className="text-or-ancestral" />;
       case "community_pin":
         return properties?.annotation_type === "video" ? (
-          <Video size={20} style={{ color: "#C4A035" }} />
+          <Video size={16} className="text-or-ancestral" />
         ) : (
-          <Image size={20} style={{ color: "#C4A035" }} />
+          <Image size={16} className="text-or-ancestral" />
         );
       default:
-        return <MapPin size={20} style={{ color: "#C4A035" }} />;
+        return <MapPin size={16} className="text-or-ancestral" />;
     }
   };
 
@@ -50,97 +49,59 @@ export default function InfoPanel({ feature, onClose }: InfoPanelProps) {
 
     if (type === "clan") {
       return (
-        <div className="space-y-3">
+        <div className="space-y-4">
           {props.name_skt && (
-            <p
-              className="text-sm italic"
-              style={{ color: "rgba(196, 160, 53, 0.7)" }}
-            >
+            <p className="text-xs italic text-or-ancestral/70 bg-or-ancestral/5 p-2 rounded-lg border border-or-ancestral/10 text-center">
               &laquo; {String(props.name_skt)} &raquo;
             </p>
           )}
-          {props.rank && (
-            <div className="flex justify-between items-center py-2 border-b border-white/5">
-              <span className="text-xs opacity-60">Rang social</span>
-              <span
-                className="text-xs font-medium"
-                style={{ color: "var(--or-ancestral)" }}
-              >
-                {String(props.rank)}
-              </span>
-            </div>
-          )}
-          {props.description && (
-            <div className="pt-3">
-              <p className="text-xs opacity-60 mb-1">Description</p>
-              <p
-                className="text-sm leading-relaxed"
-                style={{ color: "var(--brume-matinale)" }}
-              >
-                {String(props.description)}
-              </p>
-            </div>
-          )}
+          <div className="space-y-2">
+            {props.rank && (
+              <div className="flex justify-between items-center py-1 border-b border-white/5">
+                <span className="text-[10px] uppercase tracking-wider opacity-40">Rang social</span>
+                <span className="text-xs font-medium text-or-ancestral">{String(props.rank)}</span>
+              </div>
+            )}
+            {props.description && (
+              <div className="pt-2">
+                <p className="text-[10px] uppercase tracking-wider opacity-40 mb-2">Mémoire du Clan</p>
+                <p className="text-xs leading-relaxed text-ivoire-ancien/80">
+                  {String(props.description)}
+                </p>
+              </div>
+            )}
+          </div>
         </div>
       );
     }
 
     if (type === "river") {
       return (
-        <div className="space-y-3">
-          {props.name_skt && (
-            <p
-              className="text-sm italic"
-              style={{ color: "rgba(196, 160, 53, 0.7)" }}
-            >
-              &laquo; {String(props.name_skt)} &raquo;
-            </p>
-          )}
-          {props.length_km && (
-            <div className="flex justify-between items-center py-2 border-b border-white/5">
-              <span className="text-xs opacity-60">Longueur</span>
-              <span
-                className="text-xs font-medium"
-                style={{ color: "var(--or-ancestral)" }}
-              >
-                {props.length_km} km
-              </span>
-            </div>
-          )}
-          {props.navigable !== undefined && (
-            <div className="flex justify-between items-center py-2 border-b border-white/5">
-              <span className="text-xs opacity-60">Navigable</span>
-              <span
-                className="text-xs font-medium"
-                style={{
-                  color: props.navigable ? "#4ADE80" : "#F87171",
-                }}
-              >
-                {props.navigable ? "Oui" : "Non"}
-              </span>
-            </div>
-          )}
-          {props.fishing_points && (
-            <div className="flex justify-between items-center py-2 border-b border-white/5">
-              <span className="text-xs opacity-60">Points de pêche</span>
-              <span
-                className="text-xs font-medium"
-                style={{ color: "var(--ivoire-ancien)" }}
-              >
-                {String(props.fishing_points)}
-              </span>
-            </div>
-          )}
-          {props.cultural_note && (
-            <div className="pt-3">
-              <p className="text-xs opacity-60 mb-1">Note culturelle</p>
-              <p
-                className="text-sm leading-relaxed"
-                style={{ color: "var(--brume-matinale)" }}
-              >
-                {String(props.cultural_note)}
+        <div className="space-y-4">
+          <div className="grid grid-cols-2 gap-2">
+            {props.length_km && (
+              <div className="bg-white/5 p-3 rounded-xl border border-white/5 text-center">
+                <p className="text-[9px] uppercase tracking-widest opacity-40 mb-1">Longueur</p>
+                <p className="text-xs font-mono text-or-ancestral">{props.length_km} km</p>
+              </div>
+            )}
+            <div className="bg-white/5 p-3 rounded-xl border border-white/5 text-center">
+              <p className="text-[9px] uppercase tracking-widest opacity-40 mb-1">Navigation</p>
+              <p className={`text-xs font-mono ${props.navigable ? "text-green-400" : "text-red-400"}`}>
+                {props.navigable ? "ACTIVE" : "NONE"}
               </p>
             </div>
+          </div>
+          {props.fishing_points && (
+             <div className="p-3 rounded-xl bg-blue-900/10 border border-blue-500/10">
+                <p className="text-[10px] opacity-40 mb-1">Ressources halieutiques</p>
+                <p className="text-xs">{String(props.fishing_points)}</p>
+             </div>
+          )}
+          {props.cultural_note && (
+             <div className="p-4 rounded-xl bg-black/20 border border-white/5 italic text-xs leading-relaxed text-ivoire-ancien/70">
+                "{String(props.cultural_note)}"
+             </div>
           )}
         </div>
       );
@@ -148,121 +109,77 @@ export default function InfoPanel({ feature, onClose }: InfoPanelProps) {
 
     if (type === "village") {
       return (
-        <div className="space-y-3">
-          {props.type && (
-            <div className="flex justify-between items-center py-2 border-b border-white/5">
-              <span className="text-xs opacity-60">Type</span>
-              <span
-                className="text-xs font-medium capitalize"
-                style={{ color: "var(--or-ancestral)" }}
-              >
-                {String(props.type)}
-              </span>
-            </div>
-          )}
-          {props.population && (
-            <div className="flex justify-between items-center py-2 border-b border-white/5">
-              <span className="text-xs opacity-60">Population estimée</span>
-              <span
-                className="text-xs font-medium"
-                style={{ color: "var(--ivoire-ancien)" }}
-              >
-                {String(props.population)}
-              </span>
-            </div>
-          )}
-          {props.description && (
-            <div className="pt-3">
-              <p className="text-xs opacity-60 mb-1">Description</p>
-              <p
-                className="text-sm leading-relaxed"
-                style={{ color: "var(--brume-matinale)" }}
-              >
-                {String(props.description)}
-              </p>
-            </div>
-          )}
+        <div className="space-y-4">
+           {props.type && (
+             <div className="flex justify-between items-center py-1 border-b border-white/5">
+                <span className="text-[10px] uppercase tracking-wider opacity-40">Type de localité</span>
+                <span className="text-xs font-medium text-or-ancestral capitalize">{String(props.type)}</span>
+             </div>
+           )}
+           {props.population && (
+             <div className="flex justify-between items-center py-1 border-b border-white/5">
+                <span className="text-[10px] uppercase tracking-wider opacity-40">Démographie</span>
+                <span className="text-xs font-medium text-ivoire-ancien">{String(props.population)}</span>
+             </div>
+           )}
+           {props.description && (
+              <div className="pt-2">
+                <p className="text-[10px] uppercase tracking-wider opacity-40 mb-2">Chroniques</p>
+                <p className="text-xs leading-relaxed text-ivoire-ancien/80 bg-black/10 p-4 rounded-2xl border border-white/5">
+                  {String(props.description)}
+                </p>
+              </div>
+           )}
         </div>
       );
     }
 
     if (type === "subtribe") {
       return (
-        <div className="space-y-3">
-          {props.population && (
-            <div className="flex justify-between items-center py-2 border-b border-white/5">
-              <span className="text-xs opacity-60">Population estimée</span>
-              <span
-                className="text-xs font-medium"
-                style={{ color: "var(--ivoire-ancien)" }}
-              >
-                {String(props.population)}
-              </span>
-            </div>
-          )}
-          {props.dialect && (
-            <div className="flex justify-between items-center py-2 border-b border-white/5">
-              <span className="text-xs opacity-60">Dialecte principal</span>
-              <span
-                className="text-xs font-medium"
-                style={{ color: "var(--or-ancestral)" }}
-              >
-                {String(props.dialect)}
-              </span>
-            </div>
-          )}
-          {props.description && (
-            <div className="pt-3">
-              <p className="text-xs opacity-60 mb-1">Description</p>
-              <p
-                className="text-sm leading-relaxed"
-                style={{ color: "var(--brume-matinale)" }}
-              >
+        <div className="space-y-4">
+           <div className="flex items-center gap-4 bg-amber-950/20 p-4 rounded-2xl border border-amber-500/10">
+              <div className="flex-1">
+                 <p className="text-[9px] uppercase tracking-widest opacity-40 mb-1">Dialecte</p>
+                 <p className="text-xs font-semibold text-or-ancestral">{String(props.dialect || "Sakata")}</p>
+              </div>
+              <div className="w-px h-8 bg-white/10" />
+              <div className="flex-1">
+                 <p className="text-[9px] uppercase tracking-widest opacity-40 mb-1">Population</p>
+                 <p className="text-xs font-semibold text-ivoire-ancien">{String(props.population)}</p>
+              </div>
+           </div>
+           {props.description && (
+              <p className="text-xs leading-relaxed text-ivoire-ancien/70 px-2">
                 {String(props.description)}
               </p>
-            </div>
-          )}
+           )}
         </div>
       );
     }
 
     if (type === "community_pin") {
-      const cp = properties as Record<string, string | number>;
+      const cp = properties as any;
       return (
-        <div className="space-y-3">
-          {cp?.user_name && (
-            <div className="flex justify-between items-center py-2 border-b border-white/5">
-              <span className="text-xs opacity-60">Par</span>
-              <span
-                className="text-xs font-medium"
-                style={{ color: "var(--or-ancestral)" }}
-              >
-                {String(cp.user_name)}
-              </span>
-            </div>
-          )}
-          {cp?.description && (
-            <div className="pt-3">
-              <p className="text-xs opacity-60 mb-1">Description</p>
-              <p
-                className="text-sm leading-relaxed"
-                style={{ color: "var(--brume-matinale)" }}
-              >
-                {String(cp.description)}
-              </p>
-            </div>
-          )}
-          {cp?.likes_count !== undefined && (
-            <div className="flex items-center gap-2 pt-2">
-              <span className="text-xs opacity-60">Likes</span>
-              <span
-                className="text-xs font-medium"
-                style={{ color: "var(--or-ancestral)" }}
-              >
-                {String(cp.likes_count)}
-              </span>
-            </div>
-          )}
+        <div className="space-y-4">
+           {cp.image_url && (
+              <div className="aspect-video w-full rounded-2xl overflow-hidden border border-white/10 mb-4 bg-black/40">
+                 <img src={cp.image_url} alt={cp.title} className="w-full h-full object-cover" />
+              </div>
+           )}
+           <div className="bg-white/5 p-4 rounded-2xl border border-white/5">
+             <div className="flex items-center gap-2 mb-3">
+                <div className="w-6 h-6 rounded-full bg-or-ancestral/20 flex items-center justify-center text-[10px] font-bold text-or-ancestral">
+                   {cp.user_name?.[0] || "U"}
+                </div>
+                <span className="text-[10px] font-medium text-ivoire-ancien/60">Témoignage de {cp.user_name}</span>
+             </div>
+             <p className="text-xs leading-relaxed text-ivoire-ancien/90 mb-4">{cp.description}</p>
+             <div className="flex items-center gap-4 text-[10px] opacity-40">
+                <span>{cp.likes_count || 0} Appréciations</span>
+                <span>•</span>
+                <span>{new Date().toLocaleDateString()}</span>
+             </div>
+           </div>
         </div>
       );
     }
@@ -271,79 +188,49 @@ export default function InfoPanel({ feature, onClose }: InfoPanelProps) {
   };
 
   return (
-    <motion.div
-      className="fixed top-0 left-0 h-full z-30 w-full max-w-md"
-      initial={{ x: "-100%" }}
-      animate={{ x: 0 }}
-      exit={{ x: "-100%" }}
-      transition={{ type: "spring", damping: 25, stiffness: 200 }}
-    >
-      <div
-        className="h-full flex flex-col overflow-hidden"
-        style={{
-          background: "rgba(10, 31, 21, 0.95)",
-          backdropFilter: "blur(20px)",
-          borderRight: "1px solid rgba(196, 160, 53, 0.2)",
-        }}
-      >
-        {/* Header */}
-        <div
-          className="flex items-center justify-between px-6 py-4 border-b"
-          style={{ borderColor: "rgba(196, 160, 53, 0.15)" }}
-        >
-          <div className="flex items-center gap-3">
-            {getTypeIcon()}
-            <h2
-              className="text-sm font-semibold tracking-wide truncate max-w-[220px]"
-              style={{
-                color: "var(--or-ancestral)",
-                fontFamily: "var(--font-geist-mono)",
-                letterSpacing: "0.05em",
-              }}
-            >
-              {getTitle()}
-            </h2>
-          </div>
-          <button
-            onClick={onClose}
-            className="p-2 rounded-lg transition-colors duration-200 hover:bg-white/10"
-            style={{ color: "var(--brume-matinale)" }}
-          >
-            <X size={18} />
-          </button>
-        </div>
-
-        {/* Content */}
-        <div className="flex-1 overflow-y-auto px-6 py-5">
-          {coordinates && (
-            <div className="mb-4 pb-3 border-b border-white/5">
-              <p className="text-[10px] opacity-40 mb-1" style={{ fontFamily: "var(--font-geist-mono)" }}>
-                Coordonnées
-              </p>
-              <p
-                className="text-xs font-mono"
-                style={{ color: "var(--brume-matinale)" }}
-              >
-                {coordinates[1].toFixed(4)}°S, {coordinates[0].toFixed(4)}°E
-              </p>
+    <div className="w-full space-y-6">
+      <div className="relative group">
+         <div className="absolute -inset-2 bg-gradient-to-r from-or-ancestral/10 to-transparent rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+         <div className="relative flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center shadow-inner">
+                {getTypeIcon()}
+              </div>
+              <div>
+                <p className="text-[9px] font-mono tracking-widest text-or-ancestral/60 uppercase">{type === "community_pin" ? "Archive Vivante" : "Identité Territoriale"}</p>
+                <h2 className="text-sm font-semibold tracking-wide text-ivoire-ancien">{getTitle()}</h2>
+              </div>
             </div>
-          )}
-          {getDetails()}
-        </div>
-
-        {/* Footer */}
-        <div
-          className="px-6 py-3 border-t text-center"
-          style={{ borderColor: "rgba(196, 160, 53, 0.15)" }}
-        >
-          <p
-            className="text-[10px] italic opacity-40"
-            style={{ color: "var(--brume-matinale)" }}
-          >
-            &laquo; La terre ne ment pas. Elle garde la mémoire de ceux qui l'ont foulée. &raquo;
-          </p>
-        </div>
+            <button
+              onClick={onClose}
+              className="p-2 rounded-xl hover:bg-white/10 transition-colors text-ivoire-ancien/40 hover:text-ivoire-ancien"
+            >
+              <X size={16} />
+            </button>
+         </div>
       </div>
-    </motion.div>
+
+      {coordinates && (
+        <div className="flex items-center gap-3 px-3 py-2 rounded-xl bg-black/20 border border-white/5">
+           <MapPin size={10} className="text-or-ancestral/40" />
+           <span className="text-[10px] font-mono text-ivoire-ancien/40 uppercase tracking-tighter">
+             Locus: {coordinates[1].toFixed(5)} / {coordinates[0].toFixed(5)}
+           </span>
+        </div>
+      )}
+
+      <div className="custom-scrollbar pr-1">
+        {getDetails()}
+      </div>
+
+      <div className="pt-6 mt-6 border-t border-white/5 relative">
+         <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 px-3 bg-black/20 text-[8px] font-mono uppercase tracking-[0.3em] text-or-ancestral/40">
+            Sagesse
+         </div>
+         <p className="text-[10px] italic text-center text-ivoire-ancien/40 leading-relaxed px-4">
+            &laquo; La terre n'est pas un don de nos parents, c'est un prêt de nos enfants. &raquo;
+         </p>
+      </div>
+    </div>
   );
 }
