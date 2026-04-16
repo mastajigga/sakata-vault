@@ -219,6 +219,51 @@ export function ChatWindow({ conversationId, onBack }: ChatWindowProps) {
   // Trouver l'userId de l'interlocuteur principal (pour calculer isRead)
   const otherParticipantId = messages.find(m => !m.isMe)?.senderId;
 
+  // Marquer les messages comme lus quand ils sont visibles
+  const markMessagesAsRead = useCallback(async (messageId: string) => {
+    if (!user) return;
+    await withRetry(async () =>
+      supabase
+        .from(DB_TABLES.CHAT_PARTICIPANTS)
+        .update({ last_read_at: new Date().toISOString() })
+        .match({ conversation_id: conversationId, user_id: user.id })
+    );
+  }, [conversationId, user]);
+
+  // IntersectionObserver pour détecter les messages visibles
+  useEffect(() => {
+    if (!user || messages.length === 0) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        // Trouver le message le plus récent visible
+        let latestVisibleTime: string | null = null;
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            const msgElement = entry.target as HTMLElement;
+            const msgId = msgElement.getAttribute('data-message-id');
+            const msg = messages.find(m => m.id === msgId);
+            if (msg?.createdAtRaw) {
+              if (!latestVisibleTime || new Date(msg.createdAtRaw) > new Date(latestVisibleTime)) {
+                latestVisibleTime = msg.createdAtRaw;
+              }
+            }
+          }
+        }
+        if (latestVisibleTime) {
+          markMessagesAsRead(latestVisibleTime);
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    // Observer tous les messages
+    const messageElements = document.querySelectorAll('[data-message-id]');
+    messageElements.forEach(el => observer.observe(el));
+
+    return () => observer.disconnect();
+  }, [messages, user, markMessagesAsRead]);
+
   // Scroll to bottom on new messages
   useEffect(() => {
     if (scrollRef.current) {

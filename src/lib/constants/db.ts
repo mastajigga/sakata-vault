@@ -20,6 +20,7 @@ export const DB_TABLES = {
   CONTRIBUTION_REQUESTS: "contribution_requests",
   SUBSCRIPTION_SESSIONS: "subscription_sessions",
   CHAT_SUBSCRIPTIONS: "chat_subscriptions",
+  MESSAGE_READS: "message_reads",
 } as const;
 
 export type DbTable = typeof DB_TABLES[keyof typeof DB_TABLES];

@@ -36,8 +36,9 @@ const ArticlePage = () => {
           .from("articles")
           .select("*")
           .eq("slug", slug)
+          .is("deleted_at", null)
           .single();
-        
+
         if (error) {
           console.warn("Supabase Error or missing row:", error.message);
           // Fallback to static data

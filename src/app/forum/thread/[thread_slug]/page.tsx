@@ -19,6 +19,7 @@ export default async function ThreadPage(props: { params: Promise<{ thread_slug:
       forum_categories ( slug, name )
     `)
     .eq("slug", params.thread_slug)
+    .is("deleted_at", null)
     .single();
 
   if (threadError || !thread) {
@@ -43,6 +44,7 @@ export default async function ThreadPage(props: { params: Promise<{ thread_slug:
       profiles ( id, username, nickname, avatar_url, role )
     `)
     .eq("thread_id", thread.id)
+    .is("deleted_at", null)
     .order("created_at", { ascending: true });
 
   // Increment views in background safely
