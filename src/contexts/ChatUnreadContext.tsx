@@ -116,7 +116,11 @@ export function ChatUnreadProvider({
           fetchConversations(false);
         }
       )
-      .subscribe();
+      .subscribe((status, err) => {
+        if (status === "CHANNEL_ERROR" || err) {
+          console.error("[ChatUnread] Subscription error:", err || status);
+        }
+      });
 
     return () => {
       cancelled = true;
