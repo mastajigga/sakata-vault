@@ -16,14 +16,34 @@ interface VillagesLayerProps {
 export default function VillagesLayer({ data }: VillagesLayerProps) {
   const sourceId = "villages-source";
 
-  const typeColors: Record<string, string> = {
-    village: KISAKATA_COLORS.ivoireAncien,
-    port: KISAKATA_COLORS.orAncestral,
-    necropolis: "#9B8E80",
-    historical: "#B87333",
-    fishing: "#0C2920",
-    default: KISAKATA_COLORS.ivoireAncien,
-  };
+  // Couche d'aura (halo) pour l'effet "The Hub"
+  const haloLayer: CircleLayer = useMemo(
+    () => ({
+      id: "villages-halo",
+      type: "circle",
+      source: sourceId,
+      paint: {
+        "circle-color": KISAKATA_COLORS.orAncestral,
+        "circle-radius": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          6, ["*", ["get", "importance"], 1.5],
+          12, ["*", ["get", "importance"], 3],
+        ],
+        "circle-opacity": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          6, 0.2,
+          10, 0.4,
+          14, 0.1,
+        ],
+        "circle-blur": 1.5,
+      },
+    }),
+    []
+  );
 
   const circleLayer: CircleLayer = useMemo(
     () => ({
@@ -34,20 +54,19 @@ export default function VillagesLayer({ data }: VillagesLayerProps) {
         "circle-color": [
           "match",
           ["get", "type"],
-          ...Object.entries(typeColors).flatMap(([type, color]) =>
-            type !== "default" ? [type, color] : []
-          ),
-          typeColors.default,
+          "city", "#FFFFFF",
+          "town", KISAKATA_COLORS.orAncestral,
+          "village", KISAKATA_COLORS.ivoireAncien,
+          KISAKATA_COLORS.ivoireAncien,
         ] as any,
         "circle-radius": [
           "interpolate",
           ["linear"],
           ["zoom"],
-          6, 3,
-          10, 5,
-          14, 8,
+          6, ["match", ["get", "type"], "city", 4, "town", 3, 2],
+          12, ["match", ["get", "type"], "city", 8, "town", 6, 4],
         ],
-        "circle-stroke-color": KISAKATA_COLORS.orAncestral,
+        "circle-stroke-color": "#000000",
         "circle-stroke-width": 1,
         "circle-opacity": 0.9,
       },
@@ -60,26 +79,25 @@ export default function VillagesLayer({ data }: VillagesLayerProps) {
       id: "villages-label",
       type: "symbol",
       source: sourceId,
-      minzoom: 7,
+      minzoom: 8,
       layout: {
         "text-field": ["get", "name"],
-        "text-font": ["Open Sans Regular"],
+        "text-font": ["Open Sans Bold"],
         "text-size": [
           "interpolate",
           ["linear"],
           ["zoom"],
-          7, 9,
-          12, 13,
+          8, 10,
+          12, 14,
         ],
         "text-anchor": "top",
         "text-offset": [0, 1.2],
         "text-allow-overlap": false,
-        "text-padding": 2,
       },
       paint: {
-        "text-color": KISAKATA_COLORS.sableDoux,
-        "text-halo-color": KISAKATA_COLORS.foretNocturne,
-        "text-halo-width": 1.5,
+        "text-color": KISAKATA_COLORS.ivoireAncien,
+        "text-halo-color": "#000000",
+        "text-halo-width": 2,
       },
     }),
     []
@@ -87,6 +105,7 @@ export default function VillagesLayer({ data }: VillagesLayerProps) {
 
   return (
     <Source id={sourceId} type="geojson" data={data}>
+      <Layer {...haloLayer} />
       <Layer {...circleLayer} />
       <Layer {...labelLayer} />
     </Source>
