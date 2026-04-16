@@ -4,15 +4,22 @@ import { NextRequest, NextResponse } from "next/server";
 import * as webpush from "web-push";
 import { DB_TABLES } from "@/lib/constants/db";
 
-// Configure web-push with VAPID
-webpush.setVapidDetails(
-  "mailto:sakata@example.com",
-  process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY || "",
-  process.env.VAPID_PRIVATE_KEY || ""
-);
+// Configure web-push with VAPID (optional for production)
+if (process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY && process.env.VAPID_PRIVATE_KEY) {
+  webpush.setVapidDetails(
+    "mailto:sakata@example.com",
+    process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY,
+    process.env.VAPID_PRIVATE_KEY
+  );
+}
 
 export async function POST(req: NextRequest) {
   try {
+    // Skip if VAPID not configured
+    if (!process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY || !process.env.VAPID_PRIVATE_KEY) {
+      return NextResponse.json({ sent: 0 });
+    }
+
     const { conversationId, senderName, messagePreview, senderId } = await req.json();
 
     if (!conversationId || !senderName) {
