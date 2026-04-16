@@ -30,7 +30,7 @@ src/
       thread/[thread_slug]  # Chat temps réel pour discussions communautaires.
     chat/           # Messagerie privée temps réel (WebSocket Supabase).
     ecole/          # Espace scolaire (mathématiques, curriculum 3 années secondaires).
-    geographie/     # Carte interactive 3D.
+    geographie/     # Ultra-Premium Mapbox GL JS v3 (3D Globe, Terrain, Atmosphere).
     membres/        # Annuaire des membres de la communauté.
     profil/         # Hub personnel pour gérer son statut (Premium/Classic) et ses détails.
   components/
@@ -188,6 +188,7 @@ import { withRetry, withRetryRaw } from "@/lib/supabase-retry";
 
 | Date | Modification |
 |------|-------------|
+| 2026-04-16 | **ULTRA-PREMIUM MAPBOX V3** — Migration de MapLibre vers Mapbox GL JS v3. Globe 3D, terrain, atmosphère dynamique et éclairage saisonnier. |
 | 2026-04-16 | **GEOGRAPHIE 3D V2** — Refonte totale "Command Center" : layout dashboard, cinématique Flythrough, optimisation Promise.all |
 | 2026-04-16 | **AUDIT REALTIME V2** — 15 nouvelles corrections P1→P3. Voir `docs/REALTIME_CACHE_AUDIT_V2.md` |
 | 2026-04-16 | Injection LIKE neutralisée — whitelist lang + `escapeLike()` dans `api/articles/search/route.ts` |

@@ -2,8 +2,8 @@
 
 // @ts-ignore - react-map-gl/maplibre is the correct import for MapLibre
 import React, { useMemo } from "react";
-import { Source, Layer } from "react-map-gl/maplibre";
-import type { CircleLayer, SymbolLayer, GeoJSONSourceRaw } from "react-map-gl/maplibre";
+import { Source, Layer } from "react-map-gl";
+import type { CircleLayer, SymbolLayer } from "react-map-gl";
 import { KISAKATA_COLORS } from "../../lib/mapStyles";
 
 interface VillagesLayerProps {
@@ -86,7 +86,7 @@ export default function VillagesLayer({ data }: VillagesLayerProps) {
   );
 
   return (
-    <Source id={sourceId} type="geojson" data={data as unknown as GeoJSONSourceRaw["data"]}>
+    <Source id={sourceId} type="geojson" data={data}>
       <Layer {...circleLayer} />
       <Layer {...labelLayer} />
     </Source>
