@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useMemo } from "react";
-import { Source, Layer } from "react-map-gl/maplibre";
-import type { LineLayer, SymbolLayer, GeoJSONSourceRaw } from "react-map-gl/maplibre";
+import { Source, Layer } from "react-map-gl";
+import type { LineLayer, SymbolLayer } from "react-map-gl";
 import { KISAKATA_COLORS } from "../../lib/mapStyles";
 
 interface HydrographyLayerProps {
@@ -204,7 +204,7 @@ export default function HydrographyLayer({
   );
 
   return (
-    <Source id={sourceId} type="geojson" data={data as unknown as GeoJSONSourceRaw["data"]}>
+    <Source id={sourceId} type="geojson" data={data}>
       {/* Fond des rivières */}
       <Layer {...riverBedMain} />
       <Layer {...riverBedTributary} />

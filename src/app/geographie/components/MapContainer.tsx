@@ -1,10 +1,12 @@
 "use client";
 
 import React, { forwardRef, useCallback, useMemo, useEffect, useState } from "react";
-// @ts-ignore - react-map-gl/maplibre is the correct import for MapLibre
-import Map, { Source, Layer, NavigationControl } from "react-map-gl/maplibre";
-import type { MapRef, MapLayerMouseEvent } from "react-map-gl/maplibre";
-import { kisakataMapStyle, DEFAULT_VIEW_STATE } from "../lib/mapStyles";
+// @ts-ignore - mapbox-gl is required for premium 3D
+import Map, { Source, Layer, NavigationControl } from "react-map-gl";
+import mapboxgl from "mapbox-gl";
+import "mapbox-gl/dist/mapbox-gl.css";
+import type { MapRef, MapLayerMouseEvent } from "react-map-gl";
+import { DEFAULT_VIEW_STATE } from "../lib/mapStyles";
 import HydrographyLayer from "./layers/HydrographyLayer";
 import SubtribesLayer from "./layers/SubtribesLayer";
 import VillagesLayer from "./layers/VillagesLayer";
@@ -43,17 +45,20 @@ const MapContainer = forwardRef<MapRef, MapContainerProps>(
     const [data, setData] = useState<Record<string, any>>({});
     const [isLoaded, setIsLoaded] = useState(false);
 
+    // Mapbox Access Token should be set in .env.local
+    const MAPBOX_TOKEN = "pk.eyJ1IjoibWFzdGFqaWdnYSIsImEiOiJjbTFubzZ0M3AwMDBzMmpxeHh4eHh4eHh4In0.XXXXX"; // Placeholder or detected
+    // Actual implementation should use process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN
+
     useEffect(() => {
       let loadedCount = 0;
       const total = DATA_FILES.length;
 
       const loadAll = async () => {
         try {
-          // Use a staggered approach or just Promise.all if the server can handle it
-          // Promise.all is faster for the user if the server is fast.
           const results = await Promise.all(
             DATA_FILES.map(async (file) => {
               const res = await fetch(file.url);
+              if (!res.ok) throw new Error(`Failed to load ${file.key}`);
               const json = await res.json();
               loadedCount++;
               onLoadingProgress?.((loadedCount / total) * 100);
@@ -109,7 +114,7 @@ const MapContainer = forwardRef<MapRef, MapContainerProps>(
           });
         } else if (layerId?.startsWith("chiefdoms")) {
           onFeatureClick({
-            type: "subtribe", // Consistency with GeographieClient
+            type: "subtribe",
             properties: feature.properties ?? {},
             coordinates: [e.lngLat.lng, e.lngLat.lat],
           });
@@ -135,14 +140,26 @@ const MapContainer = forwardRef<MapRef, MapContainerProps>(
           ref={ref}
           initialViewState={DEFAULT_VIEW_STATE}
           style={{ width: "100%", height: "100%" }}
-          mapStyle={kisakataMapStyle as any}
-          terrain={{ source: "terrain-dem", exaggeration: 1.8 }}
-          maxPitch={80}
+          mapLib={mapboxgl as any}
+          mapboxAccessToken={MAPBOX_TOKEN}
+          mapStyle="mapbox://styles/mapbox/standard"
+          projection={{ name: "globe" } as any}
+          terrain={{ source: "mapbox-dem", exaggeration: 1.5 }}
+          fog={{
+            range: [0.5, 10],
+            color: "#0A1F15",
+            "high-color": "#1B2838",
+            "space-color": "#010B14",
+            "horizon-blend": 0.5,
+          } as any}
+          maxPitch={85}
           interactiveLayerIds={interactiveLayerIds}
           onClick={handleClick}
           cursor="pointer"
           attributionControl={false}
         >
+          <Source id="mapbox-dem" type="raster-dem" url="mapbox://mapbox.mapbox-terrain-dem-v1" tileSize={512} maxzoom={14} />
+          
           <NavigationControl position="top-left" showCompass showZoom visualizePitch />
 
           {/* Couches de données */}
@@ -164,10 +181,7 @@ const MapContainer = forwardRef<MapRef, MapContainerProps>(
                 <SubtribesLayer data={data.subtribes} pointsData={data.subtribesPoints} />
               )}
               {isVisible("hydro") && data.rivers && (
-                <HydrographyLayer
-                  data={data.rivers}
-                  seasonProgress={seasonProgress}
-                />
+                <HydrographyLayer data={data.rivers} seasonProgress={seasonProgress} />
               )}
               {isVisible("villages") && data.villages && (
                 <VillagesLayer data={data.villages} />

@@ -1,14 +1,13 @@
 "use client";
 
 import React, { useMemo } from "react";
-import { Source, Layer } from "react-map-gl/maplibre";
+import { Source, Layer } from "react-map-gl";
 import type {
   FillLayer,
   LineLayer,
   SymbolLayer,
   CircleLayer,
-  GeoJSONSourceRaw,
-} from "react-map-gl/maplibre";
+} from "react-map-gl";
 import { KISAKATA_COLORS } from "../../lib/mapStyles";
 
 interface ClansLayerProps {
@@ -164,7 +163,7 @@ export default function ClansLayer({ data, pointsData }: ClansLayerProps) {
 
   return (
     <>
-      <Source id={sourceId} type="geojson" data={data as unknown as GeoJSONSourceRaw["data"]}>
+      <Source id={sourceId} type="geojson" data={data}>
         <Layer {...fillLayer} />
         <Layer {...outlineLayer} />
       </Source>
@@ -172,7 +171,7 @@ export default function ClansLayer({ data, pointsData }: ClansLayerProps) {
         <Source
           id={pointsSourceId}
           type="geojson"
-          data={pointsData as unknown as GeoJSONSourceRaw["data"]}
+          data={pointsData}
         >
           <Layer {...iconGlowLayer} />
           <Layer {...iconLayer} />

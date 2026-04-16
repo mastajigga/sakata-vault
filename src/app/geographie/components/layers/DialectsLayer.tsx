@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useMemo } from "react";
-import { Source, Layer } from "react-map-gl/maplibre";
-import type { FillLayer, LineLayer, SymbolLayer, CircleLayer, GeoJSONSourceRaw } from "react-map-gl/maplibre";
+import { Source, Layer } from "react-map-gl";
+import type { FillLayer, LineLayer, SymbolLayer, CircleLayer } from "react-map-gl";
 import { KISAKATA_COLORS } from "../../lib/mapStyles";
 
 interface DialectsLayerProps {
@@ -168,12 +168,12 @@ export default function DialectsLayer({ data, pointsData }: DialectsLayerProps) 
 
   return (
     <>
-      <Source id={sourceId} type="geojson" data={data as unknown as GeoJSONSourceRaw["data"]}>
+      <Source id={sourceId} type="geojson" data={data}>
         <Layer {...fillLayer} />
         <Layer {...outlineLayer} />
       </Source>
       {pointsData && (
-        <Source id={pointsSourceId} type="geojson" data={pointsData as unknown as GeoJSONSourceRaw["data"]}>
+        <Source id={pointsSourceId} type="geojson" data={pointsData}>
           <Layer {...iconGlowLayer} />
           <Layer {...iconLayer} />
           <Layer {...labelLayer} />
