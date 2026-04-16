@@ -2967,6 +2967,9 @@ export const secondairePrograms: MathematicsProgramYear[] = [
       },
     ],
   },
+];
+
+export const primaireProgramsData: MathematicsProgramYear[] = [
   // PRIMAIRE 1 - Ages 5-6
   {
     slug: "primaire-1",
@@ -3036,6 +3039,4 @@ export const secondairePrograms: MathematicsProgramYear[] = [
   ] },
 ];
 
-export const primaryPrograms: MathematicsProgramYear[] = secondairePrograms.filter((p) =>
-  ["primaire-1", "primaire-2", "primaire-3", "primaire-4", "primaire-5", "primaire-6"].includes(p.slug)
-);
+export const primaryPrograms: MathematicsProgramYear[] = primaireProgramsData;

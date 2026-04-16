@@ -58,6 +58,10 @@ export default function MathCurriculumStudio({
       ? `/ecole/secondaire/${activeProgram.courseSlug}/cours`
       : `/ecole/primaire/${activeProgram.courseSlug}/cours`
     : null;
+  const exercisesPath =
+    activeProgram.courseSlug && level === "secondaire"
+      ? `/ecole/secondaire/${activeProgram.courseSlug}/exercices`
+      : null;
   const chapterPreview = activeProgram.courseChapters ?? [];
 
   return (
@@ -316,6 +320,16 @@ export default function MathCurriculumStudio({
                       </span>
                     ))}
                   </div>
+                  {exercisesPath && (
+                    <div className="mt-4 border-t border-[rgba(212,221,215,0.07)] pt-3">
+                      <Link
+                        href={exercisesPath}
+                        className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-[0.16em] text-[var(--or-ancestral)] transition-colors hover:text-[var(--ivoire-ancien)]"
+                      >
+                        Exercices du chapitre <ArrowRight className="h-3 w-3" />
+                      </Link>
+                    </div>
+                  )}
                 </motion.article>
               ))}
             </div>
@@ -358,32 +372,62 @@ export default function MathCurriculumStudio({
             </div>
           ) : null}
 
-          {coursePath ? (
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-20px" }}
-              transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-              className="rounded-[1.8rem] border border-[rgba(196,160,53,0.22)] bg-[rgba(196,160,53,0.06)] p-6 md:p-8"
-            >
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--amber-light)]">
-                Cours complet disponible
-              </p>
-              <h4 className="mt-3 font-display text-2xl tracking-tight text-[var(--ivoire-ancien)] md:text-3xl">
-                {activeProgram.focus} — parcours animé
-              </h4>
-              <p className="mt-3 max-w-xl text-sm leading-7 text-[rgba(212,221,215,0.76)]">
-                Explorez chaque concept pas à pas avec des visualisations interactives, des animations fluides et des contextes Basakata. Comme Brilliant.org, mais ancré dans la culture Sakata.
-              </p>
-              <Link
-                href={coursePath}
-                className="mt-5 inline-flex items-center gap-2 rounded-full border border-[rgba(196,160,53,0.3)] bg-[rgba(196,160,53,0.1)] px-6 py-3 text-sm font-semibold text-[var(--or-ancestral)] transition-all duration-300 hover:bg-[rgba(196,160,53,0.18)] active:scale-[0.98]"
-              >
-                Voir le cours complet
-                <ArrowRight className="h-4 w-4" />
-              </Link>
-            </motion.div>
-          ) : null}
+          {(coursePath || exercisesPath) && (
+            <div className="grid gap-4 sm:grid-cols-2">
+              {coursePath && (
+                <motion.div
+                  initial={{ opacity: 0, y: 16 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-20px" }}
+                  transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                  className="rounded-[1.8rem] border border-[rgba(196,160,53,0.22)] bg-[rgba(196,160,53,0.06)] p-6"
+                >
+                  <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--amber-light)]">
+                    Cours complet disponible
+                  </p>
+                  <h4 className="mt-3 font-display text-xl tracking-tight text-[var(--ivoire-ancien)]">
+                    {activeProgram.focus} — parcours animé
+                  </h4>
+                  <p className="mt-3 text-sm leading-7 text-[rgba(212,221,215,0.76)]">
+                    Visualisations interactives, animations fluides et contextes Basakata.
+                  </p>
+                  <Link
+                    href={coursePath}
+                    className="mt-5 inline-flex items-center gap-2 rounded-full border border-[rgba(196,160,53,0.3)] bg-[rgba(196,160,53,0.1)] px-5 py-2.5 text-sm font-semibold text-[var(--or-ancestral)] transition-all duration-300 hover:bg-[rgba(196,160,53,0.18)] active:scale-[0.98]"
+                  >
+                    Voir le cours complet
+                    <ArrowRight className="h-4 w-4" />
+                  </Link>
+                </motion.div>
+              )}
+              {exercisesPath && (
+                <motion.div
+                  initial={{ opacity: 0, y: 16 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-20px" }}
+                  transition={{ duration: 0.5, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}
+                  className="rounded-[1.8rem] border border-[rgba(212,221,215,0.12)] bg-[rgba(4,17,13,0.45)] p-6"
+                >
+                  <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[rgba(212,221,215,0.56)]">
+                    Exercices interactifs
+                  </p>
+                  <h4 className="mt-3 font-display text-xl tracking-tight text-[var(--ivoire-ancien)]">
+                    Entraînement guidé
+                  </h4>
+                  <p className="mt-3 text-sm leading-7 text-[rgba(212,221,215,0.76)]">
+                    Questions, indices progressifs et correction immédiate pour valider chaque chapitre.
+                  </p>
+                  <Link
+                    href={exercisesPath}
+                    className="mt-5 inline-flex items-center gap-2 rounded-full border border-[rgba(212,221,215,0.15)] bg-[rgba(212,221,215,0.05)] px-5 py-2.5 text-sm font-semibold text-[rgba(212,221,215,0.84)] transition-all duration-300 hover:bg-[rgba(212,221,215,0.1)] active:scale-[0.98]"
+                  >
+                    Accéder aux exercices
+                    <ArrowRight className="h-4 w-4" />
+                  </Link>
+                </motion.div>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </section>

@@ -47,8 +47,8 @@ export default function GameMode({ exercises, chapterId, onComplete, onClose }: 
       if (!user) return;
       setIsSaving(true);
       try {
-        await withRetry(() =>
-          supabase.from(DB_TABLES.ECOLE_SCORES ?? "ecole_scores").upsert(
+        await withRetry(async () =>
+          await supabase.from(DB_TABLES.ECOLE_SCORES ?? "ecole_scores").upsert(
             {
               user_id: user.id,
               chapter_id: chapterId,
