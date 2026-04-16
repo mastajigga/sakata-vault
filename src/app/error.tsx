@@ -20,15 +20,15 @@ export default function GlobalError({
   }, [error]);
 
   return (
-    <main className="min-h-[100dvh] bg-[#0A1F15] flex items-center justify-center p-6 text-[#F2EEDD]">
-      <div className="max-w-xl text-center space-y-8 bg-[#122A1E]/50 border border-[#B59551]/20 p-12 rounded-3xl backdrop-blur-md">
-        <div className="w-20 h-20 mx-auto bg-[#B59551]/10 rounded-full flex items-center justify-center border border-[#B59551]/30">
-          <AlertTriangle className="text-[#B59551] w-10 h-10" />
+    <main className="min-h-[100dvh] bg-[var(--foret-nocturne)] flex items-center justify-center p-6 text-[var(--ivoire-ancien)]">
+      <div className="max-w-xl text-center space-y-8 bg-[var(--foret-nocturne)]/50 border border-[var(--or-ancestral)]/20 p-12 rounded-3xl backdrop-blur-md">
+        <div className="w-20 h-20 mx-auto bg-[var(--or-ancestral)]/10 rounded-full flex items-center justify-center border border-[var(--or-ancestral)]/30">
+          <AlertTriangle className="text-[var(--or-ancestral)] w-10 h-10" />
         </div>
         
         <div>
-          <h1 className="text-3xl font-display text-[#B59551] mb-4">Une perturbation est survenue</h1>
-          <p className="text-[#F2EEDD]/70 font-light text-lg">
+          <h1 className="text-3xl font-display text-[var(--or-ancestral)] mb-4">Une perturbation est survenue</h1>
+          <p className="text-[var(--ivoire-ancien)]/70 font-light text-lg">
             Les esprits sont troublés et notre connexion au sanctuaire semble instable. Notre équipe technique en a été notifiée.
           </p>
         </div>
@@ -42,14 +42,14 @@ export default function GlobalError({
         <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
           <button 
             onClick={() => reset()} 
-            className="flex items-center justify-center gap-2 px-8 py-3 rounded-full bg-[#B59551]/10 border border-[#B59551]/50 text-[#B59551] hover:bg-[#B59551] hover:text-[#0A1F15] transition-all font-medium"
+            className="flex items-center justify-center gap-2 px-8 py-3 rounded-full bg-[var(--or-ancestral)]/10 border border-[var(--or-ancestral)]/50 text-[var(--or-ancestral)] hover:bg-[var(--or-ancestral)] hover:text-[var(--foret-nocturne)] transition-all font-medium"
           >
             <RefreshCw size={18} />
             Tenter de rétablir
           </button>
           <Link 
              href="/"
-             className="flex items-center justify-center gap-2 px-8 py-3 rounded-full border border-white/10 hover:bg-white/5 transition-all text-[#F2EEDD]/80"
+             className="flex items-center justify-center gap-2 px-8 py-3 rounded-full border border-white/10 hover:bg-white/5 transition-all text-[var(--ivoire-ancien)]/80"
           >
             Retour au sanctuaire
           </Link>

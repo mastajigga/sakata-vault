@@ -87,7 +87,7 @@ const AuthPage = () => {
             backdropFilter: "blur(24px)",
           }}
         >
-          <div className="bg-[#0A1F15]/90 p-10 rounded-[2.4rem] space-y-8 relative z-10">
+          <div className="bg-[var(--foret-nocturne)]/90 p-10 rounded-[2.4rem] space-y-8 relative z-10">
             <AnimatePresence mode="wait">
               {signupSuccess ? (
                 <motion.div

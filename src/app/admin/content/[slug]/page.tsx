@@ -158,7 +158,7 @@ const ArticleEditor = () => {
                 <select 
                   value={article.category}
                   onChange={(e) => setArticle({...article, category: e.target.value})}
-                  className="w-full bg-[#0A1F15] border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-or-ancestral/50 transition-all text-sm appearance-none"
+                  className="w-full bg-[var(--foret-nocturne)] border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-or-ancestral/50 transition-all text-sm appearance-none"
                 >
                   <option value="histoire">Histoire</option>
                   <option value="culture">Culture</option>

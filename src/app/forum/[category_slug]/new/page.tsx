@@ -42,21 +42,21 @@ export default async function NewThreadPage(props: { params: Promise<{ category_
   const catName = typeof category.name === 'string' ? JSON.parse(category.name) : category.name;
 
   return (
-    <main className="min-h-[100dvh] bg-[#0A1F15] text-[#F2EEDD] flex flex-col font-sans selection:bg-[#B59551]/30">
+    <main className="min-h-[100dvh] bg-[var(--foret-nocturne)] text-[var(--ivoire-ancien)] flex flex-col font-sans selection:bg-[var(--or-ancestral)]/30">
       <div className="absolute inset-0 opacity-5 pointer-events-none mix-blend-overlay"></div>
       <Navbar />
 
       <section className="relative pt-32 pb-20 px-6 sm:px-12 md:px-24 max-w-4xl mx-auto w-full z-10 flex-grow">
         <Link 
           href={`/forum/${category.slug}`} 
-          className="inline-flex items-center text-[#B59551] hover:text-[#F2EEDD] transition-colors mb-8 text-sm uppercase tracking-widest font-medium group"
+          className="inline-flex items-center text-[var(--or-ancestral)] hover:text-[var(--ivoire-ancien)] transition-colors mb-8 text-sm uppercase tracking-widest font-medium group"
         >
           <ArrowLeft size={16} className="mr-2 group-hover:-translate-x-1 transition-transform" /> Retour à {catName?.fr || category.slug}
         </Link>
         
-        <div className="border-b border-[#B59551]/20 pb-8 mb-8">
-          <h1 className="text-3xl md:text-5xl font-light tracking-tight text-[#F2EEDD] flex items-center gap-4">
-            <MessageSquarePlus className="text-[#B59551]" size={40} />
+        <div className="border-b border-[var(--or-ancestral)]/20 pb-8 mb-8">
+          <h1 className="text-3xl md:text-5xl font-light tracking-tight text-[var(--ivoire-ancien)] flex items-center gap-4">
+            <MessageSquarePlus className="text-[var(--or-ancestral)]" size={40} />
             Lancer un Sujet
           </h1>
         </div>

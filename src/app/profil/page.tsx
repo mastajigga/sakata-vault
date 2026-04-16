@@ -7,6 +7,7 @@ import { ContributorBadge } from "@/components/badges/ContributorBadge";
 import { supabase } from "@/lib/supabase";
 import { useLanguage } from "@/components/LanguageProvider";
 import { ROUTES } from "@/lib/constants/routes";
+import { DB_TABLES } from "@/lib/constants/db";
 import Navbar from "@/components/Navbar";
 import Link from "next/link";
 import {
@@ -68,7 +69,7 @@ const ProfilePage = () => {
       const fetchProfile = async () => {
         try {
           const { data, error } = await supabase
-            .from("profiles")
+            .from(DB_TABLES.PROFILES)
             .select("*")
             .eq("id", user.id)
             .single();
@@ -137,7 +138,7 @@ const ProfilePage = () => {
 
       // Update profile
       const { error: updateError } = await supabase
-        .from("profiles")
+        .from(DB_TABLES.PROFILES)
         .update({ avatar_url: publicUrl })
         .eq("id", user!.id);
 
@@ -163,7 +164,7 @@ const ProfilePage = () => {
     setSuccess(false);
     
     const { error: updateError } = await supabase
-      .from("profiles")
+      .from(DB_TABLES.PROFILES)
       .update({
         ...formData,
         updated_at: new Date().toISOString(),
@@ -185,7 +186,7 @@ const ProfilePage = () => {
     
     setLoading(true);
     const { error: updateError } = await supabase
-      .from("profiles")
+      .from(DB_TABLES.PROFILES)
       .update({
         contributor_status: "pending",
         updated_at: new Date().toISOString(),
@@ -564,19 +565,19 @@ const ProfilePage = () => {
               transition={{ delay: 0.25 }}
               className={`p-6 rounded-2xl border overflow-hidden relative ${
                 subscriptionTier === 'premium'
-                  ? 'border-[#C16B34]/30 bg-[#C16B34]/[0.04]'
+                  ? 'border-[var(--or-ancestral)]/30 bg-[var(--or-ancestral)]/[0.04]'
                   : 'border-white/5 bg-white/[0.02]'
               }`}
             >
               <div className="relative z-10">
                 <div className="flex items-center gap-3 mb-3">
-                  <div className={`p-2 rounded ${subscriptionTier === 'premium' ? 'bg-[#C16B34]/20' : 'bg-white/5'}`}>
-                    <Lock className={`w-4 h-4 ${subscriptionTier === 'premium' ? 'text-[#C16B34]' : 'text-ivoire-ancien/40'}`} />
+                  <div className={`p-2 rounded ${subscriptionTier === 'premium' ? 'bg-[var(--or-ancestral)]/20' : 'bg-white/5'}`}>
+                    <Lock className={`w-4 h-4 ${subscriptionTier === 'premium' ? 'text-[var(--or-ancestral)]' : 'text-ivoire-ancien/40'}`} />
                   </div>
                   <div>
                     <h3 className="text-sm font-bold text-ivoire-ancien">Mon Abonnement</h3>
                     <span className={`text-[10px] font-mono uppercase tracking-wider ${
-                      subscriptionTier === 'premium' ? 'text-[#C16B34]' : 'text-ivoire-ancien/30'
+                      subscriptionTier === 'premium' ? 'text-[var(--or-ancestral)]' : 'text-ivoire-ancien/30'
                     }`}>
                       {subscriptionTier === 'premium' ? '✦ Gardien de l\'Héritage' : 'Accès Libre'}
                     </span>
@@ -600,7 +601,7 @@ const ProfilePage = () => {
                     <button
                       onClick={handlePortal}
                       disabled={portalLoading}
-                      className="w-full py-2.5 rounded-xl border border-[#C16B34]/40 text-[#C16B34] text-[11px] font-bold uppercase tracking-widest transition-all hover:bg-[#C16B34] hover:text-white flex items-center justify-center gap-2"
+                      className="w-full py-2.5 rounded-xl border border-[var(--or-ancestral)]/40 text-[var(--or-ancestral)] text-[11px] font-bold uppercase tracking-widest transition-all hover:bg-[var(--or-ancestral)] hover:text-white flex items-center justify-center gap-2"
                     >
                       {portalLoading ? <Loader2 className="w-3 h-3 animate-spin" /> : null}
                       Gérer mon abonnement
@@ -613,7 +614,7 @@ const ProfilePage = () => {
                       Débloquez l'accès illimité aux archives et soutenez la préservation culturelle.
                     </p>
                     <Link href={ROUTES.PREMIUM}>
-                      <span className="block w-full py-2.5 rounded-xl bg-[#C16B34]/10 border border-[#C16B34]/20 text-[#C16B34] text-[11px] font-bold uppercase tracking-widest text-center transition-all hover:bg-[#C16B34] hover:text-white">
+                      <span className="block w-full py-2.5 rounded-xl bg-[var(--or-ancestral)]/10 border border-[var(--or-ancestral)]/20 text-[var(--or-ancestral)] text-[11px] font-bold uppercase tracking-widest text-center transition-all hover:bg-[var(--or-ancestral)] hover:text-white">
                         Passer à Premium — 4.99€/mois
                       </span>
                     </Link>
@@ -621,7 +622,7 @@ const ProfilePage = () => {
                 )}
               </div>
               {subscriptionTier === 'premium' && (
-                <div className="absolute top-0 right-0 -mr-8 -mt-8 w-32 h-32 bg-[#C16B34]/10 blur-[60px] rounded-full pointer-events-none" />
+                <div className="absolute top-0 right-0 -mr-8 -mt-8 w-32 h-32 bg-[var(--or-ancestral)]/10 blur-[60px] rounded-full pointer-events-none" />
               )}
             </motion.div>
 

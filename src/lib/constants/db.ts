@@ -14,6 +14,12 @@ export const DB_TABLES = {
   FORUM_POSTS: "forum_posts",
   PROFILE_GALLERY: "profile_gallery",
   USER_GALLERY: "user_gallery",
+  CHAT_REACTIONS: "chat_reactions",
+  PUSH_SUBSCRIPTIONS: "push_subscriptions",
+  ECOLE_SCORES: "ecole_scores",
+  CONTRIBUTION_REQUESTS: "contribution_requests",
+  SUBSCRIPTION_SESSIONS: "subscription_sessions",
+  CHAT_SUBSCRIPTIONS: "chat_subscriptions",
 } as const;
 
 export type DbTable = typeof DB_TABLES[keyof typeof DB_TABLES];

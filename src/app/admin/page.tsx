@@ -8,6 +8,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase";
+import { DB_TABLES } from "@/lib/constants/db";
 import { useAuth } from "@/components/AuthProvider";
 import { 
   AreaChart, Area, XAxis, YAxis, CartesianGrid, 
@@ -60,7 +61,7 @@ const AdminDashboard = () => {
       try {
         // Core counts
         const { count: articleCount } = await supabase.from("articles").select("*", { count: "exact", head: true });
-        const { count: userCount } = await supabase.from("profiles").select("*", { count: "exact", head: true });
+        const { count: userCount } = await supabase.from(DB_TABLES.PROFILES).select("*", { count: "exact", head: true });
         const { data: articlesData } = await supabase.from("articles").select("likes_count, reads_count, title, slug").order('reads_count', { ascending: false }).limit(5);
         
         // Sum total likes and reads from articles table (optimized)
@@ -379,7 +380,7 @@ const AdminDashboard = () => {
                   domain={['auto', 'auto']}
                 />
                 <Tooltip 
-                  contentStyle={{ backgroundColor: '#0A1F15', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '12px' }}
+                  contentStyle={{ backgroundColor: "var(--foret-nocturne)", border: '1px solid rgba(255,255,255,0.1)', borderRadius: '12px' }}
                   itemStyle={{ color: 'var(--or-ancestral)', fontWeight: 'bold' }}
                 />
                 <Area 

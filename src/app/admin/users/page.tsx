@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
+import { DB_TABLES } from "@/lib/constants/db";
 import { Users, Shield, ShieldCheck, ShieldAlert, UserPlus, Search, MoreHorizontal } from "lucide-react";
 import { motion } from "framer-motion";
 
@@ -13,7 +14,7 @@ const UserManagementPage = () => {
   const fetchProfiles = async () => {
     setLoading(true);
     const { data, error } = await supabase
-      .from("profiles")
+      .from(DB_TABLES.PROFILES)
       .select("*")
       .order("updated_at", { ascending: false, nullsFirst: false });
     
@@ -29,7 +30,7 @@ const UserManagementPage = () => {
 
   const updateRole = async (userId: string, newRole: string) => {
     const { error } = await supabase
-      .from("profiles")
+      .from(DB_TABLES.PROFILES)
       .update({ role: newRole })
       .eq("id", userId);
 
@@ -71,7 +72,7 @@ const UserManagementPage = () => {
     // Note: True deletion of an auth user requires Server Role/Admin API.
     // For now we will soft-ban the role to "deleted", or if backend is upgraded, this can fully delete.
     if (confirm("Etes-vous certain de vouloir restreindre cet utilisateur de la plateforme (suppression logique) ?")) {
-       const { error } = await supabase.from("profiles").update({ role: "deleted", first_name: "[Supprimé]" }).eq("id", userId);
+       const { error } = await supabase.from(DB_TABLES.PROFILES).update({ role: "deleted", first_name: "[Supprimé]" }).eq("id", userId);
        if (!error) {
           setProfiles(profiles.filter(p => p.id !== userId));
           alert("Utilisateur retiré avec succès de la liste active.");

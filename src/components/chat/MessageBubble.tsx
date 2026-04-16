@@ -1,14 +1,21 @@
 "use client";
 
 import React, { useRef, useState, useEffect, useCallback } from "react";
-import { Message } from "./ChatWindow";
-import { FileText, Clock, Play, Pause, Download, Lock, Eye } from "lucide-react";
+import { Message, ReactionMap } from "./ChatWindow";
+import { FileText, Clock, Play, Pause, Download, Lock, Eye, Check, CheckCheck } from "lucide-react";
 import { TIMINGS } from "@/lib/constants/timings";
 import { msgViewedKey } from "@/lib/constants/storage";
+import { supabase } from "@/lib/supabase";
+import { DB_BUCKETS } from "@/lib/constants/db";
+
+const REACTION_EMOJIS = ["👍", "❤️", "😂", "😮", "😢", "🔥"];
 
 interface MessageBubbleProps {
   message: Message;
   isTemporary?: boolean;
+  reactions?: ReactionMap;
+  myReactions?: Set<string>;
+  onReact?: (messageId: string, emoji: string) => void;
 }
 
 // ─── Audio Player ────────────────────────────────────────────────────────────
@@ -137,9 +144,27 @@ function ProtectedImage({
   message: Message;
   isTemporary?: boolean;
 }) {
-  const { fileUrl, id, maxViews, isMe } = message;
+  const { fileUrl: rawFileUrl, id, maxViews, isMe } = message;
   const countdownTotal = maxViews === 1 ? TIMINGS.VIEW_ONCE_COUNTDOWN : TIMINGS.VIEW_TWICE_COUNTDOWN;
   const storageKey = msgViewedKey(id);
+
+  // BUG-002: Si fileUrl est un path storage: → générer signed URL à la demande
+  const [resolvedUrl, setResolvedUrl] = useState<string | undefined>(
+    rawFileUrl?.startsWith("storage:") ? undefined : rawFileUrl
+  );
+
+  useEffect(() => {
+    if (!rawFileUrl?.startsWith("storage:")) return;
+    const path = rawFileUrl.replace(`storage:${DB_BUCKETS.CHAT_ATTACHMENTS}/`, "");
+    supabase.storage
+      .from(DB_BUCKETS.CHAT_ATTACHMENTS)
+      .createSignedUrl(path, 3600)
+      .then(({ data }) => {
+        if (data?.signedUrl) setResolvedUrl(data.signedUrl);
+      });
+  }, [rawFileUrl]);
+
+  const fileUrl = resolvedUrl;
 
   // Senders always see their own image — no lock, no countdown
   // Only the receiver is subject to view limits
@@ -323,8 +348,9 @@ function ProtectedImage({
 
 // ─── MessageBubble ────────────────────────────────────────────────────────────
 
-export function MessageBubble({ message, isTemporary }: MessageBubbleProps) {
+export function MessageBubble({ message, isTemporary, reactions = {}, myReactions, onReact }: MessageBubbleProps) {
   const isMe = message.isMe;
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const isProtectedImage =
     message.fileType === "image" &&
     message.fileUrl &&
@@ -428,6 +454,57 @@ export function MessageBubble({ message, isTemporary }: MessageBubbleProps) {
             {renderContent()}
           </div>
 
+          {/* Emoji react button (visible au hover) */}
+          {onReact && (
+            <div className={`absolute top-1 ${isMe ? "left-0 -translate-x-full pr-1" : "right-0 translate-x-full pl-1"} opacity-0 group-hover:opacity-100 transition-opacity`}>
+              <button
+                type="button"
+                aria-label="Ajouter une réaction"
+                onClick={() => setShowEmojiPicker(v => !v)}
+                className="w-7 h-7 rounded-full bg-stone-100 dark:bg-stone-700 hover:bg-stone-200 dark:hover:bg-stone-600 flex items-center justify-center text-sm shadow transition-colors"
+              >
+                😊
+              </button>
+              {showEmojiPicker && (
+                <div className={`absolute bottom-full mb-1 ${isMe ? "right-0" : "left-0"} flex gap-1 bg-white dark:bg-stone-800 border border-stone-200 dark:border-stone-700 rounded-xl p-1.5 shadow-xl z-20`}>
+                  {REACTION_EMOJIS.map(emoji => (
+                    <button
+                      key={emoji}
+                      type="button"
+                      aria-label={`Réagir avec ${emoji}`}
+                      onClick={() => { onReact(message.id, emoji); setShowEmojiPicker(false); }}
+                      className={`text-lg hover:scale-125 transition-transform px-0.5 ${myReactions?.has(emoji) ? "ring-2 ring-amber-500 rounded-md" : ""}`}
+                    >
+                      {emoji}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Réactions affichées sous le message */}
+          {Object.keys(reactions).length > 0 && (
+            <div className={`flex flex-wrap gap-1 mt-1 ${isMe ? "justify-end" : "justify-start"}`}>
+              {Object.entries(reactions).map(([emoji, count]) => (
+                <button
+                  key={emoji}
+                  type="button"
+                  aria-label={`${count} réaction(s) ${emoji}`}
+                  onClick={() => onReact?.(message.id, emoji)}
+                  className={`flex items-center gap-0.5 text-xs px-1.5 py-0.5 rounded-full border transition-colors ${
+                    myReactions?.has(emoji)
+                      ? "bg-amber-100 dark:bg-amber-900/40 border-amber-400 dark:border-amber-600 text-amber-700 dark:text-amber-300"
+                      : "bg-stone-100 dark:bg-stone-800 border-stone-200 dark:border-stone-700 text-stone-600 dark:text-stone-400"
+                  }`}
+                >
+                  <span>{emoji}</span>
+                  <span className="font-medium">{count}</span>
+                </button>
+              ))}
+            </div>
+          )}
+
           <div
             className={`flex items-center mt-1 space-x-1 ${
               isMe ? "justify-end" : "justify-start"
@@ -446,6 +523,16 @@ export function MessageBubble({ message, isTemporary }: MessageBubbleProps) {
               </span>
             )}
             <span className="text-[11px] text-stone-400">{message.createdAt}</span>
+            {/* Double tick — indicateur de lecture */}
+            {isMe && (
+              <span className="ml-0.5 flex items-center">
+                {message.isRead ? (
+                  <CheckCheck size={12} className="text-amber-400" aria-label="Message lu" />
+                ) : (
+                  <Check size={12} className="text-stone-400" aria-label="Message envoyé" />
+                )}
+              </span>
+            )}
           </div>
         </div>
       </div>

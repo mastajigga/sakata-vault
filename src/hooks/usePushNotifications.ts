@@ -1,73 +1,91 @@
 "use client";
 
-import { useEffect, useState } from 'react';
-import { supabase } from '@/lib/supabase';
+import { useState, useEffect, useCallback } from "react";
 
 export function usePushNotifications() {
-  const [permission, setPermission] = useState<NotificationPermission>('default');
+  const [isSupported, setIsSupported] = useState(false);
   const [isSubscribed, setIsSubscribed] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    if (typeof window !== 'undefined' && 'Notification' in window) {
-      setPermission(Notification.permission);
-      checkSubscription();
-    }
+    setIsSupported("serviceWorker" in navigator && "PushManager" in window);
   }, []);
 
-  async function checkSubscription() {
-    const registration = await navigator.serviceWorker.ready;
-    const subscription = await registration.pushManager.getSubscription();
-    setIsSubscribed(!!subscription);
-    return subscription;
-  }
-
-  async function subscribe() {
+  const subscribe = useCallback(async () => {
+    if (!isSupported) return false;
+    setIsLoading(true);
     try {
-      if (!('serviceWorker' in navigator) || !('PushManager' in window)) {
-        console.error("Push notifications are not supported");
-        return;
-      }
+      // Demander permission
+      const permission = await Notification.requestPermission();
+      if (permission !== "granted") return false;
 
-      const registration = await navigator.serviceWorker.ready;
-      
-      const { data: { session } } = await supabase.auth.getSession();
-      if (!session) return;
+      // Enregistrer le service worker
+      const reg = await navigator.serviceWorker.register("/sw.js");
+      await navigator.serviceWorker.ready;
 
-      const response = await fetch('/api/push/vapid-key');
-      const { publicKey } = await response.json();
+      // Récupérer la clé VAPID publique
+      const vapidRes = await fetch("/api/push/vapid-key");
+      const { publicKey } = await vapidRes.json();
 
-      const subscription = await registration.pushManager.subscribe({
+      // Créer la subscription
+      const sub = await reg.pushManager.subscribe({
         userVisibleOnly: true,
-        applicationServerKey: urlBase64ToUint8Array(publicKey)
+        applicationServerKey: urlBase64ToUint8Array(publicKey) as unknown as ArrayBuffer,
       });
 
-      // Save to Supabase
-      const { error } = await supabase
-        .from('push_subscriptions')
-        .insert({
-          user_id: session.user.id,
-          subscription: subscription.toJSON()
-        });
+      const subJson = sub.toJSON();
+      const keys = subJson.keys as { p256dh: string; auth: string };
 
-      if (error) throw error;
-      
+      // Sauvegarder côté serveur
+      await fetch("/api/push/subscribe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          endpoint: subJson.endpoint,
+          p256dh: keys.p256dh,
+          auth: keys.auth,
+        }),
+      });
+
       setIsSubscribed(true);
-      setPermission(Notification.permission);
-    } catch (error) {
-      console.error("Failed to subscribe to push notifications", error);
+      return true;
+    } catch (err) {
+      console.error("Push subscription error:", err);
+      return false;
+    } finally {
+      setIsLoading(false);
     }
-  }
+  }, [isSupported]);
 
-  return { permission, isSubscribed, subscribe };
+  const unsubscribe = useCallback(async () => {
+    if (!isSupported) return;
+    setIsLoading(true);
+    try {
+      const reg = await navigator.serviceWorker.getRegistration("/sw.js");
+      if (!reg) return;
+      const sub = await reg.pushManager.getSubscription();
+      if (sub) {
+        await fetch("/api/push/unsubscribe", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ endpoint: sub.endpoint }),
+        });
+        await sub.unsubscribe();
+      }
+      setIsSubscribed(false);
+    } catch (err) {
+      console.error("Push unsubscribe error:", err);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [isSupported]);
+
+  return { isSupported, isSubscribed, isLoading, subscribe, unsubscribe };
 }
 
-function urlBase64ToUint8Array(base64String: string) {
-  const padding = '='.repeat((4 - (base64String.length % 4)) % 4);
-  const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
+function urlBase64ToUint8Array(base64String: string): Uint8Array {
+  const padding = "=".repeat((4 - (base64String.length % 4)) % 4);
+  const base64 = (base64String + padding).replace(/-/g, "+").replace(/_/g, "/");
   const rawData = window.atob(base64);
-  const outputArray = new Uint8Array(rawData.length);
-  for (let i = 0; i < rawData.length; ++i) {
-    outputArray[i] = rawData.charCodeAt(i);
-  }
-  return outputArray;
+  return Uint8Array.from([...rawData].map((c) => c.charCodeAt(0)));
 }

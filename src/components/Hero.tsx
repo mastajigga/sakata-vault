@@ -85,7 +85,7 @@ const Hero = () => {
       >
         {/* Dark placeholder — visible until video is ready to play */}
         {!videoReady && (
-          <div className="absolute inset-0 bg-[#0A1F15]" />
+          <div className="absolute inset-0 bg-[var(--foret-nocturne)]" />
         )}
         <video
           ref={videoRef}

@@ -33,7 +33,7 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
       
       <div className="pt-24 flex min-h-[100dvh] overflow-hidden">
         {/* Sidebar */}
-        <aside className="w-64 border-r border-white/5 bg-[#0A1F15]/50 backdrop-blur-md hidden md:flex flex-col p-6 space-y-8">
+        <aside className="w-64 border-r border-white/5 bg-[var(--foret-nocturne)]/50 backdrop-blur-md hidden md:flex flex-col p-6 space-y-8">
           <div className="space-y-2">
             <p className="text-[10px] uppercase tracking-widest opacity-40 font-bold ml-4">
               Menu Principal

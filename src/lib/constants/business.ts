@@ -34,5 +34,34 @@ export const MAX_VIEWS = {
   TWICE: 2,
 } as const;
 
-export const APP_VERSION = "2.2.0"; // Bumped 2026-04-15 — fix localStorage key prefix mismatch (P1-A/B)
+export const APP_VERSION = "2.3.0"; // Bumped 2026-04-16 — chat reactions, pagination, read indicators, signed URLs
 export const PINECONE_DEFAULT_INDEX = "sakata-mathematics";
+
+// ─── Hiérarchie des rôles ────────────────────────────────────────────────────
+export const ROLE_HIERARCHY: Record<UserRole, number> = {
+  admin: 4,
+  manager: 3,
+  contributor: 2,
+  user: 1,
+} as const;
+
+/** true si l'utilisateur peut gérer le contenu (admin ou manager) */
+export const canManageContent = (role?: UserRole | null): boolean =>
+  ["admin", "manager"].includes(role ?? "");
+
+/** true si l'utilisateur peut créer des articles (admin, manager, contributor) */
+export const canCreateArticles = (role?: UserRole | null): boolean =>
+  ["admin", "manager", "contributor"].includes(role ?? "");
+
+/** true si l'utilisateur peut modérer (admin ou manager) */
+export const canModerate = (role?: UserRole | null): boolean =>
+  ["admin", "manager"].includes(role ?? "");
+
+/** true si le rôle de l'utilisateur est >= au rôle minimum requis */
+export const hasMinRole = (
+  userRole: UserRole | null | undefined,
+  minRole: UserRole
+): boolean => {
+  if (!userRole) return false;
+  return ROLE_HIERARCHY[userRole] >= ROLE_HIERARCHY[minRole];
+};

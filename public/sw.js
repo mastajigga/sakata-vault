@@ -1,37 +1,30 @@
-self.addEventListener('push', function (event) {
-  if (event.data) {
-    const data = event.data.json();
-    const options = {
-      body: data.body,
-      icon: '/icons/icon-192x192.png',
-      badge: '/icons/badge-72x72.png',
-      data: {
-        url: data.url || '/chat'
-      },
-      vibrate: [100, 50, 100],
-    };
+self.addEventListener('install', () => self.skipWaiting());
+self.addEventListener('activate', (e) => e.waitUntil(self.clients.claim()));
 
-    event.waitUntil(
-      self.registration.showNotification(data.title || 'Nouveau message Sakata', options)
-    );
-  }
+self.addEventListener('push', (event) => {
+  const data = event.data?.json() ?? {};
+  const options = {
+    body: data.body || 'Nouveau message sur Kisakata',
+    icon: '/icons/icon-192.png',
+    badge: '/icons/icon-72.png',
+    vibrate: [100, 50, 100],
+    data: { url: data.url || '/chat' },
+    actions: [{ action: 'open', title: 'Ouvrir' }],
+  };
+  event.waitUntil(
+    self.registration.showNotification(data.title || 'Kisakata', options)
+  );
 });
 
-self.addEventListener('notificationclick', function (event) {
+self.addEventListener('notificationclick', (event) => {
   event.notification.close();
+  const url = event.notification.data?.url || '/chat';
   event.waitUntil(
-    clients.matchAll({ type: 'window', includeUncontrolled: true }).then(function (clientList) {
-      if (clientList.length > 0) {
-        let client = clientList[0];
-        for (let i = 0; i < clientList.length; i++) {
-          if (clientList[i].focused) {
-            client = clientList[i];
-            break;
-          }
-        }
-        return client.focus().then(c => c.navigate(event.notification.data.url));
+    clients.matchAll({ type: 'window', includeUncontrolled: true }).then((clientList) => {
+      for (const client of clientList) {
+        if (client.url.includes(url) && 'focus' in client) return client.focus();
       }
-      return clients.openWindow(event.notification.data.url);
+      if (clients.openWindow) return clients.openWindow(url);
     })
   );
 });
