@@ -15,6 +15,105 @@ import {
   Tooltip, ResponsiveContainer, BarChart, Bar 
 } from "recharts";
 
+const COUNTRY_NAMES: Record<string, string> = {
+  // African countries
+  "CD": "République Démocratique du Congo",
+  "RDC": "République Démocratique du Congo",
+  "Congo": "République du Congo",
+  "CG": "République du Congo",
+  "KE": "Kenya",
+  "TZ": "Tanzanie",
+  "UG": "Ouganda",
+  "RW": "Rwanda",
+  "Cameroon": "Cameroun",
+  "CM": "Cameroun",
+  "BW": "Botswana",
+  "ZA": "Afrique du Sud",
+  "ZM": "Zambie",
+  "ZW": "Zimbabwe",
+  "MW": "Malawi",
+  "MZ": "Mozambique",
+  "AO": "Angola",
+  "GA": "Gabon",
+  "CG": "Congo",
+  "CM": "Cameroun",
+  "GQ": "Guinée Équatoriale",
+  "CF": "République Centrafricaine",
+  "TD": "Tchad",
+  "SD": "Soudan",
+  "NG": "Nigeria",
+  "GH": "Ghana",
+  "CI": "Côte d'Ivoire",
+  "SN": "Sénégal",
+  "ML": "Mali",
+  "BF": "Burkina Faso",
+  "NE": "Niger",
+  "ET": "Éthiopie",
+  "SO": "Somalie",
+  "DJ": "Djibouti",
+  "ER": "Érythrée",
+
+  // European countries
+  "FR": "France",
+  "BE": "Belgique",
+  "NL": "Pays-Bas",
+  "DE": "Allemagne",
+  "IT": "Italie",
+  "ES": "Espagne",
+  "PT": "Portugal",
+  "PL": "Pologne",
+  "RU": "Russie",
+  "GB": "Royaume-Uni",
+  "CH": "Suisse",
+  "AT": "Autriche",
+  "SE": "Suède",
+  "NO": "Norvège",
+  "DK": "Danemark",
+  "FI": "Finlande",
+
+  // Americas
+  "US": "États-Unis",
+  "CA": "Canada",
+  "MX": "Mexique",
+  "BR": "Brésil",
+  "AR": "Argentine",
+  "CL": "Chili",
+  "CO": "Colombie",
+
+  // Asia
+  "CN": "Chine",
+  "IN": "Inde",
+  "JP": "Japon",
+  "KR": "Corée du Sud",
+  "TH": "Thaïlande",
+  "VN": "Vietnam",
+  "SG": "Singapour",
+  "MY": "Malaisie",
+  "PH": "Philippines",
+  "ID": "Indonésie",
+  "PK": "Pakistan",
+
+  // Middle East
+  "SA": "Arabie Saoudite",
+  "AE": "Émirats Arabes Unis",
+  "IL": "Israël",
+  "TR": "Turquie",
+  "IR": "Iran",
+  "IQ": "Irak",
+  "SY": "Syrie",
+  "JO": "Jordanie",
+  "LB": "Liban",
+};
+
+const getCountryFullName = (shortName: string): string => {
+  // Check if it's already in the mapping
+  if (COUNTRY_NAMES[shortName]) {
+    return COUNTRY_NAMES[shortName];
+  }
+  // If not, return the short name as-is
+  return shortName;
+};
+
 const AdminDashboard = () => {
   const [stats, setStats] = useState({
     totalArticles: 0,
@@ -53,7 +152,7 @@ const AdminDashboard = () => {
   const [chartData, setChartData] = useState<any[]>([]);
   const [topArticles, setTopArticles] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [timeframe, setTimeframe] = useState<"7_days" | "30_days" | "6_months">("7_days");
+  const [timeframe, setTimeframe] = useState<"24_hours" | "7_days" | "30_days" | "6_months">("7_days");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -71,7 +170,8 @@ const AdminDashboard = () => {
 
         // Fetch Analytics for chart and insights
         let dateFilter = new Date();
-        if (timeframe === "7_days") dateFilter.setDate(dateFilter.getDate() - 7);
+        if (timeframe === "24_hours") dateFilter.setDate(dateFilter.getDate() - 1);
+        else if (timeframe === "7_days") dateFilter.setDate(dateFilter.getDate() - 7);
         else if (timeframe === "30_days") dateFilter.setDate(dateFilter.getDate() - 30);
         else if (timeframe === "6_months") dateFilter.setMonth(dateFilter.getMonth() - 6);
 
@@ -232,7 +332,22 @@ const AdminDashboard = () => {
         let chartPoints: any[] = [];
         const groupedByTime: any = {};
 
-        if (timeframe === "7_days" || timeframe === "30_days") {
+        if (timeframe === "24_hours") {
+          chartPoints = Array.from({ length: 24 }, (_, i) => {
+            const d = new Date();
+            d.setHours(i, 0, 0, 0);
+            return `${String(i).padStart(2, '0')}h`;
+          });
+
+          chartPoints.forEach(hour => groupedByTime[hour] = 0);
+
+          analyticsData?.forEach(v => {
+            const hour = `${String(new Date(v.created_at).getHours()).padStart(2, '0')}h`;
+            if (groupedByTime[hour] !== undefined) {
+               groupedByTime[hour] += 1;
+            }
+          });
+        } else if (timeframe === "7_days" || timeframe === "30_days") {
           const length = timeframe === "7_days" ? 7 : 30;
           chartPoints = Array.from({ length }, (_, i) => {
             const d = new Date();
@@ -346,13 +461,14 @@ const AdminDashboard = () => {
           <div className="flex justify-between items-center mb-12">
             <div>
               <h3 className="font-display text-xl font-bold">Évolution de l'Audience</h3>
-              <p className="text-xs opacity-40 uppercase tracking-widest mt-1">Flux de conscience {timeframe === '6_months' ? 'MENSUEL' : 'JOURNALIER'}</p>
+              <p className="text-xs opacity-40 uppercase tracking-widest mt-1">Flux de conscience {timeframe === '6_months' ? 'MENSUEL' : timeframe === '24_hours' ? 'HORAIRE' : 'JOURNALIER'}</p>
             </div>
-            <select 
-              value={timeframe} 
+            <select
+              value={timeframe}
               onChange={(e) => setTimeframe(e.target.value as any)}
               className="bg-transparent border-none text-xs text-or-ancestral font-bold cursor-pointer outline-none"
             >
+               <option value="24_hours">24 DERNIÈRES HEURES</option>
                <option value="7_days">7 DERNIERS JOURS</option>
                <option value="30_days">30 JOURS</option>
                <option value="6_months">6 MOIS</option>
@@ -562,7 +678,7 @@ const AdminDashboard = () => {
                               <motion.div
                                  key={`${insightView}-${insightUnique}-lang-${i}`}
                                  initial={{ width: 0 }}
-                                 animate={{ width: `${Math.min(100, (lang.value / (totalV || 1)) * 100)}%` }}
+                                 animate={{ width: `${Math.min(100, (lang.value / (insightUnique ? (totalU || 1) : (totalV || 1))) * 100)}%` }}
                                  className="h-full bg-or-ancestral rounded-full"
                               />
                            </div>
@@ -590,8 +706,8 @@ const AdminDashboard = () => {
                     <p className="text-[10px] uppercase tracking-widest opacity-40 font-bold">Distribution Géographique (IP)</p>
                     <div className="space-y-3">
                        {locs.map((loc: any, i: number) => (
-                         <div key={i} className="flex items-center justify-between">
-                            <span className="text-xs font-medium text-ivoire-ancien/80">{loc.name}</span>
+                         <div key={i} className="flex items-center justify-between group" title={getCountryFullName(loc.name)}>
+                            <span className="text-xs font-medium text-ivoire-ancien/80 cursor-help hover:text-or-ancestral transition-colors">{loc.name}</span>
                             <div className="flex items-center gap-3">
                                <div className="w-24 h-1.5 bg-white/5 rounded-full overflow-hidden">
                                   <motion.div
