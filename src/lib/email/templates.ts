@@ -52,11 +52,11 @@ export const emailTemplates = {
             `).join('')}
 
             <div class="cta">
-              <a href="${SITE_URL}/help/changelog" class="cta-button">Découvrir les mises à jour</a>
+              <a href="${SITE_URL}/updates?type=phase2" class="cta-button">Découvrir les mises à jour</a>
             </div>
 
             <p style="color: #D4C5B0; font-size: 14px; line-height: 1.6; margin-top: 24px;">
-              Pour plus de détails, consultez notre <a href="${SITE_URL}/help/changelog" style="color: #C16B34; text-decoration: none;">changelog complet</a>.
+              Pour plus de détails, consultez notre <a href="${SITE_URL}/updates?type=phase2" style="color: #C16B34; text-decoration: none;">page des mises à jour</a>.
             </p>
           </div>
 
