@@ -174,6 +174,70 @@ export default function HydrographyLayer({
   );
 
   // Labels des rivières en kisakata (plus petit, en dessous)
+  const mainRiverLayer: LineLayer = useMemo(
+    () => ({
+      id: "rivers-water-main",
+      type: "line",
+      source: sourceId,
+      filter: ["!", ["has", "is_point"]],
+      layout: {
+        "line-join": "round",
+        "line-cap": "round",
+      },
+      paint: {
+        // Simulation de profondeur : l'eau est plus sombre au centre
+        "line-color": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          6, KISAKATA_COLORS.rivenDeep,
+          12, KISAKATA_COLORS.eauProfonde,
+        ] as any,
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.2],
+          ["zoom"],
+          5, 1.5,
+          10, 4,
+          14, 12,
+        ],
+        // Effet de miroitement (specular reflection)
+        "line-opacity": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          7, 0.6,
+          12, 0.8,
+        ],
+        "line-blur": 0.5,
+      },
+    }),
+    [seasonProgress]
+  );
+
+  // Couche de surface "Glow" pour les reflets du ciel
+  const waterSurfaceLayer: LineLayer = useMemo(
+    () => ({
+      id: "rivers-water-surface",
+      type: "line",
+      source: sourceId,
+      filter: ["!", ["has", "is_point"]],
+      paint: {
+        "line-color": KISAKATA_COLORS.ivoireAncien,
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.2],
+          ["zoom"],
+          8, 0.5,
+          14, 2,
+        ],
+        "line-opacity": 0.1,
+        "line-blur": 2,
+      },
+    }),
+    []
+  );
+
   const riverLabelSkt: SymbolLayer = useMemo(
     () => ({
       id: "rivers-label-skt",
