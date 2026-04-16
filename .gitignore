@@ -49,6 +49,7 @@ __pycache__/
 *.pyc
 
 # temporary reports
+/tmp/
 *_report.md
 task.md
 walkthrough.md

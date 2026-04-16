@@ -263,7 +263,7 @@ export default function GeographieClient() {
             initial={{ y: 50, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.8 }}
-            className="max-w-4xl mx-auto w-full pointer-events-auto mt-auto"
+            className="max-w-4xl mx-auto w-full pointer-events-auto mt-auto mb-6 px-4 md:px-0"
           >
             <div className="bg-black/40 backdrop-blur-2xl border border-white/10 rounded-3xl p-4 md:p-6 shadow-2xl relative group">
                <div className="absolute top-4 left-4 w-4 h-4 border-t-2 border-l-2 border-or-ancestral/30 rounded-tl-sm group-hover:border-or-ancestral/60 transition-colors" />

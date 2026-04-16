@@ -144,7 +144,7 @@ const MapContainer = forwardRef<MapRef, MapContainerProps>(
           mapboxAccessToken={MAPBOX_TOKEN}
           mapStyle="mapbox://styles/mapbox/standard"
           projection={{ name: "globe" } as any}
-          terrain={{ source: "mapbox-dem", exaggeration: 1.5 }}
+          terrain={{ source: "mapbox-dem", exaggeration: 1.1 }}
           fog={{
             range: [0.5, 10],
             color: "#0A1F15",
