@@ -35,8 +35,6 @@ const COUNTRY_NAMES: Record<string, string> = {
   "MZ": "Mozambique",
   "AO": "Angola",
   "GA": "Gabon",
-  "CG": "Congo",
-  "CM": "Cameroun",
   "GQ": "Guinée Équatoriale",
   "CF": "République Centrafricaine",
   "TD": "Tchad",
