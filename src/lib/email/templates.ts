@@ -1,4 +1,6 @@
 // Email Templates with Sakata branding
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://sakata.com';
+
 export const emailTemplates = {
   updateNotification: (userName: string, updates: string[]) => ({
     subject: "🌍 Sakata — Mises à Jour Majeures de Phase 2",
@@ -50,20 +52,20 @@ export const emailTemplates = {
             `).join('')}
 
             <div class="cta">
-              <a href="https://sakata.com" class="cta-button">Découvrir les mises à jour</a>
+              <a href="${SITE_URL}/help/changelog" class="cta-button">Découvrir les mises à jour</a>
             </div>
 
             <p style="color: #D4C5B0; font-size: 14px; line-height: 1.6; margin-top: 24px;">
-              Pour plus de détails, consultez notre <a href="https://sakata.com/help/changelog" style="color: #C16B34; text-decoration: none;">changelog complet</a>.
+              Pour plus de détails, consultez notre <a href="${SITE_URL}/help/changelog" style="color: #C16B34; text-decoration: none;">changelog complet</a>.
             </p>
           </div>
 
           <div class="footer">
             <p style="margin: 0 0 8px 0;">© 2026 Sakata — Patrimoine et Transmission Culturelle</p>
             <p style="margin: 0;">
-              <a href="https://sakata.com/help/gdpr">Confidentialité</a> •
-              <a href="https://sakata.com/help/philosophy">Philosophie</a> •
-              <a href="https://sakata.com/help/guidelines">Directives</a>
+              <a href="${SITE_URL}/help/gdpr">Confidentialité</a> •
+              <a href="${SITE_URL}/help/philosophy">Philosophie</a> •
+              <a href="${SITE_URL}/help/guidelines">Directives</a>
             </p>
           </div>
         </div>
