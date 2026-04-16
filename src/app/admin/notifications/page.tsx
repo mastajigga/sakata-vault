@@ -23,7 +23,7 @@ export default function AdminNotificationsPage() {
 
   // Vérifier les droits admin
   useEffect(() => {
-    if (!user || !canManageContent(user.role)) {
+    if (!user || !user.role || !canManageContent(user.role as any)) {
       router.push("/");
     }
   }, [user, router]);
