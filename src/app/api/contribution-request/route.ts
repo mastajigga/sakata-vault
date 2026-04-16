@@ -85,7 +85,7 @@ export async function POST(request: Request) {
       {
         success: true,
         message:
-          "Votre demande a été envoyée. L'équipe Kisakata examinera votre profil et vous contactera.",
+          "Votre demande a été envoyée. L'équipe Sakata examinera votre profil et vous contactera.",
         request: data,
       },
       { status: 201 }

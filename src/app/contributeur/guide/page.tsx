@@ -130,7 +130,7 @@ export default function ContributorGuidePage() {
               <h2 className="text-3xl font-light">Pourquoi contribuer ?</h2>
             </div>
             <p className="text-gray-400 mb-4">
-              En contribuant à Kisakata.com, vous participez à un mouvement de transmission
+              En contribuant à Sakata.com, vous participez à un mouvement de transmission
               intergénérationnel. Vos articles :
             </p>
             <ul className="space-y-3">
@@ -166,7 +166,7 @@ export default function ContributorGuidePage() {
                 {
                   num: 1,
                   title: "Créer un compte",
-                  desc: "Inscrivez-vous sur Kisakata.com en quelques secondes.",
+                  desc: "Inscrivez-vous sur Sakata.com en quelques secondes.",
                 },
                 {
                   num: 2,

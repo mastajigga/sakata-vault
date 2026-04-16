@@ -565,7 +565,7 @@ Garde cela dans ton cœur : ton nom ne commence pas avec toi. Il a été forgé 
 
 **Sources et Références**
 
-- **Tradition Orale** : Récits recueillis auprès des sages de Kutu et Mushie (Archives Kisakata.com).
+- **Tradition Orale** : Récits recueillis auprès des sages de Kutu et Mushie (Archives Sakata.com).
 - **Vansina, J.** (*Paths in the Rainforests*, 1990).
 - **Obenga, T.** (*Les Peuples bantu*, 1985).
 - **Vanzila Munsi, R.** (*The Sakata Society*, 2016).`,
@@ -602,7 +602,7 @@ Kanga na motema, mwana na ngai: nkombo na yo mbotamaki lelo te. Etumbamaki na mo
 
 **Maziba (Sources)**
 
-- **Maloba** : Masolo ya bakulutu oyo eyanganisami na Kutu, Mushie mpe Nioki (Archives Kisakata.com).
+- **Maloba** : Masolo ya bakulutu oyo eyanganisami na Kutu, Mushie mpe Nioki (Archives Sakata.com).
 - **Vansina, J.** (*Paths in the Rainforests*, 1990).
 - **Vanzila Munsi, R.** (*The Sakata Society in the Congo*, 2016).
 - **Obenga, T.** (*Les Peuples bantu*, 1985).`,
@@ -962,7 +962,7 @@ Enfin, il y a la Mpema. C'est le don le plus précieux de Dieu. Le souffle est c
 
 - Oral : Paroles du Chef d'Orchestre Ngongo.
 - Anthropologie : De Beir, L. (1975) - Religion et Magie des Bayaka.
-- Document : Archives Kisakata.com.`,
+- Document : Archives Sakata.com.`,
       lin: `*“Nzoto na biso ezali lokola bwato, molimo lokola motambolisi bwato, mpe mpema lokola mai ya ebale.”*
 — Mayele ya ebale.
 
@@ -1077,7 +1077,7 @@ C'est une force de continuité : une flamme que ton père a reçue de son père,
 **Sources :**
 - Traditions ancestrales Kutu (Gardiens du Savoir).
 - Vansina, J. (1990) - *Paths in the Rainforests*.
-- Archives numériques Kisakata.com.
+- Archives numériques Sakata.com.
 </small>`,
       lin: `## Moyo: Nguya ya Bomoi
 

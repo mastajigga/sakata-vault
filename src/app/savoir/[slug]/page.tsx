@@ -166,7 +166,7 @@ const ArticlePage = () => {
           "headline": displayTitle,
           "description": displaySummary,
           "image": article.featured_image || "",
-          "author": { "@type": "Organization", "name": "Kisakata.com" },
+          "author": { "@type": "Organization", "name": "Sakata.com" },
           "datePublished": article.created_at,
           "inLanguage": language
         }}

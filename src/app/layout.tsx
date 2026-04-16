@@ -28,7 +28,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Kisakata.com | Brume de la Rivière — Patrimoine Sakata",
+  title: "Sakata.com | Brume de la Rivière — Patrimoine Sakata",
   description: "Portail de transmission des savoirs, de la langue et de la sagesse du peuple Sakata (Mai-Ndombe).",
 };
 

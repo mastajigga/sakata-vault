@@ -189,7 +189,7 @@ export function ContributionRequestModal({
                   Demande envoyée !
                 </h3>
                 <p className="text-slate-400 text-sm">
-                  L'équipe Kisakata examinera votre profil et vous contactera
+                  L'équipe Sakata examinera votre profil et vous contactera
                   sous peu.
                 </p>
               </div>
