@@ -1,6 +1,9 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { profileSchema } from "@/lib/schemas/validation";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { useAuth } from "@/components/AuthProvider";
@@ -32,22 +35,31 @@ import {
   Plus
 } from "lucide-react";
 
+type ProfileFormData = {
+  first_name?: string;
+  last_name?: string;
+  nickname?: string;
+  username?: string;
+  bio?: string;
+  location?: string;
+};
+
 const ProfilePage = () => {
   const { user, role, subscriptionTier, isLoading: authLoading } = useAuth() as any;
   const { t } = useLanguage();
-  
+
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  
-  const [formData, setFormData] = useState({
-    first_name: "",
-    last_name: "",
-    nickname: "",
-    username: "",
-    bio: "",
-    location: "",
+  const [apiError, setApiError] = useState<string | null>(null);
+
+  const { register, handleSubmit, formState: { errors, isDirty }, reset, watch } = useForm<ProfileFormData>({
+    resolver: zodResolver(profileSchema),
+    mode: "onChange",
   });
+
+  const nickname = watch("nickname");
+  const firstName = watch("first_name");
+  const lastName = watch("last_name");
   
   const [contributorStatus, setContributorStatus] = useState<string>("none");
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
@@ -76,7 +88,7 @@ const ProfilePage = () => {
             .single();
 
           if (data) {
-            setFormData({
+            reset({
               first_name: data.first_name || "",
               last_name: data.last_name || "",
               nickname: data.nickname || "",
@@ -115,7 +127,7 @@ const ProfilePage = () => {
   const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     try {
       setUploading(true);
-      setError(null);
+      setApiError(null);
 
       if (!event.target.files || event.target.files.length === 0) {
         return;
@@ -150,20 +162,19 @@ const ProfilePage = () => {
       if (successTimerRef.current) clearTimeout(successTimerRef.current);
       successTimerRef.current = setTimeout(() => setSuccess(false), 3000);
     } catch (err: any) {
-      setError(err.message);
+      setApiError(err.message);
     } finally {
       setUploading(false);
     }
   };
 
-  const handleUpdateProfile = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleUpdateProfile = async (formData: ProfileFormData) => {
     if (!user) return;
-    
+
     setLoading(true);
-    setError(null);
+    setApiError(null);
     setSuccess(false);
-    
+
     const { error: updateError } = await supabase
       .from(DB_TABLES.PROFILES)
       .update({
@@ -171,9 +182,9 @@ const ProfilePage = () => {
         updated_at: new Date().toISOString(),
       })
       .eq("id", user.id);
-      
+
     if (updateError) {
-      setError(updateError.message);
+      setApiError(updateError.message);
     } else {
       setSuccess(true);
       if (successTimerRef.current) clearTimeout(successTimerRef.current);
@@ -184,7 +195,7 @@ const ProfilePage = () => {
 
   const handleRequestContributor = async () => {
     if (!user || contributorStatus !== "none") return;
-    
+
     setLoading(true);
     const { error: updateError } = await supabase
       .from(DB_TABLES.PROFILES)
@@ -193,9 +204,9 @@ const ProfilePage = () => {
         updated_at: new Date().toISOString(),
       })
       .eq("id", user.id);
-      
+
     if (updateError) {
-      setError(updateError.message);
+      setApiError(updateError.message);
     } else {
       setContributorStatus("pending");
       setSuccess(true);
@@ -264,7 +275,7 @@ const ProfilePage = () => {
       }
     } catch (err: any) {
       console.error(err);
-      setError(err.message || "Erreur lors de l'envoi du fichier.");
+      setApiError(err.message || "Erreur lors de l'envoi du fichier.");
     } finally {
       setGalleryUploading(false);
     }
@@ -356,7 +367,7 @@ const ProfilePage = () => {
             transition={{ delay: 0.1 }}
             className="lg:col-span-2 p-8 rounded-2xl border border-white/5 bg-white/[0.02] backdrop-blur-xl"
           >
-            <form onSubmit={handleUpdateProfile} className="space-y-6">
+            <form onSubmit={handleSubmit(handleUpdateProfile)} className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
                   <label className="text-[10px] uppercase tracking-widest text-or-ancestral/60 ml-1">
@@ -364,14 +375,16 @@ const ProfilePage = () => {
                   </label>
                   <div className="relative group">
                     <User className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-or-ancestral/40 group-focus-within:text-or-ancestral transition-colors" />
-                    <input 
+                    <input
+                      {...register("first_name")}
                       type="text"
-                      className="w-full bg-white/[0.03] border border-white/10 rounded-xl py-3.5 pl-12 pr-4 text-ivoire-ancien focus:border-or-ancestral/50 focus:ring-0 outline-none transition-all"
-                      value={formData.first_name}
-                      onChange={(e) => setFormData({...formData, first_name: e.target.value})}
+                      className={`w-full bg-white/[0.03] border rounded-xl py-3.5 pl-12 pr-4 text-ivoire-ancien focus:border-or-ancestral/50 focus:ring-0 outline-none transition-all ${
+                        errors.first_name ? "border-red-500/50" : "border-white/10"
+                      }`}
                       placeholder="Votre prénom"
                     />
                   </div>
+                  {errors.first_name && <p className="text-[10px] text-red-400">{errors.first_name.message}</p>}
                 </div>
 
                 <div className="space-y-2">
@@ -380,14 +393,16 @@ const ProfilePage = () => {
                   </label>
                   <div className="relative group">
                     <User className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-or-ancestral/40 group-focus-within:text-or-ancestral transition-colors" />
-                    <input 
+                    <input
+                      {...register("last_name")}
                       type="text"
-                      className="w-full bg-white/[0.03] border border-white/10 rounded-xl py-3.5 pl-12 pr-4 text-ivoire-ancien focus:border-or-ancestral/50 focus:ring-0 outline-none transition-all"
-                      value={formData.last_name}
-                      onChange={(e) => setFormData({...formData, last_name: e.target.value})}
+                      className={`w-full bg-white/[0.03] border rounded-xl py-3.5 pl-12 pr-4 text-ivoire-ancien focus:border-or-ancestral/50 focus:ring-0 outline-none transition-all ${
+                        errors.last_name ? "border-red-500/50" : "border-white/10"
+                      }`}
                       placeholder="Votre nom"
                     />
                   </div>
+                  {errors.last_name && <p className="text-[10px] text-red-400">{errors.last_name.message}</p>}
                 </div>
 
                 <div className="space-y-2">
@@ -396,30 +411,34 @@ const ProfilePage = () => {
                   </label>
                   <div className="relative group">
                     <AtSign className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-or-ancestral/40 group-focus-within:text-or-ancestral transition-colors" />
-                    <input 
+                    <input
+                      {...register("nickname")}
                       type="text"
-                      className="w-full bg-white/[0.03] border border-white/10 rounded-xl py-3.5 pl-12 pr-4 text-ivoire-ancien focus:border-or-ancestral/50 focus:ring-0 outline-none transition-all"
-                      value={formData.nickname}
-                      onChange={(e) => setFormData({...formData, nickname: e.target.value})}
+                      className={`w-full bg-white/[0.03] border rounded-xl py-3.5 pl-12 pr-4 text-ivoire-ancien focus:border-or-ancestral/50 focus:ring-0 outline-none transition-all ${
+                        errors.nickname ? "border-red-500/50" : "border-white/10"
+                      }`}
                       placeholder="Surnom public"
                     />
                   </div>
+                  {errors.nickname && <p className="text-[10px] text-red-400">{errors.nickname.message}</p>}
                 </div>
-                
+
                 <div className="space-y-2">
                   <label className="text-[10px] uppercase tracking-widest text-or-ancestral/60 ml-1">
                     {t("profile.username")}
                   </label>
                   <div className="relative group">
                     <AtSign className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-or-ancestral/40 group-focus-within:text-or-ancestral transition-colors" />
-                    <input 
+                    <input
+                      {...register("username")}
                       type="text"
-                      className="w-full bg-white/[0.03] border border-white/10 rounded-xl py-3.5 pl-12 pr-4 text-ivoire-ancien focus:border-or-ancestral/50 focus:ring-0 outline-none transition-all"
-                      value={formData.username}
-                      onChange={(e) => setFormData({...formData, username: e.target.value})}
+                      className={`w-full bg-white/[0.03] border rounded-xl py-3.5 pl-12 pr-4 text-ivoire-ancien focus:border-or-ancestral/50 focus:ring-0 outline-none transition-all ${
+                        errors.username ? "border-red-500/50" : "border-white/10"
+                      }`}
                       placeholder="Nom d'esprit"
                     />
                   </div>
+                  {errors.username && <p className="text-[10px] text-red-400">{errors.username.message}</p>}
                 </div>
               </div>
 
@@ -429,14 +448,16 @@ const ProfilePage = () => {
                 </label>
                 <div className="relative group">
                   <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-or-ancestral/40 group-focus-within:text-or-ancestral transition-colors" />
-                  <input 
+                  <input
+                    {...register("location")}
                     type="text"
-                    className="w-full bg-white/[0.03] border border-white/10 rounded-xl py-3.5 pl-12 pr-4 text-ivoire-ancien focus:border-or-ancestral/50 focus:ring-0 outline-none transition-all"
-                    value={formData.location}
-                    onChange={(e) => setFormData({...formData, location: e.target.value})}
+                    className={`w-full bg-white/[0.03] border rounded-xl py-3.5 pl-12 pr-4 text-ivoire-ancien focus:border-or-ancestral/50 focus:ring-0 outline-none transition-all ${
+                      errors.location ? "border-red-500/50" : "border-white/10"
+                    }`}
                     placeholder="Ville, Pays ou Territoire"
                   />
                 </div>
+                {errors.location && <p className="text-[10px] text-red-400">{errors.location.message}</p>}
               </div>
 
               <div className="space-y-2">
@@ -445,19 +466,21 @@ const ProfilePage = () => {
                 </label>
                 <div className="relative group">
                   <AlignLeft className="absolute left-4 top-6 w-4 h-4 text-or-ancestral/40 group-focus-within:text-or-ancestral transition-colors" />
-                  <textarea 
-                    className="w-full bg-white/[0.03] border border-white/10 rounded-xl py-3.5 pl-12 pr-4 text-ivoire-ancien focus:border-or-ancestral/50 focus:ring-0 outline-none transition-all min-h-[120px]"
-                    value={formData.bio}
-                    onChange={(e) => setFormData({...formData, bio: e.target.value})}
+                  <textarea
+                    {...register("bio")}
+                    className={`w-full bg-white/[0.03] border rounded-xl py-3.5 pl-12 pr-4 text-ivoire-ancien focus:border-or-ancestral/50 focus:ring-0 outline-none transition-all min-h-[120px] ${
+                      errors.bio ? "border-red-500/50" : "border-white/10"
+                    }`}
                     placeholder="Partagez quelques mots sur votre lien avec la culture Sakata..."
                   />
                 </div>
+                {errors.bio && <p className="text-[10px] text-red-400">{errors.bio.message}</p>}
               </div>
 
               <div className="flex items-center justify-between pt-4">
                 <div className="flex items-center gap-3">
                   {success && (
-                    <motion.span 
+                    <motion.span
                       initial={{ opacity: 0, x: -10 }}
                       animate={{ opacity: 1, x: 0 }}
                       className="text-xs text-green-400 font-medium flex items-center gap-1"
@@ -466,20 +489,21 @@ const ProfilePage = () => {
                       Parole enregistrée avec succès
                     </motion.span>
                   )}
-                  {error && (
-                    <motion.span 
+                  {apiError && (
+                    <motion.span
                       initial={{ opacity: 0, x: -10 }}
                       animate={{ opacity: 1, x: 0 }}
                       className="text-xs text-red-400 font-medium flex items-center gap-1"
                     >
                       <AlertCircle className="w-3 h-3" />
-                      {error}
+                      {apiError}
                     </motion.span>
                   )}
                 </div>
-                
+
                 <button
-                  disabled={loading}
+                  type="submit"
+                  disabled={loading || !isDirty}
                   className="inline-flex items-center gap-2 px-8 py-3 rounded-full bg-or-ancestral text-foret-nocturne font-bold transition-all hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50"
                   style={{ boxShadow: "0 0 20px rgba(181, 149, 81, 0.2)" }}
                 >
@@ -536,7 +560,7 @@ const ProfilePage = () => {
                   </label>
                 </div>
                 <h3 className="text-lg font-display text-ivoire-ancien font-bold mb-1">
-                  {formData.nickname || (formData.first_name ? `${formData.first_name} ${formData.last_name}` : user.email?.split("@")[0])}
+                  {nickname || (firstName ? `${firstName} ${lastName}` : user.email?.split("@")[0])}
                 </h3>
                 <div className="flex items-center gap-1.5 text-ivoire-ancien/40 text-xs mb-4">
                   <Mail className="w-3 h-3" />

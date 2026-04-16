@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import GeographieClient from "./GeographieClient";
+import GeographiePageClient from "./GeographiePageClient";
 
 export const metadata: Metadata = {
   title: "Géographie | Kisakata.com — Voyage au cœur du territoire Basakata",
@@ -14,5 +14,5 @@ export const metadata: Metadata = {
 };
 
 export default function GeographiePage() {
-  return <GeographieClient />;
+  return <GeographiePageClient />;
 }

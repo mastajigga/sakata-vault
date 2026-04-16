@@ -21,6 +21,7 @@
     "@deck.gl/geo-layers": "^9.1.0",
     "@deck.gl/layers": "^9.1.0",
     "@deck.gl/mapbox": "^9.1.0",
+    "@hookform/resolvers": "^5.2.2",
     "@mdx-js/loader": "^3.1.1",
     "@mdx-js/react": "^3.1.1",
     "@modelcontextprotocol/server-github": "^2025.4.8",
@@ -47,6 +48,7 @@
     "next": "16.2.2",
     "react": "19.2.4",
     "react-dom": "19.2.4",
+    "react-hook-form": "^7.72.1",
     "react-map-gl": "^7.1.8",
     "react-markdown": "^10.1.0",
     "recharts": "^3.8.1",
@@ -56,7 +58,8 @@
     "stripe": "^22.0.1",
     "tailwind-merge": "^3.5.0",
     "three": "^0.172.0",
-    "web-push": "^3.6.7"
+    "web-push": "^3.6.7",
+    "zod": "^4.3.6"
   },
   "devDependencies": {
     "@pinecone-database/pinecone": "^7.2.0",

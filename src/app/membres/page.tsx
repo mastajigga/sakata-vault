@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState, useMemo } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { supabase } from "@/lib/supabase";
 import { withRetry } from "@/lib/supabase-retry";
 import { DB_TABLES } from "@/lib/constants/db";
@@ -96,9 +97,11 @@ export default function MembresPage() {
 
       {/* Hero Banner */}
       <div className="relative w-full h-[40vh] min-h-[300px]">
-        <img
+        <Image
           src="/images/community-banner.png"
           alt="Sakata Community"
+          fill
+          priority={true}
           className="absolute inset-0 w-full h-full object-cover object-[center_30%]"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[var(--foret-nocturne)]/60 to-[var(--foret-nocturne)]" />
@@ -209,9 +212,10 @@ export default function MembresPage() {
                   >
                     {/* Photo Background */}
                     {(profile.cover_photo_url || profile.avatar_url) ? (
-                      <img
+                      <Image
                         src={profile.cover_photo_url || profile.avatar_url || ""}
                         alt={profile.nickname || profile.username}
+                        fill
                         className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                       />
                     ) : (
