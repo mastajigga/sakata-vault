@@ -1,6 +1,7 @@
 "use client";
 
-import { useRef, useState, useCallback } from "react";
+import { useRef, useState, useCallback, useMemo } from "react";
+import NextImage from "next/image";
 import { useArticleEditor, type ArticleSection, type ArticleImage } from "@/hooks/useArticleEditor";
 import { Plus, Trash2, Upload, Loader2, AlertCircle, Save } from "lucide-react";
 
@@ -66,19 +67,52 @@ export function ArticleEditor({ onSave }: ArticleEditorProps) {
     [editor]
   );
 
+  const validationErrors = useMemo(() => {
+    const errors: Record<string, string> = {};
+
+    // Title validation
+    if (!editor.title || editor.title.trim().length === 0) {
+      errors.title = "Le titre est obligatoire";
+    } else if (editor.title.trim().length < 5) {
+      errors.title = "Le titre doit contenir au moins 5 caractères";
+    } else if (editor.title.trim().length > 200) {
+      errors.title = "Le titre ne doit pas dépasser 200 caractères";
+    }
+
+    // Slug validation
+    if (!editor.slug || editor.slug.trim().length === 0) {
+      errors.slug = "Le slug est obligatoire";
+    } else if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(editor.slug)) {
+      errors.slug = "Le slug doit être en minuscules avec des tirets (a-z, 0-9, -)";
+    }
+
+    // Content validation
+    const hasValidContent = editor.sections.some(
+      (section) => section.text && section.text.trim().length > 0
+    );
+    if (!hasValidContent) {
+      errors.content = "Vous devez ajouter au moins un paragraphe de contenu";
+    }
+
+    return errors;
+  }, [editor.title, editor.slug, editor.sections]);
+
+  const canSave = Object.keys(validationErrors).length === 0;
+
   const handleSaveArticle = useCallback(
     async (status: "draft" | "submitted_for_review") => {
+      if (!canSave) return;
       const id = await editor.saveArticle(status);
       if (id && onSave) {
         onSave(id);
       }
     },
-    [editor, onSave]
+    [editor, onSave, canSave]
   );
 
   return (
     <div className="max-w-4xl mx-auto space-y-6">
-      {/* Error Alert */}
+      {/* Error Alert — Server Error */}
       {editor.error && (
         <div className="flex gap-3 rounded-lg bg-red-500/10 border border-red-500/30 p-4">
           <AlertCircle size={20} className="text-red-400 flex-shrink-0 mt-0.5" />
@@ -88,28 +122,63 @@ export function ArticleEditor({ onSave }: ArticleEditorProps) {
         </div>
       )}
 
+      {/* Validation Errors Alert */}
+      {!canSave && (
+        <div className="flex gap-3 rounded-lg bg-amber-500/10 border border-amber-500/30 p-4">
+          <AlertCircle size={20} className="text-amber-400 flex-shrink-0 mt-0.5" />
+          <div className="flex-1">
+            <p className="text-amber-300 text-sm font-medium mb-2">Veuillez corriger les erreurs suivantes:</p>
+            <ul className="text-amber-200 text-sm space-y-1 list-disc list-inside">
+              {Object.entries(validationErrors).map(([key, message]) => (
+                <li key={key}>{message}</li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      )}
+
       {/* Title Section */}
       <div className="space-y-2">
-        <label className="block text-sm font-medium text-slate-200">Titre de l'article</label>
+        <label className="block text-sm font-medium text-slate-200">
+          Titre de l'article
+          {validationErrors.title && <span className="text-red-400 ml-2">*</span>}
+        </label>
         <input
           type="text"
           value={editor.title}
           onChange={(e) => editor.setTitle(e.target.value)}
           placeholder="Titre principal de l'article"
-          className="w-full rounded-lg border border-slate-700 bg-slate-800 px-4 py-3 text-white placeholder-slate-500 focus:border-amber-600 focus:outline-none text-lg font-semibold"
+          className={`w-full rounded-lg border px-4 py-3 text-white placeholder-slate-500 focus:outline-none text-lg font-semibold bg-slate-800 transition ${
+            validationErrors.title
+              ? "border-red-500 focus:border-red-500"
+              : "border-slate-700 focus:border-amber-600"
+          }`}
         />
+        {validationErrors.title && (
+          <p className="text-red-400 text-sm">{validationErrors.title}</p>
+        )}
       </div>
 
       {/* Slug Section */}
       <div className="space-y-2">
-        <label className="block text-sm font-medium text-slate-200">Slug (URL)</label>
+        <label className="block text-sm font-medium text-slate-200">
+          Slug (URL)
+          {validationErrors.slug && <span className="text-red-400 ml-2">*</span>}
+        </label>
         <input
           type="text"
           value={editor.slug}
           onChange={(e) => editor.setSlug(e.target.value)}
           placeholder="article-slug"
-          className="w-full rounded-lg border border-slate-700 bg-slate-800 px-4 py-2 text-white placeholder-slate-500 focus:border-amber-600 focus:outline-none font-mono text-sm"
+          className={`w-full rounded-lg border px-4 py-2 text-white placeholder-slate-500 focus:outline-none font-mono text-sm bg-slate-800 transition ${
+            validationErrors.slug
+              ? "border-red-500 focus:border-red-500"
+              : "border-slate-700 focus:border-amber-600"
+          }`}
         />
+        {validationErrors.slug && (
+          <p className="text-red-400 text-sm">{validationErrors.slug}</p>
+        )}
       </div>
 
       {/* Premium Toggle */}
@@ -191,11 +260,14 @@ export function ArticleEditor({ onSave }: ArticleEditorProps) {
                 <div className="grid grid-cols-2 gap-3">
                   {section.images.map((img) => (
                     <div key={img.id} className="rounded border border-slate-700 bg-slate-800 overflow-hidden">
-                      <img
-                        src={img.url}
-                        alt={img.caption || "Article image"}
-                        className="w-full h-32 object-cover"
-                      />
+                      <div className="relative w-full h-32">
+                        <NextImage
+                          src={img.url}
+                          alt={img.caption || "Article image"}
+                          fill
+                          className="object-cover"
+                        />
+                      </div>
                       <div className="p-2 space-y-1">
                         <input
                           type="text"
@@ -312,8 +384,9 @@ export function ArticleEditor({ onSave }: ArticleEditorProps) {
       <div className="flex gap-3 pt-6 border-t border-slate-700">
         <button
           onClick={() => handleSaveArticle("draft")}
-          disabled={editor.loading}
-          className="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-slate-700 hover:bg-slate-600 text-white rounded-lg transition disabled:opacity-50"
+          disabled={editor.loading || !canSave}
+          title={!canSave ? "Veuillez corriger les erreurs avant de sauvegarder" : ""}
+          className="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-slate-700 hover:bg-slate-600 text-white rounded-lg transition disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {editor.loading ? (
             <Loader2 size={18} className="animate-spin" />
@@ -324,8 +397,9 @@ export function ArticleEditor({ onSave }: ArticleEditorProps) {
         </button>
         <button
           onClick={() => handleSaveArticle("submitted_for_review")}
-          disabled={editor.loading}
-          className="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-amber-600 hover:bg-amber-700 text-white rounded-lg transition disabled:opacity-50"
+          disabled={editor.loading || !canSave}
+          title={!canSave ? "Veuillez corriger les erreurs avant de soumettre" : ""}
+          className="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-amber-600 hover:bg-amber-700 text-white rounded-lg transition disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {editor.loading ? (
             <Loader2 size={18} className="animate-spin" />

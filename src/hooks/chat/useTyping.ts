@@ -63,7 +63,8 @@ export function useTyping(conversationId: string) {
     return () => {
       isMounted = false;
       if (channelRef.current?.room) {
-        channelRef.current.room.untrack(); // BUG-003: untrack before removeChannel
+        channelRef.current.room.untrack();
+        channelRef.current.room.unsubscribe();
         supabase.removeChannel(channelRef.current.room);
       }
       channelRef.current = null;

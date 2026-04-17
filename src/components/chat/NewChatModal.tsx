@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { X, Search, User as UserIcon } from "lucide-react";
+import Image from "next/image";
 import { supabase } from "@/lib/supabase";
 import { useAuth } from "@/components/AuthProvider";
 import { useRouter } from "next/navigation";
@@ -161,9 +162,9 @@ export function NewChatModal({ isOpen, onClose }: NewChatModalProps) {
                   disabled={creating}
                   className="flex items-center gap-3 p-3 w-full text-left rounded-xl hover:bg-stone-50 dark:hover:bg-stone-800 transition disabled:opacity-50"
                 >
-                  <div className="w-10 h-10 rounded-full bg-amber-100 dark:bg-amber-900/30 flex items-center justify-center overflow-hidden shrink-0 border border-amber-200 dark:border-amber-800/50">
+                  <div className="w-10 h-10 rounded-full bg-amber-100 dark:bg-amber-900/30 flex items-center justify-center overflow-hidden shrink-0 border border-amber-200 dark:border-amber-800/50 relative">
                     {p.avatar_url ? (
-                      <img src={p.avatar_url} alt={p.username || ""} className="w-full h-full object-cover" />
+                      <Image src={p.avatar_url} alt={p.username || ""} fill className="object-cover" />
                     ) : (
                       <UserIcon className="text-amber-600 dark:text-amber-500 w-5 h-5" />
                     )}

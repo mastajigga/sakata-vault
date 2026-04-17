@@ -6,7 +6,7 @@ import { BookOpen, Flame, Users, MessageSquare } from "lucide-react";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Mboka (Forum) | Kisakata",
+  title: "Mboka (Forum) | Sakata",
   description: "Rejoignez le village virtuel pour échanger sur la culture Sakata.",
 };
 

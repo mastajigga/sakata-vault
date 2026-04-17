@@ -1,23 +1,35 @@
 "use client";
 
 import React, { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { supabase } from "@/lib/supabase";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLanguage } from "@/components/LanguageProvider";
 import { useAuth } from "@/components/AuthProvider";
 import { useRouter } from "next/navigation";
 import Navbar from "@/components/Navbar";
+import { authSchema, type AuthFormData } from "@/lib/schemas/validation";
 
 const AuthPage = () => {
   const { t } = useLanguage();
   const { user, connectionError } = useAuth();
   const router = useRouter();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
+  const [isSignUp, setIsSignUp] = useState(false);
+  const [signupSuccess, setSignupSuccess] = useState(false);
+  const [apiError, setApiError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isDirty },
+    reset,
+    watch,
+  } = useForm<AuthFormData>({
+    resolver: zodResolver(authSchema),
+    mode: "onChange",
+  });
 
   // Redirect if already logged in
   React.useEffect(() => {
@@ -26,49 +38,46 @@ const AuthPage = () => {
     }
   }, [user, router]);
 
-  const [isSignUp, setIsSignUp] = useState(false);
-  const [signupSuccess, setSignupSuccess] = useState(false);
-
   const toggleAuthMode = () => {
     setIsSignUp(!isSignUp);
-    setMessage(null);
+    setApiError(null);
     setSignupSuccess(false);
+    reset();
   };
 
-  const handleAuth = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    setMessage(null);
+  const onSubmit = async (data: AuthFormData) => {
+    setIsLoading(true);
+    setApiError(null);
 
-    console.log(`Starting ${isSignUp ? "SignUp" : "SignIn"} process...`);
-
-    const { data, error } = isSignUp 
-      ? await supabase.auth.signUp({ 
-          email, 
-          password,
-          options: {
-            data: { 
-              first_name: firstName, 
-              last_name: lastName,
-              full_name: `${firstName} ${lastName}`.trim()
+    try {
+      const result = isSignUp
+        ? await supabase.auth.signUp({
+            email: data.email,
+            password: data.password,
+            options: {
+              data: {
+                first_name: data.firstName || "",
+                last_name: data.lastName || "",
+                full_name: `${data.firstName || ""} ${data.lastName || ""}`.trim(),
+              },
+              emailRedirectTo: `${window.location.origin}/profil`,
             },
-            emailRedirectTo: `${window.location.origin}/profil`
-          }
-        })
-      : await supabase.auth.signInWithPassword({ email, password });
+          })
+        : await supabase.auth.signInWithPassword({
+            email: data.email,
+            password: data.password,
+          });
 
-    if (error) {
-      console.error("Auth error:", error.message);
-      setMessage({ type: "error", text: error.message });
-    } else {
-      console.log("Auth success:", data);
-      if (isSignUp) {
+      if (result.error) {
+        setApiError(result.error.message);
+      } else if (isSignUp) {
         setSignupSuccess(true);
-      } else {
-        setMessage({ type: "success", text: t("nav.login") + "..." });
       }
+    } catch (err: any) {
+      setApiError(err?.message || "Une erreur s'est produite");
+    } finally {
+      setIsLoading(false);
     }
-    setLoading(false);
   };
 
   return (
@@ -135,20 +144,20 @@ const AuthPage = () => {
                   </h1>
                 </div>
 
-                {connectionError && (
-                  <motion.div 
+                {(connectionError || apiError) && (
+                  <motion.div
                     initial={{ opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}
                     className="p-4 rounded-2xl bg-red-500/10 border border-red-500/20 text-red-400 text-sm text-center"
                   >
-                    <p className="font-bold mb-1">⚠️ Rupture de liaison</p>
-                    {connectionError}
+                    <p className="font-bold mb-1">⚠️ Erreur</p>
+                    {connectionError || apiError}
                   </motion.div>
                 )}
 
-                <form onSubmit={handleAuth} className="space-y-6">
+                <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
                   {isSignUp && (
-                    <motion.div 
+                    <motion.div
                       initial={{ opacity: 0, height: 0 }}
                       animate={{ opacity: 1, height: "auto" }}
                       className="grid grid-cols-2 gap-4"
@@ -158,26 +167,28 @@ const AuthPage = () => {
                           Prénom
                         </label>
                         <input
+                          {...register("firstName")}
                           type="text"
-                          value={firstName}
-                          onChange={(e) => setFirstName(e.target.value)}
-                          className="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 focus:border-or-ancestral/50 outline-none transition-all text-ivoire-ancien text-sm"
+                          className={`w-full bg-white/5 border rounded-2xl px-6 py-4 outline-none transition-all text-ivoire-ancien text-sm ${
+                            errors.firstName ? "border-red-500/50" : "border-white/10 focus:border-or-ancestral/50"
+                          }`}
                           placeholder="Jean"
-                          required={isSignUp}
                         />
+                        {errors.firstName && <p className="text-[10px] text-red-400">{errors.firstName.message}</p>}
                       </div>
                       <div className="space-y-2">
                         <label className="text-[10px] font-mono uppercase tracking-widest opacity-40 ml-4">
                           Nom
                         </label>
                         <input
+                          {...register("lastName")}
                           type="text"
-                          value={lastName}
-                          onChange={(e) => setLastName(e.target.value)}
-                          className="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 focus:border-or-ancestral/50 outline-none transition-all text-ivoire-ancien text-sm"
+                          className={`w-full bg-white/5 border rounded-2xl px-6 py-4 outline-none transition-all text-ivoire-ancien text-sm ${
+                            errors.lastName ? "border-red-500/50" : "border-white/10 focus:border-or-ancestral/50"
+                          }`}
                           placeholder="Sakata"
-                          required={isSignUp}
                         />
+                        {errors.lastName && <p className="text-[10px] text-red-400">{errors.lastName.message}</p>}
                       </div>
                     </motion.div>
                   )}
@@ -187,13 +198,14 @@ const AuthPage = () => {
                       Email
                     </label>
                     <input
+                      {...register("email")}
                       type="email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      className="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 focus:border-or-ancestral/50 outline-none transition-all text-ivoire-ancien"
+                      className={`w-full bg-white/5 border rounded-2xl px-6 py-4 outline-none transition-all text-ivoire-ancien ${
+                        errors.email ? "border-red-500/50" : "border-white/10 focus:border-or-ancestral/50"
+                      }`}
                       placeholder="nom@village.com"
-                      required
                     />
+                    {errors.email && <p className="text-[10px] text-red-400">{errors.email.message}</p>}
                   </div>
 
                   <div className="space-y-2">
@@ -201,37 +213,29 @@ const AuthPage = () => {
                       Mot de passe
                     </label>
                     <input
+                      {...register("password")}
                       type="password"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      className="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 focus:border-or-ancestral/50 outline-none transition-all text-ivoire-ancien"
+                      className={`w-full bg-white/5 border rounded-2xl px-6 py-4 outline-none transition-all text-ivoire-ancien ${
+                        errors.password ? "border-red-500/50" : "border-white/10 focus:border-or-ancestral/50"
+                      }`}
                       placeholder="••••••••"
-                      required
                     />
+                    {errors.password && <p className="text-[10px] text-red-400">{errors.password.message}</p>}
                   </div>
-
-                  {message && (
-                    <motion.div 
-                      initial={{ opacity: 0, y: -10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      className={`p-4 rounded-xl text-sm ${message.type === "error" ? "bg-red-500/10 text-red-400 border border-red-500/20" : "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"}`}
-                    >
-                      {message.text}
-                    </motion.div>
-                  )}
 
                   <button
                     type="submit"
-                    disabled={loading}
+                    disabled={isLoading || !isDirty}
                     className="w-full py-5 rounded-2xl font-bold transition-all transform active:scale-[0.98] relative overflow-hidden"
                     style={{
                       background: isSignUp ? "var(--ivoire-ancien)" : "var(--or-ancestral)",
                       color: "var(--foret-nocturne)",
-                      opacity: loading ? 0.7 : 1,
-                      boxShadow: "0 10px 30px rgba(181, 149, 81, 0.2)"
+                      opacity: (isLoading || !isDirty) ? 0.7 : 1,
+                      cursor: (isLoading || !isDirty) ? "not-allowed" : "pointer",
+                      boxShadow: "0 10px 30px rgba(181, 149, 81, 0.2)",
                     }}
                   >
-                    {loading ? (
+                    {isLoading ? (
                       <span className="flex items-center justify-center gap-2">
                         <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24">
                           <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
@@ -239,7 +243,9 @@ const AuthPage = () => {
                         </svg>
                         Murmure aux anciens...
                       </span>
-                    ) : (isSignUp ? "Rejoindre le Sanctuaire" : "Entrer dans le Sanctuaire")}
+                    ) : isSignUp
+                      ? "Rejoindre le Sanctuaire"
+                      : "Entrer dans le Sanctuaire"}
                   </button>
                 </form>
 

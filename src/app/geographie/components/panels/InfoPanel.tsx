@@ -2,6 +2,7 @@
 
 import React from "react";
 import { X, Droplets, MapPin, Users, Image, Video } from "lucide-react";
+import NextImage from "next/image";
 import type { SelectedFeature } from "../../GeographieClient";
 
 interface InfoPanelProps {
@@ -168,8 +169,8 @@ export default function InfoPanel({ feature, onClose }: InfoPanelProps) {
       return (
         <div className="space-y-4">
            {cp.image_url && (
-              <div className="aspect-video w-full rounded-2xl overflow-hidden border border-white/10 mb-4 bg-black/40">
-                 <img src={cp.image_url} alt={cp.title} className="w-full h-full object-cover" />
+              <div className="relative aspect-video w-full rounded-2xl overflow-hidden border border-white/10 mb-4 bg-black/40">
+                 <NextImage src={cp.image_url} alt={cp.title} fill className="object-cover" />
               </div>
            )}
            <div className="bg-white/5 p-4 rounded-2xl border border-white/5">

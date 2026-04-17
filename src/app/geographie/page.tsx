@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import GeographieClient from "./GeographieClient";
+import GeographiePageClient from "./GeographiePageClient";
 
 export const metadata: Metadata = {
-  title: "Géographie | Kisakata.com — Voyage au cœur du territoire Basakata",
+  title: "Géographie | Sakata.com — Voyage au cœur du territoire Basakata",
   description:
     "Explorez en 3D le territoire traditionnel des Basakata : Kutu, le Lac Mai-Ndombe, les rivières, les forêts et les sous-tribus. Carte interactive immersive.",
   openGraph: {
@@ -14,5 +14,5 @@ export const metadata: Metadata = {
 };
 
 export default function GeographiePage() {
-  return <GeographieClient />;
+  return <GeographiePageClient />;
 }

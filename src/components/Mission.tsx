@@ -2,6 +2,7 @@
 
 import React from "react";
 import { motion } from "framer-motion";
+import Image from "next/image";
 import { useLanguage } from "./LanguageProvider";
 
 const Mission = () => {
@@ -17,6 +18,7 @@ const Mission = () => {
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
+          whileHover={{ scale: 1.06 }}
           transition={{
             duration: 1,
             ease: [0.16, 1, 0.3, 1],
@@ -25,20 +27,12 @@ const Mission = () => {
           className="relative overflow-hidden"
           style={{ borderRadius: "2rem", aspectRatio: "1 / 1.1" }}
         >
-          <img
+          <Image
             src="/images/sakata_heritage_hero.png"
             alt="Patrimoine vivant du peuple Sakata dans la region du Mai-Ndombe"
-            className="w-full h-full object-cover"
-            style={{
-              opacity: 0.85,
-              transition: "transform 2s cubic-bezier(0.16, 1, 0.3, 1)",
-            }}
-            onMouseEnter={(e) => {
-              (e.target as HTMLElement).style.transform = "scale(1.06)";
-            }}
-            onMouseLeave={(e) => {
-              (e.target as HTMLElement).style.transform = "scale(1)";
-            }}
+            fill
+            className="object-cover"
+            style={{ opacity: 0.85 }}
           />
           <div
             className="absolute inset-0 pointer-events-none"
