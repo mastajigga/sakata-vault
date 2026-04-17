@@ -1,0 +1,127 @@
+- generic [ref=e680]:
+  - banner:
+    - generic [ref=e4]:
+      - generic [ref=e6]:
+        - generic:
+          - button [disabled]:
+            - img
+        - button "Facebook" [ref=e8] [cursor=pointer]:
+          - img "Facebook" [ref=e9]
+      - generic [ref=e14]:
+        - textbox "Adresse e-mail ou téléphone" [ref=e17]
+        - textbox "Mot de passe" [ref=e20]
+        - button "Se connecter" [ref=e23] [cursor=pointer]:
+          - generic [ref=e27]: Se connecter
+        - link "Informations de compte oubliées ?" [ref=e30] [cursor=pointer]:
+          - /url: https://www.facebook.com/recover/initiate?ars=royal_blue_bar
+  - main [ref=e35]:
+    - generic [ref=e36]:
+      - link [ref=e48] [cursor=pointer]:
+        - /url: https://www.facebook.com/photo/?fbid=3095788420714216&set=p.3095788420714216
+      - generic [ref=e57]:
+        - generic [ref=e63]:
+          - heading [level=1] [ref=e65]:
+            - link [ref=e67] [cursor=pointer]:
+              - /url: https://www.facebook.com/groups/2498291596902732/
+              - text: LA CULTURE SAKATA
+          - generic [ref=e73]:
+            - generic [ref=e75]:
+              - img [ref=e77]
+              - generic [ref=e83]: Groupe (Public)
+            - generic [ref=e85]: ·
+            - button [ref=e88] [cursor=pointer]: 5,8 K membres
+        - generic [ref=e90]:
+          - button [ref=e94] [cursor=pointer]:
+            - generic [ref=e95]:
+              - img [ref=e96]
+              - generic [ref=e103]: Rejoindre le groupe
+          - button [ref=e106] [cursor=pointer]
+    - generic [ref=e116]:
+      - tablist [ref=e125]:
+        - generic [ref=e127]:
+          - generic [ref=e128]:
+            - generic [ref=e129]: Plus
+            - img [ref=e131]
+          - tab [ref=e134] [cursor=pointer]:
+            - generic [ref=e136]: À propos
+          - tab [selected] [ref=e138] [cursor=pointer]:
+            - generic [ref=e140]: Discussion
+          - tab [ref=e142] [cursor=pointer]:
+            - generic [ref=e144]: Évènements
+          - tab [ref=e146] [cursor=pointer]:
+            - generic [ref=e148]: Contenu multimédia
+      - button [ref=e155] [cursor=pointer]
+    - generic [ref=e163]:
+      - generic [ref=e165]:
+        - generic [ref=e171]:
+          - generic [ref=e175]: À la une
+          - button [ref=e177] [cursor=pointer]
+          - button [ref=e181] [cursor=pointer]
+        - feed [ref=e184]:
+          - article [ref=e189]:
+            - generic [ref=e197]:
+              - generic [ref=e199]:
+                - link [ref=e203] [cursor=pointer]:
+                  - /url: "#"
+                  - img [ref=e205]
+                - generic [ref=e210]:
+                  - heading [level=2] [ref=e214]:
+                    - generic [ref=e217]: Onesime Ilemo Bondo
+                  - generic [ref=e220]:
+                    - link [ref=e224] [cursor=pointer]:
+                      - /url: https://www.facebook.com/groups/2498291596902732/posts/26299511929687365/?__cft__[0]=AZbq39yidm5ck-q8teo88u_dtDlRbw2P6wrjCK2b6e1XQ-chFvrbVgp_QSXf7yxcIIUf3DzPU-D0iVdRW8RE98Qs0bIMpNkBNuhKZjQQ1OB1RW8x4KPX7lYlG6DE3s01qB9j-10ZLaMEZkoNEhZTu6sCn1Gyz0UI35dJgVYh0OSy7z-oRbw8CYGtgx4uXIN8fyW6MoZN5zzCuZryw6DOJZI4dAvQ1nHwqNYpR7aaQE8y0A&__tn__=%2CO%2CP-R
+                      - text: 1 avril à 01:34
+                    - generic [ref=e226]: ·
+                    - img [ref=e231]
+                - button [ref=e239] [cursor=pointer]:
+                  - img [ref=e240]
+              - generic [ref=e247]:
+                - img [ref=e249]
+                - generic [ref=e252]:
+                  - generic [ref=e254]: Ce contenu n’est pas disponible actuellement
+                  - generic [ref=e256]: Ce problème vient généralement du fait que le propriétaire ne l’a partagé qu’avec un petit groupe de personnes, a modifié qui pouvait le voir ou l’a supprimé.
+              - generic [ref=e263]:
+                - button [ref=e265] [cursor=pointer]:
+                  - generic [ref=e270]: J’aime
+                - button [ref=e272] [cursor=pointer]:
+                  - generic [ref=e277]: Commenter
+                - button [ref=e279] [cursor=pointer]:
+                  - generic [ref=e284]: Partager
+          - generic [ref=e286]:
+            - article [ref=e287]:
+              - status [ref=e288]
+            - article [ref=e300]:
+              - status [ref=e301]
+      - generic [ref=e321]:
+        - heading [level=2] [ref=e331]:
+          - generic [ref=e333]: À propos
+        - generic [ref=e334]:
+          - generic [ref=e346]: Ce groupe a été créé en vu de partager et apprendre la culture Sakata ; rappeler aux gens ce qui est de notre culture ( coutume) .
+          - generic [ref=e349]:
+            - img [ref=e351]
+            - generic [ref=e356]:
+              - generic [ref=e359]: Public
+              - generic [ref=e361]: Tout le monde peut voir qui est dans le groupe et ce qui est publié.
+          - generic [ref=e364]:
+            - img [ref=e366]
+            - generic [ref=e372]:
+              - generic [ref=e375]: Visible
+              - generic [ref=e377]: Tout le monde peut trouver ce groupe.
+  - dialog [ref=e383]:
+    - button "Fermer" [ref=e684] [cursor=pointer]
+    - generic [ref=e392]:
+      - generic [ref=e395]: Voir plus sur Facebook
+      - generic [ref=e400]:
+        - generic: Adresse e-mail ou numéro de tél.
+        - textbox "Adresse e-mail ou numéro de tél." [active] [ref=e685]
+      - generic [ref=e406]:
+        - generic: Mot de passe
+        - textbox "Mot de passe" [ref=e686]
+      - button "Connexion à Facebook" [ref=e687] [cursor=pointer]:
+        - generic [ref=e412]: Se connecter
+      - link "Mot de passe oublié ?" [ref=e688] [cursor=pointer]:
+        - /url: https://www.facebook.com/recover/initiate?ars=royal_blue_bar
+        - generic [ref=e415]: Mot de passe oublié ?
+      - generic [ref=e421]: ou
+      - button "Créer un nouveau compte" [ref=e689] [cursor=pointer]:
+        - generic [ref=e428]: Créer un nouveau compte

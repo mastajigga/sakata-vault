@@ -1,0 +1,1780 @@
+- generic [ref=e5]:
+  - banner:
+    - generic [ref=e6]:
+      - generic:
+        - generic:
+          - button [disabled]:
+            - img
+      - link "Facebook" [ref=e7] [cursor=pointer]:
+        - /url: /
+        - img [ref=e8]
+    - generic [ref=e16]:
+      - generic [ref=e17]:
+        - generic:
+          - generic:
+            - generic:
+              - button:
+                - img
+      - generic [ref=e19]:
+        - generic:
+          - img
+        - combobox "Rechercher sur Facebook" [ref=e20]: Moyo Basakata spirituality
+    - navigation "Facebook" [ref=e24]:
+      - list [ref=e25]:
+        - listitem [ref=e26]:
+          - status "Chargement…" [ref=e28]
+        - listitem [ref=e29]:
+          - status "Chargement…" [ref=e31]
+        - listitem [ref=e32]:
+          - status "Chargement…" [ref=e34]
+        - listitem [ref=e35]:
+          - status "Chargement…" [ref=e37]
+        - listitem [ref=e38]:
+          - status "Chargement…" [ref=e40]
+    - navigation "Contrôles et paramètres du compte" [ref=e42]:
+      - button "Menu Facebook" [ref=e46] [cursor=pointer]:
+        - img [ref=e47]
+      - button "Messenger" [ref=e53] [cursor=pointer]:
+        - img [ref=e54]
+      - generic [ref=e59]:
+        - button "Notifications, 7 non lues" [ref=e60] [cursor=pointer]:
+          - img [ref=e61]
+        - button [ref=e63] [cursor=pointer]:
+          - generic [ref=e64]:
+            - generic [ref=e65]: Nombre de notifications non lues
+            - generic [ref=e66]: "7"
+      - button "Votre profil" [ref=e69] [cursor=pointer]:
+        - generic [ref=e70]:
+          - img "Votre profil" [ref=e71]
+          - img [ref=e78]
+  - generic [ref=e85]:
+    - region "Filtres de résultats" [ref=e86]:
+      - generic [ref=e87]:
+        - heading "Résultats de la recherche" [level=1] [ref=e95]
+        - generic [ref=e100]:
+          - heading "Filtres" [level=2] [ref=e114]:
+            - generic [ref=e116]: Filtres
+          - list [ref=e118]:
+            - listitem [ref=e119]:
+              - link "Tous" [ref=e121] [cursor=pointer]:
+                - /url: /search/top/?q=Moyo%20Basakata%20spirituality&__rsidv2__=0f85f113-f710-4e92-8a42-a8f9f051876d&__epa__=SERP_TAB&__eps__=SERP_TOP_TAB
+                - generic [ref=e122]:
+                  - img [ref=e125]
+                  - generic [ref=e134]: Tous
+              - list [ref=e135]:
+                - listitem [ref=e136]:
+                  - generic [ref=e137]:
+                    - generic [ref=e140]: Publications récentes
+                    - switch "Publications récentes" [ref=e145] [cursor=pointer]
+                - listitem [ref=e146]:
+                  - generic [ref=e147]:
+                    - generic [ref=e150]: Publications que vous avez vues
+                    - switch "Publications que vous avez vues" [ref=e155] [cursor=pointer]
+                - listitem [ref=e156]:
+                  - 'combobox "Filtrer par Date de publication : Toutes les dates" [ref=e160] [cursor=pointer]':
+                    - generic [ref=e163]: Date de publication
+                    - img [ref=e165]
+                - listitem [ref=e167]:
+                  - generic [ref=e173]:
+                    - combobox "Publications de" [ref=e174] [cursor=pointer]
+                    - generic:
+                      - img
+                - listitem [ref=e175]:
+                  - generic [ref=e181]:
+                    - combobox "Lieu identifié" [ref=e182] [cursor=pointer]
+                    - generic:
+                      - img
+            - listitem [ref=e183]:
+              - link "Personnes" [ref=e185] [cursor=pointer]:
+                - /url: /search/people/?q=Moyo%20Basakata%20spirituality&__rsidv2__=0f85f113-f710-4e92-8a42-a8f9f051876d&__epa__=SERP_TAB&__eps__=SERP_TOP_TAB
+                - generic [ref=e186]:
+                  - img [ref=e189]
+                  - generic [ref=e196]: Personnes
+            - listitem [ref=e197]:
+              - link "Reels results" [ref=e199] [cursor=pointer]:
+                - /url: /search/videos/?q=Moyo%20Basakata%20spirituality&__rsidv2__=0f85f113-f710-4e92-8a42-a8f9f051876d&__epa__=SERP_TAB&__eps__=SERP_TOP_TAB
+                - generic [ref=e200]:
+                  - img [ref=e203]
+                  - generic [ref=e210]: Reels
+            - listitem [ref=e211]:
+              - link "Marketplace results" [ref=e213] [cursor=pointer]:
+                - /url: /marketplace/search/?query=Moyo%20Basakata%20spirituality
+                - generic [ref=e214]:
+                  - img [ref=e217]
+                  - generic [ref=e224]: Marketplace
+            - listitem [ref=e225]:
+              - link "Pages" [ref=e227] [cursor=pointer]:
+                - /url: /search/pages/?q=Moyo%20Basakata%20spirituality&__rsidv2__=0f85f113-f710-4e92-8a42-a8f9f051876d&__epa__=SERP_TAB&__eps__=SERP_TOP_TAB
+                - generic [ref=e228]:
+                  - img [ref=e231]
+                  - generic [ref=e238]: Pages
+            - listitem [ref=e239]:
+              - link "Groups results" [ref=e241] [cursor=pointer]:
+                - /url: /search/groups/?q=Moyo%20Basakata%20spirituality&__rsidv2__=0f85f113-f710-4e92-8a42-a8f9f051876d&__epa__=SERP_TAB&__eps__=SERP_TOP_TAB
+                - generic [ref=e242]:
+                  - img [ref=e245]
+                  - generic [ref=e252]: Groupes
+            - listitem [ref=e253]:
+              - link "Évènements" [ref=e255] [cursor=pointer]:
+                - /url: /search/events/?q=Moyo%20Basakata%20spirituality&__rsidv2__=0f85f113-f710-4e92-8a42-a8f9f051876d&__epa__=SERP_TAB&__eps__=SERP_TOP_TAB
+                - generic [ref=e265]: Évènements
+    - main "Résultats de la recherche" [ref=e266]:
+      - feed [ref=e271]:
+        - article [ref=e278]:
+          - heading "Groupes" [level=2] [ref=e287]:
+            - generic [ref=e289]: Groupes
+          - generic [ref=e292]:
+            - generic [ref=e296]:
+              - link "Photo de profil de Spirituality for Beginners" [ref=e300] [cursor=pointer]:
+                - /url: https://www.facebook.com/groups/917379212385161/?__tn__=%3C
+                - img "Spirituality for Beginners" [ref=e302]
+              - generic [ref=e306]:
+                - generic [ref=e309]:
+                  - link [ref=e314] [cursor=pointer]:
+                    - /url: https://www.facebook.com/groups/917379212385161/
+                    - text: Spirituality for Beginners
+                  - generic [ref=e317]: Privé · 264 K membres · Plus de 30 publications par jour
+                  - generic [ref=e320]: "Spiritual awakening & support group, there all is welcome to learn, help and share. Spirituality for Beginners. Let’s grow together & help eachother on our spiritual journey. No question is stupid here. Ask and we will help. EVERYONE is welcome to contribute with their questions, knowledge or gifts. Factual discussions are welcome. Healings and readings are also allowed, whether you need it or want to offer it. All relevant content can be shared in the group, but let's avoid politics and news, and make sure we are kind to each other. ❤️❤️❤️🌈 ........... Disclaimer: Spirituality for Beginners [group] management does not support any specific standpoints behind the posts that are made within this group. The group, healings, readings etc. are only for entertainment purpose."
+                - button "Rejoindre le groupe Spirituality for Beginners" [ref=e326] [cursor=pointer]:
+                  - generic [ref=e329]: Rejoindre
+            - generic [ref=e333]:
+              - link "Photo de profil de Mental Health, Spirituality, Mysticism & Metaphysics" [ref=e337] [cursor=pointer]:
+                - /url: https://www.facebook.com/groups/mentalhealthandspirituality/?__tn__=%3C
+                - img "Mental Health, Spirituality, Mysticism & Metaphysics" [ref=e339]
+              - generic [ref=e343]:
+                - generic [ref=e346]:
+                  - link [ref=e351] [cursor=pointer]:
+                    - /url: https://www.facebook.com/groups/mentalhealthandspirituality/
+                    - text: Mental Health, Spirituality, Mysticism & Metaphysics
+                  - generic [ref=e354]: Public · 9,3 K membres
+                  - generic [ref=e357]: "Looking for a place to ask questions, or discuss the links between spirituality, mental health, mysticism, and metaphysics? This is the place! Searching to find others you can talk about things that aren't considered ordinary? Are you looking to learn more about, or share your experiences with the extraordinary? Are you finding your spirituality, healing from mental health concerns, exploring a spiritual path, looking to understand how these things relate, or hoping to deepen your connection with your religion or personal beliefs? Here is the place...!! ____________________________________________________ ALSO, FOR THOSE INTERESTED IN THIS GROUP: Check out Mike Ray's new book, 'Ordo Divinorum Illuminus: The Order of Divine Illumination' if you are interested in any of the topics of this group. If you are seeking secret knowledge, spiritual guidance, protection from spiritual warfare, to advance your spiritual connection and find help along your journey, or seeking 'sacred mysteries', this is the book for you! It acts as both a spiritual guide and source of insight and Light for readers. ____________________________________________________ What are some challenges you may be facing? What are some ways you can turn those challenges into new opportunities to flourish in another area or aspect of life? What hidden talents do you have that or lying dormant within you, waiting to be awoken? Just to make a few scriptural references ‘Seek, and ye shall find’! “But behold, if ye will awake and arouse your faculties, even to an experiment upon my words, and exercise a particle of faith, yea, even if ye can no more than desire to believe, let this desire work in you, even until ye believe in a manner that ye can give place for a portion of my words.” (Alma 32:27) -What have you got to lose? And what might you stand to gain? ____________________________________________________ ____________________________________________________ *This is the place for those who wish to learn from and to teach one another, and anyone else who is a seeker of truth.* ____________________________________________________ ____________________________________________________ “Man is part of a race of souls not a race of bodies. Primarily. His true integration is upon a soul level. His true humanity is upon a soul level. And until he is a living soul working in a body, he has not achieved his own humanity” —Manly P. Hall “Medicine rests upon four pillars philosophy, astronomy, alchemy, and ethics.” -Paracelsus \"The most virtuous are those who content themselves with being virtuous without seeking to appear so\". -Plato ____________________________________________________ ____________________________________________________ ***WE OFFER ONLINE CLASSES AND OPEN DISCUSSIONS, AS WELL AS A MENTORSHIP PROGRAM THROUGH THIS GROUP. Message a group admin for more info! *** Hope to see you on the group!! 🙏 Your admins, —Mike Ray & Denise Ray"
+                - button "Rejoindre le groupe Mental Health, Spirituality, Mysticism & Metaphysics" [ref=e363] [cursor=pointer]:
+                  - generic [ref=e366]: Rejoindre
+            - generic [ref=e370]:
+              - link "Photo de profil de Spirituality" [ref=e374] [cursor=pointer]:
+                - /url: https://www.facebook.com/groups/961931331193066/?__tn__=%3C
+                - img "Spirituality" [ref=e376]
+              - generic [ref=e380]:
+                - generic [ref=e383]:
+                  - link [ref=e388] [cursor=pointer]:
+                    - /url: https://www.facebook.com/groups/961931331193066/
+                    - text: Spirituality
+                  - generic [ref=e391]: Public · 234 membres
+                  - generic [ref=e394]: Group for all seeking to know themselves
+                - button "Rejoindre le groupe Spirituality" [ref=e400] [cursor=pointer]:
+                  - generic [ref=e403]: Rejoindre
+          - article [ref=e404]:
+            - link "Voir tout" [ref=e405] [cursor=pointer]:
+              - /url: /search/groups/?q=Moyo%20Basakata%20spirituality&sde=Abo6mQGTwumSH8ghiQqAvvjPX7NFviMO4wSBhxr6grIQwUayjg5k0ye5FNdIS2HCiLkkJOB-TfP5YV29lVJ9zt3H&__rsidv2__=0f85f113-f710-4e92-8a42-a8f9f051876d&__epa__=SEE_MORE&__eps__=SERP_TOP_TAB
+              - generic [ref=e408]: Voir tout
+        - generic [ref=e421]:
+          - blockquote [ref=e423]:
+            - generic [ref=e424]: Facebook
+          - blockquote [ref=e426]:
+            - generic [ref=e427]: Facebook
+          - blockquote [ref=e429]:
+            - generic [ref=e430]: Facebook
+          - blockquote [ref=e432]:
+            - generic [ref=e433]: Facebook
+          - blockquote [ref=e435]:
+            - generic [ref=e436]: Facebook
+          - blockquote [ref=e438]:
+            - generic [ref=e439]: Facebook
+          - blockquote [ref=e441]:
+            - generic [ref=e442]: Facebook
+          - blockquote [ref=e444]:
+            - generic [ref=e445]: Facebook
+          - blockquote [ref=e447]:
+            - generic [ref=e448]: Facebook
+          - blockquote [ref=e450]:
+            - generic [ref=e451]: Facebook
+          - blockquote [ref=e453]:
+            - generic [ref=e454]: Facebook
+          - generic [ref=e457]:
+            - generic:
+              - blockquote [ref=e459]:
+                - generic [ref=e460]: Facebook
+              - blockquote [ref=e462]:
+                - generic [ref=e463]: Facebook
+              - blockquote [ref=e465]:
+                - generic [ref=e466]: Facebook
+              - blockquote [ref=e468]:
+                - generic [ref=e469]: Facebook
+              - blockquote [ref=e471]:
+                - generic [ref=e472]: Facebook
+              - blockquote [ref=e474]:
+                - generic [ref=e475]: Facebook
+              - blockquote [ref=e477]:
+                - generic [ref=e478]: Facebook
+              - blockquote [ref=e480]:
+                - generic [ref=e481]: Facebook
+              - blockquote [ref=e483]:
+                - generic [ref=e484]: Facebook
+              - blockquote [ref=e486]:
+                - generic [ref=e487]: Facebook
+              - blockquote [ref=e489]:
+                - generic [ref=e490]: Facebook
+              - blockquote [ref=e492]:
+                - generic [ref=e493]: Facebook
+              - blockquote [ref=e495]:
+                - generic [ref=e496]: Facebook
+              - blockquote [ref=e498]:
+                - generic [ref=e499]: Facebook
+              - blockquote [ref=e501]:
+                - generic [ref=e502]: Facebook
+              - blockquote [ref=e504]:
+                - generic [ref=e505]: Facebook
+              - blockquote [ref=e507]:
+                - generic [ref=e508]: Facebook
+              - blockquote [ref=e510]:
+                - generic [ref=e511]: Facebook
+              - blockquote [ref=e513]:
+                - generic [ref=e514]: Facebook
+              - blockquote [ref=e516]:
+                - generic [ref=e517]: Facebook
+              - blockquote [ref=e519]:
+                - generic [ref=e520]: Facebook
+              - blockquote [ref=e522]:
+                - generic [ref=e523]: Facebook
+            - generic [ref=e525]:
+              - link "L'Au-Delà de Naia Authentique , voir la story" [ref=e529] [cursor=pointer]:
+                - /url: /stories/122105009066970818/UzpfSVNDOjE3MjQyMjQ3NjIwNzM3MTA=/?view_single=false&__cft__[0]=AZb4bXxsHbXhCDm8ghLeKiimZ9IMWKoqqZGnhwqCTIQ1GmnIzDukuGHMb2ZcnWj7gDvYAoDqcm7nKx6zktR8xWsgAYfUHroXz94yrSijuMRZL7HJXtmCDeInjsL0nJwggEYMJah-Z8IMsAhl7ZrgrTkwopfQgcHkfOJ0ZptMoxXwjg&__tn__=%3C%3C%2CP-R
+                - img "L'Au-Delà de Naia Authentique , voir la story" [ref=e531]
+              - generic [ref=e537]:
+                - heading "L'Au-Delà de Naia Authentique Suivre" [level=3] [ref=e541]:
+                  - generic [ref=e542]:
+                    - link "L'Au-Delà de Naia Authentique" [ref=e546] [cursor=pointer]:
+                      - /url: https://www.facebook.com/profile.php?id=61579124562756&__cft__[0]=AZb4bXxsHbXhCDm8ghLeKiimZ9IMWKoqqZGnhwqCTIQ1GmnIzDukuGHMb2ZcnWj7gDvYAoDqcm7nKx6zktR8xWsgAYfUHroXz94yrSijuMRZL7HJXtmCDeInjsL0nJwggEYMJah-Z8IMsAhl7ZrgrTkwopfQgcHkfOJ0ZptMoxXwjg&__tn__=-UC%2CP-R
+                      - generic [ref=e550]: L'Au-Delà de Naia Authentique
+                    - generic [ref=e551]:
+                      - generic [ref=e552]: ·
+                      - button "Suivre" [ref=e555] [cursor=pointer]
+                - generic [ref=e558]:
+                  - 'link "t S o p r d o n e s 1 t 2 1 h 4 0 g 1 m 7 8 1 , u g à 5 e i 6 i 8 0 h 0 7 1 : H 5 0 l g 5 9 t 1 i f 0 7 4 t r 6 h 2" [ref=e562] [cursor=pointer]':
+                    - /url: "?__cft__[0]=AZb4bXxsHbXhCDm8ghLeKiimZ9IMWKoqqZGnhwqCTIQ1GmnIzDukuGHMb2ZcnWj7gDvYAoDqcm7nKx6zktR8xWsgAYfUHroXz94yrSijuMRZL7HJXtmCDeInjsL0nJwggEYMJah-Z8IMsAhl7ZrgrTkwopfQgcHkfOJ0ZptMoxXwjg&__tn__=%2CO%2CP-R#?jdh"
+                    - generic [ref=e564]:
+                      - generic [ref=e565]: t
+                      - generic [ref=e566]: S
+                      - generic [ref=e567]: o
+                      - generic [ref=e568]: p
+                      - generic [ref=e569]: r
+                      - generic [ref=e570]: d
+                      - generic [ref=e571]: o
+                      - generic [ref=e572]: "n"
+                      - generic [ref=e573]: e
+                      - generic [ref=e574]: s
+                      - generic [ref=e575]: "1"
+                      - generic [ref=e576]: t
+                      - generic [ref=e577]: "2"
+                      - generic [ref=e578]: "1"
+                      - generic [ref=e579]: h
+                      - generic [ref=e580]: "4"
+                      - generic [ref=e581]: "0"
+                      - generic [ref=e583]: g
+                      - generic [ref=e584]: "1"
+                      - generic [ref=e585]: m
+                      - generic [ref=e586]: "7"
+                      - generic [ref=e587]: "8"
+                      - generic [ref=e589]: "1"
+                      - generic [ref=e590]: ","
+                      - generic [ref=e591]: u
+                      - generic [ref=e592]: g
+                      - generic [ref=e593]: à
+                      - generic [ref=e594]: "5"
+                      - generic [ref=e595]: e
+                      - generic [ref=e596]: i
+                      - generic [ref=e597]: "6"
+                      - generic [ref=e598]: i
+                      - generic [ref=e599]: "8"
+                      - generic [ref=e600]: "0"
+                      - generic [ref=e601]: h
+                      - generic [ref=e602]: "0"
+                      - generic [ref=e603]: "7"
+                      - generic [ref=e604]: "1"
+                      - generic [ref=e605]: ":"
+                      - generic [ref=e606]: H
+                      - generic [ref=e607]: "5"
+                      - generic [ref=e608]: "0"
+                      - generic [ref=e609]: l
+                      - generic [ref=e610]: g
+                      - generic [ref=e611]: "5"
+                      - generic [ref=e612]: "9"
+                      - generic [ref=e613]: t
+                      - generic [ref=e614]: "1"
+                      - generic [ref=e615]: i
+                      - generic [ref=e616]: f
+                      - generic [ref=e617]: "0"
+                      - generic [ref=e618]: "7"
+                      - generic [ref=e619]: "4"
+                      - generic [ref=e620]: t
+                      - generic [ref=e621]: r
+                      - generic [ref=e622]: "6"
+                      - generic [ref=e623]: h
+                      - generic [ref=e624]: "2"
+                  - generic [ref=e626]: ·
+                  - 'img "Partagé avec : Public" [ref=e631]'
+              - button "Actions pour cette publication" [ref=e638] [cursor=pointer]:
+                - img [ref=e639]
+            - generic [ref=e651]:
+              - text: Bonjour je reste disponible pour vos consultations et rituels, qu'ils soient d'ordre sentimental, professionnel, financier ou social..
+              - link "#tarot" [ref=e653] [cursor=pointer]:
+                - /url: /watch/hashtag/tarot/?__cft__[0]=AZb4bXxsHbXhCDm8ghLeKiimZ9IMWKoqqZGnhwqCTIQ1GmnIzDukuGHMb2ZcnWj7gDvYAoDqcm7nKx6zktR8xWsgAYfUHroXz94yrSijuMRZL7HJXtmCDeInjsL0nJwggEYMJah-Z8IMsAhl7ZrgrTkwopfQgcHkfOJ0ZptMoxXwjg&__tn__=*NK-R
+              - link "#tarotreading" [ref=e655] [cursor=pointer]:
+                - /url: /watch/hashtag/tarotreading/?__cft__[0]=AZb4bXxsHbXhCDm8ghLeKiimZ9IMWKoqqZGnhwqCTIQ1GmnIzDukuGHMb2ZcnWj7gDvYAoDqcm7nKx6zktR8xWsgAYfUHroXz94yrSijuMRZL7HJXtmCDeInjsL0nJwggEYMJah-Z8IMsAhl7ZrgrTkwopfQgcHkfOJ0ZptMoxXwjg&__tn__=*NK-R
+              - link "#medium" [ref=e657] [cursor=pointer]:
+                - /url: /watch/hashtag/medium/?__cft__[0]=AZb4bXxsHbXhCDm8ghLeKiimZ9IMWKoqqZGnhwqCTIQ1GmnIzDukuGHMb2ZcnWj7gDvYAoDqcm7nKx6zktR8xWsgAYfUHroXz94yrSijuMRZL7HJXtmCDeInjsL0nJwggEYMJah-Z8IMsAhl7ZrgrTkwopfQgcHkfOJ0ZptMoxXwjg&__tn__=*NK-R
+              - link "#fra" [ref=e659] [cursor=pointer]:
+                - /url: /watch/hashtag/france/?__cft__[0]=AZb4bXxsHbXhCDm8ghLeKiimZ9IMWKoqqZGnhwqCTIQ1GmnIzDukuGHMb2ZcnWj7gDvYAoDqcm7nKx6zktR8xWsgAYfUHroXz94yrSijuMRZL7HJXtmCDeInjsL0nJwggEYMJah-Z8IMsAhl7ZrgrTkwopfQgcHkfOJ0ZptMoxXwjg&__tn__=*NK-R
+              - text: — à
+              - link "Belgique" [ref=e661] [cursor=pointer]:
+                - /url: https://www.facebook.com/Belgique-107891469239125/?__cft__[0]=AZb4bXxsHbXhCDm8ghLeKiimZ9IMWKoqqZGnhwqCTIQ1GmnIzDukuGHMb2ZcnWj7gDvYAoDqcm7nKx6zktR8xWsgAYfUHroXz94yrSijuMRZL7HJXtmCDeInjsL0nJwggEYMJah-Z8IMsAhl7ZrgrTkwopfQgcHkfOJ0ZptMoxXwjg&__tn__=kK-R
+                - generic [ref=e663]: Belgique
+              - text: …
+              - button "En voir plus" [ref=e664] [cursor=pointer]
+            - generic [ref=e685]:
+              - generic [ref=e687]:
+                - generic [ref=e688]:
+                  - toolbar "Voir qui a réagi" [ref=e689]:
+                    - generic [ref=e690]:
+                      - 'button "J’aime : 20 personnes" [ref=e694] [cursor=pointer]'
+                      - 'button "J’adore : 3 personnes" [ref=e698] [cursor=pointer]'
+                      - 'button "Solidaire : 2 personnes" [ref=e702] [cursor=pointer]'
+                  - 'button "Toutes les réactions : 25" [ref=e705] [cursor=pointer]':
+                    - generic [ref=e706]: "Toutes les réactions :"
+                    - generic [ref=e708]: "25"
+                    - generic [ref=e710]: "25"
+                - generic [ref=e711]:
+                  - button "2 commentaires" [ref=e715] [cursor=pointer]:
+                    - generic [ref=e716]: 2 commentaires
+                  - button "3 partages" [ref=e719] [cursor=pointer]:
+                    - generic [ref=e720]: 3 partages
+              - generic [ref=e722]:
+                - generic [ref=e723]:
+                  - button "J’aime" [ref=e724] [cursor=pointer]:
+                    - generic [ref=e730]: J’aime
+                  - button "Réagir" [ref=e731] [cursor=pointer]:
+                    - img [ref=e732]
+                - button "Laissez un commentaire" [ref=e735] [cursor=pointer]:
+                  - generic [ref=e740]: Commenter
+                - button "Envoyez ce contenu à vos ami(e)s ou publiez-le sur votre profil." [ref=e742] [cursor=pointer]:
+                  - generic [ref=e747]: Partager
+          - blockquote [ref=e749]:
+            - generic [ref=e750]: Facebook
+          - blockquote [ref=e752]:
+            - generic [ref=e753]: Facebook
+          - blockquote [ref=e755]:
+            - generic [ref=e756]: Facebook
+          - blockquote [ref=e758]:
+            - generic [ref=e759]: Facebook
+          - blockquote [ref=e761]:
+            - generic [ref=e762]: Facebook
+          - blockquote [ref=e764]:
+            - generic [ref=e765]: Facebook
+          - blockquote [ref=e767]:
+            - generic [ref=e768]: Facebook
+          - blockquote [ref=e770]:
+            - generic [ref=e771]: Facebook
+          - blockquote [ref=e773]:
+            - generic [ref=e774]: Facebook
+          - blockquote [ref=e776]:
+            - generic [ref=e777]: Facebook
+          - blockquote [ref=e779]:
+            - generic [ref=e780]: Facebook
+        - generic [ref=e793]:
+          - blockquote [ref=e795]:
+            - generic [ref=e796]: Facebook
+          - blockquote [ref=e798]:
+            - generic [ref=e799]: Facebook
+          - blockquote [ref=e801]:
+            - generic [ref=e802]: Facebook
+          - blockquote [ref=e804]:
+            - generic [ref=e805]: Facebook
+          - blockquote [ref=e807]:
+            - generic [ref=e808]: Facebook
+          - blockquote [ref=e810]:
+            - generic [ref=e811]: Facebook
+          - blockquote [ref=e813]:
+            - generic [ref=e814]: Facebook
+          - blockquote [ref=e816]:
+            - generic [ref=e817]: Facebook
+          - blockquote [ref=e819]:
+            - generic [ref=e820]: Facebook
+          - blockquote [ref=e822]:
+            - generic [ref=e823]: Facebook
+          - blockquote [ref=e825]:
+            - generic [ref=e826]: Facebook
+          - generic [ref=e829]:
+            - generic:
+              - blockquote [ref=e831]:
+                - generic [ref=e832]: Facebook
+              - blockquote [ref=e834]:
+                - generic [ref=e835]: Facebook
+              - blockquote [ref=e837]:
+                - generic [ref=e838]: Facebook
+              - blockquote [ref=e840]:
+                - generic [ref=e841]: Facebook
+              - blockquote [ref=e843]:
+                - generic [ref=e844]: Facebook
+              - blockquote [ref=e846]:
+                - generic [ref=e847]: Facebook
+              - blockquote [ref=e849]:
+                - generic [ref=e850]: Facebook
+              - blockquote [ref=e852]:
+                - generic [ref=e853]: Facebook
+              - blockquote [ref=e855]:
+                - generic [ref=e856]: Facebook
+              - blockquote [ref=e858]:
+                - generic [ref=e859]: Facebook
+              - blockquote [ref=e861]:
+                - generic [ref=e862]: Facebook
+              - blockquote [ref=e864]:
+                - generic [ref=e865]: Facebook
+              - blockquote [ref=e867]:
+                - generic [ref=e868]: Facebook
+              - blockquote [ref=e870]:
+                - generic [ref=e871]: Facebook
+              - blockquote [ref=e873]:
+                - generic [ref=e874]: Facebook
+              - blockquote [ref=e876]:
+                - generic [ref=e877]: Facebook
+              - blockquote [ref=e879]:
+                - generic [ref=e880]: Facebook
+              - blockquote [ref=e882]:
+                - generic [ref=e883]: Facebook
+              - blockquote [ref=e885]:
+                - generic [ref=e886]: Facebook
+              - blockquote [ref=e888]:
+                - generic [ref=e889]: Facebook
+              - blockquote [ref=e891]:
+                - generic [ref=e892]: Facebook
+              - blockquote [ref=e894]:
+                - generic [ref=e895]: Facebook
+            - generic [ref=e897]:
+              - generic [ref=e898]:
+                - link [ref=e901] [cursor=pointer]:
+                  - /url: /groups/1490661021237523/?__cft__[0]=AZbyLUOfXw9T49whQ-RWjJYvXjciqDMpp8QMfWxpAbnFliPF3fIJT1zS1bFNRgsC3zuQuQwEOI2Bggcv5vH-mhuqRT_3naJoJq3knPESWwt6wt0xt6ipJKAoJmejiX78fAILB9ebmyzhUfeqBckt1oZ6&__tn__=%3C%3C%2CP-R
+                  - img [ref=e903]
+                - link [ref=e911] [cursor=pointer]:
+                  - /url: https://www.facebook.com/perlenoires?__cft__[0]=AZbyLUOfXw9T49whQ-RWjJYvXjciqDMpp8QMfWxpAbnFliPF3fIJT1zS1bFNRgsC3zuQuQwEOI2Bggcv5vH-mhuqRT_3naJoJq3knPESWwt6wt0xt6ipJKAoJmejiX78fAILB9ebmyzhUfeqBckt1oZ6&__tn__=%3C%2CP-R
+                  - img [ref=e915]
+              - generic [ref=e920]:
+                - heading "Dunia Rejoindre" [level=3] [ref=e924]:
+                  - generic [ref=e925]:
+                    - link "Dunia" [ref=e928] [cursor=pointer]:
+                      - /url: /groups/1490661021237523/?__cft__[0]=AZbyLUOfXw9T49whQ-RWjJYvXjciqDMpp8QMfWxpAbnFliPF3fIJT1zS1bFNRgsC3zuQuQwEOI2Bggcv5vH-mhuqRT_3naJoJq3knPESWwt6wt0xt6ipJKAoJmejiX78fAILB9ebmyzhUfeqBckt1oZ6&__tn__=-UC%2CP-R
+                    - generic [ref=e929]:
+                      - generic [ref=e930]: ·
+                      - button "Rejoindre" [ref=e933] [cursor=pointer]:
+                        - generic [ref=e934]: Rejoindre
+                - generic [ref=e937]:
+                  - link "Mylène Ngongo" [ref=e942] [cursor=pointer]:
+                    - /url: /groups/1490661021237523/user/1584991955/?__cft__[0]=AZbyLUOfXw9T49whQ-RWjJYvXjciqDMpp8QMfWxpAbnFliPF3fIJT1zS1bFNRgsC3zuQuQwEOI2Bggcv5vH-mhuqRT_3naJoJq3knPESWwt6wt0xt6ipJKAoJmejiX78fAILB9ebmyzhUfeqBckt1oZ6&__tn__=%2CP-R
+                  - generic [ref=e944]: ·
+                  - link "t S o p r d o n e s 1 t 2 1 h 4 2 e g 1 m 7 8 b o u g r 5 o i 6 i 4 0 h 0 7 1 0 1 5 0 l g 2 9 t 1 f 0 7 4 t t c h 2" [ref=e949] [cursor=pointer]:
+                    - /url: "?__cft__[0]=AZbyLUOfXw9T49whQ-RWjJYvXjciqDMpp8QMfWxpAbnFliPF3fIJT1zS1bFNRgsC3zuQuQwEOI2Bggcv5vH-mhuqRT_3naJoJq3knPESWwt6wt0xt6ipJKAoJmejiX78fAILB9ebmyzhUfeqBckt1oZ6&__tn__=%2CO%2CP-R#?dai"
+                    - generic [ref=e951]:
+                      - generic [ref=e952]: t
+                      - generic [ref=e953]: S
+                      - generic [ref=e954]: o
+                      - generic [ref=e955]: p
+                      - generic [ref=e956]: r
+                      - generic [ref=e957]: d
+                      - generic [ref=e958]: o
+                      - generic [ref=e959]: "n"
+                      - generic [ref=e960]: e
+                      - generic [ref=e961]: s
+                      - generic [ref=e962]: "1"
+                      - generic [ref=e963]: t
+                      - generic [ref=e964]: "2"
+                      - generic [ref=e965]: "1"
+                      - generic [ref=e966]: h
+                      - generic [ref=e967]: "4"
+                      - generic [ref=e968]: "2"
+                      - generic [ref=e969]: e
+                      - generic [ref=e970]: g
+                      - generic [ref=e971]: "1"
+                      - generic [ref=e972]: m
+                      - generic [ref=e973]: "7"
+                      - generic [ref=e974]: "8"
+                      - generic [ref=e975]: b
+                      - generic [ref=e977]: o
+                      - generic [ref=e978]: u
+                      - generic [ref=e979]: g
+                      - generic [ref=e980]: r
+                      - generic [ref=e981]: "5"
+                      - generic [ref=e982]: o
+                      - generic [ref=e983]: i
+                      - generic [ref=e984]: "6"
+                      - generic [ref=e985]: i
+                      - generic [ref=e986]: "4"
+                      - generic [ref=e987]: "0"
+                      - generic [ref=e988]: h
+                      - generic [ref=e989]: "0"
+                      - generic [ref=e990]: "7"
+                      - generic [ref=e991]: "1"
+                      - generic [ref=e992]: "0"
+                      - generic [ref=e993]: "1"
+                      - generic [ref=e994]: "5"
+                      - generic [ref=e995]: "0"
+                      - generic [ref=e996]: l
+                      - generic [ref=e997]: g
+                      - generic [ref=e998]: "2"
+                      - generic [ref=e999]: "9"
+                      - generic [ref=e1000]: t
+                      - generic [ref=e1001]: "1"
+                      - generic [ref=e1003]: f
+                      - generic [ref=e1004]: "0"
+                      - generic [ref=e1005]: "7"
+                      - generic [ref=e1006]: "4"
+                      - generic [ref=e1007]: t
+                      - generic [ref=e1008]: t
+                      - generic [ref=e1009]: c
+                      - generic [ref=e1010]: h
+                      - generic [ref=e1011]: "2"
+                  - generic [ref=e1013]: ·
+                  - 'img "Partagé avec : Groupe public" [ref=e1018]'
+              - button "Actions pour cette publication" [ref=e1026] [cursor=pointer]:
+                - img [ref=e1027]
+            - generic [ref=e1039]:
+              - text: Les basakata
+              - img "🇨🇩" [ref=e1041]
+            - generic [ref=e1059]:
+              - generic [ref=e1061]:
+                - generic [ref=e1062]:
+                  - toolbar "Voir qui a réagi" [ref=e1063]:
+                    - 'button "J’aime : 8 personnes" [ref=e1068] [cursor=pointer]'
+                  - 'button "Toutes les réactions : 8" [ref=e1071] [cursor=pointer]':
+                    - generic [ref=e1072]: "Toutes les réactions :"
+                    - generic [ref=e1074]: "8"
+                    - generic [ref=e1076]: "8"
+                - generic [ref=e1077]:
+                  - button "1 commentaire" [ref=e1081] [cursor=pointer]:
+                    - generic [ref=e1082]: 1 commentaire
+                  - button "3 partages" [ref=e1085] [cursor=pointer]:
+                    - generic [ref=e1086]: 3 partages
+              - generic [ref=e1088]:
+                - generic [ref=e1089]:
+                  - button "J’aime" [ref=e1090] [cursor=pointer]:
+                    - generic [ref=e1096]: J’aime
+                  - button "Réagir" [ref=e1097] [cursor=pointer]:
+                    - img [ref=e1098]
+                - button "Laissez un commentaire" [ref=e1101] [cursor=pointer]:
+                  - generic [ref=e1106]: Commenter
+                - button "Envoyez ce contenu à vos ami(e)s ou publiez-le sur votre profil." [ref=e1108] [cursor=pointer]:
+                  - generic [ref=e1113]: Partager
+          - blockquote [ref=e1115]:
+            - generic [ref=e1116]: Facebook
+          - blockquote [ref=e1118]:
+            - generic [ref=e1119]: Facebook
+          - blockquote [ref=e1121]:
+            - generic [ref=e1122]: Facebook
+          - blockquote [ref=e1124]:
+            - generic [ref=e1125]: Facebook
+          - blockquote [ref=e1127]:
+            - generic [ref=e1128]: Facebook
+          - blockquote [ref=e1130]:
+            - generic [ref=e1131]: Facebook
+          - blockquote [ref=e1133]:
+            - generic [ref=e1134]: Facebook
+          - blockquote [ref=e1136]:
+            - generic [ref=e1137]: Facebook
+          - blockquote [ref=e1139]:
+            - generic [ref=e1140]: Facebook
+          - blockquote [ref=e1142]:
+            - generic [ref=e1143]: Facebook
+          - blockquote [ref=e1145]:
+            - generic [ref=e1146]: Facebook
+        - generic [ref=e1159]:
+          - blockquote [ref=e1161]:
+            - generic [ref=e1162]: Facebook
+          - blockquote [ref=e1164]:
+            - generic [ref=e1165]: Facebook
+          - blockquote [ref=e1167]:
+            - generic [ref=e1168]: Facebook
+          - blockquote [ref=e1170]:
+            - generic [ref=e1171]: Facebook
+          - blockquote [ref=e1173]:
+            - generic [ref=e1174]: Facebook
+          - blockquote [ref=e1176]:
+            - generic [ref=e1177]: Facebook
+          - blockquote [ref=e1179]:
+            - generic [ref=e1180]: Facebook
+          - blockquote [ref=e1182]:
+            - generic [ref=e1183]: Facebook
+          - blockquote [ref=e1185]:
+            - generic [ref=e1186]: Facebook
+          - blockquote [ref=e1188]:
+            - generic [ref=e1189]: Facebook
+          - blockquote [ref=e1191]:
+            - generic [ref=e1192]: Facebook
+          - generic [ref=e1195]:
+            - generic:
+              - blockquote [ref=e1197]:
+                - generic [ref=e1198]: Facebook
+              - blockquote [ref=e1200]:
+                - generic [ref=e1201]: Facebook
+              - blockquote [ref=e1203]:
+                - generic [ref=e1204]: Facebook
+              - blockquote [ref=e1206]:
+                - generic [ref=e1207]: Facebook
+              - blockquote [ref=e1209]:
+                - generic [ref=e1210]: Facebook
+              - blockquote [ref=e1212]:
+                - generic [ref=e1213]: Facebook
+              - blockquote [ref=e1215]:
+                - generic [ref=e1216]: Facebook
+              - blockquote [ref=e1218]:
+                - generic [ref=e1219]: Facebook
+              - blockquote [ref=e1221]:
+                - generic [ref=e1222]: Facebook
+              - blockquote [ref=e1224]:
+                - generic [ref=e1225]: Facebook
+              - blockquote [ref=e1227]:
+                - generic [ref=e1228]: Facebook
+              - blockquote [ref=e1230]:
+                - generic [ref=e1231]: Facebook
+              - blockquote [ref=e1233]:
+                - generic [ref=e1234]: Facebook
+              - blockquote [ref=e1236]:
+                - generic [ref=e1237]: Facebook
+              - blockquote [ref=e1239]:
+                - generic [ref=e1240]: Facebook
+              - blockquote [ref=e1242]:
+                - generic [ref=e1243]: Facebook
+              - blockquote [ref=e1245]:
+                - generic [ref=e1246]: Facebook
+              - blockquote [ref=e1248]:
+                - generic [ref=e1249]: Facebook
+              - blockquote [ref=e1251]:
+                - generic [ref=e1252]: Facebook
+              - blockquote [ref=e1254]:
+                - generic [ref=e1255]: Facebook
+              - blockquote [ref=e1257]:
+                - generic [ref=e1258]: Facebook
+              - blockquote [ref=e1260]:
+                - generic [ref=e1261]: Facebook
+            - generic [ref=e1263]:
+              - link "BBC Swahili, voir la story" [ref=e1267] [cursor=pointer]:
+                - /url: /stories/105226694973180/UzpfSVNDOjE0ODQxMTAxNTAwMzA1NDk=/?view_single=false&__cft__[0]=AZZULiI1VnYmn_Oheh2uvRwiqhT2aL3ETJGuIuEYlNqsyEegaL5NfVVUPbfIhxq1c3BFeAiuL_UAFrSrFRIP8DH_VmdmfK3ra7HQoHItXxWcDSQ5uE69L-x4kRd-bqffP9WKLWZFT3j9iEZ4JgzizjWxGDPfNS56BXhbF9PuZWFncg&__tn__=%3C%3C%2CP-R
+                - img "BBC Swahili, voir la story" [ref=e1269]
+              - generic [ref=e1275]:
+                - heading "BBC Swahili Compte vérifié Suivre" [level=3] [ref=e1279]:
+                  - generic [ref=e1280]:
+                    - link "BBC Swahili" [ref=e1284] [cursor=pointer]:
+                      - /url: https://www.facebook.com/BBCnewsSwahili?__cft__[0]=AZZULiI1VnYmn_Oheh2uvRwiqhT2aL3ETJGuIuEYlNqsyEegaL5NfVVUPbfIhxq1c3BFeAiuL_UAFrSrFRIP8DH_VmdmfK3ra7HQoHItXxWcDSQ5uE69L-x4kRd-bqffP9WKLWZFT3j9iEZ4JgzizjWxGDPfNS56BXhbF9PuZWFncg&__tn__=-UC%2CP-R
+                      - generic [ref=e1288]: BBC Swahili
+                    - img "Compte vérifié" [ref=e1292]
+                    - generic [ref=e1295]:
+                      - generic [ref=e1296]: ·
+                      - button "Suivre" [ref=e1299] [cursor=pointer]
+                - generic [ref=e1302]:
+                  - link "t S o p r d o n e s 1 t 2 1 h 4 3 g 1 m 7 8 9 u 7 u g 6 5 9 i 6 i h 0 h 0 7 1 u m 5 0 l g 1 9 t 1 5 f 0 7 4 t 7 6 h 2" [ref=e1306] [cursor=pointer]:
+                    - /url: "?__cft__[0]=AZZULiI1VnYmn_Oheh2uvRwiqhT2aL3ETJGuIuEYlNqsyEegaL5NfVVUPbfIhxq1c3BFeAiuL_UAFrSrFRIP8DH_VmdmfK3ra7HQoHItXxWcDSQ5uE69L-x4kRd-bqffP9WKLWZFT3j9iEZ4JgzizjWxGDPfNS56BXhbF9PuZWFncg&__tn__=%2CO%2CP-R#?eaa"
+                    - generic [ref=e1308]:
+                      - generic [ref=e1309]: t
+                      - generic [ref=e1310]: S
+                      - generic [ref=e1311]: o
+                      - generic [ref=e1312]: p
+                      - generic [ref=e1313]: r
+                      - generic [ref=e1314]: d
+                      - generic [ref=e1315]: o
+                      - generic [ref=e1316]: "n"
+                      - generic [ref=e1317]: e
+                      - generic [ref=e1318]: s
+                      - generic [ref=e1319]: "1"
+                      - generic [ref=e1320]: t
+                      - generic [ref=e1321]: "2"
+                      - generic [ref=e1322]: "1"
+                      - generic [ref=e1323]: h
+                      - generic [ref=e1324]: "4"
+                      - generic [ref=e1325]: "3"
+                      - generic [ref=e1327]: g
+                      - generic [ref=e1328]: "1"
+                      - generic [ref=e1329]: m
+                      - generic [ref=e1330]: "7"
+                      - generic [ref=e1331]: "8"
+                      - generic [ref=e1332]: "9"
+                      - generic [ref=e1333]: u
+                      - generic [ref=e1334]: "7"
+                      - generic [ref=e1335]: u
+                      - generic [ref=e1336]: g
+                      - generic [ref=e1337]: "6"
+                      - generic [ref=e1338]: "5"
+                      - generic [ref=e1339]: "9"
+                      - generic [ref=e1340]: i
+                      - generic [ref=e1341]: "6"
+                      - generic [ref=e1342]: i
+                      - generic [ref=e1343]: h
+                      - generic [ref=e1344]: "0"
+                      - generic [ref=e1345]: h
+                      - generic [ref=e1346]: "0"
+                      - generic [ref=e1347]: "7"
+                      - generic [ref=e1348]: "1"
+                      - generic [ref=e1349]: u
+                      - generic [ref=e1350]: m
+                      - generic [ref=e1351]: "5"
+                      - generic [ref=e1352]: "0"
+                      - generic [ref=e1353]: l
+                      - generic [ref=e1354]: g
+                      - generic [ref=e1355]: "1"
+                      - generic [ref=e1356]: "9"
+                      - generic [ref=e1357]: t
+                      - generic [ref=e1358]: "1"
+                      - generic [ref=e1359]: "5"
+                      - generic [ref=e1360]: f
+                      - generic [ref=e1361]: "0"
+                      - generic [ref=e1362]: "7"
+                      - generic [ref=e1363]: "4"
+                      - generic [ref=e1364]: t
+                      - generic [ref=e1365]: "7"
+                      - generic [ref=e1366]: "6"
+                      - generic [ref=e1367]: h
+                      - generic [ref=e1368]: "2"
+                  - generic [ref=e1370]: ·
+                  - 'img "Partagé avec : Public" [ref=e1375]'
+              - button "Actions pour cette publication" [ref=e1383] [cursor=pointer]:
+                - img [ref=e1384]
+            - generic [ref=e1387]:
+              - generic [ref=e1395]:
+                - text: Tazama tukio la kugusa moyo la msichana mdogo akimkimbilia Papa Leo wa xvi na kumkumbatia.…
+                - button "En voir plus" [ref=e1396] [cursor=pointer]
+              - link "Voir la traduction" [ref=e1399] [cursor=pointer]:
+                - /url: "#"
+            - generic [ref=e1420]:
+              - generic [ref=e1422]:
+                - generic [ref=e1423]:
+                  - toolbar "Voir qui a réagi" [ref=e1424]:
+                    - 'button "J’aime : 4,5 K personnes" [ref=e1429] [cursor=pointer]'
+                  - 'button "Toutes les réactions : 4,6 K" [ref=e1432] [cursor=pointer]':
+                    - generic [ref=e1433]: "Toutes les réactions :"
+                    - generic [ref=e1435]: 4,6 K
+                    - generic [ref=e1437]: 4,6 K
+                - generic [ref=e1438]:
+                  - button "180 commentaires" [ref=e1442] [cursor=pointer]:
+                    - generic [ref=e1443]: 180 commentaires
+                  - button "80 partages" [ref=e1446] [cursor=pointer]:
+                    - generic [ref=e1447]: 80 partages
+              - generic [ref=e1449]:
+                - generic [ref=e1450]:
+                  - button "J’aime" [ref=e1451] [cursor=pointer]:
+                    - generic [ref=e1457]: J’aime
+                  - button "Réagir" [ref=e1458] [cursor=pointer]:
+                    - img [ref=e1459]
+                - button "Laissez un commentaire" [ref=e1462] [cursor=pointer]:
+                  - generic [ref=e1467]: Commenter
+                - button "Envoyez ce contenu à vos ami(e)s ou publiez-le sur votre profil." [ref=e1469] [cursor=pointer]:
+                  - generic [ref=e1474]: Partager
+          - blockquote [ref=e1476]:
+            - generic [ref=e1477]: Facebook
+          - blockquote [ref=e1479]:
+            - generic [ref=e1480]: Facebook
+          - blockquote [ref=e1482]:
+            - generic [ref=e1483]: Facebook
+          - blockquote [ref=e1485]:
+            - generic [ref=e1486]: Facebook
+          - blockquote [ref=e1488]:
+            - generic [ref=e1489]: Facebook
+          - blockquote [ref=e1491]:
+            - generic [ref=e1492]: Facebook
+          - blockquote [ref=e1494]:
+            - generic [ref=e1495]: Facebook
+          - blockquote [ref=e1497]:
+            - generic [ref=e1498]: Facebook
+          - blockquote [ref=e1500]:
+            - generic [ref=e1501]: Facebook
+          - blockquote [ref=e1503]:
+            - generic [ref=e1504]: Facebook
+          - blockquote [ref=e1506]:
+            - generic [ref=e1507]: Facebook
+        - generic [ref=e1538]:
+          - blockquote [ref=e1540]:
+            - generic [ref=e1541]: Facebook
+          - blockquote [ref=e1543]:
+            - generic [ref=e1544]: Facebook
+          - blockquote [ref=e1546]:
+            - generic [ref=e1547]: Facebook
+          - blockquote [ref=e1549]:
+            - generic [ref=e1550]: Facebook
+          - blockquote [ref=e1552]:
+            - generic [ref=e1553]: Facebook
+          - blockquote [ref=e1555]:
+            - generic [ref=e1556]: Facebook
+          - blockquote [ref=e1558]:
+            - generic [ref=e1559]: Facebook
+          - blockquote [ref=e1561]:
+            - generic [ref=e1562]: Facebook
+          - blockquote [ref=e1564]:
+            - generic [ref=e1565]: Facebook
+          - blockquote [ref=e1567]:
+            - generic [ref=e1568]: Facebook
+          - blockquote [ref=e1570]:
+            - generic [ref=e1571]: Facebook
+          - generic [ref=e1574]:
+            - generic:
+              - blockquote [ref=e1576]:
+                - generic [ref=e1577]: Facebook
+              - blockquote [ref=e1579]:
+                - generic [ref=e1580]: Facebook
+              - blockquote [ref=e1582]:
+                - generic [ref=e1583]: Facebook
+              - blockquote [ref=e1585]:
+                - generic [ref=e1586]: Facebook
+              - blockquote [ref=e1588]:
+                - generic [ref=e1589]: Facebook
+              - blockquote [ref=e1591]:
+                - generic [ref=e1592]: Facebook
+              - blockquote [ref=e1594]:
+                - generic [ref=e1595]: Facebook
+              - blockquote [ref=e1597]:
+                - generic [ref=e1598]: Facebook
+              - blockquote [ref=e1600]:
+                - generic [ref=e1601]: Facebook
+              - blockquote [ref=e1603]:
+                - generic [ref=e1604]: Facebook
+              - blockquote [ref=e1606]:
+                - generic [ref=e1607]: Facebook
+              - blockquote [ref=e1609]:
+                - generic [ref=e1610]: Facebook
+              - blockquote [ref=e1612]:
+                - generic [ref=e1613]: Facebook
+              - blockquote [ref=e1615]:
+                - generic [ref=e1616]: Facebook
+              - blockquote [ref=e1618]:
+                - generic [ref=e1619]: Facebook
+              - blockquote [ref=e1621]:
+                - generic [ref=e1622]: Facebook
+              - blockquote [ref=e1624]:
+                - generic [ref=e1625]: Facebook
+              - blockquote [ref=e1627]:
+                - generic [ref=e1628]: Facebook
+              - blockquote [ref=e1630]:
+                - generic [ref=e1631]: Facebook
+              - blockquote [ref=e1633]:
+                - generic [ref=e1634]: Facebook
+              - blockquote [ref=e1636]:
+                - generic [ref=e1637]: Facebook
+              - blockquote [ref=e1639]:
+                - generic [ref=e1640]: Facebook
+            - generic [ref=e1642]:
+              - link "Charles Mbutamuntu, voir la story" [ref=e1646] [cursor=pointer]:
+                - /url: /stories/100866002979166/UzpfSVNDOjE2MTEwOTk3MTY4MTAxMjA=/?view_single=false&__cft__[0]=AZbjsPqjIs4saY6BqZjdiEj848xPDw72UFL2x2nDFLCWTbH081Cv5s0lzZfSWTVD7Z3mbgTNvsSDIz_4l23HFG5jLZ9oMKp9Udq7NJu1k0oTRPIFCMsDBVZiG_P3GCJskHvX4wvchSJGs8ek3s7lmTKLHLiPO2lz9sYcfU3BClnTXw&__tn__=%3C%3C%2CP-R
+                - img "Charles Mbutamuntu, voir la story" [ref=e1648]
+              - generic [ref=e1654]:
+                - heading "Charles Mbutamuntu" [level=3] [ref=e1658]:
+                  - link "Charles Mbutamuntu" [ref=e1663] [cursor=pointer]:
+                    - /url: https://www.facebook.com/profile.php?id=100091672981367&__cft__[0]=AZbjsPqjIs4saY6BqZjdiEj848xPDw72UFL2x2nDFLCWTbH081Cv5s0lzZfSWTVD7Z3mbgTNvsSDIz_4l23HFG5jLZ9oMKp9Udq7NJu1k0oTRPIFCMsDBVZiG_P3GCJskHvX4wvchSJGs8ek3s7lmTKLHLiPO2lz9sYcfU3BClnTXw&__tn__=-UC%2CP-R
+                    - generic [ref=e1667]: Charles Mbutamuntu
+                - generic [ref=e1670]:
+                  - link "t S o p r d o n e s 1 t 2 1 h 4 3 v g 1 m 7 8 9 r f u g é 5 2 i 6 i r 0 h 0 7 1 i m 5 0 l g e 9 t 1 5 f 0 7 4 t 6 h 2" [ref=e1674] [cursor=pointer]:
+                    - /url: "?__cft__[0]=AZbjsPqjIs4saY6BqZjdiEj848xPDw72UFL2x2nDFLCWTbH081Cv5s0lzZfSWTVD7Z3mbgTNvsSDIz_4l23HFG5jLZ9oMKp9Udq7NJu1k0oTRPIFCMsDBVZiG_P3GCJskHvX4wvchSJGs8ek3s7lmTKLHLiPO2lz9sYcfU3BClnTXw&__tn__=%2CO%2CP-R#?afi"
+                    - generic [ref=e1676]:
+                      - generic [ref=e1677]: t
+                      - generic [ref=e1678]: S
+                      - generic [ref=e1679]: o
+                      - generic [ref=e1680]: p
+                      - generic [ref=e1681]: r
+                      - generic [ref=e1682]: d
+                      - generic [ref=e1683]: o
+                      - generic [ref=e1684]: "n"
+                      - generic [ref=e1685]: e
+                      - generic [ref=e1686]: s
+                      - generic [ref=e1687]: "1"
+                      - generic [ref=e1688]: t
+                      - generic [ref=e1689]: "2"
+                      - generic [ref=e1690]: "1"
+                      - generic [ref=e1691]: h
+                      - generic [ref=e1692]: "4"
+                      - generic [ref=e1693]: "3"
+                      - generic [ref=e1694]: v
+                      - generic [ref=e1695]: g
+                      - generic [ref=e1696]: "1"
+                      - generic [ref=e1697]: m
+                      - generic [ref=e1698]: "7"
+                      - generic [ref=e1699]: "8"
+                      - generic [ref=e1700]: "9"
+                      - generic [ref=e1701]: r
+                      - generic [ref=e1702]: f
+                      - generic [ref=e1703]: u
+                      - generic [ref=e1704]: g
+                      - generic [ref=e1705]: é
+                      - generic [ref=e1706]: "5"
+                      - generic [ref=e1707]: "2"
+                      - generic [ref=e1708]: i
+                      - generic [ref=e1709]: "6"
+                      - generic [ref=e1710]: i
+                      - generic [ref=e1711]: r
+                      - generic [ref=e1712]: "0"
+                      - generic [ref=e1713]: h
+                      - generic [ref=e1714]: "0"
+                      - generic [ref=e1715]: "7"
+                      - generic [ref=e1716]: "1"
+                      - generic [ref=e1717]: i
+                      - generic [ref=e1718]: m
+                      - generic [ref=e1719]: "5"
+                      - generic [ref=e1720]: "0"
+                      - generic [ref=e1721]: l
+                      - generic [ref=e1722]: g
+                      - generic [ref=e1723]: e
+                      - generic [ref=e1724]: "9"
+                      - generic [ref=e1725]: t
+                      - generic [ref=e1726]: "1"
+                      - generic [ref=e1727]: "5"
+                      - generic [ref=e1728]: f
+                      - generic [ref=e1729]: "0"
+                      - generic [ref=e1730]: "7"
+                      - generic [ref=e1731]: "4"
+                      - generic [ref=e1732]: t
+                      - generic [ref=e1734]: "6"
+                      - generic [ref=e1735]: h
+                      - generic [ref=e1736]: "2"
+                  - generic [ref=e1738]: ·
+                  - 'img "Partagé avec : Public" [ref=e1743]'
+              - button "Actions pour cette publication" [ref=e1751] [cursor=pointer]:
+                - img [ref=e1752]
+            - generic [ref=e1764]: Quelle ambiance ! Merci Kinkole avec la danse moyene des basakata et vos démonstrations!
+            - generic [ref=e1781]:
+              - generic [ref=e1783]:
+                - generic [ref=e1784]:
+                  - toolbar "Voir qui a réagi" [ref=e1785]:
+                    - 'button "J’aime : 68 personnes" [ref=e1790] [cursor=pointer]'
+                  - 'button "Toutes les réactions : 70" [ref=e1793] [cursor=pointer]':
+                    - generic [ref=e1794]: "Toutes les réactions :"
+                    - generic [ref=e1796]: "70"
+                    - generic [ref=e1798]: "70"
+                - generic [ref=e1799]:
+                  - button "11 commentaires" [ref=e1803] [cursor=pointer]:
+                    - generic [ref=e1804]: 11 commentaires
+                  - button "20 partages" [ref=e1807] [cursor=pointer]:
+                    - generic [ref=e1808]: 20 partages
+              - generic [ref=e1810]:
+                - generic [ref=e1811]:
+                  - button "J’aime" [ref=e1812] [cursor=pointer]:
+                    - generic [ref=e1818]: J’aime
+                  - button "Réagir" [ref=e1819] [cursor=pointer]:
+                    - img [ref=e1820]
+                - button "Laissez un commentaire" [ref=e1823] [cursor=pointer]:
+                  - generic [ref=e1828]: Commenter
+                - button "Envoyez ce contenu à vos ami(e)s ou publiez-le sur votre profil." [ref=e1830] [cursor=pointer]:
+                  - generic [ref=e1835]: Partager
+          - blockquote [ref=e1837]:
+            - generic [ref=e1838]: Facebook
+          - blockquote [ref=e1840]:
+            - generic [ref=e1841]: Facebook
+          - blockquote [ref=e1843]:
+            - generic [ref=e1844]: Facebook
+          - blockquote [ref=e1846]:
+            - generic [ref=e1847]: Facebook
+          - blockquote [ref=e1849]:
+            - generic [ref=e1850]: Facebook
+          - blockquote [ref=e1852]:
+            - generic [ref=e1853]: Facebook
+          - blockquote [ref=e1855]:
+            - generic [ref=e1856]: Facebook
+          - blockquote [ref=e1858]:
+            - generic [ref=e1859]: Facebook
+          - blockquote [ref=e1861]:
+            - generic [ref=e1862]: Facebook
+          - blockquote [ref=e1864]:
+            - generic [ref=e1865]: Facebook
+          - blockquote [ref=e1867]:
+            - generic [ref=e1868]: Facebook
+        - generic [ref=e1881]:
+          - blockquote [ref=e1883]:
+            - generic [ref=e1884]: Facebook
+          - blockquote [ref=e1886]:
+            - generic [ref=e1887]: Facebook
+          - blockquote [ref=e1889]:
+            - generic [ref=e1890]: Facebook
+          - blockquote [ref=e1892]:
+            - generic [ref=e1893]: Facebook
+          - blockquote [ref=e1895]:
+            - generic [ref=e1896]: Facebook
+          - blockquote [ref=e1898]:
+            - generic [ref=e1899]: Facebook
+          - blockquote [ref=e1901]:
+            - generic [ref=e1902]: Facebook
+          - blockquote [ref=e1904]:
+            - generic [ref=e1905]: Facebook
+          - blockquote [ref=e1907]:
+            - generic [ref=e1908]: Facebook
+          - blockquote [ref=e1910]:
+            - generic [ref=e1911]: Facebook
+          - blockquote [ref=e1913]:
+            - generic [ref=e1914]: Facebook
+          - generic [ref=e1917]:
+            - generic:
+              - blockquote [ref=e1919]:
+                - generic [ref=e1920]: Facebook
+              - blockquote [ref=e1922]:
+                - generic [ref=e1923]: Facebook
+              - blockquote [ref=e1925]:
+                - generic [ref=e1926]: Facebook
+              - blockquote [ref=e1928]:
+                - generic [ref=e1929]: Facebook
+              - blockquote [ref=e1931]:
+                - generic [ref=e1932]: Facebook
+              - blockquote [ref=e1934]:
+                - generic [ref=e1935]: Facebook
+              - blockquote [ref=e1937]:
+                - generic [ref=e1938]: Facebook
+              - blockquote [ref=e1940]:
+                - generic [ref=e1941]: Facebook
+              - blockquote [ref=e1943]:
+                - generic [ref=e1944]: Facebook
+              - blockquote [ref=e1946]:
+                - generic [ref=e1947]: Facebook
+              - blockquote [ref=e1949]:
+                - generic [ref=e1950]: Facebook
+              - blockquote [ref=e1952]:
+                - generic [ref=e1953]: Facebook
+              - blockquote [ref=e1955]:
+                - generic [ref=e1956]: Facebook
+              - blockquote [ref=e1958]:
+                - generic [ref=e1959]: Facebook
+              - blockquote [ref=e1961]:
+                - generic [ref=e1962]: Facebook
+              - blockquote [ref=e1964]:
+                - generic [ref=e1965]: Facebook
+              - blockquote [ref=e1967]:
+                - generic [ref=e1968]: Facebook
+              - blockquote [ref=e1970]:
+                - generic [ref=e1971]: Facebook
+              - blockquote [ref=e1973]:
+                - generic [ref=e1974]: Facebook
+              - blockquote [ref=e1976]:
+                - generic [ref=e1977]: Facebook
+              - blockquote [ref=e1979]:
+                - generic [ref=e1980]: Facebook
+              - blockquote [ref=e1982]:
+                - generic [ref=e1983]: Facebook
+            - generic [ref=e1985]:
+              - link "Papy Nkenyi" [ref=e1989] [cursor=pointer]:
+                - /url: https://www.facebook.com/profile.php?id=100009271798900&__cft__[0]=AZZ36L4LsPOlkgBOAI0cZGjZ1Jc9XrTyeQ5jVZs50uTVyTbi0XdcJJyIGYS6mJ-77MtpKuMTBmIjxChVHcOjbvkqNezJ57lxctyoFr9K-f8mBWjJLOxTpeTPbKeqGnRfnVo3YjN6QE4FQ0BXI2chcbveYuSlNKWedk3kI_zCTc44qg&__tn__=%3C%3C%2CP-R
+                - img "Papy Nkenyi" [ref=e1991]
+              - generic [ref=e1996]:
+                - heading "Papy Nkenyi" [level=3] [ref=e2000]:
+                  - link "Papy Nkenyi" [ref=e2005] [cursor=pointer]:
+                    - /url: https://www.facebook.com/profile.php?id=100009271798900&__cft__[0]=AZZ36L4LsPOlkgBOAI0cZGjZ1Jc9XrTyeQ5jVZs50uTVyTbi0XdcJJyIGYS6mJ-77MtpKuMTBmIjxChVHcOjbvkqNezJ57lxctyoFr9K-f8mBWjJLOxTpeTPbKeqGnRfnVo3YjN6QE4FQ0BXI2chcbveYuSlNKWedk3kI_zCTc44qg&__tn__=-UC%2CP-R
+                    - generic [ref=e2009]: Papy Nkenyi
+                - generic [ref=e2012]:
+                  - link "t S o p r d o n e s 1 t 2 1 h 4 2 l g 1 m 7 8 r v u g i 5 i 6 i 5 0 h 0 7 1 0 2 5 0 l g 2 9 t 1 8 f 0 7 4 t a 6 h 2" [ref=e2016] [cursor=pointer]:
+                    - /url: "?__cft__[0]=AZZ36L4LsPOlkgBOAI0cZGjZ1Jc9XrTyeQ5jVZs50uTVyTbi0XdcJJyIGYS6mJ-77MtpKuMTBmIjxChVHcOjbvkqNezJ57lxctyoFr9K-f8mBWjJLOxTpeTPbKeqGnRfnVo3YjN6QE4FQ0BXI2chcbveYuSlNKWedk3kI_zCTc44qg&__tn__=%2CO%2CP-R#?ikj"
+                    - generic [ref=e2018]:
+                      - generic [ref=e2019]: t
+                      - generic [ref=e2020]: S
+                      - generic [ref=e2021]: o
+                      - generic [ref=e2022]: p
+                      - generic [ref=e2023]: r
+                      - generic [ref=e2024]: d
+                      - generic [ref=e2025]: o
+                      - generic [ref=e2026]: "n"
+                      - generic [ref=e2027]: e
+                      - generic [ref=e2028]: s
+                      - generic [ref=e2029]: "1"
+                      - generic [ref=e2030]: t
+                      - generic [ref=e2031]: "2"
+                      - generic [ref=e2032]: "1"
+                      - generic [ref=e2033]: h
+                      - generic [ref=e2034]: "4"
+                      - generic [ref=e2035]: "2"
+                      - generic [ref=e2036]: l
+                      - generic [ref=e2037]: g
+                      - generic [ref=e2038]: "1"
+                      - generic [ref=e2039]: m
+                      - generic [ref=e2040]: "7"
+                      - generic [ref=e2041]: "8"
+                      - generic [ref=e2042]: r
+                      - generic [ref=e2044]: v
+                      - generic [ref=e2045]: u
+                      - generic [ref=e2046]: g
+                      - generic [ref=e2047]: i
+                      - generic [ref=e2048]: "5"
+                      - generic [ref=e2050]: i
+                      - generic [ref=e2051]: "6"
+                      - generic [ref=e2052]: i
+                      - generic [ref=e2053]: "5"
+                      - generic [ref=e2054]: "0"
+                      - generic [ref=e2055]: h
+                      - generic [ref=e2056]: "0"
+                      - generic [ref=e2057]: "7"
+                      - generic [ref=e2058]: "1"
+                      - generic [ref=e2059]: "0"
+                      - generic [ref=e2060]: "2"
+                      - generic [ref=e2061]: "5"
+                      - generic [ref=e2062]: "0"
+                      - generic [ref=e2063]: l
+                      - generic [ref=e2064]: g
+                      - generic [ref=e2065]: "2"
+                      - generic [ref=e2066]: "9"
+                      - generic [ref=e2067]: t
+                      - generic [ref=e2068]: "1"
+                      - generic [ref=e2069]: "8"
+                      - generic [ref=e2070]: f
+                      - generic [ref=e2071]: "0"
+                      - generic [ref=e2072]: "7"
+                      - generic [ref=e2073]: "4"
+                      - generic [ref=e2074]: t
+                      - generic [ref=e2075]: a
+                      - generic [ref=e2076]: "6"
+                      - generic [ref=e2077]: h
+                      - generic [ref=e2078]: "2"
+                  - generic [ref=e2080]: ·
+                  - 'img "Partagé avec : Public" [ref=e2085]'
+              - button "Actions pour cette publication" [ref=e2093] [cursor=pointer]:
+                - img [ref=e2094]
+            - generic [ref=e2106]:
+              - text: MOYENE INTERNATIONALE
+              - img "🔥" [ref=e2108]
+              - text: "! BASAKATA OYEEE"
+              - img "🔥" [ref=e2110]
+              - text: "! NZELA MAKOLO NAKOLANDA YO ! MON FRÈRE Zoom Zoom Le seuL"
+              - link "Christian Mikina" [ref=e2112] [cursor=pointer]:
+                - /url: https://www.facebook.com/doidou.mikina?__cft__[0]=AZZ36L4LsPOlkgBOAI0cZGjZ1Jc9XrTyeQ5jVZs50uTVyTbi0XdcJJyIGYS6mJ-77MtpKuMTBmIjxChVHcOjbvkqNezJ57lxctyoFr9K-f8mBWjJLOxTpeTPbKeqGnRfnVo3YjN6QE4FQ0BXI2chcbveYuSlNKWedk3kI_zCTc44qg&__tn__=-]K-R
+                - generic [ref=e2114]: Christian Mikina
+              - text: est-ce que t’as vu ça..?
+            - generic [ref=e2134]:
+              - generic [ref=e2136]:
+                - generic [ref=e2137]:
+                  - toolbar "Voir qui a réagi" [ref=e2138]:
+                    - generic [ref=e2139]:
+                      - 'button "J’aime : 18 personnes" [ref=e2143] [cursor=pointer]'
+                      - 'button "Haha : 3 personnes" [ref=e2147] [cursor=pointer]'
+                      - 'button "J’adore : 2 personnes" [ref=e2151] [cursor=pointer]'
+                  - 'button "Toutes les réactions : 23" [ref=e2154] [cursor=pointer]':
+                    - generic [ref=e2155]: "Toutes les réactions :"
+                    - generic [ref=e2157]: "23"
+                    - generic [ref=e2159]: "23"
+                - generic [ref=e2160]:
+                  - button "7 commentaires" [ref=e2164] [cursor=pointer]:
+                    - generic [ref=e2165]: 7 commentaires
+                  - button "1 partage" [ref=e2168] [cursor=pointer]:
+                    - generic [ref=e2169]: 1 partage
+              - generic [ref=e2171]:
+                - generic [ref=e2172]:
+                  - button "J’aime" [ref=e2173] [cursor=pointer]:
+                    - generic [ref=e2179]: J’aime
+                  - button "Réagir" [ref=e2180] [cursor=pointer]:
+                    - img [ref=e2181]
+                - button "Envoyez ce contenu à vos ami(e)s ou publiez-le sur votre profil." [ref=e2184] [cursor=pointer]:
+                  - generic [ref=e2189]: Partager
+          - blockquote [ref=e2191]:
+            - generic [ref=e2192]: Facebook
+          - blockquote [ref=e2194]:
+            - generic [ref=e2195]: Facebook
+          - blockquote [ref=e2197]:
+            - generic [ref=e2198]: Facebook
+          - blockquote [ref=e2200]:
+            - generic [ref=e2201]: Facebook
+          - blockquote [ref=e2203]:
+            - generic [ref=e2204]: Facebook
+          - blockquote [ref=e2206]:
+            - generic [ref=e2207]: Facebook
+          - blockquote [ref=e2209]:
+            - generic [ref=e2210]: Facebook
+          - blockquote [ref=e2212]:
+            - generic [ref=e2213]: Facebook
+          - blockquote [ref=e2215]:
+            - generic [ref=e2216]: Facebook
+          - blockquote [ref=e2218]:
+            - generic [ref=e2219]: Facebook
+          - blockquote [ref=e2221]:
+            - generic [ref=e2222]: Facebook
+        - generic [ref=e2235]:
+          - blockquote [ref=e2237]:
+            - generic [ref=e2238]: Facebook
+          - blockquote [ref=e2240]:
+            - generic [ref=e2241]: Facebook
+          - blockquote [ref=e2243]:
+            - generic [ref=e2244]: Facebook
+          - blockquote [ref=e2246]:
+            - generic [ref=e2247]: Facebook
+          - blockquote [ref=e2249]:
+            - generic [ref=e2250]: Facebook
+          - blockquote [ref=e2252]:
+            - generic [ref=e2253]: Facebook
+          - blockquote [ref=e2255]:
+            - generic [ref=e2256]: Facebook
+          - blockquote [ref=e2258]:
+            - generic [ref=e2259]: Facebook
+          - blockquote [ref=e2261]:
+            - generic [ref=e2262]: Facebook
+          - blockquote [ref=e2264]:
+            - generic [ref=e2265]: Facebook
+          - blockquote [ref=e2267]:
+            - generic [ref=e2268]: Facebook
+          - generic [ref=e2271]:
+            - generic:
+              - blockquote [ref=e2273]:
+                - generic [ref=e2274]: Facebook
+              - blockquote [ref=e2276]:
+                - generic [ref=e2277]: Facebook
+              - blockquote [ref=e2279]:
+                - generic [ref=e2280]: Facebook
+              - blockquote [ref=e2282]:
+                - generic [ref=e2283]: Facebook
+              - blockquote [ref=e2285]:
+                - generic [ref=e2286]: Facebook
+              - blockquote [ref=e2288]:
+                - generic [ref=e2289]: Facebook
+              - blockquote [ref=e2291]:
+                - generic [ref=e2292]: Facebook
+              - blockquote [ref=e2294]:
+                - generic [ref=e2295]: Facebook
+              - blockquote [ref=e2297]:
+                - generic [ref=e2298]: Facebook
+              - blockquote [ref=e2300]:
+                - generic [ref=e2301]: Facebook
+              - blockquote [ref=e2303]:
+                - generic [ref=e2304]: Facebook
+              - blockquote [ref=e2306]:
+                - generic [ref=e2307]: Facebook
+              - blockquote [ref=e2309]:
+                - generic [ref=e2310]: Facebook
+              - blockquote [ref=e2312]:
+                - generic [ref=e2313]: Facebook
+              - blockquote [ref=e2315]:
+                - generic [ref=e2316]: Facebook
+              - blockquote [ref=e2318]:
+                - generic [ref=e2319]: Facebook
+              - blockquote [ref=e2321]:
+                - generic [ref=e2322]: Facebook
+              - blockquote [ref=e2324]:
+                - generic [ref=e2325]: Facebook
+              - blockquote [ref=e2327]:
+                - generic [ref=e2328]: Facebook
+              - blockquote [ref=e2330]:
+                - generic [ref=e2331]: Facebook
+              - blockquote [ref=e2333]:
+                - generic [ref=e2334]: Facebook
+              - blockquote [ref=e2336]:
+                - generic [ref=e2337]: Facebook
+            - generic [ref=e2339]:
+              - link "Basakata du congo" [ref=e2343] [cursor=pointer]:
+                - /url: https://www.facebook.com/profile.php?id=61570099537412&__cft__[0]=AZb6YGMbcYy-T3od2RNvIlbPm4GXL2h3Dt5NWT17FZ4NpAqf3ng24Xc-G7Xj6zu9uChwuE84U-Q2Fq9ZEXdGn7wpAJpeipHb3qSek6YrsHJbbHn0UfWaquHnsQ9OFlonyaDwAfC1SpsC-fiLEu6PzxbzJ-y34DubqBUxDlo6az7SCA&__tn__=%3C%3C%2CP-R
+                - img "Basakata du congo" [ref=e2345]
+              - generic [ref=e2350]:
+                - heading "Basakata du congo Suivre" [level=3] [ref=e2354]:
+                  - generic [ref=e2356]:
+                    - link "Basakata du congo" [ref=e2363] [cursor=pointer]:
+                      - /url: https://www.facebook.com/profile.php?id=61570099537412&__cft__[0]=AZb6YGMbcYy-T3od2RNvIlbPm4GXL2h3Dt5NWT17FZ4NpAqf3ng24Xc-G7Xj6zu9uChwuE84U-Q2Fq9ZEXdGn7wpAJpeipHb3qSek6YrsHJbbHn0UfWaquHnsQ9OFlonyaDwAfC1SpsC-fiLEu6PzxbzJ-y34DubqBUxDlo6az7SCA&__tn__=-]C%2CP-R
+                    - generic [ref=e2364]:
+                      - generic [ref=e2365]: ·
+                      - button "Suivre" [ref=e2368] [cursor=pointer]
+                - generic [ref=e2371]:
+                  - link "t S o p r d o n e s 1 a 2 1 h 4 2 r g 1 m 7 8 i v u g e 5 i 6 i 5 0 h 0 7 1 0 2 5 0 l g 2 9 t 1 6 f 0 7 4 t n j h 2" [ref=e2375] [cursor=pointer]:
+                    - /url: "?__cft__[0]=AZb6YGMbcYy-T3od2RNvIlbPm4GXL2h3Dt5NWT17FZ4NpAqf3ng24Xc-G7Xj6zu9uChwuE84U-Q2Fq9ZEXdGn7wpAJpeipHb3qSek6YrsHJbbHn0UfWaquHnsQ9OFlonyaDwAfC1SpsC-fiLEu6PzxbzJ-y34DubqBUxDlo6az7SCA&__tn__=%2CO%2CP-R#?dei"
+                    - generic [ref=e2377]:
+                      - generic [ref=e2378]: t
+                      - generic [ref=e2379]: S
+                      - generic [ref=e2380]: o
+                      - generic [ref=e2381]: p
+                      - generic [ref=e2382]: r
+                      - generic [ref=e2383]: d
+                      - generic [ref=e2384]: o
+                      - generic [ref=e2385]: "n"
+                      - generic [ref=e2386]: e
+                      - generic [ref=e2387]: s
+                      - generic [ref=e2388]: "1"
+                      - generic [ref=e2389]: a
+                      - generic [ref=e2390]: "2"
+                      - generic [ref=e2391]: "1"
+                      - generic [ref=e2392]: h
+                      - generic [ref=e2393]: "4"
+                      - generic [ref=e2394]: "2"
+                      - generic [ref=e2395]: r
+                      - generic [ref=e2396]: g
+                      - generic [ref=e2397]: "1"
+                      - generic [ref=e2398]: m
+                      - generic [ref=e2399]: "7"
+                      - generic [ref=e2400]: "8"
+                      - generic [ref=e2401]: i
+                      - generic [ref=e2403]: v
+                      - generic [ref=e2404]: u
+                      - generic [ref=e2405]: g
+                      - generic [ref=e2406]: e
+                      - generic [ref=e2407]: "5"
+                      - generic [ref=e2409]: i
+                      - generic [ref=e2410]: "6"
+                      - generic [ref=e2411]: i
+                      - generic [ref=e2412]: "5"
+                      - generic [ref=e2413]: "0"
+                      - generic [ref=e2414]: h
+                      - generic [ref=e2415]: "0"
+                      - generic [ref=e2416]: "7"
+                      - generic [ref=e2417]: "1"
+                      - generic [ref=e2418]: "0"
+                      - generic [ref=e2419]: "2"
+                      - generic [ref=e2420]: "5"
+                      - generic [ref=e2421]: "0"
+                      - generic [ref=e2422]: l
+                      - generic [ref=e2423]: g
+                      - generic [ref=e2424]: "2"
+                      - generic [ref=e2425]: "9"
+                      - generic [ref=e2426]: t
+                      - generic [ref=e2427]: "1"
+                      - generic [ref=e2428]: "6"
+                      - generic [ref=e2429]: f
+                      - generic [ref=e2430]: "0"
+                      - generic [ref=e2431]: "7"
+                      - generic [ref=e2432]: "4"
+                      - generic [ref=e2433]: t
+                      - generic [ref=e2434]: "n"
+                      - generic [ref=e2435]: j
+                      - generic [ref=e2436]: h
+                      - generic [ref=e2437]: "2"
+                  - generic [ref=e2439]: ·
+                  - 'img "Partagé avec : Public" [ref=e2444]'
+              - button "Actions pour cette publication" [ref=e2452] [cursor=pointer]:
+                - img [ref=e2453]
+            - generic [ref=e2465]: basakata toujours
+            - generic [ref=e2478]:
+              - generic [ref=e2480]:
+                - generic [ref=e2481]:
+                  - toolbar "Voir qui a réagi" [ref=e2482]:
+                    - 'button "J’aime : 15 personnes" [ref=e2487] [cursor=pointer]'
+                  - 'button "Toutes les réactions : 15" [ref=e2490] [cursor=pointer]':
+                    - generic [ref=e2491]: "Toutes les réactions :"
+                    - generic [ref=e2493]: "15"
+                    - generic [ref=e2495]: "15"
+                - generic [ref=e2496]:
+                  - button "5 commentaires" [ref=e2500] [cursor=pointer]:
+                    - generic [ref=e2501]: 5 commentaires
+                  - button "3 partages" [ref=e2504] [cursor=pointer]:
+                    - generic [ref=e2505]: 3 partages
+              - generic [ref=e2507]:
+                - generic [ref=e2508]:
+                  - button "J’aime" [ref=e2509] [cursor=pointer]:
+                    - generic [ref=e2515]: J’aime
+                  - button "Réagir" [ref=e2516] [cursor=pointer]:
+                    - img [ref=e2517]
+                - button "Laissez un commentaire" [ref=e2520] [cursor=pointer]:
+                  - generic [ref=e2525]: Commenter
+                - button "Envoyez ce contenu à vos ami(e)s ou publiez-le sur votre profil." [ref=e2527] [cursor=pointer]:
+                  - generic [ref=e2532]: Partager
+          - blockquote [ref=e2534]:
+            - generic [ref=e2535]: Facebook
+          - blockquote [ref=e2537]:
+            - generic [ref=e2538]: Facebook
+          - blockquote [ref=e2540]:
+            - generic [ref=e2541]: Facebook
+          - blockquote [ref=e2543]:
+            - generic [ref=e2544]: Facebook
+          - blockquote [ref=e2546]:
+            - generic [ref=e2547]: Facebook
+          - blockquote [ref=e2549]:
+            - generic [ref=e2550]: Facebook
+          - blockquote [ref=e2552]:
+            - generic [ref=e2553]: Facebook
+          - blockquote [ref=e2555]:
+            - generic [ref=e2556]: Facebook
+          - blockquote [ref=e2558]:
+            - generic [ref=e2559]: Facebook
+          - blockquote [ref=e2561]:
+            - generic [ref=e2562]: Facebook
+          - blockquote [ref=e2564]:
+            - generic [ref=e2565]: Facebook
+        - generic [ref=e2578]:
+          - blockquote [ref=e2580]:
+            - generic [ref=e2581]: Facebook
+          - blockquote [ref=e2583]:
+            - generic [ref=e2584]: Facebook
+          - blockquote [ref=e2586]:
+            - generic [ref=e2587]: Facebook
+          - blockquote [ref=e2589]:
+            - generic [ref=e2590]: Facebook
+          - blockquote [ref=e2592]:
+            - generic [ref=e2593]: Facebook
+          - blockquote [ref=e2595]:
+            - generic [ref=e2596]: Facebook
+          - blockquote [ref=e2598]:
+            - generic [ref=e2599]: Facebook
+          - blockquote [ref=e2601]:
+            - generic [ref=e2602]: Facebook
+          - blockquote [ref=e2604]:
+            - generic [ref=e2605]: Facebook
+          - blockquote [ref=e2607]:
+            - generic [ref=e2608]: Facebook
+          - blockquote [ref=e2610]:
+            - generic [ref=e2611]: Facebook
+          - generic [ref=e2614]:
+            - generic:
+              - blockquote [ref=e2616]:
+                - generic [ref=e2617]: Facebook
+              - blockquote [ref=e2619]:
+                - generic [ref=e2620]: Facebook
+              - blockquote [ref=e2622]:
+                - generic [ref=e2623]: Facebook
+              - blockquote [ref=e2625]:
+                - generic [ref=e2626]: Facebook
+              - blockquote [ref=e2628]:
+                - generic [ref=e2629]: Facebook
+              - blockquote [ref=e2631]:
+                - generic [ref=e2632]: Facebook
+              - blockquote [ref=e2634]:
+                - generic [ref=e2635]: Facebook
+              - blockquote [ref=e2637]:
+                - generic [ref=e2638]: Facebook
+              - blockquote [ref=e2640]:
+                - generic [ref=e2641]: Facebook
+              - blockquote [ref=e2643]:
+                - generic [ref=e2644]: Facebook
+              - blockquote [ref=e2646]:
+                - generic [ref=e2647]: Facebook
+              - blockquote [ref=e2649]:
+                - generic [ref=e2650]: Facebook
+              - blockquote [ref=e2652]:
+                - generic [ref=e2653]: Facebook
+              - blockquote [ref=e2655]:
+                - generic [ref=e2656]: Facebook
+              - blockquote [ref=e2658]:
+                - generic [ref=e2659]: Facebook
+              - blockquote [ref=e2661]:
+                - generic [ref=e2662]: Facebook
+              - blockquote [ref=e2664]:
+                - generic [ref=e2665]: Facebook
+              - blockquote [ref=e2667]:
+                - generic [ref=e2668]: Facebook
+              - blockquote [ref=e2670]:
+                - generic [ref=e2671]: Facebook
+              - blockquote [ref=e2673]:
+                - generic [ref=e2674]: Facebook
+              - blockquote [ref=e2676]:
+                - generic [ref=e2677]: Facebook
+              - blockquote [ref=e2679]:
+                - generic [ref=e2680]: Facebook
+            - generic [ref=e2682]:
+              - link "Elmara Radamel Mokemo" [ref=e2686] [cursor=pointer]:
+                - /url: https://www.facebook.com/mara.mokemo?__cft__[0]=AZZtfHcpJ0hh0Q1Z4h1XtVLgZARQnxquCsfkgRwK-LFo6IfWNiSx3KqMl26inT0Mm5AYufizHXrmAIea6EGzvjC2jol_gpWD3S8vsa1rEMq_JU7MjO2mjemOsrh-_7UGDL_mnvjzQ3Q621k8jBeunPrnBn-5X-b3jw6haoUaIzP9cw&__tn__=%3C%3C%2CP-R
+                - img "Elmara Radamel Mokemo" [ref=e2688]
+              - generic [ref=e2693]:
+                - heading "Elmara Radamel Mokemo" [level=3] [ref=e2697]:
+                  - link "Elmara Radamel Mokemo" [ref=e2702] [cursor=pointer]:
+                    - /url: https://www.facebook.com/mara.mokemo?__cft__[0]=AZZtfHcpJ0hh0Q1Z4h1XtVLgZARQnxquCsfkgRwK-LFo6IfWNiSx3KqMl26inT0Mm5AYufizHXrmAIea6EGzvjC2jol_gpWD3S8vsa1rEMq_JU7MjO2mjemOsrh-_7UGDL_mnvjzQ3Q621k8jBeunPrnBn-5X-b3jw6haoUaIzP9cw&__tn__=-UC%2CP-R
+                    - generic [ref=e2706]: Elmara Radamel Mokemo
+                - generic [ref=e2709]:
+                  - link "t S o p r d o n e s 1 t 2 1 h 4 2 e g 1 m 7 8 b o u g r 5 o i 6 i 5 0 h 0 7 1 0 6 5 0 l g 2 9 t 1 f 0 7 4 t t c h 2" [ref=e2713] [cursor=pointer]:
+                    - /url: "?__cft__[0]=AZZtfHcpJ0hh0Q1Z4h1XtVLgZARQnxquCsfkgRwK-LFo6IfWNiSx3KqMl26inT0Mm5AYufizHXrmAIea6EGzvjC2jol_gpWD3S8vsa1rEMq_JU7MjO2mjemOsrh-_7UGDL_mnvjzQ3Q621k8jBeunPrnBn-5X-b3jw6haoUaIzP9cw&__tn__=%2CO%2CP-R#?bij"
+                    - generic [ref=e2715]:
+                      - generic [ref=e2716]: t
+                      - generic [ref=e2717]: S
+                      - generic [ref=e2718]: o
+                      - generic [ref=e2719]: p
+                      - generic [ref=e2720]: r
+                      - generic [ref=e2721]: d
+                      - generic [ref=e2722]: o
+                      - generic [ref=e2723]: "n"
+                      - generic [ref=e2724]: e
+                      - generic [ref=e2725]: s
+                      - generic [ref=e2726]: "1"
+                      - generic [ref=e2727]: t
+                      - generic [ref=e2728]: "2"
+                      - generic [ref=e2729]: "1"
+                      - generic [ref=e2730]: h
+                      - generic [ref=e2731]: "4"
+                      - generic [ref=e2732]: "2"
+                      - generic [ref=e2733]: e
+                      - generic [ref=e2734]: g
+                      - generic [ref=e2735]: "1"
+                      - generic [ref=e2736]: m
+                      - generic [ref=e2737]: "7"
+                      - generic [ref=e2738]: "8"
+                      - generic [ref=e2739]: b
+                      - generic [ref=e2741]: o
+                      - generic [ref=e2742]: u
+                      - generic [ref=e2743]: g
+                      - generic [ref=e2744]: r
+                      - generic [ref=e2745]: "5"
+                      - generic [ref=e2746]: o
+                      - generic [ref=e2747]: i
+                      - generic [ref=e2748]: "6"
+                      - generic [ref=e2749]: i
+                      - generic [ref=e2750]: "5"
+                      - generic [ref=e2751]: "0"
+                      - generic [ref=e2752]: h
+                      - generic [ref=e2753]: "0"
+                      - generic [ref=e2754]: "7"
+                      - generic [ref=e2755]: "1"
+                      - generic [ref=e2756]: "0"
+                      - generic [ref=e2757]: "6"
+                      - generic [ref=e2758]: "5"
+                      - generic [ref=e2759]: "0"
+                      - generic [ref=e2760]: l
+                      - generic [ref=e2761]: g
+                      - generic [ref=e2762]: "2"
+                      - generic [ref=e2763]: "9"
+                      - generic [ref=e2764]: t
+                      - generic [ref=e2765]: "1"
+                      - generic [ref=e2767]: f
+                      - generic [ref=e2768]: "0"
+                      - generic [ref=e2769]: "7"
+                      - generic [ref=e2770]: "4"
+                      - generic [ref=e2771]: t
+                      - generic [ref=e2772]: t
+                      - generic [ref=e2773]: c
+                      - generic [ref=e2774]: h
+                      - generic [ref=e2775]: "2"
+                  - generic [ref=e2777]: ·
+                  - 'img "Partagé avec : Public" [ref=e2782]'
+              - button "Actions pour cette publication" [ref=e2790] [cursor=pointer]:
+                - img [ref=e2791]
+            - generic [ref=e2802]:
+              - generic [ref=e2803]: Bana Basakata moyene en action
+              - generic [ref=e2804]:
+                - text: Yoka kapangala—
+                - text: reconnaissant, avec
+                - link "Clara Mk" [ref=e2807] [cursor=pointer]:
+                  - /url: https://www.facebook.com/clara.mk.912222?__cft__[0]=AZZtfHcpJ0hh0Q1Z4h1XtVLgZARQnxquCsfkgRwK-LFo6IfWNiSx3KqMl26inT0Mm5AYufizHXrmAIea6EGzvjC2jol_gpWD3S8vsa1rEMq_JU7MjO2mjemOsrh-_7UGDL_mnvjzQ3Q621k8jBeunPrnBn-5X-b3jw6haoUaIzP9cw&__tn__=-]K-R
+                  - generic [ref=e2809]: Clara Mk
+                - text: et
+                - button "15 autres personnes" [ref=e2811] [cursor=pointer]:
+                  - generic [ref=e2813]: 15 autres personnes
+                - text: .
+            - generic [ref=e2833]:
+              - generic [ref=e2835]:
+                - generic [ref=e2836]:
+                  - toolbar "Voir qui a réagi" [ref=e2837]:
+                    - generic [ref=e2838]:
+                      - 'button "J’aime : 26 personnes" [ref=e2842] [cursor=pointer]'
+                      - 'button "J’adore : 3 personnes" [ref=e2846] [cursor=pointer]'
+                  - 'button "Toutes les réactions : 29" [ref=e2849] [cursor=pointer]':
+                    - generic [ref=e2850]: "Toutes les réactions :"
+                    - generic [ref=e2852]: "29"
+                    - generic [ref=e2854]: "29"
+                - button "15 commentaires" [ref=e2859] [cursor=pointer]:
+                  - generic [ref=e2860]: 15 commentaires
+              - generic [ref=e2862]:
+                - generic [ref=e2863]:
+                  - button "J’aime" [ref=e2864] [cursor=pointer]:
+                    - generic [ref=e2870]: J’aime
+                  - button "Réagir" [ref=e2871] [cursor=pointer]:
+                    - img [ref=e2872]
+                - button "Envoyez ce contenu à vos ami(e)s ou publiez-le sur votre profil." [ref=e2875] [cursor=pointer]:
+                  - generic [ref=e2880]: Partager
+          - blockquote [ref=e2882]:
+            - generic [ref=e2883]: Facebook
+          - blockquote [ref=e2885]:
+            - generic [ref=e2886]: Facebook
+          - blockquote [ref=e2888]:
+            - generic [ref=e2889]: Facebook
+          - blockquote [ref=e2891]:
+            - generic [ref=e2892]: Facebook
+          - blockquote [ref=e2894]:
+            - generic [ref=e2895]: Facebook
+          - blockquote [ref=e2897]:
+            - generic [ref=e2898]: Facebook
+          - blockquote [ref=e2900]:
+            - generic [ref=e2901]: Facebook
+          - blockquote [ref=e2903]:
+            - generic [ref=e2904]: Facebook
+          - blockquote [ref=e2906]:
+            - generic [ref=e2907]: Facebook
+          - blockquote [ref=e2909]:
+            - generic [ref=e2910]: Facebook
+          - blockquote [ref=e2912]:
+            - generic [ref=e2913]: Facebook
+        - generic [ref=e2926]:
+          - blockquote [ref=e2928]:
+            - generic [ref=e2929]: Facebook
+          - blockquote [ref=e2931]:
+            - generic [ref=e2932]: Facebook
+          - blockquote [ref=e2934]:
+            - generic [ref=e2935]: Facebook
+          - blockquote [ref=e2937]:
+            - generic [ref=e2938]: Facebook
+          - blockquote [ref=e2940]:
+            - generic [ref=e2941]: Facebook
+          - blockquote [ref=e2943]:
+            - generic [ref=e2944]: Facebook
+          - blockquote [ref=e2946]:
+            - generic [ref=e2947]: Facebook
+          - blockquote [ref=e2949]:
+            - generic [ref=e2950]: Facebook
+          - blockquote [ref=e2952]:
+            - generic [ref=e2953]: Facebook
+          - blockquote [ref=e2955]:
+            - generic [ref=e2956]: Facebook
+          - blockquote [ref=e2958]:
+            - generic [ref=e2959]: Facebook
+          - generic [ref=e2962]:
+            - generic:
+              - blockquote [ref=e2964]:
+                - generic [ref=e2965]: Facebook
+              - blockquote [ref=e2967]:
+                - generic [ref=e2968]: Facebook
+              - blockquote [ref=e2970]:
+                - generic [ref=e2971]: Facebook
+              - blockquote [ref=e2973]:
+                - generic [ref=e2974]: Facebook
+              - blockquote [ref=e2976]:
+                - generic [ref=e2977]: Facebook
+              - blockquote [ref=e2979]:
+                - generic [ref=e2980]: Facebook
+              - blockquote [ref=e2982]:
+                - generic [ref=e2983]: Facebook
+              - blockquote [ref=e2985]:
+                - generic [ref=e2986]: Facebook
+              - blockquote [ref=e2988]:
+                - generic [ref=e2989]: Facebook
+              - blockquote [ref=e2991]:
+                - generic [ref=e2992]: Facebook
+              - blockquote [ref=e2994]:
+                - generic [ref=e2995]: Facebook
+              - blockquote [ref=e2997]:
+                - generic [ref=e2998]: Facebook
+              - blockquote [ref=e3000]:
+                - generic [ref=e3001]: Facebook
+              - blockquote [ref=e3003]:
+                - generic [ref=e3004]: Facebook
+              - blockquote [ref=e3006]:
+                - generic [ref=e3007]: Facebook
+              - blockquote [ref=e3009]:
+                - generic [ref=e3010]: Facebook
+              - blockquote [ref=e3012]:
+                - generic [ref=e3013]: Facebook
+              - blockquote [ref=e3015]:
+                - generic [ref=e3016]: Facebook
+              - blockquote [ref=e3018]:
+                - generic [ref=e3019]: Facebook
+              - blockquote [ref=e3021]:
+                - generic [ref=e3022]: Facebook
+              - blockquote [ref=e3024]:
+                - generic [ref=e3025]: Facebook
+              - blockquote [ref=e3027]:
+                - generic [ref=e3028]: Facebook
+            - generic [ref=e3030]:
+              - link "Key.guidance999" [ref=e3034] [cursor=pointer]:
+                - /url: https://www.facebook.com/profile.php?id=61588504559830&__cft__[0]=AZZqUNqbNY8a4jCSimJkt1rrwTRgNUbw5Tfi4P-geGJgZCnGJwffixEZI4RvdtwdPextbWjFOh7wqzf9mBCA6KXoBejNPpSCGSEn1qOFpmrN1lyF5wqDzF8FzCBhfJAQ9WEWyHw8gzugLsWiAVZSxCGgH38T0LsR32hRKdaPYuAxkg&__tn__=%3C%3C%2CP-R
+                - img "Key.guidance999" [ref=e3036]
+              - generic [ref=e3041]:
+                - heading "Key.guidance999 Suivre" [level=3] [ref=e3045]:
+                  - generic [ref=e3046]:
+                    - link "Key.guidance999" [ref=e3050] [cursor=pointer]:
+                      - /url: https://www.facebook.com/profile.php?id=61588504559830&__cft__[0]=AZZqUNqbNY8a4jCSimJkt1rrwTRgNUbw5Tfi4P-geGJgZCnGJwffixEZI4RvdtwdPextbWjFOh7wqzf9mBCA6KXoBejNPpSCGSEn1qOFpmrN1lyF5wqDzF8FzCBhfJAQ9WEWyHw8gzugLsWiAVZSxCGgH38T0LsR32hRKdaPYuAxkg&__tn__=-UC%2CP-R
+                      - generic [ref=e3054]: Key.guidance999
+                    - generic [ref=e3055]:
+                      - generic [ref=e3056]: ·
+                      - button "Suivre" [ref=e3059] [cursor=pointer]
+                - generic [ref=e3062]:
+                  - link "t S o p r d o n e s 1 t 2 1 h 4 3 g 1 m 7 8 9 u 7 u g 6 5 6 i 6 i h 0 h 0 7 1 u m 5 0 l g 1 9 t 1 5 f 0 7 4 t 7 6 h 2" [ref=e3066] [cursor=pointer]:
+                    - /url: "?__cft__[0]=AZZqUNqbNY8a4jCSimJkt1rrwTRgNUbw5Tfi4P-geGJgZCnGJwffixEZI4RvdtwdPextbWjFOh7wqzf9mBCA6KXoBejNPpSCGSEn1qOFpmrN1lyF5wqDzF8FzCBhfJAQ9WEWyHw8gzugLsWiAVZSxCGgH38T0LsR32hRKdaPYuAxkg&__tn__=%2CO%2CP-R#?iie"
+                    - generic [ref=e3068]:
+                      - generic [ref=e3069]: t
+                      - generic [ref=e3070]: S
+                      - generic [ref=e3071]: o
+                      - generic [ref=e3072]: p
+                      - generic [ref=e3073]: r
+                      - generic [ref=e3074]: d
+                      - generic [ref=e3075]: o
+                      - generic [ref=e3076]: "n"
+                      - generic [ref=e3077]: e
+                      - generic [ref=e3078]: s
+                      - generic [ref=e3079]: "1"
+                      - generic [ref=e3080]: t
+                      - generic [ref=e3081]: "2"
+                      - generic [ref=e3082]: "1"
+                      - generic [ref=e3083]: h
+                      - generic [ref=e3084]: "4"
+                      - generic [ref=e3085]: "3"
+                      - generic [ref=e3087]: g
+                      - generic [ref=e3088]: "1"
+                      - generic [ref=e3089]: m
+                      - generic [ref=e3090]: "7"
+                      - generic [ref=e3091]: "8"
+                      - generic [ref=e3092]: "9"
+                      - generic [ref=e3093]: u
+                      - generic [ref=e3094]: "7"
+                      - generic [ref=e3095]: u
+                      - generic [ref=e3096]: g
+                      - generic [ref=e3097]: "6"
+                      - generic [ref=e3098]: "5"
+                      - generic [ref=e3099]: "6"
+                      - generic [ref=e3100]: i
+                      - generic [ref=e3101]: "6"
+                      - generic [ref=e3102]: i
+                      - generic [ref=e3103]: h
+                      - generic [ref=e3104]: "0"
+                      - generic [ref=e3105]: h
+                      - generic [ref=e3106]: "0"
+                      - generic [ref=e3107]: "7"
+                      - generic [ref=e3108]: "1"
+                      - generic [ref=e3109]: u
+                      - generic [ref=e3110]: m
+                      - generic [ref=e3111]: "5"
+                      - generic [ref=e3112]: "0"
+                      - generic [ref=e3113]: l
+                      - generic [ref=e3114]: g
+                      - generic [ref=e3115]: "1"
+                      - generic [ref=e3116]: "9"
+                      - generic [ref=e3117]: t
+                      - generic [ref=e3118]: "1"
+                      - generic [ref=e3119]: "5"
+                      - generic [ref=e3120]: f
+                      - generic [ref=e3121]: "0"
+                      - generic [ref=e3122]: "7"
+                      - generic [ref=e3123]: "4"
+                      - generic [ref=e3124]: t
+                      - generic [ref=e3125]: "7"
+                      - generic [ref=e3126]: "6"
+                      - generic [ref=e3127]: h
+                      - generic [ref=e3128]: "2"
+                  - generic [ref=e3130]: ·
+                  - 'img "Partagé avec : Public" [ref=e3135]'
+              - button "Actions pour cette publication" [ref=e3143] [cursor=pointer]:
+                - img [ref=e3144]
+            - generic [ref=e3165]:
+              - generic [ref=e3169]:
+                - generic [ref=e3170]:
+                  - button "J’aime" [ref=e3171] [cursor=pointer]:
+                    - generic [ref=e3177]: J’aime
+                  - button "Réagir" [ref=e3178] [cursor=pointer]:
+                    - img [ref=e3179]
+                - button "Laissez un commentaire" [ref=e3182] [cursor=pointer]:
+                  - generic [ref=e3187]: Commenter
+                - button "Envoyez ce contenu à vos ami(e)s ou publiez-le sur votre profil." [ref=e3189] [cursor=pointer]:
+                  - generic [ref=e3194]: Partager
+              - generic [ref=e3200]:
+                - button "Available Voices, switch profile" [ref=e3202] [cursor=pointer]:
+                  - generic [ref=e3203]:
+                    - img [ref=e3204]
+                    - img [ref=e3211]
+                - generic [ref=e3216]:
+                  - generic [ref=e3220]:
+                    - textbox "Écrivez un commentaire…" [ref=e3221]:
+                      - paragraph [ref=e3222]
+                    - generic: Écrivez un commentaire…
+                  - list [ref=e3224]:
+                    - listitem [ref=e3225]:
+                      - button "Commentez avec un sticker avatar" [ref=e3227] [cursor=pointer]
+                    - listitem [ref=e3229]:
+                      - button "Insérez un emoji" [ref=e3231] [cursor=pointer]:
+                        - img [ref=e3232]
+                    - listitem [ref=e3235]:
+                      - button "Joignez une photo ou une vidéo" [ref=e3237] [cursor=pointer]
+                    - listitem [ref=e3239]:
+                      - button "Commentez avec un GIF" [ref=e3241] [cursor=pointer]
+                    - listitem [ref=e3243]:
+                      - button "Commentez avec un sticker" [ref=e3245] [cursor=pointer]
+          - blockquote [ref=e3248]:
+            - generic [ref=e3249]: Facebook
+          - blockquote [ref=e3251]:
+            - generic [ref=e3252]: Facebook
+          - blockquote [ref=e3254]:
+            - generic [ref=e3255]: Facebook
+          - blockquote [ref=e3257]:
+            - generic [ref=e3258]: Facebook
+          - blockquote [ref=e3260]:
+            - generic [ref=e3261]: Facebook
+          - blockquote [ref=e3263]:
+            - generic [ref=e3264]: Facebook
+          - blockquote [ref=e3266]:
+            - generic [ref=e3267]: Facebook
+          - blockquote [ref=e3269]:
+            - generic [ref=e3270]: Facebook
+          - blockquote [ref=e3272]:
+            - generic [ref=e3273]: Facebook
+          - blockquote [ref=e3275]:
+            - generic [ref=e3276]: Facebook
+          - blockquote [ref=e3278]:
+            - generic [ref=e3279]: Facebook
+        - article [ref=e3285]:
+          - status "Chargement…" [ref=e3287]

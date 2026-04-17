@@ -1,0 +1,142 @@
+- generic [ref=e5]:
+  - banner:
+    - generic [ref=e6]:
+      - generic:
+        - generic:
+          - button [disabled]:
+            - img
+      - link "Facebook" [ref=e7] [cursor=pointer]:
+        - /url: /
+        - img [ref=e8]
+    - generic [ref=e16]:
+      - generic [ref=e17]:
+        - generic:
+          - generic:
+            - generic:
+              - button:
+                - img
+      - generic [ref=e19]:
+        - generic:
+          - img
+        - combobox "Rechercher sur Facebook" [ref=e20]
+    - navigation "Facebook" [ref=e24]:
+      - list [ref=e25]:
+        - listitem [ref=e26]:
+          - link "Accueil" [ref=e29] [cursor=pointer]:
+            - /url: /
+            - img [ref=e31]
+        - listitem [ref=e33]:
+          - link "Reels" [ref=e36] [cursor=pointer]:
+            - /url: /reel/?s=tab
+            - img [ref=e38]
+        - listitem [ref=e41]:
+          - link "Marketplace" [ref=e44] [cursor=pointer]:
+            - /url: /marketplace/?ref=app_tab
+            - img [ref=e46]
+        - listitem [ref=e48]:
+          - link "Groupes" [ref=e51] [cursor=pointer]:
+            - /url: /groups/
+            - img [ref=e53]
+        - listitem [ref=e55]:
+          - link "Gaming" [ref=e58] [cursor=pointer]:
+            - /url: /gaming/play/?store_visit_source=gaming_tab
+            - img [ref=e60]
+    - navigation "Contrôles et paramètres du compte" [ref=e64]:
+      - button "Menu Facebook" [ref=e68] [cursor=pointer]:
+        - img [ref=e69]
+      - button "Messenger" [ref=e75] [cursor=pointer]:
+        - img [ref=e76]
+      - generic [ref=e81]:
+        - button "Notifications, 7 non lues" [ref=e82] [cursor=pointer]:
+          - img [ref=e83]
+        - button [ref=e85] [cursor=pointer]:
+          - generic [ref=e86]:
+            - generic [ref=e87]: Nombre de notifications non lues
+            - generic [ref=e88]: "7"
+      - button "Votre profil" [ref=e91] [cursor=pointer]:
+        - generic [ref=e92]:
+          - img "Votre profil" [ref=e93]
+          - img [ref=e100]
+  - main [ref=e109]:
+    - generic [ref=e110]:
+      - link "Voir la photo de couverture du profil" [ref=e121] [cursor=pointer]:
+        - /url: https://www.facebook.com/photo/?fbid=422711816660307&set=a.422711783326977
+      - generic [ref=e129]:
+        - 'link "LES Basakata: Questions/reponses" [ref=e133] [cursor=pointer]':
+          - /url: https://www.facebook.com/photo/?fbid=422711813326974&set=a.422711786660310&__tn__=%3C
+          - 'img "LES Basakata: Questions/reponses" [ref=e135]'
+        - generic [ref=e141]:
+          - generic [ref=e143]:
+            - generic [ref=e146]:
+              - 'heading "LES Basakata: Questions/reponses" [level=1] [ref=e151]':
+                - 'button "LES Basakata: Questions/reponses" [ref=e152] [cursor=pointer]': "LES Basakata: Questions/reponses"
+              - generic [ref=e154]:
+                - link "8,2 K followers" [ref=e155] [cursor=pointer]:
+                  - /url: https://www.facebook.com/profile.php?id=100067644754615&sk=followers
+                  - strong [ref=e156]: 8,2 K
+                  - text: followers
+                - text: •
+                - link "0 suivi(e)s" [ref=e157] [cursor=pointer]:
+                  - /url: https://www.facebook.com/profile.php?id=100067644754615&sk=following
+                  - strong [ref=e158]: "0"
+                  - text: suivi(e)s
+            - generic [ref=e161]:
+              - button "Message" [ref=e164] [cursor=pointer]:
+                - generic [ref=e167]: Message
+              - button "Suivre" [ref=e171] [cursor=pointer]:
+                - generic [ref=e174]: Suivre
+              - 'button "Search LES Basakata: Questions/reponses''s profile" [ref=e177] [cursor=pointer]':
+                - generic [ref=e180]: Rechercher
+          - generic [ref=e182]: PAGE SPECIALEMENT CREE POUR REPONDRE A TOUTES VOS QUESTIONS SUR LES BASAKATA EN VUE D'UN LIVRE A PUBLIER APRES.
+          - list "Détails à la une" [ref=e186]:
+            - listitem [ref=e187]:
+              - button "Communauté" [ref=e190] [cursor=pointer]
+    - generic [ref=e199]:
+      - tablist [ref=e207]:
+        - generic:
+          - generic:
+            - generic [ref=e209]:
+              - generic [ref=e210]: Plus
+              - img [ref=e212]
+            - tab "Tout" [ref=e215] [cursor=pointer]:
+              - generic [ref=e217]: Tout
+            - tab "À propos" [ref=e219] [cursor=pointer]:
+              - generic [ref=e221]: À propos
+            - tab "Followers" [ref=e223] [cursor=pointer]:
+              - generic [ref=e225]: Followers
+            - tab "Photos" [selected] [ref=e227] [cursor=pointer]:
+              - generic [ref=e229]: Photos
+            - tab "Mentions" [ref=e231] [cursor=pointer]:
+              - generic [ref=e233]: Mentions
+            - tab "Plus de sections de profil" [ref=e235] [cursor=pointer]:
+              - generic [ref=e236]:
+                - generic [ref=e237]: Plus
+                - img [ref=e239]
+      - button "Paramètres du profil voir plus d’options" [ref=e244] [cursor=pointer]:
+        - img [ref=e246]
+    - generic [ref=e258]:
+      - heading "Photos" [level=2] [ref=e263]:
+        - link "Photos" [ref=e265] [cursor=pointer]:
+          - /url: https://www.facebook.com/profile.php?id=100067644754615&sk=photos
+      - tablist [ref=e269]:
+        - generic [ref=e271]:
+          - generic [ref=e272]:
+            - generic [ref=e273]: Plus
+            - img [ref=e275]
+          - 'tab "Photos prises par LES Basakata: Questions/reponses" [ref=e278] [cursor=pointer]':
+            - generic [ref=e280]: "Photos prises par LES Basakata: Questions/reponses"
+          - tab "Albums" [selected] [ref=e282] [cursor=pointer]:
+            - generic [ref=e284]: Albums
+      - generic [ref=e286]:
+        - link "Photos de profil 2 éléments" [ref=e289] [cursor=pointer]:
+          - /url: https://www.facebook.com/media/set/?set=a.422711786660310&type=3
+          - generic [ref=e296]:
+            - generic [ref=e298]: Photos de profil
+            - generic [ref=e302]: 2 éléments
+        - link "Photos de couverture 2 éléments" [ref=e305] [cursor=pointer]:
+          - /url: https://www.facebook.com/media/set/?set=a.422711783326977&type=3
+          - generic [ref=e312]:
+            - generic [ref=e314]: Photos de couverture
+            - generic [ref=e318]: 2 éléments
+  - button "Nouveau message" [ref=e329] [cursor=pointer]:
+    - img [ref=e330]

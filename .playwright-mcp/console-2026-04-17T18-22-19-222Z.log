@@ -1,0 +1,30 @@
+[     218ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://www.facebook.com/people/LES-Basakata-Questionsreponses/100067644754615/?sk=media:0
+[     358ms] [LOG] 
+%cStop ! font-family:helvetica; font-size:20px; font-size:50px; font-weight:bold; color:red; -webkit-text-stroke:1px black; @ https://static.xx.fbcdn.net/rsrc.php/v4/yn/r/1Rk4BX8YPYQ.js:242
+[     358ms] [LOG] 
+%cIl s’agit d’une fonctionnalité de navigateur conçue pour les développeurs. Si quelqu’un vous a invité(e) à copier-coller quelque chose ici pour activer une fonctionnalité Facebook ou soit-disant pirater le compte d’un tiers, sachez que c’est une arnaque permettant à cette personne d’accéder à votre compte Facebook. font-family:helvetica; font-size:20px;  @ https://static.xx.fbcdn.net/rsrc.php/v4/yn/r/1Rk4BX8YPYQ.js:242
+[     358ms] [LOG] 
+%cConsultez https://www.facebook.com/selfxss pour plus d’informations. font-family:helvetica; font-size:20px;  @ https://static.xx.fbcdn.net/rsrc.php/v4/yn/r/1Rk4BX8YPYQ.js:242
+[     358ms] [LOG] 
+%c  @ https://static.xx.fbcdn.net/rsrc.php/v4/yn/r/1Rk4BX8YPYQ.js:242
+[     373ms] [ERROR] ErrorUtils caught an error:
+
+terminate stream because StartStreamFailure with msg : UNAUTHENTICATED [Caught in: Subscription error in preprocessResponse]
+
+Subsequent non-fatal errors won't be logged; see https://fburl.com/debugjs. {column: 180, clientTime: 1776450139, extra: Object, guardList: Array(0), hash: 1f0k0d} @ https://static.xx.fbcdn.net/rsrc.php/v4/yn/r/1Rk4BX8YPYQ.js:78
+[     422ms] [VERBOSE] [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) %o @ https://www.facebook.com/people/LES-Basakata-Questionsreponses/100067644754615/?sk=media:0
+[   72297ms] [ERROR] ErrorUtils caught an error:
+
+Failed building URI for base path: /stories/{?bucket_id}/{?card_id}/ message: Required template parameter is an empty string: bucket_id
+
+Subsequent non-fatal errors won't be logged; see https://fburl.com/debugjs. {column: 17870, clientTime: 1776450211, extra: Object, guardList: Array(1), hash: buwtd0} @ https://static.xx.fbcdn.net/rsrc.php/v4/yn/r/1Rk4BX8YPYQ.js:78
+[   72432ms] [VERBOSE] [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) %o @ https://www.facebook.com/people/LES-Basakata-Questionsreponses/100067644754615/:0
+[   72432ms] [VERBOSE] [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) %o @ https://www.facebook.com/people/LES-Basakata-Questionsreponses/100067644754615/:0
+[   72630ms] [LOG] 
+%cStop ! font-family:helvetica; font-size:20px; font-size:50px; font-weight:bold; color:red; -webkit-text-stroke:1px black; @ https://static.xx.fbcdn.net/rsrc.php/v4/yn/r/1Rk4BX8YPYQ.js:242
+[   72630ms] [LOG] 
+%cIl s’agit d’une fonctionnalité de navigateur conçue pour les développeurs. Si quelqu’un vous a invité(e) à copier-coller quelque chose ici pour activer une fonctionnalité Facebook ou soit-disant pirater le compte d’un tiers, sachez que c’est une arnaque permettant à cette personne d’accéder à votre compte Facebook. font-family:helvetica; font-size:20px;  @ https://static.xx.fbcdn.net/rsrc.php/v4/yn/r/1Rk4BX8YPYQ.js:242
+[   72630ms] [LOG] 
+%cConsultez https://www.facebook.com/selfxss pour plus d’informations. font-family:helvetica; font-size:20px;  @ https://static.xx.fbcdn.net/rsrc.php/v4/yn/r/1Rk4BX8YPYQ.js:242
+[   72630ms] [LOG] 
+%c  @ https://static.xx.fbcdn.net/rsrc.php/v4/yn/r/1Rk4BX8YPYQ.js:242

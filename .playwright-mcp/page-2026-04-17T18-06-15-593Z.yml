@@ -1,0 +1,33 @@
+- generic [ref=e5]:
+  - banner:
+    - generic [ref=e8]:
+      - generic [ref=e10]:
+        - generic:
+          - button [disabled]:
+            - img
+        - button "Facebook" [ref=e12] [cursor=pointer]:
+          - img "Facebook" [ref=e13]
+      - generic [ref=e18]:
+        - textbox "Adresse e-mail ou téléphone" [ref=e21]
+        - textbox "Mot de passe" [ref=e24]
+        - button "Se connecter" [ref=e27] [cursor=pointer]:
+          - generic [ref=e31]: Se connecter
+        - link "Informations de compte oubliées ?" [ref=e34] [cursor=pointer]:
+          - /url: https://www.facebook.com/recover/initiate?ars=royal_blue_bar
+  - main [ref=e40]:
+    - generic [ref=e41]:
+      - generic [ref=e42]:
+        - img [ref=e44]
+        - generic [ref=e53]:
+          - heading "Ce contenu n’est pas disponible pour le moment" [level=2] [ref=e55]:
+            - generic [ref=e56]: Ce contenu n’est pas disponible pour le moment
+          - generic [ref=e58]: Ce problème vient généralement du fait que le propriétaire ne l’a partagé qu’avec un petit groupe de personnes, a modifié qui pouvait le voir ou l’a supprimé.
+        - link "Accéder au Fil" [ref=e60] [cursor=pointer]:
+          - /url: /
+          - generic [ref=e63]: Accéder au Fil
+      - generic [ref=e64]:
+        - button "Retour" [ref=e65] [cursor=pointer]:
+          - generic [ref=e66]: Retour
+        - link "Accéder aux pages d’aide" [ref=e68] [cursor=pointer]:
+          - /url: https://www.facebook.com/help
+          - generic [ref=e69]: Accéder aux pages d’aide

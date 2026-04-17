@@ -1,0 +1,149 @@
+- generic [ref=e5]:
+  - banner:
+    - generic [ref=e8]:
+      - generic [ref=e10]:
+        - generic:
+          - button [disabled]:
+            - img
+        - button "Facebook" [ref=e12] [cursor=pointer]:
+          - img "Facebook" [ref=e13]
+      - generic [ref=e18]:
+        - textbox "Adresse e-mail ou téléphone" [ref=e21]
+        - textbox "Mot de passe" [ref=e24]
+        - button "Se connecter" [ref=e27] [cursor=pointer]:
+          - generic [ref=e31]: Se connecter
+        - link "Informations de compte oubliées ?" [ref=e34] [cursor=pointer]:
+          - /url: https://www.facebook.com/recover/initiate?ars=royal_blue_bar
+  - main [ref=e41]:
+    - generic [ref=e42]:
+      - link [ref=e53] [cursor=pointer]:
+        - /url: https://www.facebook.com/photo/?fbid=422711816660307&set=a.422711783326977
+      - generic [ref=e61]:
+        - link [ref=e64] [cursor=pointer]:
+          - /url: https://www.facebook.com/photo/?fbid=422711813326974&set=a.422711786660310&__tn__=%3C
+          - img [ref=e66]
+        - generic [ref=e72]:
+          - heading [level=1] [ref=e77]: "LES Basakata: Questions/reponses"
+          - generic [ref=e79]:
+            - link [ref=e80] [cursor=pointer]:
+              - /url: https://www.facebook.com/profile.php?id=100067644754615&sk=followers
+              - strong [ref=e81]: 8,2 K
+              - text: followers
+            - text: •
+            - link [ref=e82] [cursor=pointer]:
+              - /url: https://www.facebook.com/profile.php?id=100067644754615&sk=following
+              - strong [ref=e83]: "0"
+              - text: suivi(e)s
+    - generic [ref=e91]:
+      - tablist [ref=e99]:
+        - generic [ref=e101]:
+          - generic [ref=e102]:
+            - generic [ref=e103]: Plus
+            - img [ref=e105]
+          - tab [ref=e108] [cursor=pointer]:
+            - generic [ref=e110]: Publications
+          - tab [selected] [ref=e112] [cursor=pointer]:
+            - generic [ref=e114]: À propos
+          - tab [ref=e116] [cursor=pointer]:
+            - generic [ref=e118]: Photos
+      - button [ref=e122] [cursor=pointer]:
+        - img [ref=e124]
+    - generic [ref=e131]:
+      - generic [ref=e136]:
+        - tablist [ref=e137]:
+          - heading [level=2] [ref=e139]:
+            - generic [ref=e140]: À propos
+          - generic [ref=e141]:
+            - tab [selected] [ref=e142] [cursor=pointer]:
+              - generic [ref=e143]: Informations générales et coordonnées
+            - tab [ref=e144] [cursor=pointer]:
+              - generic [ref=e145]: Confidentialité et informations juridiques
+            - tab [ref=e146] [cursor=pointer]:
+              - generic [ref=e147]: Emploi et scolarité
+            - tab [ref=e148] [cursor=pointer]:
+              - generic [ref=e149]: Lieux de résidence
+            - tab [ref=e150] [cursor=pointer]:
+              - generic [ref=e151]: Transparence de la Page
+            - tab [ref=e152] [cursor=pointer]:
+              - generic [ref=e153]: Famille et relations
+            - tab [ref=e154] [cursor=pointer]:
+              - generic [ref=e155]: Évènements marquants
+        - generic [ref=e159]:
+          - region [ref=e161]:
+            - heading [level=2] [ref=e164]:
+              - generic [ref=e165]: Catégories
+            - generic [ref=e172]: Communauté
+          - region [ref=e174]:
+            - heading [level=2] [ref=e177]:
+              - generic [ref=e178]: Coordonnées
+            - list [ref=e184]:
+              - listitem [ref=e185]:
+                - generic [ref=e187]:
+                  - generic [ref=e189]: +44 7404 095007
+                  - generic [ref=e197]: Mobile
+            - list [ref=e203]:
+              - listitem [ref=e204]:
+                - generic [ref=e206]:
+                  - generic [ref=e208]: norbertmbu@yahoo.fr
+                  - generic [ref=e216]: E-mail
+      - generic [ref=e221]:
+        - heading [level=2] [ref=e226]:
+          - link [ref=e228] [cursor=pointer]:
+            - /url: https://www.facebook.com/profile.php?id=100067644754615&sk=photos
+            - text: Photos
+        - tablist [ref=e232]:
+          - generic [ref=e234]:
+            - generic [ref=e235]:
+              - generic [ref=e236]: Plus
+              - img [ref=e238]
+            - tab [selected] [ref=e241] [cursor=pointer]:
+              - generic [ref=e243]: "Photos prises par LES Basakata: Questions/reponses"
+            - tab [ref=e245] [cursor=pointer]:
+              - generic [ref=e247]: Albums
+        - generic [ref=e249]:
+          - generic [ref=e251]:
+            - link [ref=e257] [cursor=pointer]:
+              - /url: https://www.facebook.com/photo.php?fbid=837597148505103&set=pb.100067644754615.-2207520000&type=3
+              - img [ref=e258]
+            - link [ref=e264] [cursor=pointer]:
+              - /url: https://www.facebook.com/photo.php?fbid=837597145171770&set=pb.100067644754615.-2207520000&type=3
+              - img [ref=e265]
+            - link [ref=e271] [cursor=pointer]:
+              - /url: https://www.facebook.com/photo.php?fbid=837597141838437&set=pb.100067644754615.-2207520000&type=3
+              - img [ref=e272]
+            - link [ref=e278] [cursor=pointer]:
+              - /url: https://www.facebook.com/photo.php?fbid=837594585172026&set=pb.100067644754615.-2207520000&type=3
+              - img [ref=e279]
+            - link [ref=e285] [cursor=pointer]:
+              - /url: https://www.facebook.com/photo.php?fbid=837594581838693&set=pb.100067644754615.-2207520000&type=3
+              - img [ref=e286]
+            - link [ref=e292] [cursor=pointer]:
+              - /url: https://www.facebook.com/photo.php?fbid=837593865172098&set=pb.100067644754615.-2207520000&type=3
+              - img [ref=e293]
+            - link [ref=e299] [cursor=pointer]:
+              - /url: https://www.facebook.com/photo.php?fbid=422711816660307&set=pb.100067644754615.-2207520000&type=3
+              - img [ref=e300]
+            - link [ref=e306] [cursor=pointer]:
+              - /url: https://www.facebook.com/photo.php?fbid=422711813326974&set=pb.100067644754615.-2207520000&type=3
+              - img [ref=e307]
+          - link [ref=e312] [cursor=pointer]:
+            - /url: https://www.facebook.com/people/LES-Basakata-Questionsreponses/100067644754615/?sk=photos_by
+            - generic [ref=e315]: Voir tout
+  - dialog [ref=e324]:
+    - button "Fermer" [ref=e326] [cursor=pointer]
+    - generic [ref=e333]:
+      - generic [ref=e336]: Voir plus sur Facebook
+      - generic [ref=e341]:
+        - generic: Adresse e-mail ou numéro de tél.
+        - textbox "Adresse e-mail ou numéro de tél." [active] [ref=e342]
+      - generic [ref=e347]:
+        - generic: Mot de passe
+        - textbox "Mot de passe" [ref=e348]
+      - button "Connexion à Facebook" [ref=e350] [cursor=pointer]:
+        - generic [ref=e353]: Se connecter
+      - link "Mot de passe oublié ?" [ref=e355] [cursor=pointer]:
+        - /url: https://www.facebook.com/recover/initiate?ars=royal_blue_bar
+        - generic [ref=e356]: Mot de passe oublié ?
+      - generic [ref=e362]: ou
+      - button "Créer un nouveau compte" [ref=e366] [cursor=pointer]:
+        - generic [ref=e369]: Créer un nouveau compte

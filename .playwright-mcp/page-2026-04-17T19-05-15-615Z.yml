@@ -1,0 +1,963 @@
+- generic [ref=e1]:
+  - generic:
+    - generic:
+      - generic:
+        - generic:
+          - banner:
+            - generic [ref=e2]:
+              - generic:
+                - generic:
+                  - button [disabled]:
+                    - img
+              - link "Facebook" [ref=e3] [cursor=pointer]:
+                - /url: /
+                - img [ref=e4]
+            - generic [ref=e12]:
+              - generic [ref=e13]:
+                - generic:
+                  - generic:
+                    - generic:
+                      - button:
+                        - img
+              - generic [ref=e15]:
+                - generic:
+                  - img
+                - combobox "Rechercher sur Facebook" [ref=e16]: livre Sakata pdf basakata
+            - navigation "Facebook" [ref=e20]:
+              - list [ref=e21]:
+                - listitem [ref=e22]:
+                  - link "Accueil" [ref=e25] [cursor=pointer]:
+                    - /url: /
+                    - img [ref=e27]
+                - listitem [ref=e29]:
+                  - link "Reels" [ref=e32] [cursor=pointer]:
+                    - /url: /reel/?s=tab
+                    - img [ref=e34]
+                - listitem [ref=e37]:
+                  - link "Marketplace" [ref=e40] [cursor=pointer]:
+                    - /url: /marketplace/?ref=app_tab
+                    - img [ref=e42]
+                - listitem [ref=e44]:
+                  - link "Groupes" [ref=e47] [cursor=pointer]:
+                    - /url: /groups/
+                    - img [ref=e49]
+                - listitem [ref=e51]:
+                  - link "Gaming" [ref=e54] [cursor=pointer]:
+                    - /url: /gaming/play/?store_visit_source=gaming_tab
+                    - img [ref=e56]
+            - navigation "Contrôles et paramètres du compte" [ref=e60]:
+              - button "Menu Facebook" [ref=e64] [cursor=pointer]:
+                - img [ref=e65]
+              - button "Messenger" [ref=e71] [cursor=pointer]:
+                - img [ref=e72]
+              - generic [ref=e77]:
+                - button "Notifications, 7 non lues" [ref=e78] [cursor=pointer]:
+                  - img [ref=e79]
+                - button [ref=e81] [cursor=pointer]:
+                  - generic [ref=e82]:
+                    - generic [ref=e83]: Nombre de notifications non lues
+                    - generic [ref=e84]: "7"
+              - button "Votre profil" [ref=e87] [cursor=pointer]:
+                - generic [ref=e88]:
+                  - img "Votre profil" [ref=e89]
+                  - img [ref=e96]
+          - generic [ref=e103]:
+            - region [ref=e104]:
+              - generic [ref=e105]:
+                - heading [level=1] [ref=e113]: Résultats de la recherche
+                - generic [ref=e118]:
+                  - heading [level=2] [ref=e132]:
+                    - generic [ref=e134]: Filtres
+                  - list [ref=e136]:
+                    - listitem [ref=e137]:
+                      - link [ref=e139] [cursor=pointer]:
+                        - /url: /search/top/?q=livre%20Sakata%20pdf%20basakata&__rsidv2__=5a5f7bf8-a245-4ad5-a0ae-954ac12a806d&__epa__=SERP_TAB&__eps__=SERP_TOP_TAB
+                        - generic [ref=e140]:
+                          - img [ref=e143]
+                          - generic [ref=e152]: Tous
+                      - list [ref=e153]:
+                        - listitem [ref=e154]:
+                          - generic [ref=e155]:
+                            - generic [ref=e158]: Publications récentes
+                            - switch [ref=e163] [cursor=pointer]
+                        - listitem [ref=e164]:
+                          - generic [ref=e165]:
+                            - generic [ref=e168]: Publications que vous avez vues
+                            - switch [ref=e173] [cursor=pointer]
+                        - listitem [ref=e174]:
+                          - combobox [ref=e178] [cursor=pointer]:
+                            - generic [ref=e181]: Date de publication
+                            - img [ref=e183]
+                        - listitem [ref=e185]:
+                          - generic [ref=e191]:
+                            - combobox [ref=e192] [cursor=pointer]
+                            - generic:
+                              - img
+                        - listitem [ref=e193]:
+                          - generic [ref=e199]:
+                            - combobox [ref=e200] [cursor=pointer]
+                            - generic:
+                              - img
+                    - listitem [ref=e201]:
+                      - link [ref=e203] [cursor=pointer]:
+                        - /url: /search/people/?q=livre%20Sakata%20pdf%20basakata&__rsidv2__=5a5f7bf8-a245-4ad5-a0ae-954ac12a806d&__epa__=SERP_TAB&__eps__=SERP_TOP_TAB
+                        - generic [ref=e204]:
+                          - img [ref=e207]
+                          - generic [ref=e214]: Personnes
+                    - listitem [ref=e215]:
+                      - link [ref=e217] [cursor=pointer]:
+                        - /url: /search/videos/?q=livre%20Sakata%20pdf%20basakata&__rsidv2__=5a5f7bf8-a245-4ad5-a0ae-954ac12a806d&__epa__=SERP_TAB&__eps__=SERP_TOP_TAB
+                        - generic [ref=e218]:
+                          - img [ref=e221]
+                          - generic [ref=e228]: Reels
+                    - listitem [ref=e229]:
+                      - link [ref=e231] [cursor=pointer]:
+                        - /url: /marketplace/search/?query=livre%20Sakata%20pdf%20basakata
+                        - generic [ref=e232]:
+                          - img [ref=e235]
+                          - generic [ref=e242]: Marketplace
+                    - listitem [ref=e243]:
+                      - link [ref=e245] [cursor=pointer]:
+                        - /url: /search/pages/?q=livre%20Sakata%20pdf%20basakata&__rsidv2__=5a5f7bf8-a245-4ad5-a0ae-954ac12a806d&__epa__=SERP_TAB&__eps__=SERP_TOP_TAB
+                        - generic [ref=e246]:
+                          - img [ref=e249]
+                          - generic [ref=e256]: Pages
+                    - listitem [ref=e257]:
+                      - link [ref=e259] [cursor=pointer]:
+                        - /url: /search/groups/?q=livre%20Sakata%20pdf%20basakata&__rsidv2__=5a5f7bf8-a245-4ad5-a0ae-954ac12a806d&__epa__=SERP_TAB&__eps__=SERP_TOP_TAB
+                        - generic [ref=e260]:
+                          - img [ref=e263]
+                          - generic [ref=e270]: Groupes
+                    - listitem [ref=e271]:
+                      - link [ref=e273] [cursor=pointer]:
+                        - /url: /search/events/?q=livre%20Sakata%20pdf%20basakata&__rsidv2__=5a5f7bf8-a245-4ad5-a0ae-954ac12a806d&__epa__=SERP_TAB&__eps__=SERP_TOP_TAB
+                        - generic [ref=e283]: Évènements
+            - main [ref=e284]:
+              - feed [ref=e289]:
+                - article [ref=e296]:
+                  - heading [level=2] [ref=e305]:
+                    - generic [ref=e307]: Groupes
+                  - generic [ref=e310]:
+                    - generic [ref=e314]:
+                      - link [ref=e318] [cursor=pointer]:
+                        - /url: https://www.facebook.com/groups/livres.en.pdf.gratuits/?__tn__=%3C
+                        - img [ref=e320]
+                      - generic [ref=e324]:
+                        - generic [ref=e327]:
+                          - link [ref=e332] [cursor=pointer]:
+                            - /url: https://www.facebook.com/groups/livres.en.pdf.gratuits/
+                            - text: Livres en PDF Gratuits
+                          - generic [ref=e335]: Public · 416 K membres · Plus de 30 publications par jour
+                          - generic [ref=e338]: télécharger ici des très beaux livres gratuitement. https://www.ebooklivres.com
+                        - button [ref=e344] [cursor=pointer]:
+                          - generic [ref=e347]: Rejoindre
+                    - generic [ref=e351]:
+                      - link [ref=e355] [cursor=pointer]:
+                        - /url: https://www.facebook.com/groups/1413289280577176/?__tn__=%3C
+                        - img [ref=e357]
+                      - generic [ref=e361]:
+                        - generic [ref=e364]:
+                          - link [ref=e369] [cursor=pointer]:
+                            - /url: https://www.facebook.com/groups/1413289280577176/
+                            - text: Livres en EPUB et PDF gratuit
+                          - generic [ref=e372]: Privé · 12 K membres · Plus de 90 publications par jour
+                        - button [ref=e378] [cursor=pointer]:
+                          - generic [ref=e381]: Rejoindre
+                    - generic [ref=e385]:
+                      - link [ref=e389] [cursor=pointer]:
+                        - /url: https://www.facebook.com/groups/610903774524486/?__tn__=%3C
+                        - img [ref=e391]
+                      - generic [ref=e395]:
+                        - generic [ref=e396]:
+                          - generic [ref=e398]:
+                            - link [ref=e403] [cursor=pointer]:
+                              - /url: https://www.facebook.com/groups/610903774524486/
+                              - text: LIVRES PDF📖
+                            - generic [ref=e406]: Public · 67 K membres · Plus de 90 publications par jour
+                            - generic [ref=e409]: BIENVENUE À TOUS LES AMOUREUX DE LA LECTURE
+                          - generic [ref=e413]:
+                            - list [ref=e415]:
+                              - listitem [ref=e416]:
+                                - img [ref=e418]
+                            - generic [ref=e423]: 1 ami(e) en est membre
+                        - button [ref=e429] [cursor=pointer]:
+                          - generic [ref=e432]: Rejoindre
+                  - article [ref=e433]:
+                    - link [ref=e434] [cursor=pointer]:
+                      - /url: /search/groups/?q=livre%20Sakata%20pdf%20basakata&sde=Abo6mQGTwumSH8ghiQqAvvjPX7NFviMO4wSBhxr6grIQwUayjg5k0ye5FNdIS2HCiLkkJOB-TfP5YV29lVJ9zt3H&__rsidv2__=5a5f7bf8-a245-4ad5-a0ae-954ac12a806d&__epa__=SEE_MORE&__eps__=SERP_TOP_TAB
+                      - generic [ref=e437]: Voir tout
+                - generic [ref=e450]:
+                  - blockquote [ref=e452]:
+                    - generic [ref=e453]: Facebook
+                  - blockquote [ref=e455]:
+                    - generic [ref=e456]: Facebook
+                  - blockquote [ref=e458]:
+                    - generic [ref=e459]: Facebook
+                  - blockquote [ref=e461]:
+                    - generic [ref=e462]: Facebook
+                  - blockquote [ref=e464]:
+                    - generic [ref=e465]: Facebook
+                  - blockquote [ref=e467]:
+                    - generic [ref=e468]: Facebook
+                  - blockquote [ref=e470]:
+                    - generic [ref=e471]: Facebook
+                  - blockquote [ref=e473]:
+                    - generic [ref=e474]: Facebook
+                  - blockquote [ref=e476]:
+                    - generic [ref=e477]: Facebook
+                  - blockquote [ref=e479]:
+                    - generic [ref=e480]: Facebook
+                  - blockquote [ref=e482]:
+                    - generic [ref=e483]: Facebook
+                  - generic [ref=e486]:
+                    - blockquote [ref=e488]:
+                      - generic [ref=e489]: Facebook
+                    - blockquote [ref=e491]:
+                      - generic [ref=e492]: Facebook
+                    - blockquote [ref=e494]:
+                      - generic [ref=e495]: Facebook
+                    - blockquote [ref=e497]:
+                      - generic [ref=e498]: Facebook
+                    - blockquote [ref=e500]:
+                      - generic [ref=e501]: Facebook
+                    - blockquote [ref=e503]:
+                      - generic [ref=e504]: Facebook
+                    - blockquote [ref=e506]:
+                      - generic [ref=e507]: Facebook
+                    - blockquote [ref=e509]:
+                      - generic [ref=e510]: Facebook
+                    - blockquote [ref=e512]:
+                      - generic [ref=e513]: Facebook
+                    - blockquote [ref=e515]:
+                      - generic [ref=e516]: Facebook
+                    - blockquote [ref=e518]:
+                      - generic [ref=e519]: Facebook
+                    - blockquote [ref=e521]:
+                      - generic [ref=e522]: Facebook
+                    - blockquote [ref=e524]:
+                      - generic [ref=e525]: Facebook
+                    - blockquote [ref=e527]:
+                      - generic [ref=e528]: Facebook
+                    - blockquote [ref=e530]:
+                      - generic [ref=e531]: Facebook
+                    - blockquote [ref=e533]:
+                      - generic [ref=e534]: Facebook
+                    - blockquote [ref=e536]:
+                      - generic [ref=e537]: Facebook
+                    - blockquote [ref=e539]:
+                      - generic [ref=e540]: Facebook
+                    - blockquote [ref=e542]:
+                      - generic [ref=e543]: Facebook
+                    - blockquote [ref=e545]:
+                      - generic [ref=e546]: Facebook
+                    - blockquote [ref=e548]:
+                      - generic [ref=e549]: Facebook
+                    - blockquote [ref=e551]:
+                      - generic [ref=e552]: Facebook
+                    - generic [ref=e554]:
+                      - link [ref=e558] [cursor=pointer]:
+                        - /url: https://www.facebook.com/profile.php?id=61572071352152&__cft__[0]=AZbP1Z0-9sk3MuERhR2MWg7C54uv6zjbifpZY60vT4XItlqj4qbeaXEujxlylKla50vzi924vpg36HLeKaBEHxSqlWQADnjBz7V8585zILCAEv-S5ToRYUTeR6WQiEHmU8jeWRIy2J9w-7un_p6Y3JerFqWWrjHMYGxCysvaexTmYQ&__tn__=%3C%3C%2CP-R
+                        - img [ref=e560]
+                      - generic [ref=e565]:
+                        - heading [level=3] [ref=e569]:
+                          - generic [ref=e570]:
+                            - link [ref=e574] [cursor=pointer]:
+                              - /url: https://www.facebook.com/profile.php?id=61572071352152&__cft__[0]=AZbP1Z0-9sk3MuERhR2MWg7C54uv6zjbifpZY60vT4XItlqj4qbeaXEujxlylKla50vzi924vpg36HLeKaBEHxSqlWQADnjBz7V8585zILCAEv-S5ToRYUTeR6WQiEHmU8jeWRIy2J9w-7un_p6Y3JerFqWWrjHMYGxCysvaexTmYQ&__tn__=-UC%2CP-R
+                              - generic [ref=e578]: LIVRE PDF
+                            - generic [ref=e579]:
+                              - generic [ref=e580]: ·
+                              - button [ref=e583] [cursor=pointer]: Suivre
+                        - generic [ref=e586]:
+                          - link [ref=e590] [cursor=pointer]:
+                            - /url: "?__cft__[0]=AZbP1Z0-9sk3MuERhR2MWg7C54uv6zjbifpZY60vT4XItlqj4qbeaXEujxlylKla50vzi924vpg36HLeKaBEHxSqlWQADnjBz7V8585zILCAEv-S5ToRYUTeR6WQiEHmU8jeWRIy2J9w-7un_p6Y3JerFqWWrjHMYGxCysvaexTmYQ&__tn__=%2CO%2CP-R#?cdb"
+                            - generic [ref=e592]:
+                              - generic [ref=e593]: d
+                              - generic [ref=e594]: r
+                              - generic [ref=e595]: "n"
+                              - generic [ref=e596]: t
+                              - generic [ref=e597]: p
+                              - generic [ref=e598]: e
+                              - generic [ref=e599]: o
+                              - generic [ref=e600]: S
+                              - generic [ref=e601]: s
+                              - generic [ref=e602]: o
+                              - generic [ref=e603]: "3"
+                              - generic [ref=e604]: l
+                              - generic [ref=e605]: "3"
+                              - generic [ref=e606]: s
+                              - generic [ref=e608]: "9"
+                              - generic [ref=e609]: "9"
+                              - generic [ref=e610]: g
+                              - generic [ref=e611]: "2"
+                              - generic [ref=e612]: "6"
+                              - generic [ref=e613]: "1"
+                              - generic [ref=e614]: "5"
+                              - generic [ref=e615]: m
+                              - generic [ref=e616]: a
+                              - generic [ref=e617]: u
+                              - generic [ref=e618]: t
+                              - generic [ref=e619]: a
+                              - generic [ref=e620]: "4"
+                              - generic [ref=e621]: "4"
+                              - generic [ref=e622]: "0"
+                              - generic [ref=e623]: h
+                              - generic [ref=e625]: e
+                              - generic [ref=e627]: "3"
+                              - generic [ref=e628]: "0"
+                              - generic [ref=e630]: ":"
+                              - generic [ref=e631]: "0"
+                              - generic [ref=e632]: "9"
+                              - generic [ref=e633]: a
+                              - generic [ref=e634]: m
+                              - generic [ref=e635]: r
+                              - generic [ref=e636]: "6"
+                              - generic [ref=e637]: g
+                              - generic [ref=e638]: c
+                              - generic [ref=e639]: "1"
+                              - generic [ref=e640]: "5"
+                              - generic [ref=e641]: "2"
+                              - generic [ref=e642]: L
+                              - generic [ref=e643]: u
+                              - generic [ref=e644]: "3"
+                              - generic [ref=e645]: f
+                              - generic [ref=e646]: "8"
+                              - generic [ref=e647]: "1"
+                              - generic [ref=e648]: m
+                              - generic [ref=e649]: a
+                              - generic [ref=e650]: à
+                              - generic [ref=e651]: "2"
+                              - generic [ref=e652]: "8"
+                          - generic [ref=e654]: ·
+                          - img [ref=e659]
+                      - button [ref=e667] [cursor=pointer]:
+                        - img [ref=e668]
+                    - generic [ref=e671]:
+                      - generic [ref=e680]:
+                        - img [ref=e682]
+                        - text: Pour seulement 1 000 F CFA – Version PDF…
+                        - button [ref=e683] [cursor=pointer]: En voir plus
+                      - generic [ref=e684]:
+                        - generic [ref=e689] [cursor=pointer]:
+                          - button [ref=e694]
+                          - group [ref=e708]:
+                            - img [ref=e710]
+                            - generic [ref=e715]:
+                              - generic:
+                                - generic:
+                                  - generic:
+                                    - generic:
+                                      - button
+                                - generic: 0:00 / 1:02
+                              - generic:
+                                - generic:
+                                  - slider
+                              - generic:
+                                - generic:
+                                  - generic:
+                                    - generic:
+                                      - generic:
+                                        - button
+                              - generic:
+                                - generic:
+                                  - generic:
+                                    - generic:
+                                      - button:
+                                        - img
+                              - generic [ref=e717]:
+                                - generic [ref=e719]:
+                                  - slider
+                                - button [ref=e723]:
+                                  - img [ref=e724]
+                        - link [ref=e728] [cursor=pointer]:
+                          - /url: "?__cft__[0]=AZbP1Z0-9sk3MuERhR2MWg7C54uv6zjbifpZY60vT4XItlqj4qbeaXEujxlylKla50vzi924vpg36HLeKaBEHxSqlWQADnjBz7V8585zILCAEv-S5ToRYUTeR6WQiEHmU8jeWRIy2J9w-7un_p6Y3JerFqWWrjHMYGxCysvaexTmYQ&__tn__=%2C%3C%2CmH-R#?cia"
+                          - generic [ref=e730]:
+                            - generic [ref=e734]: WHATSAPP
+                            - link [ref=e744]:
+                              - /url: https://api.whatsapp.com/send?phone=22651566547&source=FB_Post&token=eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IjEyNSJ9.eyJleHAiOjE3NzY1MzkxMTEsInBob25lIjoiMjI2NTE1NjY1NDciLCJ0ZXh0IjoiTGllblx1MDBhMDpcbmh0dHBzOlwvXC9mYi5tZVwvNlJJc3hpeWVSXG5cbkJvbmpvdXJcdTAwYTAhIFB1aXMtamUgZW4gc2F2b2lyIHBsdXMgXHUwMGUwIGNlIHN1amV0XHUwMGEwPyIsInNvdXJjZV91cmwiOiJodHRwczpcL1wvZmIubWVcLzZSSXN4aXllUiIsImljZWJyZWFrZXIiOiJCb25qb3VyXHUwMGEwISBQdWlzLWplIGVuIHNhdm9pciBwbHVzIFx1MDBlMCBjZSBzdWpldFx1MDBhMD8iLCJhcHAiOiJmYWNlYm9vayIsImVudHJ5X3BvaW50IjoicG9zdF9jdGEiLCJqaWQiOiIyMjY1MTU2NjU0N1x1MDA0MHMud2hhdHNhcHAubmV0IiwibGlkIjoiNzk3Mjc1Nzg2MzYyOTVcdTAwNDBsaWQiLCJzb3VyY2VfaWQiOiI0NTIzOTYwMDU3ODkwNTIxIiwic2hvd19hZF9hdHRyaWJ1dGlvbiI6MSwic291cmNlIjoiRkJfUG9zdCIsImNvbnRleHQiOiJBZmd3azZzck41M3BUeWtLMkJ6MjduRXhjSU9hNGhmakM3NV9kcWh5OUptY1Y3amxyUDd6MGx0VVZIVDZTM3lzdExMeHF2eU5Vd3hoa3QzUm1ISy10WGdSdTdTNGtSTzN4b2FTZ2VjNks5Tm9HWXNfUlVrODZsNEcxWnVTY1dJZ2tWejJzcjNmQml2NE9fTFlJZlVhRXZwUGZZQzJxY081aHMzNERPN2dJSG5aNDl5XzRjTHJnTFVxRTJjRVp5RHVuaVE0ZlQwSTlwWnhNMVlxSFlsckdGbHRBT0lCeWdSMnptc2hEenlsWWVfT2Z5NE1HLWl1OGZoZHNTUFE1UjQwdTVsVHpVcTB1Yk5aQmx6WkR1UlpMYVp4SF9USkdhbUJBX25iVDlGRU1BSWwwZVNJb2NTU1dPZGJldHROaVBQS3FRUTVPd0JkVFY2aVZMUUswd0J3X1dnTnFmd0lRb25NQ1NxcW1vN1k5ZkNuR2YxLWNqWkZxaW0ycnY2eXgzbmhTR3VGMmcifQ.zR9coIpoHrCuIAGglNpKT3iq15PtB3MV9M_O5Q1E9FU3W1f88W-sT3R6Cch7PyWnXb7llRfd2K4s5jGDOmHXqg&fbclid=IwZXh0bgNhZW0CMTEAc3J0YwZhcHBfaWQQMjIyMDM5MTc4ODIwMDg5MgABHu_qtwZN0SA33Wz4cwj0R2pzCY98ZvLFiaYnAE36zV0z-BRFoJkGLm1cbjYY_aem_WuUKdk5a_8CTaMcksdULng
+                              - generic [ref=e745]:
+                                - img [ref=e746]
+                                - generic [ref=e750]: WhatsApp
+                    - generic [ref=e755]:
+                      - generic [ref=e757]:
+                        - generic [ref=e758]:
+                          - toolbar [ref=e759]:
+                            - button [ref=e764] [cursor=pointer]
+                          - button [ref=e767] [cursor=pointer]:
+                            - generic [ref=e768]: "Toutes les réactions :"
+                            - generic [ref=e770]: "783"
+                            - generic [ref=e772]: "783"
+                        - generic [ref=e773]:
+                          - button [ref=e777] [cursor=pointer]:
+                            - generic [ref=e778]: 17 commentaires
+                          - button [ref=e781] [cursor=pointer]:
+                            - generic [ref=e782]: 5 partages
+                      - generic [ref=e784]:
+                        - generic [ref=e785]:
+                          - button [ref=e786] [cursor=pointer]:
+                            - generic [ref=e792]: J’aime
+                          - button [ref=e793] [cursor=pointer]:
+                            - img [ref=e794]
+                        - button [ref=e797] [cursor=pointer]:
+                          - generic [ref=e802]: Commenter
+                        - button [ref=e804] [cursor=pointer]:
+                          - generic [ref=e809]: Partager
+                  - blockquote [ref=e811]:
+                    - generic [ref=e812]: Facebook
+                  - blockquote [ref=e814]:
+                    - generic [ref=e815]: Facebook
+                  - blockquote [ref=e817]:
+                    - generic [ref=e818]: Facebook
+                  - blockquote [ref=e820]:
+                    - generic [ref=e821]: Facebook
+                  - blockquote [ref=e823]:
+                    - generic [ref=e824]: Facebook
+                  - blockquote [ref=e826]:
+                    - generic [ref=e827]: Facebook
+                  - blockquote [ref=e829]:
+                    - generic [ref=e830]: Facebook
+                  - blockquote [ref=e832]:
+                    - generic [ref=e833]: Facebook
+                  - blockquote [ref=e835]:
+                    - generic [ref=e836]: Facebook
+                  - blockquote [ref=e838]:
+                    - generic [ref=e839]: Facebook
+                  - blockquote [ref=e841]:
+                    - generic [ref=e842]: Facebook
+                - generic [ref=e855]:
+                  - blockquote [ref=e857]:
+                    - generic [ref=e858]: Facebook
+                  - blockquote [ref=e860]:
+                    - generic [ref=e861]: Facebook
+                  - blockquote [ref=e863]:
+                    - generic [ref=e864]: Facebook
+                  - blockquote [ref=e866]:
+                    - generic [ref=e867]: Facebook
+                  - blockquote [ref=e869]:
+                    - generic [ref=e870]: Facebook
+                  - blockquote [ref=e872]:
+                    - generic [ref=e873]: Facebook
+                  - blockquote [ref=e875]:
+                    - generic [ref=e876]: Facebook
+                  - blockquote [ref=e878]:
+                    - generic [ref=e879]: Facebook
+                  - blockquote [ref=e881]:
+                    - generic [ref=e882]: Facebook
+                  - blockquote [ref=e884]:
+                    - generic [ref=e885]: Facebook
+                  - blockquote [ref=e887]:
+                    - generic [ref=e888]: Facebook
+                  - generic [ref=e891]:
+                    - blockquote [ref=e893]:
+                      - generic [ref=e894]: Facebook
+                    - blockquote [ref=e896]:
+                      - generic [ref=e897]: Facebook
+                    - blockquote [ref=e899]:
+                      - generic [ref=e900]: Facebook
+                    - blockquote [ref=e902]:
+                      - generic [ref=e903]: Facebook
+                    - blockquote [ref=e905]:
+                      - generic [ref=e906]: Facebook
+                    - blockquote [ref=e908]:
+                      - generic [ref=e909]: Facebook
+                    - blockquote [ref=e911]:
+                      - generic [ref=e912]: Facebook
+                    - blockquote [ref=e914]:
+                      - generic [ref=e915]: Facebook
+                    - blockquote [ref=e917]:
+                      - generic [ref=e918]: Facebook
+                    - blockquote [ref=e920]:
+                      - generic [ref=e921]: Facebook
+                    - blockquote [ref=e923]:
+                      - generic [ref=e924]: Facebook
+                    - blockquote [ref=e926]:
+                      - generic [ref=e927]: Facebook
+                    - blockquote [ref=e929]:
+                      - generic [ref=e930]: Facebook
+                    - blockquote [ref=e932]:
+                      - generic [ref=e933]: Facebook
+                    - blockquote [ref=e935]:
+                      - generic [ref=e936]: Facebook
+                    - blockquote [ref=e938]:
+                      - generic [ref=e939]: Facebook
+                    - blockquote [ref=e941]:
+                      - generic [ref=e942]: Facebook
+                    - blockquote [ref=e944]:
+                      - generic [ref=e945]: Facebook
+                    - blockquote [ref=e947]:
+                      - generic [ref=e948]: Facebook
+                    - blockquote [ref=e950]:
+                      - generic [ref=e951]: Facebook
+                    - blockquote [ref=e953]:
+                      - generic [ref=e954]: Facebook
+                    - blockquote [ref=e956]:
+                      - generic [ref=e957]: Facebook
+                    - generic [ref=e959]:
+                      - link [ref=e963] [cursor=pointer]:
+                        - /url: https://www.facebook.com/profile.php?id=61571271983427&__cft__[0]=AZa34hB6KHj872ew6sVPmTrfRHT4ahhvXoGR2SQgsO_jvO_G8GVwmNJRAdEHj74K_8oMvNWw-yGNNPKPFzQoaXn5wiFQd8eyYVyuOGiWAQZbKlJjOy0NUlPFfrXGOod3jBqDxW6bHRarxNK2707DeYXXvvybBZW3ypW-gqTuwWV_9Q&__tn__=%3C%3C%2CP-R
+                        - img [ref=e965]
+                      - generic [ref=e970]:
+                        - heading [level=3] [ref=e974]:
+                          - generic [ref=e975]:
+                            - link [ref=e979] [cursor=pointer]:
+                              - /url: https://www.facebook.com/profile.php?id=61571271983427&__cft__[0]=AZa34hB6KHj872ew6sVPmTrfRHT4ahhvXoGR2SQgsO_jvO_G8GVwmNJRAdEHj74K_8oMvNWw-yGNNPKPFzQoaXn5wiFQd8eyYVyuOGiWAQZbKlJjOy0NUlPFfrXGOod3jBqDxW6bHRarxNK2707DeYXXvvybBZW3ypW-gqTuwWV_9Q&__tn__=-UC%2CP-R
+                              - generic [ref=e983]: Livres & Savoirs
+                            - generic [ref=e984]:
+                              - generic [ref=e985]: ·
+                              - button [ref=e988] [cursor=pointer]: Suivre
+                        - generic [ref=e991]:
+                          - link [ref=e995] [cursor=pointer]:
+                            - /url: "?__cft__[0]=AZa34hB6KHj872ew6sVPmTrfRHT4ahhvXoGR2SQgsO_jvO_G8GVwmNJRAdEHj74K_8oMvNWw-yGNNPKPFzQoaXn5wiFQd8eyYVyuOGiWAQZbKlJjOy0NUlPFfrXGOod3jBqDxW6bHRarxNK2707DeYXXvvybBZW3ypW-gqTuwWV_9Q&__tn__=%2CO%2CP-R#?ihe"
+                            - generic [ref=e997]:
+                              - generic [ref=e998]: d
+                              - generic [ref=e999]: r
+                              - generic [ref=e1000]: "n"
+                              - generic [ref=e1001]: t
+                              - generic [ref=e1002]: p
+                              - generic [ref=e1003]: e
+                              - generic [ref=e1004]: o
+                              - generic [ref=e1005]: S
+                              - generic [ref=e1006]: s
+                              - generic [ref=e1007]: o
+                              - generic [ref=e1008]: "3"
+                              - generic [ref=e1009]: l
+                              - generic [ref=e1010]: "2"
+                              - generic [ref=e1011]: "7"
+                              - generic [ref=e1013]: "9"
+                              - generic [ref=e1014]: "5"
+                              - generic [ref=e1015]: g
+                              - generic [ref=e1016]: "2"
+                              - generic [ref=e1017]: "6"
+                              - generic [ref=e1018]: "0"
+                              - generic [ref=e1019]: "5"
+                              - generic [ref=e1020]: m
+                              - generic [ref=e1021]: a
+                              - generic [ref=e1022]: u
+                              - generic [ref=e1023]: t
+                              - generic [ref=e1024]: a
+                              - generic [ref=e1025]: "4"
+                              - generic [ref=e1026]: "4"
+                              - generic [ref=e1027]: m
+                              - generic [ref=e1028]: h
+                              - generic [ref=e1029]: i
+                              - generic [ref=e1030]: "3"
+                              - generic [ref=e1031]: t
+                              - generic [ref=e1032]: "3"
+                              - generic [ref=e1033]: "0"
+                              - generic [ref=e1034]: "6"
+                              - generic [ref=e1035]: "4"
+                              - generic [ref=e1036]: "0"
+                              - generic [ref=e1037]: "9"
+                              - generic [ref=e1038]: a
+                              - generic [ref=e1039]: m
+                              - generic [ref=e1040]: c
+                              - generic [ref=e1041]: "6"
+                              - generic [ref=e1042]: g
+                              - generic [ref=e1043]: c
+                              - generic [ref=e1044]: "1"
+                              - generic [ref=e1045]: "5"
+                              - generic [ref=e1046]: "2"
+                              - generic [ref=e1047]: "1"
+                              - generic [ref=e1048]: u
+                              - generic [ref=e1049]: g
+                              - generic [ref=e1050]: f
+                              - generic [ref=e1051]: "8"
+                              - generic [ref=e1052]: "2"
+                              - generic [ref=e1053]: m
+                              - generic [ref=e1054]: a
+                              - generic [ref=e1056]: "2"
+                              - generic [ref=e1057]: "8"
+                          - generic [ref=e1059]: ·
+                          - img [ref=e1064]
+                      - button [ref=e1072] [cursor=pointer]:
+                        - img [ref=e1073]
+                    - generic [ref=e1076]:
+                      - generic [ref=e1083]:
+                        - generic [ref=e1085]: 𝐋𝐈𝐕𝐑𝐄 𝐃𝐄 𝐋𝐀 𝐒𝐀𝐆𝐄𝐒𝐒𝐄 𝐓𝐨𝐦𝐞 𝟏 & 𝟐 - ( 376 pages)
+                        - generic [ref=e1087]:
+                          - img [ref=e1089]
+                          - text: Ce que vous allez d…
+                          - button [ref=e1090] [cursor=pointer]: En voir plus
+                      - generic [ref=e1091]:
+                        - generic [ref=e1096] [cursor=pointer]:
+                          - button [ref=e1104]
+                          - group [ref=e1118]:
+                            - generic [ref=e1119]:
+                              - button [ref=e1121]
+                              - generic [ref=e1124]:
+                                - generic:
+                                  - generic:
+                                    - generic:
+                                      - generic:
+                                        - button
+                                  - generic: 0:00 / 0:57
+                                - generic:
+                                  - generic:
+                                    - slider
+                                - generic:
+                                  - generic:
+                                    - generic:
+                                      - generic:
+                                        - generic:
+                                          - button
+                                - generic:
+                                  - generic:
+                                    - generic:
+                                      - generic:
+                                        - button:
+                                          - img
+                                - generic:
+                                  - generic:
+                                    - generic:
+                                      - generic:
+                                        - slider
+                                    - generic:
+                                      - generic:
+                                        - generic:
+                                          - button:
+                                            - img
+                        - link [ref=e1127] [cursor=pointer]:
+                          - /url: "?__cft__[0]=AZa34hB6KHj872ew6sVPmTrfRHT4ahhvXoGR2SQgsO_jvO_G8GVwmNJRAdEHj74K_8oMvNWw-yGNNPKPFzQoaXn5wiFQd8eyYVyuOGiWAQZbKlJjOy0NUlPFfrXGOod3jBqDxW6bHRarxNK2707DeYXXvvybBZW3ypW-gqTuwWV_9Q&__tn__=%2C%3C%2CmH-R#?ahc"
+                          - generic [ref=e1129]:
+                            - generic [ref=e1133]: WHATSAPP
+                            - link [ref=e1143]:
+                              - /url: https://api.whatsapp.com/send?phone=22549909161&source=FB_Post&token=eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IjEyNSJ9.eyJleHAiOjE3NzY1MzkxMTEsInBob25lIjoiMjI1NDk5MDkxNjEiLCJ0ZXh0IjoiTGllblx1MDBhMDpcbmh0dHBzOlwvXC9mYi5tZVwvNUFkdzRoNVp5XG5cbkJvbmpvdXJcdTAwYTAhIFB1aXMtamUgZW4gc2F2b2lyIHBsdXMgXHUwMGUwIGNlIHN1amV0XHUwMGEwPyIsInNvdXJjZV91cmwiOiJodHRwczpcL1wvZmIubWVcLzVBZHc0aDVaeSIsImljZWJyZWFrZXIiOiJCb25qb3VyXHUwMGEwISBQdWlzLWplIGVuIHNhdm9pciBwbHVzIFx1MDBlMCBjZSBzdWpldFx1MDBhMD8iLCJhcHAiOiJmYWNlYm9vayIsImVudHJ5X3BvaW50IjoicG9zdF9jdGEiLCJqaWQiOiIyMjU0OTkwOTE2MVx1MDA0MHMud2hhdHNhcHAubmV0IiwibGlkIjoiNTM1MTExMTQ5ODU1NDlcdTAwNDBsaWQiLCJzb3VyY2VfaWQiOiIxMDE2MTI0MjUwNjQzMzczIiwic2hvd19hZF9hdHRyaWJ1dGlvbiI6MSwic291cmNlIjoiRkJfUG9zdCIsImNvbnRleHQiOiJBZmlZLUVIVUJQQy14SkwwRTRUVzlSUER0eEZlRlpIT0VEOXRxaHRSMVJzSVh3QkRHZkloV3hXOGltNm5ocW5Bel9CQlRpOEFjcjNTWmJWZFM0WTBwMGNIR0dnSFpKc3c2VllIZDZfUWFNT1ViMzZBa3I0cEVraW5MaE01djZiZzRsd0U5eXlKbGwxSjVNTm5UQUhHc3NSM09aU0VvTjV3bmQ2RGVfYXZMZXQyMjA2UWxCQkNLaGlnQVZ6X1pGeDVZTVk5MXBYbGd5ZHNSQ3lRMkFmS0xaRmh4cVZHOTk0WUtramRZWUozdWxiRFZNYlFYT1kzN1ljZkNoeV9aTm4yTTBVTElJUVdSTE04UUhWVjJDMkZKU3prX3FreWtId3lDQmpHNWxFLTRyTVRkOS1YMVBvakVYVnBVZERvWl9RYzZDNGpoVjJfOV80V01HYnJZZ0wzYUtLbFFNQWk0MFF5eW1BdEswbUljRTB5MDVlTVV4NWJJdnlhU3pvRVdYb3RSblBtUFEifQ.3n-reogAHeix09Z9hNE0G5_sj7ac56RH6vuarVrp66ABLGpzAuEKPjFGnhZ1pjg2znF_0tW6k5gy9tq9Y1rMaQ&fbclid=IwZXh0bgNhZW0CMTEAc3J0YwZhcHBfaWQQMjIyMDM5MTc4ODIwMDg5MgABHnzocIbrOOrO-6TQLUkmBm_WBaM-i_UcoV-L3Pml3Js-ajI8BALaKAVo6vTS_aem_Pmkv3A6MNicVi2yPjBZPOw
+                              - generic [ref=e1144]:
+                                - img [ref=e1145]
+                                - generic [ref=e1149]: WhatsApp
+                    - generic [ref=e1154]:
+                      - generic [ref=e1156]:
+                        - generic [ref=e1157]:
+                          - toolbar [ref=e1158]:
+                            - button [ref=e1163] [cursor=pointer]
+                          - button [ref=e1166] [cursor=pointer]:
+                            - generic [ref=e1167]: "Toutes les réactions :"
+                            - generic [ref=e1169]: 3,4 K
+                            - generic [ref=e1171]: 3,4 K
+                        - generic [ref=e1172]:
+                          - button [ref=e1176] [cursor=pointer]:
+                            - generic [ref=e1177]: 155 commentaires
+                          - button [ref=e1180] [cursor=pointer]:
+                            - generic [ref=e1181]: 680 partages
+                      - generic [ref=e1183]:
+                        - generic [ref=e1184]:
+                          - button [ref=e1185] [cursor=pointer]:
+                            - generic [ref=e1191]: J’aime
+                          - button [ref=e1192] [cursor=pointer]:
+                            - img [ref=e1193]
+                        - button [ref=e1196] [cursor=pointer]:
+                          - generic [ref=e1201]: Commenter
+                        - button [ref=e1203] [cursor=pointer]:
+                          - generic [ref=e1208]: Partager
+                  - blockquote [ref=e1210]:
+                    - generic [ref=e1211]: Facebook
+                  - blockquote [ref=e1213]:
+                    - generic [ref=e1214]: Facebook
+                  - blockquote [ref=e1216]:
+                    - generic [ref=e1217]: Facebook
+                  - blockquote [ref=e1219]:
+                    - generic [ref=e1220]: Facebook
+                  - blockquote [ref=e1222]:
+                    - generic [ref=e1223]: Facebook
+                  - blockquote [ref=e1225]:
+                    - generic [ref=e1226]: Facebook
+                  - blockquote [ref=e1228]:
+                    - generic [ref=e1229]: Facebook
+                  - blockquote [ref=e1231]:
+                    - generic [ref=e1232]: Facebook
+                  - blockquote [ref=e1234]:
+                    - generic [ref=e1235]: Facebook
+                  - blockquote [ref=e1237]:
+                    - generic [ref=e1238]: Facebook
+                  - blockquote [ref=e1240]:
+                    - generic [ref=e1241]: Facebook
+                - generic [ref=e1254]:
+                  - blockquote [ref=e1256]:
+                    - generic [ref=e1257]: Facebook
+                  - blockquote [ref=e1259]:
+                    - generic [ref=e1260]: Facebook
+                  - blockquote [ref=e1262]:
+                    - generic [ref=e1263]: Facebook
+                  - blockquote [ref=e1265]:
+                    - generic [ref=e1266]: Facebook
+                  - blockquote [ref=e1268]:
+                    - generic [ref=e1269]: Facebook
+                  - blockquote [ref=e1271]:
+                    - generic [ref=e1272]: Facebook
+                  - blockquote [ref=e1274]:
+                    - generic [ref=e1275]: Facebook
+                  - blockquote [ref=e1277]:
+                    - generic [ref=e1278]: Facebook
+                  - blockquote [ref=e1280]:
+                    - generic [ref=e1281]: Facebook
+                  - blockquote [ref=e1283]:
+                    - generic [ref=e1284]: Facebook
+                  - blockquote [ref=e1286]:
+                    - generic [ref=e1287]: Facebook
+                  - generic [ref=e1290]:
+                    - blockquote [ref=e1292]:
+                      - generic [ref=e1293]: Facebook
+                    - blockquote [ref=e1295]:
+                      - generic [ref=e1296]: Facebook
+                    - blockquote [ref=e1298]:
+                      - generic [ref=e1299]: Facebook
+                    - blockquote [ref=e1301]:
+                      - generic [ref=e1302]: Facebook
+                    - blockquote [ref=e1304]:
+                      - generic [ref=e1305]: Facebook
+                    - blockquote [ref=e1307]:
+                      - generic [ref=e1308]: Facebook
+                    - blockquote [ref=e1310]:
+                      - generic [ref=e1311]: Facebook
+                    - blockquote [ref=e1313]:
+                      - generic [ref=e1314]: Facebook
+                    - blockquote [ref=e1316]:
+                      - generic [ref=e1317]: Facebook
+                    - blockquote [ref=e1319]:
+                      - generic [ref=e1320]: Facebook
+                    - blockquote [ref=e1322]:
+                      - generic [ref=e1323]: Facebook
+                    - blockquote [ref=e1325]:
+                      - generic [ref=e1326]: Facebook
+                    - blockquote [ref=e1328]:
+                      - generic [ref=e1329]: Facebook
+                    - blockquote [ref=e1331]:
+                      - generic [ref=e1332]: Facebook
+                    - blockquote [ref=e1334]:
+                      - generic [ref=e1335]: Facebook
+                    - blockquote [ref=e1337]:
+                      - generic [ref=e1338]: Facebook
+                    - blockquote [ref=e1340]:
+                      - generic [ref=e1341]: Facebook
+                    - blockquote [ref=e1343]:
+                      - generic [ref=e1344]: Facebook
+                    - blockquote [ref=e1346]:
+                      - generic [ref=e1347]: Facebook
+                    - blockquote [ref=e1349]:
+                      - generic [ref=e1350]: Facebook
+                    - blockquote [ref=e1352]:
+                      - generic [ref=e1353]: Facebook
+                    - blockquote [ref=e1355]:
+                      - generic [ref=e1356]: Facebook
+                    - generic [ref=e1358]:
+                      - link [ref=e1362] [cursor=pointer]:
+                        - /url: https://www.facebook.com/profile.php?id=100086769759930&__cft__[0]=AZb88Q8fGwF6ylnBuiWAWZwRbwK70EcBQLcF613N8eE9WJ83178Xr6bI1WCV26o0ylnZTDkTwVEAeEvfEeCGWY3V-qGCODGC_VxuHoLaP2OnZVQTF5-6yPEi7_o8vrI2R9eykXh83quDAppW02kg-4bKxF_cnaBbSObzuLQriJWLzg&__tn__=%3C%3C%2CP-R
+                        - img [ref=e1364]
+                      - generic [ref=e1369]:
+                        - heading [level=3] [ref=e1373]:
+                          - generic [ref=e1375]:
+                            - link [ref=e1382] [cursor=pointer]:
+                              - /url: https://www.facebook.com/profile.php?id=100086769759930&__cft__[0]=AZb88Q8fGwF6ylnBuiWAWZwRbwK70EcBQLcF613N8eE9WJ83178Xr6bI1WCV26o0ylnZTDkTwVEAeEvfEeCGWY3V-qGCODGC_VxuHoLaP2OnZVQTF5-6yPEi7_o8vrI2R9eykXh83quDAppW02kg-4bKxF_cnaBbSObzuLQriJWLzg&__tn__=-]C%2CP-R
+                              - text: SuccesEbook
+                            - generic [ref=e1383]:
+                              - generic [ref=e1384]: ·
+                              - button [ref=e1387] [cursor=pointer]: Suivre
+                        - generic [ref=e1390]:
+                          - link [ref=e1394] [cursor=pointer]:
+                            - /url: "?__cft__[0]=AZb88Q8fGwF6ylnBuiWAWZwRbwK70EcBQLcF613N8eE9WJ83178Xr6bI1WCV26o0ylnZTDkTwVEAeEvfEeCGWY3V-qGCODGC_VxuHoLaP2OnZVQTF5-6yPEi7_o8vrI2R9eykXh83quDAppW02kg-4bKxF_cnaBbSObzuLQriJWLzg&__tn__=%2CO%2CP-R#?hkk"
+                            - generic [ref=e1396]:
+                              - generic [ref=e1397]: d
+                              - generic [ref=e1398]: r
+                              - generic [ref=e1399]: "n"
+                              - generic [ref=e1400]: t
+                              - generic [ref=e1401]: p
+                              - generic [ref=e1402]: e
+                              - generic [ref=e1403]: o
+                              - generic [ref=e1404]: S
+                              - generic [ref=e1405]: s
+                              - generic [ref=e1406]: o
+                              - generic [ref=e1407]: "3"
+                              - generic [ref=e1408]: l
+                              - generic [ref=e1409]: "2"
+                              - generic [ref=e1410]: "7"
+                              - generic [ref=e1412]: "9"
+                              - generic [ref=e1413]: "5"
+                              - generic [ref=e1414]: g
+                              - generic [ref=e1415]: "2"
+                              - generic [ref=e1416]: "6"
+                              - generic [ref=e1417]: "0"
+                              - generic [ref=e1418]: "5"
+                              - generic [ref=e1419]: m
+                              - generic [ref=e1420]: i
+                              - generic [ref=e1421]: u
+                              - generic [ref=e1422]: t
+                              - generic [ref=e1423]: a
+                              - generic [ref=e1424]: "4"
+                              - generic [ref=e1425]: "4"
+                              - generic [ref=e1426]: j
+                              - generic [ref=e1427]: h
+                              - generic [ref=e1428]: "n"
+                              - generic [ref=e1429]: "0"
+                              - generic [ref=e1430]: t
+                              - generic [ref=e1431]: "3"
+                              - generic [ref=e1432]: "0"
+                              - generic [ref=e1433]: "6"
+                              - generic [ref=e1434]: "4"
+                              - generic [ref=e1435]: "0"
+                              - generic [ref=e1436]: "9"
+                              - generic [ref=e1437]: a
+                              - generic [ref=e1438]: u
+                              - generic [ref=e1439]: c
+                              - generic [ref=e1440]: "6"
+                              - generic [ref=e1441]: g
+                              - generic [ref=e1442]: c
+                              - generic [ref=e1443]: "1"
+                              - generic [ref=e1444]: "5"
+                              - generic [ref=e1445]: "2"
+                              - generic [ref=e1446]: "1"
+                              - generic [ref=e1447]: u
+                              - generic [ref=e1448]: g
+                              - generic [ref=e1449]: f
+                              - generic [ref=e1450]: "8"
+                              - generic [ref=e1451]: "2"
+                              - generic [ref=e1452]: m
+                              - generic [ref=e1453]: a
+                              - generic [ref=e1455]: "2"
+                              - generic [ref=e1456]: "8"
+                          - generic [ref=e1458]: ·
+                          - img [ref=e1463]
+                      - button [ref=e1471] [cursor=pointer]:
+                        - img [ref=e1472]
+                    - generic [ref=e1475]:
+                      - generic [ref=e1483]:
+                        - generic [ref=e1484]: Le livre de la sagesse Volume 2.
+                        - generic [ref=e1485]: Obtenez la version PDF dès maintenant.
+                      - generic [ref=e1486]:
+                        - generic [ref=e1491] [cursor=pointer]:
+                          - button [ref=e1492]
+                          - group [ref=e1506]
+                        - link [ref=e1509] [cursor=pointer]:
+                          - /url: "?__cft__[0]=AZb88Q8fGwF6ylnBuiWAWZwRbwK70EcBQLcF613N8eE9WJ83178Xr6bI1WCV26o0ylnZTDkTwVEAeEvfEeCGWY3V-qGCODGC_VxuHoLaP2OnZVQTF5-6yPEi7_o8vrI2R9eykXh83quDAppW02kg-4bKxF_cnaBbSObzuLQriJWLzg&__tn__=%2C%3C%2CmH-R#?dgf"
+                          - generic [ref=e1511]:
+                            - generic [ref=e1512]:
+                              - generic [ref=e1515]: CEOYKOWQ.MYCHARIOW.COM
+                              - generic [ref=e1521]: AI BLOOM - Formations en Intelligence Artificielle | Expert Marketing
+                            - link [ref=e1527]:
+                              - /url: https://ceoykowq.mychariow.com/prd_kfnfdv?fbclid=IwZXh0bgNhZW0CMTEAc3J0YwZhcHBfaWQQMjIyMDM5MTc4ODIwMDg5MgABHhA77cyAcEDQHKy4snrBPsul654xz7CMc05xJfrIy9uYiD-pvaSDvisCgmJM_aem_6mqv9Dp9S-D0yv7eqJDPCQ
+                              - generic [ref=e1532]:
+                                - generic [ref=e1533]: s
+                                - generic [ref=e1534]: S
+                                - generic [ref=e1535]: e
+                                - generic [ref=e1536]: t
+                                - generic [ref=e1537]: "n"
+                                - generic [ref=e1538]: o
+                                - generic [ref=e1539]: r
+                                - generic [ref=e1540]: d
+                                - generic [ref=e1541]: o
+                                - generic [ref=e1542]: p
+                                - generic [ref=e1543]: c
+                                - generic [ref=e1544]: c
+                                - generic [ref=e1545]: "6"
+                                - generic [ref=e1546]: a
+                                - generic [ref=e1547]: g
+                                - generic [ref=e1548]: u
+                                - generic [ref=e1549]: f
+                                - generic [ref=e1550]: T
+                                - generic [ref=e1551]: "8"
+                                - generic [ref=e1552]: "6"
+                                - generic [ref=e1553]: g
+                                - generic [ref=e1554]: h
+                                - generic [ref=e1555]: m
+                                - generic [ref=e1556]: i
+                                - generic [ref=e1557]: h
+                                - generic [ref=e1558]: é
+                                - generic [ref=e1559]: l
+                                - generic [ref=e1560]: t
+                                - generic [ref=e1561]: "2"
+                                - generic [ref=e1562]: é
+                                - generic [ref=e1563]: c
+                                - generic [ref=e1564]: t
+                                - generic [ref=e1565]: "8"
+                                - generic [ref=e1566]: r
+                                - generic [ref=e1567]: "5"
+                                - generic [ref=e1568]: t
+                                - generic [ref=e1569]: "1"
+                                - generic [ref=e1570]: "2"
+                                - generic [ref=e1571]: "1"
+                                - generic [ref=e1572]: "8"
+                                - generic [ref=e1573]: "8"
+                                - generic [ref=e1574]: a
+                                - generic [ref=e1575]: "6"
+                                - generic [ref=e1576]: "0"
+                                - generic [ref=e1577]: "2"
+                                - generic [ref=e1578]: f
+                                - generic [ref=e1579]: f
+                                - generic [ref=e1580]: "9"
+                                - generic [ref=e1581]: "8"
+                                - generic [ref=e1582]: a
+                                - generic [ref=e1583]: "4"
+                                - generic [ref=e1584]: "6"
+                                - generic [ref=e1585]: c
+                                - generic [ref=e1586]: "1"
+                                - generic [ref=e1587]: e
+                                - generic [ref=e1588]: "6"
+                                - generic [ref=e1589]: r
+                                - generic [ref=e1590]: l
+                                - generic [ref=e1591]: "4"
+                                - generic [ref=e1592]: l
+                    - generic [ref=e1595]:
+                      - generic [ref=e1597]:
+                        - generic [ref=e1599]:
+                          - generic [ref=e1600]:
+                            - toolbar [ref=e1601]:
+                              - button [ref=e1606] [cursor=pointer]
+                            - button [ref=e1609] [cursor=pointer]:
+                              - generic [ref=e1610]: "Toutes les réactions :"
+                              - generic [ref=e1612]: "11"
+                              - generic [ref=e1614]: "11"
+                          - button [ref=e1619] [cursor=pointer]:
+                            - generic [ref=e1620]: 2 partages
+                        - generic [ref=e1622]:
+                          - generic [ref=e1623]:
+                            - button [ref=e1624] [cursor=pointer]:
+                              - generic [ref=e1630]: J’aime
+                            - button [ref=e1631] [cursor=pointer]:
+                              - img [ref=e1632]
+                          - button [ref=e1635] [cursor=pointer]:
+                            - generic [ref=e1640]: Commenter
+                          - button [ref=e1642] [cursor=pointer]:
+                            - generic [ref=e1647]: Partager
+                      - generic [ref=e1653]:
+                        - button [ref=e1655] [cursor=pointer]:
+                          - generic [ref=e1656]:
+                            - img [ref=e1657]
+                            - img [ref=e1664]
+                        - generic [ref=e1669]:
+                          - generic [ref=e1673]:
+                            - textbox [ref=e1674]:
+                              - paragraph [ref=e1675]
+                            - generic: Écrivez un commentaire…
+                          - list [ref=e1677]:
+                            - listitem [ref=e1678]:
+                              - button [ref=e1680] [cursor=pointer]
+                            - listitem [ref=e1682]:
+                              - button [ref=e1684] [cursor=pointer]:
+                                - img [ref=e1685]
+                            - listitem [ref=e1688]:
+                              - button [ref=e1690] [cursor=pointer]
+                            - listitem [ref=e1692]:
+                              - button [ref=e1694] [cursor=pointer]
+                  - blockquote [ref=e1697]:
+                    - generic [ref=e1698]: Facebook
+                  - blockquote [ref=e1700]:
+                    - generic [ref=e1701]: Facebook
+                  - blockquote [ref=e1703]:
+                    - generic [ref=e1704]: Facebook
+                  - blockquote [ref=e1706]:
+                    - generic [ref=e1707]: Facebook
+                  - blockquote [ref=e1709]:
+                    - generic [ref=e1710]: Facebook
+                  - blockquote [ref=e1712]:
+                    - generic [ref=e1713]: Facebook
+                  - blockquote [ref=e1715]:
+                    - generic [ref=e1716]: Facebook
+                  - blockquote [ref=e1718]:
+                    - generic [ref=e1719]: Facebook
+                  - blockquote [ref=e1721]:
+                    - generic [ref=e1722]: Facebook
+                  - blockquote [ref=e1724]:
+                    - generic [ref=e1725]: Facebook
+                  - blockquote [ref=e1727]:
+                    - generic [ref=e1728]: Facebook
+  - alertdialog "Demande de notifications push" [ref=e1799]:
+    - generic [ref=e1800]: Ouvrez les paramètres de votre navigateur pour autoriser ou bloquer les notifications Facebook dans le navigateur.
+    - button "Fermer" [active] [ref=e1801]

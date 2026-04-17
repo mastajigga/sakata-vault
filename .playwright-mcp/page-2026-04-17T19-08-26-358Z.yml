@@ -1,0 +1,96 @@
+- generic [ref=e5]:
+  - banner:
+    - generic [ref=e6]:
+      - generic:
+        - generic:
+          - button [disabled]:
+            - img
+      - link "Facebook" [ref=e7] [cursor=pointer]:
+        - /url: /
+        - img [ref=e8]
+    - generic [ref=e16]:
+      - generic [ref=e17]:
+        - generic:
+          - generic:
+            - generic:
+              - button:
+                - img
+      - generic [ref=e19]:
+        - generic:
+          - img
+        - combobox "Rechercher sur Facebook" [ref=e20]
+    - navigation "Facebook" [ref=e24]:
+      - list [ref=e25]:
+        - listitem [ref=e26]:
+          - link "Accueil" [ref=e29] [cursor=pointer]:
+            - /url: /
+            - img [ref=e31]
+        - listitem [ref=e33]:
+          - link "Reels" [ref=e36] [cursor=pointer]:
+            - /url: /reel/?s=tab
+            - img [ref=e38]
+        - listitem [ref=e41]:
+          - link "Marketplace" [ref=e44] [cursor=pointer]:
+            - /url: /marketplace/?ref=app_tab
+            - img [ref=e46]
+        - listitem [ref=e48]:
+          - link "Groupes" [ref=e51] [cursor=pointer]:
+            - /url: /groups/
+            - img [ref=e53]
+        - listitem [ref=e55]:
+          - link "Gaming" [ref=e58] [cursor=pointer]:
+            - /url: /gaming/play/?store_visit_source=gaming_tab
+            - img [ref=e60]
+    - navigation "Contrôles et paramètres du compte" [ref=e64]:
+      - button "Menu Facebook" [ref=e68] [cursor=pointer]:
+        - img [ref=e69]
+      - generic [ref=e74]:
+        - button "Notifications, 7 non lues" [ref=e75] [cursor=pointer]:
+          - img [ref=e76]
+        - button [ref=e78] [cursor=pointer]:
+          - generic [ref=e79]:
+            - generic [ref=e80]: Nombre de notifications non lues
+            - generic [ref=e81]: "7"
+      - button "Votre profil" [ref=e84] [cursor=pointer]:
+        - generic [ref=e85]:
+          - img "Votre profil" [ref=e86]
+          - img [ref=e93]
+  - generic [ref=e100]:
+    - list [ref=e105]:
+      - listitem [ref=e106]:
+        - generic [ref=e107]:
+          - link "Photo d’album photo" [ref=e109] [cursor=pointer]:
+            - /url: /photo/?fbid=837597148505103&set=pb.100067644754615.-2207520000
+            - img [ref=e111]
+          - link "Photo d’album photo" [ref=e113] [cursor=pointer]:
+            - /url: /photo/?fbid=837594581838693&set=pb.100067644754615.-2207520000
+            - img [ref=e115]
+          - link "Photo d’album photo" [ref=e117] [cursor=pointer]:
+            - /url: /photo/?fbid=510207029162221&set=pb.100067644754615.-2207520000
+            - img [ref=e119]
+      - listitem [ref=e120]:
+        - generic [ref=e121]:
+          - link "Photo d’album photo" [ref=e123] [cursor=pointer]:
+            - /url: /photo/?fbid=837597145171770&set=pb.100067644754615.-2207520000
+            - img [ref=e125]
+          - link "Photo d’album photo" [ref=e127] [cursor=pointer]:
+            - /url: /photo/?fbid=837594585172026&set=pb.100067644754615.-2207520000
+            - img [ref=e129]
+          - link "Photo d’album photo" [ref=e131] [cursor=pointer]:
+            - /url: /photo/?fbid=422711813326974&set=pb.100067644754615.-2207520000
+            - img [ref=e133]
+      - listitem [ref=e134]:
+        - generic [ref=e135]:
+          - link "Photo d’album photo" [ref=e137] [cursor=pointer]:
+            - /url: /photo/?fbid=837597141838437&set=pb.100067644754615.-2207520000
+            - img [ref=e139]
+          - link "Photo d’album photo" [ref=e141] [cursor=pointer]:
+            - /url: /photo/?fbid=837593865172098&set=pb.100067644754615.-2207520000
+            - img [ref=e143]
+          - link "Photo d’album photo" [ref=e145] [cursor=pointer]:
+            - /url: /photo/?fbid=422711816660307&set=pb.100067644754615.-2207520000
+            - img [ref=e147]
+          - link "Photo d’album photo" [ref=e149] [cursor=pointer]:
+            - /url: /photo/?fbid=510206512495606&set=pb.100067644754615.-2207520000
+            - img [ref=e151]
+    - generic [ref=e165]: "Photos de LES Basakata: Questions/reponses"

@@ -1,0 +1,33 @@
+- generic [ref=e5]:
+  - banner:
+    - generic [ref=e8]:
+      - generic [ref=e10]:
+        - generic:
+          - button [disabled]:
+            - img
+        - button "Facebook" [ref=e12] [cursor=pointer]:
+          - img "Facebook" [ref=e13]
+      - generic [ref=e18]:
+        - textbox "Adresse e-mail ou téléphone" [ref=e21]
+        - textbox "Mot de passe" [ref=e24]
+        - button "Se connecter" [ref=e27] [cursor=pointer]:
+          - generic [ref=e31]: Se connecter
+        - link "Informations de compte oubliées ?" [ref=e34] [cursor=pointer]:
+          - /url: https://www.facebook.com/recover/initiate?ars=royal_blue_bar
+  - main [ref=e40]:
+    - generic [ref=e41]:
+      - generic [ref=e42]:
+        - img [ref=e44]
+        - generic [ref=e49]:
+          - heading "Cette page n’est pas disponible" [level=2] [ref=e51]:
+            - generic [ref=e52]: Cette page n’est pas disponible
+          - generic [ref=e54]: Le lien peut être non valide ou la page a peut-être été supprimée. Vérifiez si le lien que vous essayez d’ouvrir est correct.
+        - link "Accéder au Fil" [ref=e56] [cursor=pointer]:
+          - /url: /
+          - generic [ref=e59]: Accéder au Fil
+      - generic [ref=e60]:
+        - button "Retour" [ref=e61] [cursor=pointer]:
+          - generic [ref=e62]: Retour
+        - link "Accéder aux pages d’aide" [ref=e64] [cursor=pointer]:
+          - /url: https://www.facebook.com/help
+          - generic [ref=e65]: Accéder aux pages d’aide

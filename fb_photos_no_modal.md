@@ -1,0 +1,107 @@
+- generic [ref=e5]:
+  - banner:
+    - generic [ref=e8]:
+      - generic [ref=e10]:
+        - generic:
+          - button [disabled]:
+            - img
+        - button "Facebook" [ref=e12] [cursor=pointer]:
+          - img "Facebook" [ref=e13]
+      - generic [ref=e18]:
+        - textbox "Adresse e-mail ou téléphone" [ref=e21]
+        - textbox "Mot de passe" [ref=e24]
+        - button "Se connecter" [ref=e27] [cursor=pointer]:
+          - generic [ref=e31]: Se connecter
+        - link "Informations de compte oubliées ?" [ref=e34] [cursor=pointer]:
+          - /url: https://www.facebook.com/recover/initiate?ars=royal_blue_bar
+  - main [ref=e41]:
+    - generic [ref=e42]:
+      - link [ref=e53] [cursor=pointer]:
+        - /url: https://www.facebook.com/photo/?fbid=422711816660307&set=a.422711783326977
+      - generic [ref=e61]:
+        - link [ref=e64] [cursor=pointer]:
+          - /url: https://www.facebook.com/photo/?fbid=422711813326974&set=a.422711786660310&__tn__=%3C
+          - img [ref=e66]
+        - generic [ref=e72]:
+          - heading [level=1] [ref=e77]: "LES Basakata: Questions/reponses"
+          - generic [ref=e79]:
+            - link [ref=e80] [cursor=pointer]:
+              - /url: https://www.facebook.com/profile.php?id=100067644754615&sk=followers
+              - strong [ref=e81]: 8,2 K
+              - text: followers
+            - text: •
+            - link [ref=e82] [cursor=pointer]:
+              - /url: https://www.facebook.com/profile.php?id=100067644754615&sk=following
+              - strong [ref=e83]: "0"
+              - text: suivi(e)s
+    - generic [ref=e91]:
+      - tablist [ref=e99]:
+        - generic [ref=e101]:
+          - generic [ref=e102]:
+            - generic [ref=e103]: Plus
+            - img [ref=e105]
+          - tab [ref=e108] [cursor=pointer]:
+            - generic [ref=e110]: Publications
+          - tab [ref=e112] [cursor=pointer]:
+            - generic [ref=e114]: À propos
+          - tab [selected] [ref=e116] [cursor=pointer]:
+            - generic [ref=e118]: Photos
+      - button [ref=e122] [cursor=pointer]:
+        - img [ref=e124]
+    - generic [ref=e136]:
+      - heading [level=2] [ref=e141]:
+        - link [ref=e143] [cursor=pointer]:
+          - /url: https://www.facebook.com/profile.php?id=100067644754615&sk=photos
+          - text: Photos
+      - tablist [ref=e147]:
+        - generic [ref=e149]:
+          - generic [ref=e150]:
+            - generic [ref=e151]: Plus
+            - img [ref=e153]
+          - tab [selected] [ref=e156] [cursor=pointer]:
+            - generic [ref=e158]: "Photos prises par LES Basakata: Questions/reponses"
+          - tab [ref=e160] [cursor=pointer]:
+            - generic [ref=e162]: Albums
+      - generic [ref=e164]:
+        - generic [ref=e165]:
+          - link [ref=e171] [cursor=pointer]:
+            - /url: https://www.facebook.com/photo.php?fbid=837597148505103&set=pb.100067644754615.-2207520000&type=3
+            - img [ref=e172]
+          - link [ref=e178] [cursor=pointer]:
+            - /url: https://www.facebook.com/photo.php?fbid=837597145171770&set=pb.100067644754615.-2207520000&type=3
+            - img [ref=e179]
+          - link [ref=e185] [cursor=pointer]:
+            - /url: https://www.facebook.com/photo.php?fbid=837597141838437&set=pb.100067644754615.-2207520000&type=3
+            - img [ref=e186]
+          - link [ref=e192] [cursor=pointer]:
+            - /url: https://www.facebook.com/photo.php?fbid=837594585172026&set=pb.100067644754615.-2207520000&type=3
+            - img [ref=e193]
+          - link [ref=e199] [cursor=pointer]:
+            - /url: https://www.facebook.com/photo.php?fbid=837594581838693&set=pb.100067644754615.-2207520000&type=3
+            - img [ref=e200]
+          - link [ref=e206] [cursor=pointer]:
+            - /url: https://www.facebook.com/photo.php?fbid=837593865172098&set=pb.100067644754615.-2207520000&type=3
+            - img [ref=e207]
+          - link [ref=e213] [cursor=pointer]:
+            - /url: https://www.facebook.com/photo.php?fbid=422711816660307&set=pb.100067644754615.-2207520000&type=3
+            - img [ref=e214]
+          - link [ref=e220] [cursor=pointer]:
+            - /url: https://www.facebook.com/photo.php?fbid=422711813326974&set=pb.100067644754615.-2207520000&type=3
+            - img [ref=e221]
+          - status [ref=e226]
+          - status [ref=e231]
+          - status [ref=e234]
+          - status [ref=e237]
+          - status [ref=e240]
+          - status [ref=e243]
+          - status [ref=e246]
+          - status [ref=e249]
+          - status [ref=e252]
+          - status [ref=e255]
+          - status [ref=e258]
+          - status [ref=e261]
+          - status [ref=e264]
+          - status [ref=e267]
+          - status [ref=e270]
+          - status [ref=e273]
+        - status [ref=e275]

@@ -1,0 +1,78 @@
+- generic [ref=e5]:
+  - banner:
+    - generic [ref=e6]:
+      - generic:
+        - generic:
+          - button [disabled]:
+            - img
+      - link "Facebook" [ref=e7] [cursor=pointer]:
+        - /url: /
+        - img [ref=e8]
+    - generic [ref=e16]:
+      - generic [ref=e17]:
+        - generic:
+          - generic:
+            - generic:
+              - button:
+                - img
+      - generic [ref=e19]:
+        - generic:
+          - img
+        - combobox "Rechercher sur Facebook" [ref=e20]
+    - navigation "Facebook" [ref=e24]:
+      - list [ref=e25]:
+        - listitem [ref=e26]:
+          - link "Accueil" [ref=e29] [cursor=pointer]:
+            - /url: /
+            - img [ref=e31]
+        - listitem [ref=e33]:
+          - link "Reels" [ref=e36] [cursor=pointer]:
+            - /url: /reel/?s=tab
+            - img [ref=e38]
+        - listitem [ref=e41]:
+          - link "Marketplace" [ref=e44] [cursor=pointer]:
+            - /url: /marketplace/?ref=app_tab
+            - img [ref=e46]
+        - listitem [ref=e48]:
+          - link "Groupes" [ref=e51] [cursor=pointer]:
+            - /url: /groups/
+            - img [ref=e53]
+        - listitem [ref=e55]:
+          - link "Gaming" [ref=e58] [cursor=pointer]:
+            - /url: /gaming/play/?store_visit_source=gaming_tab
+            - img [ref=e60]
+    - navigation "Contrôles et paramètres du compte" [ref=e64]:
+      - button "Menu Facebook" [ref=e68] [cursor=pointer]:
+        - img [ref=e69]
+      - button "Messenger" [ref=e75] [cursor=pointer]:
+        - img [ref=e76]
+      - generic [ref=e81]:
+        - button "Notifications, 7 non lues" [ref=e82] [cursor=pointer]:
+          - img [ref=e83]
+        - button [ref=e85] [cursor=pointer]:
+          - generic [ref=e86]:
+            - generic [ref=e87]: Nombre de notifications non lues
+            - generic [ref=e88]: "7"
+      - button "Votre profil" [ref=e91] [cursor=pointer]:
+        - generic [ref=e92]:
+          - img "Votre profil" [ref=e93]
+          - img [ref=e100]
+  - main [ref=e108]:
+    - generic [ref=e109]:
+      - generic [ref=e110]:
+        - img [ref=e112]
+        - generic [ref=e117]:
+          - heading "Cette page n’est pas disponible" [level=2] [ref=e119]:
+            - generic [ref=e120]: Cette page n’est pas disponible
+          - generic [ref=e122]: Le lien peut être non valide ou la page a peut-être été supprimée. Vérifiez si le lien que vous essayez d’ouvrir est correct.
+        - link "Accéder au Fil" [ref=e124] [cursor=pointer]:
+          - /url: /
+          - generic [ref=e127]: Accéder au Fil
+      - generic [ref=e128]:
+        - button "Retour" [ref=e129] [cursor=pointer]:
+          - generic [ref=e130]: Retour
+        - link "Accéder aux pages d’aide" [ref=e132] [cursor=pointer]:
+          - /url: https://www.facebook.com/help
+          - generic [ref=e133]: Accéder aux pages d’aide
+  - button "Nouveau message" [ref=e136] [cursor=pointer]:
+    - img [ref=e137]

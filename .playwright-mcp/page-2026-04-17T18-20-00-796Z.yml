@@ -1,0 +1,92 @@
+- generic [ref=e5]:
+  - banner:
+    - generic [ref=e8]:
+      - generic [ref=e10]:
+        - generic:
+          - button [disabled]:
+            - img
+        - button "Facebook" [ref=e12] [cursor=pointer]:
+          - img "Facebook" [ref=e13]
+      - generic [ref=e18]:
+        - textbox "Adresse e-mail ou téléphone" [ref=e21]
+        - textbox "Mot de passe" [ref=e24]
+        - button "Se connecter" [ref=e27] [cursor=pointer]:
+          - generic [ref=e31]: Se connecter
+        - link "Informations de compte oubliées ?" [ref=e34] [cursor=pointer]:
+          - /url: https://www.facebook.com/recover/initiate?ars=royal_blue_bar
+  - generic [ref=e40]:
+    - main [ref=e41]:
+      - generic [ref=e42]:
+        - generic [ref=e44]:
+          - generic [ref=e45]:
+            - button [ref=e48] [cursor=pointer]:
+              - img [ref=e52]
+            - button [ref=e55] [cursor=pointer]:
+              - img [ref=e59]
+          - img [ref=e65]
+        - link [ref=e69] [cursor=pointer]:
+          - /url: /?__tn__=*F
+          - img [ref=e70]
+        - generic [ref=e73]:
+          - button [ref=e75] [cursor=pointer]:
+            - img [ref=e76]
+          - button [disabled] [ref=e80]:
+            - img [ref=e81]
+          - button [ref=e86] [cursor=pointer]:
+            - img [ref=e87]
+    - complementary [ref=e89]:
+      - generic [ref=e93]:
+        - generic [ref=e96]:
+          - link [ref=e100] [cursor=pointer]:
+            - /url: https://www.facebook.com/people/LES-Basakata-Questionsreponses/100067644754615/?__tn__=%3C%3C*F
+            - img [ref=e102]
+          - generic [ref=e107]:
+            - heading [level=2] [ref=e111]:
+              - link [ref=e115] [cursor=pointer]:
+                - /url: https://www.facebook.com/people/LES-Basakata-Questionsreponses/100067644754615/?__tn__=-UC*F
+                - text: "LES Basakata: Questions/reponses"
+            - generic [ref=e118]:
+              - link [ref=e122] [cursor=pointer]:
+                - /url: https://www.facebook.com/photo/?fbid=837597145171770&set=a.837593895172095&__tn__=%2CO*F
+                - text: 1 septembre 2024
+              - generic [ref=e124]: ·
+              - img [ref=e129]
+          - button [ref=e137] [cursor=pointer]:
+            - img [ref=e138]
+        - generic [ref=e143]:
+          - generic [ref=e146]:
+            - toolbar [ref=e147]:
+              - button [ref=e152] [cursor=pointer]
+            - generic [ref=e153]: "Toutes les réactions :"
+            - generic [ref=e155]: "1"
+          - generic [ref=e157]:
+            - button [ref=e159] [cursor=pointer]:
+              - generic [ref=e164]: J’aime
+            - button [ref=e166] [cursor=pointer]:
+              - generic [ref=e171]: Commenter
+        - generic [ref=e173]:
+          - heading [level=2] [ref=e174]: Commentaires
+          - generic [ref=e175]:
+            - img [ref=e177]
+            - generic [ref=e185]:
+              - heading [level=2] [ref=e187]:
+                - generic [ref=e188]: Aucun commentaire pour le moment
+              - generic [ref=e190]: Écrivez le premier commentaire.
+  - dialog [ref=e201]:
+    - button "Fermer" [ref=e203] [cursor=pointer]
+    - generic [ref=e210]:
+      - generic [ref=e213]: Voir plus sur Facebook
+      - generic [ref=e218]:
+        - generic: Adresse e-mail ou numéro de tél.
+        - textbox "Adresse e-mail ou numéro de tél." [active] [ref=e219]
+      - generic [ref=e224]:
+        - generic: Mot de passe
+        - textbox "Mot de passe" [ref=e225]
+      - button "Connexion à Facebook" [ref=e227] [cursor=pointer]:
+        - generic [ref=e230]: Se connecter
+      - link "Mot de passe oublié ?" [ref=e232] [cursor=pointer]:
+        - /url: https://www.facebook.com/recover/initiate?ars=royal_blue_bar
+        - generic [ref=e233]: Mot de passe oublié ?
+      - generic [ref=e239]: ou
+      - button "Créer un nouveau compte" [ref=e243] [cursor=pointer]:
+        - generic [ref=e246]: Créer un nouveau compte

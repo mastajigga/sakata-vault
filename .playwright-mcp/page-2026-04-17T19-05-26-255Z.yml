@@ -1,0 +1,216 @@
+- generic [ref=e1]:
+  - generic:
+    - generic:
+      - generic:
+        - generic:
+          - banner:
+            - generic [ref=e2]:
+              - generic:
+                - generic:
+                  - button [disabled]:
+                    - img
+              - link "Facebook" [ref=e3] [cursor=pointer]:
+                - /url: /
+                - img [ref=e4]
+            - generic [ref=e12]:
+              - generic [ref=e13]:
+                - generic:
+                  - generic:
+                    - generic:
+                      - button:
+                        - img
+              - generic [ref=e15]:
+                - generic:
+                  - img
+                - combobox "Rechercher sur Facebook" [ref=e16]: Basakata
+            - navigation "Facebook" [ref=e20]:
+              - list [ref=e21]:
+                - listitem [ref=e22]:
+                  - link "Accueil" [ref=e25] [cursor=pointer]:
+                    - /url: /
+                    - img [ref=e27]
+                - listitem [ref=e29]:
+                  - link "Reels" [ref=e32] [cursor=pointer]:
+                    - /url: /reel/?s=tab
+                    - img [ref=e34]
+                - listitem [ref=e37]:
+                  - link "Marketplace" [ref=e40] [cursor=pointer]:
+                    - /url: /marketplace/?ref=app_tab
+                    - img [ref=e42]
+                - listitem [ref=e44]:
+                  - link "Groupes" [ref=e47] [cursor=pointer]:
+                    - /url: /groups/
+                    - img [ref=e49]
+                - listitem [ref=e51]:
+                  - link "Gaming" [ref=e54] [cursor=pointer]:
+                    - /url: /gaming/play/?store_visit_source=gaming_tab
+                    - img [ref=e56]
+            - navigation "Contrôles et paramètres du compte" [ref=e60]:
+              - button "Menu Facebook" [ref=e64] [cursor=pointer]:
+                - img [ref=e65]
+              - button "Messenger" [ref=e71] [cursor=pointer]:
+                - img [ref=e72]
+              - generic [ref=e77]:
+                - button "Notifications, 7 non lues" [ref=e78] [cursor=pointer]:
+                  - img [ref=e79]
+                - button [ref=e81] [cursor=pointer]:
+                  - generic [ref=e82]:
+                    - generic [ref=e83]: Nombre de notifications non lues
+                    - generic [ref=e84]: "7"
+              - button "Votre profil" [ref=e87] [cursor=pointer]:
+                - generic [ref=e88]:
+                  - img "Votre profil" [ref=e89]
+                  - img [ref=e96]
+          - generic [ref=e103]:
+            - region [ref=e104]:
+              - generic [ref=e105]:
+                - heading [level=1] [ref=e113]: Résultats de la recherche
+                - generic [ref=e118]:
+                  - heading [level=2] [ref=e132]:
+                    - generic [ref=e134]: Filtres
+                  - list [ref=e136]:
+                    - listitem [ref=e137]:
+                      - link [ref=e139] [cursor=pointer]:
+                        - /url: /search/top/?q=Basakata&__rsidv2__=b81ade02-a7d0-48c3-89a1-78f06563280e&__epa__=SERP_TAB&__eps__=SERP_GROUPS_TAB
+                        - generic [ref=e140]:
+                          - img [ref=e143]
+                          - generic [ref=e152]: Tous
+                    - listitem [ref=e153]:
+                      - link [ref=e155] [cursor=pointer]:
+                        - /url: /search/people/?q=Basakata&__rsidv2__=b81ade02-a7d0-48c3-89a1-78f06563280e&__epa__=SERP_TAB&__eps__=SERP_GROUPS_TAB
+                        - generic [ref=e156]:
+                          - img [ref=e159]
+                          - generic [ref=e166]: Personnes
+                    - listitem [ref=e167]:
+                      - link [ref=e169] [cursor=pointer]:
+                        - /url: /search/videos/?q=Basakata&__rsidv2__=b81ade02-a7d0-48c3-89a1-78f06563280e&__epa__=SERP_TAB&__eps__=SERP_GROUPS_TAB
+                        - generic [ref=e170]:
+                          - img [ref=e173]
+                          - generic [ref=e180]: Reels
+                    - listitem [ref=e181]:
+                      - link [ref=e183] [cursor=pointer]:
+                        - /url: /marketplace/search/?query=Basakata
+                        - generic [ref=e184]:
+                          - img [ref=e187]
+                          - generic [ref=e194]: Marketplace
+                    - listitem [ref=e195]:
+                      - link [ref=e197] [cursor=pointer]:
+                        - /url: /search/pages/?q=Basakata&__rsidv2__=b81ade02-a7d0-48c3-89a1-78f06563280e&__epa__=SERP_TAB&__eps__=SERP_GROUPS_TAB
+                        - generic [ref=e198]:
+                          - img [ref=e201]
+                          - generic [ref=e208]: Pages
+                    - listitem [ref=e209]:
+                      - link [ref=e211] [cursor=pointer]:
+                        - /url: /search/groups/?q=Basakata&__rsidv2__=b81ade02-a7d0-48c3-89a1-78f06563280e&__epa__=SERP_TAB&__eps__=SERP_GROUPS_TAB
+                        - generic [ref=e212]:
+                          - img [ref=e215]
+                          - generic [ref=e222]: Groupes
+                      - list [ref=e223]:
+                        - listitem [ref=e224]:
+                          - generic [ref=e230]:
+                            - combobox [ref=e231] [cursor=pointer]
+                            - generic:
+                              - img
+                        - listitem [ref=e232]:
+                          - generic [ref=e233]:
+                            - generic [ref=e236]: Près de moi
+                            - switch [ref=e241] [cursor=pointer]
+                        - listitem [ref=e242]:
+                          - generic [ref=e243]:
+                            - generic [ref=e246]: Groupes publics
+                            - switch [ref=e251] [cursor=pointer]
+                        - listitem [ref=e252]:
+                          - generic [ref=e253]:
+                            - generic [ref=e256]: Mes groupes
+                            - switch [ref=e261] [cursor=pointer]
+                    - listitem [ref=e262]:
+                      - link [ref=e264] [cursor=pointer]:
+                        - /url: /search/events/?q=Basakata&__rsidv2__=b81ade02-a7d0-48c3-89a1-78f06563280e&__epa__=SERP_TAB&__eps__=SERP_GROUPS_TAB
+                        - generic [ref=e274]: Évènements
+            - main [ref=e275]:
+              - feed [ref=e280]:
+                - article [ref=e286]:
+                  - generic [ref=e290]:
+                    - link [ref=e294] [cursor=pointer]:
+                      - /url: https://www.facebook.com/groups/254610261679684/?__tn__=%3C
+                      - img [ref=e296]
+                    - generic [ref=e300]:
+                      - generic [ref=e301]:
+                        - generic [ref=e303]:
+                          - link [ref=e308] [cursor=pointer]:
+                            - /url: https://www.facebook.com/groups/254610261679684/
+                            - text: Fiesta Salsa Bachata Bruxelles Belgique
+                          - generic [ref=e311]: Public · 5,3 K membres · 3 publications par jour
+                        - generic [ref=e315]:
+                          - list [ref=e317]:
+                            - listitem [ref=e318]:
+                              - img [ref=e320]
+                            - listitem [ref=e324]:
+                              - img [ref=e326]
+                          - generic [ref=e331]: 2 amis en sont membres
+                      - button [ref=e337] [cursor=pointer]:
+                        - generic [ref=e340]: Rejoindre
+                - article [ref=e346]:
+                  - generic [ref=e350]:
+                    - link [ref=e354] [cursor=pointer]:
+                      - /url: https://www.facebook.com/groups/1884392798502019/?__tn__=%3C
+                      - img [ref=e356]
+                    - generic [ref=e360]:
+                      - generic [ref=e361]:
+                        - generic [ref=e363]:
+                          - link [ref=e368] [cursor=pointer]:
+                            - /url: https://www.facebook.com/groups/1884392798502019/
+                            - text: Cours Salsa Bachata Bruxelles - Ecole de Danse Latino
+                          - generic [ref=e371]: Public · 1,4 K membres
+                        - generic [ref=e375]:
+                          - list [ref=e377]:
+                            - listitem [ref=e378]:
+                              - img [ref=e380]
+                          - generic [ref=e385]: 1 ami(e) en est membre
+                      - button [ref=e391] [cursor=pointer]:
+                        - generic [ref=e394]: Rejoindre
+                - article [ref=e400]:
+                  - generic [ref=e404]:
+                    - link [ref=e408] [cursor=pointer]:
+                      - /url: https://www.facebook.com/groups/1637588683194953/?__tn__=%3C
+                      - img [ref=e410]
+                    - generic [ref=e414]:
+                      - generic [ref=e417]:
+                        - link [ref=e422] [cursor=pointer]:
+                          - /url: https://www.facebook.com/groups/1637588683194953/
+                          - text: Bachata Belgium Events
+                        - generic [ref=e425]: Public · 3,5 K membres · 6 publications par jour
+                      - button [ref=e431] [cursor=pointer]:
+                        - generic [ref=e434]: Rejoindre
+                - article [ref=e440]:
+                  - generic [ref=e444]:
+                    - link [ref=e448] [cursor=pointer]:
+                      - /url: https://www.facebook.com/groups/1082026542762562/?__tn__=%3C
+                      - img [ref=e450]
+                    - generic [ref=e454]:
+                      - generic [ref=e457]:
+                        - link [ref=e462] [cursor=pointer]:
+                          - /url: https://www.facebook.com/groups/1082026542762562/
+                          - text: Bansakata base
+                        - generic [ref=e465]: Public · 62 membres
+                      - button [ref=e471] [cursor=pointer]:
+                        - generic [ref=e474]: Rejoindre
+                - article [ref=e480]:
+                  - generic [ref=e484]:
+                    - link [ref=e488] [cursor=pointer]:
+                      - /url: https://www.facebook.com/groups/basaa/?__tn__=%3C
+                      - img [ref=e490]
+                    - generic [ref=e494]:
+                      - generic [ref=e497]:
+                        - link [ref=e502] [cursor=pointer]:
+                          - /url: https://www.facebook.com/groups/basaa/
+                          - text: BASAA
+                        - generic [ref=e505]: Public · 7 K membres · 4 publications par jour
+                      - button [ref=e511] [cursor=pointer]:
+                        - generic [ref=e514]: Rejoindre
+                - generic [ref=e520]: Fin des résultats
+          - button "Nouveau message" [ref=e523] [cursor=pointer]:
+            - img [ref=e524]
+  - alertdialog "Demande de notifications push" [ref=e532]:
+    - generic [ref=e533]: Ouvrez les paramètres de votre navigateur pour autoriser ou bloquer les notifications Facebook dans le navigateur.
+    - button "Fermer" [active] [ref=e534]

@@ -1,0 +1,73 @@
+- generic [ref=e5]:
+  - banner:
+    - generic [ref=e8]:
+      - generic [ref=e10]:
+        - generic:
+          - button [disabled]:
+            - img
+        - button "Facebook" [ref=e12] [cursor=pointer]:
+          - img "Facebook" [ref=e13]
+      - generic [ref=e18]:
+        - textbox "Adresse e-mail ou téléphone" [ref=e21]
+        - textbox "Mot de passe" [ref=e24]
+        - button "Se connecter" [ref=e27] [cursor=pointer]:
+          - generic [ref=e31]: Se connecter
+        - link "Informations de compte oubliées ?" [ref=e34] [cursor=pointer]:
+          - /url: https://www.facebook.com/recover/initiate?ars=royal_blue_bar
+  - generic [ref=e39]:
+    - list [ref=e44]:
+      - listitem [ref=e45]:
+        - generic [ref=e46]:
+          - link [ref=e48] [cursor=pointer]:
+            - /url: /photo/?fbid=837597148505103&set=pb.100067644754615.-2207520000
+            - img [ref=e50]
+          - link [ref=e52] [cursor=pointer]:
+            - /url: /photo/?fbid=837594581838693&set=pb.100067644754615.-2207520000
+            - img [ref=e54]
+          - link [ref=e56] [cursor=pointer]:
+            - /url: /photo/?fbid=510207029162221&set=pb.100067644754615.-2207520000
+            - img [ref=e58]
+      - listitem [ref=e59]:
+        - generic [ref=e60]:
+          - link [ref=e62] [cursor=pointer]:
+            - /url: /photo/?fbid=837597145171770&set=pb.100067644754615.-2207520000
+            - img [ref=e64]
+          - link [ref=e66] [cursor=pointer]:
+            - /url: /photo/?fbid=837594585172026&set=pb.100067644754615.-2207520000
+            - img [ref=e68]
+          - link [ref=e70] [cursor=pointer]:
+            - /url: /photo/?fbid=422711813326974&set=pb.100067644754615.-2207520000
+            - img [ref=e72]
+      - listitem [ref=e73]:
+        - generic [ref=e74]:
+          - link [ref=e76] [cursor=pointer]:
+            - /url: /photo/?fbid=837597141838437&set=pb.100067644754615.-2207520000
+            - img [ref=e78]
+          - link [ref=e80] [cursor=pointer]:
+            - /url: /photo/?fbid=837593865172098&set=pb.100067644754615.-2207520000
+            - img [ref=e82]
+          - link [ref=e84] [cursor=pointer]:
+            - /url: /photo/?fbid=422711816660307&set=pb.100067644754615.-2207520000
+            - img [ref=e86]
+          - link [ref=e88] [cursor=pointer]:
+            - /url: /photo/?fbid=510206512495606&set=pb.100067644754615.-2207520000
+            - img [ref=e90]
+    - generic [ref=e104]: "Photos de LES Basakata: Questions/reponses"
+  - dialog [ref=e113]:
+    - button "Fermer" [ref=e115] [cursor=pointer]
+    - generic [ref=e122]:
+      - generic [ref=e125]: Voir plus sur Facebook
+      - generic [ref=e130]:
+        - generic: Adresse e-mail ou numéro de tél.
+        - textbox "Adresse e-mail ou numéro de tél." [active] [ref=e131]
+      - generic [ref=e136]:
+        - generic: Mot de passe
+        - textbox "Mot de passe" [ref=e137]
+      - button "Connexion à Facebook" [ref=e139] [cursor=pointer]:
+        - generic [ref=e142]: Se connecter
+      - link "Mot de passe oublié ?" [ref=e144] [cursor=pointer]:
+        - /url: https://www.facebook.com/recover/initiate?ars=royal_blue_bar
+        - generic [ref=e145]: Mot de passe oublié ?
+      - generic [ref=e151]: ou
+      - button "Créer un nouveau compte" [ref=e155] [cursor=pointer]:
+        - generic [ref=e158]: Créer un nouveau compte

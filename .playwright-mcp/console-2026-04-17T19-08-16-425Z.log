@@ -1,0 +1,9 @@
+[     816ms] [ERROR] Permissions policy violation: unload is not allowed in this document. @ https://static.xx.fbcdn.net/rsrc.php/v4/y2/r/JJ4tWEgqL9L.js:322
+[    1639ms] [LOG] 
+%cStop ! font-family:helvetica; font-size:20px; font-size:50px; font-weight:bold; color:red; -webkit-text-stroke:1px black; @ https://static.xx.fbcdn.net/rsrc.php/v4/yQ/r/gSWw_ZOWpXl.js:242
+[    1639ms] [LOG] 
+%cIl s’agit d’une fonctionnalité de navigateur conçue pour les développeurs. Si quelqu’un vous a invité(e) à copier-coller quelque chose ici pour activer une fonctionnalité Facebook ou soit-disant pirater le compte d’un tiers, sachez que c’est une arnaque permettant à cette personne d’accéder à votre compte Facebook. font-family:helvetica; font-size:20px;  @ https://static.xx.fbcdn.net/rsrc.php/v4/yQ/r/gSWw_ZOWpXl.js:242
+[    1639ms] [LOG] 
+%cConsultez https://www.facebook.com/selfxss pour plus d’informations. font-family:helvetica; font-size:20px;  @ https://static.xx.fbcdn.net/rsrc.php/v4/yQ/r/gSWw_ZOWpXl.js:242
+[    1639ms] [LOG] 
+%c  @ https://static.xx.fbcdn.net/rsrc.php/v4/yQ/r/gSWw_ZOWpXl.js:242

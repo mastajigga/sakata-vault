@@ -1,0 +1,297 @@
+- generic [ref=e1]:
+  - link [ref=e2] [cursor=pointer]: Passer directement au contenu principal
+  - link [ref=e3] [cursor=pointer]:
+    - /url: https://support.google.com/websearch/answer/181196?hl=fr-BE
+    - text: Aide sur l'accessibilité
+  - link [ref=e4] [cursor=pointer]: Commentaires sur l'accessibilité
+  - dialog "Avant d'accéder à la recherche Google" [active]:
+    - generic [ref=e11]:
+      - generic [ref=e13]:
+        - img "Google" [ref=e14]
+        - generic [ref=e15]:
+          - 'button "Langue : ‪Français (France)‬" [ref=e17] [cursor=pointer]':
+            - generic [ref=e18]:
+              - img
+              - generic [ref=e19]: fr
+          - link "Se connecter" [ref=e20] [cursor=pointer]
+      - generic [ref=e21]:
+        - heading "Avant d'accéder à Google" [level=1] [ref=e22]
+        - generic [ref=e23]:
+          - generic [ref=e24]:
+            - text: Nous utilisons des
+            - link "cookies" [ref=e25] [cursor=pointer]:
+              - /url: https://policies.google.com/technologies/cookies?utm_source=ucbs&hl=fr-BE
+            - text: "et d'autres données pour :"
+            - list [ref=e26]:
+              - listitem [ref=e27]: Proposer les services Google et s'assurer qu'ils fonctionnent correctement
+              - listitem [ref=e28]: Suivre les interruptions de service et protéger contre le spam, les fraudes et les abus
+              - listitem [ref=e29]: Mesurer l'engagement de l'audience et les statistiques des sites pour comprendre la façon dont nos services sont utilisés et pour améliorer leur qualité
+          - generic [ref=e30]:
+            - text: "Si vous cliquez sur \"Tout accepter\", nous utiliserons également des cookies et d'autres données pour :"
+            - list [ref=e31]:
+              - listitem [ref=e32]: Développer de nouveaux services et les améliorer
+              - listitem [ref=e33]: Diffuser des annonces et évaluer leur efficacité
+              - listitem [ref=e34]: Proposer des contenus personnalisés en fonction de vos paramètres
+              - listitem [ref=e35]: Afficher des annonces personnalisées en fonction de vos paramètres
+            - generic [ref=e36]: Si vous cliquez sur "Tout refuser", nous n'utiliserons pas de cookies pour ces fins supplémentaires.
+          - generic [ref=e37]: Les contenus non personnalisés dépendent, par exemple, du contenu du site que vous consultez, de l'activité de votre session de recherche en cours et de votre position. Les annonces non personnalisées dépendent du contenu du site que vous consultez et de votre position approximative. Les annonces et les contenus personnalisés peuvent aussi inclure des résultats plus pertinents, des recommandations et des annonces adaptées en fonction de votre activité passée sur ce navigateur, comme vos précédentes recherches sur Google. Le cas échéant, nous adaptons également l’expérience en fonction de l’âge de l’utilisateur à l'aide de cookies et de données.
+          - generic [ref=e38]: Cliquez sur "Plus d'options" pour afficher plus d'informations, y compris sur la manière de gérer vos paramètres de confidentialité. Vous pouvez aussi consulter la page g.co/privacytools à tout moment.
+      - generic [ref=e39]:
+        - generic [ref=e40]:
+          - button "Tout refuser" [ref=e41] [cursor=pointer]
+          - button "Tout accepter" [ref=e42] [cursor=pointer]
+        - link "Plus d'options pour les paramètres de personnalisation et les cookies" [ref=e44] [cursor=pointer]:
+          - generic "Plus d'options pour les paramètres de personnalisation et les cookies" [ref=e45]: Plus d'options
+      - generic [ref=e46]:
+        - link "Confidentialité" [ref=e47] [cursor=pointer]:
+          - /url: https://policies.google.com/privacy?hl=fr-BE&fg=1&utm_source=ucbs
+        - generic [ref=e48]: ·
+        - link "Conditions d'utilisation" [ref=e49] [cursor=pointer]:
+          - /url: https://policies.google.com/terms?hl=fr-BE&fg=1&utm_source=ucbs
+  - generic [ref=e54]:
+    - search [ref=e55]:
+      - generic [ref=e57]:
+        - link [ref=e59] [cursor=pointer]:
+          - /url: https://www.google.com/webhp?hl=fr&sa=X&ved=0ahUKEwjhxa7-u_WTAxVHRqQEHQKDOlkQPAhp
+          - img [ref=e60]
+        - generic [ref=e67]:
+          - generic [ref=e68]:
+            - combobox [ref=e71]: Facebook group Basakata culture Facebook group Basakata culture
+            - generic [ref=e72]:
+              - button [ref=e74] [cursor=pointer]:
+                - img [ref=e76]
+              - generic [ref=e79]:
+                - button [ref=e80] [cursor=pointer]:
+                  - img [ref=e81]
+                - button [ref=e83] [cursor=pointer]:
+                  - img [ref=e84]
+          - button [ref=e86] [cursor=pointer]:
+            - img [ref=e89]
+    - generic [ref=e91]:
+      - button [ref=e93] [cursor=pointer]
+      - generic [ref=e94]:
+        - button [ref=e96] [cursor=pointer]:
+          - img [ref=e97]
+        - link [ref=e101] [cursor=pointer]:
+          - /url: https://accounts.google.com/ServiceLogin?hl=fr&passive=true&continue=https://www.google.com/search%3Fq%3DFacebook%2Bgroup%2BBasakata%2Bculture%26sei%3Dp3XiabOqOrHy7M8PitKc2A8&ec=futura_srp_og_si_72236_p
+          - text: Connexion
+  - generic [ref=e103]:
+    - navigation [ref=e109]:
+      - list [ref=e112]:
+        - listitem [ref=e113]:
+          - link [ref=e116] [cursor=pointer]:
+            - /url: /search?q=Facebook+group+Basakata+culture&sca_esv=c0c8628026d5a19e&udm=50&fbs=ADc_l-bpk8W4E-qsVlOvbGJcDwpnHC5OJXXTJvmMu2n9YYx-G8xzgQk24aW1N_FyIND5zVDADCs_Fwd6mWmfkY-_5enaVlb8kyVj3FSWlUdu3l6J7xCJGBaECJupQtL22gjNu3rpPniULdSw4f7hE_e0IFGuj0nolE3wu1rWQmrAThehrcuD2r_PxyzxIJCXQsaUmeKcRDyO&aep=1&ntc=1&sa=X&ved=2ahUKEwjhxa7-u_WTAxVHRqQEHQKDOlkQ2J8OegQIERAI
+            - generic [ref=e119]: Mode IA
+        - listitem [ref=e120]:
+          - link [disabled] [ref=e121]:
+            - generic [ref=e123]: Tous
+        - listitem [ref=e124]:
+          - link [ref=e125] [cursor=pointer]:
+            - /url: /search?sca_esv=c0c8628026d5a19e&udm=2&fbs=ADc_l-bpk8W4E-qsVlOvbGJcDwpnHC5OJXXTJvmMu2n9YYx-G8xzgQk24aW1N_FyIND5zVDADCs_Fwd6mWmfkY-_5enaVlb8kyVj3FSWlUdu3l6J7xCJGBaECJupQtL22gjNu3rpPniULdSw4f7hE_e0IFGuj0nolE3wu1rWQmrAThehrcuD2r_PxyzxIJCXQsaUmeKcRDyO&q=Facebook+group+Basakata+culture&sa=X&ved=2ahUKEwjhxa7-u_WTAxVHRqQEHQKDOlkQtKgLegQIFBAB
+            - generic [ref=e127]: Images
+        - listitem [ref=e128]:
+          - link [ref=e129] [cursor=pointer]:
+            - /url: /search?sca_esv=c0c8628026d5a19e&udm=7&fbs=ADc_l-bpk8W4E-qsVlOvbGJcDwpnHC5OJXXTJvmMu2n9YYx-G8xzgQk24aW1N_FyIND5zVDADCs_Fwd6mWmfkY-_5enaVlb8kyVj3FSWlUdu3l6J7xCJGBaECJupQtL22gjNu3rpPniULdSw4f7hE_e0IFGuj0nolE3wu1rWQmrAThehrcuD2r_PxyzxIJCXQsaUmeKcRDyO&q=Facebook+group+Basakata+culture&sa=X&ved=2ahUKEwjhxa7-u_WTAxVHRqQEHQKDOlkQtKgLegQIFRAB
+            - generic [ref=e131]: Vidéos
+        - listitem [ref=e132]:
+          - link [ref=e133] [cursor=pointer]:
+            - /url: /search?sca_esv=c0c8628026d5a19e&q=Facebook+group+Basakata+culture&tbm=nws&source=lnms&fbs=ADc_l-bpk8W4E-qsVlOvbGJcDwpnHC5OJXXTJvmMu2n9YYx-G8xzgQk24aW1N_FyIND5zVDADCs_Fwd6mWmfkY-_5enaVlb8kyVj3FSWlUdu3l6J7xCJGBaECJupQtL22gjNu3rpPniULdSw4f7hE_e0IFGuj0nolE3wu1rWQmrAThehrcuD2r_PxyzxIJCXQsaUmeKcRDyO&sa=X&ved=2ahUKEwjhxa7-u_WTAxVHRqQEHQKDOlkQ0pQJegQIGBAB
+            - generic [ref=e135]: Actualités
+        - listitem [ref=e136]:
+          - link [ref=e137] [cursor=pointer]:
+            - /url: /search?sca_esv=c0c8628026d5a19e&udm=39&fbs=ADc_l-bpk8W4E-qsVlOvbGJcDwpnHC5OJXXTJvmMu2n9YYx-G8xzgQk24aW1N_FyIND5zVDADCs_Fwd6mWmfkY-_5enaVlb8kyVj3FSWlUdu3l6J7xCJGBaECJupQtL22gjNu3rpPniULdSw4f7hE_e0IFGuj0nolE3wu1rWQmrAThehrcuD2r_PxyzxIJCXQsaUmeKcRDyO&q=Facebook+group+Basakata+culture&sa=X&ved=2ahUKEwjhxa7-u_WTAxVHRqQEHQKDOlkQs6gLegQIFhAB
+            - generic [ref=e139]: Vidéos courtes
+        - listitem [ref=e140]:
+          - link [ref=e141] [cursor=pointer]:
+            - /url: /search?sca_esv=c0c8628026d5a19e&udm=web&fbs=ADc_l-bpk8W4E-qsVlOvbGJcDwpnHC5OJXXTJvmMu2n9YYx-G8xzgQk24aW1N_FyIND5zVDADCs_Fwd6mWmfkY-_5enaVlb8kyVj3FSWlUdu3l6J7xCJGBaECJupQtL22gjNu3rpPniULdSw4f7hE_e0IFGuj0nolE3wu1rWQmrAThehrcuD2r_PxyzxIJCXQsaUmeKcRDyO&q=Facebook+group+Basakata+culture&sa=X&ved=2ahUKEwjhxa7-u_WTAxVHRqQEHQKDOlkQs6gLegQIGRAB
+            - generic [ref=e143]: Web
+        - listitem [ref=e144]:
+          - button [ref=e145] [cursor=pointer]:
+            - generic [ref=e147]:
+              - generic [ref=e148]: Plus
+              - img [ref=e150]
+    - heading [level=1] [ref=e152]: Résultats de recherche
+    - generic [ref=e157]:
+      - generic [ref=e176]:
+        - heading [level=2] [ref=e180]:
+          - generic [ref=e181]: Raisonnement…
+        - progressbar [ref=e182]
+      - main [ref=e184]:
+        - generic [ref=e188]:
+          - generic [ref=e191]:
+            - heading [level=2] [ref=e192]: Web results
+            - generic [ref=e193]:
+              - generic [ref=e196]:
+                - link [ref=e198] [cursor=pointer]:
+                  - /url: https://m.facebook.com/groups/508413489258998/about/?locale=en_GB
+                  - heading [level=3] [ref=e199]: Forum Bana Basakata
+                  - generic [ref=e204]:
+                    - generic [ref=e206]: Facebook
+                    - generic [ref=e208]: https://m.facebook.com › Facebook Groups
+                - button [ref=e209] [cursor=pointer]:
+                  - img [ref=e212]
+              - generic [ref=e216]:
+                - emphasis [ref=e217]: L'objectif de ce groupe est de favoriser et promouvoir l'intérêt de notre héritage culturel
+                - text: ", retrouver et consolider nos liens familiaux avec nos proches où ..."
+          - generic [ref=e221]:
+            - generic [ref=e224]:
+              - link [ref=e226] [cursor=pointer]:
+                - /url: https://www.facebook.com/p/LES-Basakata-Questionsreponses-100067644754615/
+                - heading [level=3] [ref=e227]: "LES Basakata: Questions/reponses"
+                - generic [ref=e232]:
+                  - generic [ref=e234]: "Facebook · LES Basakata: Questions/reponses"
+                  - generic [ref=e236]: Plus de 8,3 k abonnés
+              - button [ref=e237] [cursor=pointer]:
+                - img [ref=e240]
+            - generic [ref=e244]:
+              - emphasis [ref=e245]: "LES Basakata: Questions/reponses"
+              - text: . 8275 likes · 10 talking about this. PAGE SPECIALEMENT CREE POUR REPONDRE A TOUTES VOS QUESTIONS SUR LES BASAKATA EN...
+          - generic [ref=e249]:
+            - generic [ref=e252]:
+              - link [ref=e254] [cursor=pointer]:
+                - /url: https://www.facebook.com/groups/393641925061202/posts/735097967582261/
+                - heading [level=3] [ref=e255]: Basakata de bokoro à kin
+                - generic [ref=e260]:
+                  - generic [ref=e262]: Facebook · Basakata de bokoro à kin
+                  - generic [ref=e264]: il y a 3 ans
+              - button [ref=e265] [cursor=pointer]:
+                - img [ref=e268]
+            - generic [ref=e271]: 󰞋Jan 29󰞋󱟠 · 󱚼 · Jeamsel Lesika Lefuni and Clovis Opika · 2 ; 󰞋Oct 15, 2025󰞋󱟠 · 󱚼 ; 󰞋Oct 5, 2025󰞋󱟠 · 󱚼 ...
+          - generic [ref=e275]:
+            - generic [ref=e278]:
+              - link [ref=e280] [cursor=pointer]:
+                - /url: https://www.facebook.com/groups/1444575149127305/
+                - heading [level=3] [ref=e281]: Basakata moyene
+                - generic [ref=e286]:
+                  - generic [ref=e288]: Facebook · Basakata moyene
+                  - generic [ref=e290]: Plus de 16,4 k abonnés
+              - button [ref=e291] [cursor=pointer]:
+                - img [ref=e294]
+            - generic [ref=e297]: "Postulez dès maintenant en envoyant votre dossier à : talent@altech-rdc.com (en copie : ruth@altech-rdc. com) Date limite de candidature : 17 janvier 2026 ..."
+          - generic [ref=e301]:
+            - generic [ref=e304]:
+              - link [ref=e306] [cursor=pointer]:
+                - /url: https://www.facebook.com/groups/23603746167/?post_id=10158434891851168
+                - heading [level=3] [ref=e307]: bunkeya " basanga et bayeke"
+                - generic [ref=e312]:
+                  - generic [ref=e314]: Facebook
+                  - generic [ref=e316]: https://www.facebook.com › groups
+              - button [ref=e317] [cursor=pointer]:
+                - img [ref=e320]
+            - generic [ref=e324]:
+              - text: Join
+              - emphasis [ref=e325]: group
+              - text: . About this
+              - emphasis [ref=e326]: group
+              - text: . Personne appartenant de près ou de loin a cette grande famille, ainsi que tout celui ou celle qui voudrait contribuer à la ...
+          - generic [ref=e332]:
+            - generic [ref=e335]:
+              - link [ref=e337] [cursor=pointer]:
+                - /url: https://www.facebook.com/soutienpeuplebasaa/videos/la-culture-basaa-mon-combat-%EF%B8%8F%EF%B8%8F%EF%B8%8F%EF%B8%8F/920338000799895/
+                - heading [level=3] [ref=e338]: La culture Basaa, mon combat ❤️❤️❤️❤️ | Soutien Peuple ...
+                - generic [ref=e343]:
+                  - generic [ref=e345]: Facebook · Soutien Peuple Basa'a
+                  - generic [ref=e347]: Plus de 40 réactions · il y a 4 jours
+              - button [ref=e348] [cursor=pointer]:
+                - img [ref=e351]
+            - generic [ref=e353]:
+              - link [ref=e354] [cursor=pointer]:
+                - /url: https://www.facebook.com/soutienpeuplebasaa/videos/la-culture-basaa-mon-combat-%EF%B8%8F%EF%B8%8F%EF%B8%8F%EF%B8%8F/920338000799895/
+                - generic [ref=e356]:
+                  - img [ref=e359]
+                  - generic [ref=e363]: 0:18
+              - generic [ref=e365]: ... ... 󱢏. Actor. Pages. 󱙿. Community Organization. 󱙿. Community Service. 󱙿. Soutien Peuple Basa'a. 󱙿. Videos. 󱙿. La culture Basaa, mon combat ❤️❤️❤️❤️
+          - generic [ref=e369]:
+            - generic [ref=e372]:
+              - link [ref=e374] [cursor=pointer]:
+                - /url: https://m.facebook.com/groups/2498291596902732/_join_/
+                - heading [level=3] [ref=e375]: la culture sakata
+                - generic [ref=e380]:
+                  - generic [ref=e382]: Facebook
+                  - generic [ref=e384]: https://m.facebook.com › groups › _join_
+              - button [ref=e385] [cursor=pointer]:
+                - img [ref=e388]
+            - generic [ref=e392]:
+              - emphasis [ref=e393]: Ce groupe a été créé en vu de partager et apprendre la culture Sakata
+              - text: ; rappeler aux gens ce qui est de notre culture ( coutume) . Profile photo of Ghislain.
+          - generic [ref=e399]:
+            - generic [ref=e402]:
+              - link [ref=e404] [cursor=pointer]:
+                - /url: https://www.facebook.com/soutienpeuplebasaa/videos/ma-culture-mon-combat-%EF%B8%8F%EF%B8%8F%EF%B8%8F/1607123627610186/
+                - heading [level=3] [ref=e405]: Ma culture, mon combat ❤️❤️❤️ | Soutien Peuple Basa'a
+                - generic [ref=e410]:
+                  - generic [ref=e412]: Facebook · Soutien Peuple Basa'a
+                  - generic [ref=e414]: Plus de 220 réactions · il y a 2 semaines
+              - button [ref=e415] [cursor=pointer]:
+                - img [ref=e418]
+            - generic [ref=e420]:
+              - link [ref=e421] [cursor=pointer]:
+                - /url: https://www.facebook.com/soutienpeuplebasaa/videos/ma-culture-mon-combat-%EF%B8%8F%EF%B8%8F%EF%B8%8F/1607123627610186/
+                - generic [ref=e423]:
+                  - img [ref=e426]
+                  - generic [ref=e430]: 0:47
+              - generic [ref=e432]: Kenzo Lezig il a mentionné quelque part qu'elles sont Bassa'a ? Il a juste parlé de la culture nor? Ou alors c'est moi qui comprend mal.
+          - generic [ref=e436]:
+            - generic [ref=e439]:
+              - link [ref=e441] [cursor=pointer]:
+                - /url: https://m.facebook.com/KongoLisoloYaSika/photos/a.1739072443040435/2903566323257702/?type=3&locale=hi_IN
+                - heading [level=3] [ref=e442]: Ethnie Sakata (Basakata), peuple du Mai-ndombe Sakata ...
+                - generic [ref=e447]:
+                  - generic [ref=e449]: Facebook · Kala Na Biso, Nde Sika Na Biso
+                  - generic [ref=e451]: Plus de 10 réactions · il y a 5 ans
+              - button [ref=e452] [cursor=pointer]:
+                - img [ref=e455]
+            - generic [ref=e459]:
+              - text: La croyance à la vie dans l'au-delà La tradition
+              - emphasis [ref=e460]: sakata
+              - text: se représente la vie dans l'au-delà sous le même mode que celle qui est menée sur terre.
+          - generic [ref=e464]:
+            - generic [ref=e467]:
+              - link [ref=e469] [cursor=pointer]:
+                - /url: https://www.facebook.com/groups/393641925061202/posts/813603723065018/
+                - heading [level=3] [ref=e470]: Basakata de bokoro à kin
+                - generic [ref=e475]:
+                  - generic [ref=e477]: Facebook · Basakata de bokoro à kin
+                  - generic [ref=e479]: il y a 3 ans
+              - button [ref=e480] [cursor=pointer]:
+                - img [ref=e483]
+            - generic [ref=e487]:
+              - text: Bonjour et bon Dimanche aux amoureux de la Musique traditionnelle
+              - emphasis [ref=e488]: sakata
+              - text: . Lui, le Leader Incontestable JEAN OSHONA MBO, depuis son arrivée à ...
+        - navigation [ref=e491]:
+          - heading [level=1] [ref=e492]: Navigation par pages
+          - text: "1"
+          - link [ref=e495] [cursor=pointer]:
+            - /url: /search?q=Facebook+group+Basakata+culture&sca_esv=c0c8628026d5a19e&ei=qHXiaeHRA8eMkdUPgobqyQU&start=10&sa=N&sstk=Af77f_dJFO0bW1lTQf8rnp2S4YkDFs9bOZ2AbulGDMwen5Z1RGh5HEzmvr0_nF7dVUczG08abOg0puD2PyJJvA3pwyaSCx3oTNQGiw&ved=2ahUKEwjhxa7-u_WTAxVHRqQEHQKDOlkQ8tMDegQIKhAE
+            - text: "2"
+          - link [ref=e497] [cursor=pointer]:
+            - /url: /search?q=Facebook+group+Basakata+culture&sca_esv=c0c8628026d5a19e&ei=qHXiaeHRA8eMkdUPgobqyQU&start=20&sa=N&sstk=Af77f_dJFO0bW1lTQf8rnp2S4YkDFs9bOZ2AbulGDMwen5Z1RGh5HEzmvr0_nF7dVUczG08abOg0puD2PyJJvA3pwyaSCx3oTNQGiw&ved=2ahUKEwjhxa7-u_WTAxVHRqQEHQKDOlkQ8tMDegQIKhAG
+            - text: "3"
+          - link [ref=e499] [cursor=pointer]:
+            - /url: /search?q=Facebook+group+Basakata+culture&sca_esv=c0c8628026d5a19e&ei=qHXiaeHRA8eMkdUPgobqyQU&start=30&sa=N&sstk=Af77f_dJFO0bW1lTQf8rnp2S4YkDFs9bOZ2AbulGDMwen5Z1RGh5HEzmvr0_nF7dVUczG08abOg0puD2PyJJvA3pwyaSCx3oTNQGiw&ved=2ahUKEwjhxa7-u_WTAxVHRqQEHQKDOlkQ8tMDegQIKhAI
+            - text: "4"
+          - link [ref=e501] [cursor=pointer]:
+            - /url: /search?q=Facebook+group+Basakata+culture&sca_esv=c0c8628026d5a19e&ei=qHXiaeHRA8eMkdUPgobqyQU&start=40&sa=N&sstk=Af77f_dJFO0bW1lTQf8rnp2S4YkDFs9bOZ2AbulGDMwen5Z1RGh5HEzmvr0_nF7dVUczG08abOg0puD2PyJJvA3pwyaSCx3oTNQGiw&ved=2ahUKEwjhxa7-u_WTAxVHRqQEHQKDOlkQ8tMDegQIKhAK
+            - text: "5"
+          - link [ref=e503] [cursor=pointer]:
+            - /url: /search?q=Facebook+group+Basakata+culture&sca_esv=c0c8628026d5a19e&ei=qHXiaeHRA8eMkdUPgobqyQU&start=50&sa=N&sstk=Af77f_dJFO0bW1lTQf8rnp2S4YkDFs9bOZ2AbulGDMwen5Z1RGh5HEzmvr0_nF7dVUczG08abOg0puD2PyJJvA3pwyaSCx3oTNQGiw&ved=2ahUKEwjhxa7-u_WTAxVHRqQEHQKDOlkQ8tMDegQIKhAM
+            - text: "6"
+          - link [ref=e505] [cursor=pointer]:
+            - /url: /search?q=Facebook+group+Basakata+culture&sca_esv=c0c8628026d5a19e&ei=qHXiaeHRA8eMkdUPgobqyQU&start=60&sa=N&sstk=Af77f_dJFO0bW1lTQf8rnp2S4YkDFs9bOZ2AbulGDMwen5Z1RGh5HEzmvr0_nF7dVUczG08abOg0puD2PyJJvA3pwyaSCx3oTNQGiw&ved=2ahUKEwjhxa7-u_WTAxVHRqQEHQKDOlkQ8tMDegQIKhAO
+            - text: "7"
+          - link [ref=e507] [cursor=pointer]:
+            - /url: /search?q=Facebook+group+Basakata+culture&sca_esv=c0c8628026d5a19e&ei=qHXiaeHRA8eMkdUPgobqyQU&start=70&sa=N&sstk=Af77f_dJFO0bW1lTQf8rnp2S4YkDFs9bOZ2AbulGDMwen5Z1RGh5HEzmvr0_nF7dVUczG08abOg0puD2PyJJvA3pwyaSCx3oTNQGiw&ved=2ahUKEwjhxa7-u_WTAxVHRqQEHQKDOlkQ8tMDegQIKhAQ
+            - text: "8"
+          - link [ref=e509] [cursor=pointer]:
+            - /url: /search?q=Facebook+group+Basakata+culture&sca_esv=c0c8628026d5a19e&ei=qHXiaeHRA8eMkdUPgobqyQU&start=80&sa=N&sstk=Af77f_dJFO0bW1lTQf8rnp2S4YkDFs9bOZ2AbulGDMwen5Z1RGh5HEzmvr0_nF7dVUczG08abOg0puD2PyJJvA3pwyaSCx3oTNQGiw&ved=2ahUKEwjhxa7-u_WTAxVHRqQEHQKDOlkQ8tMDegQIKhAS
+            - text: "9"
+          - link [ref=e511] [cursor=pointer]:
+            - /url: /search?q=Facebook+group+Basakata+culture&sca_esv=c0c8628026d5a19e&ei=qHXiaeHRA8eMkdUPgobqyQU&start=90&sa=N&sstk=Af77f_dJFO0bW1lTQf8rnp2S4YkDFs9bOZ2AbulGDMwen5Z1RGh5HEzmvr0_nF7dVUczG08abOg0puD2PyJJvA3pwyaSCx3oTNQGiw&ved=2ahUKEwjhxa7-u_WTAxVHRqQEHQKDOlkQ8tMDegQIKhAU
+            - text: "10"
+          - heading [level=2] [ref=e513]:
+            - link [ref=e514] [cursor=pointer]:
+              - /url: /search?q=Facebook+group+Basakata+culture&sca_esv=c0c8628026d5a19e&ei=qHXiaeHRA8eMkdUPgobqyQU&start=10&sa=N&sstk=Af77f_dJFO0bW1lTQf8rnp2S4YkDFs9bOZ2AbulGDMwen5Z1RGh5HEzmvr0_nF7dVUczG08abOg0puD2PyJJvA3pwyaSCx3oTNQGiw&ved=2ahUKEwjhxa7-u_WTAxVHRqQEHQKDOlkQ8NMDegQIKhAW
+              - generic [ref=e516]: Suivant
+    - contentinfo [ref=e517]:
+      - heading [level=1] [ref=e518]: Liens de pied de page

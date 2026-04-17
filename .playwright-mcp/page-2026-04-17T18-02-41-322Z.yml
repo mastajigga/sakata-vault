@@ -1,0 +1,228 @@
+- generic [ref=e5]:
+  - banner:
+    - generic [ref=e8]:
+      - generic [ref=e10]:
+        - generic:
+          - button [disabled]:
+            - img
+        - button "Facebook" [ref=e12] [cursor=pointer]:
+          - img "Facebook" [ref=e13]
+      - generic [ref=e18]:
+        - textbox "Adresse e-mail ou téléphone" [ref=e21]
+        - textbox "Mot de passe" [ref=e24]
+        - button "Se connecter" [ref=e27] [cursor=pointer]:
+          - generic [ref=e31]: Se connecter
+        - link "Informations de compte oubliées ?" [ref=e34] [cursor=pointer]:
+          - /url: https://www.facebook.com/recover/initiate?ars=royal_blue_bar
+  - main [ref=e41]:
+    - generic [ref=e42]:
+      - link [ref=e53] [cursor=pointer]:
+        - /url: https://www.facebook.com/photo/?fbid=422711816660307&set=a.422711783326977
+      - generic [ref=e61]:
+        - link [ref=e64] [cursor=pointer]:
+          - /url: https://www.facebook.com/photo/?fbid=422711813326974&set=a.422711786660310&__tn__=%3C
+          - img [ref=e66]
+        - generic [ref=e72]:
+          - heading [level=1] [ref=e77]: "LES Basakata: Questions/reponses"
+          - generic [ref=e79]:
+            - link [ref=e80] [cursor=pointer]:
+              - /url: https://www.facebook.com/profile.php?id=100067644754615&sk=followers
+              - strong [ref=e81]: 8,2 K
+              - text: followers
+            - text: •
+            - link [ref=e82] [cursor=pointer]:
+              - /url: https://www.facebook.com/profile.php?id=100067644754615&sk=following
+              - strong [ref=e83]: "0"
+              - text: suivi(e)s
+    - generic [ref=e91]:
+      - tablist [ref=e99]:
+        - generic [ref=e101]:
+          - generic [ref=e102]:
+            - generic [ref=e103]: Plus
+            - img [ref=e105]
+          - tab [selected] [ref=e108] [cursor=pointer]:
+            - generic [ref=e110]: Publications
+          - tab [ref=e112] [cursor=pointer]:
+            - generic [ref=e114]: À propos
+          - tab [ref=e116] [cursor=pointer]:
+            - generic [ref=e118]: Photos
+      - button [ref=e122] [cursor=pointer]:
+        - img [ref=e124]
+    - generic [ref=e130]:
+      - generic [ref=e133]:
+        - generic [ref=e137]:
+          - heading [level=2] [ref=e146]:
+            - generic [ref=e148]: Intro
+          - generic [ref=e149]:
+            - generic [ref=e153]: PAGE SPECIALEMENT CREE POUR REPONDRE A TOUTES VOS QUESTIONS SUR LES BASAKATA EN VUE D'UN LIVRE A PUBLIER APRES.
+            - list [ref=e156]:
+              - button [ref=e164] [cursor=pointer]:
+                - generic [ref=e165]:
+                  - strong [ref=e166]: Page
+                  - text: · Communauté
+              - generic [ref=e172]: +44 7404 095007
+              - generic [ref=e178]: norbertmbu@yahoo.fr
+        - generic [ref=e182]:
+          - generic [ref=e189]:
+            - heading [level=2] [ref=e191]:
+              - link [ref=e194] [cursor=pointer]:
+                - /url: https://www.facebook.com/profile.php?id=100067644754615&sk=photos
+                - text: Photos
+            - link [ref=e199] [cursor=pointer]:
+              - /url: https://www.facebook.com/profile.php?id=100067644754615&sk=photos
+              - generic [ref=e200]: Toutes les photos
+          - generic [ref=e204]:
+            - link [ref=e207] [cursor=pointer]:
+              - /url: /photo/?fbid=837597148505103&set=pb.100067644754615.-2207520000
+            - link [ref=e212] [cursor=pointer]:
+              - /url: /photo/?fbid=837597145171770&set=pb.100067644754615.-2207520000
+            - link [ref=e217] [cursor=pointer]:
+              - /url: /photo/?fbid=837597141838437&set=pb.100067644754615.-2207520000
+            - link [ref=e222] [cursor=pointer]:
+              - /url: /photo/?fbid=837594585172026&set=pb.100067644754615.-2207520000
+            - link [ref=e227] [cursor=pointer]:
+              - /url: /photo/?fbid=837594581838693&set=pb.100067644754615.-2207520000
+            - link [ref=e232] [cursor=pointer]:
+              - /url: /photo/?fbid=837593865172098&set=pb.100067644754615.-2207520000
+            - link [ref=e237] [cursor=pointer]:
+              - /url: /photo/?fbid=422711816660307&set=pb.100067644754615.-2207520000
+            - link [ref=e242] [cursor=pointer]:
+              - /url: /photo/?fbid=422711813326974&set=pb.100067644754615.-2207520000
+            - link [ref=e247] [cursor=pointer]:
+              - /url: /photo/?fbid=510207029162221&set=pb.100067644754615.-2207520000
+        - contentinfo [ref=e250]:
+          - list [ref=e252]:
+            - listitem [ref=e253]:
+              - link [ref=e254] [cursor=pointer]:
+                - /url: https://www.facebook.com/legal/terms/information_about_page_insights_data
+                - text: Informations concernant les données de statistiques de Page
+              - generic [ref=e255]: ·
+            - listitem [ref=e257]:
+              - link [ref=e258] [cursor=pointer]:
+                - /url: /privacy/policy/?entry_point=comet_dropdown
+                - text: Confidentialité
+              - generic [ref=e259]: ·
+            - listitem [ref=e261]:
+              - link [ref=e262] [cursor=pointer]:
+                - /url: /policies?ref=pf
+                - text: Conditions générales
+              - generic [ref=e263]: ·
+            - listitem [ref=e265]:
+              - link [ref=e266] [cursor=pointer]:
+                - /url: /business/
+                - text: Publicités
+              - generic [ref=e267]: ·
+            - listitem [ref=e269]:
+              - link [ref=e270] [cursor=pointer]:
+                - /url: /help/568137493302217
+                - text: Choix publicitaires
+                - img [ref=e272]
+              - generic [ref=e275]: ·
+            - listitem [ref=e277]:
+              - link [ref=e278] [cursor=pointer]:
+                - /url: /policies/cookies/
+                - text: Cookies
+              - generic [ref=e279]: ·
+            - listitem [ref=e281]:
+              - link [ref=e282] [cursor=pointer]:
+                - /url: /privacy/cookie_settings/
+                - text: Paramètres des cookies
+              - generic [ref=e283]: ·
+            - listitem [ref=e285]:
+              - button [ref=e286] [cursor=pointer]: Plus
+      - generic [ref=e288]:
+        - article [ref=e295]:
+          - generic [ref=e303]:
+            - generic [ref=e305]:
+              - link [ref=e309] [cursor=pointer]:
+                - /url: https://www.facebook.com/people/LES-Basakata-Questionsreponses/100067644754615/?__cft__[0]=AZa3jLoo2_hGRvXyKtWucqkXTEDOXbPDZhJaykfSigkXIsYZqS2Bof03eUT0awF6RBIhRPq5ZFmh67MLioYwZRX7I-QyYqYjP4_2637aACIaQ_bgfdorNbdilRauYy-K5bj9n1LDDrKFUGrKxw1aK4g0xtP3kAx9QhbzQKexO4Vq1TJStTDEAT3R4ZrmN_Hds2A&__tn__=%3C%3C%2CP-R
+                - img [ref=e311]
+              - generic [ref=e316]:
+                - heading [level=2] [ref=e320]:
+                  - link [ref=e325] [cursor=pointer]:
+                    - /url: https://www.facebook.com/people/LES-Basakata-Questionsreponses/100067644754615/?__cft__[0]=AZa3jLoo2_hGRvXyKtWucqkXTEDOXbPDZhJaykfSigkXIsYZqS2Bof03eUT0awF6RBIhRPq5ZFmh67MLioYwZRX7I-QyYqYjP4_2637aACIaQ_bgfdorNbdilRauYy-K5bj9n1LDDrKFUGrKxw1aK4g0xtP3kAx9QhbzQKexO4Vq1TJStTDEAT3R4ZrmN_Hds2A&__tn__=-UC%2CP-R
+                    - generic [ref=e326]: "LES Basakata: Questions/reponses"
+                - generic [ref=e329]:
+                  - link [ref=e333] [cursor=pointer]:
+                    - /url: https://www.facebook.com/permalink.php?story_fbid=pfbid0vYvXVxdgsEmppqpvQfy6HCTVjqbwxZochCKG6paQa6VVfY3ZkYi7sSiQtu8bh7nvl&id=100067644754615&__cft__[0]=AZa3jLoo2_hGRvXyKtWucqkXTEDOXbPDZhJaykfSigkXIsYZqS2Bof03eUT0awF6RBIhRPq5ZFmh67MLioYwZRX7I-QyYqYjP4_2637aACIaQ_bgfdorNbdilRauYy-K5bj9n1LDDrKFUGrKxw1aK4g0xtP3kAx9QhbzQKexO4Vq1TJStTDEAT3R4ZrmN_Hds2A&__tn__=%2CO%2CP-R
+                    - text: 1 septembre 2024
+                  - generic [ref=e335]: ·
+                  - img [ref=e340]
+              - button [ref=e348] [cursor=pointer]:
+                - img [ref=e349]
+            - generic [ref=e352]:
+              - generic [ref=e361]:
+                - text: ARCHIVES....…
+                - button [ref=e362] [cursor=pointer]: En voir plus
+              - generic [ref=e367]:
+                - link [ref=e369] [cursor=pointer]:
+                  - /url: https://www.facebook.com/photo/?fbid=837597148505103&set=pcb.837597178505100&__cft__[0]=AZa3jLoo2_hGRvXyKtWucqkXTEDOXbPDZhJaykfSigkXIsYZqS2Bof03eUT0awF6RBIhRPq5ZFmh67MLioYwZRX7I-QyYqYjP4_2637aACIaQ_bgfdorNbdilRauYy-K5bj9n1LDDrKFUGrKxw1aK4g0xtP3kAx9QhbzQKexO4Vq1TJStTDEAT3R4ZrmN_Hds2A&__tn__=*b0H-R
+                - link [ref=e374] [cursor=pointer]:
+                  - /url: https://www.facebook.com/photo/?fbid=837597141838437&set=pcb.837597178505100&__cft__[0]=AZa3jLoo2_hGRvXyKtWucqkXTEDOXbPDZhJaykfSigkXIsYZqS2Bof03eUT0awF6RBIhRPq5ZFmh67MLioYwZRX7I-QyYqYjP4_2637aACIaQ_bgfdorNbdilRauYy-K5bj9n1LDDrKFUGrKxw1aK4g0xtP3kAx9QhbzQKexO4Vq1TJStTDEAT3R4ZrmN_Hds2A&__tn__=*b1H-R
+                - link [ref=e379] [cursor=pointer]:
+                  - /url: https://www.facebook.com/photo/?fbid=837597145171770&set=pcb.837597178505100&__cft__[0]=AZa3jLoo2_hGRvXyKtWucqkXTEDOXbPDZhJaykfSigkXIsYZqS2Bof03eUT0awF6RBIhRPq5ZFmh67MLioYwZRX7I-QyYqYjP4_2637aACIaQ_bgfdorNbdilRauYy-K5bj9n1LDDrKFUGrKxw1aK4g0xtP3kAx9QhbzQKexO4Vq1TJStTDEAT3R4ZrmN_Hds2A&__tn__=*b2H-R
+            - generic [ref=e385]:
+              - generic [ref=e387]:
+                - generic [ref=e389]:
+                  - generic [ref=e390]:
+                    - toolbar [ref=e391]:
+                      - button [ref=e396] [cursor=pointer]
+                    - generic [ref=e397]: "Toutes les réactions :"
+                    - generic [ref=e399]: "25"
+                  - button [ref=e403] [cursor=pointer]:
+                    - generic [ref=e406]: "7"
+                - generic [ref=e410]:
+                  - button [ref=e412] [cursor=pointer]:
+                    - generic [ref=e417]: J’aime
+                  - button [ref=e419] [cursor=pointer]:
+                    - generic [ref=e424]: Commenter
+              - button [ref=e428] [cursor=pointer]:
+                - generic [ref=e430]: Voir plus de commentaires
+              - article [ref=e433]:
+                - link [ref=e437] [cursor=pointer]:
+                  - /url: https://www.facebook.com/ipanmarcel.mokombuli?comment_id=Y29tbWVudDo4Mzc1OTcxNzg1MDUxMDBfNzM3ODEzMTY1OTA5MzI2&__cft__[0]=AZa3jLoo2_hGRvXyKtWucqkXTEDOXbPDZhJaykfSigkXIsYZqS2Bof03eUT0awF6RBIhRPq5ZFmh67MLioYwZRX7I-QyYqYjP4_2637aACIaQ_bgfdorNbdilRauYy-K5bj9n1LDDrKFUGrKxw1aK4g0xtP3kAx9QhbzQKexO4Vq1TJStTDEAT3R4ZrmN_Hds2A&__tn__=R-R
+                  - img [ref=e439]
+                - generic [ref=e443]:
+                  - generic [ref=e444]:
+                    - generic [ref=e447]:
+                      - link [ref=e450] [cursor=pointer]:
+                        - /url: https://www.facebook.com/ipanmarcel.mokombuli?comment_id=Y29tbWVudDo4Mzc1OTcxNzg1MDUxMDBfNzM3ODEzMTY1OTA5MzI2&__cft__[0]=AZa3jLoo2_hGRvXyKtWucqkXTEDOXbPDZhJaykfSigkXIsYZqS2Bof03eUT0awF6RBIhRPq5ZFmh67MLioYwZRX7I-QyYqYjP4_2637aACIaQ_bgfdorNbdilRauYy-K5bj9n1LDDrKFUGrKxw1aK4g0xtP3kAx9QhbzQKexO4Vq1TJStTDEAT3R4ZrmN_Hds2A&__tn__=R-R
+                        - generic [ref=e452]: Ipan Marcel Mokombuli
+                      - generic [ref=e455]:
+                        - generic [ref=e456]: Les
+                        - generic [ref=e457]: Batere on appelle
+                        - generic [ref=e458]: Ledeka (la liane qui produit le latex pour la fabrication caoutchouc
+                    - button [ref=e463] [cursor=pointer]:
+                      - img [ref=e464]
+                  - generic [ref=e466]:
+                    - list [ref=e467]:
+                      - listitem [ref=e468]:
+                        - link [ref=e471] [cursor=pointer]:
+                          - /url: https://www.facebook.com/permalink.php?story_fbid=pfbid0vYvXVxdgsEmppqpvQfy6HCTVjqbwxZochCKG6paQa6VVfY3ZkYi7sSiQtu8bh7nvl&id=100067644754615&comment_id=737813165909326&__cft__[0]=AZa3jLoo2_hGRvXyKtWucqkXTEDOXbPDZhJaykfSigkXIsYZqS2Bof03eUT0awF6RBIhRPq5ZFmh67MLioYwZRX7I-QyYqYjP4_2637aACIaQ_bgfdorNbdilRauYy-K5bj9n1LDDrKFUGrKxw1aK4g0xtP3kAx9QhbzQKexO4Vq1TJStTDEAT3R4ZrmN_Hds2A&__tn__=R-R
+                          - text: 33 sem.
+                    - button [ref=e476] [cursor=pointer]:
+                      - generic [ref=e478]: "1"
+        - generic [ref=e482]:
+          - article [ref=e483]:
+            - status [ref=e484]
+          - article [ref=e496]:
+            - status [ref=e497]
+  - dialog [ref=e517]:
+    - button "Fermer" [ref=e519] [cursor=pointer]
+    - generic [ref=e526]:
+      - img [ref=e530]
+      - generic [ref=e537]: "Découvrez plus de contenu de LES Basakata: Questions/reponses"
+      - generic [ref=e542]:
+        - generic: Adresse e-mail ou numéro de tél.
+        - textbox "Adresse e-mail ou numéro de tél." [active] [ref=e543]
+      - generic [ref=e548]:
+        - generic: Mot de passe
+        - textbox "Mot de passe" [ref=e549]
+      - button "Connexion à Facebook" [ref=e551] [cursor=pointer]:
+        - generic [ref=e554]: Se connecter
+      - link "Mot de passe oublié ?" [ref=e556] [cursor=pointer]:
+        - /url: https://www.facebook.com/recover/initiate?ars=royal_blue_bar
+        - generic [ref=e557]: Mot de passe oublié ?
+      - generic [ref=e563]: ou
+      - button "Créer un nouveau compte" [ref=e567] [cursor=pointer]:
+        - generic [ref=e570]: Créer un nouveau compte
