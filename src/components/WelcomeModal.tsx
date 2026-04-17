@@ -135,7 +135,7 @@ export default function WelcomeModal() {
         <LanguageSwitcher />
       </div>
 
-      <div className="relative max-w-2xl w-full bg-[#122A1E]/80 border border-[#B59551]/30 rounded-3xl p-8 sm:p-12 shadow-2xl overflow-hidden flex flex-col">
+      <div className="relative max-w-2xl w-full max-h-[90vh] bg-[#122A1E]/80 border border-[#B59551]/30 rounded-3xl p-8 sm:p-12 shadow-2xl overflow-y-auto flex flex-col custom-scrollbar">
         {/* Step 1: Project Goal */}
         {step === 1 && (
           <div ref={contentRef} className="relative z-10 flex flex-col items-center text-center">
