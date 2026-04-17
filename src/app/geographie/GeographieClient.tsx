@@ -14,6 +14,7 @@ import CinematicFlythrough from "./components/CinematicFlythrough";
 import { useLayerVisibility } from "./hooks/useLayerVisibility";
 import { History, Waves, Settings2, Globe2, X } from "lucide-react";
 import Navbar from "@/components/Navbar";
+import { cn } from "@/lib/utils";
 
 export type SelectedFeature = {
   type: "river" | "village" | "subtribe" | "clan" | "community_pin";
@@ -33,6 +34,16 @@ export default function GeographieClient() {
   const [isReady, setIsReady] = useState(false);
   const [isStyleLoaded, setIsStyleLoaded] = useState(false);
   const [showFlythrough, setShowFlythrough] = useState(false);
+  const [hudVisible, setHudVisible] = useState(true);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Mobile detection
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   // Simulation/Animation de la saison
   useEffect(() => {
@@ -158,56 +169,85 @@ export default function GeographieClient() {
 
       {/* Header Info (Appears after loading) */}
       <AnimatePresence>
-        {isReady && (
+        {isReady && hudVisible && (
           <motion.div 
-            initial={{ x: -50, opacity: 0 }}
+            initial={{ x: -20, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
-            transition={{ delay: 0.5 }}
-            className="absolute top-24 left-10 z-30 pointer-events-auto"
+            exit={{ x: -20, opacity: 0 }}
+            transition={{ delay: 0.2 }}
+            className={cn(
+              "absolute z-30 pointer-events-auto transition-all duration-500",
+              isMobile ? "top-20 left-4" : "top-24 left-10"
+            )}
           >
-            <div className="flex flex-col gap-1">
-              <div className="flex items-center gap-3 mb-1">
-                <div className="w-10 h-10 rounded-xl bg-or-ancestral/10 border border-or-ancestral/20 flex items-center justify-center text-or-ancestral shadow-lg">
-                   <History size={18} />
+            <div className="flex flex-col gap-0.5">
+              <div className="flex items-center gap-2 mb-0.5">
+                <div className="w-8 h-8 md:w-10 md:h-10 rounded-lg md:rounded-xl bg-or-ancestral/10 border border-or-ancestral/20 flex items-center justify-center text-or-ancestral shadow-lg">
+                   <History size={isMobile ? 14 : 18} />
                 </div>
-                <h1 className="text-lg font-bold tracking-widest text-ivoire-ancien uppercase">Command Center</h1>
+                <h1 className="text-sm md:text-lg font-bold tracking-widest text-ivoire-ancien uppercase">Command Center</h1>
               </div>
-              <div className="flex items-center gap-3 text-[10px] font-mono uppercase tracking-widest text-or-ancestral/40">
-                 <span>Sakata Digital Hub</span>
+              <div className="flex items-center gap-2 text-[8px] md:text-[10px] font-mono uppercase tracking-widest text-or-ancestral/40">
+                 <span>{isMobile ? "Sakata" : "Sakata Digital Hub"}</span>
                  <span className="w-1 h-1 rounded-full bg-or-ancestral/20" />
-                 <span>Exploration Territoriale v2.0</span>
+                 <span>{isMobile ? "v2.0" : "Exploration Territoriale v2.0"}</span>
               </div>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
 
+      {/* Floating HUD Toggle (Mobile Focus) */}
+      <AnimatePresence>
+        {isReady && isMobile && (
+          <motion.button
+            initial={{ scale: 0, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            onClick={() => setHudVisible(!hudVisible)}
+            className="fixed bottom-6 right-6 z-[70] w-14 h-14 rounded-full bg-[#0A1F15]/80 backdrop-blur-xl border border-or-ancestral/30 flex items-center justify-center text-or-ancestral shadow-[0_0_20px_rgba(0,0,0,0.4)] pointer-events-auto active:scale-90 transition-transform"
+          >
+            {hudVisible ? <X size={24} /> : <Globe2 size={24} />}
+          </motion.button>
+        )}
+      </AnimatePresence>
+
       {/* Dashboard Layout */}
       {isReady && (
-        <div className="absolute inset-0 pt-24 md:pt-32 p-4 md:p-6 z-30 pointer-events-none flex flex-col">
+        <div className={cn(
+          "absolute inset-0 z-30 pointer-events-none flex flex-col transition-all duration-700",
+          isMobile ? "pt-20 px-4 pb-24" : "pt-24 md:pt-32 p-4 md:p-6",
+          !hudVisible && "opacity-0 scale-95 pointer-events-none"
+        )}>
           
           {/* Top Section */}
           <div className="flex justify-between items-start">
-             <div className="w-80 h-1" />
+             <div className={cn("h-1 transition-all", isMobile ? "w-0" : "w-80")} />
              <div className="pointer-events-auto flex gap-3">
-                <button className="flex items-center gap-2 px-4 py-2 rounded-xl bg-black/40 backdrop-blur-md border border-white/5 text-[10px] font-mono text-ivoire-ancien/60 hover:text-ivoire-ancien hover:bg-black/60 transition-all uppercase tracking-widest shadow-xl">
+                <button 
+                  onClick={() => !isMobile && setHudVisible(!hudVisible)}
+                  className="flex items-center gap-2 px-3 md:px-4 py-2 rounded-xl bg-black/40 backdrop-blur-md border border-white/5 text-[9px] md:text-[10px] font-mono text-ivoire-ancien/60 hover:text-ivoire-ancien hover:bg-black/60 transition-all uppercase tracking-widest shadow-xl"
+                >
                   <Settings2 size={12} />
-                  Système
+                  {!isMobile && (hudVisible ? "Masquer HUD" : "Afficher HUD")}
+                  {isMobile && "Système"}
                 </button>
              </div>
           </div>
 
           {/* Center Section */}
-          <div className="flex flex-1 justify-between gap-6 md:gap-12 mt-4 md:mt-8 mb-4 md:mb-8 overflow-hidden min-h-0">
+          <div className={cn(
+            "flex-1 flex justify-between gap-6 md:gap-12 mt-4 md:mt-8 mb-4 md:mb-8 overflow-hidden min-h-0",
+            isMobile ? "flex-col overflow-y-auto" : "flex-row"
+          )}>
             
-            {/* Left Column */}
-            <Sidebar position="left" className="pointer-events-auto flex flex-col gap-6 h-full max-h-[600px]">
-              <div className="flex-1 overflow-y-auto custom-scrollbar pr-2">
+            {/* Left Column (Info / Selection) */}
+            <Sidebar position="left" isMobile={isMobile} className="pointer-events-auto flex flex-col gap-4 md:gap-6 h-auto md:h-full md:max-h-[600px] shrink-0">
+              <div className="flex-1 overflow-y-auto custom-scrollbar pr-1 md:pr-2">
                  {selectedFeature ? (
                    <div className="relative">
                      <button 
                        onClick={() => setSelectedFeature(null)}
-                       className="absolute top-0 right-0 p-2 text-ivoire-ancien/40 hover:text-ivoire-ancien transition-colors"
+                       className="absolute top-0 right-0 p-2 text-ivoire-ancien/40 hover:text-ivoire-ancien transition-colors sm:hidden"
                      >
                        <X size={16} />
                      </button>
@@ -217,40 +257,42 @@ export default function GeographieClient() {
                      />
                    </div>
                  ) : (
-                   <div className="h-full flex flex-col items-center justify-center text-center p-8 opacity-20">
-                      <Globe2 size={40} className="mb-4 text-or-ancestral" />
-                      <p className="text-[10px] font-mono uppercase tracking-[0.2em] text-ivoire-ancien leading-relaxed">
-                        Sélectionnez une entité sur la carte pour explorer son essence
+                   <div className="h-full flex flex-col items-center justify-center text-center p-6 md:p-8 opacity-20">
+                      <Globe2 size={isMobile ? 32 : 40} className="mb-4 text-or-ancestral" />
+                      <p className="text-[9px] md:text-[10px] font-mono uppercase tracking-[0.2em] text-ivoire-ancien leading-relaxed">
+                        Explorez le territoire
                       </p>
                    </div>
                  )}
               </div>
 
-              <div className="mt-auto pt-6 border-t border-white/5">
-                 <SeasonSlider 
-                   progress={seasonProgress} 
-                   onProgressChange={setSeasonProgress}
-                   isAnimating={isSeasonAnimating}
-                   onToggleAnimation={() => setIsSeasonAnimating(!isSeasonAnimating)}
-                 />
-              </div>
+              {!isMobile && (
+                <div className="mt-auto pt-6 border-t border-white/5">
+                   <SeasonSlider 
+                     progress={seasonProgress} 
+                     onProgressChange={setSeasonProgress}
+                     isAnimating={isSeasonAnimating}
+                     onToggleAnimation={() => setIsSeasonAnimating(!isSeasonAnimating)}
+                   />
+                </div>
+              )}
             </Sidebar>
 
-            {/* Right Column */}
-            <Sidebar position="right" className="pointer-events-auto flex flex-col gap-8 h-full max-h-[600px]">
-              <div className="space-y-8 flex-1 overflow-y-auto custom-scrollbar pr-2">
+            {/* Right Column (Controls) */}
+            <Sidebar position="right" isMobile={isMobile} className="pointer-events-auto flex flex-col gap-6 md:gap-8 h-auto md:h-full md:max-h-[600px] shrink-0">
+              <div className="space-y-6 md:space-y-8 flex-1 overflow-y-auto custom-scrollbar pr-1 md:pr-2">
                  <LayerToggle layers={layers} onToggle={toggleLayer} />
-                 <BrightnessControl brightness={brightness} onBrightnessChange={setBrightness} />
+                 {!isMobile && <BrightnessControl brightness={brightness} onBrightnessChange={setBrightness} />}
               </div>
 
               <div className="mt-auto space-y-3">
                  <button 
                   onClick={() => setShowFlythrough(true)}
-                  className="w-full flex items-center justify-between p-4 rounded-2xl bg-or-ancestral/10 border border-or-ancestral/20 text-or-ancestral hover:bg-or-ancestral/20 transition-all group shadow-inner"
+                  className="w-full flex items-center justify-between p-3 md:p-4 rounded-xl md:rounded-2xl bg-or-ancestral/10 border border-or-ancestral/20 text-or-ancestral hover:bg-or-ancestral/20 transition-all group shadow-inner"
                  >
                     <div className="flex items-center gap-3">
                       <Waves size={16} className="group-hover:animate-pulse" />
-                      <span className="text-[10px] font-bold uppercase tracking-widest">Projection 3D</span>
+                      <span className="text-[9px] md:text-[10px] font-bold uppercase tracking-widest">3D Projection</span>
                     </div>
                     <div className="w-1.5 h-1.5 rounded-full bg-or-ancestral animate-pulse shadow-[0_0_5px_rgba(196,160,53,0.5)]" />
                  </button>
@@ -258,12 +300,15 @@ export default function GeographieClient() {
             </Sidebar>
           </div>
 
-          {/* Bottom Section */}
+          {/* Bottom Section (Timeline) */}
           <motion.div 
             initial={{ y: 50, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.8 }}
-            className="max-w-4xl mx-auto w-full pointer-events-auto mt-auto mb-6 px-4 md:px-0"
+            className={cn(
+              "max-w-4xl mx-auto w-full pointer-events-auto mt-auto mb-6",
+              isMobile ? "hidden" : "block"
+            )}
           >
             <div className="bg-black/40 backdrop-blur-2xl border border-white/10 rounded-3xl p-4 md:p-6 shadow-2xl relative group">
                <div className="absolute top-4 left-4 w-4 h-4 border-t-2 border-l-2 border-or-ancestral/30 rounded-tl-sm group-hover:border-or-ancestral/60 transition-colors" />

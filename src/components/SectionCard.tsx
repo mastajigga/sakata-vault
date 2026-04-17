@@ -62,7 +62,7 @@ const SectionCard = ({
             }}
           >
             {/* Visual Header */}
-            <div className="relative h-[240px] overflow-hidden">
+            <div className="relative aspect-[16/10] md:h-[240px] overflow-hidden">
               {image ? (
                 <Image
                   src={image.replace('/articles/media/', '/media/')}
@@ -90,7 +90,7 @@ const SectionCard = ({
               
               {/* Category Tag (Floating) */}
               <div
-                className="absolute top-6 left-6 px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-[0.2em] z-20"
+                className="absolute top-4 md:top-6 left-4 md:left-6 px-3 py-1 md:px-4 md:py-1.5 rounded-full text-[9px] font-bold uppercase tracking-[0.2em] z-20"
                 style={{
                   background: "rgba(233, 196, 106, 0.1)",
                   color: "var(--or-ancestral)",
@@ -104,33 +104,33 @@ const SectionCard = ({
             </div>
 
             {/* Content Body */}
-            <div className="relative p-8 pt-6 flex flex-col grow">
+            <div className="relative p-6 md:p-8 pt-5 md:pt-6 flex flex-col grow min-h-[180px]">
               <h3
-                className="font-display text-2xl mb-4 font-bold text-[#E9DCC9] group-hover:text-[#E9C46A] transition-colors duration-500"
+                className="font-display text-xl md:text-2xl mb-3 md:mb-4 font-bold text-[#E9DCC9] group-hover:text-[#E9C46A] transition-colors duration-500"
                 style={{ letterSpacing: "-0.02em", lineHeight: 1.1 }}
               >
                 {displayTitle}
               </h3>
               
               <p
-                className="font-body text-sm text-[#E9DCC9]/60 leading-relaxed grow line-clamp-3 mb-8"
+                className="font-body text-xs md:text-sm text-[#E9DCC9]/60 leading-relaxed grow line-clamp-3 mb-6 md:mb-8"
               >
                 {displayDesc}
               </p>
 
               {/* Reveal Footer */}
-              <div className="flex items-center justify-between pt-6 border-t border-white/5 mt-auto">
+              <div className="flex items-center justify-between pt-5 md:pt-6 border-t border-white/5 mt-auto">
                 <div className="flex items-center gap-3">
-                  <div className="w-8 h-[1px] bg-[#E9C46A]/40 group-hover:w-12 transition-all duration-700" />
-                  <span className="text-[10px] font-bold uppercase tracking-[0.15em] text-[#E9C46A]">
+                  <div className="w-6 md:w-8 h-[1px] bg-[#E9C46A]/40 group-hover:w-12 transition-all duration-700" />
+                  <span className="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.15em] text-[#E9C46A]">
                     {t("common.explore")}
                   </span>
                 </div>
                 
-                <div className="w-10 h-10 rounded-full flex items-center justify-center border border-white/10 group-hover:bg-[#E9C46A] group-hover:border-[#E9C46A] transition-all duration-500">
+                <div className="w-9 h-9 md:w-10 md:h-10 rounded-full flex items-center justify-center border border-white/10 group-hover:bg-[#E9C46A] group-hover:border-[#E9C46A] transition-all duration-500">
                   <svg 
-                    width="14" 
-                    height="14" 
+                    width="12" 
+                    height="12" 
                     viewBox="0 0 14 14" 
                     fill="none" 
                     className="stroke-[#E9C46A] group-hover:stroke-[#0A1F15] transition-colors duration-500"

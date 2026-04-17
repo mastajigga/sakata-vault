@@ -328,62 +328,30 @@ const Navbar = () => {
                 }}
                 className="flex flex-col items-center gap-4 text-sm text-slate-400"
               >
-                <p className="uppercase tracking-widest text-xs opacity-50">Savoir</p>
+                <p className="uppercase tracking-widest text-[10px] opacity-30 font-mono mb-2">Savoir & Découverte</p>
                 <Link
                   href={ROUTES.SAVOIR}
                   onClick={() => setMenuOpen(false)}
-                  className="text-xl font-semibold transition-colors"
-                  style={{ color: "var(--ivory-warm)" }}
-                  onMouseEnter={(e) => {
-                    (e.target as HTMLElement).style.color = "var(--amber-light)";
-                  }}
-                  onMouseLeave={(e) => {
-                    (e.target as HTMLElement).style.color = "var(--ivory-warm)";
-                  }}
+                  className="text-2xl font-bold transition-all hover:translate-x-2"
+                  style={{ color: "var(--ivoire-ancien)" }}
                 >
-                  Articles
+                  Articles & Chroniques
                 </Link>
                 <Link
                   href={ROUTES.ECOLE}
                   onClick={() => setMenuOpen(false)}
-                  className="text-xl font-semibold transition-colors"
-                  style={{ color: "var(--ivory-warm)" }}
-                  onMouseEnter={(e) => {
-                    (e.target as HTMLElement).style.color = "var(--amber-light)";
-                  }}
-                  onMouseLeave={(e) => {
-                    (e.target as HTMLElement).style.color = "var(--ivory-warm)";
-                  }}
+                  className="text-2xl font-bold transition-all hover:translate-x-2"
+                  style={{ color: "var(--ivoire-ancien)" }}
                 >
-                  École
+                  Espace École
                 </Link>
                 <Link
                   href={ROUTES.GEOGRAPHIE}
                   onClick={() => setMenuOpen(false)}
-                  className="text-xl font-semibold transition-colors"
-                  style={{ color: "var(--ivory-warm)" }}
-                  onMouseEnter={(e) => {
-                    (e.target as HTMLElement).style.color = "var(--amber-light)";
-                  }}
-                  onMouseLeave={(e) => {
-                    (e.target as HTMLElement).style.color = "var(--ivory-warm)";
-                  }}
+                  className="text-2xl font-bold transition-all hover:translate-x-2"
+                  style={{ color: "var(--or-ancestral)" }}
                 >
-                  Géographie
-                </Link>
-                <Link
-                  href={ROUTES.FORUM}
-                  onClick={() => setMenuOpen(false)}
-                  className="text-xl font-semibold transition-colors"
-                  style={{ color: "var(--ivory-warm)" }}
-                  onMouseEnter={(e) => {
-                    (e.target as HTMLElement).style.color = "var(--amber-light)";
-                  }}
-                  onMouseLeave={(e) => {
-                    (e.target as HTMLElement).style.color = "var(--ivory-warm)";
-                  }}
-                >
-                  Réseaux
+                  Carte Interactive
                 </Link>
               </motion.div>
 
@@ -399,51 +367,33 @@ const Navbar = () => {
                 }}
                 className="flex flex-col items-center gap-4 text-sm text-slate-400"
               >
-                <p className="uppercase tracking-widest text-xs opacity-50">Communauté</p>
+                <p className="uppercase tracking-widest text-[10px] opacity-30 font-mono mb-2">Vie Sociale</p>
                 <Link
                   href={ROUTES.FORUM}
                   onClick={() => setMenuOpen(false)}
-                  className="text-xl font-semibold transition-colors"
-                  style={{ color: "var(--ivory-warm)" }}
-                  onMouseEnter={(e) => {
-                    (e.target as HTMLElement).style.color = "var(--amber-light)";
-                  }}
-                  onMouseLeave={(e) => {
-                    (e.target as HTMLElement).style.color = "var(--ivory-warm)";
-                  }}
+                  className="text-2xl font-bold transition-all hover:translate-x-2"
+                  style={{ color: "var(--ivoire-ancien)" }}
                 >
-                  Communauté
-                </Link>
-                <Link
-                  href={ROUTES.MEMBRES}
-                  onClick={() => setMenuOpen(false)}
-                  className="text-xl font-semibold transition-colors"
-                  style={{ color: "var(--ivory-warm)" }}
-                  onMouseEnter={(e) => {
-                    (e.target as HTMLElement).style.color = "var(--amber-light)";
-                  }}
-                  onMouseLeave={(e) => {
-                    (e.target as HTMLElement).style.color = "var(--ivory-warm)";
-                  }}
-                >
-                  Membres
+                  Le Forum
                 </Link>
                 <Link
                   href={ROUTES.CHAT}
                   onClick={() => setMenuOpen(false)}
-                  className="text-xl font-semibold transition-colors relative"
-                  style={{ color: "var(--ivory-warm)" }}
-                  onMouseEnter={(e) => {
-                    (e.target as HTMLElement).style.color = "var(--amber-light)";
-                  }}
-                  onMouseLeave={(e) => {
-                    (e.target as HTMLElement).style.color = "var(--ivory-warm)";
-                  }}
+                  className="text-2xl font-bold transition-all hover:translate-x-2 relative"
+                  style={{ color: "var(--ivoire-ancien)" }}
                 >
                   Messagerie
                   {totalUnread > 0 && (
-                    <span className="absolute -right-4 top-0 w-3 h-3 bg-amber-500 rounded-full border-2 border-foret-nocturne" />
+                    <span className="absolute -right-4 top-1 w-2.5 h-2.5 bg-amber-500 rounded-full border border-[#0A1F15]" />
                   )}
+                </Link>
+                <Link
+                  href={ROUTES.MEMBRES}
+                  onClick={() => setMenuOpen(false)}
+                  className="text-2xl font-bold transition-all hover:translate-x-2"
+                  style={{ color: "var(--ivoire-ancien)" }}
+                >
+                  Cercle Basakata
                 </Link>
               </motion.div>
 

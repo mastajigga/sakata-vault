@@ -3,9 +3,12 @@
 import React, { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Link from "next/link";
 import { useLanguage } from "./LanguageProvider";
 
-gsap.registerPlugin(ScrollTrigger);
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 /* Deterministic particle data — avoids SSR/client hydration mismatch */
 const PARTICLES = [
@@ -128,57 +131,56 @@ const Hero = () => {
 
         <div
           ref={contentRef}
-          className="absolute inset-0 flex flex-col items-start justify-center px-8 md:px-24 text-left z-10"
+          className="absolute inset-0 flex flex-col items-start justify-center px-8 md:px-24 text-left z-10 pb-[env(safe-area-inset-bottom,2rem)] md:pb-0"
           style={{ maxWidth: "1400px", margin: "0 auto" }}
         >
-          <span className="eyebrow mb-8 text-white/60">{t("hero.eyebrow")}</span>
+          <span className="eyebrow mb-6 text-white/50 text-[10px] md:text-sm tracking-[0.3em] uppercase">{t("hero.eyebrow")}</span>
 
           <h1
             className="font-display mb-6 font-bold flex flex-wrap items-center gap-x-4"
             style={{
-              fontSize: "clamp(2rem, 5vw, 4rem)",
+              fontSize: "clamp(2.25rem, 8vw, 4.5rem)",
               color: "var(--ivoire-ancien)",
               letterSpacing: "-0.04em",
-              maxWidth: "22ch",
-              lineHeight: "1.1",
+              maxWidth: "18ch",
+              lineHeight: "1.05",
             }}
           >
             {t("hero.title")}
           </h1>
 
           <p
-            className="font-body mb-12"
+            className="font-body mb-10 text-balance"
             style={{
-              maxWidth: "48ch",
-              opacity: 0.7,
-              fontSize: "clamp(1rem, 1.2vw, 1.25rem)",
+              maxWidth: "40ch",
+              opacity: 0.6,
+              fontSize: "clamp(0.9rem, 1.1vw, 1.1rem)",
               color: "var(--ivoire-ancien)",
-              lineHeight: "1.7",
+              lineHeight: "1.6",
             }}
           >
             {t("hero.subtitle")}
           </p>
 
-          <a
+          <Link
             href="/savoir"
-            className="group inline-flex items-center gap-3 px-8 py-4 rounded-full font-semibold text-sm transition-all border border-or"
+            className="group relative inline-flex items-center gap-4 px-10 py-5 rounded-full font-bold text-xs uppercase tracking-[0.2em] transition-all overflow-hidden"
             style={{
-              background: "transparent",
+              border: "1px solid rgba(233, 196, 106, 0.3)",
               color: "var(--or-ancestral)",
-              transitionDuration: "var(--duration-base)",
-              transitionTimingFunction: "var(--ease-smooth)",
-            }}
-            onMouseEnter={(e) => {
-              (e.currentTarget as HTMLElement).style.background = "var(--or-ancestral)";
-              (e.currentTarget as HTMLElement).style.color = "var(--foret-nocturne)";
-            }}
-            onMouseLeave={(e) => {
-              (e.currentTarget as HTMLElement).style.background = "transparent";
-              (e.currentTarget as HTMLElement).style.color = "var(--or-ancestral)";
             }}
           >
-            {t("hero.cta")}
-          </a>
+            <div className="absolute inset-0 bg-or-ancestral translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]" />
+            <span className="relative z-10 group-hover:text-[#0A1F15] transition-colors duration-500">
+              {t("hero.cta")}
+            </span>
+            <svg 
+              width="14" height="14" viewBox="0 0 14 14" fill="none" 
+              className="relative z-10 stroke-or-ancestral group-hover:stroke-[#0A1F15] transition-all duration-500 group-hover:translate-x-1"
+            >
+              <path d="M1 7h12M9 3l4 4-4 4" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </Link>
         </div>
 
         <div className="absolute inset-0 overflow-hidden pointer-events-none z-[5]">

@@ -5,6 +5,8 @@ import { useLanguage } from "@/components/LanguageProvider";
 import changelogData from "@/data/changelog.json";
 import { Send, Eye, Edit3, CheckCircle2, XCircle, AlertCircle } from "lucide-react";
 
+import { broadcastUpdateEmail } from "./actions";
+
 interface ChangelogSection {
   title: string;
   items: string[];
@@ -23,6 +25,7 @@ export default function AdminNotificationPage() {
   const [subject, setSubject] = useState("");
   const [previewMode, setPreviewMode] = useState(false);
   const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   useEffect(() => {
     const versionData = changelogData.find(v => v.version === selectedVersion);
@@ -45,11 +48,32 @@ export default function AdminNotificationPage() {
   }, [selectedVersion]);
 
   const handleSend = async () => {
+    if (!subject || !emailContent) {
+      setErrorMessage("Le sujet et le contenu ne peuvent pas être vides.");
+      setStatus("error");
+      return;
+    }
+
     setStatus("sending");
-    // Simulons un envoi
-    setTimeout(() => {
-      setStatus("success");
-    }, 2000);
+    setErrorMessage(null);
+
+    try {
+      const result = await broadcastUpdateEmail({
+        subject,
+        content: emailContent,
+        version: selectedVersion,
+      });
+
+      if (result.success) {
+        setStatus("success");
+      } else {
+        setErrorMessage(result.error || "Une erreur inattendue est survenue.");
+        setStatus("error");
+      }
+    } catch (err: any) {
+      setErrorMessage(err.message || "La forêt numérique rencontre des perturbations.");
+      setStatus("error");
+    }
   };
 
   return (
@@ -117,13 +141,30 @@ export default function AdminNotificationPage() {
           </div>
 
           {status === "success" && (
-            <div className="bg-emerald-500/10 border border-emerald-500/30 p-6 rounded-2xl animate-in fade-in slide-in-from-bottom-4">
+            <div className="bg-emerald-500/10 border border-emerald-500/30 p-6 rounded-2xl animate-in fade-in slide-in-from-bottom-4 shadow-[0_0_20px_rgba(16,185,129,0.1)]">
               <div className="flex items-center gap-3 text-emerald-400 mb-2 font-bold">
                 <CheckCircle2 /> Succès
               </div>
-              <p className="text-sm text-emerald-100/70">
-                La notification a été diffusée avec succès à tous les abonnés inscrits.
+              <p className="text-sm text-emerald-100/70 leading-relaxed font-body">
+                La notification a été diffusée avec succès à tous les membres du sanctuaire numérique.
               </p>
+            </div>
+          )}
+
+          {status === "error" && (
+            <div className="bg-red-500/10 border border-red-500/30 p-6 rounded-2xl animate-in fade-in slide-in-from-bottom-4 shadow-[0_0_20px_rgba(239,68,68,0.1)]">
+              <div className="flex items-center gap-3 text-red-400 mb-2 font-bold">
+                <XCircle /> Échec
+              </div>
+              <p className="text-sm text-red-100/70 leading-relaxed font-body">
+                {errorMessage || "Une erreur s'est produite lors de la transmission du message."}
+              </p>
+              <button 
+                onClick={() => setStatus("idle")}
+                className="mt-4 text-[10px] uppercase tracking-widest text-red-400/60 hover:text-red-400 transition-colors"
+              >
+                Réessayer la transmission
+              </button>
             </div>
           )}
         </div>
