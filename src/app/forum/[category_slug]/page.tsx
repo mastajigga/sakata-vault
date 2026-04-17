@@ -35,7 +35,6 @@ export default async function ForumCategoryPage(props: { params: Promise<{ categ
       forum_posts ( count )
     `)
     .eq("category_id", category.id)
-    .is("deleted_at", null)
     .order("is_pinned", { ascending: false })
     .order("updated_at", { ascending: false });
 

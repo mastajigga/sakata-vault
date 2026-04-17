@@ -11,7 +11,6 @@ export async function GET() {
     const { data: articles, error } = await supabasePublic
       .from("articles")
       .select("id, slug, title, summary, category, featured_image, created_at, likes_count, reads_count, is_premium")
-      .is("deleted_at", null)
       .order("created_at", { ascending: false });
 
     if (error) {
