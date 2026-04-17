@@ -17,7 +17,11 @@ export default function Page() {
   return (
     <main className="grain-overlay min-h-[100dvh] bg-[var(--foret-nocturne)]">
       <Navbar />
-      <Suspense>
+      <Suspense fallback={
+        <div className="flex items-center justify-center p-12">
+          <div className="h-8 w-8 animate-spin rounded-full border-2 border-[var(--or-ancestral)] border-t-transparent" />
+        </div>
+      }>
         <ExercicesPage program={program} />
       </Suspense>
       <Footer />

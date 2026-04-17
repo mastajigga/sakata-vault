@@ -54,3 +54,6 @@ __pycache__/
 task.md
 walkthrough.md
 .claude/worktrees/
+
+# Local Netlify folder
+.netlify

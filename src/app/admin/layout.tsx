@@ -4,7 +4,7 @@ import React from "react";
 import { useAuth } from "@/components/AuthProvider";
 import { useRouter } from "next/navigation";
 import Navbar from "@/components/Navbar";
-import { LayoutDashboard, Users, FileText, BarChart3, Settings, LogOut } from "lucide-react";
+import { LayoutDashboard, Users, FileText, BarChart3, Settings, LogOut, Bell } from "lucide-react";
 import Link from "next/link";
 
 const AdminLayout = ({ children }: { children: React.ReactNode }) => {
@@ -46,6 +46,10 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
               <Link href="/admin/content" className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-white/5 transition-all text-sm group">
                 <FileText className="w-4 h-4 text-or-ancestral opacity-60 group-hover:opacity-100" />
                 Articles
+              </Link>
+              <Link href="/admin/notifications" className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-white/5 transition-all text-sm group">
+                <Bell className="w-4 h-4 text-or-ancestral opacity-60 group-hover:opacity-100" />
+                Notifications
               </Link>
               {role === "admin" && (
                 <Link href="/admin/users" className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-white/5 transition-all text-sm group">

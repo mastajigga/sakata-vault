@@ -1,0 +1,144 @@
+[
+  {
+    "version": "v2.3.0",
+    "date": "Avril 2026",
+    "subtitle": "Aujourd'hui — Audit Realtime, École complète, Chat réactif",
+    "sections": [
+      {
+        "title": "🌍 Géographie — Command Center 3D",
+        "items": [
+          "Migration Ultra-Premium vers Mapbox GL JS v3",
+          "Activation de la projection Globe 3D et du relief (Terrain)",
+          "Atmosphère dynamique avec éclairage environnemental en temps réel",
+          "Optimisation massive du chargement des données (Promise.all) : -60% de temps d'attente",
+          "Nouvelle cinématique \"Projection 3D\" (Flythrough) pour une exploration guidée"
+        ]
+      },
+      {
+        "title": "🔒 Audit Sécurité & Realtime (15 corrections)",
+        "items": [
+          "Injection LIKE neutralisée dans la recherche d'articles (whitelist + échappement)",
+          "Handlers CHANNEL_ERROR ajoutés sur toutes les subscriptions Supabase",
+          "Channel réactions chat séparé du cycle de vie des messages (anti-reconnexion)",
+          "Race condition corrigée dans useTyping au démontage du composant",
+          "Stale closure sur user.id corrigée dans la page Contributeur",
+          "Boucle de re-render CoursePage (enrichissement sémantique) éliminée",
+          "Erreur DB silencieuse dans l'API push/unsubscribe propagée correctement"
+        ]
+      },
+      {
+        "title": "📚 École — 4e, 5e, 6e Secondaire",
+        "items": [
+          "18 nouveaux chapitres : trigonométrie, vecteurs, logarithmes, probabilités, suites, dérivées",
+          "Correction sidebar (primaire/secondaire ne se mélangent plus)",
+          "Liens \"Exercices\" visibles sur chaque chapitre et en bas de chaque programme",
+          "Mode Exercice gamifié avec score, indices progressifs et sauvegarde Supabase"
+        ]
+      },
+      {
+        "title": "💬 Chat — Réactions & Pagination",
+        "items": [
+          "Réactions émoji sur les messages (👍 ❤️ 😂 😮 😢)",
+          "Pagination infinie : 50 messages chargés à la fois, scroll vers le haut pour plus",
+          "Indicateurs de lecture (✓ envoyé / ✓✓ lu)",
+          "Signed URLs for ephemeral images (bypass public bucket)"
+        ]
+      },
+      {
+        "title": "📊 Analytics Contributeur",
+        "items": [
+          "Vues réelles par article depuis site_analytics",
+          "Compteur de likes et 4e carte statistique",
+          "Fetches avec withRetry pour fiabilité réseau"
+        ]
+      },
+      {
+        "title": "🔔 Notifications Push",
+        "items": [
+          "Service Worker avec gestion push + clic de notification",
+          "Hook usePushNotifications : subscribe/unsubscribe",
+          "Stockage des abonnements en base (push_subscriptions)"
+        ]
+      },
+      {
+        "title": "👥 Annuaire Membres Amélioré",
+        "items": [
+          "Recherche en temps réel (filtre client-side)",
+          "Tri par date ou alphabétique",
+          "Pagination progressive (20 par lot)"
+        ]
+      }
+    ]
+  },
+  {
+    "version": "v2.2.0",
+    "date": "Avril 2026",
+    "subtitle": "Navbar, Anglais, Aide, Rôles",
+    "sections": [
+      {
+        "title": "🎯 Navbar & Support Anglais",
+        "items": [
+          "Accordéon Navbar : un seul menu ouvert à la fois",
+          "Anglais ajouté (5e langue) — 477+ chaînes traduites",
+          "5 pages d'aide : philosophie, stack, changelog, directives, GDPR",
+          "Hiérarchie des rôles : admin → manager → contributeur → utilisateur"
+        ]
+      }
+    ]
+  },
+  {
+    "version": "v2.1.0",
+    "date": "Mars 2026",
+    "subtitle": "Audit et optimisations",
+    "sections": [
+      {
+        "title": "🔧 Corrections Critiques",
+        "items": [
+          "Audit complet localStorage/Supabase (15 problèmes corrigés)",
+          "Système de retry centralisé avec backoff exponentiel",
+          "Synchronisation de session multi-appareils stabilisée"
+        ]
+      },
+      {
+        "title": "💬 Messagerie Améliorée",
+        "items": [
+          "Enregistrement audio avec aperçu pré-envoi (style WhatsApp)",
+          "Images éphémères : vue unique/double avec countdown",
+          "Détection de capture d'écran intégrée"
+        ]
+      }
+    ]
+  },
+  {
+    "version": "v2.0.0",
+    "date": "Février 2026",
+    "subtitle": "Lancement complet",
+    "sections": [
+      {
+        "title": "🚀 Fonctionnalités Principales",
+        "items": [
+          "Forum en temps réel (Mboka) avec catégories",
+          "Messagerie privée avec WebSocket Supabase",
+          "Système d'articles premium avec paywall",
+          "Paiement intégré via Stripe"
+        ]
+      }
+    ]
+  },
+  {
+    "version": "v1.0.0",
+    "date": "Janvier 2026",
+    "subtitle": "Lancement initial",
+    "sections": [
+      {
+        "title": "✨ Naissance de Kisakata",
+        "items": [
+          "Plateforme d'archive culturelle lancée",
+          "5 langues de base : français, kisakata, lingala, swahili, tshiluba",
+          "Authentification Supabase intégrée",
+          "Design system \"Brume de la Rivière\" finalisé"
+        ]
+      }
+    ]
+  }
+]
