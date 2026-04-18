@@ -148,8 +148,11 @@ const ArticlePage = () => {
 
   const renderHtml = (text: string) => {
     return text
-      .replace(/## (.*)/g, '<h2 class="font-display text-2xl md:text-3xl font-bold mt-16 mb-6 text-ivoire-ancien border-b border-white/5 pb-4">$1</h2>')
+      .replace(/^# (.*)/gm, '<h1 class="font-display text-4xl md:text-5xl font-bold mt-12 mb-8 text-ivoire-ancien">$1</h1>')
+      .replace(/^## (.*)/gm, '<h2 class="font-display text-2xl md:text-3xl font-bold mt-16 mb-6 text-ivoire-ancien border-b border-white/5 pb-4">$1</h2>')
+      .replace(/^### (.*)/gm, '<h3 class="font-display text-xl md:text-2xl font-bold mt-12 mb-4 text-ivoire-ancien/90">$1</h3>')
       .replace(/\*\*(.*)\*\*/g, '<strong class="text-or-ancestral font-bold">$1</strong>')
+      .replace(/^---$/gm, '<hr class="border-t border-white/10 my-12" />')
       .replace(/\n\n/g, '<div class="h-6 md:h-8"></div>')
       .replace(/\n/g, "<br />");
   };

@@ -1,0 +1,9 @@
+[    2168ms] [LOG] Finishing sending click event to mixpanel @ https://data.humdata.org/webassets/ckanext-hdx_theme/555b5c9f_ckan.js:74
+[    2179ms] [LOG] [7.5, 15, 22.5, 30] @ https://data.humdata.org/webassets/ckanext-hdx_theme/e3ad8691_dataset-scripts.js:9
+[    2550ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://data.humdata.org/mapbox/styles/v1/humdata/cl3lpk27k001k15msafr9714b/ck2u8j60r58fu0sgyxrigm3cu@2x/sprite.json?access_token=cacheToken:0
+[    2551ms] [ERROR] L: AJAXError:  (404): https://data.humdata.org/mapbox/styles/v1/humdata/cl3lpk27k001k15msafr9714b/ck2u8j60r58fu0sgyxrigm3cu@2x/sprite.json?access_token=cacheToken
+    at https://data.humdata.org/webassets/ckanext-hdx_theme/34911dbc_charting-scripts.js:1321:7129
+    at Generator.next (<anonymous>)
+    at a (https://data.humdata.org/webassets/ckanext-hdx_theme/34911dbc_charting-scripts.js:1321:159) @ https://data.humdata.org/webassets/ckanext-hdx_theme/34911dbc_charting-scripts.js:1320
+[    2558ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://data.humdata.org/mapbox/styles/v1/humdata/cl3lpk27k001k15msafr9714b/ck2u8j60r58fu0sgyxrigm3cu@2x/sprite.png?access_token=cacheToken:0
+[    2687ms] [LOG] Resolving mixpanel and ga promises after timeout @ https://data.humdata.org/webassets/ckanext-hdx_theme/555b5c9f_ckan.js:80

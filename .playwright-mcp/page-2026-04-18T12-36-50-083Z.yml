@@ -1,0 +1,435 @@
+- generic [active] [ref=e1]:
+  - text: 
+  - navigation [ref=e4]:
+    - generic [ref=e9]:
+      - link "OCHA services" [ref=e10] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=e12]: OCHA Services
+        - img [ref=e13]
+      - list [ref=e16]:
+        - listitem [ref=e17]:
+          - link "faq link" [ref=e18] [cursor=pointer]:
+            - /url: /faq
+            - img [ref=e19]
+            - generic [ref=e22]: FAQ
+          - text: "|"
+        - listitem [ref=e23]:
+          - link "login" [ref=e24] [cursor=pointer]:
+            - /url: /sign-in?came_from=/dataset/geoboundaries-admin-boundaries-for-democratic-republic-of-the-congo
+            - img [ref=e25]
+            - generic [ref=e28]: Log in
+          - text: "|"
+        - listitem [ref=e29]:
+          - link "sign up" [ref=e30] [cursor=pointer]:
+            - /url: /signup/
+            - img [ref=e31]
+            - generic [ref=e33]: Sign up
+          - text: "|"
+        - listitem [ref=e34]:
+          - link " Switch to HDX Lite" [ref=e35] [cursor=pointer]:
+            - /url: /m/dataset/geoboundaries-admin-boundaries-for-democratic-republic-of-the-congo?force_layout=light
+            - generic [ref=e36]: 
+            - generic [ref=e37]: Switch to HDX Lite
+    - generic [ref=e40]:
+      - link "Humanitarian Data Exchange Logo" [ref=e42] [cursor=pointer]:
+        - /url: /
+      - generic [ref=e47]:
+        - generic [ref=e49]: 
+        - textbox "Search Datasets" [ref=e50]
+      - list [ref=e51]:
+        - listitem [ref=e52]:
+          - link "Data|" [ref=e53] [cursor=pointer]:
+            - /url: /dataset
+        - listitem [ref=e54]:
+          - link "Locations|" [ref=e55] [cursor=pointer]:
+            - /url: /group
+        - listitem [ref=e56]:
+          - link "Organisations|" [ref=e57] [cursor=pointer]:
+            - /url: /organization
+        - listitem [ref=e58]:
+          - button "Products " [ref=e59] [cursor=pointer]:
+            - generic [ref=e60]:
+              - text: Products
+              - generic [ref=e61]: 
+          - text: 
+      - link "Add data" [ref=e63] [cursor=pointer]:
+        - /url: /sign-in?info_message_type=add-data
+        - generic [ref=e64]: Add data
+  - main [ref=e65]:
+    - generic [ref=e66]:
+      - navigation "breadcrumb" [ref=e72]:
+        - list [ref=e73]:
+          - listitem [ref=e74]:
+            - link "Home" [ref=e75] [cursor=pointer]:
+              - /url: https://data.humdata.org/
+            - text: /
+          - listitem [ref=e76]:
+            - link "Datasets" [ref=e77] [cursor=pointer]:
+              - /url: https://data.humdata.org/dataset
+            - text: /
+          - listitem [ref=e78]: Democratic Republic of the Congo - Subnational Administrative Boundaries
+      - generic [ref=e82]:
+        - generic [ref=e85]:
+          - generic [ref=e86]:
+            - generic [ref=e87]:
+              - generic [ref=e88]:
+                - heading "Democratic Republic of the Congo - Subnational Administrative Boundaries" [level=1] [ref=e91]
+                - generic [ref=e92]:
+                  - generic [ref=e94] [cursor=pointer]:
+                    - generic [ref=e97]: 
+                    - paragraph [ref=e100]: Get Notified
+                  - text: 
+                - generic [ref=e103]:
+                  - paragraph [ref=e104]: "This dataset contains the following administrative boundaries: ADM0, ADM1, ADM2."
+                  - paragraph [ref=e105]:
+                    - text: Produced and maintained since 2017, the geoBoundaries Global Database of Political Administrative Boundaries Database
+                    - link "www.geoboundaries.org" [ref=e106] [cursor=pointer]:
+                      - /url: https://www.geoboundaries.org
+                    - text: is an open license, standardized resource of boundaries (i.e., state, county) for every country in the world.
+              - link "geoBoundaries" [ref=e109] [cursor=pointer]:
+                - /url: /organization/geoboundaries
+                - img "geoBoundaries" [ref=e110]
+            - generic [ref=e111]:
+              - generic [ref=e113]:
+                - generic [ref=e114]:
+                  - generic "Trending" [ref=e115]: 
+                  - generic [ref=e116]: 1200+ Downloads
+                - generic [ref=e118]: Sub-national
+              - generic [ref=e119]:
+                - list [ref=e121]:
+                  - listitem [ref=e122]:
+                    - link " Contact the contributor" [ref=e123] [cursor=pointer]:
+                      - /url: /sign-in?came_from=/dataset/geoboundaries-admin-boundaries-for-democratic-republic-of-the-congo/contact/&info_message_type=contact-contributor
+                      - generic [ref=e124]: 
+                      - text: Contact the contributor
+                - text: "* * * "
+          - generic [ref=e130]:
+            - generic:
+              - region "Map" [ref=e131]
+              - generic:
+                - generic: Use Ctrl + scroll to zoom the map
+        - generic [ref=e136]:
+          - generic [ref=e137]:
+            - generic [ref=e138]: Additional information
+            - generic [ref=e139]:
+              - generic [ref=e142]:
+                - generic [ref=e143]:
+                  - generic [ref=e144]: Time period of the dataset [?]
+                  - generic [ref=e145]:
+                    - text: 01 January 2017 - 31 December 2019
+                    - link "... More" [ref=e146] [cursor=pointer]:
+                      - /url: "#"
+                - generic [ref=e147]:
+                  - generic [ref=e148]: Expected update frequency
+                  - generic [ref=e149]:
+                    - text: Live
+                    - link "This dataset is up to date" [ref=e150] [cursor=pointer]:
+                      - /url: /faq#auto-faq-Metadata_and_Data_Quality-What_does_the_green_leaf_symbol_mean_-a
+                      - text: 
+                - generic [ref=e151]:
+                  - generic [ref=e152]: Location
+                  - link "Democratic Republic of the Congo" [ref=e156] [cursor=pointer]:
+                    - /url: /group/cod
+                - generic [ref=e157]:
+                  - generic [ref=e158]: Source
+                  - generic [ref=e159]: OpenStreetMap, WambacherOpenStreetMap, WambacherReferenciel Géographique Commun, OCHA DR Congo
+                - link "... More" [ref=e161] [cursor=pointer]:
+                  - /url: "#"
+                - generic [ref=e163]:
+                  - text: "Export metadata for this dataset:"
+                  - link "JSON" [ref=e164] [cursor=pointer]:
+                    - /url: /dataset/cb333e8a-aaac-49c7-8bd2-b795c3a586c5/download_metadata?format=json
+                  - text: "|"
+                  - link "CSV" [ref=e165] [cursor=pointer]:
+                    - /url: /dataset/cb333e8a-aaac-49c7-8bd2-b795c3a586c5/download_metadata?format=csv
+              - heading "Downloads" [level=2] [ref=e166]
+              - img [ref=e168]:
+                - generic [ref=e169]:
+                  - generic [ref=e200]:
+                    - generic: 100.0%
+                  - generic [ref=e201]:
+                    - generic [ref=e203]: Nov
+                    - generic [ref=e205]: Dec
+                    - generic [ref=e207]: Jan
+                    - generic [ref=e209]: Feb
+                    - generic [ref=e211]: Mar
+                    - generic [ref=e213]: Apr
+                  - generic [ref=e215]:
+                    - generic [ref=e217]: "8"
+                    - generic [ref=e219]: "15"
+                    - generic [ref=e221]: "23"
+                    - generic [ref=e223]: "30"
+              - generic [ref=e225]:
+                - generic [ref=e226]:
+                  - heading "Related Showcases" [level=2] [ref=e227]
+                  - paragraph [ref=e228]: There are no showcases for this dataset.
+                - generic [ref=e230]:
+                  - switch "Activity" [ref=e231]
+                  - heading "Activity" [level=2] [ref=e233] [cursor=pointer]
+          - generic [ref=e235]:
+            - generic [ref=e236]: Data and Resources [12]
+            - generic [ref=e237]:
+              - text: 
+              - list [ref=e239]:
+                - listitem [ref=e240]:
+                  - generic "geoBoundaries-COD-ADM0_simplified.geojson" [ref=e241]:
+                    - generic [ref=e242]:
+                      - text: geoBoundaries-COD-ADM0_simplified.geojson
+                      - generic [ref=e243]: GeoJSON
+                    - generic [ref=e244]: (330.9K)
+                  - generic [ref=e245]: "Modified: Live"
+                  - generic [ref=e246]:
+                    - text: "Resource ID: 9005202b-191c-4f68-b942-cf68e001d6bf"
+                    - generic [ref=e247] [cursor=pointer]: 
+                  - paragraph [ref=e250]: Simplified GeoJSON ADM0 boundaries for Democratic Republic of the Congo
+                  - generic [ref=e251]:
+                    - link "Download" [ref=e252] [cursor=pointer]:
+                      - /url: https://github.com/wmgeolab/geoBoundaries/raw/9469f09/releaseData/gbOpen/COD/ADM0/geoBoundaries-COD-ADM0_simplified.geojson
+                    - link "" [ref=e253] [cursor=pointer]:
+                      - /url: "#"
+                      - generic [ref=e254]: 
+                - listitem [ref=e255]:
+                  - generic "geoBoundaries-COD-ADM0.geojson" [ref=e256]:
+                    - generic [ref=e257]:
+                      - text: geoBoundaries-COD-ADM0.geojson
+                      - generic [ref=e258]: GeoJSON
+                    - generic [ref=e259]: (2.3M)
+                  - generic [ref=e260]: "Modified: Live"
+                  - generic [ref=e261]:
+                    - text: "Resource ID: a0b5baa4-274e-4fc0-bd8b-671918b87a73"
+                    - generic [ref=e262] [cursor=pointer]: 
+                  - paragraph [ref=e265]: GeoJSON ADM0 boundaries for Democratic Republic of the Congo
+                  - generic [ref=e266]:
+                    - link "Download" [ref=e267] [cursor=pointer]:
+                      - /url: https://github.com/wmgeolab/geoBoundaries/raw/9469f09/releaseData/gbOpen/COD/ADM0/geoBoundaries-COD-ADM0.geojson
+                    - link "" [ref=e268] [cursor=pointer]:
+                      - /url: "#"
+                      - generic [ref=e269]: 
+                - listitem [ref=e270]:
+                  - generic "geoBoundaries-COD-ADM0.topojson" [ref=e271]:
+                    - generic [ref=e272]:
+                      - text: geoBoundaries-COD-ADM0.topojson
+                      - generic [ref=e273]: GeoJSON
+                    - generic [ref=e274]: (741.1K)
+                  - generic [ref=e275]: "Modified: Live"
+                  - generic [ref=e276]:
+                    - text: "Resource ID: 698bfbfe-78fb-477f-ab0f-e039ef6d9ab4"
+                    - generic [ref=e277] [cursor=pointer]: 
+                  - paragraph [ref=e280]: TopoJSON ADM0 boundaries for Democratic Republic of the Congo
+                  - generic [ref=e281]:
+                    - link "Download" [ref=e282] [cursor=pointer]:
+                      - /url: https://github.com/wmgeolab/geoBoundaries/raw/9469f09/releaseData/gbOpen/COD/ADM0/geoBoundaries-COD-ADM0.topojson
+                    - link "" [ref=e283] [cursor=pointer]:
+                      - /url: "#"
+                      - generic [ref=e284]: 
+                - listitem [ref=e285]:
+                  - generic "geoBoundaries-COD-ADM0-all.zip" [ref=e286]:
+                    - generic [ref=e287]:
+                      - text: geoBoundaries-COD-ADM0-all.zip
+                      - generic [ref=e288]: SHP
+                    - generic [ref=e289]: (2.2M)
+                  - generic [ref=e290]: "Modified: Live"
+                  - generic [ref=e291]:
+                    - text: "Resource ID: a6723d04-be7e-47ed-a51f-6ba801465432"
+                    - generic [ref=e292] [cursor=pointer]: 
+                  - paragraph [ref=e295]: Other formats including shape file ADM0 boundaries for Democratic Republic of the Congo
+                  - generic [ref=e296]:
+                    - link "Download" [ref=e297] [cursor=pointer]:
+                      - /url: https://github.com/wmgeolab/geoBoundaries/raw/9469f09/releaseData/gbOpen/COD/ADM0/geoBoundaries-COD-ADM0-all.zip
+                    - link "" [ref=e298] [cursor=pointer]:
+                      - /url: "#"
+                      - generic [ref=e299]: 
+                - listitem [ref=e300]:
+                  - generic "geoBoundaries-COD-ADM1_simplified.geojson" [ref=e301]:
+                    - generic [ref=e302]:
+                      - text: geoBoundaries-COD-ADM1_simplified.geojson
+                      - generic [ref=e303]: GeoJSON
+                    - generic [ref=e304]: (1.1M)
+                  - generic [ref=e305]: "Modified: Live"
+                  - generic [ref=e306]:
+                    - text: "Resource ID: dab8b0ff-964e-4480-b715-7f3592ab360a"
+                    - generic [ref=e307] [cursor=pointer]: 
+                  - paragraph [ref=e310]: Simplified GeoJSON ADM1 boundaries for Democratic Republic of the Congo
+                  - generic [ref=e311]:
+                    - link "Download" [ref=e312] [cursor=pointer]:
+                      - /url: https://github.com/wmgeolab/geoBoundaries/raw/9469f09/releaseData/gbOpen/COD/ADM1/geoBoundaries-COD-ADM1_simplified.geojson
+                    - link "" [ref=e313] [cursor=pointer]:
+                      - /url: "#"
+                      - generic [ref=e314]: 
+                - listitem [ref=e315]:
+                  - generic "geoBoundaries-COD-ADM1.geojson" [ref=e316]:
+                    - generic [ref=e317]:
+                      - text: geoBoundaries-COD-ADM1.geojson
+                      - generic [ref=e318]: GeoJSON
+                    - generic [ref=e319]: (5.0M)
+                  - generic [ref=e320]: "Modified: Live"
+                  - generic [ref=e321]:
+                    - text: "Resource ID: 97c48a5b-921a-4a7e-9299-8edfcbc7a82b"
+                    - generic [ref=e322] [cursor=pointer]: 
+                  - paragraph [ref=e325]: GeoJSON ADM1 boundaries for Democratic Republic of the Congo
+                  - generic [ref=e326]:
+                    - link "Download" [ref=e327] [cursor=pointer]:
+                      - /url: https://github.com/wmgeolab/geoBoundaries/raw/9469f09/releaseData/gbOpen/COD/ADM1/geoBoundaries-COD-ADM1.geojson
+                    - link "" [ref=e328] [cursor=pointer]:
+                      - /url: "#"
+                      - generic [ref=e329]: 
+                - listitem [ref=e330]:
+                  - generic "geoBoundaries-COD-ADM1.topojson" [ref=e331]:
+                    - generic [ref=e332]:
+                      - text: geoBoundaries-COD-ADM1.topojson
+                      - generic [ref=e333]: GeoJSON
+                    - generic [ref=e334]: (1.1M)
+                  - generic [ref=e335]: "Modified: Live"
+                  - generic [ref=e336]:
+                    - text: "Resource ID: 8de2d2ae-2d1b-446f-9e23-55ddfb69b1b0"
+                    - generic [ref=e337] [cursor=pointer]: 
+                  - paragraph [ref=e340]: TopoJSON ADM1 boundaries for Democratic Republic of the Congo
+                  - generic [ref=e341]:
+                    - link "Download" [ref=e342] [cursor=pointer]:
+                      - /url: https://github.com/wmgeolab/geoBoundaries/raw/9469f09/releaseData/gbOpen/COD/ADM1/geoBoundaries-COD-ADM1.topojson
+                    - link "" [ref=e343] [cursor=pointer]:
+                      - /url: "#"
+                      - generic [ref=e344]: 
+                - listitem [ref=e345]:
+                  - generic "geoBoundaries-COD-ADM1-all.zip" [ref=e346]:
+                    - generic [ref=e347]:
+                      - text: geoBoundaries-COD-ADM1-all.zip
+                      - generic [ref=e348]: SHP
+                    - generic [ref=e349]: (5.1M)
+                  - generic [ref=e350]: "Modified: Live"
+                  - generic [ref=e351]:
+                    - text: "Resource ID: 6fac67c2-6e5d-46a8-8014-7cf9776ec31b"
+                    - generic [ref=e352] [cursor=pointer]: 
+                  - paragraph [ref=e355]: Other formats including shape file ADM1 boundaries for Democratic Republic of the Congo
+                  - generic [ref=e356]:
+                    - link "Download" [ref=e357] [cursor=pointer]:
+                      - /url: https://github.com/wmgeolab/geoBoundaries/raw/9469f09/releaseData/gbOpen/COD/ADM1/geoBoundaries-COD-ADM1-all.zip
+                    - link "" [ref=e358] [cursor=pointer]:
+                      - /url: "#"
+                      - generic [ref=e359]: 
+                - listitem [ref=e360]:
+                  - generic "geoBoundaries-COD-ADM2_simplified.geojson" [ref=e361]:
+                    - generic [ref=e362]:
+                      - text: geoBoundaries-COD-ADM2_simplified.geojson
+                      - generic [ref=e363]: GeoJSON
+                    - generic [ref=e364]: (3.1M)
+                  - generic [ref=e365]: "Modified: Live"
+                  - generic [ref=e366]:
+                    - text: "Resource ID: 8eb7ce52-d313-4ca0-ab91-3bd4e22b2b98"
+                    - generic [ref=e367] [cursor=pointer]: 
+                  - paragraph [ref=e370]: Simplified GeoJSON ADM2 boundaries for Democratic Republic of the Congo
+                  - generic [ref=e371]:
+                    - link "Download" [ref=e372] [cursor=pointer]:
+                      - /url: https://github.com/wmgeolab/geoBoundaries/raw/9469f09/releaseData/gbOpen/COD/ADM2/geoBoundaries-COD-ADM2_simplified.geojson
+                    - link "" [ref=e373] [cursor=pointer]:
+                      - /url: "#"
+                      - generic [ref=e374]: 
+                - listitem [ref=e375]:
+                  - generic "geoBoundaries-COD-ADM2.geojson" [ref=e376]:
+                    - generic [ref=e377]:
+                      - text: geoBoundaries-COD-ADM2.geojson
+                      - generic [ref=e378]: GeoJSON
+                    - generic [ref=e379]: (6.1M)
+                  - generic [ref=e380]: "Modified: Live"
+                  - generic [ref=e381]:
+                    - text: "Resource ID: 14526c81-a422-4b52-becb-56358c314306"
+                    - generic [ref=e382] [cursor=pointer]: 
+                  - paragraph [ref=e385]: GeoJSON ADM2 boundaries for Democratic Republic of the Congo
+                  - generic [ref=e386]:
+                    - link "Download" [ref=e387] [cursor=pointer]:
+                      - /url: https://github.com/wmgeolab/geoBoundaries/raw/9469f09/releaseData/gbOpen/COD/ADM2/geoBoundaries-COD-ADM2.geojson
+                    - link "" [ref=e388] [cursor=pointer]:
+                      - /url: "#"
+                      - generic [ref=e389]: 
+                - listitem [ref=e390]:
+                  - generic "geoBoundaries-COD-ADM2.topojson" [ref=e391]:
+                    - generic [ref=e392]:
+                      - text: geoBoundaries-COD-ADM2.topojson
+                      - generic [ref=e393]: GeoJSON
+                    - generic [ref=e394]: (708.1K)
+                  - generic [ref=e395]: "Modified: Live"
+                  - generic [ref=e396]:
+                    - text: "Resource ID: fe1e4ab9-9a79-4ce0-b2f2-9cc47bfd0825"
+                    - generic [ref=e397] [cursor=pointer]: 
+                  - paragraph [ref=e400]: TopoJSON ADM2 boundaries for Democratic Republic of the Congo
+                  - generic [ref=e401]:
+                    - link "Download" [ref=e402] [cursor=pointer]:
+                      - /url: https://github.com/wmgeolab/geoBoundaries/raw/9469f09/releaseData/gbOpen/COD/ADM2/geoBoundaries-COD-ADM2.topojson
+                    - link "" [ref=e403] [cursor=pointer]:
+                      - /url: "#"
+                      - generic [ref=e404]: 
+                - listitem [ref=e405]:
+                  - generic "geoBoundaries-COD-ADM2-all.zip" [ref=e406]:
+                    - generic [ref=e407]:
+                      - text: geoBoundaries-COD-ADM2-all.zip
+                      - generic [ref=e408]: SHP
+                    - generic [ref=e409]: (6.2M)
+                  - generic [ref=e410]: "Modified: Live"
+                  - generic [ref=e411]:
+                    - text: "Resource ID: 0bc7b83c-249c-482d-afa1-976a6f32e435"
+                    - generic [ref=e412] [cursor=pointer]: 
+                  - paragraph [ref=e415]: Other formats including shape file ADM2 boundaries for Democratic Republic of the Congo
+                  - generic [ref=e416]:
+                    - link "Download" [ref=e417] [cursor=pointer]:
+                      - /url: https://github.com/wmgeolab/geoBoundaries/raw/9469f09/releaseData/gbOpen/COD/ADM2/geoBoundaries-COD-ADM2-all.zip
+                    - link "" [ref=e418] [cursor=pointer]:
+                      - /url: "#"
+                      - generic [ref=e419]: 
+  - contentinfo [ref=e420]:
+    - generic [ref=e421]:
+      - generic [ref=e426]:
+        - generic [ref=e427]:
+          - img "HDX logo" [ref=e430]
+          - generic [ref=e432]:
+            - generic [ref=e433]: HUMANITARIAN DATA EXCHANGE v2.12.0
+            - generic [ref=e434]: Find, share and use humanitarian data all in one place
+          - generic [ref=e437]:
+            - generic [ref=e438]: Subscribe to our mailing list
+            - generic [ref=e441]:
+              - textbox "email" [ref=e442]
+              - button "Subscribe" [ref=e443] [cursor=pointer]
+        - link "the centre for humanitarian data" [ref=e449] [cursor=pointer]:
+          - /url: https://centre.humdata.org
+          - img "The Centre for Humanitarian Data logo" [ref=e450]
+      - generic [ref=e455]:
+        - generic [ref=e456]:
+          - link "TERMS OF SERVICE" [ref=e457] [cursor=pointer]:
+            - /url: /faqs/terms
+          - link "QA PROCESS" [ref=e458] [cursor=pointer]:
+            - /url: /about/hdx-qa-process
+          - link "OPEN SOURCE " [ref=e459] [cursor=pointer]:
+            - /url: https://github.com/OCHA-DAP
+            - text: OPEN SOURCE
+            - generic [ref=e460]: 
+          - link "RESOURCES FOR DEVELOPERS" [ref=e461] [cursor=pointer]:
+            - /url: /faqs/devs
+          - link "DATA LICENSES" [ref=e462] [cursor=pointer]:
+            - /url: /faqs/licenses
+          - link "BLOG " [ref=e463] [cursor=pointer]:
+            - /url: https://centre.humdata.org/category/blog/
+            - text: BLOG
+            - generic [ref=e464]: 
+          - link "CONTACT " [ref=e465] [cursor=pointer]:
+            - /url: https://centre.humdata.org/contact-us/
+            - text: CONTACT
+            - generic [ref=e466]: 
+          - generic [ref=e467]:
+            - link "" [ref=e468] [cursor=pointer]:
+              - /url: https://www.x.com/humdata
+              - generic [ref=e469]: 
+            - link "" [ref=e470] [cursor=pointer]:
+              - /url: https://github.com/OCHA-DAP
+              - generic [ref=e471]: 
+            - link "" [ref=e472] [cursor=pointer]:
+              - /url: https://linkedin.com/company/ocha-centre-for-humanitarian-data
+              - generic [ref=e473]: 
+        - generic [ref=e474]:
+          - generic [ref=e475]: Service provided by
+          - generic [ref=e476]:
+            - generic [ref=e477]:
+              - img "OCHA logo" [ref=e478]
+              - generic [ref=e480]: OCHA coordinates the global emergency response to save lives and protect people in humanitarian crises. We advocate for effective and principled humanitarian action by all, for all.
+            - generic [ref=e481]:
+              - generic [ref=e482]: Except where otherwise noted, content on this site is licensed under a Creative Commons Attribution 4.0 International license.
+              - img [ref=e484]
+  - status [ref=e488]

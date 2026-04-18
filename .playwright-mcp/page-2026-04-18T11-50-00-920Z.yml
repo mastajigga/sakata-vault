@@ -1,0 +1,375 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e5]:
+    - banner:
+      - generic [ref=e6]:
+        - generic:
+          - generic:
+            - button [disabled]:
+              - img
+        - link "Facebook" [ref=e7] [cursor=pointer]:
+          - /url: /
+          - img [ref=e8]
+      - generic [ref=e16]:
+        - generic [ref=e17]:
+          - generic:
+            - generic:
+              - generic:
+                - button:
+                  - img
+        - generic [ref=e19]:
+          - generic:
+            - img
+          - combobox "Rechercher sur Facebook" [ref=e20]
+      - navigation "Facebook" [ref=e24]:
+        - list [ref=e25]:
+          - listitem [ref=e26]:
+            - link "Accueil" [ref=e29] [cursor=pointer]:
+              - /url: /
+              - img [ref=e31]
+          - listitem [ref=e33]:
+            - link "Reels" [ref=e36] [cursor=pointer]:
+              - /url: /reel/?s=tab
+              - img [ref=e38]
+          - listitem [ref=e41]:
+            - link "Marketplace" [ref=e44] [cursor=pointer]:
+              - /url: /marketplace/?ref=app_tab
+              - img [ref=e46]
+          - listitem [ref=e48]:
+            - link "Groupes" [ref=e51] [cursor=pointer]:
+              - /url: /groups/
+              - img [ref=e53]
+          - listitem [ref=e55]:
+            - link "Gaming" [ref=e58] [cursor=pointer]:
+              - /url: /gaming/play/?store_visit_source=gaming_tab
+              - img [ref=e60]
+      - navigation "Contrôles et paramètres du compte" [ref=e64]:
+        - button "Menu Facebook" [ref=e68] [cursor=pointer]:
+          - img [ref=e69]
+        - button "Messenger" [ref=e75] [cursor=pointer]:
+          - img [ref=e76]
+        - generic [ref=e81]:
+          - button "Notifications, 6 non lues" [ref=e82] [cursor=pointer]:
+            - img [ref=e83]
+          - button [ref=e85] [cursor=pointer]:
+            - generic [ref=e86]:
+              - generic [ref=e87]: Nombre de notifications non lues
+              - generic [ref=e88]: "6"
+        - button "Votre profil" [ref=e91] [cursor=pointer]:
+          - generic [ref=e92]:
+            - img "Votre profil" [ref=e93]
+            - img [ref=e100]
+    - main [ref=e107]:
+      - generic [ref=e125]:
+        - generic [ref=e131]:
+          - heading ".Bana ya baSakata." [level=1] [ref=e133]:
+            - link ".Bana ya baSakata." [ref=e135] [cursor=pointer]:
+              - /url: https://www.facebook.com/groups/1395478237866619/
+          - generic [ref=e141]:
+            - generic [ref=e143]:
+              - img [ref=e145]
+              - generic [ref=e147]: Groupe (Public)
+            - generic [ref=e149]: ·
+            - link "3 membres" [ref=e152] [cursor=pointer]:
+              - /url: /groups/1395478237866619/members/
+        - generic [ref=e154]:
+          - button "Rejoindre le groupe" [ref=e156] [cursor=pointer]:
+            - generic [ref=e157]:
+              - img [ref=e158]
+              - generic [ref=e165]: Rejoindre le groupe
+          - button "Partager le groupe" [ref=e168] [cursor=pointer]:
+            - generic [ref=e172]: Partager
+          - button "Voir les groupes recommandés" [ref=e174] [cursor=pointer]
+      - generic [ref=e183]:
+        - tablist [ref=e191]:
+          - generic [ref=e193]:
+            - generic [ref=e194]:
+              - generic [ref=e195]: Plus
+              - img [ref=e197]
+            - tab "À propos" [ref=e200] [cursor=pointer]:
+              - generic [ref=e202]: À propos
+            - tab "Discussion" [selected] [ref=e204] [cursor=pointer]:
+              - generic [ref=e206]: Discussion
+            - tab "Personnes" [ref=e208] [cursor=pointer]:
+              - generic [ref=e210]: Personnes
+            - tab "Évènements" [ref=e212] [cursor=pointer]:
+              - generic [ref=e214]: Évènements
+            - tab "Contenu multimédia" [ref=e216] [cursor=pointer]:
+              - generic [ref=e218]: Contenu multimédia
+            - tab "Fichiers" [ref=e220] [cursor=pointer]:
+              - generic [ref=e222]: Fichiers
+        - generic [ref=e225]:
+          - button "Rechercher dans ce groupe" [ref=e227] [cursor=pointer]:
+            - img [ref=e229]
+          - button "Plus" [ref=e233] [cursor=pointer]
+      - generic [ref=e240]:
+        - generic [ref=e241]:
+          - generic [ref=e245]:
+            - generic [ref=e246]:
+              - link "Fortuné Ybt's profile" [ref=e250] [cursor=pointer]:
+                - /url: https://www.facebook.com/didier.chewi
+                - img [ref=e253]
+              - button "Exprimez-vous..." [ref=e257] [cursor=pointer]:
+                - generic [ref=e259]: Exprimez-vous...
+            - generic [ref=e261]:
+              - button "Publication anonyme" [ref=e262] [cursor=pointer]:
+                - generic [ref=e266]: Publication anonyme
+              - button "Humeur/Activité" [ref=e267] [cursor=pointer]:
+                - generic [ref=e271]: Humeur/Activité
+              - button "Sondage" [ref=e272] [cursor=pointer]:
+                - generic [ref=e276]: Sondage
+          - feed [ref=e278]:
+            - generic [ref=e288]:
+              - blockquote [ref=e290]:
+                - generic [ref=e291]: Facebook
+              - blockquote [ref=e293]:
+                - generic [ref=e294]: Facebook
+              - blockquote [ref=e296]:
+                - generic [ref=e297]: Facebook
+              - blockquote [ref=e299]:
+                - generic [ref=e300]: Facebook
+              - blockquote [ref=e302]:
+                - generic [ref=e303]: Facebook
+              - blockquote [ref=e305]:
+                - generic [ref=e306]: Facebook
+              - blockquote [ref=e308]:
+                - generic [ref=e309]: Facebook
+              - blockquote [ref=e311]:
+                - generic [ref=e312]: Facebook
+              - blockquote [ref=e314]:
+                - generic [ref=e315]: Facebook
+              - blockquote [ref=e317]:
+                - generic [ref=e318]: Facebook
+              - blockquote [ref=e320]:
+                - generic [ref=e321]: Facebook
+              - generic [ref=e324]:
+                - generic:
+                  - blockquote [ref=e326]:
+                    - generic [ref=e327]: Facebook
+                  - blockquote [ref=e329]:
+                    - generic [ref=e330]: Facebook
+                  - blockquote [ref=e332]:
+                    - generic [ref=e333]: Facebook
+                  - blockquote [ref=e335]:
+                    - generic [ref=e336]: Facebook
+                  - blockquote [ref=e338]:
+                    - generic [ref=e339]: Facebook
+                  - blockquote [ref=e341]:
+                    - generic [ref=e342]: Facebook
+                  - blockquote [ref=e344]:
+                    - generic [ref=e345]: Facebook
+                  - blockquote [ref=e347]:
+                    - generic [ref=e348]: Facebook
+                  - blockquote [ref=e350]:
+                    - generic [ref=e351]: Facebook
+                  - blockquote [ref=e353]:
+                    - generic [ref=e354]: Facebook
+                  - blockquote [ref=e356]:
+                    - generic [ref=e357]: Facebook
+                  - blockquote [ref=e359]:
+                    - generic [ref=e360]: Facebook
+                  - blockquote [ref=e362]:
+                    - generic [ref=e363]: Facebook
+                  - blockquote [ref=e365]:
+                    - generic [ref=e366]: Facebook
+                  - blockquote [ref=e368]:
+                    - generic [ref=e369]: Facebook
+                  - blockquote [ref=e371]:
+                    - generic [ref=e372]: Facebook
+                  - blockquote [ref=e374]:
+                    - generic [ref=e375]: Facebook
+                  - blockquote [ref=e377]:
+                    - generic [ref=e378]: Facebook
+                  - blockquote [ref=e380]:
+                    - generic [ref=e381]: Facebook
+                  - blockquote [ref=e383]:
+                    - generic [ref=e384]: Facebook
+                  - blockquote [ref=e386]:
+                    - generic [ref=e387]: Facebook
+                  - blockquote [ref=e389]:
+                    - generic [ref=e390]: Facebook
+                - generic [ref=e392]:
+                  - link [ref=e395] [cursor=pointer]:
+                    - /url: /groups/1395478237866619/user/100065410105987/?__cft__[0]=AZZGe-MYdEaGaOxLpNe0JhC8cWwYTV3FXw_ivKfsGXW5UUjiOI4zVNd2WcOVH51CP9bkYVmcZOiRMOSOQjeMbbRWOtU5HlwRXilJ7g48duc1YtO3kj_IWk9TKmqGD3TRzaGNL46qCDGi4xyvZvszGkTEAtwBKWhbMrOcNRgbwc62WvOlyC8-37xbFePTtsa9E9M&__tn__=%3C%2CP-R
+                    - link [ref=e400]:
+                      - /url: /groups/1395478237866619/user/100065410105987/?__cft__[0]=AZZGe-MYdEaGaOxLpNe0JhC8cWwYTV3FXw_ivKfsGXW5UUjiOI4zVNd2WcOVH51CP9bkYVmcZOiRMOSOQjeMbbRWOtU5HlwRXilJ7g48duc1YtO3kj_IWk9TKmqGD3TRzaGNL46qCDGi4xyvZvszGkTEAtwBKWhbMrOcNRgbwc62WvOlyC8-37xbFePTtsa9E9M&__tn__=%3C%3C%2CP-R
+                      - img [ref=e402]
+                  - generic [ref=e407]:
+                    - heading "Armando Monshemoni a créé le groupe .Bana ya baSakata." [level=2] [ref=e411]:
+                      - generic [ref=e414]:
+                        - link "Armando Monshemoni" [ref=e420] [cursor=pointer]:
+                          - /url: /groups/1395478237866619/user/100065410105987/?__cft__[0]=AZZGe-MYdEaGaOxLpNe0JhC8cWwYTV3FXw_ivKfsGXW5UUjiOI4zVNd2WcOVH51CP9bkYVmcZOiRMOSOQjeMbbRWOtU5HlwRXilJ7g48duc1YtO3kj_IWk9TKmqGD3TRzaGNL46qCDGi4xyvZvszGkTEAtwBKWhbMrOcNRgbwc62WvOlyC8-37xbFePTtsa9E9M&__tn__=-]C%2CP-R
+                        - text: a créé le groupe
+                        - link ".Bana ya baSakata." [ref=e423] [cursor=pointer]:
+                          - /url: https://www.facebook.com/groups/1395478237866619/?__cft__[0]=AZZGe-MYdEaGaOxLpNe0JhC8cWwYTV3FXw_ivKfsGXW5UUjiOI4zVNd2WcOVH51CP9bkYVmcZOiRMOSOQjeMbbRWOtU5HlwRXilJ7g48duc1YtO3kj_IWk9TKmqGD3TRzaGNL46qCDGi4xyvZvszGkTEAtwBKWhbMrOcNRgbwc62WvOlyC8-37xbFePTtsa9E9M&__tn__=-UC%2CP-R
+                          - generic [ref=e425]: .Bana ya baSakata.
+                    - generic [ref=e428]:
+                      - link "Admin, view badge details" [ref=e437]:
+                        - generic [ref=e440]: Admin
+                      - generic [ref=e442]: ·
+                      - link "n d p r s e o S o t 7 i a 8 7 u 2 4 g 8 3 a c 7 5 1 m 2 3 5 9 6 2 c i m 1 2 c a g 0 m 1 1 2 3 t 0 r 5 g 4 7 g s l f" [ref=e447] [cursor=pointer]:
+                        - /url: "?__cft__[0]=AZZGe-MYdEaGaOxLpNe0JhC8cWwYTV3FXw_ivKfsGXW5UUjiOI4zVNd2WcOVH51CP9bkYVmcZOiRMOSOQjeMbbRWOtU5HlwRXilJ7g48duc1YtO3kj_IWk9TKmqGD3TRzaGNL46qCDGi4xyvZvszGkTEAtwBKWhbMrOcNRgbwc62WvOlyC8-37xbFePTtsa9E9M&__tn__=%2CO%2CP-R#?djd"
+                        - generic [ref=e449]:
+                          - generic [ref=e450]: "n"
+                          - generic [ref=e451]: d
+                          - generic [ref=e452]: p
+                          - generic [ref=e453]: r
+                          - generic [ref=e454]: s
+                          - generic [ref=e455]: e
+                          - generic [ref=e456]: o
+                          - generic [ref=e457]: S
+                          - generic [ref=e458]: o
+                          - generic [ref=e459]: t
+                          - generic [ref=e460]: "7"
+                          - generic [ref=e461]: i
+                          - generic [ref=e462]: a
+                          - generic [ref=e463]: "8"
+                          - generic [ref=e464]: "7"
+                          - generic [ref=e465]: u
+                          - generic [ref=e466]: "2"
+                          - generic [ref=e467]: "4"
+                          - generic [ref=e468]: g
+                          - generic [ref=e469]: "8"
+                          - generic [ref=e470]: "3"
+                          - generic [ref=e471]: a
+                          - generic [ref=e472]: c
+                          - generic [ref=e473]: "7"
+                          - generic [ref=e474]: "5"
+                          - generic [ref=e475]: "1"
+                          - generic [ref=e476]: m
+                          - generic [ref=e477]: "2"
+                          - generic [ref=e478]: "3"
+                          - generic [ref=e479]: "5"
+                          - generic [ref=e481]: "9"
+                          - generic [ref=e482]: "6"
+                          - generic [ref=e483]: "2"
+                          - generic [ref=e484]: c
+                          - generic [ref=e485]: i
+                          - generic [ref=e486]: m
+                          - generic [ref=e487]: "1"
+                          - generic [ref=e488]: "2"
+                          - generic [ref=e489]: c
+                          - generic [ref=e490]: a
+                          - generic [ref=e491]: g
+                          - generic [ref=e492]: "0"
+                          - generic [ref=e493]: m
+                          - generic [ref=e494]: "1"
+                          - generic [ref=e495]: "1"
+                          - generic [ref=e496]: "2"
+                          - generic [ref=e497]: "3"
+                          - generic [ref=e498]: t
+                          - generic [ref=e499]: "0"
+                          - generic [ref=e500]: r
+                          - generic [ref=e501]: "5"
+                          - generic [ref=e502]: g
+                          - generic [ref=e503]: "4"
+                          - generic [ref=e505]: "7"
+                          - generic [ref=e506]: g
+                          - generic [ref=e507]: s
+                          - generic [ref=e508]: l
+                          - generic [ref=e509]: f
+                      - generic [ref=e511]: ·
+                      - 'img "Partagé avec : Groupe public" [ref=e516]'
+                  - button "Actions pour cette publication" [ref=e524] [cursor=pointer]:
+                    - img [ref=e525]
+                - generic [ref=e530]:
+                  - generic [ref=e532]:
+                    - button "3 commentaires" [ref=e539] [cursor=pointer]:
+                      - generic [ref=e540]: 3 commentaires
+                    - generic [ref=e542]:
+                      - generic [ref=e543]:
+                        - button "J’aime" [ref=e544] [cursor=pointer]:
+                          - generic [ref=e550]: J’aime
+                        - button "Réagir" [ref=e551] [cursor=pointer]:
+                          - img [ref=e552]
+                      - button "Laissez un commentaire" [ref=e555] [cursor=pointer]:
+                        - generic [ref=e560]: Commenter
+                      - button "Envoyer" [ref=e562] [cursor=pointer]:
+                        - generic [ref=e567]: Envoyer
+                  - button "Voir plus de commentaires" [ref=e571] [cursor=pointer]:
+                    - generic [ref=e573]: Voir plus de commentaires
+                  - article "Commentaire de Armando Monshemoni il y a 3 ans" [ref=e576]:
+                    - link [ref=e581] [cursor=pointer]:
+                      - /url: /groups/1395478237866619/user/100065410105987/?__cft__[0]=AZZGe-MYdEaGaOxLpNe0JhC8cWwYTV3FXw_ivKfsGXW5UUjiOI4zVNd2WcOVH51CP9bkYVmcZOiRMOSOQjeMbbRWOtU5HlwRXilJ7g48duc1YtO3kj_IWk9TKmqGD3TRzaGNL46qCDGi4xyvZvszGkTEAtwBKWhbMrOcNRgbwc62WvOlyC8-37xbFePTtsa9E9M&__tn__=R-R
+                      - img [ref=e583]
+                    - generic [ref=e587]:
+                      - generic [ref=e588]:
+                        - generic [ref=e591]:
+                          - link "Armando Monshemoni" [ref=e595] [cursor=pointer]:
+                            - /url: /groups/1395478237866619/user/100065410105987/?__cft__[0]=AZZGe-MYdEaGaOxLpNe0JhC8cWwYTV3FXw_ivKfsGXW5UUjiOI4zVNd2WcOVH51CP9bkYVmcZOiRMOSOQjeMbbRWOtU5HlwRXilJ7g48duc1YtO3kj_IWk9TKmqGD3TRzaGNL46qCDGi4xyvZvszGkTEAtwBKWhbMrOcNRgbwc62WvOlyC8-37xbFePTtsa9E9M&__tn__=R-R
+                            - generic [ref=e597]: Armando Monshemoni
+                          - generic [ref=e600]:
+                            - link "Auteur, view badge details" [ref=e607]:
+                              - generic [ref=e610]: Auteur
+                            - link "Admin, view badge details" [ref=e617]:
+                              - generic [ref=e620]: Admin
+                          - generic [ref=e624]: Abobo.
+                        - button "Masquer ou signaler un abus cela" [ref=e629] [cursor=pointer]:
+                          - img [ref=e630]
+                      - list [ref=e633]:
+                        - listitem [ref=e634]:
+                          - link "3 ans" [ref=e637] [cursor=pointer]:
+                            - /url: https://www.facebook.com/groups/1395478237866619/posts/1395478251199951/?comment_id=1396873141060462&__cft__[0]=AZZGe-MYdEaGaOxLpNe0JhC8cWwYTV3FXw_ivKfsGXW5UUjiOI4zVNd2WcOVH51CP9bkYVmcZOiRMOSOQjeMbbRWOtU5HlwRXilJ7g48duc1YtO3kj_IWk9TKmqGD3TRzaGNL46qCDGi4xyvZvszGkTEAtwBKWhbMrOcNRgbwc62WvOlyC8-37xbFePTtsa9E9M&__tn__=R-R
+                        - listitem [ref=e638]:
+                          - generic [ref=e641]:
+                            - button "J’aime" [ref=e643] [cursor=pointer]:
+                              - generic [ref=e644]: J’aime
+                            - button "Réagir" [ref=e645] [cursor=pointer]
+                        - listitem [ref=e647]:
+                          - button "Répondre" [ref=e649] [cursor=pointer]
+                  - generic [ref=e655]:
+                    - button [ref=e657] [cursor=pointer]:
+                      - img [ref=e659]
+                    - generic [ref=e665]:
+                      - generic [ref=e669]:
+                        - textbox "Écrivez un commentaire public..." [ref=e670]:
+                          - paragraph [ref=e671]
+                        - generic: Écrivez un commentaire public...
+                      - list [ref=e673]:
+                        - listitem [ref=e674]:
+                          - button "Commentez avec un sticker avatar" [ref=e676] [cursor=pointer]
+                        - listitem [ref=e678]:
+                          - button "Insérez un emoji" [ref=e680] [cursor=pointer]:
+                            - img [ref=e681]
+                        - listitem [ref=e684]:
+                          - button "Joignez une photo ou une vidéo" [ref=e686] [cursor=pointer]
+                        - listitem [ref=e688]:
+                          - button "Commentez avec un GIF" [ref=e690] [cursor=pointer]
+                        - listitem [ref=e692]:
+                          - button "Commentez avec un sticker" [ref=e694] [cursor=pointer]
+              - blockquote [ref=e697]:
+                - generic [ref=e698]: Facebook
+              - blockquote [ref=e700]:
+                - generic [ref=e701]: Facebook
+              - blockquote [ref=e703]:
+                - generic [ref=e704]: Facebook
+              - blockquote [ref=e706]:
+                - generic [ref=e707]: Facebook
+              - blockquote [ref=e709]:
+                - generic [ref=e710]: Facebook
+              - blockquote [ref=e712]:
+                - generic [ref=e713]: Facebook
+              - blockquote [ref=e715]:
+                - generic [ref=e716]: Facebook
+              - blockquote [ref=e718]:
+                - generic [ref=e719]: Facebook
+              - blockquote [ref=e721]:
+                - generic [ref=e722]: Facebook
+              - blockquote [ref=e724]:
+                - generic [ref=e725]: Facebook
+              - blockquote [ref=e727]:
+                - generic [ref=e728]: Facebook
+        - generic [ref=e736]:
+          - heading "À propos" [level=2] [ref=e746]:
+            - generic [ref=e748]: À propos
+          - generic [ref=e749]:
+            - generic [ref=e752]:
+              - img [ref=e754]
+              - generic [ref=e759]:
+                - generic [ref=e762]: Public
+                - generic [ref=e764]: Tout le monde peut voir qui est dans le groupe et ce qui est publié.
+            - generic [ref=e767]:
+              - img [ref=e769]
+              - generic [ref=e775]:
+                - generic [ref=e778]: Visible
+                - generic [ref=e780]: Tout le monde peut trouver ce groupe.
+  - button "Choose File" [ref=e781]

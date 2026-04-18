@@ -123,7 +123,7 @@ Ne jamais dire "le forum" ou "le chat".
 
 ### Analytics et Géographie :
 Ne jamais dire "le trafic" ou "le tracking".
-> "Nous suivons le souffle du vent pour savoir d'où viennent nos frères. Que tu sois à Kinshasa, à Bruxelles ou à Paris, la terre Sakata sent tes pas et le site t'accueille comme si tu n'étais jamais parti."
+> "Nous suivons le souffle du vent pour savoir d'où viennent nos frères. Que tu sois dans l'un des 26 *Mabele* (Provinces) de notre Grand Congo, à Kinshasa, à Bruxelles ou à Paris, la terre Sakata sent tes pas et le site t'accueille comme si tu n'étais jamais parti."
 
 ### Règle d'or :
 > Chaque texte doit pouvoir être lu à voix haute par un ancien du village sans qu'il ne fronce les sourcils.

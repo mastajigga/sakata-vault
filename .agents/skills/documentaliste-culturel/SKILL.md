@@ -94,11 +94,18 @@ Le Kisakata présente des variations selon les zones géographiques :
 | Kutu (Sud) | Kisakata-Kutu | Variations tonales, vocabulaire agricole spécifique |
 | Oshwe (Nord) | Kisakata-Oshwe | Influence du Ntomba, certains emprunts |
 | Diaspora | Kisakata urbain | Emprunts au Lingala et au Français |
+| OSINT / Digital | Recherche Numérique | Forums Facebook (Sakata, Basakata, Kisakata), validation communautaire |
 
 ### Règles :
 - La forme d'Inongo est la référence par défaut
 - Les variantes dialectales sont signalées par une étiquette : `[Kutu]`, `[Oshwe]`, `[Urbain]`
 - Aucune variante n'est considérée comme "incorrecte" — toutes sont documentées
+
+## 5. RECHERCHE NUMÉRIQUE DE TERRAIN (Nouveau)
+La recherche sur les réseaux sociaux (Facebook, forums) est une extension du terrain :
+- Utiliser `playwright` pour extraire les témoignages et débats culturels.
+- Recouper les témoignages de plusieurs membres avant inclusion.
+- Citer comme `[Communauté]`.
 
 ## 5. FORMAT DES ARTICLES DE SAVOIR
 

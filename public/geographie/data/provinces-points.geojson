@@ -1,0 +1,369 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Upper Uele",
+        "type": "province_label"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          28.413938843507587,
+          3.4883529194491287
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Ituri",
+        "type": "province_label"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          30.040311552838205,
+          1.916308156274033
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Tshopo",
+        "type": "province_label"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          25.32533098101656,
+          0.534406169541779
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Lower Uele",
+        "type": "province_label"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          25.501707224509378,
+          4.127382782860881
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Mongala",
+        "type": "province_label"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          21.53296124102731,
+          2.360937359622887
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Nord-Ubangi",
+        "type": "province_label"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          20.934108392514123,
+          3.8114125203389833
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Tshuapa",
+        "type": "province_label"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          21.72676006656834,
+          -0.19866213805309735
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "\u00c9quateur",
+        "type": "province_label"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          19.526648191601563,
+          0.031427784765625
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Haut-Katanga",
+        "type": "province_label"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          27.971415492994712,
+          -11.080818265666844
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Haut-Lomami",
+        "type": "province_label"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          25.29721323379791,
+          -7.730087477961671
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Kongo-Central",
+        "type": "province_label"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12.471856594117648,
+          -6.00537242010103
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Kwango",
+        "type": "province_label"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.074942024296057,
+          -6.52340071987128
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Sankuru",
+        "type": "province_label"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          23.707471253680296,
+          -3.758587026096654
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Sud-Ubangi",
+        "type": "province_label"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          19.672211386030828,
+          3.3943697115606937
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Tanganyika",
+        "type": "province_label"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          28.99338052128706,
+          -6.7861571491311485
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Kasai",
+        "type": "province_label"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          21.090504752477184,
+          -4.918461240352021
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Kasai-Oriental",
+        "type": "province_label"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          23.62067204247685,
+          -6.2063819944444445
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Maniema",
+        "type": "province_label"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          26.477228714004106,
+          -2.483114202792608
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "North Kivu",
+        "type": "province_label"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          28.984624357513596,
+          -0.4705631900386837
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "South Kivu",
+        "type": "province_label"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          28.28140153589068,
+          -3.349926722688088
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Central Kasai",
+        "type": "province_label"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          22.698974591634087,
+          -6.558490812040657
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Lomami",
+        "type": "province_label"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.059878998459848,
+          -6.7485522916391645
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Lualaba",
+        "type": "province_label"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          23.278804700947603,
+          -9.995589178874026
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Kinshasa",
+        "type": "province_label"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          15.823921238558786,
+          -4.615282451580278
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Kwilu",
+        "type": "province_label"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.397198175546446,
+          -5.1188887205601095
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Mai-Ndombe",
+        "type": "province_label"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.04595092615193,
+          -3.051828486674969
+        ]
+      }
+    }
+  ]
+}

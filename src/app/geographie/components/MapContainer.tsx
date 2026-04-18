@@ -14,6 +14,7 @@ import ChiefdomsLayer from "./layers/ChiefdomsLayer";
 import DialectsLayer from "./layers/DialectsLayer";
 import ClansLayer from "./layers/ClansLayer";
 import ForestLayer from "./layers/ForestLayer";
+import ProvincesLayer from "./layers/ProvincesLayer";
 import type { SelectedFeature } from "../GeographieClient";
 import type { LayerState } from "../hooks/useLayerVisibility";
 
@@ -39,6 +40,8 @@ const DATA_FILES = [
   { key: "forest", url: "/geographie/data/forest.geojson" },
   { key: "forestPoints", url: "/geographie/data/forest-points.geojson" },
   { key: "riversPoints", url: "/geographie/data/rivers-points.geojson" },
+  { key: "provinces", url: "/geographie/data/provinces.geojson" },
+  { key: "provincesPoints", url: "/geographie/data/provinces-points.geojson" },
 ];
 
 const MapContainer = forwardRef<MapRef, MapContainerProps>(
@@ -124,13 +127,19 @@ const MapContainer = forwardRef<MapRef, MapContainerProps>(
             properties: feature.properties ?? {},
             coordinates: [e.lngLat.lng, e.lngLat.lat],
           });
+        } else if (layerId?.startsWith("provinces")) {
+          onFeatureClick({
+            type: "province",
+            properties: feature.properties ?? {},
+            coordinates: [e.lngLat.lng, e.lngLat.lat],
+          });
         }
       },
       [onFeatureClick]
     );
 
     const interactiveLayerIds = useMemo(
-      () => ["rivers-water-main", "rivers-water-tributary", "subtribes-fill", "villages-circle", "chiefdoms-fill", "clans-fill"],
+      () => ["rivers-water-main", "rivers-water-tributary", "subtribes-fill", "villages-circle", "chiefdoms-fill", "clans-fill", "provinces-fill"],
       []
     );
 
@@ -194,6 +203,9 @@ const MapContainer = forwardRef<MapRef, MapContainerProps>(
               )}
               {isVisible("hydro") && data.rivers && (
                 <HydrographyLayer data={data.rivers} seasonProgress={seasonProgress} />
+              )}
+              {isVisible("provinces") && data.provinces && (
+                <ProvincesLayer data={data.provinces} pointsData={data.provincesPoints} />
               )}
               {isVisible("villages") && data.villages && (
                 <VillagesLayer data={data.villages} />

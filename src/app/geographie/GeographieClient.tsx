@@ -17,7 +17,7 @@ import Navbar from "@/components/Navbar";
 import { cn } from "@/lib/utils";
 
 export type SelectedFeature = {
-  type: "river" | "village" | "subtribe" | "clan" | "community_pin";
+  type: "river" | "village" | "subtribe" | "clan" | "community_pin" | "province";
   properties: any;
   coordinates?: [number, number];
 };

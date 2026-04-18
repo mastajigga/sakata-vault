@@ -1,0 +1,116 @@
+- generic [ref=e5]:
+  - banner:
+    - generic [ref=e6]:
+      - generic:
+        - generic:
+          - button [disabled]:
+            - img
+      - link "Facebook" [ref=e7] [cursor=pointer]:
+        - /url: /
+        - img [ref=e8]
+    - generic [ref=e16]:
+      - generic [ref=e17]:
+        - generic:
+          - generic:
+            - generic:
+              - button:
+                - img
+      - generic [ref=e19]:
+        - generic:
+          - img
+        - combobox "Rechercher sur Facebook" [ref=e20]: musique sakata tambour ngongo
+    - navigation "Facebook" [ref=e24]:
+      - list [ref=e25]:
+        - listitem [ref=e26]:
+          - link "Accueil" [ref=e29] [cursor=pointer]:
+            - /url: /
+            - img [ref=e31]
+        - listitem [ref=e33]:
+          - link "Reels" [ref=e36] [cursor=pointer]:
+            - /url: /reel/?s=tab
+            - img [ref=e38]
+        - listitem [ref=e41]:
+          - link "Marketplace" [ref=e44] [cursor=pointer]:
+            - /url: /marketplace/?ref=app_tab
+            - img [ref=e46]
+        - listitem [ref=e48]:
+          - link "Groupes" [ref=e51] [cursor=pointer]:
+            - /url: /groups/
+            - img [ref=e53]
+        - listitem [ref=e55]:
+          - link "Gaming" [ref=e58] [cursor=pointer]:
+            - /url: /gaming/play/?store_visit_source=gaming_tab
+            - img [ref=e60]
+    - navigation "Contrôles et paramètres du compte" [ref=e64]:
+      - button "Menu Facebook" [ref=e68] [cursor=pointer]:
+        - img [ref=e69]
+      - button "Messenger" [ref=e75] [cursor=pointer]:
+        - img [ref=e76]
+      - generic [ref=e81]:
+        - button "Notifications, 6 non lues" [ref=e82] [cursor=pointer]:
+          - img [ref=e83]
+        - button [ref=e85] [cursor=pointer]:
+          - generic [ref=e86]:
+            - generic [ref=e87]: Nombre de notifications non lues
+            - generic [ref=e88]: "6"
+      - button "Votre profil" [ref=e91] [cursor=pointer]:
+        - generic [ref=e92]:
+          - img "Votre profil" [ref=e93]
+          - img [ref=e100]
+  - generic [ref=e107]:
+    - region "Filtres de résultats" [ref=e108]:
+      - generic [ref=e109]:
+        - heading "Résultats de la recherche" [level=1] [ref=e117]
+        - generic [ref=e122]:
+          - heading "Filtres" [level=2] [ref=e136]:
+            - generic [ref=e138]: Filtres
+          - list [ref=e140]:
+            - listitem [ref=e141]:
+              - link "Tous" [ref=e143] [cursor=pointer]:
+                - /url: /search/top/?q=musique%20sakata%20tambour%20ngongo&__rsidv2__=f35c1e75-acce-4723-9b46-ee162a8e8626&__epa__=SERP_TAB&__eps__=SERP_POSTS_TAB
+                - generic [ref=e144]:
+                  - img [ref=e147]
+                  - generic [ref=e156]: Tous
+            - listitem [ref=e157]:
+              - link "Personnes" [ref=e159] [cursor=pointer]:
+                - /url: /search/people/?q=musique%20sakata%20tambour%20ngongo&__rsidv2__=f35c1e75-acce-4723-9b46-ee162a8e8626&__epa__=SERP_TAB&__eps__=SERP_POSTS_TAB
+                - generic [ref=e160]:
+                  - img [ref=e163]
+                  - generic [ref=e170]: Personnes
+            - listitem [ref=e171]:
+              - link "Reels results" [ref=e173] [cursor=pointer]:
+                - /url: /search/videos/?q=musique%20sakata%20tambour%20ngongo&__rsidv2__=f35c1e75-acce-4723-9b46-ee162a8e8626&__epa__=SERP_TAB&__eps__=SERP_POSTS_TAB
+                - generic [ref=e174]:
+                  - img [ref=e177]
+                  - generic [ref=e184]: Reels
+            - listitem [ref=e185]:
+              - link "Marketplace results" [ref=e187] [cursor=pointer]:
+                - /url: /marketplace/search/?query=musique%20sakata%20tambour%20ngongo
+                - generic [ref=e188]:
+                  - img [ref=e191]
+                  - generic [ref=e198]: Marketplace
+            - listitem [ref=e199]:
+              - link "Pages" [ref=e201] [cursor=pointer]:
+                - /url: /search/pages/?q=musique%20sakata%20tambour%20ngongo&__rsidv2__=f35c1e75-acce-4723-9b46-ee162a8e8626&__epa__=SERP_TAB&__eps__=SERP_POSTS_TAB
+                - generic [ref=e202]:
+                  - img [ref=e205]
+                  - generic [ref=e212]: Pages
+            - listitem [ref=e213]:
+              - link "Groups results" [ref=e215] [cursor=pointer]:
+                - /url: /search/groups/?q=musique%20sakata%20tambour%20ngongo&__rsidv2__=f35c1e75-acce-4723-9b46-ee162a8e8626&__epa__=SERP_TAB&__eps__=SERP_POSTS_TAB
+                - generic [ref=e216]:
+                  - img [ref=e219]
+                  - generic [ref=e226]: Groupes
+            - listitem [ref=e227]:
+              - link "Évènements" [ref=e229] [cursor=pointer]:
+                - /url: /search/events/?q=musique%20sakata%20tambour%20ngongo&__rsidv2__=f35c1e75-acce-4723-9b46-ee162a8e8626&__epa__=SERP_TAB&__eps__=SERP_POSTS_TAB
+                - generic [ref=e239]: Évènements
+    - main "Résultats de la recherche" [ref=e240]:
+      - generic [ref=e245]:
+        - img [ref=e247]
+        - generic [ref=e271]:
+          - heading "Nous n’avons trouvé aucun résultat" [level=2] [ref=e273]:
+            - generic [ref=e274]: Nous n’avons trouvé aucun résultat
+          - generic [ref=e276]: Vérifiez que vous avez bien tout orthographié ou essayez avec d’autres mots-clés.
+  - button "Nouveau message" [ref=e279] [cursor=pointer]:
+    - img [ref=e280]

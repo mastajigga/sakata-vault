@@ -1,8 +1,9 @@
 "use client";
 
 import React from "react";
-import { X, Droplets, MapPin, Users, Image, Video } from "lucide-react";
+import { X, Droplets, MapPin, Users, Image, Video, Globe } from "lucide-react";
 import NextImage from "next/image";
+import { cn } from "@/lib/utils";
 import type { SelectedFeature } from "../../GeographieClient";
 
 interface InfoPanelProps {
@@ -29,6 +30,8 @@ export default function InfoPanel({ feature, onClose }: InfoPanelProps) {
         ) : (
           <Image size={16} className="text-or-ancestral" />
         );
+      case "province":
+        return <Globe size={16} className="text-or-ancestral" />;
       default:
         return <MapPin size={16} className="text-or-ancestral" />;
     }
@@ -39,8 +42,8 @@ export default function InfoPanel({ feature, onClose }: InfoPanelProps) {
       return (properties as any)?.title || "Contribution communautaire";
     }
     return (
-      (properties as any)?.name ||
       (properties as any)?.name_skt ||
+      (properties as any)?.shapeName ||
       "Lieu inconnu"
     );
   };
@@ -187,6 +190,40 @@ export default function InfoPanel({ feature, onClose }: InfoPanelProps) {
                 <span>{new Date().toLocaleDateString()}</span>
              </div>
            </div>
+        </div>
+      );
+    }
+
+    if (type === "province") {
+      const isMaiNdombe = props.shapeName === "Mai-Ndombe";
+      return (
+        <div className="space-y-4">
+           <div className={cn(
+             "p-4 rounded-2xl border",
+             isMaiNdombe ? "bg-or-ancestral/10 border-or-ancestral/20" : "bg-white/5 border-white/10"
+           )}>
+              <p className="text-[9px] uppercase tracking-widest opacity-40 mb-1">Province</p>
+              <p className={cn("text-sm font-bold", isMaiNdombe ? "text-or-ancestral" : "text-ivoire-ancien")}>
+                {String(props.shapeName)}
+              </p>
+           </div>
+           
+           <div className="grid grid-cols-2 gap-2">
+              <div className="bg-white/5 p-3 rounded-xl border border-white/5">
+                 <p className="text-[9px] uppercase tracking-widest opacity-40 mb-1">ISO</p>
+                 <p className="text-xs font-mono">{String(props.shapeISO)}</p>
+              </div>
+              <div className="bg-white/5 p-3 rounded-xl border border-white/5">
+                 <p className="text-[9px] uppercase tracking-widest opacity-40 mb-1">Groupe</p>
+                 <p className="text-xs font-mono">{String(props.shapeGroup)}</p>
+              </div>
+           </div>
+
+           {isMaiNdombe && (
+              <div className="p-4 rounded-2xl bg-or-ancestral/5 border border-or-ancestral/10 italic text-xs leading-relaxed text-ivoire-ancien/80">
+                "Le Mai-Ndombe est le berceau du peuple Sakata, la terre de nos ancêtres où la rivière Lukenie murmure nos histoires."
+              </div>
+           )}
         </div>
       );
     }

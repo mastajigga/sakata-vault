@@ -1,0 +1,153 @@
+- generic [ref=e5]:
+  - banner:
+    - generic [ref=e6]:
+      - generic:
+        - generic:
+          - button [disabled]:
+            - img
+      - link "Facebook" [ref=e7] [cursor=pointer]:
+        - /url: /
+        - img [ref=e8]
+    - generic [ref=e16]:
+      - generic [ref=e17]:
+        - generic:
+          - generic:
+            - generic:
+              - button:
+                - img
+      - generic [ref=e19]:
+        - generic:
+          - img
+        - combobox "Rechercher sur Facebook" [ref=e20]: Sakata Basakata
+    - navigation "Facebook" [ref=e24]:
+      - list [ref=e25]:
+        - listitem [ref=e26]:
+          - link "Accueil" [ref=e29] [cursor=pointer]:
+            - /url: /
+            - img [ref=e31]
+        - listitem [ref=e33]:
+          - link "Reels" [ref=e36] [cursor=pointer]:
+            - /url: /reel/?s=tab
+            - img [ref=e38]
+        - listitem [ref=e41]:
+          - link "Marketplace" [ref=e44] [cursor=pointer]:
+            - /url: /marketplace/?ref=app_tab
+            - img [ref=e46]
+        - listitem [ref=e48]:
+          - link "Groupes" [ref=e51] [cursor=pointer]:
+            - /url: /groups/
+            - img [ref=e53]
+        - listitem [ref=e55]:
+          - link "Gaming" [ref=e58] [cursor=pointer]:
+            - /url: /gaming/play/?store_visit_source=gaming_tab
+            - img [ref=e60]
+    - navigation "Contrôles et paramètres du compte" [ref=e64]:
+      - button "Menu Facebook" [ref=e68] [cursor=pointer]:
+        - img [ref=e69]
+      - button "Messenger" [ref=e75] [cursor=pointer]:
+        - img [ref=e76]
+      - generic [ref=e81]:
+        - button "Notifications, 6 non lues" [ref=e82] [cursor=pointer]:
+          - img [ref=e83]
+        - button [ref=e85] [cursor=pointer]:
+          - generic [ref=e86]:
+            - generic [ref=e87]: Nombre de notifications non lues
+            - generic [ref=e88]: "6"
+      - button "Votre profil" [ref=e91] [cursor=pointer]:
+        - generic [ref=e92]:
+          - img "Votre profil" [ref=e93]
+          - img [ref=e100]
+  - generic [ref=e107]:
+    - region "Filtres de résultats" [ref=e108]:
+      - generic [ref=e109]:
+        - heading "Résultats de la recherche" [level=1] [ref=e117]
+        - generic [ref=e122]:
+          - heading "Filtres" [level=2] [ref=e136]:
+            - generic [ref=e138]: Filtres
+          - list [ref=e140]:
+            - listitem [ref=e141]:
+              - link "Tous" [ref=e143] [cursor=pointer]:
+                - /url: /search/top/?q=Sakata%20Basakata&__rsidv2__=99e75537-0d6f-4ba6-9b5b-2dca35206b33&__epa__=SERP_TAB&__eps__=SERP_GROUPS_TAB
+                - generic [ref=e144]:
+                  - img [ref=e147]
+                  - generic [ref=e156]: Tous
+            - listitem [ref=e157]:
+              - link "Personnes" [ref=e159] [cursor=pointer]:
+                - /url: /search/people/?q=Sakata%20Basakata&__rsidv2__=99e75537-0d6f-4ba6-9b5b-2dca35206b33&__epa__=SERP_TAB&__eps__=SERP_GROUPS_TAB
+                - generic [ref=e160]:
+                  - img [ref=e163]
+                  - generic [ref=e170]: Personnes
+            - listitem [ref=e171]:
+              - link "Reels results" [ref=e173] [cursor=pointer]:
+                - /url: /search/videos/?q=Sakata%20Basakata&__rsidv2__=99e75537-0d6f-4ba6-9b5b-2dca35206b33&__epa__=SERP_TAB&__eps__=SERP_GROUPS_TAB
+                - generic [ref=e174]:
+                  - img [ref=e177]
+                  - generic [ref=e184]: Reels
+            - listitem [ref=e185]:
+              - link "Marketplace results" [ref=e187] [cursor=pointer]:
+                - /url: /marketplace/search/?query=Sakata%20Basakata
+                - generic [ref=e188]:
+                  - img [ref=e191]
+                  - generic [ref=e198]: Marketplace
+            - listitem [ref=e199]:
+              - link "Pages" [ref=e201] [cursor=pointer]:
+                - /url: /search/pages/?q=Sakata%20Basakata&__rsidv2__=99e75537-0d6f-4ba6-9b5b-2dca35206b33&__epa__=SERP_TAB&__eps__=SERP_GROUPS_TAB
+                - generic [ref=e202]:
+                  - img [ref=e205]
+                  - generic [ref=e212]: Pages
+            - listitem [ref=e213]:
+              - link "Groups results" [ref=e215] [cursor=pointer]:
+                - /url: /search/groups/?q=Sakata%20Basakata&__rsidv2__=99e75537-0d6f-4ba6-9b5b-2dca35206b33&__epa__=SERP_TAB&__eps__=SERP_GROUPS_TAB
+                - generic [ref=e216]:
+                  - img [ref=e219]
+                  - generic [ref=e226]: Groupes
+              - list [ref=e227]:
+                - listitem [ref=e228]:
+                  - generic [ref=e234]:
+                    - combobox "Ville" [ref=e235] [cursor=pointer]
+                    - generic:
+                      - img
+                - listitem [ref=e236]:
+                  - generic [ref=e237]:
+                    - generic [ref=e240]: Près de moi
+                    - switch "Près de moi" [ref=e245] [cursor=pointer]
+                - listitem [ref=e246]:
+                  - generic [ref=e247]:
+                    - generic [ref=e250]: Groupes publics
+                    - switch "Groupes publics" [ref=e255] [cursor=pointer]
+                - listitem [ref=e256]:
+                  - generic [ref=e257]:
+                    - generic [ref=e260]: Mes groupes
+                    - switch "Mes groupes" [ref=e265] [cursor=pointer]
+            - listitem [ref=e266]:
+              - link "Évènements" [ref=e268] [cursor=pointer]:
+                - /url: /search/events/?q=Sakata%20Basakata&__rsidv2__=99e75537-0d6f-4ba6-9b5b-2dca35206b33&__epa__=SERP_TAB&__eps__=SERP_GROUPS_TAB
+                - generic [ref=e278]: Évènements
+    - main "Résultats de la recherche" [ref=e279]:
+      - feed [ref=e284]:
+        - article [ref=e290]:
+          - generic [ref=e294]:
+            - link "Photo de profil de .Bana ya baSakata." [ref=e298] [cursor=pointer]:
+              - /url: https://www.facebook.com/groups/1395478237866619/?__tn__=%3C
+              - img ".Bana ya baSakata." [ref=e300]
+            - generic [ref=e304]:
+              - generic [ref=e307]:
+                - link [ref=e312] [cursor=pointer]:
+                  - /url: https://www.facebook.com/groups/1395478237866619/
+                  - text: .Bana ya baSakata.
+                - generic [ref=e315]: Public · 3 membres
+              - button "Rejoindre le groupe .Bana ya baSakata." [ref=e321] [cursor=pointer]:
+                - generic [ref=e324]: Rejoindre
+        - article [ref=e330]:
+          - generic [ref=e334]:
+            - link "Photo de profil de The Sakata" [ref=e338] [cursor=pointer]:
+              - /url: https://www.facebook.com/groups/1132767941614337/?__tn__=%3C
+              - img "The Sakata" [ref=e340]
+            - generic [ref=e344]:
+              - generic [ref=e347]:
+                - link [ref=e352] [cursor=pointer]:
+                  - /url: https://www.facebook.com/groups/1132767941614337/
+                  - text: The Sakata
+                - generic [ref=e355]: Public · 23 membres
+              - button "Rejoindre le groupe The Sakata" [ref=e361] [cursor=pointer]:
+                - generic [ref=e364]: Rejoindre

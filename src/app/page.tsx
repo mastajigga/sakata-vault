@@ -24,7 +24,7 @@ export default function Home() {
         const { data, error } = await supabase
           .from("articles")
           .select("*")
-          .order("created_at", { ascending: true });
+          .order("created_at", { ascending: false });
         
         if (error) throw error;
 
@@ -128,6 +128,7 @@ export default function Home() {
               <div className="md:col-span-8 md:pl-12">
                 <SectionCard
                   category="Communaute"
+                  href="/forum"
                   title={{
                     fr: "Le Forum des Enfants du Village",
                     skt: "Mboka ya bana ya mboka",
@@ -173,50 +174,42 @@ export default function Home() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 auto-rows-[180px]">
           {[
             {
-              icon: "💬",
-              title: "Messagerie éphémère",
+              icon: "🌍",
+              title: "Calque Provinces RDC",
               date: "Avril 2026",
-              desc: "Envoyez des messages qui s'effacent automatiquement après 24h ou 48h. Mode conversation temporaire intégré.",
+              desc: "Explorez les 26 provinces de la RDC. Focus spécial sur le Mai-Ndombe, terre ancestrale des Basakata, avec données administratives et culturelles.",
               span: "md:col-span-2 md:row-span-2",
+              color: "rgba(193, 107, 52, 0.1)"
+            },
+            {
+              icon: "📜",
+              title: "Sagesse Ngongo",
+              date: "Avril 2026",
+              desc: "Nouveaux articles de fond sur les rites d'initiation Ngongo. Une recherche exhaustive de plus de 6000 mots sur la philosophie et la technique ancestrale.",
+              span: "md:col-span-2",
               color: "rgba(233,196,106,0.1)"
             },
             {
-              icon: "🌍",
-              title: "Globe 3D Ultra-Premium",
+              icon: "🖼️",
+              title: "Mapbox GL JS v3",
               date: "Avril 2026",
-              desc: "Nouvelle cartographie Mapbox GL JS v3 avec relief 3D, atmosphère dynamique et projection globe planétaire.",
-              span: "md:col-span-2",
-              color: "rgba(255,255,255,0.03)"
-            },
-            {
-              icon: "🎙",
-              title: "Aperçu audio",
-              date: "Avril 2026",
-              desc: "Écoutez avant d'envoyer.",
+              desc: "Mise à jour du moteur cartographique : Globe 3D, atmosphère dynamique et relief haute précision pour une immersion totale.",
               span: "md:col-span-1",
               color: "rgba(255,255,255,0.03)"
             },
             {
               icon: "⚡",
-              title: "Chargement éclair",
+              title: "Performance v2.4",
               date: "Avril 2026",
-              desc: "Navigation instantanée.",
+              desc: "Optimisation du chargement des GeoJSON et synchronisation temps réel des calques géographiques.",
               span: "md:col-span-1",
               color: "rgba(255,255,255,0.03)"
             },
             {
-              icon: "🎬",
-              title: "Vidéos fluides",
-              date: "Avril 2026",
-              desc: "Fonder progressif sans flash.",
-              span: "md:col-span-2",
-              color: "rgba(255,255,255,0.03)"
-            },
-            {
               icon: "🔐",
-              title: "Multi-accès",
+              title: "Sécurité & Cache",
               date: "Avril 2026",
-              desc: "Sessions robustes.",
+              desc: "Nouveau système de caching hybride et validation stricte des données pour une navigation fluide et protégée.",
               span: "md:col-span-2",
               color: "rgba(233,196,106,0.05)"
             },
@@ -268,5 +261,3 @@ export default function Home() {
     </main>
   );
 }
-
-// Footer component has been moved to src/components/Footer.tsx

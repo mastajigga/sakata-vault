@@ -1,0 +1,194 @@
+- generic [ref=e1]:
+  - generic [ref=e11] [cursor=pointer]:
+    - button "Open Next.js Dev Tools" [ref=e12]:
+      - img [ref=e13]
+    - generic [ref=e16]:
+      - button "Open issues overlay" [ref=e17]:
+        - generic [ref=e18]:
+          - generic [ref=e19]: "0"
+          - generic [ref=e20]: "1"
+        - generic [ref=e21]: Issue
+      - button "Collapse issues badge" [ref=e22]:
+        - img [ref=e23]
+  - alert [ref=e25]
+  - generic [ref=e50]:
+    - navigation [ref=e51]:
+      - generic [ref=e52]:
+        - link "SAKATA" [ref=e53] [cursor=pointer]:
+          - /url: /
+        - generic [ref=e54]:
+          - link "Accueil" [ref=e55] [cursor=pointer]:
+            - /url: /
+          - button "Savoir" [ref=e57] [cursor=pointer]:
+            - text: Savoir
+            - img [ref=e58]
+          - button "Communauté" [ref=e61] [cursor=pointer]:
+            - text: Communauté
+            - img [ref=e62]
+          - link "Premium" [ref=e64] [cursor=pointer]:
+            - /url: /premium
+        - generic [ref=e65]:
+          - button "FR" [ref=e67] [cursor=pointer]:
+            - img [ref=e68]
+            - generic [ref=e71]: FR
+            - img [ref=e72]
+          - link "Connexion" [ref=e74] [cursor=pointer]:
+            - /url: /auth
+    - generic [ref=e93]:
+      - region "Map" [ref=e94] [cursor=pointer]
+      - generic:
+        - generic [ref=e95]:
+          - button "Zoom in" [ref=e96] [cursor=pointer]
+          - button "Zoom out" [ref=e98] [cursor=pointer]
+          - button "Reset bearing to north" [ref=e100]
+        - link "Mapbox homepage" [ref=e103] [cursor=pointer]:
+          - /url: https://www.mapbox.com/
+    - generic [ref=e106]:
+      - generic [ref=e107]:
+        - img [ref=e109]
+        - heading "Command Center" [level=1] [ref=e113]
+      - generic [ref=e114]:
+        - generic [ref=e115]: Sakata Digital Hub
+        - generic [ref=e117]: Exploration Territoriale v2.0
+    - generic:
+      - button "Masquer HUD" [ref=e119] [cursor=pointer]:
+        - img [ref=e120]
+        - text: Masquer HUD
+      - generic:
+        - complementary [ref=e123]:
+          - generic [ref=e126]:
+            - generic [ref=e128]:
+              - img [ref=e129]
+              - paragraph [ref=e134]: Explorez le territoire
+            - generic [ref=e136]:
+              - generic [ref=e137]:
+                - generic [ref=e138]:
+                  - img [ref=e140]
+                  - generic [ref=e146]:
+                    - generic [ref=e147]: Cycle Naturel
+                    - generic [ref=e148]: Saison sèche
+                - button "Statique" [ref=e149] [cursor=pointer]:
+                  - img [ref=e150]
+                  - generic [ref=e152]: Statique
+              - generic [ref=e153]:
+                - generic [ref=e154]:
+                  - generic [ref=e155]: Sec
+                  - generic [ref=e156]: 30%
+                  - generic [ref=e157]: Pluies
+                - slider [ref=e161] [cursor=pointer]: "30"
+        - complementary [ref=e162]:
+          - generic [ref=e165]:
+            - generic [ref=e166]:
+              - generic [ref=e167]:
+                - generic [ref=e169]:
+                  - img [ref=e170]
+                  - generic [ref=e174]: Matrices & Calques
+                - generic [ref=e175]:
+                  - button "Rivières & Lac Mbela & Iyâ" [ref=e176] [cursor=pointer]:
+                    - generic [ref=e177]:
+                      - img [ref=e179]
+                      - generic [ref=e182]:
+                        - generic [ref=e183]: Rivières & Lac
+                        - generic [ref=e184]: Mbela & Iyâ
+                  - button "Forêt & Savane Mpunga & Etale" [ref=e186] [cursor=pointer]:
+                    - generic [ref=e187]:
+                      - img [ref=e189]
+                      - generic [ref=e192]:
+                        - generic [ref=e193]: Forêt & Savane
+                        - generic [ref=e194]: Mpunga & Etale
+                  - button "Sous-tribus Bikolo" [ref=e196] [cursor=pointer]:
+                    - generic [ref=e197]:
+                      - img [ref=e199]
+                      - generic [ref=e204]:
+                        - generic [ref=e205]: Sous-tribus
+                        - generic [ref=e206]: Bikolo
+                  - button "Dialectes Ndinga" [ref=e208] [cursor=pointer]:
+                    - generic [ref=e209]:
+                      - img [ref=e211]
+                      - generic [ref=e215]:
+                        - generic [ref=e216]: Dialectes
+                        - generic [ref=e217]: Ndinga
+                  - button "Villages & Ports Mboka & Libongo" [ref=e219] [cursor=pointer]:
+                    - generic [ref=e220]:
+                      - img [ref=e222]
+                      - generic [ref=e225]:
+                        - generic [ref=e226]: Villages & Ports
+                        - generic [ref=e227]: Mboka & Libongo
+                  - button "Chefferies Idju" [ref=e229] [cursor=pointer]:
+                    - generic [ref=e230]:
+                      - img [ref=e232]
+                      - generic [ref=e234]:
+                        - generic [ref=e235]: Chefferies
+                        - generic [ref=e236]: Idju
+                  - button "Clans Makanda" [ref=e238] [cursor=pointer]:
+                    - generic [ref=e239]:
+                      - img [ref=e241]
+                      - generic [ref=e244]:
+                        - generic [ref=e245]: Clans
+                        - generic [ref=e246]: Makanda
+                  - button "Provinces Mabelé ya Congo" [active] [ref=e248] [cursor=pointer]:
+                    - generic [ref=e249]:
+                      - img [ref=e251]
+                      - generic [ref=e254]:
+                        - generic [ref=e255]: Provinces
+                        - generic [ref=e256]: Mabelé ya Congo
+                  - button "Communauté Bato" [ref=e258] [cursor=pointer]:
+                    - generic [ref=e259]:
+                      - img [ref=e261]
+                      - generic [ref=e263]:
+                        - generic [ref=e264]: Communauté
+                        - generic [ref=e265]: Bato
+              - generic [ref=e267]:
+                - generic [ref=e268]:
+                  - generic [ref=e269]:
+                    - generic [ref=e270]: Éclat du Ciel
+                    - generic [ref=e271]: Luminosité du Monde
+                  - img [ref=e273]
+                - generic [ref=e279]:
+                  - slider [ref=e283] [cursor=pointer]: "75"
+                  - generic [ref=e284]:
+                    - generic [ref=e285]: Nocturne
+                    - generic [ref=e286]: 75%
+                    - generic [ref=e287]: Solaire
+                - generic [ref=e288]:
+                  - button "Nuit" [ref=e289] [cursor=pointer]
+                  - button "Aube" [ref=e290] [cursor=pointer]
+                  - button "Jour" [ref=e291] [cursor=pointer]
+                  - button "Zénith" [ref=e292] [cursor=pointer]
+            - button "3D Projection" [ref=e294] [cursor=pointer]:
+              - generic [ref=e295]:
+                - img [ref=e296]
+                - generic [ref=e300]: 3D Projection
+      - generic [ref=e302]:
+        - generic [ref=e306]:
+          - generic [ref=e307]:
+            - generic [ref=e308]:
+              - img [ref=e310]
+              - generic [ref=e314]:
+                - heading "Chronologie" [level=3] [ref=e315]
+                - paragraph [ref=e316]: Échelles de Temps
+            - generic [ref=e317]:
+              - button [ref=e318] [cursor=pointer]:
+                - img [ref=e319]
+              - button [ref=e321] [cursor=pointer]:
+                - img [ref=e322]
+          - generic [ref=e324]:
+            - button "IXe - XIVe Origines" [ref=e325] [cursor=pointer]:
+              - generic [ref=e328]: IXe - XIVe
+              - generic [ref=e329]: Origines
+            - button "XVe - XIXe Royaumes" [ref=e330] [cursor=pointer]:
+              - generic [ref=e333]: XVe - XIXe
+              - generic [ref=e334]: Royaumes
+            - button "1880 - 1960 Contact" [ref=e335] [cursor=pointer]:
+              - generic [ref=e338]: 1880 - 1960
+              - generic [ref=e339]: Contact
+            - button "1960 - 2026 Présent" [ref=e340] [cursor=pointer]:
+              - generic [ref=e343]: 1960 - 2026
+              - generic [ref=e344]: Présent
+          - generic [ref=e348]:
+            - paragraph [ref=e349]: Chroniques des Présent
+            - paragraph [ref=e350]: Préservation numérique et renaissance de l'identité Sakata moderne.
+        - generic [ref=e351]:
+          - generic [ref=e354]: Flux de Données Actif
+          - generic [ref=e356]: Bassin de Lukenie
+          - generic [ref=e358]: "Lat: 2.85°S / Lon: 20.42°E"

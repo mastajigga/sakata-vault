@@ -13,6 +13,7 @@
 - [Phase 3: API Routes & Async (HAUTE)](#phase-3-api-routes--async-haute---3h)
 - [Phase 4: Migrations Supabase (HAUTE)](#phase-4-migrations-supabase-haute---2h)
 - [Phase 5: Tests & Déploiement](#phase-5-tests--déploiement)
+- [Phase 6: Géographie & Rites (COMPLÉTE)](#phase-6-géographie--rites-compléte)
 
 ---
 
@@ -468,3 +469,15 @@ CREATE TABLE IF NOT EXISTS ecole_semantic_cache (
 - [x] `BalanceVisualization.tsx` + `VennVisualization.tsx`
 - [x] `exercices/page.tsx` + `ExercicesPage.tsx`
 - [ ] Appliquer la migration SQL `ecole_semantic_cache` sur Supabase (via dashboard)
+
+---
+
+## Phase 6: Géographie & Rites (COMPLÉTE) — 2026-04-18
+
+### Objectifs :
+- Intégration des 26 provinces de la RDC (GeoJSON + ADM1).
+- Mise en évidence culturelle du Mai-Ndombe.
+- Publication des articles Ngongo (Philosophie & Technique).
+- Mise à jour de la documentation d'intelligence (Skills, CLAUDE.md).
+
+### Statut : ✅ TERMINÉ

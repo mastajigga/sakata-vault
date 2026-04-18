@@ -4,6 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ArrowRight } from "lucide-react";
+import Link from "next/link";
 import { useLanguage } from "./LanguageProvider";
 
 if (typeof window !== "undefined") {
@@ -155,7 +156,8 @@ const CommunityCallout = () => {
             {t("community.p")}
           </p>
 
-          <button
+          <Link
+            href="/auth"
             className="group glass-card inline-flex items-center gap-4 px-10 py-5 rounded-full font-bold transition-all border border-or/30 shadow-lg"
             style={{
               background: "rgba(242, 238, 221, 0.03)",
@@ -175,7 +177,7 @@ const CommunityCallout = () => {
             <ArrowRight
               className="w-5 h-5 transition-transform group-hover:translate-x-1"
             />
-          </button>
+          </Link>
         </div>
       </div>
     </section>

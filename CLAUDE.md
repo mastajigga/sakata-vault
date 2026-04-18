@@ -132,7 +132,7 @@ import { USER_ROLES, SUBSCRIPTION_TIERS, EXPIRY_DURATIONS, IMAGE_VIEW_MODES, APP
 import { withRetry, withRetryRaw } from "@/lib/supabase-retry";
 ```
 
-**APP_VERSION** : Bumper à chaque déploiement majeur dans `business.ts` pour invalider automatiquement les entrées localStorage périmées (`sakata-*`). Version actuelle : `2.3.0`.
+**APP_VERSION** : Bumper à chaque déploiement majeur dans `business.ts` pour invalider automatiquement les entrées localStorage périmées (`sakata-*`). Version actuelle : `2.4.0`.
 
 ---
 
@@ -261,6 +261,9 @@ import { withRetry, withRetryRaw } from "@/lib/supabase-retry";
 
 | Date | Modification |
 |------|-------------|
+| 2026-04-18 | **GÉOGRAPHIE V2.4** — Intégration du calque "Provinces" (26 provinces de la RDC) avec mise en évidence dorée du Mai-Ndombe. Nouvelle infographie interactive et métadonnées administratives (ISO, Groupe). |
+| 2026-04-18 | **SAGESSE NGONGO** — Publication de deux articles majeurs (>6000 mots) sur les rites d'initiation. Intégration de la recherche communautaire (Facebook OSINT) et validation sémantique. |
+| 2026-04-18 | APP_VERSION bumpé `2.3.0` → `2.4.0` |
 | 2026-04-16 | **ULTRA-PREMIUM MAPBOX V3** — Migration de MapLibre vers Mapbox GL JS v3. Globe 3D, terrain, atmosphère dynamique. Correction de l'erreur "Style is not done loading" via synchronisation `onLoad`. |
 | 2026-04-16 | **GEOGRAPHIE 3D V2** — Refonte totale "Command Center" : layout dashboard, cinématique Flythrough, optimisation Promise.all |
 | 2026-04-16 | **AUDIT REALTIME V2** — 15 nouvelles corrections P1→P3. Voir `docs/REALTIME_CACHE_AUDIT_V2.md` |

@@ -1,0 +1,4 @@
+- generic [active] [ref=e1]:
+  - paragraph [ref=e6]: Invocation du territoire...
+  - button "Open Next.js Dev Tools" [ref=e12] [cursor=pointer]:
+    - img [ref=e13]

@@ -240,11 +240,21 @@ def cmd_search(args):
     query_text = f"query: {args.query}"
     embedding = model.encode(query_text).tolist()
 
+    # Parse metadata filter if provided
+    metadata_filter = None
+    if args.filter:
+        metadata_filter = {}
+        for kv in args.filter:
+            if "=" in kv:
+                k, v = kv.split("=", 1)
+                metadata_filter[k] = v
+
     results = index.query(
         vector=embedding,
         top_k=args.top_k,
         include_metadata=True,
         namespace=args.namespace or "",
+        filter=metadata_filter
     )
 
     # If semantic synthesis requested, use LLM
@@ -345,6 +355,7 @@ def main():
     p_search.add_argument("--top_k", type=int, default=5, help="Number of results (default: 5)")
     p_search.add_argument("--semantic", action="store_true", help="Use LLM synthesis for intelligent response")
     p_search.add_argument("--save-as", default=None, help="Save semantic search response to markdown file")
+    p_search.add_argument("--filter", nargs="*", help="Metadata filter as key=value pairs")
 
     # store
     p_store = subparsers.add_parser("store", help="Store a new vector")

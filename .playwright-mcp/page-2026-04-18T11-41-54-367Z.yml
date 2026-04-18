@@ -1,0 +1,309 @@
+- generic [active] [ref=e1]:
+  - generic:
+    - generic:
+      - link "Passer directement au contenu principal" [ref=e2] [cursor=pointer]
+      - link "Aide sur l'accessibilité" [ref=e3] [cursor=pointer]:
+        - /url: https://support.google.com/websearch/answer/181196?hl=fr-BE
+      - link "Commentaires sur l'accessibilité" [ref=e4] [cursor=pointer]
+  - generic [ref=e9]:
+    - search [ref=e10]:
+      - generic [ref=e12]:
+        - link "Afficher la page d'accueil de Google" [ref=e14] [cursor=pointer]:
+          - /url: https://www.google.com/webhp?hl=fr&sa=X&ved=0ahUKEwimyPrqqPeTAxW4UqQEHc_4KjgQPAgJ
+          - img [ref=e15]
+        - generic [ref=e22]:
+          - generic [ref=e23]:
+            - combobox "Rech." [ref=e26]: site:facebook.com "Ngongo" Sakata secret rite site:facebook.com "Ngongo" Sakata secret rite
+            - generic [ref=e27]:
+              - button "Effacer" [ref=e29] [cursor=pointer]:
+                - img [ref=e31]
+              - generic [ref=e34]:
+                - button "Utiliser la recherche vocale" [ref=e35] [cursor=pointer]:
+                  - img [ref=e36]
+                - button "Rechercher par image" [ref=e38] [cursor=pointer]:
+                  - img [ref=e39]
+          - button "Rechercher" [ref=e41] [cursor=pointer]:
+            - img [ref=e44]
+    - generic [ref=e46]:
+      - button "Paramètres" [ref=e48] [cursor=pointer]:
+        - img [ref=e51]
+      - generic [ref=e54]:
+        - button "Applications Google" [ref=e56] [cursor=pointer]:
+          - img [ref=e57]
+        - link "Connexion" [ref=e61] [cursor=pointer]:
+          - /url: https://accounts.google.com/ServiceLogin?hl=fr&passive=true&continue=https://www.google.com/search%3Fq%3Dsite%253Afacebook.com%2B%2522Ngongo%2522%2BSakata%2Bsecret%2Brite&ec=futura_srp_og_si_72236_p
+  - generic [ref=e63]:
+    - navigation [ref=e69]:
+      - generic [ref=e75]:
+        - list [ref=e76]:
+          - listitem [ref=e77]:
+            - link "Mode IA" [ref=e80] [cursor=pointer]:
+              - /url: /search?q=site:facebook.com+%22Ngongo%22+Sakata+secret+rite&sca_esv=c5f7ccd55e595ca8&udm=50&fbs=ADc_l-bpk8W4E-qsVlOvbGJcDwpnHC5OJXXTJvmMu2n9YYx-G8xzgQk24aW1N_FyIND5zVCwECjrKJ3bGrzReCzh4k82c1-wGxqDH3N5n2ZRuzFemazZIf1v2x1gyO2sXtFBNX8Ds1lbSGP6_FJK3rZAWBYYKvRKKcpI3KCtijl41cDxiKft7gHQ-QJ2VUO0VEfZcSq6QuHVvx3yGBreX5LohmEwgzswWQ&aep=1&ntc=1&sa=X&ved=2ahUKEwimyPrqqPeTAxW4UqQEHc_4KjgQ2J8OegQIBhAI
+              - generic [ref=e83]: Mode IA
+          - listitem [ref=e84]:
+            - link "Tous" [disabled] [ref=e85]:
+              - generic [ref=e87]: Tous
+          - listitem [ref=e88]:
+            - link "Images" [ref=e89] [cursor=pointer]:
+              - /url: /search?sca_esv=c5f7ccd55e595ca8&udm=2&fbs=ADc_l-bpk8W4E-qsVlOvbGJcDwpnHC5OJXXTJvmMu2n9YYx-G8xzgQk24aW1N_FyIND5zVCwECjrKJ3bGrzReCzh4k82c1-wGxqDH3N5n2ZRuzFemazZIf1v2x1gyO2sXtFBNX8Ds1lbSGP6_FJK3rZAWBYYKvRKKcpI3KCtijl41cDxiKft7gHQ-QJ2VUO0VEfZcSq6QuHVvx3yGBreX5LohmEwgzswWQ&q=site:facebook.com+%22Ngongo%22+Sakata+secret+rite&sa=X&ved=2ahUKEwimyPrqqPeTAxW4UqQEHc_4KjgQtKgLegQIJBAB
+              - generic [ref=e91]: Images
+          - listitem [ref=e92]:
+            - link "Vidéos" [ref=e93] [cursor=pointer]:
+              - /url: /search?sca_esv=c5f7ccd55e595ca8&udm=7&fbs=ADc_l-bpk8W4E-qsVlOvbGJcDwpnHC5OJXXTJvmMu2n9YYx-G8xzgQk24aW1N_FyIND5zVCwECjrKJ3bGrzReCzh4k82c1-wGxqDH3N5n2ZRuzFemazZIf1v2x1gyO2sXtFBNX8Ds1lbSGP6_FJK3rZAWBYYKvRKKcpI3KCtijl41cDxiKft7gHQ-QJ2VUO0VEfZcSq6QuHVvx3yGBreX5LohmEwgzswWQ&q=site:facebook.com+%22Ngongo%22+Sakata+secret+rite&sa=X&ved=2ahUKEwimyPrqqPeTAxW4UqQEHc_4KjgQtKgLegQIHBAB
+              - generic [ref=e95]: Vidéos
+          - listitem [ref=e96]:
+            - link "Produits" [ref=e97] [cursor=pointer]:
+              - /url: /search?sca_esv=c5f7ccd55e595ca8&udm=3&fbs=ADc_l-bpk8W4E-qsVlOvbGJcDwpnHC5OJXXTJvmMu2n9YYx-G8xzgQk24aW1N_FyIND5zVCwECjrKJ3bGrzReCzh4k82c1-wGxqDH3N5n2ZRuzFemazZIf1v2x1gyO2sXtFBNX8Ds1lbSGP6_FJK3rZAWBYYKvRKKcpI3KCtijl41cDxiKft7gHQ-QJ2VUO0VEfZcSq6QuHVvx3yGBreX5LohmEwgzswWQ&q=site:facebook.com+%22Ngongo%22+Sakata+secret+rite&sa=X&ved=2ahUKEwimyPrqqPeTAxW4UqQEHc_4KjgQs6gLegQIFxAB
+              - generic [ref=e99]: Produits
+          - listitem [ref=e100]:
+            - link "Actualités" [ref=e101] [cursor=pointer]:
+              - /url: /search?sca_esv=c5f7ccd55e595ca8&q=site:facebook.com+%22Ngongo%22+Sakata+secret+rite&tbm=nws&source=lnms&fbs=ADc_l-bpk8W4E-qsVlOvbGJcDwpnHC5OJXXTJvmMu2n9YYx-G8xzgQk24aW1N_FyIND5zVCwECjrKJ3bGrzReCzh4k82c1-wGxqDH3N5n2ZRuzFemazZIf1v2x1gyO2sXtFBNX8Ds1lbSGP6_FJK3rZAWBYYKvRKKcpI3KCtijl41cDxiKft7gHQ-QJ2VUO0VEfZcSq6QuHVvx3yGBreX5LohmEwgzswWQ&sa=X&ved=2ahUKEwimyPrqqPeTAxW4UqQEHc_4KjgQ0pQJegQIFhAB
+              - generic [ref=e103]: Actualités
+          - listitem [ref=e104]:
+            - link "Vidéos courtes" [ref=e105] [cursor=pointer]:
+              - /url: /search?sca_esv=c5f7ccd55e595ca8&udm=39&fbs=ADc_l-bpk8W4E-qsVlOvbGJcDwpnHC5OJXXTJvmMu2n9YYx-G8xzgQk24aW1N_FyIND5zVCwECjrKJ3bGrzReCzh4k82c1-wGxqDH3N5n2ZRuzFemazZIf1v2x1gyO2sXtFBNX8Ds1lbSGP6_FJK3rZAWBYYKvRKKcpI3KCtijl41cDxiKft7gHQ-QJ2VUO0VEfZcSq6QuHVvx3yGBreX5LohmEwgzswWQ&q=site:facebook.com+%22Ngongo%22+Sakata+secret+rite&sa=X&ved=2ahUKEwimyPrqqPeTAxW4UqQEHc_4KjgQs6gLegQIFBAB
+              - generic [ref=e107]: Vidéos courtes
+          - listitem [ref=e108]:
+            - button "Plus de filtres" [ref=e109] [cursor=pointer]:
+              - generic "Plus de filtres" [ref=e110]:
+                - generic [ref=e111]:
+                  - generic [ref=e112]: Plus
+                  - img [ref=e114]
+        - button "Outils" [ref=e117] [cursor=pointer]:
+          - generic [ref=e119]:
+            - generic [ref=e120]: Outils
+            - img [ref=e122]
+    - heading "Résultats de recherche" [level=1] [ref=e124]
+    - main [ref=e130]:
+      - generic [ref=e134]:
+        - generic [ref=e137]:
+          - heading "Résultats Web" [level=2] [ref=e138]
+          - generic [ref=e139]:
+            - generic [ref=e142]:
+              - link "Les bantous l'ethnie dominante en Afrique noire du sahara ... Facebook · Michel Kornemuse il y a 5 heures" [ref=e144] [cursor=pointer]:
+                - /url: https://www.facebook.com/michel.kornemuse/photos/les-bantous-lethnie-dominante-en-afrique-noire-du-sahara-%C3%A0-lafrique-du-sud-seul-/2139093963562692/
+                - heading "Les bantous l'ethnie dominante en Afrique noire du sahara ..." [level=3] [ref=e145]
+                - generic [ref=e150]:
+                  - generic [ref=e152]: Facebook · Michel Kornemuse
+                  - generic [ref=e154]: il y a 5 heures
+              - button "À propos de ce résultat" [ref=e155] [cursor=pointer]:
+                - img [ref=e158]
+            - generic [ref=e162]:
+              - emphasis [ref=e163]: Ngongo
+              - text: – groupe vivant dans la province, parfois considéré comme sous-groupe linguistique spécifique. Groupes autochtones / forgerons ...
+            - link "site:facebook.com \"Ngongo\" Sakata secret rite sur www.facebook.com" [ref=e166] [cursor=pointer]:
+              - /url: https://www.facebook.com/michel.kornemuse/photos/les-bantous-lethnie-dominante-en-afrique-noire-du-sahara-%C3%A0-lafrique-du-sud-seul-/2139093963562692/
+              - img "site:facebook.com \"Ngongo\" Sakata secret rite sur www.facebook.com" [ref=e168]
+        - generic [ref=e172]:
+          - generic [ref=e175]:
+            - link "c'est la seule paire de capitales aussi proches sans être ... Facebook · NOFI Plus de 1 k réactions · il y a 1 an" [ref=e177] [cursor=pointer]:
+              - /url: https://www.facebook.com/bignofi/posts/elles-se-font-litt%C3%A9ralement-face-s%C3%A9par%C3%A9es-par-le-fleuve-congo-moins-de-5-km-%C3%A0-vo/1051068617067520/
+              - heading "c'est la seule paire de capitales aussi proches sans être ..." [level=3] [ref=e178]
+              - generic [ref=e183]:
+                - generic [ref=e185]: Facebook · NOFI
+                - generic [ref=e187]: Plus de 1 k réactions · il y a 1 an
+            - button "À propos de ce résultat" [ref=e188] [cursor=pointer]:
+              - img [ref=e191]
+          - generic [ref=e195]:
+            - text: ...
+            - emphasis [ref=e196]: SAKATA
+            - text: ", BAYAKA, SUKU, PENDE, MBALA, MBUNDA jusqu'aux KOONGO ... Samuel"
+            - emphasis [ref=e197]: Ngongo
+            - text: . Épuis ça fait Quoi NOFI. 1y · 1 like. Daryl Lisombo. Faux ...
+        - generic [ref=e201]:
+          - generic [ref=e204]:
+            - link "Joseph BADJOKO Facebook · Et Si Nous Parlions d'Histoire ? Plus de 70 commentaires · il y a 6 ans" [ref=e206] [cursor=pointer]:
+              - /url: https://www.facebook.com/groups/528706633982349/posts/1239786009541071/
+              - heading "Joseph BADJOKO" [level=3] [ref=e207]
+              - generic [ref=e212]:
+                - generic [ref=e214]: Facebook · Et Si Nous Parlions d'Histoire ?
+                - generic [ref=e216]: Plus de 70 commentaires · il y a 6 ans
+            - button "À propos de ce résultat" [ref=e217] [cursor=pointer]:
+              - img [ref=e220]
+          - generic [ref=e224]:
+            - text: ...
+            - emphasis [ref=e225]: Ngongo
+            - text: ", le fils de"
+            - emphasis [ref=e226]: Ngongo
+            - text: Lutete. Le camp Lufungula de Kinshasa et plusieurs avenues et sites en RDC portent son nom. Sur la photo, le ...
+        - generic [ref=e230]:
+          - generic [ref=e233]:
+            - 'link "histoire Liste des ethnies et tribus de la #RDC VÉRIFIER SI ... Facebook · The Politico cd Plus de 30 réactions · il y a 1 an" [ref=e235] [cursor=pointer]':
+              - /url: https://www.facebook.com/THEPOLITICOCD/posts/histoire-liste-des-ethnies-et-tribus-de-la-rdc-v%C3%A9rifier-si-tu-est-congolais-list/1027712365578290/
+              - 'heading "histoire Liste des ethnies et tribus de la #RDC VÉRIFIER SI ..." [level=3] [ref=e236]'
+              - generic [ref=e241]:
+                - generic [ref=e243]: Facebook · The Politico cd
+                - generic [ref=e245]: Plus de 30 réactions · il y a 1 an
+            - button "À propos de ce résultat" [ref=e246] [cursor=pointer]:
+              - img [ref=e249]
+          - generic [ref=e253]:
+            - emphasis [ref=e254]: Ngongo
+            - text: – Bagata, Bulungu, Kenge, Masimanimba 201. Ngul – Idiofa 202. Nkanu – Kimvula, Madimba, Popokabaka 203. Nkole – Kiri 204. Nkundo – ...
+        - generic [ref=e258]:
+          - generic [ref=e261]:
+            - link "Aridja Lokwa Bkg Facebook · Aridja Lokwa Bkg Plus de 3,7 k abonnés" [ref=e263] [cursor=pointer]:
+              - /url: https://www.facebook.com/aridja.lokwa/
+              - heading "Aridja Lokwa Bkg" [level=3] [ref=e264]
+              - generic [ref=e269]:
+                - generic [ref=e271]: Facebook · Aridja Lokwa Bkg
+                - generic [ref=e273]: Plus de 3,7 k abonnés
+            - button "À propos de ce résultat" [ref=e274] [cursor=pointer]:
+              - img [ref=e277]
+          - generic [ref=e281]:
+            - text: Les
+            - emphasis [ref=e282]: Sakata
+            - text: croient en un monde spirituel peuplé d'ancêtres protecteurs. Leurs
+            - emphasis [ref=e283]: rites
+            - text: initiatiques — tels que le
+            - emphasis [ref=e284]: ngongo
+            - text: pour les jeunes garçons — visent à ...
+          - link "site:facebook.com \"Ngongo\" Sakata secret rite sur www.facebook.com" [ref=e287] [cursor=pointer]:
+            - /url: https://www.facebook.com/aridja.lokwa/
+            - img "site:facebook.com \"Ngongo\" Sakata secret rite sur www.facebook.com" [ref=e289]
+        - generic [ref=e293]:
+          - generic [ref=e296]:
+            - link "Qui se souvient de sa statue en \"Père Blanc ... Facebook · J'aime Villers-la-Ville Plus de 20 commentaires · il y a 8 ans" [ref=e298] [cursor=pointer]:
+              - /url: https://www.facebook.com/groups/1715301528737249/posts/2016612351939497/
+              - heading "Qui se souvient de sa statue en \"Père Blanc ..." [level=3] [ref=e299]
+              - generic [ref=e304]:
+                - generic [ref=e306]: Facebook · J'aime Villers-la-Ville
+                - generic [ref=e308]: Plus de 20 commentaires · il y a 8 ans
+            - button "À propos de ce résultat" [ref=e309] [cursor=pointer]:
+              - img [ref=e312]
+          - generic [ref=e316]:
+            - text: Il s'appelle
+            - emphasis [ref=e317]: Ngongo
+            - text: Lutete, de la tribu tetela. Ce nom vient de
+            - emphasis [ref=e318]: Ngongo
+            - text: Leeteta, qui veut dire
+            - emphasis [ref=e319]: Ngongo
+            - text: le voyageur en kitetela. L'insécurité ...
+          - link "site:facebook.com \"Ngongo\" Sakata secret rite sur www.facebook.com" [ref=e322] [cursor=pointer]:
+            - /url: https://www.facebook.com/groups/1715301528737249/posts/2016612351939497/
+            - img "site:facebook.com \"Ngongo\" Sakata secret rite sur www.facebook.com" [ref=e324]
+        - generic [ref=e328]:
+          - generic [ref=e331]:
+            - link "Bwété dissumba chez le peuple VUNGU 🔥 Facebook · BWITI partage de la connaissance spirituelle , travaux spirituels Mimongo 4 commentaires · il y a 1 an" [ref=e333] [cursor=pointer]:
+              - /url: https://www.facebook.com/groups/1665883940373618/posts/3536390473322946/
+              - heading "Bwété dissumba chez le peuple VUNGU 🔥" [level=3] [ref=e334]
+              - generic [ref=e339]:
+                - generic [ref=e341]: Facebook · BWITI partage de la connaissance spirituelle , travaux spirituels Mimongo
+                - generic [ref=e343]: 4 commentaires · il y a 1 an
+            - button "À propos de ce résultat" [ref=e344] [cursor=pointer]:
+              - img [ref=e347]
+          - generic [ref=e351]:
+            - text: ...
+            - emphasis [ref=e352]: Ngongo
+            - text: . Un groupe de Ngwii et de Ding pousse une pointe vers le nord-est, en longeant les rives du kasai. Les Lwer les accompagnent pour ...
+        - generic [ref=e356]:
+          - generic [ref=e359]:
+            - link "LEXIQUE YAKA ; _ NGONGOLO:mille pattes _KONGAZITA ... Facebook · kIYAKA LANGUE NATIONALE Plus de 20 commentaires · il y a 1 an" [ref=e361] [cursor=pointer]:
+              - /url: https://www.facebook.com/groups/2702037966757474/posts/3254430991518166/
+              - heading "LEXIQUE YAKA ; _ NGONGOLO:mille pattes _KONGAZITA ..." [level=3] [ref=e362]
+              - generic [ref=e367]:
+                - generic [ref=e369]: Facebook · kIYAKA LANGUE NATIONALE
+                - generic [ref=e371]: Plus de 20 commentaires · il y a 1 an
+            - button "À propos de ce résultat" [ref=e372] [cursor=pointer]:
+              - img [ref=e375]
+          - generic [ref=e379]:
+            - text: ...
+            - emphasis [ref=e380]: Sakata
+            - text: ", les"
+            - emphasis [ref=e381]: Ngongo
+            - text: et les Wungani. Un père missionnaire Jésuite a fait l'élonge des Yansi et de sa belle terre « landa muyansi munansi andi ...
+        - generic [ref=e385]:
+          - generic [ref=e388]:
+            - link "**CE JOUR-LA... 12 mai, comme aujourd'hui... ... Facebook · Et Si Nous Parlions d'Histoire ? Plus de 70 commentaires" [ref=e390] [cursor=pointer]:
+              - /url: https://www.facebook.com/groups/528706633982349/permalink/1723012291218438/
+              - heading "**CE JOUR-LA... 12 mai, comme aujourd'hui... ..." [level=3] [ref=e391]
+              - generic [ref=e396]:
+                - generic [ref=e398]: Facebook · Et Si Nous Parlions d'Histoire ?
+                - generic [ref=e400]: Plus de 70 commentaires
+            - button "À propos de ce résultat" [ref=e401] [cursor=pointer]:
+              - img [ref=e404]
+          - generic [ref=e408]:
+            - text: "Il s'installe, vers 1875, à Nyangwe d'où il organise des razzias jusque dans le Sankuru et le Kasai, avec l'assistance des ses lieutenants congolais:"
+            - emphasis [ref=e409]: Ngongo
+            - text: ...
+        - generic [ref=e413]:
+          - generic [ref=e416]:
+            - link "Kongo centrale Facebook https://www.facebook.com › groups › permalink" [ref=e418] [cursor=pointer]:
+              - /url: https://www.facebook.com/groups/487883008615741/permalink/1478339992903366/
+              - heading "Kongo centrale" [level=3] [ref=e419]
+              - generic [ref=e424]:
+                - generic [ref=e426]: Facebook
+                - generic [ref=e428]: https://www.facebook.com › groups › permalink
+            - button "À propos de ce résultat" [ref=e429] [cursor=pointer]:
+              - img [ref=e432]
+          - generic [ref=e436]:
+            - text: Les
+            - emphasis [ref=e437]: Sakata
+            - text: croient en un monde spirituel peuplé d'ancêtres protecteurs. Leurs
+            - emphasis [ref=e438]: rites
+            - text: initiatiques — tels que le
+            - emphasis [ref=e439]: ngongo
+            - text: pour les jeunes garçons — visent à ...
+      - generic [ref=e441]:
+        - generic [ref=e442]:
+          - heading "Remarques sur les résultats filtrés" [level=2] [ref=e443]
+          - generic [ref=e446]:
+            - text: Certains résultats peuvent avoir été supprimés conformément à la loi européenne sur la protection des données.
+            - link "En savoir plus" [ref=e447] [cursor=pointer]:
+              - /url: https://www.google.com/policies/faq
+        - navigation [ref=e448]:
+          - heading "Navigation par pages" [level=1] [ref=e449]
+          - text: "1"
+          - link "Page 2" [ref=e452] [cursor=pointer]:
+            - /url: /search?q=site:facebook.com+%22Ngongo%22+Sakata+secret+rite&sca_esv=c5f7ccd55e595ca8&ei=Am7jaaa_IrilkdUPz_GrwQM&start=10&sa=N&sstk=Af77f_f1zp9jkz7KiFFTU5Bax3hbZN6VQqGhKqoe1QiN7RCcuHoNLFYe1d1gPzJ6q6_c51fEMQ46rWBT-MsOiP4aYH8Yi3qeCJXoVQ&ved=2ahUKEwimyPrqqPeTAxW4UqQEHc_4KjgQ8tMDegQIPxAG
+            - text: "2"
+          - link "Page 3" [ref=e454] [cursor=pointer]:
+            - /url: /search?q=site:facebook.com+%22Ngongo%22+Sakata+secret+rite&sca_esv=c5f7ccd55e595ca8&ei=Am7jaaa_IrilkdUPz_GrwQM&start=20&sa=N&sstk=Af77f_f1zp9jkz7KiFFTU5Bax3hbZN6VQqGhKqoe1QiN7RCcuHoNLFYe1d1gPzJ6q6_c51fEMQ46rWBT-MsOiP4aYH8Yi3qeCJXoVQ&ved=2ahUKEwimyPrqqPeTAxW4UqQEHc_4KjgQ8tMDegQIPxAI
+            - text: "3"
+          - link "Page 4" [ref=e456] [cursor=pointer]:
+            - /url: /search?q=site:facebook.com+%22Ngongo%22+Sakata+secret+rite&sca_esv=c5f7ccd55e595ca8&ei=Am7jaaa_IrilkdUPz_GrwQM&start=30&sa=N&sstk=Af77f_f1zp9jkz7KiFFTU5Bax3hbZN6VQqGhKqoe1QiN7RCcuHoNLFYe1d1gPzJ6q6_c51fEMQ46rWBT-MsOiP4aYH8Yi3qeCJXoVQ&ved=2ahUKEwimyPrqqPeTAxW4UqQEHc_4KjgQ8tMDegQIPxAK
+            - text: "4"
+          - link "Page 5" [ref=e458] [cursor=pointer]:
+            - /url: /search?q=site:facebook.com+%22Ngongo%22+Sakata+secret+rite&sca_esv=c5f7ccd55e595ca8&ei=Am7jaaa_IrilkdUPz_GrwQM&start=40&sa=N&sstk=Af77f_f1zp9jkz7KiFFTU5Bax3hbZN6VQqGhKqoe1QiN7RCcuHoNLFYe1d1gPzJ6q6_c51fEMQ46rWBT-MsOiP4aYH8Yi3qeCJXoVQ&ved=2ahUKEwimyPrqqPeTAxW4UqQEHc_4KjgQ8tMDegQIPxAM
+            - text: "5"
+          - link "Page 6" [ref=e460] [cursor=pointer]:
+            - /url: /search?q=site:facebook.com+%22Ngongo%22+Sakata+secret+rite&sca_esv=c5f7ccd55e595ca8&ei=Am7jaaa_IrilkdUPz_GrwQM&start=50&sa=N&sstk=Af77f_f1zp9jkz7KiFFTU5Bax3hbZN6VQqGhKqoe1QiN7RCcuHoNLFYe1d1gPzJ6q6_c51fEMQ46rWBT-MsOiP4aYH8Yi3qeCJXoVQ&ved=2ahUKEwimyPrqqPeTAxW4UqQEHc_4KjgQ8tMDegQIPxAO
+            - text: "6"
+          - link "Page 7" [ref=e462] [cursor=pointer]:
+            - /url: /search?q=site:facebook.com+%22Ngongo%22+Sakata+secret+rite&sca_esv=c5f7ccd55e595ca8&ei=Am7jaaa_IrilkdUPz_GrwQM&start=60&sa=N&sstk=Af77f_f1zp9jkz7KiFFTU5Bax3hbZN6VQqGhKqoe1QiN7RCcuHoNLFYe1d1gPzJ6q6_c51fEMQ46rWBT-MsOiP4aYH8Yi3qeCJXoVQ&ved=2ahUKEwimyPrqqPeTAxW4UqQEHc_4KjgQ8tMDegQIPxAQ
+            - text: "7"
+          - link "Page 8" [ref=e464] [cursor=pointer]:
+            - /url: /search?q=site:facebook.com+%22Ngongo%22+Sakata+secret+rite&sca_esv=c5f7ccd55e595ca8&ei=Am7jaaa_IrilkdUPz_GrwQM&start=70&sa=N&sstk=Af77f_f1zp9jkz7KiFFTU5Bax3hbZN6VQqGhKqoe1QiN7RCcuHoNLFYe1d1gPzJ6q6_c51fEMQ46rWBT-MsOiP4aYH8Yi3qeCJXoVQ&ved=2ahUKEwimyPrqqPeTAxW4UqQEHc_4KjgQ8tMDegQIPxAS
+            - text: "8"
+          - link "Page 9" [ref=e466] [cursor=pointer]:
+            - /url: /search?q=site:facebook.com+%22Ngongo%22+Sakata+secret+rite&sca_esv=c5f7ccd55e595ca8&ei=Am7jaaa_IrilkdUPz_GrwQM&start=80&sa=N&sstk=Af77f_f1zp9jkz7KiFFTU5Bax3hbZN6VQqGhKqoe1QiN7RCcuHoNLFYe1d1gPzJ6q6_c51fEMQ46rWBT-MsOiP4aYH8Yi3qeCJXoVQ&ved=2ahUKEwimyPrqqPeTAxW4UqQEHc_4KjgQ8tMDegQIPxAU
+            - text: "9"
+          - link "Page 10" [ref=e468] [cursor=pointer]:
+            - /url: /search?q=site:facebook.com+%22Ngongo%22+Sakata+secret+rite&sca_esv=c5f7ccd55e595ca8&ei=Am7jaaa_IrilkdUPz_GrwQM&start=90&sa=N&sstk=Af77f_f1zp9jkz7KiFFTU5Bax3hbZN6VQqGhKqoe1QiN7RCcuHoNLFYe1d1gPzJ6q6_c51fEMQ46rWBT-MsOiP4aYH8Yi3qeCJXoVQ&ved=2ahUKEwimyPrqqPeTAxW4UqQEHc_4KjgQ8tMDegQIPxAW
+            - text: "10"
+          - heading "Suivant" [level=2] [ref=e470]:
+            - link "Suivant" [ref=e471] [cursor=pointer]:
+              - /url: /search?q=site:facebook.com+%22Ngongo%22+Sakata+secret+rite&sca_esv=c5f7ccd55e595ca8&ei=Am7jaaa_IrilkdUPz_GrwQM&start=10&sa=N&sstk=Af77f_f1zp9jkz7KiFFTU5Bax3hbZN6VQqGhKqoe1QiN7RCcuHoNLFYe1d1gPzJ6q6_c51fEMQ46rWBT-MsOiP4aYH8Yi3qeCJXoVQ&ved=2ahUKEwimyPrqqPeTAxW4UqQEHc_4KjgQ8NMDegQIPxAY
+              - generic [ref=e473]: Suivant
+      - navigation
+    - contentinfo [ref=e474]:
+      - heading "Liens de pied de page" [level=1] [ref=e475]
+      - generic [ref=e479]:
+        - generic [ref=e481]:
+          - text: Belgique
+          - generic [ref=e483]:
+            - button "Jette - D'après votre adresse IP" [ref=e485] [cursor=pointer]:
+              - generic [ref=e486]: Jette
+              - generic [ref=e488]:
+                - text: "-"
+                - generic [ref=e489]: D'après votre adresse IP
+            - text: "-"
+            - button "Mettre à jour ma position" [ref=e491] [cursor=pointer]: Mettre à jour ma position
+        - generic [ref=e494]:
+          - link "Aide" [ref=e495] [cursor=pointer]:
+            - /url: https://support.google.com/websearch/?p=ws_results_help&hl=fr-BE&fg=1
+          - link "Envoyer des commentaires" [ref=e496] [cursor=pointer]:
+            - /url: "#"
+          - link "Confidentialité" [ref=e497] [cursor=pointer]:
+            - /url: https://policies.google.com/privacy?hl=fr-BE&fg=1
+          - link "Conditions" [ref=e498] [cursor=pointer]:
+            - /url: https://policies.google.com/terms?hl=fr-BE&fg=1

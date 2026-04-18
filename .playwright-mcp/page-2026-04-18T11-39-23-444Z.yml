@@ -1,0 +1,259 @@
+- generic [active] [ref=e1]:
+  - generic:
+    - generic:
+      - link "Passer directement au contenu principal" [ref=e2] [cursor=pointer]
+      - link "Aide sur l'accessibilité" [ref=e3] [cursor=pointer]:
+        - /url: https://support.google.com/websearch/answer/181196?hl=fr-BE
+      - link "Commentaires sur l'accessibilité" [ref=e4] [cursor=pointer]
+  - generic [ref=e9]:
+    - search [ref=e10]:
+      - generic [ref=e12]:
+        - link "Afficher la page d'accueil de Google" [ref=e14] [cursor=pointer]:
+          - /url: https://www.google.com/webhp?hl=fr&sa=X&ved=0ahUKEwjMubCiqPeTAxUYTqQEHQthGq4QPAgJ
+          - img [ref=e15]
+        - generic [ref=e22]:
+          - generic [ref=e23]:
+            - combobox "Rech." [ref=e26]: site:facebook.com "Ngongo" Sakata Mbantin rite site:facebook.com "Ngongo" Sakata Mbantin rite
+            - generic [ref=e27]:
+              - button "Effacer" [ref=e29] [cursor=pointer]:
+                - img [ref=e31]
+              - generic [ref=e34]:
+                - button "Utiliser la recherche vocale" [ref=e35] [cursor=pointer]:
+                  - img [ref=e36]
+                - button "Rechercher par image" [ref=e38] [cursor=pointer]:
+                  - img [ref=e39]
+          - button "Rechercher" [ref=e41] [cursor=pointer]:
+            - img [ref=e44]
+    - generic [ref=e46]:
+      - button "Paramètres" [ref=e48] [cursor=pointer]:
+        - img [ref=e51]
+      - generic [ref=e54]:
+        - button "Applications Google" [ref=e56] [cursor=pointer]:
+          - img [ref=e57]
+        - link "Connexion" [ref=e61] [cursor=pointer]:
+          - /url: https://accounts.google.com/ServiceLogin?hl=fr&passive=true&continue=https://www.google.com/search%3Fq%3Dsite%253Afacebook.com%2B%2522Ngongo%2522%2BSakata%2BMbantin%2Brite&ec=futura_srp_og_si_72236_p
+  - generic [ref=e63]:
+    - navigation [ref=e69]:
+      - generic [ref=e75]:
+        - list [ref=e76]:
+          - listitem [ref=e77]:
+            - link "Mode IA" [ref=e80] [cursor=pointer]:
+              - /url: /search?q=site:facebook.com+%22Ngongo%22+Sakata+Mbantin+rite&sca_esv=c5f7ccd55e595ca8&udm=50&fbs=ADc_l-bpk8W4E-qsVlOvbGJcDwpnHC5OJXXTJvmMu2n9YYx-G8xzgQk24aW1N_FyIND5zVCwECjrKJ3bGrzReCzh4k82c1-wGxqDH3N5n2ZRuzFemazZIf1v2x1gyO2sXtFBNX-mSsu0dF68vkL7ad3Z_PYXr98M4F0Xhtmg9uxlev6vTBFrHzv7oGBCH8w8UC7r4i-LPlyWsm2bfN5oZUeHEJY2zeUfcQ&aep=1&ntc=1&sa=X&ved=2ahUKEwjMubCiqPeTAxUYTqQEHQthGq4Q2J8OegQICBAI
+              - generic [ref=e83]: Mode IA
+          - listitem [ref=e84]:
+            - link "Tous" [disabled] [ref=e85]:
+              - generic [ref=e87]: Tous
+          - listitem [ref=e88]:
+            - link "Images" [ref=e89] [cursor=pointer]:
+              - /url: /search?sca_esv=c5f7ccd55e595ca8&udm=2&fbs=ADc_l-bpk8W4E-qsVlOvbGJcDwpnHC5OJXXTJvmMu2n9YYx-G8xzgQk24aW1N_FyIND5zVCwECjrKJ3bGrzReCzh4k82c1-wGxqDH3N5n2ZRuzFemazZIf1v2x1gyO2sXtFBNX-mSsu0dF68vkL7ad3Z_PYXr98M4F0Xhtmg9uxlev6vTBFrHzv7oGBCH8w8UC7r4i-LPlyWsm2bfN5oZUeHEJY2zeUfcQ&q=site:facebook.com+%22Ngongo%22+Sakata+Mbantin+rite&sa=X&ved=2ahUKEwjMubCiqPeTAxUYTqQEHQthGq4QtKgLegQIEBAB
+              - generic [ref=e91]: Images
+          - listitem [ref=e92]:
+            - link "Vidéos" [ref=e93] [cursor=pointer]:
+              - /url: /search?sca_esv=c5f7ccd55e595ca8&udm=7&fbs=ADc_l-bpk8W4E-qsVlOvbGJcDwpnHC5OJXXTJvmMu2n9YYx-G8xzgQk24aW1N_FyIND5zVCwECjrKJ3bGrzReCzh4k82c1-wGxqDH3N5n2ZRuzFemazZIf1v2x1gyO2sXtFBNX-mSsu0dF68vkL7ad3Z_PYXr98M4F0Xhtmg9uxlev6vTBFrHzv7oGBCH8w8UC7r4i-LPlyWsm2bfN5oZUeHEJY2zeUfcQ&q=site:facebook.com+%22Ngongo%22+Sakata+Mbantin+rite&sa=X&ved=2ahUKEwjMubCiqPeTAxUYTqQEHQthGq4QtKgLegQIDxAB
+              - generic [ref=e95]: Vidéos
+          - listitem [ref=e96]:
+            - link "Produits" [ref=e97] [cursor=pointer]:
+              - /url: /search?sca_esv=c5f7ccd55e595ca8&udm=3&fbs=ADc_l-bpk8W4E-qsVlOvbGJcDwpnHC5OJXXTJvmMu2n9YYx-G8xzgQk24aW1N_FyIND5zVCwECjrKJ3bGrzReCzh4k82c1-wGxqDH3N5n2ZRuzFemazZIf1v2x1gyO2sXtFBNX-mSsu0dF68vkL7ad3Z_PYXr98M4F0Xhtmg9uxlev6vTBFrHzv7oGBCH8w8UC7r4i-LPlyWsm2bfN5oZUeHEJY2zeUfcQ&q=site:facebook.com+%22Ngongo%22+Sakata+Mbantin+rite&sa=X&ved=2ahUKEwjMubCiqPeTAxUYTqQEHQthGq4Qs6gLegQICxAB
+              - generic [ref=e99]: Produits
+          - listitem [ref=e100]:
+            - link "Actualités" [ref=e101] [cursor=pointer]:
+              - /url: /search?sca_esv=c5f7ccd55e595ca8&q=site:facebook.com+%22Ngongo%22+Sakata+Mbantin+rite&tbm=nws&source=lnms&fbs=ADc_l-bpk8W4E-qsVlOvbGJcDwpnHC5OJXXTJvmMu2n9YYx-G8xzgQk24aW1N_FyIND5zVCwECjrKJ3bGrzReCzh4k82c1-wGxqDH3N5n2ZRuzFemazZIf1v2x1gyO2sXtFBNX-mSsu0dF68vkL7ad3Z_PYXr98M4F0Xhtmg9uxlev6vTBFrHzv7oGBCH8w8UC7r4i-LPlyWsm2bfN5oZUeHEJY2zeUfcQ&sa=X&ved=2ahUKEwjMubCiqPeTAxUYTqQEHQthGq4Q0pQJegQIDBAB
+              - generic [ref=e103]: Actualités
+          - listitem [ref=e104]:
+            - link "Vidéos courtes" [ref=e105] [cursor=pointer]:
+              - /url: /search?sca_esv=c5f7ccd55e595ca8&udm=39&fbs=ADc_l-bpk8W4E-qsVlOvbGJcDwpnHC5OJXXTJvmMu2n9YYx-G8xzgQk24aW1N_FyIND5zVCwECjrKJ3bGrzReCzh4k82c1-wGxqDH3N5n2ZRuzFemazZIf1v2x1gyO2sXtFBNX-mSsu0dF68vkL7ad3Z_PYXr98M4F0Xhtmg9uxlev6vTBFrHzv7oGBCH8w8UC7r4i-LPlyWsm2bfN5oZUeHEJY2zeUfcQ&q=site:facebook.com+%22Ngongo%22+Sakata+Mbantin+rite&sa=X&ved=2ahUKEwjMubCiqPeTAxUYTqQEHQthGq4Qs6gLegQIDhAB
+              - generic [ref=e107]: Vidéos courtes
+          - listitem [ref=e108]:
+            - button "Plus de filtres" [ref=e109] [cursor=pointer]:
+              - generic "Plus de filtres" [ref=e110]:
+                - generic [ref=e111]:
+                  - generic [ref=e112]: Plus
+                  - img [ref=e114]
+        - button "Outils" [ref=e117] [cursor=pointer]:
+          - generic [ref=e119]:
+            - generic [ref=e120]: Outils
+            - img [ref=e122]
+    - heading "Résultats de recherche" [level=1] [ref=e124]
+    - main [ref=e130]:
+      - generic [ref=e134]:
+        - generic [ref=e137]:
+          - heading "Résultats Web" [level=2] [ref=e138]
+          - generic [ref=e139]:
+            - generic [ref=e142]:
+              - link "Haut-Katanga region, DR Congo, in 1898. Facebook · African History Group 8 commentaires · il y a 4 ans" [ref=e144] [cursor=pointer]:
+                - /url: https://www.facebook.com/groups/275114380263865/posts/503741860734448/
+                - heading "Haut-Katanga region, DR Congo, in 1898." [level=3] [ref=e145]
+                - generic [ref=e150]:
+                  - generic [ref=e152]: Facebook · African History Group
+                  - generic [ref=e154]: 8 commentaires · il y a 4 ans
+              - button "À propos de ce résultat" [ref=e155] [cursor=pointer]:
+                - img [ref=e158]
+            - generic [ref=e162]:
+              - text: ...
+              - emphasis [ref=e163]: Ngongo
+              - text: ", Bokote Bolia : Ibeke, Lukanga, Nkita, Bokwala Inongo ..."
+              - emphasis [ref=e164]: Mbantin
+              - text: "Mfimi : Mabie, Mba-Ushie, Lenvina Nord, Lenvina Sud Luabu ..."
+            - link "site:facebook.com \"Ngongo\" Sakata Mbantin rite sur www.facebook.com" [ref=e167] [cursor=pointer]:
+              - /url: https://www.facebook.com/groups/275114380263865/posts/503741860734448/
+              - img "site:facebook.com \"Ngongo\" Sakata Mbantin rite sur www.facebook.com" [ref=e169]
+        - generic [ref=e173]:
+          - generic [ref=e176]:
+            - link "Uele region, North east Congo. Facebook · African History Group Plus de 10 commentaires · il y a 4 ans" [ref=e178] [cursor=pointer]:
+              - /url: https://www.facebook.com/groups/275114380263865/posts/504659873975980/
+              - heading "Uele region, North east Congo." [level=3] [ref=e179]
+              - generic [ref=e184]:
+                - generic [ref=e186]: Facebook · African History Group
+                - generic [ref=e188]: Plus de 10 commentaires · il y a 4 ans
+            - button "À propos de ce résultat" [ref=e189] [cursor=pointer]:
+              - img [ref=e192]
+          - generic [ref=e196]:
+            - text: ...
+            - emphasis [ref=e197]: Ngongo
+            - text: ", Bokote Bolia : Ibeke, Lukanga, Nkita, Bokwala Inongo ..."
+            - emphasis [ref=e198]: Mbantin
+            - text: "Mfimi : Mabie, Mba-Ushie, Lenvina Nord, Lenvina Sud Luabu ..."
+          - link "site:facebook.com \"Ngongo\" Sakata Mbantin rite sur www.facebook.com" [ref=e201] [cursor=pointer]:
+            - /url: https://www.facebook.com/groups/275114380263865/posts/504659873975980/
+            - img "site:facebook.com \"Ngongo\" Sakata Mbantin rite sur www.facebook.com" [ref=e203]
+        - generic [ref=e207]:
+          - generic [ref=e210]:
+            - link "Butembo is a city in North Kivu, in the north eastern ... Facebook · History Of All Southern African Tribes 2 commentaires · il y a 1 an" [ref=e212] [cursor=pointer]:
+              - /url: https://www.facebook.com/groups/523396435442256/posts/1326712908443934/
+              - heading "Butembo is a city in North Kivu, in the north eastern ..." [level=3] [ref=e213]
+              - generic [ref=e218]:
+                - generic [ref=e220]: Facebook · History Of All Southern African Tribes
+                - generic [ref=e222]: 2 commentaires · il y a 1 an
+            - button "À propos de ce résultat" [ref=e223] [cursor=pointer]:
+              - img [ref=e226]
+          - generic [ref=e230]:
+            - text: ...
+            - emphasis [ref=e231]: Ngongo
+            - text: ", Bokote Bolia : Ibeke, Lukanga, Nkita, Bokwala Inongo ..."
+            - emphasis [ref=e232]: Mbantin
+            - text: "Mfimi : Mabie, Mba-Ushie, Lenvina Nord, Lenvina Sud Luabu ..."
+        - generic [ref=e236]:
+          - generic [ref=e239]:
+            - link "ASBL Mai ndombe PLUS Facebook · ASBL Mai ndombe PLUS Plus de 1,6 k abonnés" [ref=e241] [cursor=pointer]:
+              - /url: https://www.facebook.com/p/ASBL-Mai-ndombe-PLUS-100065559930758/
+              - heading "ASBL Mai ndombe PLUS" [level=3] [ref=e242]
+              - generic [ref=e247]:
+                - generic [ref=e249]: Facebook · ASBL Mai ndombe PLUS
+                - generic [ref=e251]: Plus de 1,6 k abonnés
+            - button "À propos de ce résultat" [ref=e252] [cursor=pointer]:
+              - img [ref=e255]
+          - generic [ref=e259]:
+            - text: "Basengele : Mbelo, Mpenge,"
+            - emphasis [ref=e260]: Ngongo
+            - text: ", Bokote 2. Bolia : Ibeke, Lukanga, Nkita, Bokwala 3. Inongo : Ntombanzale, Ibenga, Iyambe • KIRI 1. Beronge : Ilanga ..."
+        - generic [ref=e264]:
+          - generic [ref=e267]:
+            - link "BANA LAC-NTOMBA (BIKORO) / LAC MAI-NDOMBE ... Facebook · BANA LAC-NTOMBA (BIKORO) / LAC MAI-NDOMBE / BANA BOBANGI Plus de 1,7 k abonnés" [ref=e269] [cursor=pointer]:
+              - /url: https://www.facebook.com/groups/1470861416510259/
+              - heading "BANA LAC-NTOMBA (BIKORO) / LAC MAI-NDOMBE ..." [level=3] [ref=e270]
+              - generic [ref=e275]:
+                - generic [ref=e277]: Facebook · BANA LAC-NTOMBA (BIKORO) / LAC MAI-NDOMBE / BANA BOBANGI
+                - generic [ref=e279]: Plus de 1,7 k abonnés
+            - button "À propos de ce résultat" [ref=e280] [cursor=pointer]:
+              - img [ref=e283]
+          - generic [ref=e286]: Selon la tradition orale, Irebu a été fondée par Ekanda. Les habitants d'Irebu ont commencé à faire du commerce avec les Bobangi et obtenu les mêmes droits ...
+        - generic [ref=e290]:
+          - generic [ref=e293]:
+            - link "TOUS KWILU RÉUNI (Gungu,Idiofa,Masimbanimba, ... Facebook https://www.facebook.com › Facebook Groups" [ref=e295] [cursor=pointer]:
+              - /url: https://www.facebook.com/groups/1880519725782810/
+              - heading "TOUS KWILU RÉUNI (Gungu,Idiofa,Masimbanimba, ..." [level=3] [ref=e296]
+              - generic [ref=e301]:
+                - generic [ref=e303]: Facebook
+                - generic [ref=e305]: https://www.facebook.com › Facebook Groups
+            - button "À propos de ce résultat" [ref=e306] [cursor=pointer]:
+              - img [ref=e309]
+          - generic [ref=e313]:
+            - text: ...
+            - emphasis [ref=e314]: Ngongo
+            - text: ", wa Mayanda, wa Kifua ye kinzungidila va mpambu za Kwilu-"
+            - emphasis [ref=e315]: Ngongo
+            - text: (bifurcation) mu wola ya 08h45', Nkangu wa Lukala ye kinzungidila va paillage ya Lukala.
+        - generic [ref=e319]:
+          - generic [ref=e322]:
+            - link "Kinshasa, le 4 NOV.2015 A Monsieur le commissaire ... Facebook · MAI-NDOMBE MA JERUSALEM il y a 10 ans" [ref=e324] [cursor=pointer]:
+              - /url: https://www.facebook.com/groups/374730952651452/posts/411816565609557/
+              - heading "Kinshasa, le 4 NOV.2015 A Monsieur le commissaire ..." [level=3] [ref=e325]
+              - generic [ref=e330]:
+                - generic [ref=e332]: Facebook · MAI-NDOMBE MA JERUSALEM
+                - generic [ref=e334]: il y a 10 ans
+            - button "À propos de ce résultat" [ref=e335] [cursor=pointer]:
+              - img [ref=e338]
+          - generic [ref=e342]:
+            - text: "Sur le plan administratif, il est subdivisé en 8 territoires, 19 secteurs et 52 groupements. ... Basengele : Mbelo, Mpenge,"
+            - emphasis [ref=e343]: Ngongo
+            - text: ", Bokote 2."
+        - generic [ref=e347]:
+          - generic [ref=e350]:
+            - link "Mbour ma ville ma fièrté Facebook · Mbour ma ville ma fièrté Plus de 430 abonnés" [ref=e352] [cursor=pointer]:
+              - /url: https://www.facebook.com/groups/mbourmaville/
+              - heading "Mbour ma ville ma fièrté" [level=3] [ref=e353]
+              - generic [ref=e358]:
+                - generic [ref=e360]: Facebook · Mbour ma ville ma fièrté
+                - generic [ref=e362]: Plus de 430 abonnés
+            - button "À propos de ce résultat" [ref=e363] [cursor=pointer]:
+              - img [ref=e366]
+          - generic [ref=e370]:
+            - text: ...
+            - emphasis [ref=e371]: Ngongo
+            - text: ", Bokote Bolia : Ibeke, Lukanga, Nkita, Bokwala Inongo : Ntombanzale ..."
+            - emphasis [ref=e372]: Mbantin
+            - text: "Mfimi : Mabie, Mba-Ushie, Lenvina Nord, Lenvina Sud Luabu ..."
+        - generic [ref=e376]:
+          - generic [ref=e379]:
+            - link "première lettre ouverte Monsieur le commissaire ... Facebook · Bana LAC Plus de 10 commentaires" [ref=e381] [cursor=pointer]:
+              - /url: https://www.facebook.com/groups/banalac/permalink/1139289979428904/?locale=ar_AR
+              - heading "première lettre ouverte Monsieur le commissaire ..." [level=3] [ref=e382]
+              - generic [ref=e387]:
+                - generic [ref=e389]: Facebook · Bana LAC
+                - generic [ref=e391]: Plus de 10 commentaires
+            - button "À propos de ce résultat" [ref=e392] [cursor=pointer]:
+              - img [ref=e395]
+          - generic [ref=e399]:
+            - text: ...
+            - emphasis [ref=e400]: Ngongo
+            - text: ", Bokote 2. Bolia : Ibeke, Lukanga, Nkita, Bokwala 3. Inongo ..."
+            - emphasis [ref=e401]: Mbantin
+            - text: "2. Mfimi : Mabie, Mba-Ushie, Lenvina Nord, Lenvina Sud 3. Luabu : Mbelo ..."
+      - generic [ref=e403]:
+        - generic [ref=e404]:
+          - heading "Remarques sur les résultats filtrés" [level=2] [ref=e405]
+          - paragraph [ref=e407]:
+            - generic [ref=e408]:
+              - text: Afin d'afficher les résultats les plus pertinents, nous avons omis quelques entrées qui sont très similaires aux 9 entrées actuelles.
+              - text: Si vous le souhaitez, vous pouvez
+              - link "relancer la recherche pour inclure les résultats omis" [ref=e409] [cursor=pointer]:
+                - /url: /search?q=site:facebook.com+%22Ngongo%22+Sakata+Mbantin+rite&sca_esv=c5f7ccd55e595ca8&filter=0
+              - text: .
+          - generic [ref=e412]:
+            - text: Certains résultats peuvent avoir été supprimés conformément à la loi européenne sur la protection des données.
+            - link "En savoir plus" [ref=e413] [cursor=pointer]:
+              - /url: https://www.google.com/policies/faq
+        - navigation
+      - navigation
+    - contentinfo [ref=e414]:
+      - heading "Liens de pied de page" [level=1] [ref=e415]
+      - generic [ref=e419]:
+        - generic [ref=e421]:
+          - text: Belgique
+          - generic [ref=e423]:
+            - button "Jette - D'après votre adresse IP" [ref=e425] [cursor=pointer]:
+              - generic [ref=e426]: Jette
+              - generic [ref=e428]:
+                - text: "-"
+                - generic [ref=e429]: D'après votre adresse IP
+            - text: "-"
+            - button "Mettre à jour ma position" [ref=e431] [cursor=pointer]: Mettre à jour ma position
+        - generic [ref=e434]:
+          - link "Aide" [ref=e435] [cursor=pointer]:
+            - /url: https://support.google.com/websearch/?p=ws_results_help&hl=fr-BE&fg=1
+          - link "Envoyer des commentaires" [ref=e436] [cursor=pointer]:
+            - /url: "#"
+          - link "Confidentialité" [ref=e437] [cursor=pointer]:
+            - /url: https://policies.google.com/privacy?hl=fr-BE&fg=1
+          - link "Conditions" [ref=e438] [cursor=pointer]:
+            - /url: https://policies.google.com/terms?hl=fr-BE&fg=1

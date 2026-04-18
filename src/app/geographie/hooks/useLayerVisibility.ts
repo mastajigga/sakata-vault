@@ -10,6 +10,7 @@ export type LayerId =
   | "villages"
   | "chiefdoms"
   | "clans"
+  | "provinces"
   | "community";
 
 export interface LayerState {
@@ -77,6 +78,14 @@ const DEFAULT_LAYERS: LayerState[] = [
     icon: "shield",
     visible: false,
     description: "3 strata sociaux — Badju (haut rang), Bambe (propriétaires), Nsane (commun)",
+  },
+  {
+    id: "provinces",
+    label: "Provinces",
+    labelSkt: "Mabelé ya Congo",
+    icon: "globe",
+    visible: false,
+    description: "Les 26 provinces de la RDC — Mai-Ndombe en lumière",
   },
   {
     id: "community",
