@@ -5,6 +5,7 @@ import { MemberImage } from "@/components/MemberImage";
 import { notFound } from "next/navigation";
 import { ArrowLeft, Clock, Eye } from "lucide-react";
 import ThreadRepliesClient from "./ThreadRepliesClient";
+import { supabasePublic, supabaseAdmin } from "@/lib/supabase/admin";
 
 export const revalidate = 60;
 
