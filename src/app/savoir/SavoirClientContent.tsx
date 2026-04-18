@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import SectionCard from "@/components/SectionCard";
 import { motion } from "framer-motion";
 import { useLanguage } from "@/components/LanguageProvider";
+import { useAuth } from "@/components/AuthProvider";
 
 interface Article {
   slug: string;
@@ -19,7 +20,10 @@ interface SavoirClientContentProps {
 
 export default function SavoirClientContent({ articles }: SavoirClientContentProps) {
   const { language, t } = useLanguage();
+  const { user, profile } = useAuth();
   const [videoReady, setVideoReady] = useState(false);
+
+  const welcomeName = profile?.nickname || profile?.username || user?.email?.split('@')[0];
 
   return (
     <>
@@ -53,7 +57,7 @@ export default function SavoirClientContent({ articles }: SavoirClientContentPro
             transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
           >
             <span className="eyebrow mb-6 block" style={{ color: "var(--or-ancestral)" }}>
-              {t("hero.eyebrow")}
+              {user ? `${t("hero.eyebrow")} — Mbote, ${welcomeName}` : t("hero.eyebrow")}
             </span>
             <h1
               className="font-display font-bold leading-tight mb-8"

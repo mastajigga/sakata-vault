@@ -173,43 +173,42 @@ export default function Home() {
 
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 auto-rows-[180px]">
           {[
-            {
-              icon: "🌍",
-              title: "Calque Provinces RDC",
+              icon: "✨",
+              title: "Identité & Accueil",
               date: "Avril 2026",
-              desc: "Explorez les 26 provinces de la RDC. Focus spécial sur le Mai-Ndombe, terre ancestrale des Basakata, avec données administratives et culturelles.",
+              desc: "Personnalisation dynamique des sections Savoir et École. Le Hub reconnaît désormais votre parcours et vous accueille personnellement.",
               span: "md:col-span-2 md:row-span-2",
               color: "rgba(193, 107, 52, 0.1)"
+            },
+            {
+              icon: "🖼️",
+              title: "Robustesse Visuelle",
+              date: "Avril 2026",
+              desc: "Nouveau composant MemberImage pour une gestion parfaite des avatars et fallbacks. Timeouts de sécurité contre les chargements infinis.",
+              span: "md:col-span-2",
+              color: "rgba(233,196,106,0.1)"
+            },
+            {
+              icon: "📧",
+              title: "Infrastructure Email",
+              date: "Avril 2026",
+              desc: "Intégration de Resend pour les notifications et newsletters. Configuration DNS (DKIM/SPF) validée pour sakata-basakata.com.",
+              span: "md:col-span-1",
+              color: "rgba(255,255,255,0.03)"
+            },
+            {
+              icon: "🌍",
+              title: "Géographie v2.4",
+              date: "Avril 2026",
+              desc: "Calque des 26 provinces de la RDC avec focus sur le Mai-Ndombe. Moteur Mapbox GL JS v3 avec relief 3D.",
+              span: "md:col-span-1",
+              color: "rgba(255,255,255,0.03)"
             },
             {
               icon: "📜",
               title: "Sagesse Ngongo",
               date: "Avril 2026",
-              desc: "Nouveaux articles de fond sur les rites d'initiation Ngongo. Une recherche exhaustive de plus de 6000 mots sur la philosophie et la technique ancestrale.",
-              span: "md:col-span-2",
-              color: "rgba(233,196,106,0.1)"
-            },
-            {
-              icon: "🖼️",
-              title: "Mapbox GL JS v3",
-              date: "Avril 2026",
-              desc: "Mise à jour du moteur cartographique : Globe 3D, atmosphère dynamique et relief haute précision pour une immersion totale.",
-              span: "md:col-span-1",
-              color: "rgba(255,255,255,0.03)"
-            },
-            {
-              icon: "⚡",
-              title: "Performance v2.4",
-              date: "Avril 2026",
-              desc: "Optimisation du chargement des GeoJSON et synchronisation temps réel des calques géographiques.",
-              span: "md:col-span-1",
-              color: "rgba(255,255,255,0.03)"
-            },
-            {
-              icon: "🔐",
-              title: "Sécurité & Cache",
-              date: "Avril 2026",
-              desc: "Nouveau système de caching hybride et validation stricte des données pour une navigation fluide et protégée.",
+              desc: "Archives majeures sur les rites Ngongo. Recherche exhaustive sur la philosophie ancestrale basakata.",
               span: "md:col-span-2",
               color: "rgba(233,196,106,0.05)"
             },

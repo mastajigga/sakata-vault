@@ -138,3 +138,8 @@ Chaque article publié sur Kisakata.com DOIT suivre cette structure :
 - JAMAIS de source coloniale présentée sans recul critique
 - JAMAIS de contenu copié d'un autre site sans vérification et reformulation
 - JAMAIS de simplification excessive des croyances spirituelles (respecter la complexité)
+
+## 7. REPRÉSENTATION VISUELLE ROBUSTE
+Chaque membre ou contributeur doit être représenté avec dignité.
+- **MemberImage** : Utiliser systématiquement le composant `MemberImage` pour garantir que chaque visage (même en l'absence d'avatar) est rendu avec harmonie (fallbacks, initiales, design 1px).
+- **Crédits visuels** : Les photos issues de recherches (Facebook, Archives) doivent porter une mention de copyright ou de source `[Media]`.

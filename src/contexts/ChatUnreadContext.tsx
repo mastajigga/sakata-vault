@@ -70,6 +70,7 @@ export function ChatUnreadProvider({
           console.log("[ChatUnread] Conversations récupérées:", convData.length);
           const mapped: ConversationItem[] = convData.map((conv: any) => {
             let displayName = conv.name;
+            let avatarUrl = conv.avatar_url;
             if (conv.type === "direct") {
               const other = conv.participants?.find(
                 (p: any) => p.user_id !== userId
@@ -77,11 +78,13 @@ export function ChatUnreadProvider({
               displayName = other
                 ? other.nickname || other.username
                 : "Moi-même";
+              avatarUrl = other?.avatar_url;
             }
             return {
               id: conv.id,
               type: conv.type,
               name: displayName || "Conversation",
+              avatar_url: avatarUrl,
               unreadCount: Number(conv.unread_count),
               lastMessage: conv.last_message,
               lastMessageAt: conv.last_message_at,

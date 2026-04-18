@@ -4,6 +4,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowRight, BookOpenText, GraduationCap, Sigma } from "lucide-react";
 import { useState } from "react";
+import { useAuth } from "@/components/AuthProvider";
 
 const metrics = [
   { label: "Rivières de savoir", value: "3" },
@@ -12,7 +13,10 @@ const metrics = [
 ];
 
 export default function EcoleHero() {
+  const { user, profile } = useAuth();
   const [videoReady, setVideoReady] = useState(false);
+
+  const studentName = profile?.nickname || profile?.username || user?.email?.split('@')[0];
 
   return (
     <section className="relative min-h-[100dvh] overflow-hidden">
@@ -51,7 +55,9 @@ export default function EcoleHero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           >
-            <span className="eyebrow">Sanctuaire vivant de transmission</span>
+            <span className="eyebrow">
+              {user ? `Bienvenue, ${studentName}` : "Sanctuaire vivant de transmission"}
+            </span>
             <h1 className="mt-8 max-w-[12ch] font-display text-[clamp(3.5rem,8vw,7rem)] font-bold leading-[0.92] tracking-[-0.06em] text-[var(--ivoire-ancien)]">
               L’École de la Brume
             </h1>
@@ -67,15 +73,17 @@ export default function EcoleHero() {
                 href="#mathematiques"
                 className="inline-flex items-center gap-2 rounded-full border border-[rgba(196,160,53,0.3)] px-6 py-3 text-sm font-semibold text-[var(--or-ancestral)] transition-all duration-300 active:scale-[0.98]"
               >
-                Entrer dans l’atelier mathématique
+                {user ? "Continuer mon apprentissage" : "Entrer dans l’atelier mathématique"}
                 <ArrowRight className="h-4 w-4" />
               </Link>
-              <Link
-                href="/auth"
-                className="inline-flex items-center gap-2 rounded-full border border-[rgba(212,221,215,0.12)] px-6 py-3 text-sm font-medium text-[rgba(212,221,215,0.84)] transition-all duration-300 active:scale-[0.98]"
-              >
-                Créer un compte pour sauvegarder sa progression
-              </Link>
+              {!user && (
+                <Link
+                  href="/auth"
+                  className="inline-flex items-center gap-2 rounded-full border border-[rgba(212,221,215,0.12)] px-6 py-3 text-sm font-medium text-[rgba(212,221,215,0.84)] transition-all duration-300 active:scale-[0.98]"
+                >
+                  Créer un compte pour sauvegarder sa progression
+                </Link>
+              )}
             </div>
           </motion.div>
 

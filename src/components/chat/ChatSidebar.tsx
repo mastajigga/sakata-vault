@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Search, Users, User, Plus, ArrowLeft } from "lucide-react";
 import { useConversations } from "@/hooks/chat/useConversations";
 import { NewChatModal } from "./NewChatModal";
+import { MemberImage } from "@/components/MemberImage";
 
 interface ChatSidebarProps {
   activeId: string | null;
@@ -14,6 +15,7 @@ export type ConversationItem = {
   id: string;
   type: "direct" | "group";
   name?: string;
+  avatar_url?: string;
   lastMessage?: string;
   lastMessageAt?: string;
   unreadCount: number;
@@ -76,8 +78,14 @@ export function ChatSidebar({ activeId }: ChatSidebarProps) {
               activeId === chat.id ? "bg-white dark:bg-stone-800 shadow-sm" : ""
             }`}
           >
-            <div className={`flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center text-white ${chat.type === 'group' ? 'bg-amber-600' : 'bg-emerald-600'}`}>
-              {chat.type === 'group' ? <Users size={20} /> : <User size={20} />}
+            <div className={`flex-shrink-0 w-12 h-12 rounded-full overflow-hidden relative shadow-sm border border-stone-200 dark:border-stone-700`}>
+              {chat.type === 'direct' ? (
+                <MemberImage profile={{ avatar_url: chat.avatar_url, nickname: chat.name }} />
+              ) : (
+                <div className="w-full h-full bg-amber-600 flex items-center justify-center text-white">
+                  <Users size={20} />
+                </div>
+              )}
             </div>
             
             <div className="ml-3 flex-1 text-left overflow-hidden">

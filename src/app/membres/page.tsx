@@ -10,6 +10,7 @@ import Navbar from "@/components/Navbar";
 import { motion } from "framer-motion";
 import { Search, SortAsc, Clock, Users, MapPin, MessageCircle } from "lucide-react";
 import { resolveStorageUrl } from "@/lib/supabase/storage-utils";
+import { MemberImage } from "@/components/MemberImage";
 
 const PAGE_SIZE = 20;
 
@@ -22,51 +23,6 @@ interface Profile {
   short_bio: string | null;
   location: string | null;
   contributor_status?: string | null;
-}
-
-/**
- * Composant robuste pour l'affichage des images de profil (Avatar ou Cover)
- * Résout les URLs Storage et gère les placeholders
- */
-function MemberImage({ 
-  profile, 
-  priority = false 
-}: { 
-  profile: Profile, 
-  priority?: boolean 
-}) {
-  const rawUrl = profile.cover_photo_url || profile.avatar_url;
-  
-  const resolvedUrl = useMemo(() => {
-    const res = resolveStorageUrl(rawUrl);
-    console.log(`[MemberImage] @${profile.username} sorted:`, { raw: rawUrl, resolved: res });
-    return res;
-  }, [rawUrl, profile.username]);
-
-  const isPlaceholder = resolvedUrl.includes("placeholder-avatar.jpg");
-
-  // Utilisation de <img> pour les images distantes (plus robuste contre les restrictions Next.js Domain)
-  // next/image pour le placeholder local
-  if (isPlaceholder) {
-    return (
-      <Image
-         src={resolvedUrl}
-         alt={profile.nickname || profile.username || "Sakata Member"}
-         fill
-         priority={priority}
-         className="object-cover transition-transform duration-700 group-hover:scale-110"
-      />
-    );
-  }
-
-  return (
-    <img
-       src={resolvedUrl}
-       alt={profile.nickname || profile.username || "Sakata Member"}
-       loading={priority ? "eager" : "lazy"}
-       className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-    />
-  );
 }
 
 type SortMode = "recent" | "alpha";

@@ -11,6 +11,7 @@ import {
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import EcoleHero from "./components/EcoleHero";
+import StudentSummary from "./components/StudentSummary";
 import KnowledgeRivers from "./components/KnowledgeRivers";
 import MathCurriculumSwitcher from "./components/MathCurriculumSwitcher";
 import PremiereAnneeIntro from "./content/premiere-annee-intro.mdx";
@@ -54,6 +55,10 @@ export default function EcolePage() {
     <main className="grain-overlay min-h-[100dvh] bg-[var(--foret-nocturne)]">
       <Navbar />
       <EcoleHero />
+      
+      <section className="section-container relative z-10 -mt-12 mb-10">
+        <StudentSummary />
+      </section>
 
       <section className="section-container py-20 md:py-28">
         <div className="grid gap-6 lg:grid-cols-[minmax(0,1.15fr)_minmax(280px,0.85fr)] lg:items-start">

@@ -6,6 +6,8 @@ import { MarkdownEditor } from "@/components/forum/MarkdownEditor";
 import { Loader2 } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import { useAuth } from "@/components/AuthProvider";
+import { MemberImage } from "@/components/MemberImage";
 
 interface Post {
   id: string;
@@ -32,13 +34,11 @@ export default function ThreadRepliesClient({ threadId, initialPosts, isLocked }
   const [replyContent, setReplyContent] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [currentUser, setCurrentUser] = useState<any>(null);
+  const { user: currentUser } = useAuth();
   
   const endOfPostsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    supabase.auth.getUser().then(({ data }) => setCurrentUser(data.user));
-
     const channel = supabase
       .channel(`thread_${threadId}`)
       .on(
@@ -123,13 +123,9 @@ export default function ThreadRepliesClient({ threadId, initialPosts, isLocked }
             >
               <div className="flex items-center justify-between mb-6 border-b border-[#B59551]/10 pb-4">
                 <div className="flex items-center gap-4">
-                  {post.profiles?.avatar_url ? (
-                    <img src={post.profiles.avatar_url} alt="author" className="w-10 h-10 rounded-full object-cover border border-[#B59551]/40" />
-                  ) : (
-                    <div className="w-10 h-10 rounded-full bg-[#B59551]/10 border border-[#B59551]/40 flex items-center justify-center text-[#B59551] font-semibold">
-                      {(post.profiles?.nickname || post.profiles?.username || 'V').charAt(0).toUpperCase()}
-                    </div>
-                  )}
+                  <div className="relative w-10 h-10 rounded-full overflow-hidden border border-[#B59551]/40">
+                     <MemberImage profile={post.profiles || {}} priority={false} />
+                  </div>
                   <div>
                     <h4 className="text-[#F2EEDD] font-medium flex items-center gap-2">
                       {post.profiles?.nickname || post.profiles?.username || 'Villageois Anonyme'}

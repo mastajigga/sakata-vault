@@ -34,7 +34,7 @@ export const MAX_VIEWS = {
   TWICE: 2,
 } as const;
 
-export const APP_VERSION = "2.4.0"; // Bumped 2026-04-18 — Provinces layer, Ngongo rites, Mapbox v3 final enrichment
+export const APP_VERSION = "2.5.0"; // Bumped 2026-04-18 — Personalization, Robust Visuals & Email Infrastructure
 export const PINECONE_DEFAULT_INDEX = "sakata-mathematics";
 
 // ─── Hiérarchie des rôles ────────────────────────────────────────────────────

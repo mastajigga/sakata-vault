@@ -1,7 +1,7 @@
-import { supabaseAdmin, supabasePublic } from "@/lib/supabase/admin";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Link from "next/link";
+import { MemberImage } from "@/components/MemberImage";
 import { notFound } from "next/navigation";
 import { ArrowLeft, Clock, Eye } from "lucide-react";
 import ThreadRepliesClient from "./ThreadRepliesClient";
@@ -91,11 +91,9 @@ export default async function ThreadPage(props: { params: Promise<{ thread_slug:
           </h1>
           <div className="flex flex-wrap items-center gap-6 text-sm text-[var(--ivoire-ancien)]/50 font-light">
             <div className="flex items-center gap-2">
-              {thread.profiles?.avatar_url ? (
-                <img src={thread.profiles.avatar_url} alt="author" className="w-6 h-6 rounded-full object-cover" />
-              ) : (
-                <div className="w-6 h-6 rounded-full bg-[var(--or-ancestral)]/20 border border-[var(--or-ancestral)]/30"></div>
-              )}
+              <div className="relative w-6 h-6 rounded-full overflow-hidden">
+                <MemberImage profile={thread.profiles} priority={true} />
+              </div>
               <span className="text-[var(--ivoire-ancien)]/80 font-medium">{thread.profiles?.nickname || thread.profiles?.username || 'Anonyme'}</span>
             </div>
             <span className="flex items-center gap-1.5"><Clock size={16} /> {formattedDate}</span>

@@ -10,6 +10,7 @@ import { supabase } from "@/lib/supabase";
 import { useAuth } from "../AuthProvider";
 import { withRetry } from "@/lib/supabase-retry";
 import { DB_TABLES } from "@/lib/constants/db";
+import { MemberImage } from "@/components/MemberImage";
 
 export type Message = {
   id: string;
@@ -58,8 +59,9 @@ export function ChatWindow({ conversationId, onBack }: ChatWindowProps) {
   const { typingUsers, updateTyping } = useTyping(conversationId);
   const [showMenu, setShowMenu] = useState(false);
 
-  // Dynamic conversation name + initial
+  // Dynamic conversation name + avatar
   const [conversationName, setConversationName] = useState("Conversation");
+  const [conversationAvatar, setConversationAvatar] = useState<string | null>(null);
   const [conversationInitial, setConversationInitial] = useState("C");
 
   useEffect(() => {
@@ -68,7 +70,7 @@ export function ChatWindow({ conversationId, onBack }: ChatWindowProps) {
     async function loadConversationMeta() {
       const { data } = await supabase
         .from(DB_TABLES.CHAT_PARTICIPANTS)
-        .select("profiles:user_id(nickname, username)")
+        .select("profiles:user_id(nickname, username, avatar_url)")
         .eq("conversation_id", conversationId)
         .neq("user_id", user!.id)
         .limit(1)
@@ -77,6 +79,7 @@ export function ChatWindow({ conversationId, onBack }: ChatWindowProps) {
       const profile = (data as any).profiles;
       const name: string = profile?.nickname || profile?.username || "Conversation";
       setConversationName(name);
+      setConversationAvatar(profile?.avatar_url || null);
       setConversationInitial(name.charAt(0).toUpperCase());
     }
     loadConversationMeta();
@@ -232,8 +235,8 @@ export function ChatWindow({ conversationId, onBack }: ChatWindowProps) {
           >
             <ArrowLeft size={20} className="text-stone-700 dark:text-stone-300" />
           </button>
-          <div className="w-10 h-10 rounded-full bg-amber-600 flex items-center justify-center text-white mr-3 shadow-md font-bold text-sm">
-            {conversationInitial}
+          <div className="w-10 h-10 rounded-full bg-amber-600 relative overflow-hidden mr-3 shadow-md font-bold text-sm">
+            <MemberImage profile={{ avatar_url: conversationAvatar, nickname: conversationName }} />
           </div>
           <div>
             <h3 className="font-bold text-stone-900 dark:text-stone-100 font-serif leading-tight">

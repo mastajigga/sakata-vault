@@ -1,5 +1,39 @@
 [
   {
+    "version": "v2.5.0",
+    "date": "Avril 2026",
+    "subtitle": "Personnalisation, Robustesse Visuelle & Emailing",
+    "sections": [
+      {
+        "title": "✨ Personnalisation (useAuth)",
+        "items": [
+          "Savoir — En-tête dynamique avec accueil personnalisé pour les membres",
+          "École — Hero personnalisé reconnaissant le parcours de l'élève",
+          "Tableau de bord École — Nouveau composant StudentSummary avec scores temps réel depuis Supabase",
+          "Call-to-Action dynamiques pour une navigation fluide selon l'état d'authentification"
+        ]
+      },
+      {
+        "title": "🖼️ Robustesse Visuelle",
+        "items": [
+          "Nouveau composant MemberImage pour une résolution d'avatar cross-component",
+          "Gestion unifiée des fallbacks (initiales si pas d'image, profil par défaut)",
+          "Support hybride next/image (optimisé) et <img> (sources externes)",
+          "Timeouts de sécurité (8s/10s) contre les chargements infinis sur les pages critiques"
+        ]
+      },
+      {
+        "title": "📧 Infrastructure Email (Resend)",
+        "items": [
+          "Passage en production pour les notifications système via notifications@sakata-basakata.com",
+          "Configuration DNS complète (DKIM, SPF, MX, DMARC) via Netlify",
+          "Templates HTML premium respectant l'identité visuelle du hub",
+          "Route API unifiée pour l'envoi massif de mises à jour aux membres"
+        ]
+      }
+    ]
+  },
+  {
     "version": "v2.3.0",
     "date": "Avril 2026",
     "subtitle": "Aujourd'hui — Audit Realtime, École complète, Chat réactif",

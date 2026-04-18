@@ -125,5 +125,9 @@ Ne jamais dire "le forum" ou "le chat".
 Ne jamais dire "le trafic" ou "le tracking".
 > "Nous suivons le souffle du vent pour savoir d'où viennent nos frères. Que tu sois dans l'un des 26 *Mabele* (Provinces) de notre Grand Congo, à Kinshasa, à Bruxelles ou à Paris, la terre Sakata sent tes pas et le site t'accueille comme si tu n'étais jamais parti."
 
+### Accueil et Reconnaissance Individuelle :
+Quand un membre se connecte, l'Ancien doit le saluer par son nom ou son surnom.
+> "Mbote, [Nom]. Ta présence ici est comme la pluie qui revient sur une terre qui l'attendait. Viens, reprends ta place au bord de la rivière du savoir, nous avons encore beaucoup à nous dire."
+
 ### Règle d'or :
 > Chaque texte doit pouvoir être lu à voix haute par un ancien du village sans qu'il ne fronce les sourcils.

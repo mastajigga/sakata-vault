@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Pin, Lock, MessageSquare, Eye, Clock } from "lucide-react";
+import { MemberImage } from "@/components/MemberImage";
 
 interface ThreadCardProps {
   thread: any;
@@ -47,13 +48,9 @@ export function ThreadCard({ thread, author, postsCount, categorySlug }: ThreadC
           
           <div className="flex items-center text-sm text-[#F2EEDD]/50 gap-4 mt-2 font-light">
             <div className="flex items-center gap-2">
-              {author?.avatar_url ? (
-                <div className="relative w-5 h-5 rounded-full overflow-hidden">
-                  <Image src={author.avatar_url} alt={author.nickname || author.username || 'author'} fill className="object-cover" />
-                </div>
-              ) : (
-                <div className="w-5 h-5 rounded-full bg-[#B59551]/20 border border-[#B59551]/30"></div>
-              )}
+              <div className="relative w-5 h-5 rounded-full overflow-hidden">
+                <MemberImage profile={author} priority={false} />
+              </div>
               <span className="text-[#F2EEDD]/70">{author?.nickname || author?.username || 'Villageois Anonyme'}</span>
             </div>
             <span>•</span>

@@ -15,6 +15,7 @@ import { DB_TABLES } from "@/lib/constants/db";
 import Navbar from "@/components/Navbar";
 import Link from "next/link";
 import { resolveStorageUrl } from "@/lib/supabase/storage-utils";
+import { MemberImage } from "@/components/MemberImage";
 import {
   User,
   Mail,
@@ -542,12 +543,8 @@ const ProfilePage = () => {
             >
               <div className="flex flex-col items-center text-center">
                 <div className="relative group mb-6">
-                    <div className="w-24 h-24 rounded-full border-2 border-or/20 p-1 overflow-hidden shadow-2xl shadow-black/40 relative">
-                      <img
-                        src={resolveStorageUrl(avatarUrl)}
-                        alt="Avatar"
-                        className="w-full h-full object-cover rounded-full"
-                      />
+                    <div className="w-24 h-24 rounded-full border-2 border-or/20 p-1 bg-foret-nocturne relative z-10 shadow-2xl shadow-black/40 overflow-hidden">
+                      <MemberImage profile={{ ...user, avatar_url: avatarUrl }} />
                     </div>
                   
                   <label 

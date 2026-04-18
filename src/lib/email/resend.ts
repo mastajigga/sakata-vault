@@ -15,7 +15,7 @@ interface SendEmailOptions {
 export async function sendEmail({ to, subject, html }: SendEmailOptions) {
   try {
     const { data, error } = await resend.emails.send({
-      from: "Sakata Digital <notifications@sakata.com>", // A mettre à jour si le domaine est vérifié
+      from: "Sakata Digital <notifications@sakata-basakata.com>",
       to,
       subject,
       html,
