@@ -39,3 +39,25 @@ Fast Refresh requires at least one parent function component in your React tree.
 [ 5753424ms] [LOG] [Fast Refresh] done in 186ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
 [ 5765563ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
 [ 5765595ms] [LOG] [Fast Refresh] done in 138ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[24313183ms] [VERBOSE] [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) %o @ http://localhost:3000/auth?redirect_to=%2Fgeographie:0
+[24313256ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[24313420ms] [LOG] [HMR] connected @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[24313462ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[24313462ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[24313502ms] [LOG] [ChatUnread] Fetching for user: undefined @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[24313507ms] [LOG] [AuthProvider] init: START @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[24313507ms] [LOG] [AuthProvider] init: getSession start... @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[24313534ms] [LOG] [AuthProvider] init: session status: false @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[24313534ms] [LOG] [AuthProvider] init: no session or unmounted @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[24313535ms] [LOG] [AuthProvider] init: finally block - setting loading to false @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[24313535ms] [LOG] [AuthProvider] init: promise resolved @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[24313535ms] [LOG] [AuthProvider] Render (isLoading: false, hasUser: false) @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[24313536ms] [LOG] [AuthProvider] Render (isLoading: false, hasUser: false) @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[24313758ms] [LOG] [AuthProvider] Render (isLoading: false, hasUser: false) @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[24313758ms] [LOG] [AuthProvider] Render (isLoading: false, hasUser: false) @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[24315165ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[24315444ms] [LOG] [Fast Refresh] done in 394ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[24528114ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[24528285ms] [LOG] [Fast Refresh] done in 283ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[24535116ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[24535276ms] [LOG] [Fast Refresh] done in 270ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431

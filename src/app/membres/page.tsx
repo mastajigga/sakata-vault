@@ -60,10 +60,12 @@ export default function MembresPage() {
         if (!mounted) return;
 
         if (error) {
-          console.error("[Membres] Fetch error:", error);
+          console.error("[Membres] Fetch error:", error.message, error);
         } else if (data) {
-          console.log("[Membres] Profils récupérés:", data.length);
+          console.log("[Membres] Profils récupérés brute:", data.length);
           setProfiles(data as Profile[]);
+        } else {
+          console.warn("[Membres] No data and no error returned from fetchProfiles");
         }
       } catch (err) {
         console.error("[Membres] Exception fetchProfiles:", err);
@@ -82,11 +84,16 @@ export default function MembresPage() {
 
   // Filtrage + tri client-side
   const filtered = useMemo(() => {
+    console.log(`[Membres] filtered useMemo: DEBUT (profiles: ${profiles.length}, search: "${search}", showContrib: ${showContributors})`);
     let list = [...profiles];
 
     // Filtre contributeurs approuvés
     if (showContributors) {
-      list = list.filter(p => p.contributor_status === "approved");
+      list = list.filter(p => {
+        const isApproved = p.contributor_status === "approved";
+        return isApproved;
+      });
+      console.log(`[Membres] filtered: après filtre contributeurs: ${list.length}`);
     }
 
     // Recherche
@@ -98,17 +105,19 @@ export default function MembresPage() {
         (p.short_bio?.toLowerCase().includes(q)) ||
         (p.location?.toLowerCase().includes(q))
       );
+      console.log(`[Membres] filtered: après recherche: ${list.length}`);
     }
 
     // Tri
     if (sort === "alpha") {
       list.sort((a, b) => {
-        const nameA = (a.nickname || a.username).toLowerCase();
-        const nameB = (b.nickname || b.username).toLowerCase();
+        const nameA = (a.nickname || a.username || "").toLowerCase();
+        const nameB = (b.nickname || b.username || "").toLowerCase();
         return nameA.localeCompare(nameB);
       });
     }
 
+    console.log(`[Membres] filtered useMemo: FIN (${list.length} restants)`);
     return list;
   }, [profiles, search, sort, showContributors]);
 
