@@ -48,6 +48,27 @@ export default function MembresPage() {
   useEffect(() => {
     let mounted = true;
 
+    // --- ESPION RÉSEAU ---
+    const originalFetch = window.fetch;
+    const fetchSpy = async (...args: any[]) => {
+      const url = typeof args[0] === 'string' ? args[0] : (args[0] as any).url || "URL inconnue";
+      if (url.includes('supabase')) {
+        console.log(`[NETWORK-SPY] >>> Envoi vers Supabase: ${url.substring(0, 100)}...`);
+      }
+      try {
+        const result = await originalFetch(...args);
+        if (url.includes('supabase')) {
+          console.log(`[NETWORK-SPY] <<< Réponse de Supabase: ${result.status} ${url.substring(0, 50)}`);
+        }
+        return result;
+      } catch (err) {
+        console.error(`[NETWORK-SPY] !!! Erreur réseau: ${url.substring(0, 50)}`, err);
+        throw err;
+      }
+    };
+    window.fetch = fetchSpy as any;
+    // -----------------------
+
     async function fetchProfiles() {
       // SÉQUENÇAGE : Attendre que l'auth soit stable avant de lancer les requêtes lourdes
       if (authLoading) {
@@ -96,7 +117,10 @@ export default function MembresPage() {
     
     fetchProfiles();
 
-    return () => { mounted = false; };
+    return () => {
+      mounted = false;
+      window.fetch = originalFetch;
+    };
   }, [authLoading]); // Redéclenche quand l'auth est prête
 
   // Filtrage + tri client-side
