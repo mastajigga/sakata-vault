@@ -23,6 +23,57 @@ interface Profile {
   contributor_status?: string | null;
 }
 
+/**
+ * Composant robuste pour l'affichage des images de profil (Avatar ou Cover)
+ * Résout les URLs Storage et gère les placeholders
+ */
+function MemberImage({ 
+  profile, 
+  priority = false 
+}: { 
+  profile: Profile, 
+  priority?: boolean 
+}) {
+  const rawUrl = profile.cover_photo_url || profile.avatar_url;
+  
+  const resolvedUrl = useMemo(() => {
+    if (!rawUrl) return "/images/placeholder-avatar.jpg";
+    if (rawUrl.startsWith("http")) return rawUrl;
+    
+    // Si c'est un format storage: (rare en dehors du chat mais possible)
+    if (rawUrl.startsWith("storage:")) {
+      try {
+        const bucket = rawUrl.substring(8, rawUrl.indexOf("/", 8));
+        const path = rawUrl.substring(rawUrl.indexOf("/", 8) + 1);
+        const { data } = supabase.storage.from(bucket).getPublicUrl(path);
+        return data.publicUrl;
+      } catch (e) {
+        console.error("[MemberImage] Error parsing storage path:", e);
+        return "/images/placeholder-avatar.jpg";
+      }
+    }
+    
+    // Si c'est juste un path relatif, on tente le bucket avatars par défaut
+    if (rawUrl.includes("/")) {
+       const { data } = supabase.storage.from("avatars").getPublicUrl(rawUrl);
+       return data.publicUrl;
+    }
+    
+    return "/images/placeholder-avatar.jpg";
+  }, [rawUrl]);
+
+  return (
+    <Image
+       src={resolvedUrl}
+       alt={profile.nickname || profile.username || "Sakata Member"}
+       fill
+       priority={priority}
+       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+       className="object-cover transition-transform duration-700 group-hover:scale-110"
+    />
+  );
+}
+
 type SortMode = "recent" | "alpha";
 
 export default function MembresPage() {
@@ -34,7 +85,18 @@ export default function MembresPage() {
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
 
   useEffect(() => {
+    let mounted = true;
+
     async function fetchProfiles() {
+      console.log("[Membres] Début fetchProfiles...");
+      // Safety Timeout : Si le fetch prend trop de temps, on libère l'UI
+      const safetyTimeout = setTimeout(() => {
+        if (mounted && loading) {
+          console.warn("[Membres] Fetch profiles timeout (>8s). Forcer la fin du chargement.");
+          setLoading(false);
+        }
+      }, 8000);
+
       try {
         const { data, error } = await withRetry(async () =>
           supabase
@@ -44,16 +106,27 @@ export default function MembresPage() {
             .order("updated_at", { ascending: false })
         );
 
+        if (!mounted) return;
+
         if (error) {
           console.error("[Membres] Fetch error:", error);
         } else if (data) {
+          console.log("[Membres] Profils récupérés:", data.length);
           setProfiles(data as Profile[]);
         }
+      } catch (err) {
+        console.error("[Membres] Exception fetchProfiles:", err);
       } finally {
-        setLoading(false);
+        if (mounted) {
+          console.log("[Membres] Fin fetchProfiles");
+          clearTimeout(safetyTimeout);
+          setLoading(false);
+        }
       }
     }
     fetchProfiles();
+
+    return () => { mounted = false; };
   }, []);
 
   // Filtrage + tri client-side
@@ -205,24 +278,12 @@ export default function MembresPage() {
                   transition={{ duration: 0.4, delay: Math.min(i * 0.05, 0.5) }}
                   className="group relative"
                 >
-                  <Link
-                    href={`/membre/${profile.username}`}
-                    className="block relative w-full aspect-[3/4] rounded-3xl overflow-hidden shadow-2xl"
-                    style={{ backgroundColor: "var(--foret-nocturne)" }}
-                  >
-                    {/* Photo Background */}
-                    {(profile.cover_photo_url || profile.avatar_url) ? (
-                      <Image
-                        src={profile.cover_photo_url || profile.avatar_url || ""}
-                        alt={profile.nickname || profile.username}
-                        fill
-                        className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                      />
-                    ) : (
-                      <div className="absolute inset-0 w-full h-full flex items-center justify-center" style={{ border: "1px solid var(--or-ancestral)", opacity: 0.2 }}>
-                        <span className="font-display text-8xl" style={{ color: "var(--or-ancestral)", opacity: 0.2 }}>?</span>
-                      </div>
-                    )}
+                  <Link href={`/membre/${profile.username}`} className="block relative w-full aspect-[3/4] rounded-3xl overflow-hidden shadow-2xl" style={{ backgroundColor: "var(--foret-nocturne)" }}>
+                    {/* Photo Background — Utilisation du composant robuste MemberImage */}
+                    <MemberImage profile={profile} priority={i < 4} />
+
+                    {/* Glassmorphism Gradient Overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#0A1F15] via-[#0A1F15]/40 to-transparent opacity-90 transition-opacity duration-500 group-hover:opacity-80" />
 
                     {/* Badge contributeur */}
                     {profile.contributor_status === "approved" && (

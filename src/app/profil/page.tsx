@@ -79,13 +79,24 @@ const ProfilePage = () => {
 
   useEffect(() => {
     if (user) {
+      let mounted = true;
       const fetchProfile = async () => {
+        // Safety timeout
+        const safetyTimeout = setTimeout(() => {
+          if (mounted) {
+            console.warn("[Profile] Fetch timeout (>8s).");
+            setApiError("Délai d'attente dépassé lors du chargement de votre profil.");
+          }
+        }, 8000);
+
         try {
           const { data, error } = await supabase
             .from(DB_TABLES.PROFILES)
             .select("*")
             .eq("id", user.id)
             .single();
+
+          if (!mounted) return;
 
           if (data) {
             reset({
@@ -102,7 +113,9 @@ const ProfilePage = () => {
             setSubEndDate(data.subscription_end_date || null);
           }
         } catch (err) {
-          console.error("Error fetching profile:", err);
+          if (mounted) console.error("Error fetching profile:", err);
+        } finally {
+          if (mounted) clearTimeout(safetyTimeout);
         }
       };
 
@@ -113,16 +126,18 @@ const ProfilePage = () => {
             .select("*")
             .eq("user_id", user.id)
             .order("created_at", { ascending: false });
-          if (data && !error) setGalleryItems(data);
+          if (mounted && data && !error) setGalleryItems(data);
         } catch (err) {
-          console.error("Error fetching gallery:", err);
+          if (mounted) console.error("Error fetching gallery:", err);
         }
       };
 
       fetchProfile();
       fetchGallery();
+
+      return () => { mounted = false; };
     }
-  }, [user]);
+  }, [user, reset]);
 
   const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     try {

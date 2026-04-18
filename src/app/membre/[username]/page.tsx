@@ -26,7 +26,18 @@ const MemberProfilePage = () => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    let mounted = true;
+
     const fetchMemberData = async () => {
+      // Safety Timeout
+      const safetyTimeout = setTimeout(() => {
+        if (mounted && loading) {
+          console.warn("[Member] Fetch timeout (>8s).");
+          setLoading(false);
+          setError("Délai d'attente dépassé. Veuillez réessayer.");
+        }
+      }, 8000);
+
       try {
         setLoading(true);
         // Fetch profile
@@ -36,6 +47,8 @@ const MemberProfilePage = () => {
           .eq("username", username)
           .single();
 
+        if (!mounted) return;
+
         if (profileError || !profileData) {
           setError("Membre introuvable");
           return;
@@ -43,27 +56,36 @@ const MemberProfilePage = () => {
 
         setProfile(profileData);
 
-        // Fetch gallery (RLS will handle visibility)
+        // Fetch gallery
         const { data: galleryData, error: galleryError } = await supabase
           .from("profile_gallery")
           .select("*")
           .eq("user_id", profileData.id)
           .order("created_at", { ascending: false });
 
+        if (!mounted) return;
+
         if (!galleryError && galleryData) {
           setGallery(galleryData);
         }
       } catch (err) {
-        console.error(err);
-        setError("Une erreur est survenue");
+        if (mounted) {
+          console.error(err);
+          setError("Une erreur est survenue");
+        }
       } finally {
-        setLoading(false);
+        if (mounted) {
+          clearTimeout(safetyTimeout);
+          setLoading(false);
+        }
       }
     };
 
     if (username) {
       fetchMemberData();
     }
+
+    return () => { mounted = false; };
   }, [username]);
 
   if (loading) {

@@ -228,25 +228,42 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     let mounted = true;
 
     const init = async () => {
+      console.log("[AuthProvider] Initialisation...");
       try {
         const { data: { session }, error } = await supabase.auth.getSession();
         if (error) {
           console.error("[AuthProvider] getSession error:", error);
         }
+        console.log("[AuthProvider] Session récupérée:", !!session);
         if (mounted && session) {
           setSession(session);
           setUser(session.user);
+          console.log("[AuthProvider] Récupération du profil...");
           await fetchProfile(session.user.id);
         }
       } catch (e) {
         console.error("[AuthProvider] init error:", e);
       } finally {
+        console.log("[AuthProvider] Fin initialisation (Loading -> false)");
         if (mounted) setIsLoading(false);
       }
     };
 
     checkConnection().catch(console.error);
-    init();
+
+    // Safety Timeout : Si le chargement initial (getSession + profile) prend plus de 10s,
+    // on lève le flag isStalled pour permettre à l'UI de réagir (bouton retry, etc.)
+    const stalledTimer = setTimeout(() => {
+      if (isLoading) {
+        console.warn("[AuthProvider] Chargement initial suspendu (>10s). Flag isStalled levé.");
+        setIsStalled(true);
+      }
+    }, 10000);
+
+    init().finally(() => {
+      clearTimeout(stalledTimer);
+      setIsStalled(false);
+    });
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, newSession) => {
       if (!mounted) return;
