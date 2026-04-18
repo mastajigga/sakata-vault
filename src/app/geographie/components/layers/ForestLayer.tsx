@@ -29,13 +29,15 @@ export default function ForestLayer({ data, pointsData }: ForestLayerProps) {
           ["get", "type"],
           "forest", KISAKATA_COLORS.forest,
           "savanna", KISAKATA_COLORS.savanna,
+          "concession", "rgba(193, 107, 52, 0.4)", // Or Ancestral semi-transparent
           KISAKATA_COLORS.forest,
         ],
         "fill-opacity": [
           "match",
           ["get", "type"],
-          "forest", 0.45,
-          "savanna", 0.3,
+          "forest", 0.6,
+          "savanna", 0.35,
+          "concession", 0.3,
           0.4,
         ],
       },
@@ -58,10 +60,16 @@ export default function ForestLayer({ data, pointsData }: ForestLayerProps) {
           ["get", "type"],
           "forest", "#1A4A2E",
           "savanna", "#6B8E23",
+          "concession", "#D4AF37", // Or Ancestral
           "#1A4A2E",
         ],
-        "line-width": 1,
-        "line-opacity": 0.4,
+        "line-width": [
+          "match",
+          ["get", "type"],
+          "concession", 2,
+          1
+        ],
+        "line-opacity": 0.6,
       },
     }),
     []

@@ -4,6 +4,7 @@ import React, { forwardRef, useCallback, useMemo, useEffect, useState } from "re
 // @ts-ignore - mapbox-gl is required for premium 3D
 import Map, { Source, Layer, NavigationControl } from "react-map-gl";
 import mapboxgl from "mapbox-gl";
+import * as topojson from "topojson-client";
 import "mapbox-gl/dist/mapbox-gl.css";
 import type { MapRef, MapLayerMouseEvent } from "react-map-gl";
 import { DEFAULT_VIEW_STATE } from "../lib/mapStyles";
@@ -28,18 +29,18 @@ interface MapContainerProps {
 
 const DATA_FILES = [
   { key: "rivers", url: "/geographie/data/rivers.geojson" },
+  { key: "riversPoints", url: "/geographie/data/rivers-points.geojson" },
   { key: "subtribes", url: "/geographie/data/subtribes.geojson" },
+  { key: "subtribesPoints", url: "/geographie/data/subtribes-points.geojson" },
   { key: "villages", url: "/geographie/data/villages.geojson" },
   { key: "chiefdoms", url: "/geographie/data/chiefdoms.geojson" },
   { key: "chiefdomsPoints", url: "/geographie/data/chiefdoms-points.geojson" },
-  { key: "subtribesPoints", url: "/geographie/data/subtribes-points.geojson" },
   { key: "dialects", url: "/geographie/data/dialects.geojson" },
   { key: "dialectsPoints", url: "/geographie/data/dialects-points.geojson" },
   { key: "clans", url: "/geographie/data/clans.geojson" },
   { key: "clansPoints", url: "/geographie/data/clans-points.geojson" },
-  { key: "forest", url: "/geographie/data/forest.geojson" },
+  { key: "forest", url: "/geographie/data/forest.topojson" },
   { key: "forestPoints", url: "/geographie/data/forest-points.geojson" },
-  { key: "riversPoints", url: "/geographie/data/rivers-points.geojson" },
   { key: "provinces", url: "/geographie/data/provinces.geojson" },
   { key: "provincesPoints", url: "/geographie/data/provinces-points.geojson" },
 ];
@@ -62,7 +63,14 @@ const MapContainer = forwardRef<MapRef, MapContainerProps>(
             DATA_FILES.map(async (file) => {
               const res = await fetch(file.url);
               if (!res.ok) throw new Error(`Failed to load ${file.key}`);
-              const json = await res.json();
+              let json = await res.json();
+
+              // Handle TopoJSON conversion
+              if (file.url.endsWith(".topojson")) {
+                const objectName = Object.keys(json.objects)[0];
+                json = topojson.feature(json, json.objects[objectName]);
+              }
+
               loadedCount++;
               onLoadingProgress?.((loadedCount / total) * 100);
               return { key: file.key, json };
