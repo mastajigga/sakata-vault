@@ -10,6 +10,7 @@ import React, {
 } from "react";
 import { supabase } from "@/lib/supabase";
 import { DB_TABLES } from "@/lib/constants/db";
+import { useAuth } from "@/components/AuthProvider";
 import type { ConversationItem } from "@/components/chat/ChatSidebar";
 
 interface ChatUnreadContextType {
@@ -32,26 +33,24 @@ export function ChatUnreadProvider({
   const [loading, setLoading] = useState(true);
   // Concurrency guard — prevents overlapping RPC calls (anti-loop pattern from CLAUDE.md §4)
   const isFetchingRef = useRef(false);
-
+  const { user } = useAuth();
+  
   useEffect(() => {
     let cancelled = false;
+    const userId = user?.id;
 
-    // showLoading=true uniquement au montage initial.
-    // Les callbacks realtime appellent toujours fetchConversations(false)
-    // pour ne jamais déclencher setLoading(true) → évite la boucle infinie.
     async function fetchConversations(showLoading = false) {
       if (isFetchingRef.current) return;
       isFetchingRef.current = true;
       if (showLoading) setLoading(true);
 
       try {
-        const {
-          data: { session },
-        } = await supabase.auth.getSession();
-        const userId = session?.user?.id;
-
+        console.log("[ChatUnread] Fetching for user:", userId);
         if (!userId) {
-          if (!cancelled) setLoading(false);
+          if (!cancelled) {
+            setConversations([]);
+            setLoading(false);
+          }
           return;
         }
 
@@ -63,11 +62,12 @@ export function ChatUnreadProvider({
         if (cancelled) return;
 
         if (error) {
-          console.error("ChatUnreadContext: RPC error", error);
+          console.error("[ChatUnread] RPC error:", error);
           return;
         }
 
         if (convData) {
+          console.log("[ChatUnread] Conversations récupérées:", convData.length);
           const mapped: ConversationItem[] = convData.map((conv: any) => {
             let displayName = conv.name;
             if (conv.type === "direct") {
@@ -98,15 +98,15 @@ export function ChatUnreadProvider({
       }
     }
 
-    fetchConversations(true); // montage initial → spinner visible
+    fetchConversations(true); 
 
     const channel = supabase
-      .channel("chat_unread_context")
+      .channel(`chat_unread_${userId || 'guest'}`)
       .on(
         "postgres_changes",
         { event: "INSERT", schema: "public", table: DB_TABLES.CHAT_MESSAGES },
         () => {
-          fetchConversations(false); // silent — jamais setLoading(true) ici
+          fetchConversations(false);
         }
       )
       .on(
@@ -116,17 +116,13 @@ export function ChatUnreadProvider({
           fetchConversations(false);
         }
       )
-      .subscribe((status, err) => {
-        if (status === "CHANNEL_ERROR" || err) {
-          console.error("[ChatUnread] Subscription error:", err || status);
-        }
-      });
+      .subscribe();
 
     return () => {
       cancelled = true;
       supabase.removeChannel(channel);
     };
-  }, []);
+  }, [user?.id]);
 
   // Mise à jour optimiste — efface immédiatement le badge d'une conversation.
   // Comme totalUnread est dérivé de conversations[], il se recalcule dans le
