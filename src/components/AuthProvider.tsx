@@ -172,36 +172,25 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const fetchProfile = useCallback(async (userId: string) => {
     console.log(`[AuthProvider] fetchProfile: DEBUT pour ${userId}`);
     try {
-      console.log(`[AuthProvider] fetchProfile: Lancement withRetry...`);
-      const { data, error } = await withRetry<{ 
-        role: string | null; 
-        subscription_tier: string | null; 
-        contributor_status: string | null;
-        nickname: string | null;
-        username: string | null;
-      }>(
-        async () => {
-          console.log(`[AuthProvider] fetchProfile: QUERY START`);
-          const result = await supabase
-            .from("profiles")
-            .select("role, subscription_tier, contributor_status, nickname, username")
-            .eq("id", userId)
-            .maybeSingle();
-          console.log(`[AuthProvider] fetchProfile: QUERY END, data:`, !!result.data, "error:", result.error?.message || "none");
-          return result as any;
-        }
-      );
+      console.log(`[AuthProvider] fetchProfile: QUERY START`);
+      const { data, error } = await supabase
+        .from("profiles")
+        .select("role, subscription_tier, contributor_status, nickname, username")
+        .eq("id", userId)
+        .limit(1);
       
-      console.log(`[AuthProvider] fetchProfile: withRetry retourné. Final error:`, error ? error.message : "none");
+      console.log(`[AuthProvider] fetchProfile: QUERY END, items:`, data?.length, "error:", error?.message || "none");
 
-    if (!error && data) {
-      setRole(data.role as UserRole);
-      setSubscriptionTier(data.subscription_tier || SUBSCRIPTION_TIERS.FREE);
-      setContributorStatus((data.contributor_status as "none" | "pending" | "approved" | "rejected") || "none");
-      setNickname(data.nickname);
-      setUsername(data.username);
+      const profile = data && data.length > 0 ? data[0] : null;
+
+      if (!error && profile) {
+        setRole(profile.role as UserRole);
+        setSubscriptionTier(profile.subscription_tier || SUBSCRIPTION_TIERS.FREE);
+        setContributorStatus((profile.contributor_status as "none" | "pending" | "approved" | "rejected") || "none");
+        setNickname(profile.nickname);
+        setUsername(profile.username);
       } else if (error) {
-        console.error("[AuthProvider] fetchProfile error after retries:", error.message);
+        console.error("[AuthProvider] fetchProfile error:", error.message);
       }
     } catch (err: any) {
       console.error("[AuthProvider] fetchProfile: Exception critique:", err);

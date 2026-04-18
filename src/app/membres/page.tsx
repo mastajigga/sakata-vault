@@ -58,14 +58,13 @@ export default function MembresPage() {
       }, 8000);
 
       try {
-        const { data, error } = await withRetry(async () =>
-          supabase
-            .from(DB_TABLES.PROFILES)
-            .select("id, username, nickname, avatar_url, cover_photo_url, short_bio, location, contributor_status")
-            .not("username", "is", null)
-            .order("updated_at", { ascending: false })
-            .limit(100)
-        );
+        console.log("[Membres] Test QUERY MINIMALE start...");
+        const { data, error } = await supabase
+          .from(DB_TABLES.PROFILES)
+          .select("id")
+          .limit(5);
+        
+        console.log("[Membres] Test QUERY MINIMALE result:", { count: data?.length, error: error?.message });
 
         if (!mounted) return;
 

@@ -40,8 +40,8 @@ export function AnalyticsProvider({ children }: { children: React.ReactNode }) {
         let sessionId: string | null = null;
         if (typeof window !== "undefined") {
           if (user?.id) {
-            // Utilisateur authentifié → session stable = user.id (cross-device)
-            sessionId = `user-${user.id}`;
+            // Utilisateur authentifié → session stable = user.id
+            sessionId = user.id;
           } else {
             // Visiteur anonyme → session persistée en localStorage (cross-tab)
             sessionId = localStorage.getItem(SESSION_KEYS.SESSION_ID);
