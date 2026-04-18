@@ -13,10 +13,10 @@ const metrics = [
 ];
 
 export default function EcoleHero() {
-  const { user, profile } = useAuth();
+  const { user, nickname, username } = useAuth();
   const [videoReady, setVideoReady] = useState(false);
 
-  const studentName = profile?.nickname || profile?.username || user?.email?.split('@')[0];
+  const studentName = nickname || username || user?.email?.split('@')[0];
 
   return (
     <section className="relative min-h-[100dvh] overflow-hidden">

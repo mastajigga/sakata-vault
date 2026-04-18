@@ -20,10 +20,10 @@ interface SavoirClientContentProps {
 
 export default function SavoirClientContent({ articles }: SavoirClientContentProps) {
   const { language, t } = useLanguage();
-  const { user, profile } = useAuth();
+  const { user, nickname, username } = useAuth();
   const [videoReady, setVideoReady] = useState(false);
 
-  const welcomeName = profile?.nickname || profile?.username || user?.email?.split('@')[0];
+  const welcomeName = nickname || username || user?.email?.split('@')[0];
 
   return (
     <>

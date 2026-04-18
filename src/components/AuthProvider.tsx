@@ -16,6 +16,8 @@ interface AuthContextType {
   role: UserRole | null;
   subscriptionTier: string | null;
   contributorStatus: "none" | "pending" | "approved" | "rejected";
+  nickname: string | null;
+  username: string | null;
   isLoading: boolean;
   isStalled: boolean;
   connectionError: string | null;
@@ -57,6 +59,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [role, setRole] = useState<UserRole | null>(null);
   const [subscriptionTier, setSubscriptionTier] = useState<string | null>(null);
   const [contributorStatus, setContributorStatus] = useState<"none" | "pending" | "approved" | "rejected">("none");
+  const [nickname, setNickname] = useState<string | null>(null);
+  const [username, setUsername] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isStalled, setIsStalled] = useState(false);
   const [connectionError, setConnectionError] = useState<string | null>(null);
@@ -164,11 +168,17 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   // Profile fetch avec retry
   // -------------------------------------------------------------------------
   const fetchProfile = useCallback(async (userId: string) => {
-    const { data, error } = await withRetry<{ role: string | null; subscription_tier: string | null; contributor_status: string | null }>(
+    const { data, error } = await withRetry<{ 
+      role: string | null; 
+      subscription_tier: string | null; 
+      contributor_status: string | null;
+      nickname: string | null;
+      username: string | null;
+    }>(
       async () =>
         supabase
           .from("profiles")
-          .select("role, subscription_tier, contributor_status")
+          .select("role, subscription_tier, contributor_status, nickname, username")
           .eq("id", userId)
           .maybeSingle() as any
     );
@@ -177,6 +187,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       setRole(data.role as UserRole);
       setSubscriptionTier(data.subscription_tier || SUBSCRIPTION_TIERS.FREE);
       setContributorStatus((data.contributor_status as "none" | "pending" | "approved" | "rejected") || "none");
+      setNickname(data.nickname);
+      setUsername(data.username);
     } else if (error) {
       console.error("[AuthProvider] fetchProfile error after retries:", error.message);
     }
@@ -298,6 +310,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           setRole(null);
           setSubscriptionTier(null);
           setContributorStatus("none");
+          setNickname(null);
+          setUsername(null);
           setIsLoading(false);
           // Si un utilisateur était connecté, c'est probablement une invalidation forcée
           setSessionExpired(true);
@@ -332,6 +346,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         role,
         subscriptionTier,
         contributorStatus,
+        nickname,
+        username,
         isLoading,
         isStalled,
         connectionError,
