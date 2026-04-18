@@ -125,7 +125,7 @@ export function ChatUnreadProvider({
       cancelled = true;
       supabase.removeChannel(channel);
     };
-  }, [user?.id]);
+  }, [user?.id, authLoading]);
 
   // Mise à jour optimiste — efface immédiatement le badge d'une conversation.
   // Comme totalUnread est dérivé de conversations[], il se recalcule dans le
