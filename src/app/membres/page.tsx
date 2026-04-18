@@ -65,13 +65,13 @@ export default function MembresPage() {
       }, 8000);
 
       try {
-        console.log("[Membres] Test FRESH CLIENT start...");
+        console.log("[Membres] Test TEXT-ONLY start...");
         const { data, error } = await freshClient
           .from(DB_TABLES.PROFILES)
-          .select("id, username, nickname, avatar_url, cover_photo_url, short_bio, location, contributor_status")
-          .limit(5);
+          .select("username")
+          .limit(1);
         
-        console.log("[Membres] Test FRESH CLIENT result:", { count: data?.length, error: error?.message });
+        console.log("[Membres] Test TEXT-ONLY result:", { username: data?.[0]?.username, error: error?.message });
 
         if (!mounted) return;
 
