@@ -33,14 +33,14 @@ export function ChatUnreadProvider({
   const [loading, setLoading] = useState(true);
   // Concurrency guard — prevents overlapping RPC calls (anti-loop pattern from CLAUDE.md §4)
   const isFetchingRef = useRef(false);
-  const { user } = useAuth();
+  const { user, isLoading: authLoading } = useAuth();
   
   useEffect(() => {
     let cancelled = false;
     const userId = user?.id;
 
     async function fetchConversations(showLoading = false) {
-      if (isFetchingRef.current) return;
+      if (isFetchingRef.current || authLoading) return;
       isFetchingRef.current = true;
       if (showLoading) setLoading(true);
 

@@ -11,6 +11,7 @@ import { motion } from "framer-motion";
 import { Search, SortAsc, Clock, Users, MapPin, MessageCircle } from "lucide-react";
 import { resolveStorageUrl } from "@/lib/supabase/storage-utils";
 import { MemberImage } from "@/components/MemberImage";
+import { useAuth } from "@/components/AuthProvider";
 
 const PAGE_SIZE = 20;
 
@@ -35,10 +36,18 @@ export default function MembresPage() {
   const [showContributors, setShowContributors] = useState(false);
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
 
+  const { isLoading: authLoading } = useAuth();
+
   useEffect(() => {
     let mounted = true;
 
     async function fetchProfiles() {
+      // SÉQUENÇAGE : Attendre que l'auth soit stable avant de lancer les requêtes lourdes
+      if (authLoading) {
+        console.log("[Membres] En attente de la fin du chargement Auth...");
+        return;
+      }
+
       console.log("[Membres] Début fetchProfiles...");
       // Safety Timeout : Si le fetch prend trop de temps, on libère l'UI
       const safetyTimeout = setTimeout(() => {
@@ -55,6 +64,7 @@ export default function MembresPage() {
             .select("id, username, nickname, avatar_url, cover_photo_url, short_bio, location, contributor_status")
             .not("username", "is", null)
             .order("updated_at", { ascending: false })
+            .limit(100)
         );
 
         if (!mounted) return;
@@ -77,10 +87,11 @@ export default function MembresPage() {
         }
       }
     }
+    
     fetchProfiles();
 
     return () => { mounted = false; };
-  }, []);
+  }, [authLoading]); // Redéclenche quand l'auth est prête
 
   // Filtrage + tri client-side
   const filtered = useMemo(() => {
