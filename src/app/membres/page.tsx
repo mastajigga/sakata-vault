@@ -10,10 +10,17 @@ import Navbar from "@/components/Navbar";
 import { motion } from "framer-motion";
 import { Search, SortAsc, Clock, Users, MapPin, MessageCircle } from "lucide-react";
 import { resolveStorageUrl } from "@/lib/supabase/storage-utils";
+import { createBrowserClient } from "@supabase/ssr";
 import { MemberImage } from "@/components/MemberImage";
 import { useAuth } from "@/components/AuthProvider";
 
 const PAGE_SIZE = 20;
+
+// On crée un client secondaire pour tester le déblocage
+const freshClient = createBrowserClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+);
 
 interface Profile {
   id: string;
@@ -58,10 +65,13 @@ export default function MembresPage() {
       }, 8000);
 
       try {
-        console.log("[Membres] Test RPC BYPASS start...");
-        const { data, error } = await supabase.rpc("get_profiles_debug_v1", { p_limit: 5 });
+        console.log("[Membres] Test FRESH CLIENT start...");
+        const { data, error } = await freshClient
+          .from(DB_TABLES.PROFILES)
+          .select("id, username, nickname, avatar_url, cover_photo_url, short_bio, location, contributor_status")
+          .limit(5);
         
-        console.log("[Membres] Test RPC BYPASS result:", { count: data?.length, error: error?.message });
+        console.log("[Membres] Test FRESH CLIENT result:", { count: data?.length, error: error?.message });
 
         if (!mounted) return;
 
