@@ -62,6 +62,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [nickname, setNickname] = useState<string | null>(null);
   const [username, setUsername] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  
+  console.log(`[AuthProvider] Render (isLoading: ${isLoading}, hasUser: ${!!user})`);
   const [isStalled, setIsStalled] = useState(false);
   const [connectionError, setConnectionError] = useState<string | null>(null);
   const [sessionExpired, setSessionExpired] = useState(false);
@@ -168,20 +170,29 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   // Profile fetch avec retry
   // -------------------------------------------------------------------------
   const fetchProfile = useCallback(async (userId: string) => {
-    const { data, error } = await withRetry<{ 
-      role: string | null; 
-      subscription_tier: string | null; 
-      contributor_status: string | null;
-      nickname: string | null;
-      username: string | null;
-    }>(
-      async () =>
-        supabase
-          .from("profiles")
-          .select("role, subscription_tier, contributor_status, nickname, username")
-          .eq("id", userId)
-          .maybeSingle() as any
-    );
+    console.log(`[AuthProvider] fetchProfile: DEBUT pour ${userId}`);
+    try {
+      console.log(`[AuthProvider] fetchProfile: Lancement withRetry...`);
+      const { data, error } = await withRetry<{ 
+        role: string | null; 
+        subscription_tier: string | null; 
+        contributor_status: string | null;
+        nickname: string | null;
+        username: string | null;
+      }>(
+        async () => {
+          console.log(`[AuthProvider] fetchProfile: QUERY START`);
+          const result = await supabase
+            .from("profiles")
+            .select("role, subscription_tier, contributor_status, nickname, username")
+            .eq("id", userId)
+            .maybeSingle();
+          console.log(`[AuthProvider] fetchProfile: QUERY END, data:`, !!result.data, "error:", result.error?.message || "none");
+          return result as any;
+        }
+      );
+      
+      console.log(`[AuthProvider] fetchProfile: withRetry retourné. Final error:`, error ? error.message : "none");
 
     if (!error && data) {
       setRole(data.role as UserRole);
@@ -189,9 +200,13 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       setContributorStatus((data.contributor_status as "none" | "pending" | "approved" | "rejected") || "none");
       setNickname(data.nickname);
       setUsername(data.username);
-    } else if (error) {
-      console.error("[AuthProvider] fetchProfile error after retries:", error.message);
+      } else if (error) {
+        console.error("[AuthProvider] fetchProfile error after retries:", error.message);
+      }
+    } catch (err: any) {
+      console.error("[AuthProvider] fetchProfile: Exception critique:", err);
     }
+    console.log(`[AuthProvider] fetchProfile: Fin`);
   }, []);
 
   // -------------------------------------------------------------------------
@@ -240,41 +255,52 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     let mounted = true;
 
     const init = async () => {
-      console.log("[AuthProvider] Initialisation...");
+      console.log("[AuthProvider] init: START");
       try {
+        console.log("[AuthProvider] init: getSession start...");
         const { data: { session }, error } = await supabase.auth.getSession();
         if (error) {
-          console.error("[AuthProvider] getSession error:", error);
+          console.error("[AuthProvider] init: getSession error:", error);
         }
-        console.log("[AuthProvider] Session récupérée:", !!session);
+        console.log("[AuthProvider] init: session status:", !!session);
+        
         if (mounted && session) {
           setSession(session);
           setUser(session.user);
-          console.log("[AuthProvider] Récupération du profil...");
+          console.log("[AuthProvider] init: user set, starting fetchProfile...");
           await fetchProfile(session.user.id);
+          console.log("[AuthProvider] init: fetchProfile finished");
+        } else {
+          console.log("[AuthProvider] init: no session or unmounted");
         }
       } catch (e) {
-        console.error("[AuthProvider] init error:", e);
+        console.error("[AuthProvider] init: EXCEPTION CRITIQUE:", e);
       } finally {
-        console.log("[AuthProvider] Fin initialisation (Loading -> false)");
+        console.log("[AuthProvider] init: finally block - setting loading to false");
         if (mounted) setIsLoading(false);
       }
     };
 
     checkConnection().catch(console.error);
 
-    // Safety Timeout : Si le chargement initial (getSession + profile) prend plus de 10s,
-    // on lève le flag isStalled pour permettre à l'UI de réagir (bouton retry, etc.)
-    const stalledTimer = setTimeout(() => {
-      if (isLoading) {
-        console.warn("[AuthProvider] Chargement initial suspendu (>10s). Flag isStalled levé.");
+    // Safety Timeout : Force isLoading=false after 15s to unblock Navigation
+    const safetyTimer = setTimeout(() => {
+      if (mounted && isLoading) {
+        console.warn("[AuthProvider] TIMEOUT DE SÉCURITÉ (15s) - Déblocage forcé du loading.");
         setIsStalled(true);
+        setIsLoading(false);
       }
-    }, 10000);
+    }, 15000);
 
-    init().finally(() => {
-      clearTimeout(stalledTimer);
-      setIsStalled(false);
+    init().then(() => {
+      console.log("[AuthProvider] init: promise resolved");
+    }).catch(err => {
+      console.error("[AuthProvider] init: promise rejected:", err);
+    }).finally(() => {
+      if (mounted) {
+        clearTimeout(safetyTimer);
+        setIsStalled(false);
+      }
     });
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, newSession) => {
