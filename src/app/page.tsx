@@ -173,6 +173,7 @@ export default function Home() {
 
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 auto-rows-[180px]">
           {[
+            {
               icon: "✨",
               title: "Identité & Accueil",
               date: "Avril 2026",
