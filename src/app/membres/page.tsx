@@ -58,13 +58,10 @@ export default function MembresPage() {
       }, 8000);
 
       try {
-        console.log("[Membres] Test QUERY MINIMALE start...");
-        const { data, error } = await supabase
-          .from(DB_TABLES.PROFILES)
-          .select("id")
-          .limit(5);
+        console.log("[Membres] Test RPC BYPASS start...");
+        const { data, error } = await supabase.rpc("get_profiles_debug_v1", { p_limit: 5 });
         
-        console.log("[Membres] Test QUERY MINIMALE result:", { count: data?.length, error: error?.message });
+        console.log("[Membres] Test RPC BYPASS result:", { count: data?.length, error: error?.message });
 
         if (!mounted) return;
 

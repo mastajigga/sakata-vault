@@ -122,3 +122,55 @@ Fast Refresh requires at least one parent function component in your React tree.
 [25190955ms] [LOG] [AuthProvider] Render (isLoading: false, hasUser: false) @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
 [25191098ms] [LOG] [AuthProvider] Render (isLoading: false, hasUser: false) @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
 [25191098ms] [LOG] [AuthProvider] Render (isLoading: false, hasUser: false) @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[25539017ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[25539063ms] [LOG] [Fast Refresh] done in 161ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[25664132ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[25664165ms] [WARNING] [Fast Refresh] performing full reload
+
+Fast Refresh will perform a full reload when you edit a file that's imported by modules outside of the React rendering tree.
+You might have a file which exports a React component but also exports a value that is imported by a non-React component file.
+Consider migrating the non-React component export to a separate file and importing it into both files.
+
+It is also possible the parent component of the component you edited is a class component, which disables Fast Refresh.
+Fast Refresh requires at least one parent function component in your React tree. @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[25664319ms] [LOG] [Fast Refresh] done in 138ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[25664341ms] [VERBOSE] [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) %o @ http://localhost:3000/auth?redirect_to=%2Fgeographie:0
+[25664383ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[25664436ms] [LOG] [HMR] connected @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[25664477ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[25664477ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[25664519ms] [LOG] [AuthProvider] init: START @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[25664519ms] [LOG] [AuthProvider] init: getSession start... @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[25664544ms] [LOG] [AuthProvider] init: session status: false @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[25664544ms] [LOG] [AuthProvider] init: no session or unmounted @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[25664544ms] [LOG] [AuthProvider] init: finally block - setting loading to false @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[25664544ms] [LOG] [AuthProvider] init: promise resolved @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[25664545ms] [LOG] [AuthProvider] Render (isLoading: false, hasUser: false) @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[25664545ms] [LOG] [AuthProvider] Render (isLoading: false, hasUser: false) @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[25664679ms] [LOG] [AuthProvider] Render (isLoading: false, hasUser: false) @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[25664679ms] [LOG] [AuthProvider] Render (isLoading: false, hasUser: false) @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[25730664ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[25730899ms] [WARNING] [Fast Refresh] performing full reload
+
+Fast Refresh will perform a full reload when you edit a file that's imported by modules outside of the React rendering tree.
+You might have a file which exports a React component but also exports a value that is imported by a non-React component file.
+Consider migrating the non-React component export to a separate file and importing it into both files.
+
+It is also possible the parent component of the component you edited is a class component, which disables Fast Refresh.
+Fast Refresh requires at least one parent function component in your React tree. @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[25730900ms] [LOG] [Fast Refresh] done in 340ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[25731151ms] [VERBOSE] [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) %o @ http://localhost:3000/auth?redirect_to=%2Fgeographie:0
+[25731161ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[25731184ms] [LOG] [HMR] connected @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[25731208ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[25731208ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[25731231ms] [LOG] [AuthProvider] init: START @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[25731231ms] [LOG] [AuthProvider] init: getSession start... @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[25731252ms] [LOG] [AuthProvider] init: session status: false @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[25731252ms] [LOG] [AuthProvider] init: no session or unmounted @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[25731253ms] [LOG] [AuthProvider] init: finally block - setting loading to false @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[25731253ms] [LOG] [AuthProvider] init: promise resolved @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[25731253ms] [LOG] [AuthProvider] Render (isLoading: false, hasUser: false) @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[25731253ms] [LOG] [AuthProvider] Render (isLoading: false, hasUser: false) @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[25731379ms] [LOG] [AuthProvider] Render (isLoading: false, hasUser: false) @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[25731379ms] [LOG] [AuthProvider] Render (isLoading: false, hasUser: false) @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431

@@ -198,21 +198,17 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     console.log(`[AuthProvider] fetchProfile: Fin`);
   }, []);
 
-  // -------------------------------------------------------------------------
-  // Connection health check avec retry
-  // -------------------------------------------------------------------------
   const checkConnection = useCallback(async () => {
+    // On réduit la fréquence et la lourdeur du check de connexion
     try {
-      const { error } = await withRetry(async () =>
-        supabase.from("profiles").select("id").limit(1)
-      );
+      const { error } = await supabase.from("profiles").select("id").limit(1);
       if (error && error.message?.includes("Failed to fetch")) {
-        setConnectionError("Impossible de contacter le Grand Sanctuaire (Problème de connexion ou DNS).");
+        setConnectionError("Liaison instable avec le Grand Sanctuaire.");
       } else {
         setConnectionError(null);
       }
     } catch {
-      setConnectionError("Erreur de liaison spirituelle (Réseau défaillant).");
+      setConnectionError("Erreur de liaison spirituelle.");
     }
   }, []);
 
