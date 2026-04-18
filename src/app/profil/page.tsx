@@ -14,6 +14,7 @@ import { ROUTES } from "@/lib/constants/routes";
 import { DB_TABLES } from "@/lib/constants/db";
 import Navbar from "@/components/Navbar";
 import Link from "next/link";
+import { resolveStorageUrl } from "@/lib/supabase/storage-utils";
 import {
   User,
   Mail,
@@ -541,20 +542,13 @@ const ProfilePage = () => {
             >
               <div className="flex flex-col items-center text-center">
                 <div className="relative group mb-6">
-                  <div className="w-24 h-24 rounded-full border-2 border-or/20 p-1 overflow-hidden shadow-2xl shadow-black/40 relative">
-                    {avatarUrl ? (
-                      <Image
-                        src={avatarUrl}
+                    <div className="w-24 h-24 rounded-full border-2 border-or/20 p-1 overflow-hidden shadow-2xl shadow-black/40 relative">
+                      <img
+                        src={resolveStorageUrl(avatarUrl)}
                         alt="Avatar"
-                        fill
-                        className="object-cover rounded-full"
+                        className="w-full h-full object-cover rounded-full"
                       />
-                    ) : (
-                      <div className="w-full h-full rounded-full bg-or-ancestral/10 flex items-center justify-center">
-                        <User className="w-12 h-12 text-or-ancestral" />
-                      </div>
-                    )}
-                  </div>
+                    </div>
                   
                   <label 
                     className={`absolute bottom-0 right-0 p-2 rounded-full bg-or-ancestral text-foret-nocturne cursor-pointer shadow-lg hover:scale-110 active:scale-95 transition-all ${uploading ? 'opacity-50 cursor-not-allowed' : ''}`}
@@ -755,7 +749,11 @@ const ProfilePage = () => {
               {galleryItems.map((item) => (
                 <div key={item.id} className="relative group aspect-square rounded-xl overflow-hidden bg-black/40 border border-white/5">
                   {item.file_type === 'image' ? (
-                    <Image src={item.file_url} alt="" fill className="object-cover transition-transform duration-500 group-hover:scale-110" />
+                    <img 
+                      src={resolveStorageUrl(item.file_url, "user_gallery")} 
+                      alt="" 
+                      className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" 
+                    />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center bg-white/5 p-4 text-center">
                       <FileText className="w-8 h-8 text-ivoire-ancien/50 mb-2" />

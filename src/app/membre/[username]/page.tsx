@@ -17,6 +17,7 @@ import {
   MessageSquare
 } from "lucide-react";
 import Link from "next/link";
+import { resolveStorageUrl } from "@/lib/supabase/storage-utils";
 
 const MemberProfilePage = () => {
   const { username } = useParams();
@@ -121,18 +122,12 @@ const MemberProfilePage = () => {
           
           <div className="px-6 md:px-10 pb-10 -mt-12 flex flex-col md:flex-row items-end gap-6">
             {/* Avatar */}
-            <div className="w-24 h-24 md:w-32 md:h-32 rounded-full border-4 border-foret-nocturne p-1 bg-foret-nocturne relative z-10 shadow-2xl shadow-black/60">
-              {profile.avatar_url ? (
-                <img 
-                  src={profile.avatar_url} 
-                  alt={profile.username}
-                  className="w-full h-full rounded-full object-cover"
-                />
-              ) : (
-                <div className="w-full h-full rounded-full bg-or-ancestral/10 flex items-center justify-center">
-                  <UserIcon className="w-12 h-12 text-or-ancestral/40" />
-                </div>
-              )}
+            <div className="w-24 h-24 md:w-32 md:h-32 rounded-full border-4 border-foret-nocturne p-1 bg-foret-nocturne relative z-10 shadow-2xl shadow-black/60 overflow-hidden">
+              <img 
+                src={resolveStorageUrl(profile.avatar_url)} 
+                alt={profile.username}
+                className="w-full h-full rounded-full object-cover"
+              />
             </div>
 
             <div className="flex-1 flex flex-col md:flex-row md:items-center justify-between gap-4 mb-2">
@@ -218,7 +213,7 @@ const MemberProfilePage = () => {
                     <div key={item.id} className="group relative aspect-square rounded-2xl overflow-hidden bg-black/40 border border-white/5">
                       {item.file_type === 'image' ? (
                         <img 
-                          src={item.file_url} 
+                          src={resolveStorageUrl(item.file_url, "user_gallery")} 
                           alt="" 
                           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                         />

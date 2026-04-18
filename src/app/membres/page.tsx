@@ -8,7 +8,8 @@ import { withRetry } from "@/lib/supabase-retry";
 import { DB_TABLES } from "@/lib/constants/db";
 import Navbar from "@/components/Navbar";
 import { motion } from "framer-motion";
-import { MapPin, MessageCircle, Search, SortAsc, Clock, Users } from "lucide-react";
+import { Search, SortAsc, Clock, Users, MapPin, MessageCircle } from "lucide-react";
+import { resolveStorageUrl } from "@/lib/supabase/storage-utils";
 
 const PAGE_SIZE = 20;
 
@@ -37,39 +38,33 @@ function MemberImage({
   const rawUrl = profile.cover_photo_url || profile.avatar_url;
   
   const resolvedUrl = useMemo(() => {
-    if (!rawUrl) return "/images/placeholder-avatar.jpg";
-    if (rawUrl.startsWith("http")) return rawUrl;
-    
-    // Si c'est un format storage: (rare en dehors du chat mais possible)
-    if (rawUrl.startsWith("storage:")) {
-      try {
-        const bucket = rawUrl.substring(8, rawUrl.indexOf("/", 8));
-        const path = rawUrl.substring(rawUrl.indexOf("/", 8) + 1);
-        const { data } = supabase.storage.from(bucket).getPublicUrl(path);
-        return data.publicUrl;
-      } catch (e) {
-        console.error("[MemberImage] Error parsing storage path:", e);
-        return "/images/placeholder-avatar.jpg";
-      }
-    }
-    
-    // Si c'est juste un path relatif, on tente le bucket avatars par défaut
-    if (rawUrl.includes("/")) {
-       const { data } = supabase.storage.from("avatars").getPublicUrl(rawUrl);
-       return data.publicUrl;
-    }
-    
-    return "/images/placeholder-avatar.jpg";
-  }, [rawUrl]);
+    const res = resolveStorageUrl(rawUrl);
+    console.log(`[MemberImage] @${profile.username} sorted:`, { raw: rawUrl, resolved: res });
+    return res;
+  }, [rawUrl, profile.username]);
+
+  const isPlaceholder = resolvedUrl.includes("placeholder-avatar.jpg");
+
+  // Utilisation de <img> pour les images distantes (plus robuste contre les restrictions Next.js Domain)
+  // next/image pour le placeholder local
+  if (isPlaceholder) {
+    return (
+      <Image
+         src={resolvedUrl}
+         alt={profile.nickname || profile.username || "Sakata Member"}
+         fill
+         priority={priority}
+         className="object-cover transition-transform duration-700 group-hover:scale-110"
+      />
+    );
+  }
 
   return (
-    <Image
+    <img
        src={resolvedUrl}
        alt={profile.nickname || profile.username || "Sakata Member"}
-       fill
-       priority={priority}
-       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-       className="object-cover transition-transform duration-700 group-hover:scale-110"
+       loading={priority ? "eager" : "lazy"}
+       className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
     />
   );
 }
