@@ -15,16 +15,19 @@ export function useTyping(conversationId: string) {
     let isMounted = true;
 
     async function initPresence() {
+      if (!isMounted) return;
+      
       const { data: { session } } = await supabase.auth.getSession();
+      if (!isMounted) return;
+      
       const currentUserId = session?.user?.id;
       
       let currentUsername = "Anonyme";
       if (currentUserId) {
         const { data } = await supabase.from('profiles').select('username, nickname').eq('id', currentUserId).single();
+        if (!isMounted) return;
         currentUsername = data?.nickname || data?.username || "Anonyme";
       }
-
-      if (!isMounted) return;
 
       const room = supabase.channel(channelName, {
         config: {
@@ -33,7 +36,8 @@ export function useTyping(conversationId: string) {
           },
         },
       });
-      // Store room immediately to ensure cleanup can find it even if still subscribing
+      
+      // Store room immediately
       channelRef.current = { room, username: currentUsername };
 
       room.on('presence', { event: 'sync' }, () => {
@@ -62,10 +66,11 @@ export function useTyping(conversationId: string) {
 
     return () => {
       isMounted = false;
-      if (channelRef.current?.room) {
-        channelRef.current.room.untrack();
-        channelRef.current.room.unsubscribe();
-        supabase.removeChannel(channelRef.current.room);
+      const room = channelRef.current?.room;
+      if (room) {
+        // Clean cleanup sequence
+        room.untrack().catch(() => {});
+        supabase.removeChannel(room);
       }
       channelRef.current = null;
     };

@@ -54,6 +54,7 @@ const MapContainer = forwardRef<MapRef, MapContainerProps>(
     const MAPBOX_TOKEN = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN || "";
 
     useEffect(() => {
+      let mounted = true;
       let loadedCount = 0;
       const total = DATA_FILES.length;
 
@@ -71,25 +72,32 @@ const MapContainer = forwardRef<MapRef, MapContainerProps>(
                 json = topojson.feature(json, json.objects[objectName]);
               }
 
-              loadedCount++;
-              onLoadingProgress?.((loadedCount / total) * 100);
+              if (mounted) {
+                loadedCount++;
+                onLoadingProgress?.((loadedCount / total) * 100);
+              }
               return { key: file.key, json };
             })
           );
 
-          const newData = results.reduce((acc, curr) => {
-            acc[curr.key] = curr.json;
-            return acc;
-          }, {} as Record<string, any>);
+          if (mounted) {
+            const newData = results.reduce((acc, curr) => {
+              acc[curr.key] = curr.json;
+              return acc;
+            }, {} as Record<string, any>);
 
-          setData(newData);
-          setIsLoaded(true);
+            setData(newData);
+            setIsLoaded(true);
+          }
         } catch (error) {
-          console.error("Error loading GeoJSON data:", error);
+          if (mounted) {
+            console.error("Error loading GeoJSON data:", error);
+          }
         }
       };
 
       loadAll();
+      return () => { mounted = false; };
     }, [onLoadingProgress]);
 
     const isVisible = useCallback(

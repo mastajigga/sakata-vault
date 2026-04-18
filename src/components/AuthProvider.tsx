@@ -17,6 +17,7 @@ interface AuthContextType {
   subscriptionTier: string | null;
   contributorStatus: "none" | "pending" | "approved" | "rejected";
   isLoading: boolean;
+  isStalled: boolean;
   connectionError: string | null;
   sessionExpired: boolean;
   /** P2-B: true pendant les ~30-60s de rotation de token JWT. Les mutations critiques
@@ -57,6 +58,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [subscriptionTier, setSubscriptionTier] = useState<string | null>(null);
   const [contributorStatus, setContributorStatus] = useState<"none" | "pending" | "approved" | "rejected">("none");
   const [isLoading, setIsLoading] = useState(true);
+  const [isStalled, setIsStalled] = useState(false);
   const [connectionError, setConnectionError] = useState<string | null>(null);
   const [sessionExpired, setSessionExpired] = useState(false);
   // P2-B: flag pendant la fenêtre de rotation de token (TOKEN_REFRESHED event)
@@ -282,26 +284,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           setIsLoading(false);
           // Si un utilisateur était connecté, c'est probablement une invalidation forcée
           setSessionExpired(true);
-          router.refresh();
           break;
-
-        case "USER_UPDATED":
-          setSession(newSession);
-          setUser(newSession?.user ?? null);
-          if (newSession?.user) await fetchProfile(newSession.user.id);
-          break;
-
-        default:
-          // PASSWORD_RECOVERY, MFA_CHALLENGE_VERIFIED, etc.
-          setSession(newSession);
-          setUser(newSession?.user ?? null);
-          if (newSession?.user) {
-            await fetchProfile(newSession.user.id);
-          } else {
-            setRole(null);
-            setSubscriptionTier(null);
-          }
-          setIsLoading(false);
       }
     });
 
@@ -309,7 +292,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       mounted = false;
       subscription.unsubscribe();
     };
-  }, [fetchProfile, checkConnection, router]);
+  }, [fetchProfile, checkConnection]);
 
   // -------------------------------------------------------------------------
   // Sign out
@@ -333,6 +316,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         subscriptionTier,
         contributorStatus,
         isLoading,
+        isStalled,
         connectionError,
         sessionExpired,
         tokenRefreshPending,

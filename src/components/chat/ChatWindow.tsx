@@ -43,14 +43,20 @@ interface ChatWindowProps {
 export function ChatWindow({ conversationId, onBack }: ChatWindowProps) {
   const { user } = useAuth();
   const scrollRef = useRef<HTMLDivElement>(null);
-  const { messages, loading, hasMore, loadingMore, loadMore, sendMessage, readTimestamps } =
-    useMessages(conversationId);
+  const { 
+    messages, 
+    loading, 
+    hasMore, 
+    loadingMore, 
+    loadMore, 
+    sendMessage, 
+    readTimestamps,
+    allReactions,
+    myReactions,
+    toggleReaction 
+  } = useMessages(conversationId);
   const { typingUsers, updateTyping } = useTyping(conversationId);
   const [showMenu, setShowMenu] = useState(false);
-
-  // Réactions
-  const [allReactions, setAllReactions] = useState<AllReactions>({});
-  const [myReactions, setMyReactions] = useState<MyReactions>({});
 
   // Dynamic conversation name + initial
   const [conversationName, setConversationName] = useState("Conversation");
@@ -77,166 +83,33 @@ export function ChatWindow({ conversationId, onBack }: ChatWindowProps) {
     return () => { cancelled = true; };
   }, [conversationId, user]);
 
-  // Fetch réactions quand les messages changent
-  useEffect(() => {
-    if (!conversationId || !user || messages.length === 0) return;
-
-    const messageIds = messages.map(m => m.id);
-
-    async function fetchReactions() {
-      const { data } = await supabase
-        .from(DB_TABLES.CHAT_REACTIONS)
-        .select("message_id, user_id, emoji")
-        .in("message_id", messageIds);
-
-      if (!data) return;
-
-      const newAll: AllReactions = {};
-      const newMy: MyReactions = {};
-
-      for (const row of data) {
-        // Toutes les réactions
-        if (!newAll[row.message_id]) newAll[row.message_id] = {};
-        newAll[row.message_id][row.emoji] = (newAll[row.message_id][row.emoji] || 0) + 1;
-
-        // Mes réactions
-        if (row.user_id === user!.id) {
-          if (!newMy[row.message_id]) newMy[row.message_id] = new Set();
-          newMy[row.message_id].add(row.emoji);
-        }
-      }
-
-      setAllReactions(newAll);
-      setMyReactions(newMy);
-    }
-
-    fetchReactions();
-  }, [conversationId, user, messages]);
-
-  // Souscription realtime aux réactions (stable — ne dépend pas de messages)
-  useEffect(() => {
-    if (!conversationId || !user) return;
-
-    // Snapshot des IDs courants pour le filtre payload (mis à jour via closure stable)
-    const getMessageIds = () => messages.map(m => m.id);
-
-    async function fetchReactions() {
-      const messageIds = getMessageIds();
-      if (messageIds.length === 0) return;
-      const { data } = await supabase
-        .from(DB_TABLES.CHAT_REACTIONS)
-        .select("message_id, user_id, emoji")
-        .in("message_id", messageIds);
-
-      if (!data) return;
-
-      const newAll: AllReactions = {};
-      const newMy: MyReactions = {};
-
-      for (const row of data) {
-        if (!newAll[row.message_id]) newAll[row.message_id] = {};
-        newAll[row.message_id][row.emoji] = (newAll[row.message_id][row.emoji] || 0) + 1;
-        if (row.user_id === user!.id) {
-          if (!newMy[row.message_id]) newMy[row.message_id] = new Set();
-          newMy[row.message_id].add(row.emoji);
-        }
-      }
-
-      setAllReactions(newAll);
-      setMyReactions(newMy);
-    }
-
-    const channel = supabase.channel(`reactions-sub:${conversationId}`)
-      .on("postgres_changes", {
-        event: "*",
-        schema: "public",
-        table: DB_TABLES.CHAT_REACTIONS,
-      }, (payload) => {
-        const msgId = (payload.new as any)?.message_id || (payload.old as any)?.message_id;
-        if (msgId && getMessageIds().includes(msgId)) {
-          fetchReactions();
-        }
-      })
-      .subscribe((status, err) => {
-        if (status === "CHANNEL_ERROR" || err) {
-          console.error("[Chat] Reactions WebSocket error:", err || status);
-        }
-      });
-
-    return () => { supabase.removeChannel(channel); };
-  }, [conversationId, user]); // eslint-disable-line react-hooks/exhaustive-deps
-
   // Toggle réaction
   const handleReact = useCallback(async (messageId: string, emoji: string) => {
+    await toggleReaction(messageId, emoji);
+  }, [toggleReaction]);
+
+  // Marquer les messages comme lus quand ils sont visibles (Throttle built-in logic)
+  const markMessagesAsRead = useCallback(async (visibleTime: string) => {
     if (!user) return;
-    const alreadyMine = myReactions[messageId]?.has(emoji);
-
-    if (alreadyMine) {
-      // Retirer ma réaction
-      await withRetry(async () =>
-        supabase
-          .from(DB_TABLES.CHAT_REACTIONS)
-          .delete()
-          .match({ message_id: messageId, user_id: user.id, emoji })
-      );
-      setMyReactions(prev => {
-        const next = { ...prev };
-        next[messageId] = new Set(prev[messageId]);
-        next[messageId].delete(emoji);
-        return next;
-      });
-      setAllReactions(prev => {
-        const next = { ...prev };
-        if (next[messageId]?.[emoji] !== undefined) {
-          next[messageId] = { ...next[messageId], [emoji]: Math.max(0, (next[messageId][emoji] || 1) - 1) };
-          if (next[messageId][emoji] === 0) delete next[messageId][emoji];
-        }
-        return next;
-      });
-    } else {
-      // Ajouter ma réaction
-      await withRetry(async () =>
-        supabase
-          .from(DB_TABLES.CHAT_REACTIONS)
-          .insert({ message_id: messageId, user_id: user.id, emoji })
-      );
-      setMyReactions(prev => {
-        const next = { ...prev };
-        if (!next[messageId]) next[messageId] = new Set();
-        else next[messageId] = new Set(prev[messageId]);
-        next[messageId].add(emoji);
-        return next;
-      });
-      setAllReactions(prev => {
-        const next = { ...prev };
-        if (!next[messageId]) next[messageId] = {};
-        next[messageId] = { ...next[messageId], [emoji]: (next[messageId][emoji] || 0) + 1 };
-        return next;
-      });
-    }
-  }, [user, myReactions]);
-
-  // Trouver l'userId de l'interlocuteur principal (pour calculer isRead)
-  const otherParticipantId = messages.find(m => !m.isMe)?.senderId;
-
-  // Marquer les messages comme lus quand ils sont visibles
-  const markMessagesAsRead = useCallback(async (messageId: string) => {
-    if (!user) return;
+    // On n'update que si nécessaire (géré par useMessages via readTimestamps ideally)
     await withRetry(async () =>
       supabase
         .from(DB_TABLES.CHAT_PARTICIPANTS)
-        .update({ last_read_at: new Date().toISOString() })
+        .update({ last_read_at: visibleTime })
         .match({ conversation_id: conversationId, user_id: user.id })
     );
   }, [conversationId, user]);
 
-  // IntersectionObserver pour détecter les messages visibles
+  // IntersectionObserver pour détecter les messages visibles - STABLE REFERENCE
+  const observerRef = useRef<IntersectionObserver | null>(null);
+
   useEffect(() => {
     if (!user || messages.length === 0) return;
 
-    const observer = new IntersectionObserver(
+    if (observerRef.current) observerRef.current.disconnect();
+
+    observerRef.current = new IntersectionObserver(
       (entries) => {
-        // Trouver le message le plus récent visible
         let latestVisibleTime: string | null = null;
         for (const entry of entries) {
           if (entry.isIntersecting) {
@@ -259,10 +132,15 @@ export function ChatWindow({ conversationId, onBack }: ChatWindowProps) {
 
     // Observer tous les messages
     const messageElements = document.querySelectorAll('[data-message-id]');
-    messageElements.forEach(el => observer.observe(el));
+    messageElements.forEach(el => observerRef.current?.observe(el));
 
-    return () => observer.disconnect();
-  }, [messages, user, markMessagesAsRead]);
+    return () => {
+      if (observerRef.current) observerRef.current.disconnect();
+    };
+  }, [messages.length, user, markMessagesAsRead]); // Only re-run if count changes or user changes
+
+  // Trouver l'userId de l'interlocuteur principal (pour calculer isRead)
+  const otherParticipantId = messages.find(m => !m.isMe)?.senderId;
 
   // Scroll to bottom on new messages
   useEffect(() => {

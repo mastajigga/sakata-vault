@@ -15,6 +15,9 @@ export function useMessages(conversationId: string) {
   const [loadingMore, setLoadingMore] = useState(false);
   const [currentUserId, setCurrentUserId] = useState<string>("");
   const [readTimestamps, setReadTimestamps] = useState<Record<string, string>>({});
+  // Reactions state
+  const [allReactions, setAllReactions] = useState<Record<string, Record<string, number>>>({});
+  const [myReactions, setMyReactions] = useState<Record<string, Set<string>>>({});
 
   // P2-D fix: userIdRef évite les stale closures dans les callbacks realtime.
   const userIdRef = useRef<string>("");
@@ -107,8 +110,34 @@ export function useMessages(conversationId: string) {
       }
     }
 
+    async function fetchReactions(msgIds: string[]) {
+      if (msgIds.length === 0) return;
+      const uid = userIdRef.current;
+      const { data } = await supabase
+        .from(DB_TABLES.CHAT_REACTIONS)
+        .select("message_id, user_id, emoji")
+        .in("message_id", msgIds);
+
+      if (!data) return;
+
+      const newAll: Record<string, Record<string, number>> = {};
+      const newMy: Record<string, Set<string>> = {};
+
+      for (const row of data) {
+        if (!newAll[row.message_id]) newAll[row.message_id] = {};
+        newAll[row.message_id][row.emoji] = (newAll[row.message_id][row.emoji] || 0) + 1;
+        if (row.user_id === uid) {
+          if (!newMy[row.message_id]) newMy[row.message_id] = new Set();
+          newMy[row.message_id].add(row.emoji);
+        }
+      }
+      setAllReactions(newAll);
+      setMyReactions(newMy);
+    }
+
     async function fetchMessages() {
       try {
+        setLoading(true);
         // Cleanup non-critique — fire and forget
         Promise.resolve(supabase.rpc('cleanup_expired_messages')).catch(() => {});
 
@@ -131,17 +160,15 @@ export function useMessages(conversationId: string) {
         if (error) {
           console.error("Error fetching messages (after retries):", error);
         } else if (data) {
-          // Les messages arrivent desc, on reverse pour avoir l'ordre chrono
           const reversed = [...data].reverse();
           const formatted = reversed.map((msg: any) => formatMessage(msg, uid));
           const resolved = await resolveSignedUrls(formatted);
           setMessages(resolved);
           setHasMore(data.length === PAGE_SIZE);
 
-          // Mark as read après fetch réussi
           markAsRead();
-          // Fetch read timestamps
           fetchReadTimestamps();
+          fetchReactions(data.map(m => m.id));
         }
       } catch (err) {
         console.error("JS Exception fetching messages:", err);
@@ -152,8 +179,8 @@ export function useMessages(conversationId: string) {
 
     fetchMessages();
 
-    // Subscribe to real-time messages — BUG-006: log les erreurs WebSocket
-    const channel = supabase.channel(`messages:${conversationId}`)
+    // Consolidated channel: messages + reactions + participants
+    const channel = supabase.channel(`chat-robust:${conversationId}`)
       .on('postgres_changes', {
         event: 'INSERT',
         schema: 'public',
@@ -161,7 +188,6 @@ export function useMessages(conversationId: string) {
         filter: `conversation_id=eq.${conversationId}`
       }, async (payload) => {
         const newMsg = payload.new;
-
         const { data: profileData } = await supabase
           .from(DB_TABLES.PROFILES)
           .select('nickname, username')
@@ -169,32 +195,15 @@ export function useMessages(conversationId: string) {
           .single();
 
         const uid = userIdRef.current;
+        let formatted = formatMessage({ ...newMsg, profiles: profileData }, uid);
 
-        let formatted: Message = {
-          id: newMsg.id,
-          senderId: newMsg.sender_id,
-          senderName: profileData?.nickname || profileData?.username || "Inconnu",
-          content: newMsg.content || "",
-          fileUrl: newMsg.file_url,
-          fileType: newMsg.file_type,
-          createdAt: new Date(newMsg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-          createdAtRaw: newMsg.created_at,
-          isMe: newMsg.sender_id === uid,
-          expiresIn: newMsg.expires_in,
-          maxViews: newMsg.max_views,
-        };
-
-        // Résoudre la signed URL si nécessaire
         if (formatted.fileType === 'image' && formatted.maxViews && formatted.fileUrl?.startsWith('storage:')) {
           const resolved = await resolveFileUrl(formatted.fileUrl, formatted.fileType, formatted.maxViews);
           formatted = { ...formatted, fileUrl: resolved };
         }
 
         setMessages(prev => [...prev, formatted]);
-
-        if (newMsg.sender_id !== uid) {
-          markAsRead();
-        }
+        if (newMsg.sender_id !== uid) markAsRead();
       })
       .on('postgres_changes', {
         event: 'UPDATE',
@@ -202,13 +211,25 @@ export function useMessages(conversationId: string) {
         table: DB_TABLES.CHAT_PARTICIPANTS,
         filter: `conversation_id=eq.${conversationId}`
       }, (payload) => {
-        // Mise à jour realtime des read timestamps
         const updated = payload.new;
         if (updated.user_id && updated.last_read_at) {
-          setReadTimestamps(prev => ({
-            ...prev,
-            [updated.user_id]: updated.last_read_at,
-          }));
+          setReadTimestamps(prev => ({ ...prev, [updated.user_id]: updated.last_read_at }));
+        }
+      })
+      .on('postgres_changes', {
+        event: '*',
+        schema: 'public',
+        table: DB_TABLES.CHAT_REACTIONS
+        // Note: Filter is not possible on CHAT_REACTIONS if it doesn't have conversation_id
+        // We filter results in the callback instead
+      }, async (payload) => {
+        // Since we can't filter by conversation_id on reaction table easily without a join
+        // We just re-fetch reactions if the message belongs to our current messages
+        const msgId = (payload.new as any)?.message_id || (payload.old as any)?.message_id;
+        if (msgId) {
+          // Optimization: could check if msgId in messages, but messages is in stale closure here
+          // Re-fetch reactions for current messages
+          fetchReactions(messages.map(m => m.id)); 
         }
       })
       .subscribe((status, err) => {
@@ -220,8 +241,7 @@ export function useMessages(conversationId: string) {
     return () => {
       supabase.removeChannel(channel);
     };
-  // P2-D fix: re-subscribe si conversationId OU userId change
-  }, [conversationId, currentUserId, formatMessage, resolveSignedUrls, resolveFileUrl]);
+  }, [conversationId, currentUserId, formatMessage, resolveSignedUrls, resolveFileUrl, messages.length]); // Re-sub on length change to update reaction listener closure if needed
 
 
   const loadMore = useCallback(async () => {
@@ -334,5 +354,70 @@ export function useMessages(conversationId: string) {
     }).catch(err => console.error("Failed to send push notifications:", err));
   };
 
-  return { messages, loading, hasMore, loadingMore, loadMore, sendMessage, readTimestamps };
+  const toggleReaction = useCallback(async (messageId: string, emoji: string) => {
+    const uid = userIdRef.current;
+    if (!uid) return;
+
+    const alreadyMine = myReactions[messageId]?.has(emoji);
+
+    if (alreadyMine) {
+      // Optimistic remove
+      setMyReactions(prev => {
+        const next = { ...prev };
+        const s = new Set(prev[messageId]);
+        s.delete(emoji);
+        next[messageId] = s;
+        return next;
+      });
+      setAllReactions(prev => {
+        const next = { ...prev };
+        if (next[messageId]?.[emoji]) {
+          next[messageId] = { ...next[messageId], [emoji]: Math.max(0, next[messageId][emoji] - 1) };
+        }
+        return next;
+      });
+
+      await withRetry(async () =>
+        supabase
+          .from(DB_TABLES.CHAT_REACTIONS)
+          .delete()
+          .match({ message_id: messageId, user_id: uid, emoji })
+      );
+    } else {
+      // Optimistic add
+      setMyReactions(prev => {
+        const next = { ...prev };
+        const s = new Set(prev[messageId] || []);
+        s.add(emoji);
+        next[messageId] = s;
+        return next;
+      });
+      setAllReactions(prev => {
+        const next = { ...prev };
+        const r = { ...next[messageId] };
+        r[emoji] = (r[emoji] || 0) + 1;
+        next[messageId] = r;
+        return next;
+      });
+
+      await withRetry(async () =>
+        supabase
+          .from(DB_TABLES.CHAT_REACTIONS)
+          .insert({ message_id: messageId, user_id: uid, emoji })
+      );
+    }
+  }, [myReactions]);
+
+  return { 
+    messages, 
+    loading, 
+    hasMore, 
+    loadingMore, 
+    loadMore, 
+    sendMessage, 
+    readTimestamps,
+    allReactions,
+    myReactions,
+    toggleReaction
+  };
 }
