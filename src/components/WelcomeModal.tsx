@@ -206,18 +206,17 @@ export default function WelcomeModal() {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 w-full text-left mb-10">
 
-              {/* Phase 2 Optimisations (Nouveau!) */}
+              {/* Dernières Mises à Jour (v2.5.0) */}
               <div data-card className="bg-gradient-to-br from-[#1A3A2E] to-[#0F2818] border border-[#B59551]/40 rounded-2xl p-5 hover:border-[#B59551]/60 transition-colors duration-300">
                 <h3 className="text-[#B59551] font-medium text-base mb-3 flex items-center gap-2">
                   <Zap className="w-4 h-4 flex-shrink-0" />
-                  Phase 2 (v2.4.0) — Optimisations
+                  Mises à jour (v2.5.0)
                 </h3>
                 <ul className="text-[#F2EEDD]/70 text-sm space-y-2 list-disc pl-4">
-                  <li><strong>Performance +30%:</strong> LCP optimisé (3.5s → 2.4s)</li>
-                  <li><strong>Caching hybride:</strong> localStorage + ISR + SWR</li>
-                  <li><strong>Validation Zod:</strong> Formulaires sécurisés</li>
-                  <li><strong>Pagination infinie:</strong> Messages 50 par lot</li>
-                  <li><strong>Email notifications:</strong> Mises à jour automne</li>
+                  <li><strong>Stabilité Réseau:</strong> Fix des blocages de chargement</li>
+                  <li><strong>Chat Sync:</strong> Messagerie réactive dès l'arrivée</li>
+                  <li><strong>Email Hub:</strong> Notifications sacrées actives</li>
+                  <li><strong>Personnalisation:</strong> Accueil sur mesure (Savoir/École)</li>
                 </ul>
               </div>
 

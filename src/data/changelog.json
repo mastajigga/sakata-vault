@@ -30,6 +30,15 @@
           "Templates HTML premium respectant l'identité visuelle du hub",
           "Route API unifiée pour l'envoi massif de mises à jour aux membres"
         ]
+      },
+      {
+        "title": "🔒 Stabilité Réseau & Performance",
+        "items": [
+          "Correction de la saturation des sockets (suppression du singleton Supabase client)",
+          "Synchronisation du Chat avec le cycle d'authentification (fix infinite loading)",
+          "Nettoyage de l'instrumentation de débug sur la page Membres",
+          "Correction des erreurs 400 (URL malformée) dans l'AnalyticsProvider"
+        ]
       }
     ]
   },

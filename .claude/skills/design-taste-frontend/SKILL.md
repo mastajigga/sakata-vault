@@ -63,6 +63,11 @@ LLMs have statistical biases toward specific UI cliché patterns. Proactively co
 **Rule 6: Data & Form Patterns**
 * **Forms:** Label MUST sit above input. Helper text is optional but should exist in markup. Error text below input. Use a standard `gap-2` for input blocks.
 
+**Rule 7: Robust Loading & Auth Sync [CRITICAL]**
+*   **Auth Sequencing:** Components fetching user-specific data MUST wait for `authLoading` to be `false` before initiating requests.
+*   **Dependency Array:** `authLoading` MUST be included in `useEffect` dependency arrays for data fetching.
+*   **Safety Overrides:** Always implement a `setTimeout` (8s max) to force-clear loading states (`setLoading(false)`) if network congestion occurs, preventing "infinite spinners".
+
 ## 4. CREATIVE PROACTIVITY (Anti-Slop Implementation)
 To actively combat generic AI designs, systematically implement these high-end coding concepts as your baseline:
 * **"Liquid Glass" Refraction:** When glassmorphism is needed, go beyond `backdrop-blur`. Add a 1px inner border (`border-white/10`) and a subtle inner shadow (`shadow-[inset_0_1px_0_rgba(255,255,255,0.1)]`) to simulate physical edge refraction.

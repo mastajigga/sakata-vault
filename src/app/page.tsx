@@ -182,10 +182,10 @@ export default function Home() {
               color: "rgba(193, 107, 52, 0.1)"
             },
             {
-              icon: "🖼️",
-              title: "Robustesse Visuelle",
+              icon: "🛡️",
+              title: "Stabilité Réseau",
               date: "Avril 2026",
-              desc: "Nouveau composant MemberImage pour une gestion parfaite des avatars et fallbacks. Timeouts de sécurité contre les chargements infinis.",
+              desc: "Correction de la saturation des sockets et synchronisation du Chat avec l'authentification. Navigation fluide garantie sans blocages.",
               span: "md:col-span-2",
               color: "rgba(233,196,106,0.1)"
             },

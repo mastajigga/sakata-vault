@@ -149,6 +149,10 @@ import { withRetry, withRetryRaw } from "@/lib/supabase-retry";
 - **Vidéos dans les Hero :** Toujours utiliser `preload="auto"` + `onCanPlay={() => setVideoReady(true)}` + transition `opacity 0.8s` pour éviter le flash de vidéo après chargement de page.
 - **Nom de conversation:** Toujours fetcher dynamiquement depuis `chat_participants` + `profiles` — ne jamais hardcoder "Conversation" ou "C".
 - **withRetry() OBLIGATOIRE** : Tout appel Supabase critique (`.insert()`, `.upsert()`, `.update()`, `.select()` sur données utilisateur) **DOIT** utiliser `withRetry()` de `@/lib/supabase-retry`. Les appels fire-and-forget (analytics, cleanup) sont exemptés.
+- **Stabilité Réseau & Séquençage Auth (CRITIQUE)** : 
+  - **Séquençage** : Tout `useEffect` de fetch de données DOIT attendre que `authLoading` soit `false` avant de lancer les requêtes.
+  - **Dépendance Auth** : `authLoading` DOIT figurer dans le tableau de dépendances des `useEffect` de données pour garantir un déclenchement dès que la session est stable.
+  - **Non-Singleton** : Ne pas utiliser `isSingleton: true` dans la configuration Supabase pour éviter le partage de sockets corrompues entre onglets ou après une veille prolongée.
 - **Set<string\> explicite** : Quand un `Set` est initialisé depuis des constantes `as const`, typer explicitement `new Set<string>(...)` pour éviter l'erreur TypeScript sur `.has(key: string)`.
 - **Singleton Supabase client** : NE JAMAIS appeler `createBrowserClient(...)` dans le corps d'un composant (recréé à chaque render → leak WebSocket). Toujours importer le singleton `import { supabase } from "@/lib/supabase"`. Si un `useMemo` est nécessaire (cas rare), le documenter.
 - **Subscribe handler d'erreur OBLIGATOIRE** : Toute `.subscribe()` Supabase **DOIT** inclure `(status, err) => { if (status === 'CHANNEL_ERROR' || err) { console.error(...); /* fallback */ } }`. Sans cela, une déconnexion WebSocket est invisible.
@@ -264,6 +268,7 @@ import { withRetry, withRetryRaw } from "@/lib/supabase-retry";
 
 | Date | Modification |
 |------|-------------|
+| 2026-04-18 | **STABILITÉ RÉSEAU & CHAT SYNC** — Correction de la saturation des sockets (suppression `isSingleton`). Synchronisation du chat avec le cycle de vie de l'Auth. Nettoyage de l'instrumentation réseau sur la page Membres. Optimisation de l'AnalyticsProvider (fix Error 400). |
 | 2026-04-18 | **PERSONALISATION & ROBUSTESSE** — Intégration `useAuth` dans Savoir & École (accueil personnalisé, StudentSummary). Nouveau composant `MemberImage` pour avatars robustes. Infrastructure email Resend active avec DNS validé. |
 | 2026-04-18 | APP_VERSION bumpé `2.4.0` → `2.5.0` |
 | 2026-04-18 | **GÉOGRAPHIE V2.4** — Intégration du calque "Provinces" (26 provinces de la RDC) avec mise en évidence dorée du Mai-Ndombe. Nouvelle infographie interactive et métadonnées administratives (ISO, Groupe). |
