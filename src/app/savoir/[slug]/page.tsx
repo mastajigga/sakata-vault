@@ -13,17 +13,18 @@ import { supabase } from "@/lib/supabase";
 import { ARTICLES } from "@/data/articles";
 import StructuredData from "@/components/StructuredData";
 import LikeButton from "@/components/LikeButton";
-import { Eye, Lock, MessageSquare } from "lucide-react";
+import { Eye, Lock } from "lucide-react";
 import Link from "next/link";
 import AudioNarrator from "@/components/AudioNarrator";
+import { ArticleData } from "@/types/i18n";
 
 gsap.registerPlugin(ScrollTrigger);
 
 const ArticlePage = () => {
   const { slug } = useParams();
-  const { language, t } = useLanguage();
-  const { user, role, subscriptionTier } = useAuth();
-  const [article, setArticle] = useState<any>(null);
+  const { language } = useLanguage();
+  const { role, subscriptionTier } = useAuth();
+  const [article, setArticle] = useState<ArticleData | null>(null);
   const [loading, setLoading] = useState(true);
   
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -107,7 +108,7 @@ const ArticlePage = () => {
 
     const timer = setTimeout(trackRead, 100);
     return () => clearTimeout(timer);
-  }, [article?.id, slug]);
+  }, [article?.id, article?.slug, slug]);
 
   if (loading) return (
     <div className="min-h-[100dvh] bg-foret-nocturne flex items-center justify-center">
@@ -178,9 +179,9 @@ const ArticlePage = () => {
       {/* Hero */}
       <section className="relative h-[65vh] md:h-[75vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 bg-[#0A1F15]">
-          {(article.featured_image || (article as any).image) ? (
+          {(article.featured_image || article.image) ? (
              <Image
-               src={article.featured_image || (article as any).image}
+               src={article.featured_image || article.image || ""}
                alt={displayTitle}
                fill
                priority={false}
@@ -194,7 +195,7 @@ const ArticlePage = () => {
                  className="absolute inset-0 w-full h-full object-cover opacity-30"
                  style={{ filter: "brightness(0.5) contrast(1.1)" }}
                >
-                 <source src={article.video_background || (article as any).videoBackground || "/videos/wan-iluo-into-the-eyes.mp4"} type="video/mp4" />
+                 <source src={article.videoBackground || "/videos/wan-iluo-into-the-eyes.mp4"} type="video/mp4" />
                </video>
            )}
         </div>
@@ -217,7 +218,7 @@ const ArticlePage = () => {
               letterSpacing: "-0.04em" 
             }}
           >
-            {displayTitle.split("").map((char: string, i: number) => (
+            {displayTitle.split("").map((char, i) => (
               <span key={`${char}-${i}`} className="char inline-block">{char === " " ? "\u00A0" : char}</span>
             ))}
           </h1>
@@ -272,7 +273,7 @@ const ArticlePage = () => {
                      Cette chronique détaillée est réservée aux initiés. Accédez au savoir traditionnel approfondi.
                    </p>
                    <a href="/auth" className="inline-block px-8 py-3.5 rounded-full bg-or-ancestral text-foret-nocturne font-bold uppercase tracking-widest text-xs transition-all hover:scale-[1.05]">
-                      S'authentifier
+                      S&apos;authentifier
                    </a>
                 </div>
               </div>
@@ -289,7 +290,7 @@ const ArticlePage = () => {
                    className="p-1 rounded-[2.5rem] bg-white/5 border border-white/10 overflow-hidden shadow-2xl shadow-black/40"
                  >
                     <Image
-                      src={article.featured_image || (article as any).image || "/images/sakata_mask_detail.png"}
+                      src={article.featured_image || article.image || "/images/sakata_mask_detail.png"}
                       alt={displayTitle}
                       width={400}
                       height={500}
@@ -322,7 +323,7 @@ const ArticlePage = () => {
                  </div>
                  
                  <LikeButton 
-                   articleId={article.id} 
+                   articleId={article.id || article.slug} 
                    initialLikes={article.likes_count || 0} 
                  />
 

@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import { Play, Pause, Volume2, Info } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 
 interface AudioNarratorProps {
   audioUrl: string;
@@ -125,7 +125,7 @@ const AudioNarrator: React.FC<AudioNarratorProps> = ({ audioUrl, title }) => {
       <div className="mt-4 flex items-center gap-2 px-6">
         <Info size={14} className="text-or-ancestral/60" />
         <p className="text-[10px] text-ivoire-ancien/40 italic">
-          Généré par l'IA Gemini 3.1 Flash — Voix de l'Ancien Charon
+          Généré par l&apos;IA Gemini 3.1 Flash — Voix de l&apos;Ancien Charon
         </p>
       </div>
     </div>

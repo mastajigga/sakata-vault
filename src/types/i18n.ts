@@ -49,6 +49,7 @@ export interface TranslatedText {
  * Utilisée pour stocker ET servir articles ET livres
  */
 export interface ArticleData {
+  id?: string;
   slug: string;
   title: TranslatedText;
   category: "langue" | "culture" | "spiritualite" | "histoire";
@@ -62,6 +63,15 @@ export interface ArticleData {
   /** Métadonnées d'affichage */
   image?: string;
   videoBackground?: string;
+  featured_image?: string;
+  
+  /** Narration et Stats */
+  hasNarrator?: boolean;
+  date?: string;
+  likes_count?: number;
+  reads_count?: number;
+  is_premium?: boolean;
+  created_at?: string;
 }
 
 /**
@@ -83,4 +93,4 @@ export interface ArticleMetadata {
   videoBackground?: string;
 }
 
-export type Dictionary = Record<string, any>;
+export type Dictionary = Record<string, unknown>;
