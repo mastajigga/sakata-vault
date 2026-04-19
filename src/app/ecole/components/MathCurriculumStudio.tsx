@@ -19,6 +19,7 @@ import MathExerciseCard from "./MathExerciseCard";
 interface MathCurriculumStudioProps {
   programs: MathematicsProgramYear[];
   level?: "primaire" | "secondaire";
+  hideHeader?: boolean;
 }
 
 const syncLabels = {
@@ -30,9 +31,13 @@ const syncLabels = {
 export default function MathCurriculumStudio({
   programs,
   level = "primaire",
+  hideHeader = false,
 }: MathCurriculumStudioProps) {
   const [selectedYear, setSelectedYear] = useState(programs[0]?.slug ?? "");
-  const deferredSelectedYear = useDeferredValue(selectedYear);
+  
+  // Sync if externally controlled (when length is 1)
+  const currentProgramSlug = programs.length === 1 ? programs[0].slug : selectedYear;
+  const deferredSelectedYear = useDeferredValue(currentProgramSlug);
   const {
     completeExercise,
     recordAttempt,
@@ -69,106 +74,110 @@ export default function MathCurriculumStudio({
       id={level === "secondaire" ? "mathematiques-secondaire" : "mathematiques"}
       className="section-container relative py-24 md:py-32"
     >
-      <div className="mb-12 max-w-3xl">
-        <span className="eyebrow">
-          {level === "secondaire" ? "Secondaire Basakata" : "Brilliant Basakata"}
-        </span>
-        <h2 className="mt-6 font-display text-4xl tracking-[-0.05em] text-[var(--ivoire-ancien)] md:text-6xl">
-          {level === "secondaire"
-            ? "Trois annees de secondaire, du premier cycle au tronc commun."
-            : "Un studio mathematique progressif, ancre dans la vie Sakata."}
-        </h2>
-        <p className="mt-5 text-base leading-8 text-[rgba(212,221,215,0.78)] md:text-lg">
-          {level === "secondaire"
-            ? "Algebre, geometrie, trigonometrie, analyse et probabilites : chaque niveau suit le programme RDC et l ancre dans les territoires, les rivières et les gestes du peuple Sakata."
-            : "Chaque annee suit l esprit du programme national primaire de la RDC, puis le traduit en lecons guidees, calculs rendus avec KaTeX, saisie vivante avec MathLive et progression sauvegardee pour chaque eleve."}
-        </p>
-      </div>
+      {!hideHeader && (
+        <div className="mb-12 max-w-3xl">
+          <span className="eyebrow">
+            {level === "secondaire" ? "Secondaire Basakata" : "Brilliant Basakata"}
+          </span>
+          <h2 className="mt-6 font-display text-4xl tracking-[-0.05em] text-[var(--ivoire-ancien)] md:text-6xl">
+            {level === "secondaire"
+              ? "Trois annees de secondaire, du premier cycle au tronc commun."
+              : "Un studio mathematique progressif, ancre dans la vie Sakata."}
+          </h2>
+          <p className="mt-5 text-base leading-8 text-[rgba(212,221,215,0.78)] md:text-lg">
+            {level === "secondaire"
+              ? "Algebre, geometrie, trigonometrie, analyse et probabilites : chaque niveau suit le programme RDC et l ancre dans les territoires, les rivières et les gestes du peuple Sakata."
+              : "Chaque annee suit l esprit du programme national primaire de la RDC, puis le traduit en lecons guidees, calculs rendus avec KaTeX, saisie vivante avec MathLive et progression sauvegardee pour chaque eleve."}
+          </p>
+        </div>
+      )}
 
       <div className="grid gap-6 xl:grid-cols-[340px_minmax(0,1fr)] xl:items-start">
-        <aside className="xl:sticky xl:top-24">
-          <div className="mist-panel rounded-[2rem] p-6 md:p-7">
-            <div className="flex items-center gap-3 text-[var(--amber-light)]">
-              <DatabaseZap className="h-5 w-5" />
-              <p className="text-xs font-semibold uppercase tracking-[0.2em]">
-                Tableau de progression
-              </p>
-            </div>
-
-            <div className="mt-6 rounded-[1.5rem] border border-[rgba(212,221,215,0.08)] bg-[rgba(4,17,13,0.45)] p-5">
-              <div className="flex items-end justify-between gap-4">
-                <div>
-                  <p className="text-sm text-[rgba(212,221,215,0.7)]">
-                    Progression globale
-                  </p>
-                  <p className="mt-2 font-display text-4xl tracking-[-0.05em] text-[var(--ivoire-ancien)]">
-                    {overallProgress}%
-                  </p>
-                </div>
-                <div className="rounded-full border border-[rgba(196,160,53,0.25)] px-3 py-1 text-[0.68rem] uppercase tracking-[0.2em] text-[var(--amber-light)]">
-                  {syncStatus}
-                </div>
+        {programs.length > 1 && (
+          <aside className="xl:sticky xl:top-24">
+            <div className="mist-panel rounded-[2rem] p-6 md:p-7">
+              <div className="flex items-center gap-3 text-[var(--amber-light)]">
+                <DatabaseZap className="h-5 w-5" />
+                <p className="text-xs font-semibold uppercase tracking-[0.2em]">
+                  Tableau de progression
+                </p>
               </div>
 
-              <div className="mt-4 h-2 overflow-hidden rounded-full bg-[rgba(212,221,215,0.08)]">
-                <motion.div
-                  className="h-full rounded-full bg-[linear-gradient(90deg,rgba(196,160,53,0.86),rgba(212,221,215,0.7))]"
-                  initial={{ width: 0 }}
-                  animate={{ width: `${overallProgress}%` }}
-                  transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                />
-              </div>
-
-              <p className="mt-3 text-sm leading-7 text-[rgba(212,221,215,0.72)]">
-                {syncLabels[syncStatus]}
-              </p>
-            </div>
-
-            <div className="mt-6 space-y-3">
-              {programs.map((program) => {
-                const progress = getYearProgress(program);
-                const isActive = activeProgram.slug === program.slug;
-
-                return (
-                  <button
-                    key={program.slug}
-                    type="button"
-                    onClick={() => {
-                      startTransition(() => setSelectedYear(program.slug));
-                    }}
-                    className="w-full rounded-[1.5rem] border px-4 py-4 text-left transition-all duration-300 active:scale-[0.99]"
-                    style={{
-                      borderColor: isActive
-                        ? "rgba(196, 160, 53, 0.36)"
-                        : "rgba(212, 221, 215, 0.08)",
-                      background: isActive
-                        ? "linear-gradient(180deg, rgba(196,160,53,0.16) 0%, rgba(4,17,13,0.6) 100%)"
-                        : "rgba(4,17,13,0.45)",
-                    }}
-                  >
-                    <div className="flex items-start justify-between gap-4">
-                      <div>
-                        <p className="font-display text-xl tracking-tight text-[var(--ivoire-ancien)]">
-                          {program.title}
-                        </p>
-                        <p className="mt-1 text-xs uppercase tracking-[0.18em] text-[rgba(212,221,215,0.56)]">
-                          {program.degree}
-                        </p>
-                      </div>
-                      <div className="rounded-full bg-[rgba(212,221,215,0.08)] px-3 py-1 text-xs font-semibold text-[rgba(240,237,229,0.84)]">
-                        {progress}%
-                      </div>
-                    </div>
-
-                    <p className="mt-3 text-sm leading-7 text-[rgba(212,221,215,0.74)]">
-                      {program.focus}
+              <div className="mt-6 rounded-[1.5rem] border border-[rgba(212,221,215,0.08)] bg-[rgba(4,17,13,0.45)] p-5">
+                <div className="flex items-end justify-between gap-4">
+                  <div>
+                    <p className="text-sm text-[rgba(212,221,215,0.7)]">
+                      Progression globale
                     </p>
-                  </button>
-                );
-              })}
+                    <p className="mt-2 font-display text-4xl tracking-[-0.05em] text-[var(--ivoire-ancien)]">
+                      {overallProgress}%
+                    </p>
+                  </div>
+                  <div className="rounded-full border border-[rgba(196,160,53,0.25)] px-3 py-1 text-[0.68rem] uppercase tracking-[0.2em] text-[var(--amber-light)]">
+                    {syncStatus}
+                  </div>
+                </div>
+
+                <div className="mt-4 h-2 overflow-hidden rounded-full bg-[rgba(212,221,215,0.08)]">
+                  <motion.div
+                    className="h-full rounded-full bg-[linear-gradient(90deg,rgba(196,160,53,0.86),rgba(212,221,215,0.7))]"
+                    initial={{ width: 0 }}
+                    animate={{ width: `${overallProgress}%` }}
+                    transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                  />
+                </div>
+
+                <p className="mt-3 text-sm leading-7 text-[rgba(212,221,215,0.72)]">
+                  {syncLabels[syncStatus]}
+                </p>
+              </div>
+
+              <div className="mt-6 space-y-3">
+                {programs.map((program) => {
+                  const progress = getYearProgress(program);
+                  const isActive = activeProgram.slug === program.slug;
+
+                  return (
+                    <button
+                      key={program.slug}
+                      type="button"
+                      onClick={() => {
+                        startTransition(() => setSelectedYear(program.slug));
+                      }}
+                      className="w-full rounded-[1.5rem] border px-4 py-4 text-left transition-all duration-300 active:scale-[0.99]"
+                      style={{
+                        borderColor: isActive
+                          ? "rgba(196, 160, 53, 0.36)"
+                          : "rgba(212, 221, 215, 0.08)",
+                        background: isActive
+                          ? "linear-gradient(180deg, rgba(196,160,53,0.16) 0%, rgba(4,17,13,0.6) 100%)"
+                          : "rgba(4,17,13,0.45)",
+                      }}
+                    >
+                      <div className="flex items-start justify-between gap-4">
+                        <div>
+                          <p className="font-display text-xl tracking-tight text-[var(--ivoire-ancien)]">
+                            {program.title}
+                          </p>
+                          <p className="mt-1 text-xs uppercase tracking-[0.18em] text-[rgba(212,221,215,0.56)]">
+                            {program.degree}
+                          </p>
+                        </div>
+                        <div className="rounded-full bg-[rgba(212,221,215,0.08)] px-3 py-1 text-xs font-semibold text-[rgba(240,237,229,0.84)]">
+                          {progress}%
+                        </div>
+                      </div>
+
+                      <p className="mt-3 text-sm leading-7 text-[rgba(212,221,215,0.74)]">
+                        {program.focus}
+                      </p>
+                    </button>
+                  );
+                })}
+              </div>
             </div>
-          </div>
-        </aside>
+          </aside>
+        )}
 
         <div className="space-y-6">
           <motion.article

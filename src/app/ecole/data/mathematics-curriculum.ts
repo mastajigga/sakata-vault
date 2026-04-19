@@ -3067,3 +3067,4 @@ export const primaireProgramsData: MathematicsProgramYear[] = [
 ];
 
 export const primaryPrograms: MathematicsProgramYear[] = primaireProgramsData;
+export const secondaryPrograms: MathematicsProgramYear[] = mathematicsPrograms;
