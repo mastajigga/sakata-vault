@@ -5,10 +5,22 @@ import { GraduationCap, ArrowLeft, BookOpen, Star, Sparkles } from "lucide-react
 import Link from "next/link";
 import { primaryPrograms } from "../data/mathematics-curriculum";
 import MathCurriculumStudio from "../components/MathCurriculumStudio";
-import { useState } from "react";
+import { useState, useEffect, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 
-export default function PrimairePage() {
+function PrimaireContent() {
+  const searchParams = useSearchParams();
+  const yearParam = searchParams.get("year");
   const [selectedYear, setSelectedYear] = useState<typeof primaryPrograms[0] | null>(null);
+
+  useEffect(() => {
+    if (yearParam) {
+      const year = primaryPrograms.find((p) => p.slug === yearParam);
+      if (year) {
+        setSelectedYear(year);
+      }
+    }
+  }, [yearParam]);
 
   return (
     <div className="min-h-screen bg-[#0a0f16] text-white pt-24 pb-12 px-4 sm:px-6 lg:px-8 overflow-hidden relative">
@@ -64,38 +76,42 @@ export default function PrimairePage() {
             className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
           >
             {primaryPrograms.map((year, index) => (
-              <motion.button
+              <Link
                 key={year.slug}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
-                whileHover={{ y: -8, transition: { duration: 0.2 } }}
-                onClick={() => setSelectedYear(year)}
-                className="group relative h-64 rounded-3xl overflow-hidden border border-white/10 bg-white/5 hover:bg-white/10 transition-all text-left"
+                href={`/ecole/primaire/${year.slug}/cours`}
+                className="group relative block h-64"
               >
-                {/* Decorative overlay */}
-                <div className="absolute top-0 right-0 p-6">
-                  <div className="w-12 h-12 rounded-2xl bg-blue-500/20 flex items-center justify-center group-hover:scale-110 transition-transform">
-                    <BookOpen className="w-6 h-6 text-blue-400" />
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.1 }}
+                  whileHover={{ y: -8, transition: { duration: 0.2 } }}
+                  className="h-full rounded-3xl overflow-hidden border border-white/10 bg-white/5 hover:bg-white/10 transition-all text-left"
+                >
+                  {/* Decorative overlay */}
+                  <div className="absolute top-0 right-0 p-6">
+                    <div className="w-12 h-12 rounded-2xl bg-blue-500/20 flex items-center justify-center group-hover:scale-110 transition-transform">
+                      <BookOpen className="w-6 h-6 text-blue-400" />
+                    </div>
                   </div>
-                </div>
 
-                <div className="absolute inset-x-0 bottom-0 p-8 pt-0">
-                  <div className="flex items-center gap-2 text-blue-400 text-sm font-semibold mb-2 uppercase tracking-wider">
-                    <Sparkles className="w-4 h-4" />
-                    {year.degree}
+                  <div className="absolute inset-x-0 bottom-0 p-8 pt-0">
+                    <div className="flex items-center gap-2 text-blue-400 text-sm font-semibold mb-2 uppercase tracking-wider">
+                      <Sparkles className="w-4 h-4" />
+                      {year.degree}
+                    </div>
+                    <h3 className="text-2xl font-bold mb-2 group-hover:text-blue-300 transition-colors">
+                      {year.title}
+                    </h3>
+                    <p className="text-gray-400 text-sm line-clamp-2">
+                      {year.focus}
+                    </p>
                   </div>
-                  <h3 className="text-2xl font-bold mb-2 group-hover:text-blue-300 transition-colors">
-                    {year.title}
-                  </h3>
-                  <p className="text-gray-400 text-sm line-clamp-2">
-                    {year.focus}
-                  </p>
-                </div>
 
-                {/* Bottom line accent */}
-                <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 to-teal-500 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300" />
-              </motion.button>
+                  {/* Bottom line accent */}
+                  <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 to-teal-500 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300" />
+                </motion.div>
+              </Link>
             ))}
           </motion.div>
         ) : (
@@ -129,5 +145,13 @@ export default function PrimairePage() {
         </p>
       </div>
     </div>
+  );
+}
+
+export default function PrimairePage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-[#0a0f16]" />}>
+      <PrimaireContent />
+    </Suspense>
   );
 }

@@ -2,7 +2,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { ArrowLeft, ArrowRight, Gamepad2 } from "lucide-react";
+import { ArrowLeft, ArrowRight, Gamepad2, HelpCircle } from "lucide-react";
 import type { MathematicsProgramYear } from "@/app/ecole/data/mathematics-curriculum";
 import type { SemanticEnrichment } from "@/app/api/ecole/semantic-content/route";
 import ChapterNav from "./ChapterNav";
@@ -18,6 +18,7 @@ export default function CoursePage({ program }: CoursPageProps) {
   const levelLabel = isPrimary ? "Primaire" : "Secondaire";
   const levelAnchor = isPrimary ? "/ecole#mathematiques" : "/ecole#mathematiques-secondaire";
   const exercisesPath = isPrimary ? null : `/ecole/secondaire/${program.courseSlug}/exercices`;
+  const dashboardUrl = `${isPrimary ? "/ecole/primaire" : "/ecole/secondaire"}?year=${program.slug}`;
   const [activeChapterId, setActiveChapterId] = useState(chapters[0]?.id ?? "");
   const [completedChapterIds, setCompletedChapterIds] = useState<Set<string>>(new Set());
   const [enrichments, setEnrichments] = useState<Record<string, SemanticEnrichment | null>>({});
@@ -98,6 +99,13 @@ export default function CoursePage({ program }: CoursPageProps) {
             <span className="rounded-full border border-[rgba(212,221,215,0.12)] px-3 py-1 text-[0.72rem] uppercase tracking-[0.18em] text-[rgba(212,221,215,0.6)]">{chapters.length} chapitres</span>
           </div>
           <div className="flex items-center gap-2">
+            <Link
+              href={dashboardUrl}
+              className="flex shrink-0 items-center gap-2 rounded-full border border-[rgba(212,221,215,0.2)] bg-white/5 px-4 py-2 text-sm font-medium text-[rgba(212,221,215,0.8)] transition-all hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-[var(--or-ancestral)]"
+              aria-label="Voir le tableau de bord et les explications pédagogiques"
+            >
+              <HelpCircle size={14} aria-hidden="true" /> Plus d'explications
+            </Link>
             {activeChapter && activeChapter.exerciseIds.length > 0 && (
               <button
                 onClick={() => setGameModeOpen(true)}
