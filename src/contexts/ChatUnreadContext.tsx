@@ -41,6 +41,11 @@ export function ChatUnreadProvider({
 
     async function fetchConversations(showLoading = false) {
       if (isFetchingRef.current || authLoading) return;
+      
+      // Petit délai pour laisser passer les premières requêtes prioritaires
+      await new Promise(resolve => setTimeout(resolve, 100));
+      if (cancelled || authLoading) return;
+
       isFetchingRef.current = true;
       if (showLoading) setLoading(true);
 

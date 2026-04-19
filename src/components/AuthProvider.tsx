@@ -171,14 +171,22 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   // -------------------------------------------------------------------------
   const fetchProfile = useCallback(async (userId: string) => {
     console.log(`[AuthProvider] fetchProfile: DEBUT pour ${userId}`);
+    
+    // Création d'un contrôleur d'abandon pour éviter les requêtes zombies
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 8000); // 8s de timeout interne
+
     try {
       console.log(`[AuthProvider] fetchProfile: QUERY START`);
+      
       const { data, error } = await supabase
         .from("profiles")
         .select("role, subscription_tier, contributor_status, nickname, username")
         .eq("id", userId)
-        .limit(1);
+        .limit(1)
+        .abortSignal(controller.signal);
       
+      clearTimeout(timeoutId);
       console.log(`[AuthProvider] fetchProfile: QUERY END, items:`, data?.length, "error:", error?.message || "none");
 
       const profile = data && data.length > 0 ? data[0] : null;
@@ -190,10 +198,20 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         setNickname(profile.nickname);
         setUsername(profile.username);
       } else if (error) {
-        console.error("[AuthProvider] fetchProfile error:", error.message);
+        if (error.message?.includes("AbortError")) {
+          console.warn("[AuthProvider] fetchProfile: TIMEOUT interne atteint (8s).");
+        } else {
+          console.error("[AuthProvider] fetchProfile error:", error.message);
+        }
       }
     } catch (err: any) {
-      console.error("[AuthProvider] fetchProfile: Exception critique:", err);
+      if (err.name === 'AbortError') {
+        console.warn("[AuthProvider] fetchProfile: Requête abandonnée (timeout).");
+      } else {
+        console.error("[AuthProvider] fetchProfile: Exception critique:", err);
+      }
+    } finally {
+      clearTimeout(timeoutId);
     }
     console.log(`[AuthProvider] fetchProfile: Fin`);
   }, []);

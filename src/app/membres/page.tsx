@@ -46,6 +46,9 @@ export default function MembresPage() {
         return;
       }
 
+      // Petit délai de courtoisie pour laisser respirer le réseau
+      await new Promise(resolve => setTimeout(resolve, 300));
+
       console.log("[Membres] Début fetchProfiles...");
       setLoading(true);
 
