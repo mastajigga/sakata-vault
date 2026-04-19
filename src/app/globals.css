@@ -375,3 +375,67 @@ math-field:focus-within {
   color: rgba(212, 221, 215, 0.82);
   font-style: italic;
 }
+
+/* ============================================
+   RIVER FLOW ANIMATION (CourseRiver)
+   GPU-accelerated 60fps flowing river animation.
+   Uses only `transform: translateX` on compositor layers
+   to guarantee smooth 60fps with no main-thread cost.
+   ============================================ */
+@keyframes riverFlow {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-2400px, 0, 0);
+  }
+}
+
+@keyframes riverRipple {
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    opacity: 0.9;
+    transform: translate3d(0, -2px, 0) scale(1.15);
+  }
+}
+
+.river-flow-anim {
+  will-change: transform;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  transform-origin: center;
+  backface-visibility: hidden;
+}
+
+.river-flow-fast {
+  animation-name: riverFlow;
+  animation-duration: 14s;
+}
+
+.river-flow-medium {
+  animation-name: riverFlow;
+  animation-duration: 22s;
+}
+
+.river-flow-slow {
+  animation-name: riverFlow;
+  animation-duration: 36s;
+}
+
+.river-ripple-anim {
+  will-change: transform, opacity;
+  animation: riverRipple 4s ease-in-out infinite;
+  transform-origin: center;
+}
+
+/* Accessibility: respect user's reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .river-flow-anim,
+  .river-ripple-anim {
+    animation: none !important;
+  }
+}

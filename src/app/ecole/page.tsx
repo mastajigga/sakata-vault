@@ -6,6 +6,8 @@ import Link from "next/link";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import EcoleHero from "./components/EcoleHero";
+import CourseRiver from "./components/CourseRiver";
+import { primaryPrograms, secondairePrograms } from "./data/mathematics-curriculum";
 
 export default function EcolePage() {
   return (
@@ -93,8 +95,22 @@ export default function EcolePage() {
 
           </div>
 
+          {/* Cours d'eau du savoir — rivière animée 60fps des 12 années */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            className="mt-16"
+          >
+            <CourseRiver
+              primaryPrograms={primaryPrograms}
+              secondaryPrograms={secondairePrograms}
+            />
+          </motion.div>
+
           {/* Secondary Bento Row */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16">
             
             {/* Help Card */}
             <motion.div 
