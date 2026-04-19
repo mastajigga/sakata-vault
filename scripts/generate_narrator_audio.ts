@@ -70,7 +70,7 @@ async function generateAudioForArticle() {
   console.log(`Successfully generated and merged audio: ${outputPath}`);
 }
 
-async function fetchTTS(text: string): Promise<Buffer | null> {
+async function fetchTTS(text: string, retries = 3): Promise<Buffer | null> {
   const url = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent?key=${API_KEY}`;
   
   const payload = {
@@ -87,59 +87,91 @@ async function fetchTTS(text: string): Promise<Buffer | null> {
     },
   };
 
-  try {
-    const response = await fetch(url, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    });
+  for (let attempt = 0; attempt <= retries; attempt++) {
+    try {
+      const response = await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
 
-    const data: any = await response.json();
-    if (!response.ok) {
-      console.error("API Error:", JSON.stringify(data, null, 2));
-      return null;
-    }
+      const data: any = await response.json();
+      if (!response.ok) {
+        if (response.status === 429 && attempt < retries) {
+          const delay = Math.pow(2, attempt) * 2000;
+          console.warn(`Quota reached. Retrying in ${delay}ms... (Attempt ${attempt + 1}/${retries})`);
+          await new Promise(resolve => setTimeout(resolve, delay));
+          continue;
+        }
+        console.error("API Error:", JSON.stringify(data, null, 2));
+        return null;
+      }
 
-    const parts = data.candidates?.[0].content.parts;
-    if (parts) {
-      for (const part of parts) {
-        if (part.inlineData) {
-          return Buffer.from(part.inlineData.data, "base64");
+      const parts = data.candidates?.[0].content.parts;
+      if (parts) {
+        for (const part of parts) {
+          if (part.inlineData) {
+            return Buffer.from(part.inlineData.data, "base64");
+          }
         }
       }
+      return null;
+    } catch (error) {
+      if (attempt < retries) {
+        const delay = Math.pow(2, attempt) * 2000;
+        console.warn(`Fetch error. Retrying in ${delay}ms...:`, error);
+        await new Promise(resolve => setTimeout(resolve, delay));
+        continue;
+      }
+      console.error("Error in fetchTTS:", error);
+      return null;
     }
-    return null;
-  } catch (error) {
-    console.error("Error in fetchTTS:", error);
-    return null;
   }
+  return null;
 }
 
 function mergeWavBuffers(buffers: Buffer[]): Buffer {
   if (buffers.length === 1) return buffers[0];
 
-  // WAV header is usually 44 bytes
+  // Standard WAV header size
   const headerSize = 44;
-  const firstBuffer = buffers[0];
-  const audioData: Buffer[] = [firstBuffer];
+  
+  // Collect all audio data (stripping headers from all segments)
+  const dataSegments: Buffer[] = buffers.map(buf => buf.subarray(headerSize));
+  const audioData = Buffer.concat(dataSegments);
+  
+  // Create a clean header
+  const header = Buffer.alloc(headerSize);
+  const totalLength = headerSize + audioData.length;
+  
+  // 0-3: RIFF
+  header.write("RIFF", 0);
+  // 4-7: File length - 8
+  header.writeUInt32LE(totalLength - 8, 4);
+  // 8-11: WAVE
+  header.write("WAVE", 8);
+  // 12-15: fmt 
+  header.write("fmt ", 12);
+  // 16-19: Chunk size (16 for PCM)
+  header.writeUInt32LE(16, 16);
+  // 20-21: Format (1 for PCM)
+  header.writeUInt16LE(1, 20);
+  // 22-23: Channels (1 for Mono)
+  header.writeUInt16LE(1, 22);
+  // 24-27: Sample Rate (Using 24000Hz as default for Charon voice)
+  header.writeUInt32LE(24000, 24);
+  // 28-31: Byte Rate (SampleRate * Channels * BitsPerSample / 8)
+  header.writeUInt32LE(48000, 28);
+  // 32-33: Block Align (Channels * BitsPerSample / 8)
+  header.writeUInt16LE(2, 32);
+  // 34-35: Bits per sample (16)
+  header.writeUInt16LE(16, 34);
+  // 36-39: data
+  header.write("data", 36);
+  // 40-43: Data size
+  header.writeUInt32LE(audioData.length, 40);
 
-  for (let i = 1; i < buffers.length; i++) {
-    // Strip header from subsequent buffers
-    audioData.push(buffers[i].subarray(headerSize));
-  }
-
-  const finalBuffer = Buffer.concat(audioData);
-
-  // Update WAV header with new length
-  // Total size (file size - 8 bytes) at offset 4
-  // Data size (total bytes - 44 bytes) at offset 40
-  const totalSize = finalBuffer.length - 8;
-  const dataSize = finalBuffer.length - 44;
-
-  finalBuffer.writeUInt32LE(totalSize, 4);
-  finalBuffer.writeUInt32LE(dataSize, 40);
-
-  return finalBuffer;
+  return Buffer.concat([header, audioData]);
 }
 
 generateAudioForArticle();
