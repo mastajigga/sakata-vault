@@ -23,8 +23,6 @@ function releaseRequest() {
     
     if (next) {
       activeRequests++;
-      console.log(`%c[NET-QUEUE-EXEC] %c${next.callName} %c(Remaining: ${requestQueue.length})`, 
-        "color: #3498db; font-weight: bold", "color: #F2EEDD", "color: #888");
       next.resolve();
     }
   }
@@ -37,8 +35,9 @@ async function acquireRequest(callName: string, isPriority = false) {
   }
   
   return new Promise<void>(resolve => {
-    console.log(`%c[NET-QUEUE-WAIT] %c${callName} %c(Active: ${activeRequests})`, 
-      "color: #e67e22; font-weight: bold", "color: #F2EEDD", "color: #888");
+    if (requestQueue.length > 5) {
+      console.warn(`[NET-SATURATION] File d'attente Supabase: ${requestQueue.length}`);
+    }
     requestQueue.push({ resolve, callName, isPriority });
   });
 }
@@ -56,22 +55,10 @@ function proxyBuilder(builder: any, callName: string, requestId: string, startTi
         return (onfulfilled: any, onrejected: any) => {
           const isPriority = callName.includes("profiles");
           
-          // On passe par le Traffic Control avant de solliciter le réseau
           return acquireRequest(callName, isPriority).then(() => {
-            if (activeRequests > MAX_CONCURRENT + 1) {
-              console.warn(`%c[NET-SATURATION] %cLimite navigateur approchée (${activeRequests}/6 active).`, 
-                "color: #ff0000; font-weight: bold", "color: #F2EEDD");
-            }
-            
-            console.log(`%c[NET-START] %c${callName} %c[ID:${requestId}] [Active:${activeRequests}]`, 
-              "color: #B59551; font-weight: bold", "color: #F2EEDD", "color: #666");
-
             return original.call(target, 
               (res: any) => {
                 releaseRequest();
-                const duration = Date.now() - startTime;
-                console.log(`%c[NET-RESOLVED] %c${callName} %c[${duration}ms] [Active:${activeRequests}]`, 
-                  "color: #51B57A; font-weight: bold", "color: #F2EEDD", "color: #666");
                 return onfulfilled ? onfulfilled(res) : res;
               }, 
               (err: any) => {

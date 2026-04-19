@@ -1,0 +1,275 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - button "FR" [ref=e5] [cursor=pointer]:
+      - img [ref=e6]
+      - generic [ref=e9]: FR
+      - img [ref=e10]
+    - generic [ref=e13]:
+      - img [ref=e15]
+      - heading "Bienvenue sur Sakata" [level=1] [ref=e18]
+      - paragraph [ref=e19]:
+        - generic [ref=e20]:
+          - text: Ce portail est un sanctuaire numérique dédié à la préservation et à la transmission de l'identité culturelle du peuple
+          - strong [ref=e21]: Sakata
+          - text: .
+      - paragraph [ref=e22]: Notre objectif est d'unir nos racines ancestrales avec la splendeur numérique moderne, en offrant à la fois des archives vivantes, des sagesses intemporelles et un forum d'échange intergénérationnel.
+      - button "Suivant" [ref=e23] [cursor=pointer]:
+        - text: Suivant
+        - img [ref=e24]
+  - main [ref=e26]:
+    - navigation [ref=e27]:
+      - generic [ref=e28]:
+        - link "SAKATA" [ref=e29] [cursor=pointer]:
+          - /url: /
+        - generic [ref=e30]:
+          - link "Accueil" [ref=e31] [cursor=pointer]:
+            - /url: /
+          - button "Savoir" [ref=e33] [cursor=pointer]:
+            - text: Savoir
+            - img [ref=e34]
+          - button "Communauté" [ref=e37] [cursor=pointer]:
+            - text: Communauté
+            - img [ref=e38]
+          - link "Premium" [ref=e40] [cursor=pointer]:
+            - /url: /premium
+        - generic [ref=e41]:
+          - button "FR" [ref=e43] [cursor=pointer]:
+            - img [ref=e44]
+            - generic [ref=e47]: FR
+            - img [ref=e48]
+          - link "Connexion" [ref=e50] [cursor=pointer]:
+            - /url: /auth
+    - generic [ref=e53]:
+      - generic [ref=e54]: Le Souffle de la Forêt
+      - heading "Là où la mémoire coule comme le Lukenie" [level=1] [ref=e55]
+      - paragraph [ref=e56]: Le passé n'est pas mort, il respire encore sous la brume. Naviguez dans les profondeurs de notre héritage, entre tradition ancestrale et éveil numérique.
+    - generic [ref=e59]:
+      - 'link "L''Institution du Ngongo : Structure et Savoirs culture L''Institution du Ngongo : Structure et Savoirs Plongez dans les rouages du Ngongo : de la structure des ''chefferies de terre'' à la transmission cryptée des savoirs. Une étude technique sur le socle institutionnel qui préserve l''âme des Basakata. Explorer" [ref=e62] [cursor=pointer]':
+        - /url: /savoir/ngongo-technique
+        - generic [ref=e64]:
+          - generic [ref=e65]:
+            - 'img "L''Institution du Ngongo : Structure et Savoirs" [ref=e66]'
+            - generic [ref=e68]: culture
+          - generic [ref=e69]:
+            - 'heading "L''Institution du Ngongo : Structure et Savoirs" [level=3] [ref=e70]'
+            - paragraph [ref=e71]: "Plongez dans les rouages du Ngongo : de la structure des 'chefferies de terre' à la transmission cryptée des savoirs. Une étude technique sur le socle institutionnel qui préserve l'âme des Basakata."
+            - generic [ref=e72]:
+              - generic [ref=e75]: Explorer
+              - img [ref=e77]
+      - 'link "Le Souffle du Ngongo : Le Voyage du Devenir culture Le Souffle du Ngongo : Le Voyage du Devenir Le Ngongo n''est pas une simple école, c''est l''alchimie du devenir. Découvrez le voyage spirituel où l''adolescent meurt symboliquement pour renaître en homme accompli, pilier de la sagesse Sakata. Explorer" [ref=e81] [cursor=pointer]':
+        - /url: /savoir/ngongo-philosophique
+        - generic [ref=e83]:
+          - generic [ref=e84]:
+            - 'img "Le Souffle du Ngongo : Le Voyage du Devenir" [ref=e85]'
+            - generic [ref=e87]: culture
+          - generic [ref=e88]:
+            - 'heading "Le Souffle du Ngongo : Le Voyage du Devenir" [level=3] [ref=e89]'
+            - paragraph [ref=e90]: Le Ngongo n'est pas une simple école, c'est l'alchimie du devenir. Découvrez le voyage spirituel où l'adolescent meurt symboliquement pour renaître en homme accompli, pilier de la sagesse Sakata.
+            - generic [ref=e91]:
+              - generic [ref=e94]: Explorer
+              - img [ref=e96]
+      - 'link "Résumé : L''Institution du Ngongo culture Résumé : L''Institution du Ngongo Version courte de la structure technique et institutionnelle du Ngongo. Explorer" [ref=e100] [cursor=pointer]':
+        - /url: /savoir/ngongo-technique-short
+        - generic [ref=e102]:
+          - generic [ref=e103]:
+            - 'img "Résumé : L''Institution du Ngongo" [ref=e104]'
+            - generic [ref=e106]: culture
+          - generic [ref=e107]:
+            - 'heading "Résumé : L''Institution du Ngongo" [level=3] [ref=e108]'
+            - paragraph [ref=e109]: Version courte de la structure technique et institutionnelle du Ngongo.
+            - generic [ref=e110]:
+              - generic [ref=e113]: Explorer
+              - img [ref=e115]
+      - 'link "Résumé : Le Souffle du Ngongo culture Résumé : Le Souffle du Ngongo Version courte de l''initiation spirituelle au rite Ngongo. Explorer" [ref=e119] [cursor=pointer]':
+        - /url: /savoir/ngongo-philosophique-short
+        - generic [ref=e121]:
+          - generic [ref=e122]:
+            - 'img "Résumé : Le Souffle du Ngongo" [ref=e123]'
+            - generic [ref=e125]: culture
+          - generic [ref=e126]:
+            - 'heading "Résumé : Le Souffle du Ngongo" [level=3] [ref=e127]'
+            - paragraph [ref=e128]: Version courte de l'initiation spirituelle au rite Ngongo.
+            - generic [ref=e129]:
+              - generic [ref=e132]: Explorer
+              - img [ref=e134]
+      - 'link "Résumé : Les 5 piliers du Système Iluo culture Résumé : Les 5 piliers du Système Iluo Une synthèse rapide des différents types d''Iluo et de leurs fonctions dans la société Sakata. Explorer" [ref=e138] [cursor=pointer]':
+        - /url: /savoir/iluo-systeme-court
+        - generic [ref=e140]:
+          - generic [ref=e141]:
+            - 'img "Résumé : Les 5 piliers du Système Iluo" [ref=e142]'
+            - generic [ref=e144]: culture
+          - generic [ref=e145]:
+            - 'heading "Résumé : Les 5 piliers du Système Iluo" [level=3] [ref=e146]'
+            - paragraph [ref=e147]: Une synthèse rapide des différents types d'Iluo et de leurs fonctions dans la société Sakata.
+            - generic [ref=e148]:
+              - generic [ref=e151]: Explorer
+              - img [ref=e153]
+      - 'link "Le Système Iluo : Grades, Métamorphoses et Ordre Social culture Le Système Iluo : Grades, Métamorphoses et Ordre Social Étude détaillée du système des grades Iluo (Bosie, Moju, Nkfie) et des mécanismes de protection et de justice chez les Basakata. Explorer" [ref=e157] [cursor=pointer]':
+        - /url: /savoir/iluo-systeme-complet
+        - generic [ref=e159]:
+          - generic [ref=e160]:
+            - 'img "Le Système Iluo : Grades, Métamorphoses et Ordre Social" [ref=e161]'
+            - generic [ref=e163]: culture
+          - generic [ref=e164]:
+            - 'heading "Le Système Iluo : Grades, Métamorphoses et Ordre Social" [level=3] [ref=e165]'
+            - paragraph [ref=e166]: Étude détaillée du système des grades Iluo (Bosie, Moju, Nkfie) et des mécanismes de protection et de justice chez les Basakata.
+            - generic [ref=e167]:
+              - generic [ref=e170]: Explorer
+              - img [ref=e172]
+      - 'link "L''Épopée de l''Iluo : Le Souffle de l''Invisible (Version Longue) culture L''Épopée de l''Iluo : Le Souffle de l''Invisible (Version Longue) Une exploration profonde du système de pouvoir spirituel Sakata, loin des mythes de gémellité, révélant le secret du Double et du Souffle de vie. Explorer" [ref=e176] [cursor=pointer]':
+        - /url: /savoir/iluo-epopee-longue
+        - generic [ref=e178]:
+          - generic [ref=e179]:
+            - 'img "L''Épopée de l''Iluo : Le Souffle de l''Invisible (Version Longue)" [ref=e180]'
+            - generic [ref=e182]: culture
+          - generic [ref=e183]:
+            - 'heading "L''Épopée de l''Iluo : Le Souffle de l''Invisible (Version Longue)" [level=3] [ref=e184]'
+            - paragraph [ref=e185]: Une exploration profonde du système de pouvoir spirituel Sakata, loin des mythes de gémellité, révélant le secret du Double et du Souffle de vie.
+            - generic [ref=e186]:
+              - generic [ref=e189]: Explorer
+              - img [ref=e191]
+      - 'link "L''Épopée de l''Iluo : Le Secret du Double (Version Courte) culture L''Épopée de l''Iluo : Le Secret du Double (Version Courte) Explorer" [ref=e195] [cursor=pointer]':
+        - /url: /savoir/iluo-epopee-courte
+        - generic [ref=e197]:
+          - generic [ref=e198]:
+            - 'img "L''Épopée de l''Iluo : Le Secret du Double (Version Courte)" [ref=e199]'
+            - generic [ref=e201]: culture
+          - generic [ref=e202]:
+            - 'heading "L''Épopée de l''Iluo : Le Secret du Double (Version Courte)" [level=3] [ref=e203]'
+            - paragraph
+            - generic [ref=e204]:
+              - generic [ref=e207]: Explorer
+              - img [ref=e209]
+      - 'link "Artisanat : Masques et Sculptures culture Artisanat : Masques et Sculptures Quand le bois parle, l''ancêtre écoute. Découvrez l''art sacré de la sculpture Sakata. Explorer" [ref=e213] [cursor=pointer]':
+        - /url: /savoir/artisanat-masques-sculptures
+        - generic [ref=e215]:
+          - generic [ref=e216]:
+            - 'img "Artisanat : Masques et Sculptures" [ref=e217]'
+            - generic [ref=e219]: culture
+          - generic [ref=e220]:
+            - 'heading "Artisanat : Masques et Sculptures" [level=3] [ref=e221]'
+            - paragraph [ref=e222]: Quand le bois parle, l'ancêtre écoute. Découvrez l'art sacré de la sculpture Sakata.
+            - generic [ref=e223]:
+              - generic [ref=e226]: Explorer
+              - img [ref=e228]
+      - 'link "Lukeni lua Nimi : L''ombre du fondateur histoire Lukeni lua Nimi : L''ombre du fondateur Portrait du Manikongo originel dont l''aura influence encore aujourd''hui la structure sociale. Explorer" [ref=e232] [cursor=pointer]':
+        - /url: /savoir/lukeni-lua-nimi-fondateur
+        - generic [ref=e234]:
+          - generic [ref=e235]:
+            - 'img "Lukeni lua Nimi : L''ombre du fondateur" [ref=e236]'
+            - generic [ref=e238]: histoire
+          - generic [ref=e239]:
+            - 'heading "Lukeni lua Nimi : L''ombre du fondateur" [level=3] [ref=e240]'
+            - paragraph [ref=e241]: Portrait du Manikongo originel dont l'aura influence encore aujourd'hui la structure sociale.
+            - generic [ref=e242]:
+              - generic [ref=e245]: Explorer
+              - img [ref=e247]
+      - 'link "Le Royaume du Congo : Nos racines histoire Le Royaume du Congo : Nos racines Bien avant les frontières de papier, il y avait la pierre et le fer du Kongo. Explorer" [ref=e251] [cursor=pointer]':
+        - /url: /savoir/royaume-congo-racines
+        - generic [ref=e253]:
+          - generic [ref=e254]:
+            - 'img "Le Royaume du Congo : Nos racines" [ref=e255]'
+            - generic [ref=e257]: histoire
+          - generic [ref=e258]:
+            - 'heading "Le Royaume du Congo : Nos racines" [level=3] [ref=e259]'
+            - paragraph [ref=e260]: Bien avant les frontières de papier, il y avait la pierre et le fer du Kongo.
+            - generic [ref=e261]:
+              - generic [ref=e264]: Explorer
+              - img [ref=e266]
+      - 'link "L''épopée du peuple Sakata : Du Kongo au Mai-Ndombe histoire L''épopée du peuple Sakata : Du Kongo au Mai-Ndombe Découvrez le voyage ancestral de nos pères, depuis les rives sacrées du Royaume du Kongo jusqu''aux forêts denses du Mai-Ndombe. Explorer" [ref=e270] [cursor=pointer]':
+        - /url: /savoir/epopee-peuple-sakata
+        - generic [ref=e272]:
+          - generic [ref=e273]:
+            - 'img "L''épopée du peuple Sakata : Du Kongo au Mai-Ndombe" [ref=e274]'
+            - generic [ref=e276]: histoire
+          - generic [ref=e277]:
+            - 'heading "L''épopée du peuple Sakata : Du Kongo au Mai-Ndombe" [level=3] [ref=e278]'
+            - paragraph [ref=e279]: Découvrez le voyage ancestral de nos pères, depuis les rives sacrées du Royaume du Kongo jusqu'aux forêts denses du Mai-Ndombe.
+            - generic [ref=e280]:
+              - generic [ref=e283]: Explorer
+              - img [ref=e285]
+      - link "Les origines Bantou des Basakata histoire Les origines Bantou des Basakata Remontez le fil du temps pour comprendre comment notre peuple a traversé les millénaires et les forêts pour devenir ce que nous sommes. Explorer" [ref=e289] [cursor=pointer]:
+        - /url: /savoir/origines-bantou-basakata
+        - generic [ref=e291]:
+          - generic [ref=e292]:
+            - img "Les origines Bantou des Basakata" [ref=e293]
+            - generic [ref=e295]: histoire
+          - generic [ref=e296]:
+            - heading "Les origines Bantou des Basakata" [level=3] [ref=e297]
+            - paragraph [ref=e298]: Remontez le fil du temps pour comprendre comment notre peuple a traversé les millénaires et les forêts pour devenir ce que nous sommes.
+            - generic [ref=e299]:
+              - generic [ref=e302]: Explorer
+              - img [ref=e304]
+      - 'link "Le Rite Ngongo : Le passage vers la sagesse culture Le Rite Ngongo : Le passage vers la sagesse Décryptage du rite initiatique Ngongo, la porte d''entrée vers les mystères de l''existence. Explorer" [ref=e308] [cursor=pointer]':
+        - /url: /savoir/rite-ngongo-sagesse
+        - generic [ref=e310]:
+          - generic [ref=e311]:
+            - 'img "Le Rite Ngongo : Le passage vers la sagesse" [ref=e312]'
+            - generic [ref=e314]: culture
+          - generic [ref=e315]:
+            - 'heading "Le Rite Ngongo : Le passage vers la sagesse" [level=3] [ref=e316]'
+            - paragraph [ref=e317]: Décryptage du rite initiatique Ngongo, la porte d'entrée vers les mystères de l'existence.
+            - generic [ref=e318]:
+              - generic [ref=e321]: Explorer
+              - img [ref=e323]
+      - link "L'énergie vitale (Moyo) culture L'énergie vitale (Moyo) Comprendre le Moyo, cette force qui circule en nous et nous relie à tout ce qui vit. Explorer" [ref=e327] [cursor=pointer]:
+        - /url: /savoir/energie-vitale-moyo
+        - generic [ref=e329]:
+          - generic [ref=e330]:
+            - img "L'énergie vitale (Moyo)" [ref=e331]
+            - generic [ref=e333]: culture
+          - generic [ref=e334]:
+            - heading "L'énergie vitale (Moyo)" [level=3] [ref=e335]
+            - paragraph [ref=e336]: Comprendre le Moyo, cette force qui circule en nous et nous relie à tout ce qui vit.
+            - generic [ref=e337]:
+              - generic [ref=e340]: Explorer
+              - img [ref=e342]
+      - link "Le corps, l'esprit et le souffle culture Le corps, l'esprit et le souffle L'équilibre de l'homme Sakata repose sur trois piliers indissociables. Explorer" [ref=e346] [cursor=pointer]:
+        - /url: /savoir/corps-esprit-souffle
+        - generic [ref=e348]:
+          - generic [ref=e349]:
+            - img "Le corps, l'esprit et le souffle" [ref=e350]
+            - generic [ref=e352]: culture
+          - generic [ref=e353]:
+            - heading "Le corps, l'esprit et le souffle" [level=3] [ref=e354]
+            - paragraph [ref=e355]: L'équilibre de l'homme Sakata repose sur trois piliers indissociables.
+            - generic [ref=e356]:
+              - generic [ref=e359]: Explorer
+              - img [ref=e361]
+      - link "Introduction à la langue Kisakata langue Introduction à la langue Kisakata Nos mots sont des clés. Apprenez les bases de la langue qui porte notre identité. Explorer" [ref=e365] [cursor=pointer]:
+        - /url: /savoir/langue-kisakata-introduction
+        - generic [ref=e367]:
+          - generic [ref=e368]:
+            - img "Introduction à la langue Kisakata" [ref=e369]
+            - generic [ref=e371]: langue
+          - generic [ref=e372]:
+            - heading "Introduction à la langue Kisakata" [level=3] [ref=e373]
+            - paragraph [ref=e374]: Nos mots sont des clés. Apprenez les bases de la langue qui porte notre identité.
+            - generic [ref=e375]:
+              - generic [ref=e378]: Explorer
+              - img [ref=e380]
+      - link "Culture Générale Mboka culture Culture Générale Mboka Le concept de Mboka dépasse le simple village ; c'est un état d'esprit, une appartenance sacrée. Explorer" [ref=e384] [cursor=pointer]:
+        - /url: /savoir/culture-generale-mboka
+        - generic [ref=e386]:
+          - generic [ref=e387]:
+            - img "Culture Générale Mboka" [ref=e388]
+            - generic [ref=e390]: culture
+          - generic [ref=e391]:
+            - heading "Culture Générale Mboka" [level=3] [ref=e392]
+            - paragraph [ref=e393]: Le concept de Mboka dépasse le simple village ; c'est un état d'esprit, une appartenance sacrée.
+            - generic [ref=e394]:
+              - generic [ref=e397]: Explorer
+              - img [ref=e399]
+      - link "Proverbes Nkundi et sagesse langue Proverbes Nkundi et sagesse Les Nkundi sont les perles de sagesse que les anciens nous ont léguées pour ne pas nous perdre. Explorer" [ref=e403] [cursor=pointer]:
+        - /url: /savoir/proverbes-nkundi-sagesse
+        - generic [ref=e405]:
+          - generic [ref=e406]:
+            - img "Proverbes Nkundi et sagesse" [ref=e407]
+            - generic [ref=e409]: langue
+          - generic [ref=e410]:
+            - heading "Proverbes Nkundi et sagesse" [level=3] [ref=e411]
+            - paragraph [ref=e412]: Les Nkundi sont les perles de sagesse que les anciens nous ont léguées pour ne pas nous perdre.
+            - generic [ref=e413]:
+              - generic [ref=e416]: Explorer
+              - img [ref=e418]
+  - alert [ref=e420]

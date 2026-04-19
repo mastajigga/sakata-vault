@@ -1,0 +1,7 @@
+[    5269ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[    5286ms] [LOG] [AuthProvider] init: START @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[    5286ms] [LOG] [AuthProvider] init: getSession start... @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[    5297ms] [LOG] [AuthProvider] Render (isLoading: false, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[    5399ms] [LOG] [ChatUnread] Fetching for user: undefined @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:8
+[    6787ms] [LOG] %c[NET-START] %cfrom(profiles) %c[ID:m4645v] [Active:1] color: #B59551; font-weight: bold color: #F2EEDD color: #666 @ https://sakata-basakata.com/_next/static/chunks/0h_kyuj5uycmx.js:58
+[    6926ms] [LOG] %c[NET-RESOLVED] %cfrom(profiles) %c[139ms] [Active:0] color: #51B57A; font-weight: bold color: #F2EEDD color: #666 @ https://sakata-basakata.com/_next/static/chunks/0h_kyuj5uycmx.js:58

@@ -62,8 +62,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [nickname, setNickname] = useState<string | null>(null);
   const [username, setUsername] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const initStarted = useRef(false);
   
-  console.log(`[AuthProvider] Render (isLoading: ${isLoading}, hasUser: ${!!user})`);
+  // Log désactivé ou réduit pour éviter de saturer la console
+  // console.log(`[AuthProvider] Render (isLoading: ${isLoading}, hasUser: ${!!user})`);
   const [isStalled, setIsStalled] = useState(false);
   const [connectionError, setConnectionError] = useState<string | null>(null);
   const [sessionExpired, setSessionExpired] = useState(false);
@@ -252,6 +254,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     let mounted = true;
 
     const init = async () => {
+      if (initStarted.current) return;
+      initStarted.current = true;
+      
       console.log("[AuthProvider] init: START");
       try {
         // Timeout de sécurité sur getSession (parfois capricieux sur certains navigateurs)

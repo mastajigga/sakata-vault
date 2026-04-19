@@ -1,0 +1,127 @@
+- generic [active] [ref=e1]:
+  - main [ref=e2]:
+    - navigation [ref=e3]:
+      - generic [ref=e4]:
+        - link "SAKATA" [ref=e5] [cursor=pointer]:
+          - /url: /
+        - generic [ref=e6]:
+          - link "Accueil" [ref=e7] [cursor=pointer]:
+            - /url: /
+          - button "Savoir" [ref=e9] [cursor=pointer]:
+            - text: Savoir
+            - img [ref=e10]
+          - button "Communauté" [ref=e13] [cursor=pointer]:
+            - text: Communauté
+            - img [ref=e14]
+          - link "Premium" [ref=e16] [cursor=pointer]:
+            - /url: /premium
+        - generic [ref=e17]:
+          - button "FR" [ref=e19] [cursor=pointer]:
+            - img [ref=e20]
+            - generic [ref=e23]: FR
+            - img [ref=e24]
+          - link "Connexion" [ref=e26] [cursor=pointer]:
+            - /url: /auth
+    - generic [ref=e30]:
+      - generic [ref=e31]: Le Souffle de la Forêt
+      - heading "Là où la mémoire coule comme le Lukenie" [level=1] [ref=e32]
+      - paragraph [ref=e33]: Le passé n'est pas mort, il respire encore sous la brume. Naviguez dans les profondeurs de notre héritage, entre tradition ancestrale et éveil numérique.
+      - link "Explorer le Savoir" [ref=e34] [cursor=pointer]:
+        - /url: /savoir
+        - generic [ref=e36]: Explorer le Savoir
+        - img [ref=e37]
+    - generic [ref=e40]:
+      - img "Patrimoine vivant du peuple Sakata dans la region du Mai-Ndombe" [ref=e42]
+      - generic [ref=e43]:
+        - generic [ref=e44]: Notre Vision
+        - heading "Plus qu'une archive, un héritage vivant." [level=2] [ref=e45]
+        - generic [ref=e46]:
+          - paragraph [ref=e47]: La langue kisakata est comme la rivière Lukenie — elle coule depuis la nuit des temps, elle contourne les obstacles, elle nourrit tout ce qu'elle touche. Si elle s'assèche, c'est tout le village qui a soif.
+          - paragraph [ref=e48]: Notre mboka (terroir) ne se limite pas à un point sur la carte. C'est un endroit où la terre vous reconnait, où les arbres connaissent votre nom. Sakata.com est le pont entre cet héritage et le monde moderne.
+        - generic [ref=e49]:
+          - generic [ref=e50]:
+            - generic [ref=e51]: "2026"
+            - generic [ref=e52]: Fondation
+          - generic [ref=e53]:
+            - generic [ref=e54]: "5"
+            - generic [ref=e55]: Langues
+          - generic [ref=e56]:
+            - generic [ref=e57]: Mai-Ndombe
+            - generic [ref=e58]: Berceau
+    - generic [ref=e59]:
+      - generic [ref=e60]:
+        - generic [ref=e61]: Patrimoine Vivant
+        - heading "Explorer les Savoirs" [level=2] [ref=e62]
+      - generic [ref=e63]: Éveil des mémoires...
+    - generic [ref=e64]:
+      - generic [ref=e65]:
+        - generic [ref=e66]: Plateforme
+        - heading "Dernières mises à jour" [level=2] [ref=e67]
+        - paragraph [ref=e68]: La plateforme évolue continuellement pour vous offrir une expérience plus riche et sécurisée.
+      - generic [ref=e69]:
+        - generic [ref=e70]:
+          - generic [ref=e71]:
+            - generic [ref=e72]: ✨
+            - generic [ref=e73]: Avril 2026
+          - generic [ref=e74]:
+            - heading "Identité & Accueil" [level=3] [ref=e75]
+            - paragraph [ref=e76]: Personnalisation dynamique des sections Savoir et École. Le Hub reconnaît désormais votre parcours et vous accueille personnellement.
+          - generic [ref=e79]: Détails
+        - generic [ref=e80]:
+          - generic [ref=e81]:
+            - generic [ref=e82]: 🛡️
+            - generic [ref=e83]: Avril 2026
+          - generic [ref=e84]:
+            - heading "Stabilité Réseau" [level=3] [ref=e85]
+            - paragraph [ref=e86]: Correction de la saturation des sockets et synchronisation du Chat avec l'authentification. Navigation fluide garantie sans blocages.
+          - generic [ref=e89]: Détails
+        - generic [ref=e90]:
+          - generic [ref=e91]:
+            - generic [ref=e92]: 📧
+            - generic [ref=e93]: Avril 2026
+          - generic [ref=e94]:
+            - heading "Infrastructure Email" [level=3] [ref=e95]
+            - paragraph [ref=e96]: Intégration de Resend pour les notifications et newsletters. Configuration DNS (DKIM/SPF) validée pour sakata-basakata.com.
+          - generic [ref=e99]: Détails
+        - generic [ref=e100]:
+          - generic [ref=e101]:
+            - generic [ref=e102]: 🌍
+            - generic [ref=e103]: Avril 2026
+          - generic [ref=e104]:
+            - heading "Géographie v2.4" [level=3] [ref=e105]
+            - paragraph [ref=e106]: Calque des 26 provinces de la RDC avec focus sur le Mai-Ndombe. Moteur Mapbox GL JS v3 avec relief 3D.
+          - generic [ref=e109]: Détails
+        - generic [ref=e110]:
+          - generic [ref=e111]:
+            - generic [ref=e112]: 📜
+            - generic [ref=e113]: Avril 2026
+          - generic [ref=e114]:
+            - heading "Sagesse Ngongo" [level=3] [ref=e115]
+            - paragraph [ref=e116]: Archives majeures sur les rites Ngongo. Recherche exhaustive sur la philosophie ancestrale basakata.
+          - generic [ref=e119]: Détails
+    - generic [ref=e124]:
+      - generic [ref=e125]: Communauté & Savoir
+      - heading "Contribuez au savoir" [level=2] [ref=e126]
+      - paragraph [ref=e127]: Votre histoire est une partie de la nôtre. Devenez documentaliste culturel et aidez-nous à préserver les traditions Sakata pour les prochaines générations.
+      - link "Devenir Contributeur" [ref=e128] [cursor=pointer]:
+        - /url: /auth
+        - text: Devenir Contributeur
+        - img [ref=e129]
+    - generic [ref=e132]:
+      - generic [ref=e133]:
+        - generic [ref=e134]: KISAKATA
+        - paragraph [ref=e135]: © 2026 — Brume de la Rivière. Tous droits réservés.
+      - generic [ref=e136]:
+        - link "CULTURE" [ref=e137] [cursor=pointer]:
+          - /url: /savoir
+        - link "ECOLE" [ref=e138] [cursor=pointer]:
+          - /url: /ecole
+        - link "LANGUE" [ref=e139] [cursor=pointer]:
+          - /url: /#langue
+        - link "HISTOIRE" [ref=e140] [cursor=pointer]:
+          - /url: /#histoire
+        - link "FORUM" [ref=e141] [cursor=pointer]:
+          - /url: /forum
+  - button "Open Next.js Dev Tools" [ref=e147] [cursor=pointer]:
+    - img [ref=e148]
+  - alert [ref=e151]
