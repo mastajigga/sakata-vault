@@ -18,39 +18,58 @@ async function generateAudioForArticle() {
     return;
   }
 
-  const content = article.content.fr;
+  let content = article.content.fr;
   if (!content) {
     console.error("No French content found for this article.");
     return;
   }
 
-  // Split content into chunks (paragraphs/sections)
-  // Max chunk size for TTS should be reasonable (e.g. 1000-2000 chars)
+  // Nettoyage : enlever les balises HTML et le gras Markdown qui peuvent perturber le TTS
+  content = content
+    .replace(/<small>[\s\S]*?<\/small>/g, "")
+    .replace(/\*\*/g, "")
+    .trim();
+
   const paragraphs = content.split("\n\n").filter(p => p.trim().length > 0);
   const chunks: string[] = [];
   let currentChunk = "";
 
   for (const p of paragraphs) {
     if ((currentChunk + p).length > 1500) {
-      chunks.push(currentChunk);
+      if (currentChunk.trim()) chunks.push(currentChunk.trim());
       currentChunk = p;
     } else {
       currentChunk += (currentChunk ? "\n\n" : "") + p;
     }
   }
-  if (currentChunk) chunks.push(currentChunk);
+  if (currentChunk.trim()) chunks.push(currentChunk.trim());
 
   console.log(`Split article into ${chunks.length} chunks.`);
 
   const audioBuffers: Buffer[] = [];
+  const BATCH_SIZE = 2;
 
-  for (let i = 0; i < chunks.length; i++) {
-    console.log(`Generating audio for chunk ${i + 1}/${chunks.length}...`);
-    const audio = await fetchTTS(chunks[i]);
-    if (audio) {
+  for (let i = 0; i < chunks.length; i += BATCH_SIZE) {
+    const end = Math.min(i + BATCH_SIZE, chunks.length);
+    console.log(`Generating audio for chunks ${i + 1} to ${end}/${chunks.length}...`);
+    
+    const batchPromises = chunks.slice(i, end).map(async (chunk) => {
+      let textToSpeak = chunk;
+      if (ARTICLE_SLUG === "ngongo-philosophique") {
+        const persona = "Tu es un très vieil homme sage et mystérieux (80-90 ans) de l'ethnie Sakata au Congo. Tu parles français avec un accent congolais marqué, une voix chevrotante mais profonde, pleine de sagesse ancestrale. Lis le texte suivant avec mystère, lenteur et une émotion boisée (respire avant de parler) : ";
+        textToSpeak = `${persona}\n\n${chunk}`;
+      }
+      return await fetchTTS(textToSpeak);
+    });
+
+    const results = await Promise.all(batchPromises);
+    
+    for (let j = 0; j < results.length; j++) {
+      const audio = results[j];
+      if (!audio) {
+        throw new Error(`CRITICAL: Failed to generate audio for chunk ${i + j + 1}. Aborting.`);
+      }
       audioBuffers.push(audio);
-    } else {
-      console.error(`Failed to generate audio for chunk ${i + 1}`);
     }
   }
 
@@ -59,10 +78,6 @@ async function generateAudioForArticle() {
     return;
   }
 
-  // Merge audio segments
-  // For WAV, we need to handle headers. 
-  // Simplified version: Concat the first WAV fully, then concat the others stripping the 44-byte header.
-  // Then fix the total length in the first header.
   const mergedBuffer = mergeWavBuffers(audioBuffers);
   
   const outputPath = path.join(OUTPUT_DIR, `${ARTICLE_SLUG}.wav`);
@@ -70,7 +85,7 @@ async function generateAudioForArticle() {
   console.log(`Successfully generated and merged audio: ${outputPath}`);
 }
 
-async function fetchTTS(text: string, retries = 3): Promise<Buffer | null> {
+async function fetchTTS(text: string, retries = 10): Promise<Buffer | null> {
   const url = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent?key=${API_KEY}`;
   
   const payload = {
@@ -97,23 +112,33 @@ async function fetchTTS(text: string, retries = 3): Promise<Buffer | null> {
 
       const data: any = await response.json();
       if (!response.ok) {
+        console.error(`API Error (Status ${response.status}):`, JSON.stringify(data, null, 2));
         if (response.status === 429 && attempt < retries) {
           const delay = Math.pow(2, attempt) * 2000;
           console.warn(`Quota reached. Retrying in ${delay}ms... (Attempt ${attempt + 1}/${retries})`);
           await new Promise(resolve => setTimeout(resolve, delay));
           continue;
         }
-        console.error("API Error:", JSON.stringify(data, null, 2));
         return null;
       }
 
-      const parts = data.candidates?.[0].content.parts;
+      const parts = data.candidates?.[0].content?.parts;
       if (parts) {
         for (const part of parts) {
           if (part.inlineData) {
             return Buffer.from(part.inlineData.data, "base64");
           }
         }
+      }
+      
+      console.warn("No audio data in response or content blocked.");
+      console.warn("Finish Reason:", data.candidates?.[0].finishReason);
+      
+      if (attempt < retries) {
+        const delay = Math.pow(2, attempt) * 2000;
+        console.warn(`Retrying in ${delay}ms... (Attempt ${attempt + 1}/${retries})`);
+        await new Promise(resolve => setTimeout(resolve, delay));
+        continue;
       }
       return null;
     } catch (error) {

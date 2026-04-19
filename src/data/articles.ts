@@ -1513,6 +1513,7 @@ Aujourd'hui, certains emportent nos œuvres dans les musées de l'autre côté d
       tsh: "Muuya wa Ngongo: Luendu lua kuikala",
     },
     category: "culture",
+    has_narrator: true,
     summary: {
       fr: "Le Ngongo n'est pas une simple école, c'est l'alchimie du devenir. Découvrez le voyage spirituel où l'adolescent meurt symboliquement pour renaître en homme accompli, pilier de la sagesse Sakata.",
       en: "The Ngongo is not just a school, it is the alchemy of becoming. Discover the spiritual journey where the adolescent symbolically dies to be reborn as an accomplished man.",
