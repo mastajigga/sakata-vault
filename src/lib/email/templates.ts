@@ -58,8 +58,23 @@ export const emailTemplates = {
       <li><strong>Système d'Erreurs Unifié :</strong> Messages clairs et actionnables dans toute l'app</li>
     </ul>
   `,
+
+  v2_6UpdateHtml: () => `
+    <div class="update-title">✨ Version 2.6 — Restauration UX & Intelligence Culturelle</div>
+    <ul class="update-list">
+      <li><strong>Refactoring UI/UX :</strong> Restauration complète du thème V1 "Brume de la Rivière" (tons sombres, glassmorphism).</li>
+      <li><strong>Navigation Hub École :</strong> Accès direct aux cours depuis la sélection de l'année et nouveau bouton de retour au dashboard pédagogique.</li>
+      <li><strong>Enrichissement Mémoire Pinecone :</strong> Indexation sémantique complète des croyances Sakata, structures chefferies (Mbey/Mojuu), et tabous féminins (M'pka).</li>
+      <li><strong>Génération de Savoirs :</strong> Création automatique d'articles profonds (poétiques et académiques) propulsés par les KIs.</li>
+      <li><strong>Déploiement Résilient :</strong> Déplacement et sécurisation des routes d'aide et de mises à jour vers /help.</li>
+    </ul>
+  `,
 };
 
 export function getPhase2Updates() {
   return [emailTemplates.phase2UpdateHtml()];
+}
+
+export function getV2_6Updates() {
+  return [emailTemplates.v2_6UpdateHtml()];
 }

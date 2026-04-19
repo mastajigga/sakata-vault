@@ -4,7 +4,7 @@ import { useSearchParams } from "next/navigation";
 import { useEffect, useState, Suspense } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { emailTemplates, getPhase2Updates } from "@/lib/email/templates";
+import { emailTemplates, getPhase2Updates, getV2_6Updates } from "@/lib/email/templates";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 
@@ -15,19 +15,28 @@ function UpdatesContent() {
 
   useEffect(() => {
     setMounted(true);
-    const updateType = searchParams.get("type") || "phase2";
+    const updateType = searchParams.get("type") || "v2.6";
 
     // Get user's name or use default
     const userName = "Utilisateur";
 
     // Get updates based on type
     let updates: string[] = [];
-    if (updateType === "phase2") {
+    let subject = "✨ Nouvelles du Sanctuaire : Mises à jour";
+    
+    if (updateType === "v2.6") {
+      updates = getV2_6Updates();
+      subject = "🌲 Kisakata v2.6 : Restauration et Intelligence Ancestrale";
+    } else if (updateType === "phase2") {
       updates = getPhase2Updates();
+      subject = "✨ Nouvelles du Sanctuaire : Phase 2 est Arrivée !";
     }
 
     // Generate email content using the same template as emails
     const template = emailTemplates.updateNotification(userName, updates);
+    // Override subject
+    template.subject = subject;
+    
     setEmailContent(template);
   }, [searchParams]);
 

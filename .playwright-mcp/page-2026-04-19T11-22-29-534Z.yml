@@ -1,0 +1,129 @@
+- generic [active] [ref=e1]:
+  - button "Open Next.js Dev Tools" [ref=e102] [cursor=pointer]:
+    - img [ref=e103]
+  - alert [ref=e106]: Sakata.com | Brume de la Rivière — Patrimoine Sakata
+  - generic [ref=e339]:
+    - generic [ref=e340]:
+      - generic [ref=e341]:
+        - generic [ref=e342]:
+          - link "Retour au Hub École" [ref=e343] [cursor=pointer]:
+            - /url: /ecole
+            - img [ref=e344]
+            - generic [ref=e346]: Retour au Hub École
+          - heading "Le Monde Primaire" [level=1] [ref=e347]:
+            - img [ref=e348]
+            - text: Le Monde Primaire
+          - paragraph [ref=e351]: Découvre les mathématiques à travers les histoires du village. Choisis ton année pour commencer l'aventure !
+        - button "Changer d'année" [ref=e352] [cursor=pointer]:
+          - img [ref=e353]
+          - text: Changer d'année
+      - generic [ref=e355]:
+        - generic [ref=e357]:
+          - heading "Primaire 4" [level=2] [ref=e358]
+          - generic [ref=e360]:
+            - img [ref=e361]
+            - text: Progression de l'aventure
+        - generic [ref=e365]:
+          - article [ref=e366]:
+            - generic [ref=e367]:
+              - generic [ref=e368]: Primaire 4
+              - generic [ref=e369]: Degré moyen
+            - heading "Tables, fractions, géométrie" [level=3] [ref=e370]
+            - paragraph [ref=e371]: Tables 2 à 5. Fractions.
+            - generic [ref=e372]:
+              - generic [ref=e373]:
+                - generic [ref=e374]:
+                  - img [ref=e375]
+                  - paragraph [ref=e378]: Objectifs d'apprentissage
+                - list [ref=e379]:
+                  - listitem [ref=e380]:
+                    - generic [ref=e382]: Tables 2-5.
+                  - listitem [ref=e383]:
+                    - generic [ref=e385]: Fractions 1/2, 1/3, 1/4.
+                  - listitem [ref=e386]:
+                    - generic [ref=e388]: Périmètres.
+              - generic [ref=e389]:
+                - generic [ref=e390]:
+                  - img [ref=e391]
+                  - paragraph [ref=e398]: Contextes Basakata
+                - generic [ref=e399]:
+                  - generic [ref=e400]: tissu
+                  - generic [ref=e401]: parcelles
+                  - generic [ref=e402]: enclos
+                  - generic [ref=e403]: récoltes
+                - generic [ref=e404]:
+                  - paragraph [ref=e405]: Exercices valides
+                  - paragraph [ref=e406]: 0/0
+          - generic [ref=e407]:
+            - article [ref=e408]:
+              - generic [ref=e409]:
+                - img [ref=e410]
+                - paragraph [ref=e413]: Chapitre 1
+              - heading "Tables" [level=4] [ref=e414]
+              - paragraph [ref=e415]: Mémoriser 2 à 5
+              - paragraph [ref=e416]: 4 rangées.
+              - generic [ref=e417]:
+                - generic [ref=e418]: Grille de tables
+                - generic [ref=e419]: Grilles rectangulaires
+                - generic [ref=e420]: Sauts réguliers
+                - generic [ref=e421]: Progression
+            - article [ref=e422]:
+              - generic [ref=e423]:
+                - img [ref=e424]
+                - paragraph [ref=e427]: Chapitre 2
+              - heading "Fractions" [level=4] [ref=e428]
+              - paragraph [ref=e429]: Moitié, tiers, quart
+              - paragraph [ref=e430]: Tissu.
+              - generic [ref=e431]:
+                - generic [ref=e432]: Barres de fractions
+                - generic [ref=e433]: Cercle fractionné
+                - generic [ref=e434]: Rectangle divisé
+                - generic [ref=e435]: Fractions sur la droite
+            - article [ref=e436]:
+              - generic [ref=e437]:
+                - img [ref=e438]
+                - paragraph [ref=e441]: Chapitre 3
+              - heading "Périmètres" [level=4] [ref=e442]
+              - paragraph [ref=e443]: Tour des formes
+              - paragraph [ref=e444]: Enclos.
+              - generic [ref=e445]:
+                - generic [ref=e446]: Mesurer les côtés
+                - generic [ref=e447]: Explorer les formes
+                - generic [ref=e448]: Contour du rectangle
+                - generic [ref=e449]: Côtés comparés
+            - article [ref=e450]:
+              - generic [ref=e451]:
+                - img [ref=e452]
+                - paragraph [ref=e455]: Chapitre 4
+              - heading "Formes géométriques" [level=4] [ref=e456]
+              - paragraph [ref=e457]: Triangles et rectangles
+              - paragraph [ref=e458]: Toit.
+              - generic [ref=e459]:
+                - generic [ref=e460]: Explorateur
+                - generic [ref=e461]: Surface intérieure
+                - generic [ref=e462]: Mesurer les côtés
+                - generic [ref=e463]: Angles et cercle
+            - article [ref=e464]:
+              - generic [ref=e465]:
+                - img [ref=e466]
+                - paragraph [ref=e469]: Chapitre 5
+              - heading "Intérêt simple" [level=4] [ref=e470]
+              - paragraph [ref=e471]: Argent augmente
+              - paragraph [ref=e472]: 100 francs.
+              - generic [ref=e473]:
+                - generic [ref=e474]: Croissance du capital
+                - generic [ref=e475]: Évolution par mois
+                - generic [ref=e476]: Capital + Intérêt
+                - generic [ref=e477]: Ligne de temps
+          - generic [ref=e479]:
+            - paragraph [ref=e480]: Cours complet disponible
+            - heading "Tables, fractions, géométrie — parcours animé" [level=4] [ref=e481]
+            - paragraph [ref=e482]: Visualisations interactives, animations fluides et contextes Basakata.
+            - link "Voir le cours complet" [ref=e483] [cursor=pointer]:
+              - /url: /ecole/primaire/primaire-4/cours
+              - text: Voir le cours complet
+              - img [ref=e484]
+    - paragraph [ref=e487]:
+      - text: Une question ? Consulte la
+      - link "rubrique d'aide" [ref=e488] [cursor=pointer]:
+        - /url: /help/ecole

@@ -1,0 +1,79 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e3]:
+      - generic [ref=e5]:
+        - link "Retour au Hub École" [ref=e6] [cursor=pointer]:
+          - /url: /ecole
+          - img [ref=e7]
+          - generic [ref=e9]: Retour au Hub École
+        - heading "Le Monde Primaire" [level=1] [ref=e10]:
+          - img [ref=e11]
+          - text: Le Monde Primaire
+        - paragraph [ref=e14]: Découvre les mathématiques à travers les histoires du village. Choisis ton année pour commencer l'aventure !
+      - generic [ref=e15]:
+        - link "Degré élémentaire Primaire 1 Compter jusqu'à 10, formes, avant et après" [ref=e16] [cursor=pointer]:
+          - /url: /ecole/primaire/primaire-1/cours
+          - generic [ref=e17]:
+            - img [ref=e20]
+            - generic [ref=e22]:
+              - generic [ref=e23]:
+                - img [ref=e24]
+                - text: Degré élémentaire
+              - heading "Primaire 1" [level=3] [ref=e27]
+              - paragraph [ref=e28]: Compter jusqu'à 10, formes, avant et après
+        - link "Degré élémentaire Primaire 2 Ajouter et retirer, argent" [ref=e29] [cursor=pointer]:
+          - /url: /ecole/primaire/primaire-2/cours
+          - generic [ref=e30]:
+            - img [ref=e33]
+            - generic [ref=e35]:
+              - generic [ref=e36]:
+                - img [ref=e37]
+                - text: Degré élémentaire
+              - heading "Primaire 2" [level=3] [ref=e40]
+              - paragraph [ref=e41]: Ajouter et retirer, argent
+        - link "Degré moyen Primaire 3 Valeur de position, multiplication" [ref=e42] [cursor=pointer]:
+          - /url: /ecole/primaire/primaire-3/cours
+          - generic [ref=e43]:
+            - img [ref=e46]
+            - generic [ref=e48]:
+              - generic [ref=e49]:
+                - img [ref=e50]
+                - text: Degré moyen
+              - heading "Primaire 3" [level=3] [ref=e53]
+              - paragraph [ref=e54]: Valeur de position, multiplication
+        - link "Degré moyen Primaire 4 Tables, fractions, géométrie" [ref=e55] [cursor=pointer]:
+          - /url: /ecole/primaire/primaire-4/cours
+          - generic [ref=e56]:
+            - img [ref=e59]
+            - generic [ref=e61]:
+              - generic [ref=e62]:
+                - img [ref=e63]
+                - text: Degré moyen
+              - heading "Primaire 4" [level=3] [ref=e66]
+              - paragraph [ref=e67]: Tables, fractions, géométrie
+        - link "Degré moyen Primaire 5 Décimaux, fractions, surfaces" [ref=e68] [cursor=pointer]:
+          - /url: /ecole/primaire/primaire-5/cours
+          - generic [ref=e69]:
+            - img [ref=e72]
+            - generic [ref=e74]:
+              - generic [ref=e75]:
+                - img [ref=e76]
+                - text: Degré moyen
+              - heading "Primaire 5" [level=3] [ref=e79]
+              - paragraph [ref=e80]: Décimaux, fractions, surfaces
+        - link "Degré moyen Primaire 6 Pourcentages, proportions, géométrie" [ref=e81] [cursor=pointer]:
+          - /url: /ecole/primaire/primaire-6/cours
+          - generic [ref=e82]:
+            - img [ref=e85]
+            - generic [ref=e87]:
+              - generic [ref=e88]:
+                - img [ref=e89]
+                - text: Degré moyen
+              - heading "Primaire 6" [level=3] [ref=e92]
+              - paragraph [ref=e93]: Pourcentages, proportions, géométrie
+    - paragraph [ref=e95]:
+      - text: Une question ? Consulte la
+      - link "rubrique d'aide" [ref=e96] [cursor=pointer]:
+        - /url: /help/ecole
+  - button "Open Next.js Dev Tools" [ref=e102] [cursor=pointer]:
+    - img [ref=e103]

@@ -1,0 +1,80 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e3]:
+      - generic [ref=e5]:
+        - link "Retour au Hub École" [ref=e6] [cursor=pointer]:
+          - /url: /ecole
+          - img [ref=e7]
+          - generic [ref=e9]: Retour au Hub École
+        - heading "Le Monde Secondaire" [level=1] [ref=e10]:
+          - img [ref=e11]
+          - text: Le Monde Secondaire
+        - paragraph [ref=e16]: Prépare ton avenir avec des mathématiques avancées appliquées aux richesses de notre terre. Maîtrise les nombres pour diriger les projets de demain.
+      - generic [ref=e17]:
+        - link "Advanced Degré élémentaire 1ère année Compter, rassembler, retirer" [ref=e18] [cursor=pointer]:
+          - /url: /ecole/secondaire/1ere-annee/cours
+          - generic [ref=e19]:
+            - generic [ref=e20]:
+              - img [ref=e22]
+              - generic [ref=e24]: Advanced
+            - generic [ref=e25]:
+              - generic [ref=e26]: Degré élémentaire
+              - heading "1ère année" [level=3] [ref=e27]
+              - paragraph [ref=e28]: Compter, rassembler, retirer
+        - link "Advanced Degré élémentaire 2e année Nombres jusqu'à 100, échanges, mesures proches" [ref=e29] [cursor=pointer]:
+          - /url: /ecole/secondaire/2e-annee/cours
+          - generic [ref=e30]:
+            - generic [ref=e31]:
+              - img [ref=e33]
+              - generic [ref=e35]: Advanced
+            - generic [ref=e36]:
+              - generic [ref=e37]: Degré élémentaire
+              - heading "2e année" [level=3] [ref=e38]
+              - paragraph [ref=e39]: Nombres jusqu'à 100, échanges, mesures proches
+        - link "Advanced Degré moyen 3e année Multiplication, partage, repérage" [ref=e40] [cursor=pointer]:
+          - /url: /ecole/secondaire/3e-annee/cours
+          - generic [ref=e41]:
+            - generic [ref=e42]:
+              - img [ref=e44]
+              - generic [ref=e46]: Advanced
+            - generic [ref=e47]:
+              - generic [ref=e48]: Degré moyen
+              - heading "3e année" [level=3] [ref=e49]
+              - paragraph [ref=e50]: Multiplication, partage, repérage
+        - link "Advanced Degré moyen 4e année Fractions usuelles, périmètres, problèmes composés" [ref=e51] [cursor=pointer]:
+          - /url: /ecole/secondaire/4e-annee/cours
+          - generic [ref=e52]:
+            - generic [ref=e53]:
+              - img [ref=e55]
+              - generic [ref=e57]: Advanced
+            - generic [ref=e58]:
+              - generic [ref=e59]: Degré moyen
+              - heading "4e année" [level=3] [ref=e60]
+              - paragraph [ref=e61]: Fractions usuelles, périmètres, problèmes composés
+        - link "Advanced Degré terminal 5e année Décimaux, aires, proportion simple" [ref=e62] [cursor=pointer]:
+          - /url: /ecole/secondaire/5e-annee/cours
+          - generic [ref=e63]:
+            - generic [ref=e64]:
+              - img [ref=e66]
+              - generic [ref=e68]: Advanced
+            - generic [ref=e69]:
+              - generic [ref=e70]: Degré terminal
+              - heading "5e année" [level=3] [ref=e71]
+              - paragraph [ref=e72]: Décimaux, aires, proportion simple
+        - link "Advanced Degré terminal 6e année Synthèse, pourcentages simples, raisonnement autonome" [ref=e73] [cursor=pointer]:
+          - /url: /ecole/secondaire/6e-annee/cours
+          - generic [ref=e74]:
+            - generic [ref=e75]:
+              - img [ref=e77]
+              - generic [ref=e79]: Advanced
+            - generic [ref=e80]:
+              - generic [ref=e81]: Degré terminal
+              - heading "6e année" [level=3] [ref=e82]
+              - paragraph [ref=e83]: Synthèse, pourcentages simples, raisonnement autonome
+    - paragraph [ref=e86]:
+      - text: Besoin d'aide technique ? Visite
+      - link "l'Espace Help École" [ref=e87] [cursor=pointer]:
+        - /url: /help/ecole
+  - button "Open Next.js Dev Tools" [ref=e93] [cursor=pointer]:
+    - img [ref=e94]
+  - alert [ref=e97]
