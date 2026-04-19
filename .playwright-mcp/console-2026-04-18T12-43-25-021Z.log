@@ -216,3 +216,9 @@ Fast Refresh requires at least one parent function component in your React tree.
 [30149672ms] [LOG] [Fast Refresh] done in 280ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
 [30155213ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
 [30155227ms] [LOG] [Fast Refresh] done in 117ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[68405926ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[68406004ms] [LOG] [Fast Refresh] done in 179ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[68422227ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[68422305ms] [LOG] [Fast Refresh] done in 181ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[68493534ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[68493613ms] [LOG] [Fast Refresh] done in 181ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
