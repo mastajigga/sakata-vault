@@ -15,6 +15,7 @@ import StructuredData from "@/components/StructuredData";
 import LikeButton from "@/components/LikeButton";
 import { Eye, Lock, MessageSquare } from "lucide-react";
 import Link from "next/link";
+import AudioNarrator from "@/components/AudioNarrator";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -234,6 +235,15 @@ const ArticlePage = () => {
               style={{ color: "rgba(242, 238, 221, 0.85)" }}
               dangerouslySetInnerHTML={{ __html: renderHtml(mainBody) }}
             />
+
+            {article.hasNarrator && (
+              <div className="mt-12 mb-12">
+                <AudioNarrator 
+                  audioUrl={`/audio/articles/${slug}.wav`}
+                  title={displayTitle}
+                />
+              </div>
+            )}
 
             {/* Structured References if parsed */}
             {referencesContent && (

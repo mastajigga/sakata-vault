@@ -1267,6 +1267,7 @@ Teleka muana wanyi, *Moyo* nediaka dia bukole bua muoyo. Ki motema wa mubidi to,
       swa: "Dhana ya Mboka inakwenda mbali zaidi ya kijiji rahisi ; ni hali ya akili.",
       tsh: "Likanisi lia Mboka didi dipita mu musoko wa patupu.",
     },
+    hasNarrator: true,
     content: {
       fr: `Chaque Mboka a son histoire, ses interdits (Nkundi) et son génie protecteur. On ne vient pas d'un village par hasard ; on y appartient par le sang et par le respect des rites. Le Mboka est le refuge ultime : quand le monde devient fou, on retourne au village pour retrouver son centre.
 
