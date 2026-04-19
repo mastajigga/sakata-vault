@@ -6,7 +6,6 @@ const PROTECTED_ROUTES = [
   "/forum",
   "/membres",
   "/chat",
-  "/ecole",
   "/geographie",
   "/profil",
   "/contributeur",

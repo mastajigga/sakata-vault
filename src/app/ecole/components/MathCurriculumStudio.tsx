@@ -72,7 +72,7 @@ export default function MathCurriculumStudio({
   return (
     <section
       id={level === "secondaire" ? "mathematiques-secondaire" : "mathematiques"}
-      className="section-container relative py-24 md:py-32"
+      className={`relative ${hideHeader ? "py-8" : "section-container py-24 md:py-32"}`}
     >
       {!hideHeader && (
         <div className="mb-12 max-w-3xl">
@@ -92,7 +92,9 @@ export default function MathCurriculumStudio({
         </div>
       )}
 
-      <div className="grid gap-6 xl:grid-cols-[340px_minmax(0,1fr)] xl:items-start">
+      <div className={`grid gap-6 xl:items-start ${
+        programs.length > 1 ? "xl:grid-cols-[340px_minmax(0,1fr)]" : "grid-cols-1"
+      }`}>
         {programs.length > 1 && (
           <aside className="xl:sticky xl:top-24">
             <div className="mist-panel rounded-[2rem] p-6 md:p-7">

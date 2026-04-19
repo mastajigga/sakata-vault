@@ -1,0 +1,68 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e3]:
+      - generic [ref=e5]:
+        - link "Retour au Hub École" [ref=e6] [cursor=pointer]:
+          - /url: /ecole
+          - img [ref=e7]
+          - generic [ref=e9]: Retour au Hub École
+        - heading "Le Monde Primaire" [level=1] [ref=e10]:
+          - img [ref=e11]
+          - text: Le Monde Primaire
+        - paragraph [ref=e14]: Découvre les mathématiques à travers les histoires du village. Choisis ton année pour commencer l'aventure !
+      - generic [ref=e15]:
+        - button "Degré élémentaire Primaire 1 Compter jusqu'à 10, formes, avant et après" [ref=e16] [cursor=pointer]:
+          - img [ref=e19]
+          - generic [ref=e21]:
+            - generic [ref=e22]:
+              - img [ref=e23]
+              - text: Degré élémentaire
+            - heading "Primaire 1" [level=3] [ref=e26]
+            - paragraph [ref=e27]: Compter jusqu'à 10, formes, avant et après
+        - button "Degré élémentaire Primaire 2 Ajouter et retirer, argent" [ref=e28] [cursor=pointer]:
+          - img [ref=e31]
+          - generic [ref=e33]:
+            - generic [ref=e34]:
+              - img [ref=e35]
+              - text: Degré élémentaire
+            - heading "Primaire 2" [level=3] [ref=e38]
+            - paragraph [ref=e39]: Ajouter et retirer, argent
+        - button "Degré moyen Primaire 3 Valeur de position, multiplication" [ref=e40] [cursor=pointer]:
+          - img [ref=e43]
+          - generic [ref=e45]:
+            - generic [ref=e46]:
+              - img [ref=e47]
+              - text: Degré moyen
+            - heading "Primaire 3" [level=3] [ref=e50]
+            - paragraph [ref=e51]: Valeur de position, multiplication
+        - button "Degré moyen Primaire 4 Tables, fractions, géométrie" [ref=e52] [cursor=pointer]:
+          - img [ref=e55]
+          - generic [ref=e57]:
+            - generic [ref=e58]:
+              - img [ref=e59]
+              - text: Degré moyen
+            - heading "Primaire 4" [level=3] [ref=e62]
+            - paragraph [ref=e63]: Tables, fractions, géométrie
+        - button "Degré moyen Primaire 5 Décimaux, fractions, surfaces" [ref=e64] [cursor=pointer]:
+          - img [ref=e67]
+          - generic [ref=e69]:
+            - generic [ref=e70]:
+              - img [ref=e71]
+              - text: Degré moyen
+            - heading "Primaire 5" [level=3] [ref=e74]
+            - paragraph [ref=e75]: Décimaux, fractions, surfaces
+        - button "Degré moyen Primaire 6 Pourcentages, proportions, géométrie" [ref=e76] [cursor=pointer]:
+          - img [ref=e79]
+          - generic [ref=e81]:
+            - generic [ref=e82]:
+              - img [ref=e83]
+              - text: Degré moyen
+            - heading "Primaire 6" [level=3] [ref=e86]
+            - paragraph [ref=e87]: Pourcentages, proportions, géométrie
+    - paragraph [ref=e89]:
+      - text: Une question ? Consulte la
+      - link "rubrique d'aide" [ref=e90] [cursor=pointer]:
+        - /url: /help/ecole
+  - button "Open Next.js Dev Tools" [ref=e96] [cursor=pointer]:
+    - img [ref=e97]
+  - alert [ref=e100]

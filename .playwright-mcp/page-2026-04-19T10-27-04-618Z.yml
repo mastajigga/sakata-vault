@@ -1,0 +1,388 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e3]:
+      - generic [ref=e4]:
+        - generic [ref=e5]:
+          - link "Retour au Hub École" [ref=e6] [cursor=pointer]:
+            - /url: /ecole
+            - img [ref=e7]
+            - generic [ref=e9]: Retour au Hub École
+          - heading "Le Monde Primaire" [level=1] [ref=e10]:
+            - img [ref=e11]
+            - text: Le Monde Primaire
+          - paragraph [ref=e14]: Découvre les mathématiques à travers les histoires du village. Choisis ton année pour commencer l'aventure !
+        - button "Changer d'année" [ref=e91] [cursor=pointer]:
+          - img [ref=e92]
+          - text: Changer d'année
+      - generic [ref=e15]:
+        - generic [ref=e95]:
+          - heading "Primaire 1" [level=2] [ref=e96]
+          - generic [ref=e98]:
+            - img [ref=e99]
+            - text: Progression de l'aventure
+        - generic [ref=e103]:
+          - article [ref=e104]:
+            - generic [ref=e105]:
+              - generic [ref=e106]: Primaire 1
+              - generic [ref=e107]: Degré élémentaire
+            - heading "Compter jusqu'à 10, formes, avant et après" [level=3] [ref=e108]
+            - paragraph [ref=e109]: "L'enfant découvre les nombres de 1 à 10 en manipulant des objets concrets du village : pirogues, paniers, poissons."
+            - generic [ref=e110]:
+              - generic [ref=e111]:
+                - generic [ref=e112]:
+                  - img [ref=e113]
+                  - paragraph [ref=e116]: Objectifs d'apprentissage
+                - list [ref=e117]:
+                  - listitem [ref=e118]:
+                    - generic [ref=e120]: Compter jusqu'à 10 de manière fiable.
+                  - listitem [ref=e121]:
+                    - generic [ref=e123]: Reconnaître les nombres 1 à 10 par écrit et par oralité.
+                  - listitem [ref=e124]:
+                    - generic [ref=e126]: "Identifier les formes géométriques simples : rond, carré, triangle."
+                  - listitem [ref=e127]:
+                    - generic [ref=e129]: Comprendre avant et après dans les séquences.
+              - generic [ref=e130]:
+                - generic [ref=e131]:
+                  - img [ref=e132]
+                  - paragraph [ref=e139]: Contextes Basakata
+                - generic [ref=e140]:
+                  - generic [ref=e141]: graines
+                  - generic [ref=e142]: pirogues miniatures
+                  - generic [ref=e143]: poissons séchés
+                  - generic [ref=e144]: paniers tressés
+                - generic [ref=e145]:
+                  - paragraph [ref=e146]: Exercices valides
+                  - paragraph [ref=e147]: 0/8
+          - article [ref=e149]:
+            - generic [ref=e150]:
+              - img [ref=e151]
+              - paragraph [ref=e154]: Theorie guidee
+            - heading "Compter une à une" [level=4] [ref=e155]
+            - paragraph [ref=e156]: On pointe chaque objet une seule fois. Le dernier nombre dit est la quantité totale.
+            - generic [ref=e160]:
+              - math [ref=e162]:
+                - generic [ref=e164]:
+                  - generic [ref=e165]: "1"
+                  - generic [ref=e166]: ","
+                  - generic [ref=e167]: "2"
+                  - generic [ref=e168]: ","
+                  - generic [ref=e169]: "3"
+                  - generic [ref=e170]: ","
+                  - generic [ref=e171]: "4"
+                  - generic [ref=e172]: ","
+                  - generic [ref=e173]: "5"
+                  - generic [ref=e174]: ","
+                  - generic [ref=e175]: "6"
+                  - generic [ref=e176]: ","
+                  - generic [ref=e177]: "7"
+                  - generic [ref=e178]: ","
+                  - generic [ref=e179]: "8"
+                  - generic [ref=e180]: ","
+                  - generic [ref=e181]: "9"
+                  - generic [ref=e182]: ","
+                  - generic [ref=e183]: "10"
+              - generic [ref=e185]: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
+            - generic [ref=e186]:
+              - paragraph [ref=e187]: Exemple local
+              - paragraph [ref=e188]: "Trois graines de palme : 1, 2, 3."
+          - generic [ref=e189]:
+            - generic [ref=e190]:
+              - img [ref=e191]
+              - paragraph [ref=e193]: Exercices interactifs et correction immediate
+            - article [ref=e194]:
+              - generic [ref=e195]:
+                - generic [ref=e196]: Compter les pirogues
+                - generic [ref=e197]: Peux-tu trouver une autre histoire avec 5 ?
+              - paragraph [ref=e198]: Trois pirogues sont amarrées au débarcadère. Deux autres arrivent du lac.
+              - heading "Combien de pirogues y a-t-il maintenant ?" [level=4] [ref=e199]
+              - generic [ref=e203]:
+                - math [ref=e205]:
+                  - generic [ref=e207]:
+                    - generic [ref=e208]: "3"
+                    - generic [ref=e209]: +
+                    - generic [ref=e210]: "2"
+                    - generic [ref=e211]: =
+                    - generic [ref=e212]: "?"
+                - generic [ref=e213]:
+                  - generic [ref=e214]: 3 +
+                  - generic [ref=e215]: 2 =
+                  - generic [ref=e216]: "?"
+              - generic "Réponse mathématique" [ref=e218]:
+                - generic [ref=e219]:
+                  - textbox
+                  - generic [ref=e220]:
+                    - generic [ref=e224]: Écristoncalculoutonnombre
+                    - generic [ref=e225]:
+                      - button "Afficher/Masquer le clavier virtuel Afficher/Masquer le clavier virtuel" [ref=e226] [cursor=pointer]:
+                        - img "Afficher/Masquer le clavier virtuel" [ref=e227]
+                        - text: Afficher/Masquer le clavier virtuel
+                      - button "Menu Menu" [ref=e229] [cursor=pointer]:
+                        - img "Menu" [ref=e230]
+                        - text: Menu
+                  - generic [ref=e232]:
+                    - status
+              - generic [ref=e233]:
+                - button "Vérifier ma réponse" [disabled] [ref=e234]:
+                  - img [ref=e235]
+                  - text: Vérifier ma réponse
+                - button "Montrer un indice" [ref=e238] [cursor=pointer]:
+                  - img [ref=e239]
+                  - text: Montrer un indice
+                - button "Voir la solution guidée" [ref=e241] [cursor=pointer]:
+                  - img [ref=e242]
+                  - text: Voir la solution guidée
+            - article [ref=e245]:
+              - generic [ref=e246]:
+                - generic [ref=e247]: Les graines de palme
+                - generic [ref=e248]: Y a-t-il plus de 5 ?
+              - paragraph [ref=e249]: Maman a 4 graines. Papa en apporte 3 du marché.
+              - heading "Combien de graines y a-t-il en tout ?" [level=4] [ref=e250]
+              - generic [ref=e254]:
+                - math [ref=e256]:
+                  - generic [ref=e258]:
+                    - generic [ref=e259]: "4"
+                    - generic [ref=e260]: +
+                    - generic [ref=e261]: "3"
+                    - generic [ref=e262]: =
+                    - generic [ref=e263]: "?"
+                - generic [ref=e264]:
+                  - generic [ref=e265]: 4 +
+                  - generic [ref=e266]: 3 =
+                  - generic [ref=e267]: "?"
+              - generic "Réponse mathématique" [ref=e269]:
+                - generic [ref=e270]:
+                  - textbox
+                  - generic [ref=e271]:
+                    - generic [ref=e275]: Écristoncalculoutonnombre
+                    - generic [ref=e276]:
+                      - button "Afficher/Masquer le clavier virtuel Afficher/Masquer le clavier virtuel" [ref=e277] [cursor=pointer]:
+                        - img "Afficher/Masquer le clavier virtuel" [ref=e278]
+                        - text: Afficher/Masquer le clavier virtuel
+                      - button "Menu Menu" [ref=e280] [cursor=pointer]:
+                        - img "Menu" [ref=e281]
+                        - text: Menu
+                  - generic [ref=e283]:
+                    - status
+              - generic [ref=e284]:
+                - button "Vérifier ma réponse" [disabled] [ref=e285]:
+                  - img [ref=e286]
+                  - text: Vérifier ma réponse
+                - button "Montrer un indice" [ref=e289] [cursor=pointer]:
+                  - img [ref=e290]
+                  - text: Montrer un indice
+                - button "Voir la solution guidée" [ref=e292] [cursor=pointer]:
+                  - img [ref=e293]
+                  - text: Voir la solution guidée
+            - article [ref=e296]:
+              - generic [ref=e297]:
+                - generic [ref=e298]: Compter les poissons
+                - generic [ref=e299]: Trouve une autre histoire qui donne 4.
+              - paragraph [ref=e300]: Le pêcheur rentre avec 6 poissons séchés. Il en vend 2 au marché.
+              - heading "Combien de poissons lui reste-t-il ?" [level=4] [ref=e301]
+              - generic [ref=e305]:
+                - math [ref=e307]:
+                  - generic [ref=e309]:
+                    - generic [ref=e310]: "6"
+                    - generic [ref=e311]: −
+                    - generic [ref=e312]: "2"
+                    - generic [ref=e313]: =
+                    - generic [ref=e314]: "?"
+                - generic [ref=e315]:
+                  - generic [ref=e316]: 6 −
+                  - generic [ref=e317]: 2 =
+                  - generic [ref=e318]: "?"
+              - generic "Réponse mathématique" [ref=e320]:
+                - generic [ref=e321]:
+                  - textbox
+                  - generic [ref=e322]:
+                    - generic [ref=e326]: Écristoncalculoutonnombre
+                    - generic [ref=e327]:
+                      - button "Afficher/Masquer le clavier virtuel Afficher/Masquer le clavier virtuel" [ref=e328] [cursor=pointer]:
+                        - img "Afficher/Masquer le clavier virtuel" [ref=e329]
+                        - text: Afficher/Masquer le clavier virtuel
+                      - button "Menu Menu" [ref=e331] [cursor=pointer]:
+                        - img "Menu" [ref=e332]
+                        - text: Menu
+                  - generic [ref=e334]:
+                    - status
+              - generic [ref=e335]:
+                - button "Vérifier ma réponse" [disabled] [ref=e336]:
+                  - img [ref=e337]
+                  - text: Vérifier ma réponse
+                - button "Montrer un indice" [ref=e340] [cursor=pointer]:
+                  - img [ref=e341]
+                  - text: Montrer un indice
+                - button "Voir la solution guidée" [ref=e343] [cursor=pointer]:
+                  - img [ref=e344]
+                  - text: Voir la solution guidée
+            - article [ref=e347]:
+              - generic [ref=e348]:
+                - generic [ref=e349]: Les formes du village
+                - generic [ref=e350]: Trouve une forme ronde dans ta maison.
+              - paragraph [ref=e351]: Dans le village, tu vois des formes partout.
+              - heading "Quel est le nom de cette forme ?" [level=4] [ref=e352]
+              - generic [ref=e354]:
+                - button "Cercle" [ref=e355] [cursor=pointer]
+                - button "Carré" [ref=e356] [cursor=pointer]
+                - button "Triangle" [ref=e357] [cursor=pointer]
+                - button "Rectangle" [ref=e358] [cursor=pointer]
+              - generic [ref=e359]:
+                - button "Vérifier ma réponse" [disabled] [ref=e360]:
+                  - img [ref=e361]
+                  - text: Vérifier ma réponse
+                - button "Montrer un indice" [ref=e364] [cursor=pointer]:
+                  - img [ref=e365]
+                  - text: Montrer un indice
+                - button "Voir la solution guidée" [ref=e367] [cursor=pointer]:
+                  - img [ref=e368]
+                  - text: Voir la solution guidée
+            - article [ref=e371]:
+              - generic [ref=e372]:
+                - generic [ref=e373]: L'ordre de la journée
+                - generic [ref=e374]: Que fais-tu après te lever ?
+              - paragraph [ref=e375]: "La journée du pêcheur : il se lève, il prépare sa pirogue, il rentre avec les poissons."
+              - heading "Quoi en premier ?" [level=4] [ref=e376]
+              - generic [ref=e378]:
+                - button "Se lever" [ref=e379] [cursor=pointer]
+                - button "Préparer la pirogue" [ref=e380] [cursor=pointer]
+                - button "Rentrer avec les poissons" [ref=e381] [cursor=pointer]
+              - generic [ref=e382]:
+                - button "Vérifier ma réponse" [disabled] [ref=e383]:
+                  - img [ref=e384]
+                  - text: Vérifier ma réponse
+                - button "Montrer un indice" [ref=e387] [cursor=pointer]:
+                  - img [ref=e388]
+                  - text: Montrer un indice
+                - button "Voir la solution guidée" [ref=e390] [cursor=pointer]:
+                  - img [ref=e391]
+                  - text: Voir la solution guidée
+            - article [ref=e394]:
+              - generic [ref=e395]:
+                - generic [ref=e396]: Compte jusqu'à 10
+                - generic [ref=e397]: Peut-on compter plus que 10 ?
+              - paragraph [ref=e398]: "Tu as 10 doigts : 5 à chaque main."
+              - heading "Montre-moi 10 sur tes doigts. Quel est le dernier nombre ?" [level=4] [ref=e399]
+              - generic [ref=e403]:
+                - math [ref=e405]:
+                  - generic [ref=e407]:
+                    - generic [ref=e408]: "1"
+                    - generic [ref=e409]: ","
+                    - generic [ref=e410]: "2"
+                    - generic [ref=e411]: ","
+                    - generic [ref=e412]: "3"
+                    - generic [ref=e413]: ","
+                    - generic [ref=e414]: "4"
+                    - generic [ref=e415]: ","
+                    - generic [ref=e416]: "5"
+                    - generic [ref=e417]: ","
+                    - generic [ref=e418]: "6"
+                    - generic [ref=e419]: ","
+                    - generic [ref=e420]: "7"
+                    - generic [ref=e421]: ","
+                    - generic [ref=e422]: "8"
+                    - generic [ref=e423]: ","
+                    - generic [ref=e424]: "9"
+                    - generic [ref=e425]: ","
+                    - generic [ref=e426]: "10"
+                - generic [ref=e428]: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
+              - generic "Réponse mathématique" [ref=e430]:
+                - generic [ref=e431]:
+                  - textbox
+                  - generic [ref=e432]:
+                    - generic [ref=e436]: Écristoncalculoutonnombre
+                    - generic [ref=e437]:
+                      - button "Afficher/Masquer le clavier virtuel Afficher/Masquer le clavier virtuel" [ref=e438] [cursor=pointer]:
+                        - img "Afficher/Masquer le clavier virtuel" [ref=e439]
+                        - text: Afficher/Masquer le clavier virtuel
+                      - button "Menu Menu" [ref=e441] [cursor=pointer]:
+                        - img "Menu" [ref=e442]
+                        - text: Menu
+                  - generic [ref=e444]:
+                    - status
+              - generic [ref=e445]:
+                - button "Vérifier ma réponse" [disabled] [ref=e446]:
+                  - img [ref=e447]
+                  - text: Vérifier ma réponse
+                - button "Montrer un indice" [ref=e450] [cursor=pointer]:
+                  - img [ref=e451]
+                  - text: Montrer un indice
+                - button "Voir la solution guidée" [ref=e453] [cursor=pointer]:
+                  - img [ref=e454]
+                  - text: Voir la solution guidée
+            - article [ref=e457]:
+              - generic [ref=e458]:
+                - generic [ref=e459]: Les paniers tressés
+                - generic [ref=e460]: Si elle en achète 4 au lieu de 3, combien ?
+              - paragraph [ref=e461]: Maman a 2 paniers pleins et en achète 3 de plus au marché.
+              - heading "Combien de paniers a-t-elle au total ?" [level=4] [ref=e462]
+              - generic [ref=e466]:
+                - math [ref=e468]:
+                  - generic [ref=e470]:
+                    - generic [ref=e471]: "2"
+                    - generic [ref=e472]: +
+                    - generic [ref=e473]: "3"
+                    - generic [ref=e474]: =
+                    - generic [ref=e475]: "?"
+                - generic [ref=e476]:
+                  - generic [ref=e477]: 2 +
+                  - generic [ref=e478]: 3 =
+                  - generic [ref=e479]: "?"
+              - generic "Réponse mathématique" [ref=e481]:
+                - generic [ref=e482]:
+                  - textbox
+                  - generic [ref=e483]:
+                    - generic [ref=e487]: Écristoncalculoutonnombre
+                    - generic [ref=e488]:
+                      - button "Afficher/Masquer le clavier virtuel Afficher/Masquer le clavier virtuel" [ref=e489] [cursor=pointer]:
+                        - img "Afficher/Masquer le clavier virtuel" [ref=e490]
+                        - text: Afficher/Masquer le clavier virtuel
+                      - button "Menu Menu" [ref=e492] [cursor=pointer]:
+                        - img "Menu" [ref=e493]
+                        - text: Menu
+                  - generic [ref=e495]:
+                    - status
+              - generic [ref=e496]:
+                - button "Vérifier ma réponse" [disabled] [ref=e497]:
+                  - img [ref=e498]
+                  - text: Vérifier ma réponse
+                - button "Montrer un indice" [ref=e501] [cursor=pointer]:
+                  - img [ref=e502]
+                  - text: Montrer un indice
+                - button "Voir la solution guidée" [ref=e504] [cursor=pointer]:
+                  - img [ref=e505]
+                  - text: Voir la solution guidée
+            - article [ref=e508]:
+              - generic [ref=e509]:
+                - generic [ref=e510]: Avant et après
+                - generic [ref=e511]: Qu'est-ce qui vient avant le jour ?
+              - paragraph [ref=e512]: Le matin le soleil n'est pas levé. Le jour, le soleil est haut. Le soir, il redescend.
+              - heading "Qu'est-ce qui vient après le jour ?" [level=4] [ref=e513]
+              - generic [ref=e515]:
+                - button "Le matin" [ref=e516] [cursor=pointer]
+                - button "Le soir" [ref=e517] [cursor=pointer]
+                - button "La nuit" [ref=e518] [cursor=pointer]
+              - generic [ref=e519]:
+                - button "Vérifier ma réponse" [disabled] [ref=e520]:
+                  - img [ref=e521]
+                  - text: Vérifier ma réponse
+                - button "Montrer un indice" [ref=e524] [cursor=pointer]:
+                  - img [ref=e525]
+                  - text: Montrer un indice
+                - button "Voir la solution guidée" [ref=e527] [cursor=pointer]:
+                  - img [ref=e528]
+                  - text: Voir la solution guidée
+          - generic [ref=e532]:
+            - paragraph [ref=e533]: Cours complet disponible
+            - heading "Compter jusqu'à 10, formes, avant et après — parcours animé" [level=4] [ref=e534]
+            - paragraph [ref=e535]: Visualisations interactives, animations fluides et contextes Basakata.
+            - link "Voir le cours complet" [ref=e536] [cursor=pointer]:
+              - /url: /ecole/primaire/primaire-1/cours
+              - text: Voir le cours complet
+              - img [ref=e537]
+    - paragraph [ref=e89]:
+      - text: Une question ? Consulte la
+      - link "rubrique d'aide" [ref=e90] [cursor=pointer]:
+        - /url: /help/ecole
+  - button "Open Next.js Dev Tools" [ref=e544] [cursor=pointer]:
+    - img [ref=e545]
+  - alert [ref=e548]

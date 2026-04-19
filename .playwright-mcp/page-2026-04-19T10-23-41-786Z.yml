@@ -1,0 +1,59 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - button "FR" [ref=e5] [cursor=pointer]:
+      - img [ref=e6]
+      - generic [ref=e9]: FR
+      - img [ref=e10]
+    - generic [ref=e13]:
+      - img [ref=e15]
+      - heading "Bienvenue sur Sakata" [level=1] [ref=e18]
+      - paragraph [ref=e19]:
+        - generic [ref=e20]:
+          - text: Ce portail est un sanctuaire numérique dédié à la préservation et à la transmission de l'identité culturelle du peuple
+          - strong [ref=e21]: Sakata
+          - text: .
+      - paragraph [ref=e22]: Notre objectif est d'unir nos racines ancestrales avec la splendeur numérique moderne, en offrant à la fois des archives vivantes, des sagesses intemporelles et un forum d'échange intergénérationnel.
+      - button "Suivant" [ref=e23] [cursor=pointer]:
+        - text: Suivant
+        - img [ref=e24]
+  - main [ref=e26]:
+    - navigation [ref=e27]:
+      - generic [ref=e28]:
+        - link "SAKATA" [ref=e29] [cursor=pointer]:
+          - /url: /
+        - generic [ref=e30]:
+          - link "Accueil" [ref=e31] [cursor=pointer]:
+            - /url: /
+          - button "Savoir" [ref=e33] [cursor=pointer]:
+            - text: Savoir
+            - img [ref=e34]
+          - button "Communauté" [ref=e37] [cursor=pointer]:
+            - text: Communauté
+            - img [ref=e38]
+          - link "Premium" [ref=e40] [cursor=pointer]:
+            - /url: /premium
+        - generic [ref=e41]:
+          - button "FR" [ref=e43] [cursor=pointer]:
+            - img [ref=e44]
+            - generic [ref=e47]: FR
+            - img [ref=e48]
+          - link "Connexion" [ref=e50] [cursor=pointer]:
+            - /url: /auth
+    - generic [ref=e53]:
+      - generic [ref=e54]:
+        - generic [ref=e55]:
+          - generic [ref=e56]: Sanctuaire Numérique
+          - heading "Se Connecter" [level=1] [ref=e57]
+        - generic [ref=e58]:
+          - generic [ref=e59]:
+            - text: Email
+            - textbox "nom@village.com" [ref=e60]
+          - generic [ref=e61]:
+            - text: Mot de passe
+            - textbox "••••••••" [ref=e62]
+          - button "Entrer dans le Sanctuaire" [disabled] [ref=e63]
+        - button "Nouveau venu ? S'inscrire" [ref=e65] [cursor=pointer]:
+          - generic [ref=e66]: Nouveau venu ?
+          - generic [ref=e67]: S'inscrire
+      - paragraph [ref=e69]: "\"Le savoir est une rivière, celui qui y puise doit d'abord s'incliner.\""
+  - alert [ref=e70]

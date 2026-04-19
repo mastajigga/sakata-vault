@@ -1,0 +1,4 @@
+[    3044ms] [VERBOSE] [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) %o @ https://sakata-basakata.com/auth?redirect_to=%2Fecole%2Fprimaire:0
+[    3063ms] [LOG] [AuthProvider] init: START @ https://sakata-basakata.com/_next/static/chunks/11w6c-piou51k.js:0
+[    3063ms] [LOG] [AuthProvider] init: getSession start... @ https://sakata-basakata.com/_next/static/chunks/11w6c-piou51k.js:0
+[    3211ms] [LOG] [ChatUnread] Fetching for user: undefined @ https://sakata-basakata.com/_next/static/chunks/11w6c-piou51k.js:8
