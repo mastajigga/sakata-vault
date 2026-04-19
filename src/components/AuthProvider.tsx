@@ -257,7 +257,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         // Timeout de sécurité sur getSession (parfois capricieux sur certains navigateurs)
         const sessionPromise = supabase.auth.getSession();
         const timeoutPromise = new Promise<{data: {session: null}, error: any}>((_, reject) => 
-          setTimeout(() => reject(new Error("Timeout getSession")), 5000)
+          setTimeout(() => reject(new Error("Timeout getSession")), 10000)
         );
 
         console.log("[AuthProvider] init: getSession start...");

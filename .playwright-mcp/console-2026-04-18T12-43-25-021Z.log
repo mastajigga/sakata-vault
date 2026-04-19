@@ -521,3 +521,91 @@ Fast Refresh requires at least one parent function component in your React tree.
 [70128360ms] [LOG] [Fast Refresh] done in 282ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
 [70151843ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
 [70152014ms] [LOG] [Fast Refresh] done in 279ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[70436985ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[70437157ms] [WARNING] [Fast Refresh] performing full reload
+
+Fast Refresh will perform a full reload when you edit a file that's imported by modules outside of the React rendering tree.
+You might have a file which exports a React component but also exports a value that is imported by a non-React component file.
+Consider migrating the non-React component export to a separate file and importing it into both files.
+
+It is also possible the parent component of the component you edited is a class component, which disables Fast Refresh.
+Fast Refresh requires at least one parent function component in your React tree. @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[70437415ms] [LOG] [Fast Refresh] done in 275ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[70437457ms] [VERBOSE] [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) %o @ http://localhost:3000/auth?redirect_to=%2Fgeographie:0
+[70437489ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[70437544ms] [LOG] [HMR] connected @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[70437592ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[70437593ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[70437636ms] [LOG] [AuthProvider] init: START @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[70437636ms] [LOG] [AuthProvider] init: getSession start... @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[70437662ms] [LOG] [AuthProvider] Render (isLoading: false, hasUser: false) @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[70437662ms] [LOG] [AuthProvider] Render (isLoading: false, hasUser: false) @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[70437780ms] [LOG] [ChatUnread] Fetching for user: undefined @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[70474210ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[70474368ms] [WARNING] [Fast Refresh] performing full reload
+
+Fast Refresh will perform a full reload when you edit a file that's imported by modules outside of the React rendering tree.
+You might have a file which exports a React component but also exports a value that is imported by a non-React component file.
+Consider migrating the non-React component export to a separate file and importing it into both files.
+
+It is also possible the parent component of the component you edited is a class component, which disables Fast Refresh.
+Fast Refresh requires at least one parent function component in your React tree. @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[70474635ms] [LOG] [Fast Refresh] done in 264ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[70474655ms] [VERBOSE] [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) %o @ http://localhost:3000/auth?redirect_to=%2Fgeographie:0
+[70474673ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[70474696ms] [LOG] [HMR] connected @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[70474719ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[70474719ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[70474743ms] [LOG] [AuthProvider] init: START @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[70474744ms] [LOG] [AuthProvider] init: getSession start... @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[70474745ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[70474745ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[70474752ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[70474753ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[70474766ms] [LOG] [AuthProvider] Render (isLoading: false, hasUser: false) @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[70474766ms] [LOG] [AuthProvider] Render (isLoading: false, hasUser: false) @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[70474879ms] [LOG] [ChatUnread] Fetching for user: undefined @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[70485449ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[70485605ms] [WARNING] [Fast Refresh] performing full reload
+
+Fast Refresh will perform a full reload when you edit a file that's imported by modules outside of the React rendering tree.
+You might have a file which exports a React component but also exports a value that is imported by a non-React component file.
+Consider migrating the non-React component export to a separate file and importing it into both files.
+
+It is also possible the parent component of the component you edited is a class component, which disables Fast Refresh.
+Fast Refresh requires at least one parent function component in your React tree. @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[70485840ms] [LOG] [Fast Refresh] done in 265ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[70485863ms] [VERBOSE] [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) %o @ http://localhost:3000/auth?redirect_to=%2Fgeographie:0
+[70485876ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[70485889ms] [LOG] [HMR] connected @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[70485922ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[70485922ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[70485949ms] [LOG] [AuthProvider] init: START @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[70485949ms] [LOG] [AuthProvider] init: getSession start... @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[70485963ms] [LOG] %c[NET-QUEUED] %cfrom(profiles) %c[ID:lij6dj] [Active:1] color: #B59551; font-weight: bold color: #F2EEDD color: #666 @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[70485970ms] [LOG] [AuthProvider] Render (isLoading: false, hasUser: false) @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[70485970ms] [LOG] [AuthProvider] Render (isLoading: false, hasUser: false) @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[70486096ms] [LOG] [ChatUnread] Fetching for user: undefined @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[70486106ms] [LOG] %c[NET-RESOLVED] %cfrom(profiles) %c[157ms] [Active:0] color: #51B57A; font-weight: bold color: #F2EEDD color: #666 @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[70515708ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[70515888ms] [WARNING] [Fast Refresh] performing full reload
+
+Fast Refresh will perform a full reload when you edit a file that's imported by modules outside of the React rendering tree.
+You might have a file which exports a React component but also exports a value that is imported by a non-React component file.
+Consider migrating the non-React component export to a separate file and importing it into both files.
+
+It is also possible the parent component of the component you edited is a class component, which disables Fast Refresh.
+Fast Refresh requires at least one parent function component in your React tree. @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[70516157ms] [LOG] [Fast Refresh] done in 284ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[70516180ms] [VERBOSE] [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) %o @ http://localhost:3000/auth?redirect_to=%2Fgeographie:0
+[70516196ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[70516217ms] [LOG] [HMR] connected @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[70516241ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[70516242ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[70516262ms] [LOG] [AuthProvider] init: START @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[70516262ms] [LOG] [AuthProvider] init: getSession start... @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[70516277ms] [LOG] %c[NET-QUEUED] %cfrom(profiles) %c[ID:1ry06] [Active:1] color: #B59551; font-weight: bold color: #F2EEDD color: #666 @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[70516281ms] [LOG] [AuthProvider] Render (isLoading: false, hasUser: false) @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[70516281ms] [LOG] [AuthProvider] Render (isLoading: false, hasUser: false) @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[70516396ms] [LOG] [ChatUnread] Fetching for user: undefined @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[70516402ms] [LOG] %c[NET-RESOLVED] %cfrom(profiles) %c[141ms] [Active:0] color: #51B57A; font-weight: bold color: #F2EEDD color: #666 @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
