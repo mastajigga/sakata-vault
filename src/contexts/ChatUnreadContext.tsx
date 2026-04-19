@@ -37,6 +37,7 @@ export function ChatUnreadProvider({
   
   useEffect(() => {
     let cancelled = false;
+    const controller = new AbortController();
     const userId = user?.id;
 
     async function fetchConversations(showLoading = false) {
@@ -62,12 +63,16 @@ export function ChatUnreadProvider({
         const { data: convData, error } = await supabase.rpc(
           "get_user_conversations_v4",
           { p_user_id: userId }
-        );
+        ).abortSignal(controller.signal);
 
         if (cancelled) return;
 
         if (error) {
-          console.error("[ChatUnread] RPC error:", error);
+          if (error.message?.includes("AbortError") || error.message?.includes("abort")) {
+            console.log("[ChatUnread] RPC annulé.");
+          } else {
+            console.error("[ChatUnread] RPC error:", error);
+          }
           return;
         }
 
@@ -98,8 +103,12 @@ export function ChatUnreadProvider({
 
           if (!cancelled) setConversations(mapped);
         }
-      } catch (err) {
-        console.error("ChatUnreadContext:", err);
+      } catch (err: any) {
+        if (err.name === 'AbortError') {
+          console.log("[ChatUnread] FetchConversations interrompu.");
+        } else {
+          console.error("ChatUnreadContext:", err);
+        }
       } finally {
         isFetchingRef.current = false;
         if (!cancelled) setLoading(false);
@@ -128,6 +137,7 @@ export function ChatUnreadProvider({
 
     return () => {
       cancelled = true;
+      controller.abort();
       supabase.removeChannel(channel);
     };
   }, [user?.id, authLoading]);

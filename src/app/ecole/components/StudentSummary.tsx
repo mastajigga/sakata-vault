@@ -33,9 +33,9 @@ export default function StudentSummary() {
         if (error) throw error;
 
         if (data && data.length > 0) {
-          const totalPoints = data.reduce((acc, curr) => acc + curr.score, 0);
+          const totalPoints = data.reduce((acc: number, curr: any) => acc + curr.score, 0);
           const exercisesCompleted = data.length;
-          const avg = (totalPoints / data.reduce((acc, curr) => acc + curr.max_score, 0)) * 100;
+          const avg = (totalPoints / data.reduce((acc: number, curr: any) => acc + curr.max_score, 0)) * 100;
           
           setSummary({
             total_points: totalPoints,

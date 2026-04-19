@@ -34,7 +34,7 @@ export const MAX_VIEWS = {
   TWICE: 2,
 } as const;
 
-export const APP_VERSION = "2.5.0"; // Bumped 2026-04-18 — Personalization, Robust Visuals & Email Infrastructure
+export const APP_VERSION = "2.6.0"; // Bumped 2026-04-19 — Network Robustness & Audit Stalls
 export const PINECONE_DEFAULT_INDEX = "sakata-mathematics";
 
 // ─── Hiérarchie des rôles ────────────────────────────────────────────────────

@@ -56,7 +56,7 @@ function PremiumSuccessContent() {
 
       // Session pas prête — attendre l'événement de restauration (INITIAL_SESSION)
       const { data: { subscription } } = supabase.auth.onAuthStateChange(
-        async (event, newSession) => {
+        async (event: any, newSession: any) => {
           if (cancelled) return;
 
           if (

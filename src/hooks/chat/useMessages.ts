@@ -24,13 +24,13 @@ export function useMessages(conversationId: string) {
 
   // Résoudre l'userId une seule fois au montage, puis le mettre à jour si la session change
   useEffect(() => {
-    supabase.auth.getSession().then(({ data }) => {
+    supabase.auth.getSession().then(({ data }: { data: any }) => {
       const uid = data.session?.user?.id || "";
       userIdRef.current = uid;
       setCurrentUserId(uid);
     });
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event: any, session: any) => {
       const uid = session?.user?.id || "";
       userIdRef.current = uid;
       setCurrentUserId(uid);
@@ -83,23 +83,29 @@ export function useMessages(conversationId: string) {
   useEffect(() => {
     if (!conversationId) return;
 
+    const controller = new AbortController();
+    let mounted = true;
+
     async function markAsRead() {
       const uid = userIdRef.current;
-      if (!uid || !conversationId) return;
+      if (!uid || !conversationId || !mounted) return;
       await supabase
         .from(DB_TABLES.CHAT_PARTICIPANTS)
         .update({ last_read_at: new Date().toISOString() })
         .eq('conversation_id', conversationId)
-        .eq('user_id', uid);
+        .eq('user_id', uid)
+        .abortSignal(controller.signal);
     }
 
     async function fetchReadTimestamps() {
+      if (!mounted) return;
       const { data: participants } = await supabase
         .from(DB_TABLES.CHAT_PARTICIPANTS)
         .select('user_id, last_read_at')
-        .eq('conversation_id', conversationId);
+        .eq('conversation_id', conversationId)
+        .abortSignal(controller.signal);
 
-      if (participants) {
+      if (participants && mounted) {
         const ts: Record<string, string> = {};
         for (const p of participants) {
           if (p.user_id && p.last_read_at) {
@@ -111,14 +117,15 @@ export function useMessages(conversationId: string) {
     }
 
     async function fetchReactions(msgIds: string[]) {
-      if (msgIds.length === 0) return;
+      if (msgIds.length === 0 || !mounted) return;
       const uid = userIdRef.current;
       const { data } = await supabase
         .from(DB_TABLES.CHAT_REACTIONS)
         .select("message_id, user_id, emoji")
-        .in("message_id", msgIds);
+        .in("message_id", msgIds)
+        .abortSignal(controller.signal);
 
-      if (!data) return;
+      if (!data || !mounted) return;
 
       const newAll: Record<string, Record<string, number>> = {};
       const newMy: Record<string, Set<string>> = {};
@@ -137,6 +144,7 @@ export function useMessages(conversationId: string) {
 
     async function fetchMessages() {
       try {
+        if (!mounted) return;
         setLoading(true);
         // Cleanup non-critique — fire and forget
         Promise.resolve(supabase.rpc('cleanup_expired_messages')).catch(() => {});
@@ -155,25 +163,34 @@ export function useMessages(conversationId: string) {
             .eq('is_deleted', false)
             .order('created_at', { ascending: false })
             .limit(PAGE_SIZE)
+            .abortSignal(controller.signal)
         );
 
+        if (!mounted) return;
         if (error) {
-          console.error("Error fetching messages (after retries):", error);
+          if (error.message?.includes("AbortError") || error.message?.includes("abort")) {
+            console.log("[Chat] Fetch annulé.");
+          } else {
+            console.error("Error fetching messages (after retries):", error);
+          }
         } else if (data) {
-          const reversed = [...data].reverse();
+          const reversed = [...(data as any[])].reverse();
           const formatted = reversed.map((msg: any) => formatMessage(msg, uid));
           const resolved = await resolveSignedUrls(formatted);
+          if (!mounted) return;
           setMessages(resolved);
-          setHasMore(data.length === PAGE_SIZE);
+          setHasMore((data as any[]).length === PAGE_SIZE);
 
           markAsRead();
           fetchReadTimestamps();
-          fetchReactions(data.map(m => m.id));
+          fetchReactions((data as any[]).map(m => m.id));
         }
-      } catch (err) {
-        console.error("JS Exception fetching messages:", err);
+      } catch (err: any) {
+        if (err.name !== 'AbortError') {
+          console.error("JS Exception fetching messages:", err);
+        }
       } finally {
-        setLoading(false);
+        if (mounted) setLoading(false);
       }
     }
 
@@ -186,7 +203,8 @@ export function useMessages(conversationId: string) {
         schema: 'public',
         table: DB_TABLES.CHAT_MESSAGES,
         filter: `conversation_id=eq.${conversationId}`
-      }, async (payload) => {
+      }, async (payload: any) => {
+        if (!mounted) return;
         const newMsg = payload.new;
         const { data: profileData } = await supabase
           .from(DB_TABLES.PROFILES)
@@ -194,6 +212,7 @@ export function useMessages(conversationId: string) {
           .eq('id', newMsg.sender_id)
           .single();
 
+        if (!mounted) return;
         const uid = userIdRef.current;
         let formatted = formatMessage({ ...newMsg, profiles: profileData }, uid);
 
@@ -210,7 +229,8 @@ export function useMessages(conversationId: string) {
         schema: 'public',
         table: DB_TABLES.CHAT_PARTICIPANTS,
         filter: `conversation_id=eq.${conversationId}`
-      }, (payload) => {
+      }, (payload: any) => {
+        if (!mounted) return;
         const updated = payload.new;
         if (updated.user_id && updated.last_read_at) {
           setReadTimestamps(prev => ({ ...prev, [updated.user_id]: updated.last_read_at }));
@@ -220,25 +240,22 @@ export function useMessages(conversationId: string) {
         event: '*',
         schema: 'public',
         table: DB_TABLES.CHAT_REACTIONS
-        // Note: Filter is not possible on CHAT_REACTIONS if it doesn't have conversation_id
-        // We filter results in the callback instead
-      }, async (payload) => {
-        // Since we can't filter by conversation_id on reaction table easily without a join
-        // We just re-fetch reactions if the message belongs to our current messages
+      }, async (payload: any) => {
+        if (!mounted) return;
         const msgId = (payload.new as any)?.message_id || (payload.old as any)?.message_id;
         if (msgId) {
-          // Optimization: could check if msgId in messages, but messages is in stale closure here
-          // Re-fetch reactions for current messages
           fetchReactions(messages.map(m => m.id)); 
         }
       })
-      .subscribe((status, err) => {
+      .subscribe((status: any, err: any) => {
         if (status === 'CHANNEL_ERROR' || err) {
           console.error('[Chat] WebSocket error:', err || status);
         }
       });
 
     return () => {
+      mounted = false;
+      controller.abort();
       supabase.removeChannel(channel);
     };
   }, [conversationId, currentUserId, formatMessage, resolveSignedUrls, resolveFileUrl, messages.length]); // Re-sub on length change to update reaction listener closure if needed
@@ -272,11 +289,11 @@ export function useMessages(conversationId: string) {
       if (error) {
         console.error("Error loading more messages:", error);
       } else if (data) {
-        const reversed = [...data].reverse();
+        const reversed = [...(data as any[])].reverse();
         const formatted = reversed.map((msg: any) => formatMessage(msg, uid));
         const resolved = await resolveSignedUrls(formatted);
         setMessages(prev => [...resolved, ...prev]);
-        setHasMore(data.length === PAGE_SIZE);
+        setHasMore((data as any[]).length === PAGE_SIZE);
       }
     } catch (err) {
       console.error("JS Exception loading more messages:", err);
@@ -314,9 +331,9 @@ export function useMessages(conversationId: string) {
       } else if (data) {
         // BUG-002: Pour les images éphémères, stocker le PATH (storage:...) au lieu de l'URL publique
         if (fileType === 'image' && maxViews) {
-          fileUrl = `storage:${DB_BUCKETS.CHAT_ATTACHMENTS}/${data.path}`;
+          fileUrl = `storage:${DB_BUCKETS.CHAT_ATTACHMENTS}/${(data as any).path}`;
         } else {
-          const { data: publicData } = supabase.storage.from(DB_BUCKETS.CHAT_ATTACHMENTS).getPublicUrl(data.path);
+          const { data: publicData } = supabase.storage.from(DB_BUCKETS.CHAT_ATTACHMENTS).getPublicUrl((data as any).path);
           fileUrl = publicData.publicUrl;
         }
       }

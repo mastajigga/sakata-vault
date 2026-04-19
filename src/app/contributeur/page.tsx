@@ -62,7 +62,7 @@ export default function ContributorPage() {
       setContributorStatus(profile?.contributor_status || "none");
 
       // Fetch articles
-      const { data: articlesData } = await withRetry(async () =>
+      const { data: articlesData } = await withRetry<any[]>(async () =>
         supabase
           .from(DB_TABLES.ARTICLES)
           .select("id, title, slug, status, created_at, updated_at")
@@ -73,7 +73,7 @@ export default function ContributorPage() {
       if (articlesData) {
         // Fetch vues depuis site_analytics
         const slugs = articlesData.map((a: any) => `/savoir/${a.slug}`);
-        const { data: analyticsData } = await withRetry(async () =>
+        const { data: analyticsData } = await withRetry<any[]>(async () =>
           supabase
             .from(DB_TABLES.SITE_ANALYTICS)
             .select("page_path")
@@ -89,7 +89,7 @@ export default function ContributorPage() {
 
         // Fetch likes depuis article_likes
         const articleIds = articlesData.map((a: any) => a.id);
-        const { data: likesData } = await withRetry(async () =>
+        const { data: likesData } = await withRetry<any[]>(async () =>
           supabase
             .from(DB_TABLES.ARTICLE_LIKES)
             .select("article_id")

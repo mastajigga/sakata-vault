@@ -81,7 +81,7 @@ const MapContainer = forwardRef<MapRef, MapContainerProps>(
           );
 
           if (mounted) {
-            const newData = results.reduce((acc, curr) => {
+            const newData = results.reduce((acc: Record<string, any>, curr: any) => {
               acc[curr.key] = curr.json;
               return acc;
             }, {} as Record<string, any>);

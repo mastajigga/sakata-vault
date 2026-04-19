@@ -22,6 +22,7 @@ interface Profile {
   short_bio: string | null;
   location: string | null;
   contributor_status?: string | null;
+  created_at?: string;
 }
 
 type SortMode = "recent" | "alpha";
@@ -38,6 +39,7 @@ export default function MembresPage() {
 
   useEffect(() => {
     let mounted = true;
+    const controller = new AbortController();
 
     async function fetchProfiles() {
       // SÉQUENÇAGE : Attendre que l'auth soit stable avant de lancer les requêtes lourdes
@@ -48,11 +50,12 @@ export default function MembresPage() {
 
       // Petit délai de courtoisie pour laisser respirer le réseau
       await new Promise(resolve => setTimeout(resolve, 300));
+      if (!mounted) return;
 
       console.log("[Membres] Début fetchProfiles...");
       setLoading(true);
 
-      // Safety Timeout : Si le fetch prend trop de temps, on libère l'UI
+      // Safety Timeout local : Si le fetch prend trop de temps, on libère l'UI
       const safetyTimeout = setTimeout(() => {
         if (mounted && loading) {
           console.warn("[Membres] Fetch profiles timeout (>8s). Forcer la fin du chargement.");
@@ -63,19 +66,28 @@ export default function MembresPage() {
       try {
         const { data, error } = await supabase
           .from(DB_TABLES.PROFILES)
-          .select("id, username, nickname, avatar_url, cover_photo_url, short_bio, location, contributor_status")
-          .order("created_at", { ascending: false });
+          .select("id, username, nickname, avatar_url, cover_photo_url, short_bio, location, contributor_status, created_at")
+          .order("created_at", { ascending: false })
+          .abortSignal(controller.signal);
         
         if (!mounted) return;
 
         if (error) {
-          console.error("[Membres] Fetch error:", error.message);
+          if (error.message?.includes("AbortError") || error.message?.includes("abort")) {
+            console.log("[Membres] Requête annulée par l'utilisateur.");
+          } else {
+            console.error("[Membres] Fetch error:", error.message);
+          }
         } else if (data) {
           console.log("[Membres] Profils récupérés:", data.length);
           setProfiles(data as Profile[]);
         }
-      } catch (err) {
-        console.error("[Membres] Exception fetchProfiles:", err);
+      } catch (err: any) {
+        if (err.name === 'AbortError') {
+          console.log("[Membres] Requête interrompue proprement.");
+        } else {
+          console.error("[Membres] Exception fetchProfiles:", err);
+        }
       } finally {
         if (mounted) {
           clearTimeout(safetyTimeout);
@@ -88,6 +100,7 @@ export default function MembresPage() {
 
     return () => {
       mounted = false;
+      controller.abort();
     };
   }, [authLoading]); // Redéclenche quand l'auth est prête
 
@@ -259,6 +272,12 @@ export default function MembresPage() {
                           <div className="flex items-center text-[10px]" style={{ color: "var(--ivoire-ancien)", opacity: 0.7 }}>
                             <MapPin size={12} className="mr-1" />
                             {profile.location}
+                          </div>
+                        )}
+                        {profile.created_at && (
+                          <div className="flex items-center text-[10px]" style={{ color: "var(--ivoire-ancien)", opacity: 0.7 }}>
+                            <Clock size={12} className="mr-1" />
+                            {new Date(profile.created_at).toLocaleDateString('fr-FR', { month: 'short', year: 'numeric' })}
                           </div>
                         )}
                         <div className="w-8 h-8 rounded-full flex items-center justify-center opacity-0 translate-y-4 transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0" style={{ backgroundColor: "var(--or-ancestral)", color: "var(--foret-nocturne)" }}>

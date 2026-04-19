@@ -115,7 +115,7 @@ export function useEcoleProgress(programs: MathematicsProgramYear[], namespace =
           table: "ecole_progress",
           filter: `user_id=eq.${user.id}`,
         },
-        (payload) => {
+        (payload: any) => {
           const nextRow = payload.new as { year_slug?: string; completed_exercises?: string[] };
           if (!nextRow?.year_slug) {
             return;
@@ -127,7 +127,7 @@ export function useEcoleProgress(programs: MathematicsProgramYear[], namespace =
           }));
         }
       )
-      .subscribe((status, err) => {
+      .subscribe((status: any, err: any) => {
         if (status === "SUBSCRIBED") {
           setSyncStatus("cloud");
         } else if (status === "CHANNEL_ERROR" || err) {
@@ -217,9 +217,9 @@ export function useEcoleProgress(programs: MathematicsProgramYear[], namespace =
   };
 
   const overallProgress = useMemo(() => {
-    const totalExercises = programs.reduce((accumulator, program) => accumulator + program.exercises.length, 0);
+    const totalExercises = programs.reduce((accumulator: number, program) => accumulator + program.exercises.length, 0);
     const completedExercises = Object.values(completedByYear).reduce(
-      (accumulator, current) => accumulator + current.length,
+      (accumulator: number, current) => accumulator + current.length,
       0
     );
 

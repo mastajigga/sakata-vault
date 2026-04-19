@@ -49,7 +49,7 @@ export default function ThreadRepliesClient({ threadId, initialPosts, isLocked }
           table: 'forum_posts',
           filter: `thread_id=eq.${threadId}`
         },
-        async (payload) => {
+        async (payload: any) => {
           const newPost = payload.new as Post;
           
           const { data: profile } = await supabase
@@ -68,7 +68,7 @@ export default function ThreadRepliesClient({ threadId, initialPosts, isLocked }
           }, 100);
         }
       )
-      .subscribe((status, err) => {
+      .subscribe((status: any, err: any) => {
         if (status === "CHANNEL_ERROR" || err) {
           console.error("[ThreadReplies] Subscription error:", err || status);
         }

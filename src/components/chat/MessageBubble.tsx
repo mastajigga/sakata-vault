@@ -177,7 +177,7 @@ function ProtectedImage({
     supabase.storage
       .from(DB_BUCKETS.CHAT_ATTACHMENTS)
       .createSignedUrl(path, expirySeconds)
-      .then(({ data, error }) => {
+      .then(({ data, error }: { data: any, error: any }) => {
         if (error) {
           console.error("[MessageBubble] Failed to generate signed URL:", error);
           return;

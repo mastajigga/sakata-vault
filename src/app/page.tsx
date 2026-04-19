@@ -18,14 +18,19 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const controller = new AbortController();
+    let mounted = true;
+
     const fetchArticles = async () => {
       console.log("Fetching articles from Supabase...");
       try {
         const { data, error } = await supabase
           .from("articles")
           .select("*")
-          .order("created_at", { ascending: false });
+          .order("created_at", { ascending: false })
+          .abortSignal(controller.signal);
         
+        if (!mounted) return;
         if (error) throw error;
 
         if (data && data.length > 0) {
@@ -35,15 +40,25 @@ export default function Home() {
           console.warn("DB returned no articles, falling back to static data.");
           setArticles(ARTICLES);
         }
-      } catch (error) {
+      } catch (error: any) {
+        if (!mounted) return;
+        if (error.name === 'AbortError' || error.message?.includes('abort')) {
+          console.log("Fetch articles annulé.");
+          return;
+        }
         console.error("Supabase Connection Error:", error);
         console.warn("Using static fallback data due to connection issues.");
         setArticles(ARTICLES);
       } finally {
-        setLoading(false);
+        if (mounted) setLoading(false);
       }
     };
     fetchArticles();
+
+    return () => {
+      mounted = false;
+      controller.abort();
+    };
   }, []);
 
   // Map slugs to ensure we link to existing data

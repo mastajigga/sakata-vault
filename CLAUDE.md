@@ -163,6 +163,9 @@ import { withRetry, withRetryRaw } from "@/lib/supabase-retry";
 - **Subscription filtrée** : Toujours vérifier dans le callback realtime que `payload.new.{key}` appartient aux données pertinentes avant de re-fetcher. Éviter les re-fetches pour des changements d'autres utilisateurs/conversations.
 - **Robustesse Visuelle (MemberImage)** : Toujours utiliser le composant `MemberImage` pour les avatars. Il gère automatiquement les URLs Supabase, les fallbacks (initiales) et la compatibilité hybride next/image vs img.
 - **Timeouts de Sécurité** : Les chargements asynchrones critiques (Chat, Session) doivent inclure un timeout (ex: 8s) pour éviter les états de chargement infinis si Supabase tarde à répondre.
+- **Instrumentation Réseau (Proxy)** : Le client Supabase dans `src/lib/supabase.ts` est enveloppé dans un Proxy qui logue `[NET-QUEUED]`, `[NET-RESOLVED]` et `[NET-SATURATION]`. Si >5 requêtes sont actives, un warning s'affiche (limite navigateur de 6 sockets TCP).
+- **AbortController OBLIGATOIRE** : Tout `useEffect` lançant une requête Supabase **DOIT** utiliser un `AbortController` et appeler `controller.abort()` dans la fonction de nettoyage pour libérer les sockets immédiatement lors de la navigation.
+- **fetchProfile Idempotent** : Dans `AuthProvider`, `fetchProfile` utilise une `ref` (`profileFetchPromiseRef`) pour éviter les appels multiples simultanés pour le même utilisateur.
 
 ---
 
@@ -268,9 +271,10 @@ import { withRetry, withRetryRaw } from "@/lib/supabase-retry";
 
 | Date | Modification |
 |------|-------------|
+| 2026-04-19 | **ROBUSTESSE RÉSEAU & AUDIT STALLS** — Instrumentation réseau (Proxy) pour détection de saturation des sockets. Implémentation systématique des `AbortController` (Membres, Accueil, Chat). Dédoublonnage des fetches de profil et protection par timeout. Ajout de la colonne `created_at` dans l'annuaire des membres. |
 | 2026-04-18 | **STABILITÉ RÉSEAU & CHAT SYNC** — Correction de la saturation des sockets (suppression `isSingleton`). Synchronisation du chat avec le cycle de vie de l'Auth. Nettoyage de l'instrumentation réseau sur la page Membres. Optimisation de l'AnalyticsProvider (fix Error 400). |
 | 2026-04-18 | **PERSONALISATION & ROBUSTESSE** — Intégration `useAuth` dans Savoir & École (accueil personnalisé, StudentSummary). Nouveau composant `MemberImage` pour avatars robustes. Infrastructure email Resend active avec DNS validé. |
-| 2026-04-18 | APP_VERSION bumpé `2.4.0` → `2.5.0` |
+| 2026-04-19 | APP_VERSION bumpé `2.5.0` → `2.6.0` |
 | 2026-04-18 | **GÉOGRAPHIE V2.4** — Intégration du calque "Provinces" (26 provinces de la RDC) avec mise en évidence dorée du Mai-Ndombe. Nouvelle infographie interactive et métadonnées administratives (ISO, Groupe). |
 | 2026-04-16 | **ULTRA-PREMIUM MAPBOX V3** — Migration de MapLibre vers Mapbox GL JS v3. Globe 3D, terrain, atmosphère dynamique. Correction de l'erreur "Style is not done loading" via synchronisation `onLoad`. |
 | 2026-04-16 | **GEOGRAPHIE 3D V2** — Refonte totale "Command Center" : layout dashboard, cinématique Flythrough, optimisation Promise.all |

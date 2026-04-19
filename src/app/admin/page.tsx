@@ -163,8 +163,8 @@ const AdminDashboard = () => {
         
         // Sum total likes and reads from articles table (optimized)
         const { data: allArticles } = await supabase.from("articles").select("likes_count, reads_count");
-        const totalLikes = allArticles?.reduce((acc, curr) => acc + (curr.likes_count || 0), 0) || 0;
-        const totalReads = allArticles?.reduce((acc, curr) => acc + (curr.reads_count || 0), 0) || 0;
+        const totalLikes = allArticles?.reduce((acc: number, curr: any) => acc + (curr.likes_count || 0), 0) || 0;
+        const totalReads = allArticles?.reduce((acc: number, curr: any) => acc + (curr.reads_count || 0), 0) || 0;
 
         // Fetch Analytics for chart and insights
         let dateFilter = new Date();
@@ -177,10 +177,10 @@ const AdminDashboard = () => {
           .from("site_analytics")
           .select("created_at, language, session_id, metadata, ip_address, referrer, path")
           .gte("created_at", dateFilter.toISOString())
-          .order('created_at', { ascending: true });
+          .order('created_at', { ascending: true }) as { data: any[] };
 
         // Calculate unique visitors (Real session counting)
-        const uniqueSids = new Set(analyticsData?.map(v => v.session_id).filter(id => id)).size;
+        const uniqueSids = new Set(analyticsData?.map((v: any) => v.session_id).filter((id: any) => id)).size;
 
         // Stats précises du jour (minuit heure locale → UTC)
         const todayStart = new Date();
@@ -188,9 +188,9 @@ const AdminDashboard = () => {
         const { data: todayData } = await supabase
           .from("site_analytics")
           .select("created_at, language, session_id, metadata, ip_address, referrer, path")
-          .gte("created_at", todayStart.toISOString());
+          .gte("created_at", todayStart.toISOString()) as { data: any[] };
         const todayVisits = todayData?.length || 0;
-        const todayUniqueVisitors = new Set(todayData?.map(v => v.session_id).filter(Boolean)).size;
+        const todayUniqueVisitors = new Set(todayData?.map((v: any) => v.session_id).filter(Boolean)).size;
 
         // Helper : calcule les distributions à partir d'un dataset analytics
         // unique=true → déduplique par session_id avant de compter
@@ -199,7 +199,7 @@ const AdminDashboard = () => {
           const rows = unique
             ? (() => {
                 const seen = new Set<string>();
-                return data.filter(v => {
+                return data.filter((v: any) => {
                   const sid = v.session_id || v.ip_address;
                   if (!sid || seen.has(sid)) return false;
                   seen.add(sid); return true;
@@ -209,19 +209,19 @@ const AdminDashboard = () => {
 
           // Langues
           const langsMap: any = {};
-          rows.forEach(v => { if (v.language) langsMap[v.language] = (langsMap[v.language] || 0) + 1; });
+          rows.forEach((v: any) => { if (v.language) langsMap[v.language] = (langsMap[v.language] || 0) + 1; });
           const langs = Object.keys(langsMap).sort((a, b) => langsMap[b] - langsMap[a]).map(l => ({
             name: l === "fr" ? "Français" : l === "ln" ? "Lingala" : l === "sak" ? "Sakata" : l,
             value: langsMap[l],
           }));
           // Appareils
           const devMap: any = { mobile: 0, desktop: 0 };
-          rows.forEach(v => { const d = v.metadata?.device_type || "desktop"; devMap[d] = (devMap[d] || 0) + 1; });
+          rows.forEach((v: any) => { const d = v.metadata?.device_type || "desktop"; devMap[d] = (devMap[d] || 0) + 1; });
           const devices = Object.keys(devMap).map(d => ({ name: d, value: devMap[d] }));
           // Géographie (toujours par IP unique, peu importe le mode)
           const countryMap: any = {};
           const seenIps = new Set();
-          data.forEach(v => {
+          data.forEach((v: any) => {
             if (v.ip_address && !seenIps.has(v.ip_address)) {
               seenIps.add(v.ip_address);
               const c = v.metadata?.country || "Inconnu";
@@ -233,7 +233,7 @@ const AdminDashboard = () => {
           if (locs.length === 0) locs.push({ name: "En attente de trafic", value: 0 });
           // Sources
           const refMap: any = {};
-          rows.forEach(v => {
+          rows.forEach((v: any) => {
             let ref = v.referrer || "direct";
             if (ref.includes("sakata.netlify.app") || ref.includes("localhost")) return;
             if (ref.startsWith("https://")) ref = ref.replace("https://", "").replace("http://", "").split("/")[0];
@@ -260,7 +260,7 @@ const AdminDashboard = () => {
         
         // Calculate Top Sources (Referrers)
         const referrers: any = {};
-        analyticsData?.forEach(v => {
+        analyticsData?.forEach((v: any) => {
           let ref = v.referrer || "direct";
           
           if (ref.includes("sakata.netlify.app") || ref.includes("localhost")) return; // ignore internal
@@ -287,7 +287,7 @@ const AdminDashboard = () => {
 
         // Calculate Language stats
         const langs: any = {};
-        analyticsData?.forEach(v => {
+        analyticsData?.forEach((v: any) => {
           if (v.language) langs[v.language] = (langs[v.language] || 0) + 1;
         });
         const formattedLangs = Object.keys(langs).map(l => ({ 
@@ -297,7 +297,7 @@ const AdminDashboard = () => {
 
         // Calculate Device stats from metadata
         const devices: any = { mobile: 0, desktop: 0 };
-        analyticsData?.forEach(v => {
+        analyticsData?.forEach((v: any) => {
           const device = v.metadata?.device_type || 'desktop';
           devices[device] = (devices[device] || 0) + 1;
         });
@@ -306,7 +306,7 @@ const AdminDashboard = () => {
         // Real Geographic Mapping using the Country extracted via Edge API
         const countries: any = {};
         const uniqueGeoIps = new Set();
-        analyticsData?.forEach(v => {
+        analyticsData?.forEach((v: any) => {
           if (v.ip_address && !uniqueGeoIps.has(v.ip_address)) {
              uniqueGeoIps.add(v.ip_address);
              const c = v.metadata?.country || "Inconnu";
@@ -339,7 +339,7 @@ const AdminDashboard = () => {
 
           chartPoints.forEach(hour => groupedByTime[hour] = 0);
 
-          analyticsData?.forEach(v => {
+          analyticsData?.forEach((v: any) => {
             const hour = `${String(new Date(v.created_at).getHours()).padStart(2, '0')}h`;
             if (groupedByTime[hour] !== undefined) {
                groupedByTime[hour] += 1;
@@ -355,7 +355,7 @@ const AdminDashboard = () => {
 
           chartPoints.forEach(day => groupedByTime[day] = 0);
 
-          analyticsData?.forEach(v => {
+          analyticsData?.forEach((v: any) => {
             const date = new Date(v.created_at).toLocaleDateString('fr-FR', { day: '2-digit', month: 'short' });
             if (groupedByTime[date] !== undefined) {
                groupedByTime[date] += 1;
@@ -370,7 +370,7 @@ const AdminDashboard = () => {
 
           chartPoints.forEach(month => groupedByTime[month] = 0);
 
-          analyticsData?.forEach(v => {
+          analyticsData?.forEach((v: any) => {
             const month = new Date(v.created_at).toLocaleDateString('fr-FR', { month: 'short', year: 'numeric' });
             if (groupedByTime[month] !== undefined) {
                groupedByTime[month] += 1;

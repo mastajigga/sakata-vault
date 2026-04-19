@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useEffect, useState, useCallback } from "react";
+import React, { createContext, useContext, useEffect, useState, useCallback, useRef } from "react";
 import { User, Session } from "@supabase/supabase-js";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
@@ -169,57 +169,66 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   // -------------------------------------------------------------------------
   // Profile fetch avec retry
   // -------------------------------------------------------------------------
+  // Réf pour dédoublonner les appels fetchProfile (anti-saturation)
+  const profileFetchPromiseRef = useRef<Promise<void> | null>(null);
+
+  // -------------------------------------------------------------------------
+  // Profile fetch avec retry et dédoublonnage
+  // -------------------------------------------------------------------------
   const fetchProfile = useCallback(async (userId: string) => {
-    console.log(`[AuthProvider] fetchProfile: DEBUT pour ${userId}`);
-    
-    // Création d'un contrôleur d'abandon pour éviter les requêtes zombies
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 8000); // 8s de timeout interne
-
-    try {
-      console.log(`[AuthProvider] fetchProfile: QUERY START`);
-      
-      const { data, error } = await supabase
-        .from("profiles")
-        .select("role, subscription_tier, contributor_status, nickname, username")
-        .eq("id", userId)
-        .limit(1)
-        .abortSignal(controller.signal);
-      
-      clearTimeout(timeoutId);
-      console.log(`[AuthProvider] fetchProfile: QUERY END, items:`, data?.length, "error:", error?.message || "none");
-
-      const profile = data && data.length > 0 ? data[0] : null;
-
-      if (!error && profile) {
-        setRole(profile.role as UserRole);
-        setSubscriptionTier(profile.subscription_tier || SUBSCRIPTION_TIERS.FREE);
-        setContributorStatus((profile.contributor_status as "none" | "pending" | "approved" | "rejected") || "none");
-        setNickname(profile.nickname);
-        setUsername(profile.username);
-      } else if (error) {
-        if (error.message?.includes("AbortError")) {
-          console.warn("[AuthProvider] fetchProfile: TIMEOUT interne atteint (8s).");
-        } else {
-          console.error("[AuthProvider] fetchProfile error:", error.message);
-        }
-      }
-    } catch (err: any) {
-      if (err.name === 'AbortError') {
-        console.warn("[AuthProvider] fetchProfile: Requête abandonnée (timeout).");
-      } else {
-        console.error("[AuthProvider] fetchProfile: Exception critique:", err);
-      }
-    } finally {
-      clearTimeout(timeoutId);
+    // Si un fetch est déjà en cours pour cet utilisateur, on attend sa résolution
+    if (profileFetchPromiseRef.current) {
+      console.log(`[AuthProvider] fetchProfile: Déjà en cours, attente...`);
+      return profileFetchPromiseRef.current;
     }
-    console.log(`[AuthProvider] fetchProfile: Fin`);
+
+    const promise = (async () => {
+      console.log(`[AuthProvider] fetchProfile: DEBUT pour ${userId}`);
+      
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 8000);
+
+      try {
+        const { data, error } = await supabase
+          .from("profiles")
+          .select("role, subscription_tier, contributor_status, nickname, username")
+          .eq("id", userId)
+          .limit(1)
+          .abortSignal(controller.signal);
+        
+        clearTimeout(timeoutId);
+
+        const profile = data && data.length > 0 ? data[0] : null;
+
+        if (!error && profile) {
+          setRole(profile.role as UserRole);
+          setSubscriptionTier(profile.subscription_tier || SUBSCRIPTION_TIERS.FREE);
+          setContributorStatus((profile.contributor_status as "none" | "pending" | "approved" | "rejected") || "none");
+          setNickname(profile.nickname);
+          setUsername(profile.username);
+        } else if (error) {
+          console.error("[AuthProvider] fetchProfile query error:", error.message);
+        }
+      } catch (err: any) {
+        if (err.name === 'AbortError') {
+          console.warn("[AuthProvider] fetchProfile: Timeout (8s) ou abandon.");
+        } else {
+          console.error("[AuthProvider] fetchProfile exception:", err);
+        }
+      } finally {
+        clearTimeout(timeoutId);
+        profileFetchPromiseRef.current = null;
+        console.log(`[AuthProvider] fetchProfile: FIN pour ${userId}`);
+      }
+    })();
+
+    profileFetchPromiseRef.current = promise;
+    return promise;
   }, []);
 
   const checkConnection = useCallback(async () => {
-    // On réduit la fréquence et la lourdeur du check de connexion
     try {
-      const { error } = await supabase.from("profiles").select("id").limit(1);
+      const { error } = await supabase.from("profiles").select("id").limit(1).abortSignal(AbortSignal.timeout(5000));
       if (error && error.message?.includes("Failed to fetch")) {
         setConnectionError("Liaison instable avec le Grand Sanctuaire.");
       } else {
@@ -230,10 +239,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   }, []);
 
-  // -------------------------------------------------------------------------
-  // Refresh profile — refetch subscription tier after payment
-  // Used by success page after Stripe payment verification
-  // -------------------------------------------------------------------------
   const refreshProfile = useCallback(async () => {
     if (user?.id) {
       await fetchProfile(user.id);
@@ -241,18 +246,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }, [user?.id, fetchProfile]);
 
   // -------------------------------------------------------------------------
-  // Core auth lifecycle via onAuthStateChange
-  //
-  // IMPORTANT: On utilise UNIQUEMENT onAuthStateChange pour gérer :
-  //   - La synchro cross-tab (built-in, pas besoin du storage event listener)
-  //   - Le token refresh
-  //   - Le sign-in / sign-out
-  //
-  // L'ancien listener `window.addEventListener("storage", ...)` sur les clés
-  // "sb-*" a été SUPPRIMÉ car :
-  //   1. onAuthStateChange gère déjà la synchro multi-onglet nativement
-  //   2. Le préfixe "sb-" est interne à Supabase et peut changer
-  //   3. Le listener était redondant et pouvait créer des race conditions
+  // Core auth lifecycle
   // -------------------------------------------------------------------------
   useEffect(() => {
     let mounted = true;
@@ -260,53 +254,50 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const init = async () => {
       console.log("[AuthProvider] init: START");
       try {
+        // Timeout de sécurité sur getSession (parfois capricieux sur certains navigateurs)
+        const sessionPromise = supabase.auth.getSession();
+        const timeoutPromise = new Promise<{data: {session: null}, error: any}>((_, reject) => 
+          setTimeout(() => reject(new Error("Timeout getSession")), 5000)
+        );
+
         console.log("[AuthProvider] init: getSession start...");
-        const { data: { session }, error } = await supabase.auth.getSession();
+        const { data: { session }, error } = await Promise.race([sessionPromise, timeoutPromise]) as any;
+        
         if (error) {
           console.error("[AuthProvider] init: getSession error:", error);
         }
-        console.log("[AuthProvider] init: session status:", !!session);
         
         if (mounted && session) {
           setSession(session);
           setUser(session.user);
-          console.log("[AuthProvider] init: user set, starting fetchProfile...");
           await fetchProfile(session.user.id);
-          console.log("[AuthProvider] init: fetchProfile finished");
-        } else {
-          console.log("[AuthProvider] init: no session or unmounted");
         }
       } catch (e) {
-        console.error("[AuthProvider] init: EXCEPTION CRITIQUE:", e);
+        console.error("[AuthProvider] init: EXCEPTION:", e);
       } finally {
-        console.log("[AuthProvider] init: finally block - setting loading to false");
         if (mounted) setIsLoading(false);
       }
     };
 
     checkConnection().catch(console.error);
 
-    // Safety Timeout : Force isLoading=false after 15s to unblock Navigation
+    // Safety Timeout : Force isLoading=false après 15s (ultime recours)
     const safetyTimer = setTimeout(() => {
       if (mounted && isLoading) {
-        console.warn("[AuthProvider] TIMEOUT DE SÉCURITÉ (15s) - Déblocage forcé du loading.");
+        console.warn("[AuthProvider] TIMEOUT DE SÉCURITÉ (15s) atteint.");
         setIsStalled(true);
         setIsLoading(false);
       }
     }, 15000);
 
-    init().then(() => {
-      console.log("[AuthProvider] init: promise resolved");
-    }).catch(err => {
-      console.error("[AuthProvider] init: promise rejected:", err);
-    }).finally(() => {
+    init().finally(() => {
       if (mounted) {
         clearTimeout(safetyTimer);
         setIsStalled(false);
       }
     });
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, newSession) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event: any, newSession: any) => {
       if (!mounted) return;
 
       switch (event) {

@@ -55,7 +55,7 @@ export function useTyping(conversationId: string) {
         setTypingUsers(typers);
       });
 
-      room.subscribe((status, err) => {
+      room.subscribe((status: any, err: any) => {
         if (status === "CHANNEL_ERROR" || err) {
           console.error("[Chat] Typing presence error:", err || status);
         }
