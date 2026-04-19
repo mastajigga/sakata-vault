@@ -133,7 +133,7 @@ import { USER_ROLES, SUBSCRIPTION_TIERS, EXPIRY_DURATIONS, IMAGE_VIEW_MODES, APP
 import { withRetry, withRetryRaw } from "@/lib/supabase-retry";
 ```
 
-**APP_VERSION** : Bumper à chaque déploiement majeur dans `business.ts` pour invalider automatiquement les entrées localStorage périmées (`sakata-*`). Version actuelle : `2.5.0`.
+**APP_VERSION** : Bumper à chaque déploiement majeur dans `business.ts` pour invalider automatiquement les entrées localStorage périmées (`sakata-*`). Version actuelle : `2.6.0`.
 
 ---
 
@@ -154,7 +154,9 @@ import { withRetry, withRetryRaw } from "@/lib/supabase-retry";
   - **Dépendance Auth** : `authLoading` DOIT figurer dans le tableau de dépendances des `useEffect` de données pour garantir un déclenchement dès que la session est stable.
   - **Non-Singleton** : Ne pas utiliser `isSingleton: true` dans la configuration Supabase pour éviter le partage de sockets corrompues entre onglets ou après une veille prolongée.
 - **Set<string\> explicite** : Quand un `Set` est initialisé depuis des constantes `as const`, typer explicitement `new Set<string>(...)` pour éviter l'erreur TypeScript sur `.has(key: string)`.
-- **Singleton Supabase client** : NE JAMAIS appeler `createBrowserClient(...)` dans le corps d'un composant (recréé à chaque render → leak WebSocket). Toujours importer le singleton `import { supabase } from "@/lib/supabase"`. Si un `useMemo` est nécessaire (cas rare), le documenter.
+- **Singleton Supabase client** : NE JAMAIS appeler `createBrowserClient(...)` dans le corps d'un composant. Toujours importer le singleton `import { supabase } from "@/lib/supabase"`.
+- **supabasePublic** : Pour les composants serveurs (RSC) publics, importer `supabasePublic` de `@/lib/supabase` (alias instrumenté) pour éviter les timeouts Netlify liés aux clés de service.
+- **AuthProvider Lifecycle** : Utiliser un verrou `initStarted` (ref) dans `init()` pour éviter les boucles de rendu infinies lors de l'hydratation.
 - **Subscribe handler d'erreur OBLIGATOIRE** : Toute `.subscribe()` Supabase **DOIT** inclure `(status, err) => { if (status === 'CHANNEL_ERROR' || err) { console.error(...); /* fallback */ } }`. Sans cela, une déconnexion WebSocket est invisible.
 - **Dep array subscription** : Les tableaux d'objets passés en props ne doivent **JAMAIS** figurer dans le dep array d'un `useEffect` de subscription. Utiliser un `ref` synchronisé par un effet séparé pour les données dérivées.
 - **Guard isMounted avant channel async** : Dans toute fonction `async` qui crée un channel Supabase, ajouter `if (!isMounted) return` avant `supabase.channel(...)` pour éviter les refs stales après démontage.
@@ -275,8 +277,7 @@ import { withRetry, withRetryRaw } from "@/lib/supabase-retry";
 | Date | Modification |
 |------|-------------|
 | 2026-04-19 | **TRAFFIC CONTROL & RÉSEAU** — Implémentation d'un limiteur de concurrence dans le proxy Supabase (Max 4 requêtes). Priorisation des appels `profiles`. Séquençage Auth vs Data et ajout de l'audit de robustesse (`audit_stabilite_reseau.md`). |
-| 2026-04-18 | **STABILITÉ RÉSEAU & CHAT SYNC** — Correction de la saturation des sockets (suppression `isSingleton`). Synchronisation du chat avec le cycle de vie de l'Auth. Nettoyage de l'instrumentation réseau sur la page Membres. Optimisation de l'AnalyticsProvider (fix Error 400). |
-| 2026-04-18 | **PERSONALISATION & ROBUSTESSE** — Intégration `useAuth` dans Savoir & École (accueil personnalisé, StudentSummary). Nouveau composant `MemberImage` pour avatars robustes. Infrastructure email Resend active avec DNS validé. |
+| 2026-04-19 | **STABILISATION v2.6** — Correction de la boucle infinie AuthProvider (verrou init). Suppression des logs verbeux. Fix 404 assets Ngongo. Conformité `supabasePublic` pour SSR Netlify. |
 | 2026-04-19 | APP_VERSION bumpé `2.5.0` → `2.6.0` |
 | 2026-04-18 | **GÉOGRAPHIE V2.4** — Intégration du calque "Provinces" (26 provinces de la RDC) avec mise en évidence dorée du Mai-Ndombe. Nouvelle infographie interactive et métadonnées administratives (ISO, Groupe). |
 | 2026-04-16 | **ULTRA-PREMIUM MAPBOX V3** — Migration de MapLibre vers Mapbox GL JS v3. Globe 3D, terrain, atmosphère dynamique. Correction de l'erreur "Style is not done loading" via synchronisation `onLoad`. |

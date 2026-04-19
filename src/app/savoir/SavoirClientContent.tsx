@@ -103,7 +103,7 @@ export default function SavoirClientContent({ articles }: SavoirClientContentPro
                       title={title}
                       category={article.category || "Savoir"}
                       description={description}
-                      image={article.featured_image || "/images/sakata_mask_detail.png"}
+                      image={article.featured_image || (article as any).image || "/images/sakata_mask_detail.png"}
                       href={`/savoir/${article.slug}`}
                     />
                   </div>

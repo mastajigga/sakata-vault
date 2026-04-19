@@ -1652,8 +1652,8 @@ Paix à toi, enfant du terroir. Que ton nom soit honoré.
 **Source :** Meji a batatu ba kale.
 </small>`
     },
-    image: "/images/ngongo_initiation_sage.png",
-    videoBackground: "/videos/ngongo-forest-mist.mp4"
+    image: "/images/sakata_mask_detail.png",
+    videoBackground: "/videos/iluo-into-the-eyes.mp4"
   },
   {
     slug: "ngongo-philosophique-short",
@@ -1682,7 +1682,7 @@ Paix à toi, enfant du terroir. Que ton nom soit honoré.
 **Source :** Bakulutu.
 </small>`
     },
-    image: "/images/ngongo_initiation_sage_thumb.png"
+    image: "/images/sakata_mask_detail.png"
   },
   {
     slug: "ngongo-technique",
@@ -1861,8 +1861,8 @@ Le rite Ngongo du peuple Sakata de Mbantin n'est pas une pièce de musée poussi
 **Source :** Bakulutu ya Mbantin.
 </small>`
     },
-    image: "/images/ngongo_technical_manual.png",
-    videoBackground: "/videos/ngongo-technical-blueprint.mp4"
+    image: "/images/sakata_mask_detail.png",
+    videoBackground: "/videos/iluo-into-the-eyes.mp4"
   },
   {
     slug: "ngongo-technique-short",
@@ -1891,7 +1891,7 @@ Le rite Ngongo du peuple Sakata de Mbantin n'est pas une pièce de musée poussi
 **Source :** Boyekoli ya sika.
 </small>`
     },
-    image: "/images/ngongo_technical_manual_thumb.png"
+    image: "/images/sakata_mask_detail.png"
   }
 ];
 

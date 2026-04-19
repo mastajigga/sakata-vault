@@ -116,3 +116,4 @@ const instrumentedClient = new Proxy(client, {
 });
 
 export const supabase = instrumentedClient;
+export const supabasePublic = instrumentedClient;

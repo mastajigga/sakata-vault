@@ -7977,3 +7977,402 @@
 [ 1316999ms] [LOG] [ChatUnread] Fetching for user: undefined @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:8
 [ 1318392ms] [LOG] %c[NET-START] %cfrom(profiles) %c[ID:mu7cc4] [Active:1] color: #B59551; font-weight: bold color: #F2EEDD color: #666 @ https://sakata-basakata.com/_next/static/chunks/0h_kyuj5uycmx.js:58
 [ 1318590ms] [LOG] %c[NET-RESOLVED] %cfrom(profiles) %c[198ms] [Active:0] color: #51B57A; font-weight: bold color: #F2EEDD color: #666 @ https://sakata-basakata.com/_next/static/chunks/0h_kyuj5uycmx.js:58
+[ 1491744ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1491751ms] [LOG] [AuthProvider] init: START @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1491751ms] [LOG] [AuthProvider] init: getSession start... @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1491760ms] [LOG] [AuthProvider] Render (isLoading: false, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1491863ms] [LOG] [ChatUnread] Fetching for user: undefined @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:8
+[ 1492413ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1492422ms] [LOG] [AuthProvider] init: START @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1492422ms] [LOG] [AuthProvider] init: getSession start... @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1492429ms] [LOG] [AuthProvider] Render (isLoading: false, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1492531ms] [LOG] [ChatUnread] Fetching for user: undefined @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:8
+[ 1493923ms] [LOG] %c[NET-START] %cfrom(profiles) %c[ID:zjjrt] [Active:1] color: #B59551; font-weight: bold color: #F2EEDD color: #666 @ https://sakata-basakata.com/_next/static/chunks/0h_kyuj5uycmx.js:58
+[ 1494018ms] [LOG] %c[NET-RESOLVED] %cfrom(profiles) %c[96ms] [Active:0] color: #51B57A; font-weight: bold color: #F2EEDD color: #666 @ https://sakata-basakata.com/_next/static/chunks/0h_kyuj5uycmx.js:58
+[ 1496798ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1496808ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1496814ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1496816ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1496816ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1496817ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1496819ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1496819ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1496819ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1496819ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1496820ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1496820ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1496820ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1496820ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1496821ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1496821ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1496821ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1496821ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1496822ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1496822ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1496822ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1496822ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1496822ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1496823ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1496823ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1496823ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1496823ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1496823ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1496823ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1496823ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1496823ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1496824ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1496824ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1496824ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1496824ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1496824ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1496824ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1496824ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1496824ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1496825ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1496825ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1496825ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1496825ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1496826ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1496826ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1496826ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1496826ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1496826ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1496826ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1496826ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1496827ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1496827ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1496827ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1496827ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1496827ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1496827ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1496827ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1496828ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1496828ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1496828ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1496828ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1496828ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1496828ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1496828ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1496828ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1496828ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1496828ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1496829ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1496829ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1496829ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1496829ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1496829ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1496829ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1496829ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1496829ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1496831ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1496831ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1496831ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1496831ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1496832ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1496832ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1496834ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1496859ms] [LOG] [AuthProvider] init: START @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1496859ms] [LOG] [AuthProvider] init: getSession start... @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1496873ms] [LOG] [AuthProvider] Render (isLoading: false, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1496983ms] [LOG] [ChatUnread] Fetching for user: undefined @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:8
+[ 1497111ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_initiation_sage.png&w=1200&q=75:0
+[ 1497205ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_technical_manual_thumb.png&w=1200&q=75:0
+[ 1497206ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_technical_manual.png&w=1200&q=75:0
+[ 1497256ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_initiation_sage_thumb.png&w=1200&q=75:0
+[ 1497349ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_initiation_sage.png&w=1200&q=75:0
+[ 1497419ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1497422ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1497423ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1497423ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1497423ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1497424ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1497424ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1497424ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1497425ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1497425ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1497425ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1497426ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1497426ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1497426ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1497426ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1497426ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1497427ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1497427ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1497428ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1497428ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1497428ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1497428ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1497428ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1497428ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1497429ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1497429ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1497429ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1497429ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1497430ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1497441ms] [LOG] [AuthProvider] init: START @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1497442ms] [LOG] [AuthProvider] init: getSession start... @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1497449ms] [LOG] [AuthProvider] Render (isLoading: false, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1497559ms] [LOG] [ChatUnread] Fetching for user: undefined @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:8
+[ 1497653ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_technical_manual.png&w=1200&q=75:0
+[ 1497684ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_technical_manual_thumb.png&w=1200&q=75:0
+[ 1497699ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_initiation_sage.png&w=1200&q=75:0
+[ 1497714ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_initiation_sage_thumb.png&w=1200&q=75:0
+[ 1497911ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_technical_manual.png&w=1200&q=75:0
+[ 1497921ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_technical_manual_thumb.png&w=1200&q=75:0
+[ 1497932ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_initiation_sage.png&w=1200&q=75:0
+[ 1497951ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_initiation_sage_thumb.png&w=1200&q=75:0
+[ 1498157ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_technical_manual.png&w=1200&q=75:0
+[ 1498171ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_technical_manual_thumb.png&w=1200&q=75:0
+[ 1498184ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_initiation_sage.png&w=1200&q=75:0
+[ 1498226ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_initiation_sage_thumb.png&w=1200&q=75:0
+[ 1498422ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_technical_manual.png&w=1200&q=75:0
+[ 1498516ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_technical_manual_thumb.png&w=1200&q=75:0
+[ 1498516ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_initiation_sage.png&w=1200&q=75:0
+[ 1498524ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_initiation_sage_thumb.png&w=1200&q=75:0
+[ 1498922ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_technical_manual.png&w=1200&q=75:0
+[ 1498942ms] [LOG] %c[NET-START] %cfrom(profiles) %c[ID:ec1o3] [Active:1] color: #B59551; font-weight: bold color: #F2EEDD color: #666 @ https://sakata-basakata.com/_next/static/chunks/0h_kyuj5uycmx.js:58
+[ 1499042ms] [LOG] %c[NET-RESOLVED] %cfrom(profiles) %c[100ms] [Active:0] color: #51B57A; font-weight: bold color: #F2EEDD color: #666 @ https://sakata-basakata.com/_next/static/chunks/0h_kyuj5uycmx.js:58
+[ 1499063ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_technical_manual_thumb.png&w=1200&q=75:0
+[ 1499063ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_initiation_sage.png&w=1200&q=75:0
+[ 1499064ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_initiation_sage_thumb.png&w=1200&q=75:0
+[ 1499606ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_technical_manual.png&w=1200&q=75:0
+[ 1499607ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_initiation_sage.png&w=1200&q=75:0
+[ 1499608ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_technical_manual_thumb.png&w=1200&q=75:0
+[ 1499608ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_initiation_sage_thumb.png&w=1200&q=75:0
+[ 1500145ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_initiation_sage.png&w=1200&q=75:0
+[ 1500145ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_technical_manual_thumb.png&w=1200&q=75:0
+[ 1500145ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_technical_manual.png&w=1200&q=75:0
+[ 1500145ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_initiation_sage_thumb.png&w=1200&q=75:0
+[ 1500381ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_technical_manual_thumb.png&w=1200&q=75:0
+[ 1500384ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_initiation_sage.png&w=1200&q=75:0
+[ 1500388ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_technical_manual.png&w=1200&q=75:0
+[ 1500406ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_initiation_sage_thumb.png&w=1200&q=75:0
+[ 1500621ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_technical_manual_thumb.png&w=1200&q=75:0
+[ 1500636ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_initiation_sage.png&w=1200&q=75:0
+[ 1500639ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_initiation_sage_thumb.png&w=1200&q=75:0
+[ 1500672ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_technical_manual.png&w=1200&q=75:0
+[ 1500861ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_technical_manual_thumb.png&w=1200&q=75:0
+[ 1500884ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_initiation_sage.png&w=1200&q=75:0
+[ 1500884ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_initiation_sage_thumb.png&w=1200&q=75:0
+[ 1500911ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_technical_manual.png&w=1200&q=75:0
+[ 1501113ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_technical_manual_thumb.png&w=1200&q=75:0
+[ 1501116ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_initiation_sage_thumb.png&w=1200&q=75:0
+[ 1501140ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_technical_manual.png&w=1200&q=75:0
+[ 1501143ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_initiation_sage.png&w=1200&q=75:0
+[ 1501350ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_initiation_sage_thumb.png&w=1200&q=75:0
+[ 1501356ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_technical_manual_thumb.png&w=1200&q=75:0
+[ 1501382ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_technical_manual.png&w=1200&q=75:0
+[ 1501401ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_initiation_sage.png&w=1200&q=75:0
+[ 1501601ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_initiation_sage_thumb.png&w=1200&q=75:0
+[ 1501618ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_technical_manual_thumb.png&w=1200&q=75:0
+[ 1501624ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_technical_manual.png&w=1200&q=75:0
+[ 1501636ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_initiation_sage.png&w=1200&q=75:0
+[ 1501685ms] [VERBOSE] [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) %o @ https://sakata-basakata.com/auth?redirect_to=%2Fecole:0
+[ 1501688ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1501693ms] [LOG] [AuthProvider] init: START @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1501693ms] [LOG] [AuthProvider] init: getSession start... @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1501700ms] [LOG] [AuthProvider] Render (isLoading: false, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1501809ms] [LOG] [ChatUnread] Fetching for user: undefined @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:8
+[ 1502254ms] [VERBOSE] [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) %o @ https://sakata-basakata.com/auth?redirect_to=%2Fecole:0
+[ 1502256ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1502259ms] [LOG] [AuthProvider] init: START @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1502260ms] [LOG] [AuthProvider] init: getSession start... @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1502267ms] [LOG] [AuthProvider] Render (isLoading: false, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1502375ms] [LOG] [ChatUnread] Fetching for user: undefined @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:8
+[ 1503761ms] [LOG] %c[NET-START] %cfrom(profiles) %c[ID:eadzry] [Active:1] color: #B59551; font-weight: bold color: #F2EEDD color: #666 @ https://sakata-basakata.com/_next/static/chunks/0h_kyuj5uycmx.js:58
+[ 1503818ms] [LOG] %c[NET-RESOLVED] %cfrom(profiles) %c[58ms] [Active:0] color: #51B57A; font-weight: bold color: #F2EEDD color: #666 @ https://sakata-basakata.com/_next/static/chunks/0h_kyuj5uycmx.js:58
+[ 1506350ms] [VERBOSE] [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) %o @ https://sakata-basakata.com/auth?redirect_to=%2Fforum:0
+[ 1506352ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1506355ms] [LOG] [AuthProvider] init: START @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1506355ms] [LOG] [AuthProvider] init: getSession start... @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1506361ms] [LOG] [AuthProvider] Render (isLoading: false, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1506467ms] [LOG] [ChatUnread] Fetching for user: undefined @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:8
+[ 1506923ms] [VERBOSE] [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) %o @ https://sakata-basakata.com/auth?redirect_to=%2Fforum:0
+[ 1506926ms] [LOG] [AuthProvider] Render (isLoading: true, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1506930ms] [LOG] [AuthProvider] init: START @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1506930ms] [LOG] [AuthProvider] init: getSession start... @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1506936ms] [LOG] [AuthProvider] Render (isLoading: false, hasUser: false) @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:0
+[ 1507039ms] [LOG] [ChatUnread] Fetching for user: undefined @ https://sakata-basakata.com/_next/static/chunks/0h8041-d9l_f1.js:8
+[ 1508433ms] [LOG] %c[NET-START] %cfrom(profiles) %c[ID:er4oyp] [Active:1] color: #B59551; font-weight: bold color: #F2EEDD color: #666 @ https://sakata-basakata.com/_next/static/chunks/0h_kyuj5uycmx.js:58
+[ 1508491ms] [LOG] %c[NET-RESOLVED] %cfrom(profiles) %c[59ms] [Active:0] color: #51B57A; font-weight: bold color: #F2EEDD color: #666 @ https://sakata-basakata.com/_next/static/chunks/0h_kyuj5uycmx.js:58
+[ 1515575ms] [VERBOSE] [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) %o @ https://sakata-basakata.com/auth?redirect_to=%2Fgeographie:0
+[ 1516078ms] [LOG] [AuthProvider] init: START @ https://sakata-basakata.com/_next/static/chunks/11w6c-piou51k.js:0
+[ 1516079ms] [LOG] [AuthProvider] init: getSession start... @ https://sakata-basakata.com/_next/static/chunks/11w6c-piou51k.js:0
+[ 1516192ms] [LOG] [ChatUnread] Fetching for user: undefined @ https://sakata-basakata.com/_next/static/chunks/11w6c-piou51k.js:8
+[ 1519974ms] [VERBOSE] [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) %o @ https://sakata-basakata.com/auth?redirect_to=%2Fgeographie:0
+[ 1519979ms] [LOG] [AuthProvider] init: START @ https://sakata-basakata.com/_next/static/chunks/11w6c-piou51k.js:0
+[ 1519980ms] [LOG] [AuthProvider] init: getSession start... @ https://sakata-basakata.com/_next/static/chunks/11w6c-piou51k.js:0
+[ 1520091ms] [LOG] [ChatUnread] Fetching for user: undefined @ https://sakata-basakata.com/_next/static/chunks/11w6c-piou51k.js:8
+[ 1524182ms] [VERBOSE] [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) %o @ https://sakata-basakata.com/auth?redirect_to=%2Fmembres:0
+[ 1524187ms] [LOG] [AuthProvider] init: START @ https://sakata-basakata.com/_next/static/chunks/11w6c-piou51k.js:0
+[ 1524187ms] [LOG] [AuthProvider] init: getSession start... @ https://sakata-basakata.com/_next/static/chunks/11w6c-piou51k.js:0
+[ 1524300ms] [LOG] [ChatUnread] Fetching for user: undefined @ https://sakata-basakata.com/_next/static/chunks/11w6c-piou51k.js:8
+[ 1524887ms] [VERBOSE] [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) %o @ https://sakata-basakata.com/auth?redirect_to=%2Fmembres:0
+[ 1524893ms] [LOG] [AuthProvider] init: START @ https://sakata-basakata.com/_next/static/chunks/11w6c-piou51k.js:0
+[ 1524893ms] [LOG] [AuthProvider] init: getSession start... @ https://sakata-basakata.com/_next/static/chunks/11w6c-piou51k.js:0
+[ 1525008ms] [LOG] [ChatUnread] Fetching for user: undefined @ https://sakata-basakata.com/_next/static/chunks/11w6c-piou51k.js:8
+[ 1529409ms] [LOG] [AuthProvider] init: START @ https://sakata-basakata.com/_next/static/chunks/11w6c-piou51k.js:0
+[ 1529409ms] [LOG] [AuthProvider] init: getSession start... @ https://sakata-basakata.com/_next/static/chunks/11w6c-piou51k.js:0
+[ 1529532ms] [LOG] [ChatUnread] Fetching for user: undefined @ https://sakata-basakata.com/_next/static/chunks/11w6c-piou51k.js:8
+[ 1529967ms] [LOG] [AuthProvider] init: START @ https://sakata-basakata.com/_next/static/chunks/11w6c-piou51k.js:0
+[ 1529967ms] [LOG] [AuthProvider] init: getSession start... @ https://sakata-basakata.com/_next/static/chunks/11w6c-piou51k.js:0
+[ 1530082ms] [LOG] [ChatUnread] Fetching for user: undefined @ https://sakata-basakata.com/_next/static/chunks/11w6c-piou51k.js:8
+[ 1534309ms] [LOG] [AuthProvider] init: START @ https://sakata-basakata.com/_next/static/chunks/11w6c-piou51k.js:0
+[ 1534309ms] [LOG] [AuthProvider] init: getSession start... @ https://sakata-basakata.com/_next/static/chunks/11w6c-piou51k.js:0
+[ 1534416ms] [LOG] [ChatUnread] Fetching for user: undefined @ https://sakata-basakata.com/_next/static/chunks/11w6c-piou51k.js:8
+[ 1534868ms] [LOG] [AuthProvider] init: START @ https://sakata-basakata.com/_next/static/chunks/11w6c-piou51k.js:0
+[ 1534868ms] [LOG] [AuthProvider] init: getSession start... @ https://sakata-basakata.com/_next/static/chunks/11w6c-piou51k.js:0
+[ 1534973ms] [LOG] [ChatUnread] Fetching for user: undefined @ https://sakata-basakata.com/_next/static/chunks/11w6c-piou51k.js:8
+[ 1539122ms] [LOG] [AuthProvider] init: START @ https://sakata-basakata.com/_next/static/chunks/11w6c-piou51k.js:0
+[ 1539122ms] [LOG] [AuthProvider] init: getSession start... @ https://sakata-basakata.com/_next/static/chunks/11w6c-piou51k.js:0
+[ 1539232ms] [LOG] [ChatUnread] Fetching for user: undefined @ https://sakata-basakata.com/_next/static/chunks/11w6c-piou51k.js:8
+[ 1539702ms] [LOG] [AuthProvider] init: START @ https://sakata-basakata.com/_next/static/chunks/11w6c-piou51k.js:0
+[ 1539703ms] [LOG] [AuthProvider] init: getSession start... @ https://sakata-basakata.com/_next/static/chunks/11w6c-piou51k.js:0
+[ 1539816ms] [LOG] [ChatUnread] Fetching for user: undefined @ https://sakata-basakata.com/_next/static/chunks/11w6c-piou51k.js:8
+[ 1544088ms] [LOG] [AuthProvider] init: START @ https://sakata-basakata.com/_next/static/chunks/11w6c-piou51k.js:0
+[ 1544088ms] [LOG] [AuthProvider] init: getSession start... @ https://sakata-basakata.com/_next/static/chunks/11w6c-piou51k.js:0
+[ 1544199ms] [LOG] [ChatUnread] Fetching for user: undefined @ https://sakata-basakata.com/_next/static/chunks/11w6c-piou51k.js:8
+[ 1544493ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_technical_manual_thumb.png&w=1200&q=75:0
+[ 1544498ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_initiation_sage_thumb.png&w=1200&q=75:0
+[ 1544525ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_technical_manual.png&w=1200&q=75:0
+[ 1544547ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_initiation_sage.png&w=1200&q=75:0
+[ 1544704ms] [LOG] [AuthProvider] init: START @ https://sakata-basakata.com/_next/static/chunks/11w6c-piou51k.js:0
+[ 1544704ms] [LOG] [AuthProvider] init: getSession start... @ https://sakata-basakata.com/_next/static/chunks/11w6c-piou51k.js:0
+[ 1544816ms] [LOG] [ChatUnread] Fetching for user: undefined @ https://sakata-basakata.com/_next/static/chunks/11w6c-piou51k.js:8
+[ 1544927ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_technical_manual.png&w=1200&q=75:0
+[ 1545278ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_technical_manual_thumb.png&w=1200&q=75:0
+[ 1545281ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_technical_manual.png&w=1200&q=75:0
+[ 1545318ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_initiation_sage.png&w=1200&q=75:0
+[ 1545408ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_initiation_sage_thumb.png&w=1200&q=75:0
+[ 1545952ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_technical_manual.png&w=1200&q=75:0
+[ 1546274ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_technical_manual_thumb.png&w=1200&q=75:0
+[ 1546691ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_initiation_sage_thumb.png&w=1200&q=75:0
+[ 1546692ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_initiation_sage.png&w=1200&q=75:0
+[ 1546692ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_technical_manual.png&w=1200&q=75:0
+[ 1547111ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_technical_manual_thumb.png&w=1200&q=75:0
+[ 1547526ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_initiation_sage_thumb.png&w=1200&q=75:0
+[ 1547919ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_initiation_sage.png&w=1200&q=75:0
+[ 1547920ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_technical_manual.png&w=1200&q=75:0
+[ 1547920ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_technical_manual_thumb.png&w=1200&q=75:0
+[ 1548062ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_initiation_sage_thumb.png&w=1200&q=75:0
+[ 1548208ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_initiation_sage.png&w=1200&q=75:0
+[ 1548460ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_initiation_sage.png&w=1200&q=75:0
+[ 1548577ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_technical_manual_thumb.png&w=1200&q=75:0
+[ 1548601ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_initiation_sage_thumb.png&w=1200&q=75:0
+[ 1548604ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_technical_manual.png&w=1200&q=75:0
+[ 1548691ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_initiation_sage.png&w=1200&q=75:0
+[ 1548920ms] [VERBOSE] [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) %o @ https://sakata-basakata.com/auth?redirect_to=%2Fecole:0
+[ 1548926ms] [LOG] [AuthProvider] init: START @ https://sakata-basakata.com/_next/static/chunks/11w6c-piou51k.js:0
+[ 1548926ms] [LOG] [AuthProvider] init: getSession start... @ https://sakata-basakata.com/_next/static/chunks/11w6c-piou51k.js:0
+[ 1549040ms] [LOG] [ChatUnread] Fetching for user: undefined @ https://sakata-basakata.com/_next/static/chunks/11w6c-piou51k.js:8
+[ 1549537ms] [VERBOSE] [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) %o @ https://sakata-basakata.com/auth?redirect_to=%2Fecole:0
+[ 1549543ms] [LOG] [AuthProvider] init: START @ https://sakata-basakata.com/_next/static/chunks/11w6c-piou51k.js:0
+[ 1549543ms] [LOG] [AuthProvider] init: getSession start... @ https://sakata-basakata.com/_next/static/chunks/11w6c-piou51k.js:0
+[ 1549651ms] [LOG] [ChatUnread] Fetching for user: undefined @ https://sakata-basakata.com/_next/static/chunks/11w6c-piou51k.js:8
+[ 1553650ms] [VERBOSE] [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) %o @ https://sakata-basakata.com/auth?redirect_to=%2Fforum:0
+[ 1553655ms] [LOG] [AuthProvider] init: START @ https://sakata-basakata.com/_next/static/chunks/11w6c-piou51k.js:0
+[ 1553655ms] [LOG] [AuthProvider] init: getSession start... @ https://sakata-basakata.com/_next/static/chunks/11w6c-piou51k.js:0
+[ 1553765ms] [LOG] [ChatUnread] Fetching for user: undefined @ https://sakata-basakata.com/_next/static/chunks/11w6c-piou51k.js:8
+[ 1554220ms] [VERBOSE] [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) %o @ https://sakata-basakata.com/auth?redirect_to=%2Fforum:0
+[ 1554228ms] [LOG] [AuthProvider] init: START @ https://sakata-basakata.com/_next/static/chunks/11w6c-piou51k.js:0
+[ 1554228ms] [LOG] [AuthProvider] init: getSession start... @ https://sakata-basakata.com/_next/static/chunks/11w6c-piou51k.js:0
+[ 1554340ms] [LOG] [ChatUnread] Fetching for user: undefined @ https://sakata-basakata.com/_next/static/chunks/11w6c-piou51k.js:8
+[ 1558332ms] [VERBOSE] [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) %o @ https://sakata-basakata.com/auth?redirect_to=%2Fgeographie:0
+[ 1558338ms] [LOG] [AuthProvider] init: START @ https://sakata-basakata.com/_next/static/chunks/11w6c-piou51k.js:0
+[ 1558338ms] [LOG] [AuthProvider] init: getSession start... @ https://sakata-basakata.com/_next/static/chunks/11w6c-piou51k.js:0
+[ 1558448ms] [LOG] [ChatUnread] Fetching for user: undefined @ https://sakata-basakata.com/_next/static/chunks/11w6c-piou51k.js:8
+[ 1558907ms] [VERBOSE] [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) %o @ https://sakata-basakata.com/auth?redirect_to=%2Fgeographie:0
+[ 1558911ms] [LOG] [AuthProvider] init: START @ https://sakata-basakata.com/_next/static/chunks/11w6c-piou51k.js:0
+[ 1558911ms] [LOG] [AuthProvider] init: getSession start... @ https://sakata-basakata.com/_next/static/chunks/11w6c-piou51k.js:0
+[ 1559022ms] [LOG] [ChatUnread] Fetching for user: undefined @ https://sakata-basakata.com/_next/static/chunks/11w6c-piou51k.js:8
+[ 1563038ms] [VERBOSE] [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) %o @ https://sakata-basakata.com/auth?redirect_to=%2Fmembres:0
+[ 1563044ms] [LOG] [AuthProvider] init: START @ https://sakata-basakata.com/_next/static/chunks/11w6c-piou51k.js:0
+[ 1563044ms] [LOG] [AuthProvider] init: getSession start... @ https://sakata-basakata.com/_next/static/chunks/11w6c-piou51k.js:0
+[ 1563156ms] [LOG] [ChatUnread] Fetching for user: undefined @ https://sakata-basakata.com/_next/static/chunks/11w6c-piou51k.js:8
+[ 1563600ms] [VERBOSE] [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) %o @ https://sakata-basakata.com/auth?redirect_to=%2Fmembres:0
+[ 1563606ms] [LOG] [AuthProvider] init: START @ https://sakata-basakata.com/_next/static/chunks/11w6c-piou51k.js:0
+[ 1563606ms] [LOG] [AuthProvider] init: getSession start... @ https://sakata-basakata.com/_next/static/chunks/11w6c-piou51k.js:0
+[ 1563714ms] [LOG] [ChatUnread] Fetching for user: undefined @ https://sakata-basakata.com/_next/static/chunks/11w6c-piou51k.js:8
+[ 1567709ms] [LOG] [AuthProvider] init: START @ https://sakata-basakata.com/_next/static/chunks/11w6c-piou51k.js:0
+[ 1567709ms] [LOG] [AuthProvider] init: getSession start... @ https://sakata-basakata.com/_next/static/chunks/11w6c-piou51k.js:0
+[ 1567822ms] [LOG] [ChatUnread] Fetching for user: undefined @ https://sakata-basakata.com/_next/static/chunks/11w6c-piou51k.js:8
+[ 1568278ms] [LOG] [AuthProvider] init: START @ https://sakata-basakata.com/_next/static/chunks/11w6c-piou51k.js:0
+[ 1568278ms] [LOG] [AuthProvider] init: getSession start... @ https://sakata-basakata.com/_next/static/chunks/11w6c-piou51k.js:0
+[ 1568389ms] [LOG] [ChatUnread] Fetching for user: undefined @ https://sakata-basakata.com/_next/static/chunks/11w6c-piou51k.js:8
+[ 1572578ms] [LOG] [AuthProvider] init: START @ https://sakata-basakata.com/_next/static/chunks/11w6c-piou51k.js:0
+[ 1572578ms] [LOG] [AuthProvider] init: getSession start... @ https://sakata-basakata.com/_next/static/chunks/11w6c-piou51k.js:0
+[ 1572689ms] [LOG] [ChatUnread] Fetching for user: undefined @ https://sakata-basakata.com/_next/static/chunks/11w6c-piou51k.js:8
+[ 1573140ms] [LOG] [AuthProvider] init: START @ https://sakata-basakata.com/_next/static/chunks/11w6c-piou51k.js:0
+[ 1573140ms] [LOG] [AuthProvider] init: getSession start... @ https://sakata-basakata.com/_next/static/chunks/11w6c-piou51k.js:0
+[ 1573245ms] [LOG] [ChatUnread] Fetching for user: undefined @ https://sakata-basakata.com/_next/static/chunks/11w6c-piou51k.js:8
+[ 1577258ms] [LOG] [AuthProvider] init: START @ https://sakata-basakata.com/_next/static/chunks/11w6c-piou51k.js:0
+[ 1577258ms] [LOG] [AuthProvider] init: getSession start... @ https://sakata-basakata.com/_next/static/chunks/11w6c-piou51k.js:0
+[ 1577368ms] [LOG] [ChatUnread] Fetching for user: undefined @ https://sakata-basakata.com/_next/static/chunks/11w6c-piou51k.js:8
+[ 1577908ms] [LOG] [AuthProvider] init: START @ https://sakata-basakata.com/_next/static/chunks/11w6c-piou51k.js:0
+[ 1577908ms] [LOG] [AuthProvider] init: getSession start... @ https://sakata-basakata.com/_next/static/chunks/11w6c-piou51k.js:0
+[ 1578021ms] [LOG] [ChatUnread] Fetching for user: undefined @ https://sakata-basakata.com/_next/static/chunks/11w6c-piou51k.js:8
+[ 1582392ms] [LOG] [AuthProvider] init: START @ https://sakata-basakata.com/_next/static/chunks/11w6c-piou51k.js:0
+[ 1582393ms] [LOG] [AuthProvider] init: getSession start... @ https://sakata-basakata.com/_next/static/chunks/11w6c-piou51k.js:0
+[ 1582506ms] [LOG] [ChatUnread] Fetching for user: undefined @ https://sakata-basakata.com/_next/static/chunks/11w6c-piou51k.js:8
+[ 1582674ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_technical_manual.png&w=1200&q=75:0
+[ 1583009ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_technical_manual.png&w=1200&q=75:0
+[ 1583061ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_initiation_sage_thumb.png&w=1200&q=75:0
+[ 1583092ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_technical_manual_thumb.png&w=1200&q=75:0
+[ 1583128ms] [LOG] [AuthProvider] init: START @ https://sakata-basakata.com/_next/static/chunks/11w6c-piou51k.js:0
+[ 1583128ms] [LOG] [AuthProvider] init: getSession start... @ https://sakata-basakata.com/_next/static/chunks/11w6c-piou51k.js:0
+[ 1583239ms] [LOG] [ChatUnread] Fetching for user: undefined @ https://sakata-basakata.com/_next/static/chunks/11w6c-piou51k.js:8
+[ 1583554ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_initiation_sage_thumb.png&w=1200&q=75:0
+[ 1583580ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_initiation_sage.png&w=1200&q=75:0
+[ 1583663ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_technical_manual_thumb.png&w=1200&q=75:0
+[ 1583665ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_technical_manual.png&w=1200&q=75:0
+[ 1583800ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_initiation_sage_thumb.png&w=1200&q=75:0
+[ 1583813ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_initiation_sage.png&w=1200&q=75:0
+[ 1583904ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_technical_manual.png&w=1200&q=75:0
+[ 1583959ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_technical_manual_thumb.png&w=1200&q=75:0
+[ 1584135ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_initiation_sage.png&w=1200&q=75:0
+[ 1584135ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_initiation_sage_thumb.png&w=1200&q=75:0
+[ 1584135ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_technical_manual.png&w=1200&q=75:0
+[ 1584312ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_technical_manual_thumb.png&w=1200&q=75:0
+[ 1584960ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_initiation_sage_thumb.png&w=1200&q=75:0
+[ 1584960ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_initiation_sage.png&w=1200&q=75:0
+[ 1584961ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_technical_manual.png&w=1200&q=75:0
+[ 1584961ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_technical_manual_thumb.png&w=1200&q=75:0
+[ 1585628ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_initiation_sage.png&w=1200&q=75:0
+[ 1585628ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_technical_manual_thumb.png&w=1200&q=75:0
+[ 1585628ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_initiation_sage_thumb.png&w=1200&q=75:0
+[ 1585628ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_technical_manual.png&w=1200&q=75:0
+[ 1586288ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_initiation_sage_thumb.png&w=1200&q=75:0
+[ 1586288ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_technical_manual_thumb.png&w=1200&q=75:0
+[ 1586288ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_technical_manual.png&w=1200&q=75:0
+[ 1586288ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_initiation_sage.png&w=1200&q=75:0
+[ 1586527ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_technical_manual.png&w=1200&q=75:0
+[ 1586537ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_technical_manual_thumb.png&w=1200&q=75:0
+[ 1586538ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_initiation_sage_thumb.png&w=1200&q=75:0
+[ 1586629ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_initiation_sage.png&w=1200&q=75:0
+[ 1586774ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_technical_manual_thumb.png&w=1200&q=75:0
+[ 1586782ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_initiation_sage_thumb.png&w=1200&q=75:0
+[ 1586791ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_technical_manual.png&w=1200&q=75:0
+[ 1586930ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_initiation_sage.png&w=1200&q=75:0
+[ 1587039ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_initiation_sage_thumb.png&w=1200&q=75:0
+[ 1587044ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_technical_manual_thumb.png&w=1200&q=75:0
+[ 1587075ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_technical_manual.png&w=1200&q=75:0
+[ 1587198ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_initiation_sage.png&w=1200&q=75:0
+[ 1587289ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_technical_manual_thumb.png&w=1200&q=75:0
+[ 1587298ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_initiation_sage_thumb.png&w=1200&q=75:0
+[ 1587327ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sakata-basakata.com/_next/image?url=%2Fimages%2Fngongo_technical_manual.png&w=1200&q=75:0
+[ 1587363ms] [VERBOSE] [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) %o @ https://sakata-basakata.com/auth?redirect_to=%2Fecole:0
+[ 1587369ms] [LOG] [AuthProvider] init: START @ https://sakata-basakata.com/_next/static/chunks/11w6c-piou51k.js:0
+[ 1587369ms] [LOG] [AuthProvider] init: getSession start... @ https://sakata-basakata.com/_next/static/chunks/11w6c-piou51k.js:0
+[ 1587480ms] [LOG] [ChatUnread] Fetching for user: undefined @ https://sakata-basakata.com/_next/static/chunks/11w6c-piou51k.js:8
+[ 1587942ms] [VERBOSE] [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) %o @ https://sakata-basakata.com/auth?redirect_to=%2Fecole:0
+[ 1587947ms] [LOG] [AuthProvider] init: START @ https://sakata-basakata.com/_next/static/chunks/11w6c-piou51k.js:0
+[ 1587947ms] [LOG] [AuthProvider] init: getSession start... @ https://sakata-basakata.com/_next/static/chunks/11w6c-piou51k.js:0
+[ 1588055ms] [LOG] [ChatUnread] Fetching for user: undefined @ https://sakata-basakata.com/_next/static/chunks/11w6c-piou51k.js:8
+[ 1592059ms] [VERBOSE] [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) %o @ https://sakata-basakata.com/auth?redirect_to=%2Fforum:0
+[ 1592065ms] [LOG] [AuthProvider] init: START @ https://sakata-basakata.com/_next/static/chunks/11w6c-piou51k.js:0
+[ 1592065ms] [LOG] [AuthProvider] init: getSession start... @ https://sakata-basakata.com/_next/static/chunks/11w6c-piou51k.js:0
+[ 1592179ms] [LOG] [ChatUnread] Fetching for user: undefined @ https://sakata-basakata.com/_next/static/chunks/11w6c-piou51k.js:8
+[ 1592616ms] [VERBOSE] [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) %o @ https://sakata-basakata.com/auth?redirect_to=%2Fforum:0
+[ 1592621ms] [LOG] [AuthProvider] init: START @ https://sakata-basakata.com/_next/static/chunks/11w6c-piou51k.js:0
+[ 1592621ms] [LOG] [AuthProvider] init: getSession start... @ https://sakata-basakata.com/_next/static/chunks/11w6c-piou51k.js:0
+[ 1592734ms] [LOG] [ChatUnread] Fetching for user: undefined @ https://sakata-basakata.com/_next/static/chunks/11w6c-piou51k.js:8

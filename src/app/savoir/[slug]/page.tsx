@@ -177,9 +177,9 @@ const ArticlePage = () => {
       {/* Hero */}
       <section className="relative h-[65vh] md:h-[75vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 bg-[#0A1F15]">
-           {article.featured_image ? (
+          {(article.featured_image || (article as any).image) ? (
              <Image
-               src={article.featured_image}
+               src={article.featured_image || (article as any).image}
                alt={displayTitle}
                fill
                priority={false}
@@ -187,14 +187,14 @@ const ArticlePage = () => {
                style={{ filter: "brightness(0.5) contrast(1.1)" }}
              />
            ) : (
-             <video
-                ref={videoRef}
-                autoPlay muted loop playsInline
-                className="absolute inset-0 w-full h-full object-cover opacity-30"
-                style={{ filter: "brightness(0.5) contrast(1.1)" }}
-              >
-                <source src="/videos/wan-iluo-into-the-eyes.mp4" type="video/mp4" />
-              </video>
+               <video
+                 ref={videoRef}
+                 autoPlay muted loop playsInline
+                 className="absolute inset-0 w-full h-full object-cover opacity-30"
+                 style={{ filter: "brightness(0.5) contrast(1.1)" }}
+               >
+                 <source src={article.video_background || (article as any).videoBackground || "/videos/wan-iluo-into-the-eyes.mp4"} type="video/mp4" />
+               </video>
            )}
         </div>
         <div className="absolute inset-0 bg-gradient-to-t from-[#0A1F15] via-transparent to-[#0A1F15]/60" />
@@ -279,7 +279,7 @@ const ArticlePage = () => {
                    className="p-1 rounded-[2.5rem] bg-white/5 border border-white/10 overflow-hidden shadow-2xl shadow-black/40"
                  >
                     <Image
-                      src={article.featured_image || "/images/sakata_mask_detail.png"}
+                      src={article.featured_image || (article as any).image || "/images/sakata_mask_detail.png"}
                       alt={displayTitle}
                       width={400}
                       height={500}

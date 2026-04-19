@@ -202,9 +202,9 @@ export default function Home() {
             },
             {
               icon: "🛡️",
-              title: "Stabilité Réseau",
+              title: "Stabilité & Robustesse v2.6",
               date: "Avril 2026",
-              desc: "Correction de la saturation des sockets et synchronisation du Chat avec l'authentification. Navigation fluide garantie sans blocages.",
+              desc: "Audit de robustesse complet : résolution de la boucle infinie d'authentification et optimisation du proxy réseau. Performance et fluidité accrues.",
               span: "md:col-span-2",
               color: "rgba(233,196,106,0.1)"
             },

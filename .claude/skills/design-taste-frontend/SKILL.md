@@ -63,10 +63,12 @@ LLMs have statistical biases toward specific UI cliché patterns. Proactively co
 **Rule 6: Data & Form Patterns**
 * **Forms:** Label MUST sit above input. Helper text is optional but should exist in markup. Error text below input. Use a standard `gap-2` for input blocks.
 
-**Rule 7: Robust Loading & Auth Sync [CRITICAL]**
+**Rule 7: Network Stability & Concurrency [MANDATORY]**
 *   **Auth Sequencing:** Components fetching user-specific data MUST wait for `authLoading` to be `false` before initiating requests.
-*   **Dependency Array:** `authLoading` MUST be included in `useEffect` dependency arrays for data fetching.
-*   **Safety Overrides:** Always implement a `setTimeout` (8s max) to force-clear loading states (`setLoading(false)`) if network congestion occurs, preventing "infinite spinners".
+*   **Init Protection:** In AuthProviders/Root Contexts, use a `ref` (e.g., `initStarted`) to ensure the initialization logic runs exactly once, preventing infinite re-render loops.
+*   **Concurrency Limiter:** Use an instrumented proxy for the DB client to limit concurrent requests (e.g., max 4-6) and avoid socket saturation.
+*   **Signal Hygiene:** Every network-bound `useEffect` MUST implement an `AbortController` and cleanup on unmount to free browser sockets immediately.
+*   **Supabase Public vs Admin:** Always use a public, instrumented client for SSR to avoid environment-specific timeouts.
 
 ## 4. CREATIVE PROACTIVITY (Anti-Slop Implementation)
 To actively combat generic AI designs, systematically implement these high-end coding concepts as your baseline:

@@ -2,7 +2,7 @@ import React from "react";
 import Navbar from "@/components/Navbar";
 import SectionCard from "@/components/SectionCard";
 import SavoirClientContent from "./SavoirClientContent";
-import { supabasePublic } from "@/lib/supabase/admin";
+import { supabasePublic } from "@/lib/supabase";
 import { ARTICLES } from "@/data/articles";
 
 export const revalidate = 60; // ISR: revalidate every 60 seconds
