@@ -62,11 +62,11 @@ export interface ArticleData {
 
   /** Métadonnées d'affichage */
   image?: string;
-  videoBackground?: string;
+  video_background?: string;
   featured_image?: string;
   
   /** Narration et Stats */
-  hasNarrator?: boolean;
+  has_narrator?: boolean;
   date?: string;
   likes_count?: number;
   reads_count?: number;
@@ -90,7 +90,7 @@ export interface ArticleMetadata {
   category: "langue" | "culture" | "spiritualite" | "histoire";
   summary: TranslatedText;
   image?: string;
-  videoBackground?: string;
+  video_background?: string;
 }
 
 export type Dictionary = Record<string, unknown>;

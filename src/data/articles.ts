@@ -88,6 +88,7 @@ export const ARTICLES: ArticleData[] = [
       swa: "Udadisi wa ndani wa mfumo wa nguvu za kiroho za Sakata, mbali na hadithi za mapacha, ukifunua siri ya Pacha na Pumzi ya uzima.",
       tsh: "Dikonkonona dia mozindo dia bukokeshi bua anyuma wa Basakata, kule ne miyuki ya mapasa, didi dileja sekele ya dilele ne muuya wa muoyo."
     },
+    has_narrator: true,
     content: {
       fr: `*“Nkundi ya bakoko : « Mpi ya nzoto, elimo ya nzoto ; kasi Iluo, elimo ya mokili mobimba. »”*
 — Proverbe de nos anciens : Le souffle du corps est pour le corps ; mais l'Iluo est le souffle qui embrasse le monde entier.
@@ -346,7 +347,7 @@ Kudi bidimu bia tshinji bia kupita, batatu betu kabavuamu bamanye nkombo "Sakata
 - Document : Tonnoir, R., "Giribuma" (1970).`,
     },
     image: "/images/sakata_mask_detail.png",
-    videoBackground: "/videos/iluo-into-the-eyes.mp4"
+    video_background: "/videos/iluo-into-the-eyes.mp4"
   },
   {
     slug: "rite-ngongo-sagesse",
@@ -495,7 +496,7 @@ Padi diba diona ku etima wa Mai-Ndombe ne mayi adiondola langi wa wolo, bana ba 
 - Communauté : Meji a kale kudi batatu ba musoko wa Ikoko.`,
     },
     image: "/images/sakata_mask_detail.png",
-    videoBackground: "/videos/wan-iluo-into-the-eyes.mp4"
+    video_background: "/videos/wan-iluo-into-the-eyes.mp4"
   },
   {
     slug: "lukeni-lua-nimi-fondateur",
@@ -645,7 +646,7 @@ Kale mu mikuna ya Bungu, ngele wa mayi monene tshitudi tubikila lelu Congo, kuvu
 - Vanzila Munsi, R. (2016).`,
     },
     image: "/images/sakata_mask_detail.png",
-    videoBackground: "/videos/iluo-into-the-eyes.mp4"
+    video_background: "/videos/iluo-into-the-eyes.mp4"
   },
   {
     slug: "origines-bantou-basakata",
@@ -837,7 +838,7 @@ Lama bionsu ebi mu muoyo webe: dîna diebe kaditu dienzeka nebe to. Diakenzeka m
 - **Obenga, T.** (*Les Peuples bantu*, 1985).`,
     },
     image: "/images/sakata_mask_detail.png",
-    videoBackground: "/videos/iluo-into-the-eyes.mp4"
+    video_background: "/videos/iluo-into-the-eyes.mp4"
   },
   {
     slug: "royaume-congo-racines",
@@ -968,7 +969,7 @@ Teleka muana wanyi, tala ku Sudi, muaba udi munya ne bukole bupitepampé. Kale m
 - Écrit : Cuvelier, J. (1946).`,
     },
     image: "/images/sakata_mask_detail.png",
-    videoBackground: "/videos/iluo-into-the-eyes.mp4"
+    video_background: "/videos/iluo-into-the-eyes.mp4"
   },
   {
     slug: "iluo-regard-du-pouvoir",
@@ -1058,7 +1059,7 @@ Iluo mbukole bua kumona bidi kumpala kua bidi bumueneka. Kabuena anu mapasa wa p
 - Document : Vanzila Munsi, R. (2018).`,
     },
     image: "/images/sakata_mask_detail.png",
-    videoBackground: "/videos/iluo-into-the-eyes.mp4"
+    video_background: "/videos/iluo-into-the-eyes.mp4"
   },
   {
     slug: "corps-esprit-souffle",
@@ -1182,7 +1183,7 @@ Ku ndekelu, kudi Mpema. Udi dipa dia mushinga mukole dia Nzambi.
 </small>`
     },
     image: "/images/sakata_mask_detail.png",
-    videoBackground: "/videos/iluo-into-the-eyes.mp4"
+    video_background: "/videos/iluo-into-the-eyes.mp4"
   },
   {
     slug: "energie-vitale-moyo",
@@ -1248,7 +1249,7 @@ Teleka muana wanyi, *Moyo* nediaka dia bukole bua muoyo. Ki motema wa mubidi to,
 </small>`
     },
     image: "/images/sakata_mask_detail.png",
-    videoBackground: "/videos/iluo-into-the-eyes.mp4"
+    video_background: "/videos/iluo-into-the-eyes.mp4"
   },
   {
     slug: "culture-generale-mboka",
@@ -1267,7 +1268,6 @@ Teleka muana wanyi, *Moyo* nediaka dia bukole bua muoyo. Ki motema wa mubidi to,
       swa: "Dhana ya Mboka inakwenda mbali zaidi ya kijiji rahisi ; ni hali ya akili.",
       tsh: "Likanisi lia Mboka didi dipita mu musoko wa patupu.",
     },
-    hasNarrator: true,
     content: {
       fr: `Chaque Mboka a son histoire, ses interdits (Nkundi) et son génie protecteur. On ne vient pas d'un village par hasard ; on y appartient par le sang et par le respect des rites. Le Mboka est le refuge ultime : quand le monde devient fou, on retourne au village pour retrouver son centre.
 
@@ -1309,7 +1309,7 @@ Buela mu meji a muakulu *Mboka*. Kudi bena Sakata, mboka ki nvubu to, kadi nedia
 - Oral : Meji a batatu ba kale.`
     },
     image: "/images/sakata_mask_detail.png",
-    videoBackground: "/videos/iluo-into-the-eyes.mp4"
+    video_background: "/videos/iluo-into-the-eyes.mp4"
   },
   {
     slug: "langue-kisakata-introduction",
@@ -1378,7 +1378,7 @@ Kisakata nediaka dia muakulu wa bena Sakata.
 </small>`
     },
     image: "/images/sakata_mask_detail.png",
-    videoBackground: "/videos/iluo-into-the-eyes.mp4"
+    video_background: "/videos/iluo-into-the-eyes.mp4"
   },
   {
     slug: "proverbes-nkundi-sagesse",
@@ -1443,7 +1443,7 @@ Nkundi nediaka dia meji adi batatu betu batushile.
 </small>`
     },
     image: "/images/sakata_mask_detail.png",
-    videoBackground: "/videos/iluo-into-the-eyes.mp4"
+    video_background: "/videos/iluo-into-the-eyes.mp4"
   },
   {
     slug: "artisanat-masques-sculptures",
@@ -1500,7 +1500,7 @@ Aujourd'hui, certains emportent nos œuvres dans les musées de l'autre côté d
 </small>`
     },
     image: "/images/sakata_mask_detail.png",
-    videoBackground: "/videos/iluo-into-the-eyes.mp4"
+    video_background: "/videos/iluo-into-the-eyes.mp4"
   },
   {
     slug: "ngongo-philosophique",
@@ -1654,7 +1654,7 @@ Paix à toi, enfant du terroir. Que ton nom soit honoré.
 </small>`
     },
     image: "/images/sakata_mask_detail.png",
-    videoBackground: "/videos/iluo-into-the-eyes.mp4"
+    video_background: "/videos/iluo-into-the-eyes.mp4"
   },
   {
     slug: "ngongo-philosophique-short",
@@ -1833,247 +1833,7 @@ Bien que le rite du Ngongo décrit ici soit strictement masculin, il ne peut êt
 
 12. GÉOPOLITIQUE ET SURVIE DU RITE DANS LE MAI-NDOMBE
 
-Dans un contexte actuel de pressions migratoires internes et d'activités extractives (bois, potentiel minier) dans la province du Mai-Ndombe, le Ngongo sert de rempart identitaire et foncier. Il définit clairement qui a le droit moral de parler pour la terre. C'est un outil de résistance culturelle contre la dépersonnalisation induite par une globalisation sauvage. Le Ngongo dit avec force : "Ceci est notre héritage, ici sont les tombes de nos pères depuis les siècles, et nous en sommes les seuls gardiens légitimes et conscients".
-
-13. SYNTHÈSE DES VALEURS ÉTHIQUES (LOKUMU)
-
-Au sommet de la pyramide des apprentissages se trouve le Lokumu (l'Honneur). Ce n'est pas une vanité, mais une éthique de vie :
-- Honnêteté absolue envers le clan.
-- Protection des plus faibles (enfants, vieillards, malades).
-- Gestion responsable des ressources naturelles (on ne coupe pas un arbre sans raison, on ne tue pas les animaux en période de reproduction).
-- Courage face à l'adversité, sans arrogance.
-- Fidélité à la parole donnée, quel qu'en soit le coût personnel.
-
-14. CONCLUSION : UN RÉFÉRENTIEL SAKATA POUR LE SIÈCLE DES IA
-
-Le rite Ngongo du peuple Sakata de Mbantin n'est pas une pièce de musée poussiéreuse destinée aux touristes. C'est un organisme vivant, intelligent, capable de s'adapter aux mutations technologiques tout en restant fidèle à son code génétique culturel profond. En documentant techniquement ce rite en 2026, nous ne faisons pas seulement de l'archivage de survie ; nous créons une interface de dialogue entre le passé héroïque des Basakata et l'avenir incertain d'un monde globalisé. L'homme Sakata d'aujourd'hui, par son éthique de la parole (Maloba) et sa connaissance encyclopédique de son milieu (Iluo), possède des atouts majeurs pour naviguer dans les complexités sociales et écologiques du nouveau siècle. Le Ngongo nous apprend que pour voler haut, il faut avoir des racines très profondes.
-
-<small>
-**Source :** Travaux de recherche ethnographique de Fortuné M. et Aridja Lokwa Bkg.
-</small>`,
-      lin: `Ndenge ya boyekoli ya mibeko mpe mayele ya Ngongo mpo na bilenge mibali.
-
-<small>
-**Source :** Boyekoli ya bankoko.
-</small>`,
-      skt: `Bokonzi ya Ngongo na Mbantin. Boyekoli ya bakulutu.
-
-<small>
-**Source :** Bakulutu ya Mbantin.
-</small>`
-    },
-    image: "/images/sakata_mask_detail.png",
-    videoBackground: "/videos/iluo-into-the-eyes.mp4"
-  },
-  {
-    slug: "ngongo-technique-short",
-    title: {
-      fr: "Résumé : L'Institution du Ngongo",
-      en: "Summary: The Ngongo Institution",
-      lin: "Na mokuse: Misala ya Ngongo",
-      skt: "O nzamba: Bokonzi ya Ngongo"
-    },
-    category: "culture",
-    summary: {
-      fr: "Version courte de la structure technique et institutionnelle du Ngongo.",
-      en: "Short version of the technical and institutional structure of the Ngongo.",
-      lin: "Ndenge ya mokuse ya mibeko ya Ngongo.",
-      skt: "Bokonzi ya Ngongo o nzamba."
-    },
-    content: {
-      fr: `Plongez dans les rouages du Ngongo : de la structure des 'chefferies de terre' à la transmission cryptée des savoirs. Cette institution centrale régule la société Sakata, gère les ressources naturelles et assure la survie de l'identité collective à travers un curriculum rigoureux de pharmacopée, de droit et de techniques de survie.
-
-<small>
-**Source :** Documentation Culturelle.
-</small>`,
-      lin: `Mayele ya bankoko mpo na kobatela mboka mpe mibeko.
-
-<small>
-**Source :** Boyekoli ya sika.
-</small>`
-    },
-    image: "/images/sakata_mask_detail.png"
-  }
-  ,
-  {
-    slug: "chefferie-equilibre-deux-mondes",
-    title: {
-      fr: "L'Équilibre des Deux Mondes : L'Ombre du Mbey et la Voix du Mojuu",
-    },
-    category: "culture",
-    summary: {
-      fr: "Une exploration poétique et philosophique de la Chefferie Sakata, de la matrilinéarité et de l'équilibre spirituel entre le chef de terre et le chef civil.",
-    },
-    content: {
-      fr: `L EMERGENCE DU SOUFFLE : LA TERRE ET LE PREMIER MATIN
-
-Écoutez, enfants de l'eau et de la forêt. Écoutez le murmure profond de la Lukenie qui caresse nos rivages depuis que le premier soleil s'est levé sur la terre du Mai Ndombe. Mboté. Prenez place sur la natte tressée de nos mémoires, approchez vous du feu qui crépite et laisse danser les ombres. Sentez l'odeur de la terre mouillée par la pluie, cette terre qui nourrit nos racines étouffées par le bruit du fer et du béton d'aujourd'hui. Aujourd'hui, je ne vais pas simplement vous raconter une histoire. Je vais ouvrir devant vous le grand livre invisible de notre existence, les pages que l'on ne lit pas avec les yeux, mais avec le sang, avec le frisson qui parcourt l'échine quand on prononce le nom de nos ancêtres.
-
-Il est des savoirs qui ne se vendent pas au marché, des vérités qui ne se crient pas sur les places bruyantes des villes modernes. Ce sont les mystères de notre équilibre, le socle sur lequel repose l'harmonie du peuple Sakata. Depuis des lunes sans nombre, bien avant que l'homme blanc ne pose le pied sur nos rivages avec ses compas et ses papiers, nous avions déjà mesuré l'univers. Nous avions compris que le monde n'est pas fait que de ce que la main peut saisir. Il est un tissage délicat entre la chair et l'esprit, entre la terre qui garde nos morts et le ciel qui envoie l'eau. Et au cœur de ce vaste tissage, au centre exact où bat le cœur de notre société, se dresse l'institution la plus sacrée, la plus redoutée et la plus respectée de toutes : la Chefferie.
-
-Quand vous entendez ce mot aujourd'hui, vous pensez peut être à un homme couronné de plumes, assis sur une chaise en bois sculpté, distribuant des sentences. Vos esprits, fatigués par les images du présent, s'arrêtent à la surface de l'écorce sans en goûter la sève. Mais la chefferie, chez nous les Basakata, chez ceux qui respirent le souffle de nos aïeux, n'est pas un simple trône de bois mort. C'est une montagne vivante. C'est un courant profond qui relie le visible à l'invisible. Et pour comprendre cette montagne, il faut comprendre ses deux versants. Car le pouvoir, tel que l'ont conçu les sages d'autrefois, n'est jamais posé sur une seule épaule. Le fardeau serait trop lourd pour un seul homme. Il l'écraserait, le rendrait aveugle et fou. Non, le pouvoir est un oiseau qui a besoin de deux ailes immenses pour planer au-dessus des forêts grandioses du Mai Ndombe.
-
-Ces deux ailes, ces deux piliers sur lesquels notre peuple s'appuie quand la tempête gronde, portent des noms qui résonnent avec la solidité du fer et la fluidité de la sève : le Mbey et le Mojuu.
-
-L INVOCATION AUX DEUX POLES DU POUVOIR
-
-Venez plus près, car ce dont je vais parler réclame le silence intérieur. Imaginez un village au petit matin. La brume repose encore sur la rivière, telle une couverture tissée par les esprits de la nuit pour garder nos rêves au chaud. Dans cette aube suspendue, il y a deux réalités qui s'éveillent. 
-
-Celle du sol, de la glaise sombre qui nourrit l'igname et le manioc, de la poussière qui garde la trace du pas des panthères et des serpents. Et celle des hommes, de leurs cris, de leurs palabres, de la fumée qui s'échappe de leurs huttes, de l'élan de leurs pirogues fendant le courant.
-
-C'est là le fondement. La distinction suprême. Nous avons séparé ce qui appartient à la profondeur de la terre et ce qui appartient à la surface mouvementée de la vie des hommes.
-
-LE MBEY LA RACINE INFRANGIBLE ET LE GARDIEN SILENCIEUX
-
-Je vais vous parler d'abord du Mbey. Que l'on traduise dans vos langues modernes par le Chef des terres. Mais quelle pauvre traduction pour dire l'immensité de son être ! Le Mbey n'est pas un propriétaire. Il ne possède pas la terre comme vous possédez un vêtement ou une machette. C'est la terre qui le possède. Il est l'homme à qui la forêt chuchote ses secrets quand tout le monde dort. Il est l'homme qui entend pleurer la racine coupée et qui comprend la langue des fleuves en colère.
-
-Le Mbey est le socle. Toute son autorité prend sa source dans le sol, cette mère immense et muette qui abrite l'engrais de nos vies et le sommeil éternel des anciens qui nous ont quittés. Son pouvoir n'est pas bruyant. Le Mbey ne hurle pas sur la place publique. Son charisme est celui d'un vieux baobab : immobile, ridé, lourd de mille saisons, mais dont les racines s'enfoncent si profondément dans l'obscurité du monde que chercher à l'abattre, c'est signer sa propre mort.
-
-Vous vous demandez d'où vient cette aura si redoutable qui entoure le Mbey. Pourquoi, lorsqu'il passe, les hommes baissent ils la voix ? Pourquoi les regards s'inclinent ils vers cette poussière dont il est le gardien ? La réponse tient en un mot silencieux, un mot qu'on ne prononce pas sans baisser les yeux, un mot lourd de respects et de craintes : l'Iluo.
-
-L Iluo n'est pas la sorcellerie destructrice, cet ilwa aveugle et mesquin qui sert à jeter des sorts de basse vengeance. Non. L Iluo du Mbey est une force occulte, solennelle, une magie fondatrice, une émanation directe de l'essence divine et de l'approbation de ceux qui sont passés de l'autre côté du miroir. L Iluo est le bouclier immatériel du clan et l'arme invisible de justice. C'est par lui que le Chef des terres assoit son ascendant psychologique et spirituel sur les habitants de l'entité territoriale de base, le Bobla. Sans cet ancrage mystique, sans cette certitude que ses ancêtres tiennent la même corde que lui, il ne serait qu'un homme. Avec l'Iluo, il devient l'avocat et le juge des vivants face au monde des ténèbres et de la lumière. Il ne craint point les esprits jaloux, ni les mauvais sorts des sorciers errants, car sa force puise dans la profondeur originelle de la création bénie par Nzau, le Dieu suprême.
-
-L EQUILIBRE DE LA CIBLE : LE MAINTIEN DE L ORDRE ET DE LA FERTILITE
-
-Écoutez attentivement. Le Mbey n'a pas pour mission première de punir. Sa tâche sacrée, son fardeau lourd de conséquences, c'est la perpétuation de l'harmonie, de ce que nous appelons l'équilibre. C'est lui qui ouvre la terre avec des mots ancestraux avant les grandes semailles pour que la faim ne dévore pas le ventre de ses enfants. C'est lui qui intercède lorsque les pluies tardent et que la terre craquelle comme la peau d'un vieillard malade. C'est lui qui se tient à l'orée de la forêt, et qui, d'un geste ou d'un chant, apaise les esprits mécontents de la brousse pour que les chasseurs ramènent la viande fraîche.
-
-Il est le lien juridique par essence. Lorsqu'un sacrilège ou une profanation est commise sur le sol – comme un sang violemment versé ou un interdit, un M'pka, foulé aux pieds – la souillure n'atteint pas seulement les hommes. La terre elle-même rejette cette violence. La blessure est cosmique. Le Mbey doit intervenir. Il lave le mal. Par des rituels dont la précision s'est forgée au fil des âges, des pratiques usant des feuilles secrètes du Mai Ndombe, il restaure la pureté de la terre et rétablit l'alliance. 
-
-Il est le maître de la justice réparatrice. Il peut maudire, et la malédiction d'un Mbey pèse lourd ; ses phrases heurtent les destins comme des rochers dévalant une falaise. Mais son objectif suprême est la paix. La paix du Bobla, la tranquillité du territoire où vivent ses sujets.
-
-LE MOJUU LE MANTEAU QUI ENVELOPPE ET GOUVERNE LES HOMMES
-
-Mais la terre, aussi puissante et infinie soit-elle, est muette. Elle nécessite que des mains la labourent, que des enfants crient et courent sur sa surface, que des feux s'allument à sa surface, que la société s'organise face aux défis du jour. Et c'est ici qu'intervient le deuxième souffle, le deuxième pilier de notre grande architecture : Le Mojuu.
-
-Le Mojuu est le Roi. Le Chef des hommes. Là où le Mbey puise sa force dans l'immobilité des profondeurs, le Mojuu trouve la sienne dans le mouvement, dans la gestion des hommes, de leurs passions, de leurs rivalités, de leur soif de richesses et de survie. Son bras s'étend sur ce que nous nommons l'Ijuu, la grande chefferie qui, tel un fleuve puissant, regroupe tous les petits ruisseaux que sont les Bobla.
-
-Imaginez le Mojuu. Il ne regarde pas le sol. Il regarde l'horizon. Il regarde les frontières de notre monde et les visages de ceux qui l'occupent. Le pouvoir politique tel que vous le comprenez dans vos villes bruyantes et vos capitales électriques trouve sa véritable matrice ici, chez le Mojuu de la tradition Sakata. Sa présence est publique. Ses paroles s'adressent à la multitude. Il donne les ordres stratégiques face à la guerre, fixe les limites de la chasse, tranche les litiges civils qui menacent de diviser les familles.
-
-Mais comprenez cette subtilité magnifique, cet équilibre si fragile et si puissant que nous ont légué nos morts : le Mojuu ne peut rien sans la bénédiction tacite de la terre. Le Chef des hommes possède la lance, la cour de notables, les prérogatives des impôts coutumiers et le prestige d'une suite nombreuse. Mais ce sceptre n'est que du bois s'il ne puise sa force dans la terre administrée mystiquement par le Mbey. Le Mojuu orchestre la vie sociale et économique, mais il la dirige sur un sol qui ne lui appartient pas.
-
-Voilà la clé de la sagesse ! Le pouvoir est dilué. La tyrannie d'un seul est impossible dans la vision cosmique Sakata. Le Mojuu pourrait chercher à affamer un Mbey ou à le dominer par la richesse, mais le Mbey pourrait riposter d'un pouvoir bien plus grand : il pourrait fermer la porte de la fertilité du monde, retenir les pluies fertiles ou appeler la fureur occulte par le pouvoir de l'Iluo. Ils se craignent mutuellement. Ils se respectent profondément. Ce subtil balancier, cette double autorité face à la nature et face à la chair de l'homme, garantit la pérennité du royaume face aux forces désunificatrices de l'égoïsme humain. L'Ijuu prospère parce que le Mojuu s'applique à diriger les bras selon les règles cosmiques assurées par le dos protecteur du Mbey.
-
-LE BOBLA LE NID TISSE DE FILS MATRILINEAIRES
-
-Approchez vous un peu plus du foyer, que je vous murmure cette chose de plus près. L'ordre et l'obéissance ne s'arrachent pas à nos cœurs par la terreur des lances. Nous, le peuple Basakata, nous voyons notre vie de bas en haut. Pas du souverain lointain jusqu'à nos paillotes, mais du ventre de la mère jusqu'à la chaleur éternelle du royaume. 
-
-Laissez-moi vous parler du Bobla. C'est ainsi que l'on nomme notre unité sociale fondamentale, la cellule de notre être. Quand je dis Bobla, je ne parle pas d'une maison de briques, ou d'une cour fermée. Le Bobla, c'est l'oxygène même de nos appartenances. Et ce Bobla a pour clé de voûte et repère indiscutable un fil que personne ne peut sectionner, car il est tressé dans le sang, la douleur et le mystère de l'enfantement : La matrilinéarité.
-
-Oh, hommes modernes épris de paternité arrogante, écoutez ces enseignements forestiers. Chez les Basakata, la semence de l'homme allume l'étincelle, certes, et on l'honore pour ce souffle. Mais le corps, la transmission, la terre à laquelle tu appartiens, la juridiction spirituelle sous laquelle tu t'inscris pour le jugement au tribunal des anciens, et finalement l'identité même de ta personne : tout cela te vient de l'eau sombre et nourricière du sein de ta mère. L'oncle maternel, le propre frère de l'utérus de la mère, est la figure patriarcale fonctionnelle qui guide ton chemin, car vous venez de la même sève. C'est l'onde originelle de la vie.
-
-L'héritage, le prestige, et les droits coutumiers qui ancrent les décisions des chefferies coulent dans des canaux de chair féminine. Pourquoi ? Parce que, pour notre peuple, l'homme peut chasser, il peut bâtir, il peut combattre, il peut se vanter autour du feu... mais l'homme ne peut pas garantir le sang avec autant de certitude absolue qu'une femme. C'est la femme qui ressent la première le tambourinement mystique d'une nouvelle vie; c'est la femme qui accouche, qui voit sortir l'ancêtre qui a décidé de revenir au milieu de son clan. 
-
-Les interdits et les tabous ne sont pas des punitions inventées pour brimer nos sœurs. Ces M'pka, dont on murmure qu'ils sont quarante ou davantage lors de la période d'expectative d'un enfant, ne sont pas des chaînes pour soumettre, mais des boucliers mystiques pour protéger celle qui transporte le pont entre le royaume des défunts et celui des vivants. Le sort entier du lignage, de la pérennité de l'autorité même du Bobla, repose dans sa capacité vitale. Des restrictions sur des aliments, sur les chemins invisibles de son regard ou sur le moment sacré de la fécondité pendant la gestation des fruits du corps matrilinéaire visent à sceller une harmonie si précieuse qu'aucun sorcier vengeur, animé par le mauvais œil obscur, ne puisse troubler l'âme descendante.
-
-Quand un Chef rend un jugement, quand un nouveau Bobla est formé ou intégré sous la juridiction supérieure d'un Ijuu et son grand Mojuu, c'est le tracé invisible de ces filiations maternelles qui valide l'action. L'organisation elle-même de nos rois, de nos chefs des hommes, trouve sa noblesse dans l'attestation inaliénable du titre maternel.
-
-LA MEMOIRE A TRAVERS L ETERNITE ET LES SIECLES D EVOLUTION
-
-Les orages du temps présent secouent nos traditions comme des vents féroces d'un soir de novembre au crépuscule des saisons des pluies. Vous regardez autour de vous. Et vous me direz : "Père, l'homme blanc est passé. Le colon est passé avec sa bible, son papier d'identité, sa monnaie, ses commandements et ses chefferies administratives. Et l'Église est passée, transformant des esprits." Vous direz peut-être que la robe des Chefs est devenue un simple folklore affiché lors des parades des politiciens lointains à Kinshasa et Inongo. Vous direz sans doute que la télévision et l'internet aspirent la sagesse comme un vampire qui draine la sève des palmiers sans en rendre la douceur du vin.
-
-Je souris. Et le vent des arbres anciens du Mai Ndombe sourit avec moi. Laissez-moi vous dire ce qu'est la véritable spiritualité Sakata et la vraie autorité des aînés. Celles-ci ne ressemblent pas à ces poteaux télégraphiques raides que le premier coup de vent déracine. Non, notre force, le pouvoir de la chefferie est une liane souple, tissée avec les entrailles du temps et des croyances éternelles.
-
-Certes, des Chefs de terre (Mbey) ont vu leurs rituels contestés et certains administrateurs ont superposé leur encre noire pour officialiser les chefs, fusionnant parfois à tort le Mbey et le Mojuu pour satisfaire l'administration froide venue d'ailleurs. Or la confusion fait parfois trébucher le droit et trouble le repos des ancêtres. Mais quand la maladie frappe, celle que n'atténue pas le médicament moderne, quand l'équilibre communautaire est lacéré par un vol insensé, par la mort prématurée ou par l'effrayante odeur de la jalousie qui engendre le mauvais sort ou l'appel dévastateur de la sorcellerie destructrice... vers qui se tournent encore les cœurs et les frayeurs de notre descendance ?
-
-Ils se tournent là où repose l'énigme du makasi de notre peuple; vers cette énergie qui a pour intercesseur privilégié les anciens du clan, l'oncle de la lignée matricentrique, le Mbey. Bien que parfois vêtus d'habits ordinaires, ils restent les gardiens des clefs. L'autorité civile et coercitive appartient aujourd'hui en grande part aux agents de l'État pour trancher la querelle civile. Pourtant, dans le regard silencieux de nos chefs traditionnels du Mai-Ndombe, dans l'Ijuu ou le réduit intime du Bobla, réside une essence souveraine qui échappe au gouverneur ou au juge. Le mysticisme insondable de la chefferie, la charge protectrice liée à la préservation des arbres, des fleuves, des esprits propices et des morts paisibles perdure.
-
-UN HERITAGE EVEILLE DANS L OBSCURE ET LA LUMIERE
-
-Il vous appartient, jeunes membres du peuple Sakata éparpillés aujourd'hui de Kinshasa jusqu'aux continents lointains de l'homme blanc, dans ce brouillard du monde dit moderne, de porter dans vos bagages l'essence du Mbey et du Mojuu. Vos vies d'aujourd'hui s'organisent toujours de cette manière mystique : le corps matériel que vous défendez et gagnez comme au tribunal social (qui est votre propre grand Mojuu) et votre profondeur invisible, intègre, celle où votre éthique respire devant la conscience de nos pères disparus (le murmure intérieur de l'âme, votre Mbey secret). 
-
-Comprenez pourquoi le rituel a du poids, pourquoi nos femmes, dans leur sang fécond et matrilinéaire, ne sont pas de simples porteuses de vie mais l'urne même du récit communautaire des Basakata. Leurs enfants ne leur appartiennent pas seulement, ils appartiennent au vaste édifice symbolisé par la matriligne. Tout ceci tisse la résilience. Nous ne construisions peut-être pas des tours de pierre, de verre, immenses capables de s'abattre sous leur propre poids. Ce peuple se concentrait sur des liens intangibles et éternels face à la disparition de la chair. La construction de ces grands espaces où les mots justes empêchaient la vengeance et respectaient le mystère.
-
-L Ijuu s'étend quand les Bobla sont alignés. Le chef Mbey sourit avec l'Iluo dans la forêt sacrée car l'équilibre est juste. Et le chef Mojuu s'assied avec les hommes, tranquille, sachant que son sceptre n'est pas maudit par l'injustice mystique. Les vents mauvais tournent autour du village et pleurent de n'avoir pas de prise pour s'engouffrer, tant notre tissage est hermétique.
-
-La nuit est déjà descendue sur nos foyers, mais vous voyez, le feu, même couvert de cendres, reste insidieusement vif, chaud, prêt à rôtir et à enflammer le bois le plus mort. Que cette chaleur spirituelle, qui s'alimente du souvenir des figures tutélaires, habite vos sommeils. Car c'est elle qui maintient, encore aujourd'hui, nos chefferies spirituelles et territoriales debout contre l'usure cruelle du temps. 
-
-Emportez avec vous mon ombre au moment de dormir, gardez vivant le souvenir du souffle silencieux de la terre du Mai Ndombe, ce souffle millénaire et invincible du chef de terre. Le bois de demain poussera sur la cendre d'hier. Retenez ces choses, préservez notre mémoire matrilinéaire et avancez sereinement dans le monde, couverts du manteau puissant laissé par la sagesse originelle du Mojuu qui jadis ordonnait le temps des Basakata. 
-
-Et que paix et respect arrosent la marche de ceux dont le cœur bat au rythme frénétique, rassurant et éternel du lukuire.
-
-FIN DE LA TRANSCRIPTION SECRETE DES ROIS SAKATA
-  
-`,
-    },
-    image: "/images/sakata_mask_detail.png",
-    videoBackground: "/videos/iluo-into-the-eyes.mp4"
-  },
-  {
-    slug: "chefferie-anatomie-pouvoir",
-    title: {
-      fr: "Anatomie du Pouvoir Sakata : Dualité et Matrilinéarité",
-    },
-    category: "culture",
-    summary: {
-      fr: "Analyse anthropologique de la structure bicéphale du pouvoir, du rôle des Mbey et Mojuu, et de l'unité sociale du Bobla.",
-    },
-    content: {
-      fr: `ANATOMIE DU POUVOIR SAKATA DUALITE STRUCTURELLE ET MATRILINEARITE AU MAI NDOMBE
-
-L ETUDE ANTHROPOLOGIQUE DE L INSTITUTION POLITIQUE
-
-L'analyse des structures politiques africaines précoloniales offre un vaste champ de recherche sociologique, particulièrement au travers de l'étude des modèles de gouvernance décentralisés ou bicéphales. Au sein de la République Démocratique du Congo, la région forestière et fluviale du Mai Ndombe constitue un laboratoire ethnographique d'une grande richesse. C'est dans cet environnement écologiquement dense, à la confluence des civilisations bantoues du bassin occidental, que le peuple Sakata (ou Basakata) a développé une institution politique dont la résilience et la complexité commandent le respect académique : la "Chefferie". 
-
-Le présent récit d'investigation anthropologique a pour dessein de décortiquer méticuleusement l'anatomie du pouvoir chez les Basakata. Loin des schémas réducteurs imputant une autorité monolithique aux peuples de la forêt équatoriale, le système Sakata se révèle fondamentalement dual. Il consacre la stricte séparation entre l'autorité foncière, chargée du prisme spirituel, et l'autorité civile, chargée du prisme politique. Par l'analyse du système du Mbey, du Mojuu, et de l'unité clanique nommée Bobla sous l'empire de la matrilinéarité, ce document propose une synthèse documentaire exhaustive visant à asseoir une taxonomie culturelle inébranlable.
-
-GENESE DU MODELE BICEPHALE AU SEIN DU TERRITOIRE SAKATA
-
-Afin d'aborder la hiérarchie traditionnelle Sakata, il convient de conceptualiser l'espace. Le territoire n'est pas qu'une assise géographique, il est le garant de la survivance sociale et cosmologique. La topographie forestière a imposé une organisation en réseaux villageois, interdépendants mais spirituellement autonomes. Dans cette optique, l'accaparement exclusif du pouvoir aurait fatalement conduit à des tyrannies mortifères ou à la dislocation des clans face aux aléas climatiques ou conflictuels. Par conséquent, l'ingénierie politique Sakata s'est solidifiée autour de l'idée de division fonctionnelle et mystique de l'hégémonie. 
-
-Le cadre épistémologique de cette gouvernance repose sur une observation pragmatique : l'homme ne peut dominer à la fois le mystère insondable de la nature et le caractère changeant de ses pairs. C'est ainsi que s'est institutionnalisée la distinction axiomatique entre le "Chef de terre" et le "Chef des hommes". Cette dualité structurelle garantit l'équilibre (homeostasis) de la société, opérant comme un système de "checks and balances" (freins et contrepoids) endogène, prévenant l'usurpation totale des droits fonciers et civiques par un unique détenteur.
-
-LE MBEY ANALYSE JURIDIQUE ET MYSTIQUE DE L AUTORITE FONCIERE
-
-La clef de voûte de l'ordre traditionnel réside indéniablement dans la figure du Mbey. En nomenclature anthropologique francophone, le terme "Chef de terre" lui est couramment attribué. Néanmoins, cette traduction occulte la substantifique moelle de son rôle, qui n'est pas essentiellement patrimonial, mais intrinsèquement théocratique et sacerdotal.
-
-Le Mbey incarne le lignage fondateur. Il est le canal juridique ininterrompu reliant l'ancêtre premier (le défricheur originel de l'assise territoriale) aux générations actuelles. Ses prérogatives ne découlent pas d'un processus électif ni d'une conquête militaire, mais d'une assignation généalogique validée par la succession matrilinéaire légitime. Le Mbey gère l'unité territoriale fondamentale, désignée sous le terme de Bobla.
-
-Les Fonctions Rituelles et le Monopole du Sacré
-
-Sur le plan institutionnel, le Mbey détient le monopole des rites propitiatoires liés à la fertilité du sol. Il est seul habilité à effectuer les cérémonies qui jalonnent le calendrier agricole, spécifiquement lors de l'ouverture de la saison des semailles et des campagnes de chasse collectives. La sociologie religieuse démontre ici une fusion entre la survie économique et la conformité au dogme cultuel ; la réussite matérielle dépendant officiellement de la justesse des rituels opérés par l'autorité foncière.
-
-Outre cette prérogative d'intercession positive, le Mbey assume une magistrature de la purification (justice réparatrice). Tout acte dérogatoire majeur commis sur le sol du Bobla – homicide, effusion intempestive de sang, suicide, ou violation des prescriptions alimentaires et spatiales (tabous ou M'pka) – est considéré par le droit coutumier Sakata comme une profanation cosmique (souillure de la terre). L'institution du Mbey exige l'organisation d'une lustration rituelle à travers des libations et l'utilisation rigoureuse de la pharmacopée forestière, sous peine de voir s'abattre la famine, les épidémies ou de constater le tarissement subit de la fertilité animale et végétale.
-
-Le Mbey et le Concept de L Iluo
-
-L'autorité coercitive du Mbey puiserait à la source d'une conceptualisation eschatologique majeure : l'Iluo (la force occulte ou le pouvoir mystique redoutable). La documentation ethnographique distingue scrupuleusement l'Iluo de la sorcellerie malveillante (souvent dénommée Ilwa, magies destructrices portées par la convoitise individuelle). L'Iluo propre au Mbey s'apparente, d'un point de vue académique, à une "auctoritas" transcendantale d'État. C'est l'essence institutionnelle de son pouvoir, légitimant la capacité à conjurer les esprits perturbateurs, et offrant au lignage une inamovibilité totale de par la terreur référentielle instaurée au sein du psychisme collectif. Toute transgression à l'encontre du Mbey n'est dès lors pas un simple affront hiérarchique, mais une exposition directe et suicidaire à la vindicte divine (Nzau / Nzame) ou ancestrale.
-
-LE MOJUU LE POUVOIR CIVIL ET STRATEGIQUE
-
-Si le Mbey assure la pérennité immatérielle et la légitimité foncière, le fonctionnement efficient de l'entité macro sociale (l'Ijuu) requiert l'existence d'une structure administrative exécutive : c'est le domaine exclusif du Mojuu (le "Chef des hommes", couramment assimilé au titre de Roi ou de chef supérieur). 
-
-Anatomie Institutionnelle du Mojuu
-
-Le Mojuu coordonne les instances civiles. L'entité géopolitique nommée Ijuu fédère de manière organique une multitude de sous unités (les Bobla). L'institution relève ici principalement des paradigmes de la science politique classique : gestion de la fiscalité coutumière, commandement militaire défensif et offensif, et présidence de l'instance suprême de régulation des conflits inter lignages.
-
-Son cadre de nomination obéit lui aussi à une matrice matrilignée très stricte, bien que son avènement soit parfois jalonné de luttes d'influence entre les candidats éligibles de la famille régnante. Contrairement au Mbey qui jouit d'une forme d'isolement sacré, la fonction du Mojuu s'exerce publiquement par la détention d'insignes (peaux de léopard, attributs en métal forgé, et sceptre traditionnel). L'institution nécessite une cour structurée, intégrant d'autres notabilités, dignitaires, porte paroles et guerriers, conférant à son assise une dimension ostentatoire.
-
-La Dialectique Gouvernementale Mbey Mojuu
-
-La structure politique Sakata n'est viable qu'en raison de la reconnaissance de l'interdépendance structurelle de ces deux instances. Le Mojuu exerce ses pouvoirs d'exécutif civil sur un territoire qu'il n'a pas le pouvoir mystique d'apaiser ou de purifier : il administre sur les terres (Bobla) des Mbey. 
-À l'inverse, un Mbey ne peut ordonner les mobilisations armées et perçoit une influence affaiblie au-delà des limites exactes de son propre Bobla. Cette ingénierie sociale neutralise mécaniquement tout risque de centralisation excessive "wébérienne". Le souverain possède une lisière temporelle, tandis que l'autorité traditionnelle foncière possède la lisière atemporelle. Les sentences du Mojuu visent la pacification du tissu civil pour éviter toute confrontation qui souillerait le territoire, sachant pertinemment que si le sol est altéré, seul le Mbey peut procéder au rituel, et qu'il tiendra potentiellement l'instance royale responsable du déséquilibre cosmique.
-
-LE BOBLA COMME FONDEMENT DE L UNITE MICRO SOCIALE
-
-Pour une compréhension adéquate de la machinerie étatique des Basakata, il importe de délaisser momentanément la superstructure pour se focaliser sur l'infrastructure de la gouvernance locale. En sciences sociales, le terme de "Bobla" qualifie l'organisation infra politique mais fondatrice de tous rapports juridiques du royaume.
-
-Le Bobla correspond au lignage ou à la famille étendue (clan local), occupant une parcelle précise définie lors d'un établissement précoce. C'est une institution socio économique solidaire où la cohésion se forge autour du devoir d'assistance mutuelle et des obligations cultuelles à l'égard de l'ascendance. Sur le terrain juridique et agraire, c'est l'appartenance ou l'intégration à un Bobla précis qui détermine pour les autochtones (et les allogènes assimilés) les droits de culture, de chasse et la jouissance des usufruits forestiers du Mai Ndombe. Cette unité locale agit véritablement comme le rouage économique principal qui finance, via l'impôt ou l'offrande, les échelons supérieurs de l'Ijuu ainsi que l'entretien du chef Mbey respectif.
-
-LE PARADIGME MATRILINEAIRE 
-
-Le facteur crucial liant le sommet à la base, déterminant en dernier ressort la dynamique d'autorité, se situe dans le mode de filiation dominant institué au sein du peuple Sakata : la transmission matrilinéaire. Le fait anthropologique qui se manifeste ici est la prééminence conférée à l'ascendance utérine comme clef exclusive du droit d'héritage et du droit institutionnel à la chefferie.
-
-Les Fondations Biopolitiques de la Succession
-
-L'architecture familiale stipule que l'appartenance au clan et, consécutivement, l'obtention potentielle d'un titre (Mbey ou Mojuu) ne relèvent aucunement du système patriarcal patrilinéaire en vogue dans d'autres espaces subsahariens ou chez la majorité des colonisateurs occidentaux ultérieurs. Chez les Sakata, c'est le lien avec la mère (matriarche) qui cimente les droits. L'oncle maternel émerge comme le pivot disciplinaire, économique et rituel pour ses neveux (les enfants de sa sœur). Le géniteur biologique (le père physiologique) est bien entendu honoré et accomplit un rôle nourricier indéniable, néanmoins, il n'octroie pas son appartenance clanique à sa progéniture.
-
-L'hypothèse exégétique expliquant cette persévérance systémique veut que la ligne maternelle constitue un fait absolu de par l'acte physiologique et empirique de l'accouchement, qui en garantit la fiabilité génétique (filiation indéniable). Au sein de l'échiquier politique et de la succession monarchique, cette règle annule les crises successorales fondées sur des suspicions de paternité, sécurisant hermétiquement la perpétuation du lignage régnant authentique.
-
-La Fonction Transcendantale de la Femme
-
-Paradoxalement, malgré ce modèle de filiation qui détermine les axes du pouvoir, les chercheurs notent que ce pouvoir est majoritairement exécuté en apparence (du moins publiquement) par des figures masculines (rois et oncles). L'anthropologie politique évoque toutefois l'influence colossale qui émane du rôle structurel de "réceptacle matriciel". 
-
-Les femmes, par leur biologie, forment le sanctuaire vivant des lignages du Mai Ndombe. Ce statut consacre un réseau prescriptif complexe visant à protéger le canal de la descendance. Ces prescriptions se manifestent formellement par une classification d'interdits rigoureux, le M'pka. Des observations ethnologiques font mention de plus d'une quarantaine de tabous spécifiques lors de la périodicité prénatale. Ces mesures – impliquant proscriptions alimentaires, restrictions géospatiales et prescriptions prophylactiques – ne sont pas perçues par le consensus académique autochtone comme des marqueurs de discrimination, mais plutôt comme un périmètre de biosécurité religieuse pour garantir la sur-vie du clan et l'intégrité mystique de l'éventuel ancêtre réincarnatif. L'enjeu sociétal l'emporte ainsi sur la perception moderne des libertés pures.
+Dans un contexte actuel de pressions migratoires internes et d'activités extractives (bois, potentiel minier) dans la province du Mai-Ndombe, le Ngongo sert de rempart identitaire et foncier. Il définit clairement qui a le droit moral de parler pour la terre. C'est un outil de résistance culturelle contre la dépersonnalisation induite par une globalisation sauvage. Le Ngongo dit avec force : "Ceci est notre héritage, ici sont les tombes de nos pères depuis les siècles."
 
 IMPACT DES MUTATIONS HISTORIQUES ET DU CONTEXTE POSTCOLONIAL 
 
@@ -2104,6 +1864,7 @@ Rapport rédigé dans une dynamique de préservation documentaire exhaustive et 
     summary: {
       fr: "Une exploration poétique et philosophique de la Chefferie Sakata, de la matrilinéarité et de l'équilibre spirituel entre le chef de terre et le chef civil.",
     },
+    has_narrator: true,
     content: {
       fr: `L EMERGENCE DU SOUFFLE : LA TERRE ET LE PREMIER MATIN
 
@@ -2196,7 +1957,7 @@ FIN DE LA TRANSCRIPTION SECRETE DES ROIS SAKATA
 `,
     },
     image: "/images/sakata_mask_detail.png",
-    videoBackground: "/videos/iluo-into-the-eyes.mp4"
+    video_background: "/videos/iluo-into-the-eyes.mp4"
   },
   {
     slug: "chefferie-anatomie-pouvoir",

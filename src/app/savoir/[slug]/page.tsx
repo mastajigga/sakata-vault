@@ -195,7 +195,7 @@ const ArticlePage = () => {
                  className="absolute inset-0 w-full h-full object-cover opacity-30"
                  style={{ filter: "brightness(0.5) contrast(1.1)" }}
                >
-                 <source src={article.videoBackground || "/videos/wan-iluo-into-the-eyes.mp4"} type="video/mp4" />
+                 <source src={article.video_background || "/videos/wan-iluo-into-the-eyes.mp4"} type="video/mp4" />
                </video>
            )}
         </div>
@@ -231,20 +231,20 @@ const ArticlePage = () => {
           
           {/* Main Body */}
           <div className="lg:col-span-8">
-            <div 
-              className="font-body text-lg md:text-xl leading-relaxed space-y-8"
-              style={{ color: "rgba(242, 238, 221, 0.85)" }}
-              dangerouslySetInnerHTML={{ __html: renderHtml(mainBody) }}
-            />
-
-            {article.hasNarrator && (
-              <div className="mt-12 mb-12">
+            {article.has_narrator && (
+              <div className="mb-12">
                 <AudioNarrator 
                   audioUrl={`/audio/articles/${slug}.wav`}
                   title={displayTitle}
                 />
               </div>
             )}
+
+            <div 
+              className="font-body text-lg md:text-xl leading-relaxed space-y-8"
+              style={{ color: "rgba(242, 238, 221, 0.85)" }}
+              dangerouslySetInnerHTML={{ __html: renderHtml(mainBody) }}
+            />
 
             {/* Structured References if parsed */}
             {referencesContent && (

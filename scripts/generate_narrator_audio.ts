@@ -2,7 +2,7 @@ import * as fs from "fs";
 import * as path from "path";
 import { ARTICLES } from "../src/data/articles";
 
-const ARTICLE_SLUG = "chefferie-equilibre-deux-mondes";
+const ARTICLE_SLUG = process.argv[2] || "chefferie-equilibre-deux-mondes";
 const OUTPUT_DIR = path.join(process.cwd(), "public", "audio", "articles");
 const API_KEY = process.env.GEMINI_API_KEY;
 const MODEL = "gemini-3.1-flash-tts-preview";
