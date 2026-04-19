@@ -6,10 +6,42 @@ const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "placeholde
 const client = createBrowserClient(supabaseUrl, supabaseAnonKey);
 
 // -----------------------------------------------------------------------------
-// INSTRUMENTATION RÉSEAU (Audit de Robustesse)
-// On intercepte les appels pour détecter la saturation des 6 sockets.
+// TRAFFIC CONTROL & INSTRUMENTATION (Audit de Robustesse)
 // -----------------------------------------------------------------------------
+const MAX_CONCURRENT = 4; // On laisse 2 sockets libres pour l'Auth et les Assets
 let activeRequests = 0;
+const requestQueue: Array<{ resolve: () => void; callName: string; isPriority: boolean }> = [];
+
+function releaseRequest() {
+  activeRequests--;
+  if (requestQueue.length > 0) {
+    // Priorité aux requêtes critiques (ex: profiles pour l'auth)
+    const nextIndex = requestQueue.findIndex(q => q.isPriority);
+    const next = nextIndex !== -1 
+      ? requestQueue.splice(nextIndex, 1)[0] 
+      : requestQueue.shift();
+    
+    if (next) {
+      activeRequests++;
+      console.log(`%c[NET-QUEUE-EXEC] %c${next.callName} %c(Remaining: ${requestQueue.length})`, 
+        "color: #3498db; font-weight: bold", "color: #F2EEDD", "color: #888");
+      next.resolve();
+    }
+  }
+}
+
+async function acquireRequest(callName: string, isPriority = false) {
+  if (activeRequests < MAX_CONCURRENT) {
+    activeRequests++;
+    return;
+  }
+  
+  return new Promise<void>(resolve => {
+    console.log(`%c[NET-QUEUE-WAIT] %c${callName} %c(Active: ${activeRequests})`, 
+      "color: #e67e22; font-weight: bold", "color: #F2EEDD", "color: #888");
+    requestQueue.push({ resolve, callName, isPriority });
+  });
+}
 
 /**
  * Proxifie un builder Supabase (Postgrest) pour intercepter .then() et .abortSignal()
@@ -22,50 +54,51 @@ function proxyBuilder(builder: any, callName: string, requestId: string, startTi
       // 1. Intercepter le déclenchement de la requête
       if (prop === 'then') {
         return (onfulfilled: any, onrejected: any) => {
-          activeRequests++;
-          if (activeRequests > 5) {
-            console.warn(`%c[NET-SATURATION] %cLimite navigateur atteinte (${activeRequests}/6 active). Danger de freeze imminent.`, 
-              "color: #ff0000; font-weight: bold; font-size: 14px", 
-              "color: #F2EEDD");
-          }
-          console.log(`%c[NET-QUEUED] %c${callName} %c[ID:${requestId}] [Active:${activeRequests}]`, 
-            "color: #B59551; font-weight: bold", "color: #F2EEDD", "color: #666");
-
-          return original.call(target, 
-            (res: any) => {
-              activeRequests--;
-              const duration = Date.now() - startTime;
-              console.log(`%c[NET-RESOLVED] %c${callName} %c[${duration}ms] [Active:${activeRequests}]`, 
-                "color: #51B57A; font-weight: bold", "color: #F2EEDD", "color: #666");
-              return onfulfilled ? onfulfilled(res) : res;
-            }, 
-            (err: any) => {
-              activeRequests--;
-              console.error(`%c[NET-ERROR] %c${callName} %c[ID:${requestId}]`, 
-                "color: #B55151; font-weight: bold", "color: #F2EEDD", "color: #666", err);
-              return onrejected ? onrejected(err) : Promise.reject(err);
+          const isPriority = callName.includes("profiles");
+          
+          // On passe par le Traffic Control avant de solliciter le réseau
+          return acquireRequest(callName, isPriority).then(() => {
+            if (activeRequests > MAX_CONCURRENT + 1) {
+              console.warn(`%c[NET-SATURATION] %cLimite navigateur approchée (${activeRequests}/6 active).`, 
+                "color: #ff0000; font-weight: bold", "color: #F2EEDD");
             }
-          );
+            
+            console.log(`%c[NET-START] %c${callName} %c[ID:${requestId}] [Active:${activeRequests}]`, 
+              "color: #B59551; font-weight: bold", "color: #F2EEDD", "color: #666");
+
+            return original.call(target, 
+              (res: any) => {
+                releaseRequest();
+                const duration = Date.now() - startTime;
+                console.log(`%c[NET-RESOLVED] %c${callName} %c[${duration}ms] [Active:${activeRequests}]`, 
+                  "color: #51B57A; font-weight: bold", "color: #F2EEDD", "color: #666");
+                return onfulfilled ? onfulfilled(res) : res;
+              }, 
+              (err: any) => {
+                releaseRequest();
+                console.error(`%c[NET-ERROR] %c${callName} %c[ID:${requestId}]`, 
+                  "color: #B55151; font-weight: bold", "color: #F2EEDD", "color: #666", err);
+                return onrejected ? onrejected(err) : Promise.reject(err);
+              }
+            );
+          });
         };
       }
 
-      // 2. Gestion de .abortSignal() (souvent manquant dans certaines versions)
+      // 2. Gestion de .abortSignal()
       if (prop === 'abortSignal') {
         if (typeof original === 'function') {
           return (...args: any[]) => proxyBuilder(original.apply(target, args), callName, requestId, startTime);
         } else {
-          // Si manquant, on renvoie une fonction "dummy" qui ne fait rien mais empêche le crash
-          // On log l'information pour l'audit
-          console.debug(`[NET-ROBUST] .abortSignal() polyfilled for ${callName} (original method missing)`);
+          console.debug(`[NET-ROBUST] .abortSignal() dummy for ${callName}`);
           return () => proxyBuilder(target, callName, requestId, startTime);
         }
       }
 
-      // 3. Maintenir le chaînage fluide
+      // 3. Maintenir le chaînage
       if (typeof original === 'function') {
         return (...args: any[]) => {
           const result = original.apply(target, args);
-          // Si le résultat est un builder (objet avec select, order, insert, rpc, etc.), on continue de proxifier
           if (result && typeof result === 'object' && (result.then || result.select || result.insert)) {
             return proxyBuilder(result, callName, requestId, startTime);
           }

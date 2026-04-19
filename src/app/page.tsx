@@ -9,15 +9,19 @@ import Mission from "@/components/Mission";
 import CommunityCallout from "@/components/CommunityCallout";
 import { ARTICLES } from "@/data/articles";
 import { useLanguage } from "@/components/LanguageProvider";
-
+import { useAuth } from "@/components/AuthProvider";
 import { supabase } from "@/lib/supabase";
 
 export default function Home() {
   const { language, t } = useLanguage();
+  const { isLoading: authLoading } = useAuth();
   const [articles, setArticles] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    // Ne pas saturer le réseau tant que l'auth n'est pas initialisée
+    if (authLoading) return;
+
     const controller = new AbortController();
     let mounted = true;
 

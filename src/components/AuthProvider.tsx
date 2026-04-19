@@ -279,7 +279,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       }
     };
 
-    checkConnection().catch(console.error);
+    // Décaler légèrement le check de connexion pour laisser la priorité au getSession
+    setTimeout(() => {
+      if (mounted) checkConnection().catch(console.error);
+    }, 1500);
 
     // Safety Timeout : Force isLoading=false après 15s (ultime recours)
     const safetyTimer = setTimeout(() => {
