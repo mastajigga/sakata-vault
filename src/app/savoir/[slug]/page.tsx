@@ -48,7 +48,8 @@ const ArticlePage = () => {
             setArticle(staticArticle);
           }
         } else if (data) {
-          setArticle(data);
+          const staticArticle = ARTICLES.find(a => a.slug === slug);
+          setArticle({ ...staticArticle, ...data });
         }
       } catch (err) {
         console.error("Fetch exception:", err);
@@ -234,7 +235,7 @@ const ArticlePage = () => {
             {article.has_narrator && (
               <div className="mb-12">
                 <AudioNarrator 
-                  audioUrl={`/audio/articles/${slug}.wav`}
+                  audioUrl={`/audio/articles/${slug}.${article.narrator_extension || 'wav'}`}
                   title={displayTitle}
                 />
               </div>

@@ -89,6 +89,7 @@ export const ARTICLES: ArticleData[] = [
       tsh: "Dikonkonona dia mozindo dia bukokeshi bua anyuma wa Basakata, kule ne miyuki ya mapasa, didi dileja sekele ya dilele ne muuya wa muoyo."
     },
     has_narrator: true,
+    narrator_extension: "mp3",
     content: {
       fr: `*“Nkundi ya bakoko : « Mpi ya nzoto, elimo ya nzoto ; kasi Iluo, elimo ya mokili mobimba. »”*
 — Proverbe de nos anciens : Le souffle du corps est pour le corps ; mais l'Iluo est le souffle qui embrasse le monde entier.

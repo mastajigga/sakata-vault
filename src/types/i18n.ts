@@ -72,6 +72,7 @@ export interface ArticleData {
   reads_count?: number;
   is_premium?: boolean;
   created_at?: string;
+  narrator_extension?: string;
 }
 
 /**
@@ -91,6 +92,7 @@ export interface ArticleMetadata {
   summary: TranslatedText;
   image?: string;
   video_background?: string;
+  narrator_extension?: string;
 }
 
 export type Dictionary = Record<string, unknown>;

@@ -35,7 +35,7 @@ async function generateAudioForArticle() {
   let currentChunk = "";
 
   for (const p of paragraphs) {
-    if ((currentChunk + p).length > 1500) {
+    if ((currentChunk + p).length > 3000) {
       if (currentChunk.trim()) chunks.push(currentChunk.trim());
       currentChunk = p;
     } else {
@@ -47,7 +47,7 @@ async function generateAudioForArticle() {
   console.log(`Split article into ${chunks.length} chunks.`);
 
   const audioBuffers: Buffer[] = [];
-  const BATCH_SIZE = 2;
+  const BATCH_SIZE = 1;
 
   for (let i = 0; i < chunks.length; i += BATCH_SIZE) {
     const end = Math.min(i + BATCH_SIZE, chunks.length);
@@ -56,7 +56,7 @@ async function generateAudioForArticle() {
     const batchPromises = chunks.slice(i, end).map(async (chunk) => {
       let textToSpeak = chunk;
       if (ARTICLE_SLUG === "ngongo-philosophique") {
-        const persona = "Tu es un très vieil homme sage et mystérieux (80-90 ans) de l'ethnie Sakata au Congo. Tu parles français avec un accent congolais marqué, une voix chevrotante mais profonde, pleine de sagesse ancestrale. Lis le texte suivant avec mystère, lenteur et une émotion boisée (respire avant de parler) : ";
+        const persona = "Tu es un sage Bakulutu (Ancien) de l'ethnie Sakata. Ta voix est profonde, lente, habitée par la sagesse de tes ancêtres de la Lukenie. Lis ce texte avec une grande solennité et beaucoup de mystère : ";
         textToSpeak = `${persona}\n\n${chunk}`;
       }
       return await fetchTTS(textToSpeak);
@@ -64,6 +64,10 @@ async function generateAudioForArticle() {
 
     const results = await Promise.all(batchPromises);
     
+    // Attendre 30 secondes entre chaque batch pour respecter les quotas
+    console.log("Waiting 30 seconds before next batch...");
+    await new Promise(resolve => setTimeout(resolve, 30000));
+
     for (let j = 0; j < results.length; j++) {
       const audio = results[j];
       if (!audio) {
