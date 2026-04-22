@@ -44,16 +44,17 @@ export function useMessages(conversationId: string) {
   }, []);
 
   // Résoudre une signed URL depuis un chemin storage:
-  // Pour les images éphémères (maxViews), utiliser TTL court (60s) pour forcer expiration
+  // - Images éphémères (maxViews > 0) : TTL 60s pour forcer l'expiration après countdown
+  // - Images normales : TTL 3600s (1h) — URL publique signée sécurisée
+  // - Audio/PDF : URL publique directe (pas de contrainte d'expiration)
   const resolveFileUrl = useCallback(async (
     fileUrl: string | undefined,
     fileType: string | undefined,
     maxViews: number | undefined
   ): Promise<string | undefined> => {
     if (!fileUrl) return fileUrl;
-    if (fileType === 'image' && fileUrl.startsWith('storage:')) {
-      const path = fileUrl.replace('storage:chat-attachments/', '');
-      // TTL court (60s) pour images éphémères pour forcer l'expiration après countdown
+    if (fileUrl.startsWith('storage:')) {
+      const path = fileUrl.replace(`storage:${DB_BUCKETS.CHAT_ATTACHMENTS}/`, '');
       const ttl = maxViews ? 60 : 3600;
       const { data } = await supabase.storage
         .from(DB_BUCKETS.CHAT_ATTACHMENTS)
@@ -80,7 +81,8 @@ export function useMessages(conversationId: string) {
 
   const resolveSignedUrls = useCallback(async (msgs: Message[]): Promise<Message[]> => {
     return Promise.all(msgs.map(async (msg) => {
-      if (msg.fileType === 'image' && msg.maxViews && msg.fileUrl?.startsWith('storage:')) {
+      // Résoudre toutes les URLs storage: (images éphémères ET normales, audio, pdf)
+      if (msg.fileUrl?.startsWith('storage:')) {
         const resolved = await resolveFileUrl(msg.fileUrl, msg.fileType, msg.maxViews);
         return { ...msg, fileUrl: resolved };
       }
@@ -383,13 +385,9 @@ export function useMessages(conversationId: string) {
       if (error) {
         console.error("Erreur lors de l'upload de la pièce jointe (après retries):", error);
       } else if (data) {
-        // BUG-002: Pour les images éphémères, stocker le PATH (storage:...) au lieu de l'URL publique
-        if (fileType === 'image' && maxViews) {
-          fileUrl = `storage:${DB_BUCKETS.CHAT_ATTACHMENTS}/${(data as any).path}`;
-        } else {
-          const { data: publicData } = supabase.storage.from(DB_BUCKETS.CHAT_ATTACHMENTS).getPublicUrl((data as any).path);
-          fileUrl = publicData.publicUrl;
-        }
+        // Toujours stocker le PATH storage: pour générer des Signed URLs à la lecture.
+        // Cela sécurise à la fois les images éphémères ET les fichiers normaux.
+        fileUrl = `storage:${DB_BUCKETS.CHAT_ATTACHMENTS}/${(data as any).path}`;
       }
     }
 

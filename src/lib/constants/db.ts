@@ -21,6 +21,7 @@ export const DB_TABLES = {
   SUBSCRIPTION_SESSIONS: "subscription_sessions",
   CHAT_SUBSCRIPTIONS: "chat_subscriptions",
   MESSAGE_READS: "message_reads",
+  COMMUNITY_PINS: "community_pins",
 } as const;
 
 export type DbTable = typeof DB_TABLES[keyof typeof DB_TABLES];
