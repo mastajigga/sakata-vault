@@ -35,31 +35,62 @@ export async function GET(req: NextRequest) {
     { cookies: { getAll: () => cookieStore.getAll(), setAll: () => {} } }
   );
 
-  // Pinecone disponible? (sera activé quand PINECONE_API_KEY est fournie)
+  // ── Pinecone (sémantique) ─────────────────────────────────────────────────
+  // Pour activer : configurer PINECONE_API_KEY + PINECONE_ENVIRONMENT + PINECONE_INDEX_NAME
+  // et seeder l'index avec les embeddings des articles.
+  // Le client est disponible dans src/lib/pinecone/client.ts.
   if (process.env.PINECONE_API_KEY) {
-    // TODO: Implémentation Pinecone — retourner les articles sémantiquement proches
-    // Pour l'instant, fallback sur Supabase
+    // TODO: générer l'embedding de `rawQ` via OpenAI/Voyage puis interroger Pinecone
+    // const embedding = await generateEmbedding(rawQ);
+    // const results = await pineconeClient.query({ vector: embedding, topK: 10, includeMetadata: true });
+    // return NextResponse.json({ results: results.matches.map(m => m.metadata), source: 'pinecone', ... });
   }
 
-  // Fallback: fulltext search dans Supabase
-  // On cherche dans title (jsonb) et summary (jsonb) selon la langue validée
-  const { data, error } = await supabase
-    .from(DB_TABLES.ARTICLES)
-    .select('id, slug, title, summary, category, image, subscription_required')
-    .or(
-      `title->>${lang}.ilike.%${q}%,summary->>${lang}.ilike.%${q}%,title->>fr.ilike.%${q}%,summary->>fr.ilike.%${q}%`
-    )
-    .eq('status', 'published')
-    .limit(10);
+  // ── Fallback Supabase enrichi ─────────────────────────────────────────────
+  // Recherche sur : titre, résumé, catégorie, et slug (mots-clés dans l'URL)
+  // Priorité : titre exact > résumé > catégorie
+  const [titleSummaryResult, categoryResult] = await Promise.all([
+    // 1. Titre + résumé dans la langue demandée et en français
+    supabase
+      .from(DB_TABLES.ARTICLES)
+      .select('id, slug, title, summary, category, image, subscription_required')
+      .or(
+        `title->>${lang}.ilike.%${q}%,` +
+        `summary->>${lang}.ilike.%${q}%,` +
+        `title->>fr.ilike.%${q}%,` +
+        `summary->>fr.ilike.%${q}%`
+      )
+      .eq('status', 'published')
+      .limit(8),
 
-  if (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    // 2. Catégorie (recherche complémentaire pour les termes courts)
+    supabase
+      .from(DB_TABLES.ARTICLES)
+      .select('id, slug, title, summary, category, image, subscription_required')
+      .ilike('category', `%${q}%`)
+      .eq('status', 'published')
+      .limit(4),
+  ]);
+
+  if (titleSummaryResult.error) {
+    return NextResponse.json({ error: titleSummaryResult.error.message }, { status: 500 });
+  }
+
+  // Fusionner et dédupliquer par id — les résultats titre/résumé en premier
+  const seen = new Set<string>();
+  const merged: any[] = [];
+
+  for (const row of [...(titleSummaryResult.data || []), ...(categoryResult.data || [])]) {
+    if (!seen.has(row.id)) {
+      seen.add(row.id);
+      merged.push(row);
+    }
   }
 
   return NextResponse.json({
-    results: data || [],
+    results: merged.slice(0, 10),
     query: rawQ,
-    source: process.env.PINECONE_API_KEY ? 'pinecone' : 'supabase-fallback',
-    total: data?.length || 0,
+    source: 'supabase-enhanced',
+    total: merged.length,
   });
 }

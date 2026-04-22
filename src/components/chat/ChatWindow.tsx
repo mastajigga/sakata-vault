@@ -147,12 +147,39 @@ export function ChatWindow({ conversationId, onBack }: ChatWindowProps) {
   // Trouver l'userId de l'interlocuteur principal (pour calculer isRead)
   const otherParticipantId = messages.find(m => !m.isMe)?.senderId;
 
-  // Scroll to bottom on new messages
+  // Scroll to bottom on new messages (seulement si déjà en bas)
+  const isAtBottomRef = useRef(true);
   useEffect(() => {
-    if (scrollRef.current) {
+    if (scrollRef.current && isAtBottomRef.current) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     }
   }, [messages]);
+
+  // Déclenchement automatique de loadMore quand l'utilisateur scroll vers le haut
+  useEffect(() => {
+    const container = scrollRef.current;
+    if (!container) return;
+
+    const handleScroll = () => {
+      // Détecter si on est en bas
+      isAtBottomRef.current =
+        container.scrollHeight - container.scrollTop - container.clientHeight < 60;
+
+      // Charger plus si on est tout en haut et qu'il y a des messages à charger
+      if (container.scrollTop < 50 && hasMore && !loadingMore) {
+        const prevHeight = container.scrollHeight;
+        loadMore().then(() => {
+          // Maintenir la position de scroll après chargement
+          if (container) {
+            container.scrollTop = container.scrollHeight - prevHeight;
+          }
+        });
+      }
+    };
+
+    container.addEventListener("scroll", handleScroll, { passive: true });
+    return () => container.removeEventListener("scroll", handleScroll);
+  }, [hasMore, loadingMore, loadMore]);
 
   // Ephemeral mode state
   const [isTemporaryConversation, setIsTemporaryConversation] = useState(false);
