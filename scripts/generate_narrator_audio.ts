@@ -56,7 +56,7 @@ async function generateAudioForArticle() {
     const batchPromises = chunks.slice(i, end).map(async (chunk) => {
       let textToSpeak = chunk;
       if (ARTICLE_SLUG === "ngongo-philosophique") {
-        const persona = "Tu es un sage Bakulutu (Ancien) de l'ethnie Sakata. Ta voix est profonde, lente, habitée par la sagesse de tes ancêtres de la Lukenie. Lis ce texte avec une grande solennité et beaucoup de mystère : ";
+        const persona = "Tu es un sage Bakulutu (Ancien) de l'ethnie Sakata, littéralement très vieux et très sage, avec un très très gros accent congolais. Ta voix est profonde, lente, habitée par la sagesse de tes ancêtres de la Lukenie. Lis ce texte avec une grande solennité et beaucoup de mystère : ";
         textToSpeak = `${persona}\n\n${chunk}`;
       }
       return await fetchTTS(textToSpeak);
