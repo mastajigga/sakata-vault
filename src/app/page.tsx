@@ -63,7 +63,7 @@ export default function Home() {
       mounted = false;
       controller.abort();
     };
-  }, []);
+  }, [authLoading]);
 
   // Map slugs to ensure we link to existing data
   const getArticleBySlug = (slug: string) => articles.find((a: any) => a.slug === slug);
