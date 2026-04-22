@@ -396,3 +396,5 @@ export const useAuth = () => {
   }
   return context;
 };
+
+export type { UserRole } from "@/lib/constants/business";

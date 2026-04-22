@@ -1,4 +1,5 @@
 import { supabasePublic } from "@/lib/supabase/admin";
+import { DB_TABLES } from "@/lib/constants/db";
 import { NextResponse } from "next/server";
 
 /**

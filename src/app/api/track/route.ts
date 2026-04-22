@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { supabasePublic } from '@/lib/supabase/admin';
+import { DB_TABLES } from '@/lib/constants/db';
 
 export async function POST(req: Request) {
   try {

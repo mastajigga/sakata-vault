@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createServerClient } from '@supabase/ssr';
 import { cookies } from 'next/headers';
+import { DB_TABLES } from '@/lib/constants/db';
 
 // Langues autorisées — whitelist stricte pour éviter l'injection dans le filtre .or()
 const ALLOWED_LANGS = ['fr', 'en', 'ln', 'sw', 'ts'] as const;

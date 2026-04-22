@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { supabaseAdmin } from "@/lib/supabase/admin";
+import { DB_TABLES } from "@/lib/constants/db";
 import { getPineconeIndex } from "@/lib/pinecone/client";
 
 const CACHE_TTL_MS = 24 * 60 * 60 * 1000; // 24h
