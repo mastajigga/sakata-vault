@@ -13,7 +13,7 @@ interface Profile {
 }
 
 interface MemberImageProps {
-  profile: Profile;
+  profile: Profile | null | undefined;
   priority?: boolean;
   className?: string;
   type?: "avatar" | "cover";
@@ -22,16 +22,19 @@ interface MemberImageProps {
 /**
  * Composant robuste pour l'affichage des images de profil (Avatar ou Cover)
  * Résout les URLs Storage et gère les placeholders.
- * Bascule automatiquement sur <img> pour les images distantes (Google/FB) 
+ * Bascule automatiquement sur <img> pour les images distantes (Google/FB)
  * pour éviter les restrictions de domaines Next.js Images.
  */
-export function MemberImage({ 
-  profile, 
+export function MemberImage({
+  profile,
   priority = false,
   className = "object-cover",
   type = "avatar"
 }: MemberImageProps) {
-  const rawUrl = type === "cover" ? profile.cover_photo_url : profile.avatar_url;
+  // Guard: profile null = auteur supprimé ou join sans résultat → placeholder
+  const rawUrl = profile
+    ? (type === "cover" ? profile.cover_photo_url : profile.avatar_url)
+    : null;
   
   const resolvedUrl = useMemo(() => {
     return resolveStorageUrl(rawUrl);
@@ -40,7 +43,7 @@ export function MemberImage({
   const isPlaceholder = resolvedUrl.includes("placeholder-avatar.jpg");
 
   const commonProps = {
-    alt: profile.nickname || profile.username || "Sakata Member",
+    alt: profile?.nickname || profile?.username || "Sakata Member",
     className: `transition-transform duration-700 ${className}`
   };
 
