@@ -1,0 +1,58 @@
+[    3291ms] [LOG] [AuthProvider] init: START @ https://sakata-basakata.com/_next/static/chunks/11w6c-piou51k.js:0
+[    3291ms] [LOG] [AuthProvider] init: getSession start... @ https://sakata-basakata.com/_next/static/chunks/11w6c-piou51k.js:0
+[    3399ms] [LOG] [ChatUnread] Fetching for user: undefined @ https://sakata-basakata.com/_next/static/chunks/11w6c-piou51k.js:8
+[10538367ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[10538450ms] [LOG] [HMR] connected @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[10538564ms] [LOG] [AuthProvider] init: START @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[10538564ms] [LOG] [AuthProvider] init: getSession start... @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[10538567ms] [WARNING] Image with src "/images/sakata_heritage_hero.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[10538724ms] [LOG] [ChatUnread] Fetching for user: undefined @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[10548082ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[10548361ms] [LOG] [Fast Refresh] done in 387ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[10548769ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[10548786ms] [LOG] [HMR] connected @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[10548790ms] [LOG] %c%s%c Articles loaded from DB: background: #e6e6e6;background: light-dark(rgba(0,0,0,0.1), rgba(255,255,255,0.25));color: #000000;color: light-dark(#000000, #ffffff);border-radius: 2px  Server   21 @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[10548972ms] [LOG] [AuthProvider] init: START @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[10548973ms] [LOG] [AuthProvider] init: getSession start... @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[10549212ms] [LOG] [ChatUnread] Fetching for user: undefined @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[10549611ms] [WARNING] Image with src "/images/sakata_mask_detail.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio. @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[10596226ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[10596761ms] [LOG] [Fast Refresh] done in 638ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[10596805ms] [VERBOSE] [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) %o @ http://localhost:3000/auth?redirect_to=%2Fforum:0
+[10596816ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[10596842ms] [LOG] [HMR] connected @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[10596980ms] [LOG] [AuthProvider] init: START @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[10596981ms] [LOG] [AuthProvider] init: getSession start... @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[10597126ms] [LOG] [ChatUnread] Fetching for user: undefined @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[10625897ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[10625926ms] [LOG] [HMR] connected @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[10625966ms] [LOG] [AuthProvider] init: START @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[10625968ms] [LOG] [AuthProvider] init: getSession start... @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[10626116ms] [LOG] [ChatUnread] Fetching for user: undefined @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[10681905ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[10681951ms] [LOG] [HMR] connected @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[10682038ms] [LOG] [AuthProvider] init: START @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[10682038ms] [LOG] [AuthProvider] init: getSession start... @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[10682223ms] [LOG] [ChatUnread] Fetching for user: undefined @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[10682477ms] [WARNING] Image with src "/images/sakata_heritage_hero.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[10698180ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[10698213ms] [LOG] [HMR] connected @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[10698280ms] [LOG] [AuthProvider] init: START @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[10698281ms] [LOG] [AuthProvider] init: getSession start... @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[10698283ms] [WARNING] Image with src "/images/sakata_heritage_hero.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[10698432ms] [LOG] [ChatUnread] Fetching for user: undefined @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[10700514ms] [LOG] %c%s%c Articles loaded from DB: background: #e6e6e6;background: light-dark(rgba(0,0,0,0.1), rgba(255,255,255,0.25));color: #000000;color: light-dark(#000000, #ffffff);border-radius: 2px  Server   21 @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[10700702ms] [WARNING] Image with src "/images/sakata_mask_detail.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio. @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[11160593ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_next/webpack-hmr?id=gpXheg8iIiI_i83XVBk0L' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13299
+[11164713ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_next/webpack-hmr?id=gpXheg8iIiI_i83XVBk0L' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13299
+[11187386ms] [LOG] [AuthProvider] init: START @ http://localhost:3000/_next/static/chunks/11w6c-piou51k.js:0
+[11187387ms] [LOG] [AuthProvider] init: getSession start... @ http://localhost:3000/_next/static/chunks/11w6c-piou51k.js:0
+[11187524ms] [LOG] [ChatUnread] Fetching for user: undefined @ http://localhost:3000/_next/static/chunks/11w6c-piou51k.js:8
+[11191477ms] [VERBOSE] [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) %o @ http://localhost:3000/auth?redirect_to=%2Fforum:0
+[11191530ms] [LOG] [AuthProvider] init: START @ http://localhost:3000/_next/static/chunks/11w6c-piou51k.js:0
+[11191531ms] [LOG] [AuthProvider] init: getSession start... @ http://localhost:3000/_next/static/chunks/11w6c-piou51k.js:0
+[11191651ms] [LOG] [ChatUnread] Fetching for user: undefined @ http://localhost:3000/_next/static/chunks/11w6c-piou51k.js:8
+[11199572ms] [LOG] [AuthProvider] init: START @ http://localhost:3000/_next/static/chunks/11w6c-piou51k.js:0
+[11199572ms] [LOG] [AuthProvider] init: getSession start... @ http://localhost:3000/_next/static/chunks/11w6c-piou51k.js:0
+[11199699ms] [LOG] [ChatUnread] Fetching for user: undefined @ http://localhost:3000/_next/static/chunks/11w6c-piou51k.js:8
+[11203605ms] [VERBOSE] [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) %o @ http://localhost:3000/auth:0

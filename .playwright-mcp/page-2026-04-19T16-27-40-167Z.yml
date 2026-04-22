@@ -1,0 +1,144 @@
+- generic [active] [ref=e1]:
+  - button "Open Next.js Dev Tools" [ref=e9] [cursor=pointer]:
+    - img [ref=e10]
+  - alert [ref=e13]
+  - main [ref=e14]:
+    - navigation [ref=e15]:
+      - generic [ref=e16]:
+        - link "SAKATA" [ref=e17] [cursor=pointer]:
+          - /url: /
+        - generic [ref=e18]:
+          - button "FR" [ref=e20] [cursor=pointer]:
+            - img [ref=e21]
+            - generic [ref=e24]: FR
+            - img [ref=e25]
+          - button "Toggle menu" [ref=e27] [cursor=pointer]
+    - generic [ref=e31]:
+      - 'img "L''Équilibre des Deux Mondes : L''Ombre du Mbey et la Voix du Mojuu" [ref=e33]'
+      - generic [ref=e35]:
+        - generic [ref=e36]: Savoir — culture
+        - 'heading "L '' É q u i l i b r e d e s D e u x M o n d e s : L '' O m b r e d u M b e y e t l a V o i x d u M o j u u" [level=1] [ref=e37]':
+          - generic [ref=e38]: L
+          - generic [ref=e39]: "'"
+          - generic [ref=e40]: É
+          - generic [ref=e41]: q
+          - generic [ref=e42]: u
+          - generic [ref=e43]: i
+          - generic [ref=e44]: l
+          - generic [ref=e45]: i
+          - generic [ref=e46]: b
+          - generic [ref=e47]: r
+          - generic [ref=e48]: e
+          - generic [ref=e50]: d
+          - generic [ref=e51]: e
+          - generic [ref=e52]: s
+          - generic [ref=e54]: D
+          - generic [ref=e55]: e
+          - generic [ref=e56]: u
+          - generic [ref=e57]: x
+          - generic [ref=e59]: M
+          - generic [ref=e60]: o
+          - generic [ref=e61]: "n"
+          - generic [ref=e62]: d
+          - generic [ref=e63]: e
+          - generic [ref=e64]: s
+          - generic [ref=e66]: ":"
+          - generic [ref=e68]: L
+          - generic [ref=e69]: "'"
+          - generic [ref=e70]: O
+          - generic [ref=e71]: m
+          - generic [ref=e72]: b
+          - generic [ref=e73]: r
+          - generic [ref=e74]: e
+          - generic [ref=e76]: d
+          - generic [ref=e77]: u
+          - generic [ref=e79]: M
+          - generic [ref=e80]: b
+          - generic [ref=e81]: e
+          - generic [ref=e82]: "y"
+          - generic [ref=e84]: e
+          - generic [ref=e85]: t
+          - generic [ref=e87]: l
+          - generic [ref=e88]: a
+          - generic [ref=e90]: V
+          - generic [ref=e91]: o
+          - generic [ref=e92]: i
+          - generic [ref=e93]: x
+          - generic [ref=e95]: d
+          - generic [ref=e96]: u
+          - generic [ref=e98]: M
+          - generic [ref=e99]: o
+          - generic [ref=e100]: j
+          - generic [ref=e101]: u
+          - generic [ref=e102]: u
+    - generic [ref=e104]:
+      - generic [ref=e106]:
+        - text: "L EMERGENCE DU SOUFFLE : LA TERRE ET LE PREMIER MATIN"
+        - text: Écoutez, enfants de l'eau et de la forêt. Écoutez le murmure profond de la Lukenie qui caresse nos rivages depuis que le premier soleil s'est levé sur la terre du Mai Ndombe. Mboté. Prenez place sur la natte tressée de nos mémoires, approchez vous du feu qui crépite et laisse danser les ombres. Sentez l'odeur de la terre mouillée par la pluie, cette terre qui nourrit nos racines étouffées par le bruit du fer et du béton d'aujourd'hui. Aujourd'hui, je ne vais pas simplement vous raconter une histoire. Je vais ouvrir devant vous le grand livre invisible de notre existence, les pages que l'on ne lit pas avec les yeux, mais avec le sang, avec le frisson qui parcourt l'échine quand on prononce le nom de nos ancêtres.
+        - text: "Il est des savoirs qui ne se vendent pas au marché, des vérités qui ne se crient pas sur les places bruyantes des villes modernes. Ce sont les mystères de notre équilibre, le socle sur lequel repose l'harmonie du peuple Sakata. Depuis des lunes sans nombre, bien avant que l'homme blanc ne pose le pied sur nos rivages avec ses compas et ses papiers, nous avions déjà mesuré l'univers. Nous avions compris que le monde n'est pas fait que de ce que la main peut saisir. Il est un tissage délicat entre la chair et l'esprit, entre la terre qui garde nos morts et le ciel qui envoie l'eau. Et au cœur de ce vaste tissage, au centre exact où bat le cœur de notre société, se dresse l'institution la plus sacrée, la plus redoutée et la plus respectée de toutes : la Chefferie."
+        - text: Quand vous entendez ce mot aujourd'hui, vous pensez peut être à un homme couronné de plumes, assis sur une chaise en bois sculpté, distribuant des sentences. Vos esprits, fatigués par les images du présent, s'arrêtent à la surface de l'écorce sans en goûter la sève. Mais la chefferie, chez nous les Basakata, chez ceux qui respirent le souffle de nos aïeux, n'est pas un simple trône de bois mort. C'est une montagne vivante. C'est un courant profond qui relie le visible à l'invisible. Et pour comprendre cette montagne, il faut comprendre ses deux versants. Car le pouvoir, tel que l'ont conçu les sages d'autrefois, n'est jamais posé sur une seule épaule. Le fardeau serait trop lourd pour un seul homme. Il l'écraserait, le rendrait aveugle et fou. Non, le pouvoir est un oiseau qui a besoin de deux ailes immenses pour planer au-dessus des forêts grandioses du Mai Ndombe.
+        - text: "Ces deux ailes, ces deux piliers sur lesquels notre peuple s'appuie quand la tempête gronde, portent des noms qui résonnent avec la solidité du fer et la fluidité de la sève : le Mbey et le Mojuu."
+        - text: L INVOCATION AUX DEUX POLES DU POUVOIR
+        - text: Venez plus près, car ce dont je vais parler réclame le silence intérieur. Imaginez un village au petit matin. La brume repose encore sur la rivière, telle une couverture tissée par les esprits de la nuit pour garder nos rêves au chaud. Dans cette aube suspendue, il y a deux réalités qui s'éveillent.
+        - text: Celle du sol, de la glaise sombre qui nourrit l'igname et le manioc, de la poussière qui garde la trace du pas des panthères et des serpents. Et celle des hommes, de leurs cris, de leurs palabres, de la fumée qui s'échappe de leurs huttes, de l'élan de leurs pirogues fendant le courant.
+        - text: C'est là le fondement. La distinction suprême. Nous avons séparé ce qui appartient à la profondeur de la terre et ce qui appartient à la surface mouvementée de la vie des hommes.
+        - text: LE MBEY LA RACINE INFRANGIBLE ET LE GARDIEN SILENCIEUX
+        - text: Je vais vous parler d'abord du Mbey. Que l'on traduise dans vos langues modernes par le Chef des terres. Mais quelle pauvre traduction pour dire l'immensité de son être ! Le Mbey n'est pas un propriétaire. Il ne possède pas la terre comme vous possédez un vêtement ou une machette. C'est la terre qui le possède. Il est l'homme à qui la forêt chuchote ses secrets quand tout le monde dort. Il est l'homme qui entend pleurer la racine coupée et qui comprend la langue des fleuves en colère.
+        - text: "Le Mbey est le socle. Toute son autorité prend sa source dans le sol, cette mère immense et muette qui abrite l'engrais de nos vies et le sommeil éternel des anciens qui nous ont quittés. Son pouvoir n'est pas bruyant. Le Mbey ne hurle pas sur la place publique. Son charisme est celui d'un vieux baobab : immobile, ridé, lourd de mille saisons, mais dont les racines s'enfoncent si profondément dans l'obscurité du monde que chercher à l'abattre, c'est signer sa propre mort."
+        - text: "Vous vous demandez d'où vient cette aura si redoutable qui entoure le Mbey. Pourquoi, lorsqu'il passe, les hommes baissent ils la voix ? Pourquoi les regards s'inclinent ils vers cette poussière dont il est le gardien ? La réponse tient en un mot silencieux, un mot qu'on ne prononce pas sans baisser les yeux, un mot lourd de respects et de craintes : l'Iluo."
+        - text: L Iluo n'est pas la sorcellerie destructrice, cet ilwa aveugle et mesquin qui sert à jeter des sorts de basse vengeance. Non. L Iluo du Mbey est une force occulte, solennelle, une magie fondatrice, une émanation directe de l'essence divine et de l'approbation de ceux qui sont passés de l'autre côté du miroir. L Iluo est le bouclier immatériel du clan et l'arme invisible de justice. C'est par lui que le Chef des terres assoit son ascendant psychologique et spirituel sur les habitants de l'entité territoriale de base, le Bobla. Sans cet ancrage mystique, sans cette certitude que ses ancêtres tiennent la même corde que lui, il ne serait qu'un homme. Avec l'Iluo, il devient l'avocat et le juge des vivants face au monde des ténèbres et de la lumière. Il ne craint point les esprits jaloux, ni les mauvais sorts des sorciers errants, car sa force puise dans la profondeur originelle de la création bénie par Nzau, le Dieu suprême.
+        - text: "L EQUILIBRE DE LA CIBLE : LE MAINTIEN DE L ORDRE ET DE LA FERTILITE"
+        - text: Écoutez attentivement. Le Mbey n'a pas pour mission première de punir. Sa tâche sacrée, son fardeau lourd de conséquences, c'est la perpétuation de l'harmonie, de ce que nous appelons l'équilibre. C'est lui qui ouvre la terre avec des mots ancestraux avant les grandes semailles pour que la faim ne dévore pas le ventre de ses enfants. C'est lui qui intercède lorsque les pluies tardent et que la terre craquelle comme la peau d'un vieillard malade. C'est lui qui se tient à l'orée de la forêt, et qui, d'un geste ou d'un chant, apaise les esprits mécontents de la brousse pour que les chasseurs ramènent la viande fraîche.
+        - text: Il est le lien juridique par essence. Lorsqu'un sacrilège ou une profanation est commise sur le sol – comme un sang violemment versé ou un interdit, un M'pka, foulé aux pieds – la souillure n'atteint pas seulement les hommes. La terre elle-même rejette cette violence. La blessure est cosmique. Le Mbey doit intervenir. Il lave le mal. Par des rituels dont la précision s'est forgée au fil des âges, des pratiques usant des feuilles secrètes du Mai Ndombe, il restaure la pureté de la terre et rétablit l'alliance.
+        - text: Il est le maître de la justice réparatrice. Il peut maudire, et la malédiction d'un Mbey pèse lourd ; ses phrases heurtent les destins comme des rochers dévalant une falaise. Mais son objectif suprême est la paix. La paix du Bobla, la tranquillité du territoire où vivent ses sujets.
+        - text: LE MOJUU LE MANTEAU QUI ENVELOPPE ET GOUVERNE LES HOMMES
+        - text: "Mais la terre, aussi puissante et infinie soit-elle, est muette. Elle nécessite que des mains la labourent, que des enfants crient et courent sur sa surface, que des feux s'allument à sa surface, que la société s'organise face aux défis du jour. Et c'est ici qu'intervient le deuxième souffle, le deuxième pilier de notre grande architecture : Le Mojuu."
+        - text: Le Mojuu est le Roi. Le Chef des hommes. Là où le Mbey puise sa force dans l'immobilité des profondeurs, le Mojuu trouve la sienne dans le mouvement, dans la gestion des hommes, de leurs passions, de leurs rivalités, de leur soif de richesses et de survie. Son bras s'étend sur ce que nous nommons l'Ijuu, la grande chefferie qui, tel un fleuve puissant, regroupe tous les petits ruisseaux que sont les Bobla.
+        - text: Imaginez le Mojuu. Il ne regarde pas le sol. Il regarde l'horizon. Il regarde les frontières de notre monde et les visages de ceux qui l'occupent. Le pouvoir politique tel que vous le comprenez dans vos villes bruyantes et vos capitales électriques trouve sa véritable matrice ici, chez le Mojuu de la tradition Sakata. Sa présence est publique. Ses paroles s'adressent à la multitude. Il donne les ordres stratégiques face à la guerre, fixe les limites de la chasse, tranche les litiges civils qui menacent de diviser les familles.
+        - text: "Mais comprenez cette subtilité magnifique, cet équilibre si fragile et si puissant que nous ont légué nos morts : le Mojuu ne peut rien sans la bénédiction tacite de la terre. Le Chef des hommes possède la lance, la cour de notables, les prérogatives des impôts coutumiers et le prestige d'une suite nombreuse. Mais ce sceptre n'est que du bois s'il ne puise sa force dans la terre administrée mystiquement par le Mbey. Le Mojuu orchestre la vie sociale et économique, mais il la dirige sur un sol qui ne lui appartient pas."
+        - text: "Voilà la clé de la sagesse ! Le pouvoir est dilué. La tyrannie d'un seul est impossible dans la vision cosmique Sakata. Le Mojuu pourrait chercher à affamer un Mbey ou à le dominer par la richesse, mais le Mbey pourrait riposter d'un pouvoir bien plus grand : il pourrait fermer la porte de la fertilité du monde, retenir les pluies fertiles ou appeler la fureur occulte par le pouvoir de l'Iluo. Ils se craignent mutuellement. Ils se respectent profondément. Ce subtil balancier, cette double autorité face à la nature et face à la chair de l'homme, garantit la pérennité du royaume face aux forces désunificatrices de l'égoïsme humain. L'Ijuu prospère parce que le Mojuu s'applique à diriger les bras selon les règles cosmiques assurées par le dos protecteur du Mbey."
+        - text: LE BOBLA LE NID TISSE DE FILS MATRILINEAIRES
+        - text: Approchez vous un peu plus du foyer, que je vous murmure cette chose de plus près. L'ordre et l'obéissance ne s'arrachent pas à nos cœurs par la terreur des lances. Nous, le peuple Basakata, nous voyons notre vie de bas en haut. Pas du souverain lointain jusqu'à nos paillotes, mais du ventre de la mère jusqu'à la chaleur éternelle du royaume.
+        - text: "Laissez-moi vous parler du Bobla. C'est ainsi que l'on nomme notre unité sociale fondamentale, la cellule de notre être. Quand je dis Bobla, je ne parle pas d'une maison de briques, ou d'une cour fermée. Le Bobla, c'est l'oxygène même de nos appartenances. Et ce Bobla a pour clé de voûte et repère indiscutable un fil que personne ne peut sectionner, car il est tressé dans le sang, la douleur et le mystère de l'enfantement : La matrilinéarité."
+        - text: "Oh, hommes modernes épris de paternité arrogante, écoutez ces enseignements forestiers. Chez les Basakata, la semence de l'homme allume l'étincelle, certes, et on l'honore pour ce souffle. Mais le corps, la transmission, la terre à laquelle tu appartiens, la juridiction spirituelle sous laquelle tu t'inscris pour le jugement au tribunal des anciens, et finalement l'identité même de ta personne : tout cela te vient de l'eau sombre et nourricière du sein de ta mère. L'oncle maternel, le propre frère de l'utérus de la mère, est la figure patriarcale fonctionnelle qui guide ton chemin, car vous venez de la même sève. C'est l'onde originelle de la vie."
+        - text: L'héritage, le prestige, et les droits coutumiers qui ancrent les décisions des chefferies coulent dans des canaux de chair féminine. Pourquoi ? Parce que, pour notre peuple, l'homme peut chasser, il peut bâtir, il peut combattre, il peut se vanter autour du feu... mais l'homme ne peut pas garantir le sang avec autant de certitude absolue qu'une femme. C'est la femme qui ressent la première le tambourinement mystique d'une nouvelle vie; c'est la femme qui accouche, qui voit sortir l'ancêtre qui a décidé de revenir au milieu de son clan.
+        - text: Les interdits et les tabous ne sont pas des punitions inventées pour brimer nos sœurs. Ces M'pka, dont on murmure qu'ils sont quarante ou davantage lors de la période d'expectative d'un enfant, ne sont pas des chaînes pour soumettre, mais des boucliers mystiques pour protéger celle qui transporte le pont entre le royaume des défunts et celui des vivants. Le sort entier du lignage, de la pérennité de l'autorité même du Bobla, repose dans sa capacité vitale. Des restrictions sur des aliments, sur les chemins invisibles de son regard ou sur le moment sacré de la fécondité pendant la gestation des fruits du corps matrilinéaire visent à sceller une harmonie si précieuse qu'aucun sorcier vengeur, animé par le mauvais œil obscur, ne puisse troubler l'âme descendante.
+        - text: Quand un Chef rend un jugement, quand un nouveau Bobla est formé ou intégré sous la juridiction supérieure d'un Ijuu et son grand Mojuu, c'est le tracé invisible de ces filiations maternelles qui valide l'action. L'organisation elle-même de nos rois, de nos chefs des hommes, trouve sa noblesse dans l'attestation inaliénable du titre maternel.
+        - text: LA MEMOIRE A TRAVERS L ETERNITE ET LES SIECLES D EVOLUTION
+        - text: "Les orages du temps présent secouent nos traditions comme des vents féroces d'un soir de novembre au crépuscule des saisons des pluies. Vous regardez autour de vous. Et vous me direz : \"Père, l'homme blanc est passé. Le colon est passé avec sa bible, son papier d'identité, sa monnaie, ses commandements et ses chefferies administratives. Et l'Église est passée, transformant des esprits.\" Vous direz peut-être que la robe des Chefs est devenue un simple folklore affiché lors des parades des politiciens lointains à Kinshasa et Inongo. Vous direz sans doute que la télévision et l'internet aspirent la sagesse comme un vampire qui draine la sève des palmiers sans en rendre la douceur du vin."
+        - text: Je souris. Et le vent des arbres anciens du Mai Ndombe sourit avec moi. Laissez-moi vous dire ce qu'est la véritable spiritualité Sakata et la vraie autorité des aînés. Celles-ci ne ressemblent pas à ces poteaux télégraphiques raides que le premier coup de vent déracine. Non, notre force, le pouvoir de la chefferie est une liane souple, tissée avec les entrailles du temps et des croyances éternelles.
+        - text: Certes, des Chefs de terre (Mbey) ont vu leurs rituels contestés et certains administrateurs ont superposé leur encre noire pour officialiser les chefs, fusionnant parfois à tort le Mbey et le Mojuu pour satisfaire l'administration froide venue d'ailleurs. Or la confusion fait parfois trébucher le droit et trouble le repos des ancêtres. Mais quand la maladie frappe, celle que n'atténue pas le médicament moderne, quand l'équilibre communautaire est lacéré par un vol insensé, par la mort prématurée ou par l'effrayante odeur de la jalousie qui engendre le mauvais sort ou l'appel dévastateur de la sorcellerie destructrice... vers qui se tournent encore les cœurs et les frayeurs de notre descendance ?
+        - text: Ils se tournent là où repose l'énigme du makasi de notre peuple; vers cette énergie qui a pour intercesseur privilégié les anciens du clan, l'oncle de la lignée matricentrique, le Mbey. Bien que parfois vêtus d'habits ordinaires, ils restent les gardiens des clefs. L'autorité civile et coercitive appartient aujourd'hui en grande part aux agents de l'État pour trancher la querelle civile. Pourtant, dans le regard silencieux de nos chefs traditionnels du Mai-Ndombe, dans l'Ijuu ou le réduit intime du Bobla, réside une essence souveraine qui échappe au gouverneur ou au juge. Le mysticisme insondable de la chefferie, la charge protectrice liée à la préservation des arbres, des fleuves, des esprits propices et des morts paisibles perdure.
+        - text: UN HERITAGE EVEILLE DANS L OBSCURE ET LA LUMIERE
+        - text: "Il vous appartient, jeunes membres du peuple Sakata éparpillés aujourd'hui de Kinshasa jusqu'aux continents lointains de l'homme blanc, dans ce brouillard du monde dit moderne, de porter dans vos bagages l'essence du Mbey et du Mojuu. Vos vies d'aujourd'hui s'organisent toujours de cette manière mystique : le corps matériel que vous défendez et gagnez comme au tribunal social (qui est votre propre grand Mojuu) et votre profondeur invisible, intègre, celle où votre éthique respire devant la conscience de nos pères disparus (le murmure intérieur de l'âme, votre Mbey secret)."
+        - text: Comprenez pourquoi le rituel a du poids, pourquoi nos femmes, dans leur sang fécond et matrilinéaire, ne sont pas de simples porteuses de vie mais l'urne même du récit communautaire des Basakata. Leurs enfants ne leur appartiennent pas seulement, ils appartiennent au vaste édifice symbolisé par la matriligne. Tout ceci tisse la résilience. Nous ne construisions peut-être pas des tours de pierre, de verre, immenses capables de s'abattre sous leur propre poids. Ce peuple se concentrait sur des liens intangibles et éternels face à la disparition de la chair. La construction de ces grands espaces où les mots justes empêchaient la vengeance et respectaient le mystère.
+        - text: L Ijuu s'étend quand les Bobla sont alignés. Le chef Mbey sourit avec l'Iluo dans la forêt sacrée car l'équilibre est juste. Et le chef Mojuu s'assied avec les hommes, tranquille, sachant que son sceptre n'est pas maudit par l'injustice mystique. Les vents mauvais tournent autour du village et pleurent de n'avoir pas de prise pour s'engouffrer, tant notre tissage est hermétique.
+        - text: La nuit est déjà descendue sur nos foyers, mais vous voyez, le feu, même couvert de cendres, reste insidieusement vif, chaud, prêt à rôtir et à enflammer le bois le plus mort. Que cette chaleur spirituelle, qui s'alimente du souvenir des figures tutélaires, habite vos sommeils. Car c'est elle qui maintient, encore aujourd'hui, nos chefferies spirituelles et territoriales debout contre l'usure cruelle du temps.
+        - text: Emportez avec vous mon ombre au moment de dormir, gardez vivant le souvenir du souffle silencieux de la terre du Mai Ndombe, ce souffle millénaire et invincible du chef de terre. Le bois de demain poussera sur la cendre d'hier. Retenez ces choses, préservez notre mémoire matrilinéaire et avancez sereinement dans le monde, couverts du manteau puissant laissé par la sagesse originelle du Mojuu qui jadis ordonnait le temps des Basakata.
+        - text: Et que paix et respect arrosent la marche de ceux dont le cœur bat au rythme frénétique, rassurant et éternel du lukuire.
+        - text: FIN DE LA TRANSCRIPTION SECRETE DES ROIS SAKATA
+      - complementary [ref=e150]:
+        - generic [ref=e151]:
+          - 'img "L''Équilibre des Deux Mondes : L''Ombre du Mbey et la Voix du Mojuu" [ref=e154]'
+          - generic [ref=e155]:
+            - generic [ref=e156]:
+              - generic [ref=e157]:
+                - img [ref=e158]
+                - generic [ref=e161]: "12"
+              - generic [ref=e162]: Lectures
+            - generic [ref=e163]:
+              - button [ref=e164] [cursor=pointer]:
+                - img [ref=e165]
+              - generic [ref=e167]:
+                - generic [ref=e168]: "0"
+                - generic [ref=e169]: Appréciations
+            - generic [ref=e170]:
+              - paragraph [ref=e171]: Contexte Culturel
+              - paragraph [ref=e172]: "\"Une exploration poétique et philosophique de la Chefferie Sakata, de la matrilinéarité et de l'équilibre spirituel entre le chef de terre et le chef civil.\""
+          - link "Rejoindre la palabre" [ref=e173] [cursor=pointer]:
+            - /url: /forum/thread/chefferie-equilibre-deux-mondes
+            - generic [ref=e175]: Rejoindre la palabre
+    - link "← Retour aux Savoirs" [ref=e177] [cursor=pointer]:
+      - /url: /savoir
+      - generic [ref=e179]: ←
+      - text: Retour aux Savoirs

@@ -1,0 +1,3 @@
+[    3481ms] [LOG] [AuthProvider] init: START @ https://sakata-basakata.com/_next/static/chunks/11w6c-piou51k.js:0
+[    3481ms] [LOG] [AuthProvider] init: getSession start... @ https://sakata-basakata.com/_next/static/chunks/11w6c-piou51k.js:0
+[    3632ms] [LOG] [ChatUnread] Fetching for user: undefined @ https://sakata-basakata.com/_next/static/chunks/11w6c-piou51k.js:8

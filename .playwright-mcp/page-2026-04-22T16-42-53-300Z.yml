@@ -1,0 +1,20 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - button "FR" [ref=e5] [cursor=pointer]:
+      - img [ref=e6]
+      - generic [ref=e9]: FR
+      - img [ref=e10]
+    - generic [ref=e13]:
+      - img [ref=e15]
+      - heading "Bienvenue sur Sakata" [level=1] [ref=e18]
+      - paragraph [ref=e19]:
+        - generic [ref=e20]:
+          - text: Ce portail est un sanctuaire numérique dédié à la préservation et à la transmission de l'identité culturelle du peuple
+          - strong [ref=e21]: Sakata
+          - text: .
+      - paragraph [ref=e22]: Notre objectif est d'unir nos racines ancestrales avec la splendeur numérique moderne, en offrant à la fois des archives vivantes, des sagesses intemporelles et un forum d'échange intergénérationnel.
+      - button "Suivant" [ref=e23] [cursor=pointer]:
+        - text: Suivant
+        - img [ref=e24]
+  - generic [ref=e27]: Invocation du récit...
+  - alert [ref=e28]

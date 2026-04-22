@@ -1,5 +1,6 @@
-import { DB_TABLES } from "@/lib/constants/db";
 "use client";
+
+import { DB_TABLES } from "@/lib/constants/db";
 
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";

@@ -1,0 +1,142 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - button "FR" [ref=e5] [cursor=pointer]:
+      - img [ref=e6]
+      - generic [ref=e9]: FR
+      - img [ref=e10]
+    - generic [ref=e13]:
+      - img [ref=e15]
+      - heading "Bienvenue sur Sakata" [level=1] [ref=e18]
+      - paragraph [ref=e19]:
+        - generic [ref=e20]:
+          - text: Ce portail est un sanctuaire numérique dédié à la préservation et à la transmission de l'identité culturelle du peuple
+          - strong [ref=e21]: Sakata
+          - text: .
+      - paragraph [ref=e22]: Notre objectif est d'unir nos racines ancestrales avec la splendeur numérique moderne, en offrant à la fois des archives vivantes, des sagesses intemporelles et un forum d'échange intergénérationnel.
+      - button "Suivant" [ref=e23] [cursor=pointer]:
+        - text: Suivant
+        - img [ref=e24]
+  - main [ref=e26]:
+    - navigation [ref=e27]:
+      - generic [ref=e28]:
+        - link "SAKATA" [ref=e29] [cursor=pointer]:
+          - /url: /
+        - generic [ref=e30]:
+          - link "Accueil" [ref=e31] [cursor=pointer]:
+            - /url: /
+          - button "Savoir" [ref=e33] [cursor=pointer]:
+            - text: Savoir
+            - img [ref=e34]
+          - button "Communauté" [ref=e37] [cursor=pointer]:
+            - text: Communauté
+            - img [ref=e38]
+          - link "Premium" [ref=e40] [cursor=pointer]:
+            - /url: /premium
+        - generic [ref=e41]:
+          - button "FR" [ref=e43] [cursor=pointer]:
+            - img [ref=e44]
+            - generic [ref=e47]: FR
+            - img [ref=e48]
+          - link "Connexion" [ref=e50] [cursor=pointer]:
+            - /url: /auth
+    - generic [ref=e54]:
+      - generic [ref=e55]: Le Souffle de la Forêt
+      - heading "Là où la mémoire coule comme le Lukenie" [level=1] [ref=e56]
+      - paragraph [ref=e57]: Le passé n'est pas mort, il respire encore sous la brume. Naviguez dans les profondeurs de notre héritage, entre tradition ancestrale et éveil numérique.
+      - link "Explorer le Savoir" [ref=e58] [cursor=pointer]:
+        - /url: /savoir
+        - generic [ref=e60]: Explorer le Savoir
+        - img [ref=e61]
+    - generic [ref=e64]:
+      - img "Patrimoine vivant du peuple Sakata dans la region du Mai-Ndombe" [ref=e66]
+      - generic [ref=e67]:
+        - generic [ref=e68]: Notre Vision
+        - heading "Plus qu'une archive, un héritage vivant." [level=2] [ref=e69]
+        - generic [ref=e70]:
+          - paragraph [ref=e71]: La langue kisakata est comme la rivière Lukenie — elle coule depuis la nuit des temps, elle contourne les obstacles, elle nourrit tout ce qu'elle touche. Si elle s'assèche, c'est tout le village qui a soif.
+          - paragraph [ref=e72]: Notre mboka (terroir) ne se limite pas à un point sur la carte. C'est un endroit où la terre vous reconnait, où les arbres connaissent votre nom. Sakata.com est le pont entre cet héritage et le monde moderne.
+        - generic [ref=e73]:
+          - generic [ref=e74]:
+            - generic [ref=e75]: "2026"
+            - generic [ref=e76]: Fondation
+          - generic [ref=e77]:
+            - generic [ref=e78]: "5"
+            - generic [ref=e79]: Langues
+          - generic [ref=e80]:
+            - generic [ref=e81]: Mai-Ndombe
+            - generic [ref=e82]: Berceau
+    - generic [ref=e83]:
+      - generic [ref=e84]:
+        - generic [ref=e85]: Patrimoine Vivant
+        - heading "Explorer les Savoirs" [level=2] [ref=e86]
+      - generic [ref=e87]: Éveil des mémoires...
+    - generic [ref=e88]:
+      - generic [ref=e89]:
+        - generic [ref=e90]: Plateforme
+        - heading "Dernières mises à jour" [level=2] [ref=e91]
+        - paragraph [ref=e92]: La plateforme évolue continuellement pour vous offrir une expérience plus riche et sécurisée.
+      - generic [ref=e93]:
+        - generic [ref=e94]:
+          - generic [ref=e95]:
+            - generic [ref=e96]: ✨
+            - generic [ref=e97]: Avril 2026
+          - generic [ref=e98]:
+            - heading "Identité & Accueil" [level=3] [ref=e99]
+            - paragraph [ref=e100]: Personnalisation dynamique des sections Savoir et École. Le Hub reconnaît désormais votre parcours et vous accueille personnellement.
+          - generic [ref=e103]: Détails
+        - generic [ref=e104]:
+          - generic [ref=e105]:
+            - generic [ref=e106]: 🛡️
+            - generic [ref=e107]: Avril 2026
+          - generic [ref=e108]:
+            - heading "Stabilité & Robustesse v2.6" [level=3] [ref=e109]
+            - paragraph [ref=e110]: "Audit de robustesse complet : résolution de la boucle infinie d'authentification et optimisation du proxy réseau. Performance et fluidité accrues."
+          - generic [ref=e113]: Détails
+        - generic [ref=e114]:
+          - generic [ref=e115]:
+            - generic [ref=e116]: 📧
+            - generic [ref=e117]: Avril 2026
+          - generic [ref=e118]:
+            - heading "Infrastructure Email" [level=3] [ref=e119]
+            - paragraph [ref=e120]: Intégration de Resend pour les notifications et newsletters. Configuration DNS (DKIM/SPF) validée pour sakata-basakata.com.
+          - generic [ref=e123]: Détails
+        - generic [ref=e124]:
+          - generic [ref=e125]:
+            - generic [ref=e126]: 🌍
+            - generic [ref=e127]: Avril 2026
+          - generic [ref=e128]:
+            - heading "Géographie v2.4" [level=3] [ref=e129]
+            - paragraph [ref=e130]: Calque des 26 provinces de la RDC avec focus sur le Mai-Ndombe. Moteur Mapbox GL JS v3 avec relief 3D.
+          - generic [ref=e133]: Détails
+        - generic [ref=e134]:
+          - generic [ref=e135]:
+            - generic [ref=e136]: 📜
+            - generic [ref=e137]: Avril 2026
+          - generic [ref=e138]:
+            - heading "Sagesse Ngongo" [level=3] [ref=e139]
+            - paragraph [ref=e140]: Archives majeures sur les rites Ngongo. Recherche exhaustive sur la philosophie ancestrale basakata.
+          - generic [ref=e143]: Détails
+    - generic [ref=e148]:
+      - generic [ref=e149]: Communauté & Savoir
+      - heading "Contribuez au savoir" [level=2] [ref=e150]
+      - paragraph [ref=e151]: Votre histoire est une partie de la nôtre. Devenez documentaliste culturel et aidez-nous à préserver les traditions Sakata pour les prochaines générations.
+      - link "Devenir Contributeur" [ref=e152] [cursor=pointer]:
+        - /url: /auth
+        - text: Devenir Contributeur
+        - img [ref=e153]
+    - generic [ref=e156]:
+      - generic [ref=e157]:
+        - generic [ref=e158]: KISAKATA
+        - paragraph [ref=e159]: © 2026 — Brume de la Rivière. Tous droits réservés.
+      - generic [ref=e160]:
+        - link "CULTURE" [ref=e161] [cursor=pointer]:
+          - /url: /savoir
+        - link "ECOLE" [ref=e162] [cursor=pointer]:
+          - /url: /ecole
+        - link "LANGUE" [ref=e163] [cursor=pointer]:
+          - /url: /#langue
+        - link "HISTOIRE" [ref=e164] [cursor=pointer]:
+          - /url: /#histoire
+        - link "FORUM" [ref=e165] [cursor=pointer]:
+          - /url: /forum
+  - alert [ref=e166]

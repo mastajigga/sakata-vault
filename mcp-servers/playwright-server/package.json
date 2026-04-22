@@ -1,0 +1,11 @@
+{
+  "name": "@sakata/playwright-mcp",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "playwright-mcp"
+  },
+  "dependencies": {
+    "@playwright/mcp": "^0.0.70"
+  }
+}

@@ -1,0 +1,40 @@
+[     103ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[     207ms] [LOG] [HMR] connected @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[     282ms] [LOG] [AuthProvider] init: START @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[     282ms] [LOG] [AuthProvider] init: getSession start... @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[     406ms] [LOG] [ChatUnread] Fetching for user: undefined @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[    2216ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[    2330ms] [LOG] [Fast Refresh] done in 216ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[    5812ms] [WARNING] Image with src "/images/sakata_mask_detail.png" was detected as the Largest Contentful Paint (LCP). Please add the `loading="eager"` property if this image is above the fold.
+Read more: https://nextjs.org/docs/app/api-reference/components/image#loading @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[ 1644716ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[ 1645013ms] [LOG] [Fast Refresh] done in 406ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[ 1646225ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[ 1646490ms] [LOG] [Fast Refresh] done in 373ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[ 1646599ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[ 1646863ms] [LOG] [Fast Refresh] done in 373ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[ 2845234ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[ 2845547ms] [LOG] [Fast Refresh] done in 416ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[ 2851753ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[ 2852048ms] [LOG] [Fast Refresh] done in 399ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[10876232ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[10876606ms] [LOG] [Fast Refresh] done in 476ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[10886510ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[10886787ms] [LOG] [Fast Refresh] done in 387ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[10934654ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[10935195ms] [LOG] [Fast Refresh] done in 644ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[11496974ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_next/webpack-hmr?id=ZFJOa6fqAkbFTzi7bMlsf' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13299
+[11501080ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_next/webpack-hmr?id=ZFJOa6fqAkbFTzi7bMlsf' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13299
+[11742097ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_next/webpack-hmr?id=ZFJOa6fqAkbFTzi7bMlsf' failed: WebSocket opening handshake timed out @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13299
+[11983110ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_next/webpack-hmr?id=ZFJOa6fqAkbFTzi7bMlsf' failed: WebSocket opening handshake timed out @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13299
+[12224133ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_next/webpack-hmr?id=ZFJOa6fqAkbFTzi7bMlsf' failed: WebSocket opening handshake timed out @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13299
+[12469153ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_next/webpack-hmr?id=ZFJOa6fqAkbFTzi7bMlsf' failed: WebSocket opening handshake timed out @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13299
+[12714172ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_next/webpack-hmr?id=ZFJOa6fqAkbFTzi7bMlsf' failed: WebSocket opening handshake timed out @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13299
+[12959188ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_next/webpack-hmr?id=ZFJOa6fqAkbFTzi7bMlsf' failed: WebSocket opening handshake timed out @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13299
+[13204197ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_next/webpack-hmr?id=ZFJOa6fqAkbFTzi7bMlsf' failed: WebSocket opening handshake timed out @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13299
+[13449219ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_next/webpack-hmr?id=ZFJOa6fqAkbFTzi7bMlsf' failed: WebSocket opening handshake timed out @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13299
+[13694231ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_next/webpack-hmr?id=ZFJOa6fqAkbFTzi7bMlsf' failed: WebSocket opening handshake timed out @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13299
+[13939247ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_next/webpack-hmr?id=ZFJOa6fqAkbFTzi7bMlsf' failed: WebSocket opening handshake timed out @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13299
+[13939389ms] [LOG] [AuthProvider] init: START @ http://localhost:3000/_next/static/chunks/11w6c-piou51k.js:0
+[13939389ms] [LOG] [AuthProvider] init: getSession start... @ http://localhost:3000/_next/static/chunks/11w6c-piou51k.js:0
+[13939494ms] [LOG] [ChatUnread] Fetching for user: undefined @ http://localhost:3000/_next/static/chunks/11w6c-piou51k.js:8

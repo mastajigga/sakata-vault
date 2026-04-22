@@ -1,5 +1,6 @@
-import { DB_TABLES } from "@/lib/constants/db";
 "use client";
+
+import { DB_TABLES } from "@/lib/constants/db";
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useAuth } from "@/components/AuthProvider";

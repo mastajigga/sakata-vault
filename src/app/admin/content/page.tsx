@@ -1,5 +1,6 @@
-import { DB_TABLES } from "@/lib/constants/db";
 "use client";
+
+import { DB_TABLES } from "@/lib/constants/db";
 
 import React, { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
