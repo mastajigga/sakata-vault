@@ -133,7 +133,11 @@ export function ChatUnreadProvider({
           fetchConversations(false);
         }
       )
-      .subscribe();
+      .subscribe((status: any, err: any) => {
+        if (status === 'CHANNEL_ERROR' || err) {
+          console.error('[ChatUnread] WebSocket error:', err || status);
+        }
+      });
 
     return () => {
       cancelled = true;

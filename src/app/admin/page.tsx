@@ -157,12 +157,12 @@ const AdminDashboard = () => {
       setIsLoading(true);
       try {
         // Core counts
-        const { count: articleCount } = await supabase.from("articles").select("*", { count: "exact", head: true });
+        const { count: articleCount } = await supabase.from(DB_TABLES.ARTICLES).select("*", { count: "exact", head: true });
         const { count: userCount } = await supabase.from(DB_TABLES.PROFILES).select("*", { count: "exact", head: true });
-        const { data: articlesData } = await supabase.from("articles").select("likes_count, reads_count, title, slug").order('reads_count', { ascending: false }).limit(5);
+        const { data: articlesData } = await supabase.from(DB_TABLES.ARTICLES).select("likes_count, reads_count, title, slug").order('reads_count', { ascending: false }).limit(5);
         
         // Sum total likes and reads from articles table (optimized)
-        const { data: allArticles } = await supabase.from("articles").select("likes_count, reads_count");
+        const { data: allArticles } = await supabase.from(DB_TABLES.ARTICLES).select("likes_count, reads_count");
         const totalLikes = allArticles?.reduce((acc: number, curr: any) => acc + (curr.likes_count || 0), 0) || 0;
         const totalReads = allArticles?.reduce((acc: number, curr: any) => acc + (curr.reads_count || 0), 0) || 0;
 
@@ -174,7 +174,7 @@ const AdminDashboard = () => {
         else if (timeframe === "6_months") dateFilter.setMonth(dateFilter.getMonth() - 6);
 
         const { data: analyticsData } = await supabase
-          .from("site_analytics")
+          .from(DB_TABLES.SITE_ANALYTICS)
           .select("created_at, language, session_id, metadata, ip_address, referrer, path")
           .gte("created_at", dateFilter.toISOString())
           .order('created_at', { ascending: true }) as { data: any[] };
@@ -186,7 +186,7 @@ const AdminDashboard = () => {
         const todayStart = new Date();
         todayStart.setHours(0, 0, 0, 0);
         const { data: todayData } = await supabase
-          .from("site_analytics")
+          .from(DB_TABLES.SITE_ANALYTICS)
           .select("created_at, language, session_id, metadata, ip_address, referrer, path")
           .gte("created_at", todayStart.toISOString()) as { data: any[] };
         const todayVisits = todayData?.length || 0;

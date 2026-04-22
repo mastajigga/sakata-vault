@@ -4,6 +4,7 @@ import Footer from "@/components/Footer";
 import Link from "next/link";
 import { BookOpen, Flame, Users, MessageSquare } from "lucide-react";
 import { Metadata } from "next";
+import { DB_TABLES } from "@/lib/constants/db";
 
 export const metadata: Metadata = {
   title: "Mboka (Forum) | Sakata",
@@ -22,7 +23,7 @@ export const revalidate = 60; // Revalidate every 60s
 
 export default async function ForumIndex() {
   const { data: categories, error } = await supabasePublic
-    .from("forum_categories")
+    .from(DB_TABLES.FORUM_CATEGORIES)
     .select(`
       id,
       name,
@@ -69,7 +70,7 @@ export default async function ForumIndex() {
                 href={`/forum/${cat.slug}`}
                 className="group relative bg-[var(--foret-nocturne)]/50 border border-[var(--or-ancestral)]/20 rounded-2xl p-8 backdrop-blur-md overflow-hidden transition-all duration-500 hover:bg-[var(--foret-nocturne)]/80 hover:border-[var(--or-ancestral)]/50 flex flex-col"
               >
-                <div className="absolute inset-0 bg-gradient-to-br from-[#B59551]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <div className="absolute inset-0 bg-gradient-to-br from-[var(--or-ancestral)]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                 
                 <div className="relative z-10 flex items-start gap-4 mb-4">
                   <div className="p-3 bg-[var(--or-ancestral)]/10 rounded-xl text-[var(--or-ancestral)] group-hover:scale-110 transition-transform duration-500">

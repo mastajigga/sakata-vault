@@ -15,7 +15,7 @@ export async function POST(req: NextRequest) {
 
   const { endpoint } = await req.json();
   const { error } = await supabase
-    .from('push_subscriptions')
+    .from(DB_TABLES.PUSH_SUBSCRIPTIONS)
     .delete()
     .match({ user_id: user.id, endpoint });
 

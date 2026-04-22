@@ -1,3 +1,4 @@
+import { DB_TABLES } from "@/lib/constants/db";
 "use client";
 
 import React, { useEffect, useState } from "react";
@@ -38,7 +39,7 @@ const ArticleEditor = () => {
     if (!isNew) {
       const fetchArticle = async () => {
         const { data, error } = await supabase
-          .from("articles")
+          .from(DB_TABLES.ARTICLES)
           .select("*")
           .eq("slug", slug)
           .single();
@@ -55,7 +56,7 @@ const ArticleEditor = () => {
   const handleSave = async () => {
     setSaving(true);
     const { error } = await supabase
-      .from("articles")
+      .from(DB_TABLES.ARTICLES)
       .upsert(article);
 
     if (error) {

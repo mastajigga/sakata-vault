@@ -384,7 +384,7 @@ const Navbar = () => {
                 >
                   Messagerie
                   {totalUnread > 0 && (
-                    <span className="absolute -right-4 top-1 w-2.5 h-2.5 bg-amber-500 rounded-full border border-[#0A1F15]" />
+                    <span className="absolute -right-4 top-1 w-2.5 h-2.5 bg-amber-500 rounded-full border border-[var(--foret-nocturne)]" />
                   )}
                 </Link>
                 <Link

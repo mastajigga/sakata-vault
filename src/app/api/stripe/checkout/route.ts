@@ -29,7 +29,7 @@ export async function POST(req: Request) {
 
     // Check if user already has active premium subscription (prevent double-buy)
     const { data: existingSub } = await supabaseAdmin
-      .from('chat_subscriptions')
+      .from(DB_TABLES.CHAT_SUBSCRIPTIONS)
       .select('*')
       .eq('user_id', userId)
       .eq('tier', 'premium')
@@ -101,7 +101,7 @@ export async function POST(req: Request) {
     });
 
     // Store session in subscription_sessions to track and prevent duplicates
-    await supabaseAdmin.from('subscription_sessions').insert({
+    await supabaseAdmin.from(DB_TABLES.SUBSCRIPTION_SESSIONS).insert({
       user_id: userId,
       stripe_session_id: checkoutSession.id,
       status: 'pending',

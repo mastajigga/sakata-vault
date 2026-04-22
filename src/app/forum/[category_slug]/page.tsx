@@ -69,7 +69,7 @@ export default async function ForumCategoryPage(props: { params: Promise<{ categ
           </div>
           <Link 
             href={`/forum/${params.category_slug}/new`} 
-            className="flex-shrink-0 inline-flex items-center justify-center space-x-2 bg-[var(--or-ancestral)] text-[var(--foret-nocturne)] px-6 py-3 rounded-md font-medium transition-all hover:bg-[#F2EEDD]"
+            className="flex-shrink-0 inline-flex items-center justify-center space-x-2 bg-[var(--or-ancestral)] text-[var(--foret-nocturne)] px-6 py-3 rounded-md font-medium transition-all hover:bg-[var(--ivoire-ancien)]"
           >
             <MessageSquarePlus size={18} />
             <span>Nouveau Sujet</span>

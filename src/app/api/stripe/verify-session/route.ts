@@ -71,14 +71,14 @@ export async function GET(req: Request) {
 
       // Create or update chat_subscriptions
       const { data: existingSub } = await supabaseAdmin
-        .from('chat_subscriptions')
+        .from(DB_TABLES.CHAT_SUBSCRIPTIONS)
         .select('*')
         .eq('user_id', user.id)
         .single();
 
       if (existingSub) {
         await supabaseAdmin
-          .from('chat_subscriptions')
+          .from(DB_TABLES.CHAT_SUBSCRIPTIONS)
           .update({
             stripe_customer_id: customerId,
             stripe_subscription_id: subId,
@@ -90,7 +90,7 @@ export async function GET(req: Request) {
           .eq('user_id', user.id);
       } else {
         await supabaseAdmin
-          .from('chat_subscriptions')
+          .from(DB_TABLES.CHAT_SUBSCRIPTIONS)
           .insert({
             user_id: user.id,
             stripe_customer_id: customerId,

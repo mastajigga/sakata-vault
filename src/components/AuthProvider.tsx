@@ -5,10 +5,8 @@ import { User, Session } from "@supabase/supabase-js";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 import { withRetry } from "@/lib/supabase-retry";
-import { APP_VERSION, SUBSCRIPTION_TIERS } from "@/lib/constants/business";
+import { APP_VERSION, SUBSCRIPTION_TIERS, UserRole } from "@/lib/constants/business";
 import { STORAGE_KEYS, SESSION_KEYS } from "@/lib/constants/storage";
-
-export type UserRole = "admin" | "manager" | "contributor" | "user";
 
 interface AuthContextType {
   user: User | null;

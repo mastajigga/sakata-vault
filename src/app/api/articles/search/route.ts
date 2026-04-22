@@ -43,7 +43,7 @@ export async function GET(req: NextRequest) {
   // Fallback: fulltext search dans Supabase
   // On cherche dans title (jsonb) et summary (jsonb) selon la langue validée
   const { data, error } = await supabase
-    .from('articles')
+    .from(DB_TABLES.ARTICLES)
     .select('id, slug, title, summary, category, image, subscription_required')
     .or(
       `title->>${lang}.ilike.%${q}%,summary->>${lang}.ilike.%${q}%,title->>fr.ilike.%${q}%,summary->>fr.ilike.%${q}%`

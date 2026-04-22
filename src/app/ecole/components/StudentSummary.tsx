@@ -1,3 +1,4 @@
+import { DB_TABLES } from "@/lib/constants/db";
 "use client";
 
 import React, { useEffect, useState } from "react";

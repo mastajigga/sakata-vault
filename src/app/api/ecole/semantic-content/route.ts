@@ -8,7 +8,7 @@ const CACHE_TTL_MS = 24 * 60 * 60 * 1000; // 24h
 async function cacheEnrichment(chapterId: string, enrichment: SemanticEnrichment) {
   try {
     await supabaseAdmin
-      .from("ecole_semantic_cache")
+      .from(DB_TABLES.ECOLE_SEMANTIC_CACHE)
       .upsert(
         {
           chapter_id: chapterId,
@@ -339,7 +339,7 @@ export async function POST(request: NextRequest) {
     // 1. Check Supabase cache first
     try {
       const { data: cached } = await supabaseAdmin
-        .from("ecole_semantic_cache")
+        .from(DB_TABLES.ECOLE_SEMANTIC_CACHE)
         .select("content, created_at")
         .eq("chapter_id", chapter)
         .single();

@@ -75,7 +75,7 @@ export default function NewThreadClient({ categoryId, categorySlug }: { category
       )}
 
       <div>
-        <label htmlFor="title" className="block text-sm font-medium text-[#F2EEDD]/70 mb-2 uppercase tracking-wide">
+        <label htmlFor="title" className="block text-sm font-medium text-[var(--ivoire-ancien)]/70 mb-2 uppercase tracking-wide">
           Titre du Sujet
         </label>
         <input
@@ -86,12 +86,12 @@ export default function NewThreadClient({ categoryId, categorySlug }: { category
           placeholder="Un titre clair et évocateur..."
           required
           maxLength={120}
-          className="w-full bg-[#122A1E]/50 border border-[#B59551]/20 rounded-xl px-4 py-3 text-[#F2EEDD] placeholder-[#F2EEDD]/30 focus:outline-none focus:border-[#B59551]/50 focus:ring-1 focus:ring-[#B59551]/50 transition-all font-light text-lg"
+          className="w-full bg-[var(--eau-sombre)]/50 border border-[var(--or-ancestral)]/20 rounded-xl px-4 py-3 text-[var(--ivoire-ancien)] placeholder-[var(--ivoire-ancien)]/30 focus:outline-none focus:border-[var(--or-ancestral)]/50 focus:ring-1 focus:ring-[var(--or-ancestral)]/50 transition-all font-light text-lg"
         />
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-[#F2EEDD]/70 mb-2 uppercase tracking-wide">
+        <label className="block text-sm font-medium text-[var(--ivoire-ancien)]/70 mb-2 uppercase tracking-wide">
           Message
         </label>
         <MarkdownEditor value={content} onChange={setContent} minHeight="min-h-[400px]" />
@@ -101,7 +101,7 @@ export default function NewThreadClient({ categoryId, categorySlug }: { category
         <button
           type="submit"
           disabled={isSubmitting || !title.trim() || !content.trim()}
-          className="bg-[#B59551] text-[#0A1F15] px-8 py-3 rounded-xl font-medium transition-all hover:bg-[#F2EEDD] disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+          className="bg-[var(--or-ancestral)] text-[var(--foret-nocturne)] px-8 py-3 rounded-xl font-medium transition-all hover:bg-[var(--ivoire-ancien)] disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
         >
           {isSubmitting ? (
             <>

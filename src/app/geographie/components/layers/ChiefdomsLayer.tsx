@@ -179,7 +179,7 @@ export default function ChiefdomsLayer({ data, pointsData }: ChiefdomsLayerProps
       },
       paint: {
         "text-color": "#F0EDE5",
-        "text-halo-color": "#0A1F15",
+        "text-halo-color": "var(--foret-nocturne)",
         "text-halo-width": 3,
         "text-halo-blur": 1,
       },

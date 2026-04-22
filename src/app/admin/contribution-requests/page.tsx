@@ -1,3 +1,4 @@
+import { DB_TABLES } from "@/lib/constants/db";
 "use client";
 
 import { useEffect, useState } from "react";
@@ -35,7 +36,7 @@ export default function ContributionRequestsPage() {
     try {
       setIsLoading(true);
       const { data, error } = await supabase
-        .from("contribution_requests")
+        .from(DB_TABLES.CONTRIBUTION_REQUESTS)
         .select(`
           *,
           profiles:user_id (
@@ -60,7 +61,7 @@ export default function ContributionRequestsPage() {
       
       // Update the request status
       const { error: requestError } = await supabase
-        .from("contribution_requests")
+        .from(DB_TABLES.CONTRIBUTION_REQUESTS)
         .update({ status, updated_at: new Date().toISOString() })
         .eq("id", id);
 
@@ -79,7 +80,7 @@ export default function ContributionRequestsPage() {
         }
 
         const { error: profileError } = await supabase
-          .from("profiles")
+          .from(DB_TABLES.PROFILES)
           .update(updates)
           .eq("id", userId);
 

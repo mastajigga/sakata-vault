@@ -40,7 +40,7 @@ export default function EcoleHero() {
           <source src="/videos/ecole_bg_587.mp4" type="video/mp4" />
         </video>
         {/* Color overlay to merge smoothly with the site's dark forest background below */}
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(212,221,215,0.1),transparent_28%),radial-gradient(circle_at_right,rgba(196,160,53,0.1),transparent_22%),linear-gradient(180deg,transparent_0%,#0A1F15_82%,#081811_100%)] mix-blend-multiply" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(212,221,215,0.1),transparent_28%),radial-gradient(circle_at_right,rgba(196,160,53,0.1),transparent_22%),linear-gradient(180deg,transparent_0%,var(--foret-nocturne)_82%,#081811_100%)] mix-blend-multiply" />
       </div>
       <div className="river-curve left-[-10%] top-[18%] h-[18rem] w-[44rem]" />
       <div className="river-curve right-[-14%] top-[34%] h-[22rem] w-[52rem]" />

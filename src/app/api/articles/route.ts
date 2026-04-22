@@ -9,7 +9,7 @@ import { NextResponse } from "next/server";
 export async function GET() {
   try {
     const { data: articles, error } = await supabasePublic
-      .from("articles")
+      .from(DB_TABLES.ARTICLES)
       .select("id, slug, title, summary, category, featured_image, created_at, likes_count, reads_count, is_premium")
       .order("created_at", { ascending: false });
 

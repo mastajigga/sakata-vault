@@ -116,7 +116,7 @@ const Hero = () => {
               ellipse 70% 70% at center,
               transparent 30%,
               rgba(10, 31, 21, 0.5) 60%,
-              #0A1F15 100%
+              var(--foret-nocturne) 100%
             )`,
           }}
         />
@@ -125,7 +125,7 @@ const Hero = () => {
           className="absolute bottom-0 left-0 right-0 pointer-events-none"
           style={{
             height: "40%",
-            background: "linear-gradient(to top, #0A1F15 0%, transparent 100%)",
+            background: "linear-gradient(to top, var(--foret-nocturne) 0%, transparent 100%)",
           }}
         />
 
@@ -171,12 +171,12 @@ const Hero = () => {
             }}
           >
             <div className="absolute inset-0 bg-or-ancestral translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]" />
-            <span className="relative z-10 group-hover:text-[#0A1F15] transition-colors duration-500">
+            <span className="relative z-10 group-hover:text-[var(--foret-nocturne)] transition-colors duration-500">
               {t("hero.cta")}
             </span>
             <svg 
               width="14" height="14" viewBox="0 0 14 14" fill="none" 
-              className="relative z-10 stroke-or-ancestral group-hover:stroke-[#0A1F15] transition-all duration-500 group-hover:translate-x-1"
+              className="relative z-10 stroke-or-ancestral group-hover:stroke-[var(--foret-nocturne)] transition-all duration-500 group-hover:translate-x-1"
             >
               <path d="M1 7h12M9 3l4 4-4 4" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>

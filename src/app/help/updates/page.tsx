@@ -70,7 +70,7 @@ function UpdatesContent() {
       </div>
 
       {/* Email preview */}
-      <div className="bg-[#0A1F15]/30 rounded-lg border border-[#C16B34]/20 overflow-hidden">
+      <div className="bg-[var(--foret-nocturne)]/30 rounded-lg border border-[#C16B34]/20 overflow-hidden">
         <div className="flex justify-center p-6 bg-[#050B08]">
           <p className="text-gray-500 text-sm">Aperçu du mail</p>
         </div>

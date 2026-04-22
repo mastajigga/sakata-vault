@@ -50,7 +50,7 @@ export default function LanguageSwitcher() {
             initial={{ opacity: 0, y: 10, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 10, scale: 0.95 }}
-            className="absolute top-full mt-3 right-0 w-40 overflow-hidden rounded-2xl border border-white/10 bg-[#0A1F15]/90 p-1.5 backdrop-blur-2xl z-[100]"
+            className="absolute top-full mt-3 right-0 w-40 overflow-hidden rounded-2xl border border-white/10 bg-[var(--foret-nocturne)]/90 p-1.5 backdrop-blur-2xl z-[100]"
             style={{ boxShadow: "0 20px 40px rgba(0,0,0,0.4)" }}
           >
             {LANGUAGES.map((lang) => (

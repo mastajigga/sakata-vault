@@ -19,15 +19,15 @@ export function ThreadCard({ thread, author, postsCount, categorySlug }: ThreadC
   return (
     <Link 
       href={`/forum/thread/${thread.slug}`}
-      className={`group block bg-[#122A1E]/50 border rounded-xl p-5 md:p-6 transition-all duration-300 hover:bg-[#122A1E] ${
-        thread.is_pinned ? 'border-[#B59551]/40' : 'border-[#B59551]/10 hover:border-[#B59551]/30'
+      className={`group block bg-[var(--eau-sombre)]/50 border rounded-xl p-5 md:p-6 transition-all duration-300 hover:bg-[var(--eau-sombre)] ${
+        thread.is_pinned ? 'border-[var(--or-ancestral)]/40' : 'border-[var(--or-ancestral)]/10 hover:border-[var(--or-ancestral)]/30'
       }`}
     >
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div className="flex-grow pr-4">
           <div className="flex items-center space-x-3 mb-2">
             {thread.is_pinned && (
-              <span className="flex items-center text-[#B59551] text-xs font-semibold uppercase tracking-wider bg-[#B59551]/10 px-2 py-1 rounded">
+              <span className="flex items-center text-[var(--or-ancestral)] text-xs font-semibold uppercase tracking-wider bg-[var(--or-ancestral)]/10 px-2 py-1 rounded">
                 <Pin size={12} className="mr-1" /> Épinglé
               </span>
             )}
@@ -37,35 +37,35 @@ export function ThreadCard({ thread, author, postsCount, categorySlug }: ThreadC
               </span>
             )}
             {thread.article_id && (
-              <span className="flex items-center text-[#B59551] text-[10px] font-bold uppercase tracking-widest bg-[#B59551]/10 border border-[#B59551]/30 px-2 py-0.5 rounded-full">
+              <span className="flex items-center text-[var(--or-ancestral)] text-[10px] font-bold uppercase tracking-widest bg-[var(--or-ancestral)]/10 border border-[var(--or-ancestral)]/30 px-2 py-0.5 rounded-full">
                 Savoir
               </span>
             )}
-            <h3 className="text-xl md:text-2xl font-light text-[#F2EEDD] group-hover:text-[#B59551] transition-colors line-clamp-1">
+            <h3 className="text-xl md:text-2xl font-light text-[var(--ivoire-ancien)] group-hover:text-[var(--or-ancestral)] transition-colors line-clamp-1">
               {thread.title}
             </h3>
           </div>
           
-          <div className="flex items-center text-sm text-[#F2EEDD]/50 gap-4 mt-2 font-light">
+          <div className="flex items-center text-sm text-[var(--ivoire-ancien)]/50 gap-4 mt-2 font-light">
             <div className="flex items-center gap-2">
               <div className="relative w-5 h-5 rounded-full overflow-hidden">
                 <MemberImage profile={author} priority={false} />
               </div>
-              <span className="text-[#F2EEDD]/70">{author?.nickname || author?.username || 'Villageois Anonyme'}</span>
+              <span className="text-[var(--ivoire-ancien)]/70">{author?.nickname || author?.username || 'Villageois Anonyme'}</span>
             </div>
             <span>•</span>
             <span className="flex items-center gap-1.5"><Clock size={14} /> {formattedDate}</span>
           </div>
         </div>
 
-        <div className="flex items-center space-x-6 text-[#F2EEDD]/40 text-sm border-t md:border-t-0 md:border-l border-[#B59551]/10 pt-4 md:pt-0 md:pl-6">
+        <div className="flex items-center space-x-6 text-[var(--ivoire-ancien)]/40 text-sm border-t md:border-t-0 md:border-l border-[var(--or-ancestral)]/10 pt-4 md:pt-0 md:pl-6">
           <div className="flex flex-col items-center">
             <MessageSquare size={18} className="mb-1" />
-            <span className="font-medium text-[#F2EEDD]/70">{postsCount}</span>
+            <span className="font-medium text-[var(--ivoire-ancien)]/70">{postsCount}</span>
           </div>
           <div className="flex flex-col items-center">
             <Eye size={18} className="mb-1" />
-            <span className="font-medium text-[#F2EEDD]/70">{thread.views_count || 0}</span>
+            <span className="font-medium text-[var(--ivoire-ancien)]/70">{thread.views_count || 0}</span>
           </div>
         </div>
       </div>

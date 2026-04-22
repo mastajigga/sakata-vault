@@ -158,7 +158,7 @@ export default function DialectsLayer({ data, pointsData }: DialectsLayerProps) 
       },
       paint: {
         "text-color": "#E8C670",
-        "text-halo-color": "#0A1F15",
+        "text-halo-color": "var(--foret-nocturne)",
         "text-halo-width": 3,
         "text-halo-blur": 1,
       },

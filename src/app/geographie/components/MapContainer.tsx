@@ -172,7 +172,7 @@ const MapContainer = forwardRef<MapRef, MapContainerProps>(
           terrain={{ source: "mapbox-dem", exaggeration: 1.1 }}
           fog={{
             range: [0.5, 10],
-            color: "#0A1F15",
+            color: "var(--foret-nocturne)",
             "high-color": "#1B2838",
             "space-color": "#010B14",
             "horizon-blend": 0.5,

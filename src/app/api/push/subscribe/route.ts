@@ -19,7 +19,7 @@ export async function POST(req: NextRequest) {
   }
 
   const { error } = await supabase
-    .from('push_subscriptions')
+    .from(DB_TABLES.PUSH_SUBSCRIPTIONS)
     .upsert(
       { user_id: user.id, endpoint, p256dh, auth, updated_at: new Date().toISOString() },
       { onConflict: 'user_id,endpoint' }

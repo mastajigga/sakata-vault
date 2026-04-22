@@ -1,3 +1,4 @@
+import { DB_TABLES } from "@/lib/constants/db";
 "use client";
 
 import { useEffect, useState } from "react";
@@ -45,7 +46,7 @@ export default function ArticleReviewPage() {
     const fetchArticle = async () => {
       try {
         const { data, error } = await supabase
-          .from("articles")
+          .from(DB_TABLES.ARTICLES)
           .select(`
             *,
             profiles:author_id (username, email)
@@ -78,7 +79,7 @@ export default function ArticleReviewPage() {
       }
 
       const { error } = await supabase
-        .from("articles")
+        .from(DB_TABLES.ARTICLES)
         .update(updates)
         .eq("id", articleId);
 
@@ -96,7 +97,7 @@ export default function ArticleReviewPage() {
     setReviewing(true);
     try {
       const { error } = await supabase
-        .from("articles")
+        .from(DB_TABLES.ARTICLES)
         .update({
           status: "rejected",
           rejection_reason: reviewNotes || null,

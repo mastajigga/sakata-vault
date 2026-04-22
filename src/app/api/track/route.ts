@@ -13,7 +13,7 @@ export async function POST(req: Request) {
     const country = req.headers.get('x-country') || req.headers.get('x-vercel-ip-country') || 'Unknown';
     
     // Insert into Supabase 
-    await supabasePublic.from('site_analytics').insert({
+    await supabasePublic.from(DB_TABLES.SITE_ANALYTICS).insert({
       path: body.path,
       user_id: body.user_id,
       language: body.language,

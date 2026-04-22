@@ -9,7 +9,7 @@ import { NextResponse } from "next/server";
 export async function GET() {
   try {
     const { data: profiles, error } = await supabasePublic
-      .from("profiles")
+      .from(DB_TABLES.PROFILES)
       .select("id, username, nickname, avatar_url, short_bio, location, contributor_status, updated_at")
       .not("username", "is", null)
       .order("updated_at", { ascending: false });

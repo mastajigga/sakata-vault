@@ -44,7 +44,7 @@ export async function POST(request: Request) {
 
     // Check if user already has a pending request of this type
     const { data: existingRequest } = await supabase
-      .from("contribution_requests")
+      .from(DB_TABLES.CONTRIBUTION_REQUESTS)
       .select("*")
       .eq("user_id", user.id)
       .eq("request_type", requestType)
@@ -63,7 +63,7 @@ export async function POST(request: Request) {
 
     // Create the request
     const { data, error } = await supabase
-      .from("contribution_requests")
+      .from(DB_TABLES.CONTRIBUTION_REQUESTS)
       .insert({
         user_id: user.id,
         request_type: requestType,
@@ -132,7 +132,7 @@ export async function GET(request: Request) {
 
     // Get user's own requests
     const { data, error } = await supabase
-      .from("contribution_requests")
+      .from(DB_TABLES.CONTRIBUTION_REQUESTS)
       .select("*")
       .eq("user_id", user.id)
       .order("created_at", { ascending: false });

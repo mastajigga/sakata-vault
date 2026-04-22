@@ -97,7 +97,7 @@ const CommunityCallout = () => {
               circle at center,
               transparent 0%,
               rgba(10, 31, 21, 0.4) 40%,
-              #0A1F15 90%
+              var(--foret-nocturne) 90%
             )`,
           }}
         />
@@ -107,14 +107,14 @@ const CommunityCallout = () => {
           className="absolute top-0 left-0 right-0 pointer-events-none"
           style={{
             height: "20%",
-            background: "linear-gradient(to bottom, #0A1F15 0%, transparent 100%)",
+            background: "linear-gradient(to bottom, var(--foret-nocturne) 0%, transparent 100%)",
           }}
         />
         <div
           className="absolute bottom-0 left-0 right-0 pointer-events-none"
           style={{
             height: "20%",
-            background: "linear-gradient(to top, #0A1F15 0%, transparent 100%)",
+            background: "linear-gradient(to top, var(--foret-nocturne) 0%, transparent 100%)",
           }}
         />
       </div>

@@ -22,6 +22,10 @@ export function useMessages(conversationId: string) {
   // P2-D fix: userIdRef évite les stale closures dans les callbacks realtime.
   const userIdRef = useRef<string>("");
 
+  // P1-B: Batching pour éviter N+1 profile queries sur les realtime inserts
+  const pendingProfileFetchRef = useRef<Set<string>>(new Set());
+  const profileFetchTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
   // Résoudre l'userId une seule fois au montage, puis le mettre à jour si la session change
   useEffect(() => {
     supabase.auth.getSession().then(({ data }: { data: any }) => {
@@ -40,17 +44,20 @@ export function useMessages(conversationId: string) {
   }, []);
 
   // Résoudre une signed URL depuis un chemin storage:
+  // Pour les images éphémères (maxViews), utiliser TTL court (60s) pour forcer expiration
   const resolveFileUrl = useCallback(async (
     fileUrl: string | undefined,
     fileType: string | undefined,
     maxViews: number | undefined
   ): Promise<string | undefined> => {
     if (!fileUrl) return fileUrl;
-    if (fileType === 'image' && maxViews && fileUrl.startsWith('storage:')) {
+    if (fileType === 'image' && fileUrl.startsWith('storage:')) {
       const path = fileUrl.replace('storage:chat-attachments/', '');
+      // TTL court (60s) pour images éphémères pour forcer l'expiration après countdown
+      const ttl = maxViews ? 60 : 3600;
       const { data } = await supabase.storage
         .from(DB_BUCKETS.CHAT_ATTACHMENTS)
-        .createSignedUrl(path, 3600);
+        .createSignedUrl(path, ttl);
       return data?.signedUrl || fileUrl;
     }
     return fileUrl;
@@ -68,6 +75,7 @@ export function useMessages(conversationId: string) {
     isMe: msg.sender_id === uid,
     expiresIn: msg.expires_in,
     maxViews: msg.max_views,
+    reply_to_message_id: msg.reply_to_message_id,
   }), []);
 
   const resolveSignedUrls = useCallback(async (msgs: Message[]): Promise<Message[]> => {
@@ -79,6 +87,22 @@ export function useMessages(conversationId: string) {
       return msg;
     }));
   }, [resolveFileUrl]);
+
+  // P1-B: Batch fetch profiles pour éviter N+1 queries
+  const batchFetchProfiles = useCallback(async (userIds: string[]): Promise<Record<string, any>> => {
+    if (userIds.length === 0) return {};
+    const { data } = await supabase
+      .from(DB_TABLES.PROFILES)
+      .select('id, nickname, username')
+      .in('id', userIds);
+    const profiles: Record<string, any> = {};
+    if (data) {
+      for (const p of data) {
+        profiles[p.id] = p;
+      }
+    }
+    return profiles;
+  }, []);
 
   useEffect(() => {
     if (!conversationId) return;
@@ -156,7 +180,7 @@ export function useMessages(conversationId: string) {
             .from(DB_TABLES.CHAT_MESSAGES)
             .select(`
               id, content, file_url, file_type, created_at, expires_in,
-              sender_id, max_views,
+              sender_id, max_views, reply_to_message_id,
               profiles:sender_id ( nickname, username )
             `)
             .eq('conversation_id', conversationId)
@@ -206,15 +230,42 @@ export function useMessages(conversationId: string) {
       }, async (payload: any) => {
         if (!mounted) return;
         const newMsg = payload.new;
-        const { data: profileData } = await supabase
-          .from(DB_TABLES.PROFILES)
-          .select('nickname, username')
-          .eq('id', newMsg.sender_id)
-          .single();
 
-        if (!mounted) return;
+        // P1-B: Accumulate sender_id for batched profile fetch
+        const senderId = newMsg.sender_id;
+        pendingProfileFetchRef.current.add(senderId);
+
+        // Clear existing timeout if any
+        if (profileFetchTimeoutRef.current) {
+          clearTimeout(profileFetchTimeoutRef.current);
+        }
+
+        // Schedule batch fetch after 150ms to allow multiple messages to accumulate
+        profileFetchTimeoutRef.current = setTimeout(async () => {
+          if (!mounted) return;
+
+          const userIds = Array.from(pendingProfileFetchRef.current);
+          pendingProfileFetchRef.current.clear();
+          profileFetchTimeoutRef.current = null;
+
+          const profiles = await batchFetchProfiles(userIds);
+
+          // Update messages that are waiting for these profiles
+          setMessages(prev => prev.map(msg => {
+            if (msg.senderId in profiles && !msg.senderName.includes('·')) {
+              const profileData = profiles[msg.senderId];
+              return {
+                ...msg,
+                senderName: profileData.nickname || profileData.username || "Inconnu"
+              };
+            }
+            return msg;
+          }));
+        }, 150);
+
+        // Still add message optimistically with placeholder name
         const uid = userIdRef.current;
-        let formatted = formatMessage({ ...newMsg, profiles: profileData }, uid);
+        let formatted = formatMessage({ ...newMsg, profiles: { nickname: null, username: newMsg.sender_id } }, uid);
 
         if (formatted.fileType === 'image' && formatted.maxViews && formatted.fileUrl?.startsWith('storage:')) {
           const resolved = await resolveFileUrl(formatted.fileUrl, formatted.fileType, formatted.maxViews);
@@ -257,6 +308,9 @@ export function useMessages(conversationId: string) {
       mounted = false;
       controller.abort();
       supabase.removeChannel(channel);
+      if (profileFetchTimeoutRef.current) {
+        clearTimeout(profileFetchTimeoutRef.current);
+      }
     };
   }, [conversationId, currentUserId, formatMessage, resolveSignedUrls, resolveFileUrl, messages.length]); // Re-sub on length change to update reaction listener closure if needed
 
@@ -276,7 +330,7 @@ export function useMessages(conversationId: string) {
           .from(DB_TABLES.CHAT_MESSAGES)
           .select(`
             id, content, file_url, file_type, created_at, expires_in,
-            sender_id, max_views,
+            sender_id, max_views, reply_to_message_id,
             profiles:sender_id ( nickname, username )
           `)
           .eq('conversation_id', conversationId)
@@ -303,7 +357,7 @@ export function useMessages(conversationId: string) {
   }, [conversationId, hasMore, loadingMore, messages, formatMessage, resolveSignedUrls]);
 
 
-  const sendMessage = async (content: string, attachment?: File | null, expiresIn?: string, maxViews?: 1 | 2) => {
+  const sendMessage = async (content: string, attachment?: File | null, expiresIn?: string, maxViews?: 1 | 2, reply_to_message_id?: string) => {
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return;
 
@@ -355,7 +409,8 @@ export function useMessages(conversationId: string) {
       file_url: fileUrl,
       file_type: fileType,
       expires_in: expiresIn || "never",
-      max_views: maxViews
+      max_views: maxViews,
+      reply_to_message_id: reply_to_message_id || null
     }));
 
     // Send push notifications to other participants

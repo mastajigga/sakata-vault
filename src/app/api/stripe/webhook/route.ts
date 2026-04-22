@@ -37,7 +37,7 @@ export async function POST(req: Request) {
 
           // Create or update chat_subscriptions entry
           const { data: existingSub } = await supabaseAdmin
-            .from('chat_subscriptions')
+            .from(DB_TABLES.CHAT_SUBSCRIPTIONS)
             .select('*')
             .eq('user_id', userId)
             .single();
@@ -45,7 +45,7 @@ export async function POST(req: Request) {
           if (existingSub) {
             // Update existing
             await supabaseAdmin
-              .from('chat_subscriptions')
+              .from(DB_TABLES.CHAT_SUBSCRIPTIONS)
               .update({
                 stripe_customer_id: customerId,
                 stripe_subscription_id: subscriptionId,
@@ -59,7 +59,7 @@ export async function POST(req: Request) {
           } else {
             // Create new
             await supabaseAdmin
-              .from('chat_subscriptions')
+              .from(DB_TABLES.CHAT_SUBSCRIPTIONS)
               .insert({
                 user_id: userId,
                 stripe_customer_id: customerId,
@@ -73,7 +73,7 @@ export async function POST(req: Request) {
 
           // Mark session as completed
           await supabaseAdmin
-            .from('subscription_sessions')
+            .from(DB_TABLES.SUBSCRIPTION_SESSIONS)
             .update({
               status: 'active',
               stripe_subscription_id: subscriptionId,
@@ -103,7 +103,7 @@ export async function POST(req: Request) {
 
         // Update chat_subscriptions
         await supabaseAdmin
-          .from('chat_subscriptions')
+          .from(DB_TABLES.CHAT_SUBSCRIPTIONS)
           .update({
             status: status === 'active' ? 'active' : status === 'past_due' ? 'past_due' : 'cancelled',
             current_period_end: currentPeriodEnd.toISOString(),
@@ -128,7 +128,7 @@ export async function POST(req: Request) {
                .eq('stripe_customer_id', customerId);
 
              await supabaseAdmin
-               .from('chat_subscriptions')
+               .from(DB_TABLES.CHAT_SUBSCRIPTIONS)
                .update({ tier: 'free' })
                .eq('stripe_customer_id', customerId);
         } else if (status === 'active') {
@@ -138,7 +138,7 @@ export async function POST(req: Request) {
                .eq('stripe_customer_id', customerId);
 
              await supabaseAdmin
-               .from('chat_subscriptions')
+               .from(DB_TABLES.CHAT_SUBSCRIPTIONS)
                .update({ tier: 'premium' })
                .eq('stripe_customer_id', customerId);
         }
@@ -151,7 +151,7 @@ export async function POST(req: Request) {
 
         // Update chat_subscriptions
         await supabaseAdmin
-          .from('chat_subscriptions')
+          .from(DB_TABLES.CHAT_SUBSCRIPTIONS)
           .update({
             status: 'cancelled',
             tier: 'free',

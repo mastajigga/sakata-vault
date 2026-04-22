@@ -245,7 +245,7 @@ export default function MembresPage() {
                   <Link href={`/membre/${profile.username}`} className="block relative w-full aspect-[3/4] rounded-3xl overflow-hidden shadow-2xl bg-stone-800">
                     <MemberImage profile={profile} priority={i < 4} />
 
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#0A1F15] via-[#0A1F15]/40 to-transparent opacity-90 transition-opacity duration-500 group-hover:opacity-80" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[var(--foret-nocturne)] via-[var(--foret-nocturne)]/40 to-transparent opacity-90 transition-opacity duration-500 group-hover:opacity-80" />
 
                     {profile.contributor_status === "approved" && (
                       <div className="absolute top-3 right-3 z-10 bg-emerald-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow">

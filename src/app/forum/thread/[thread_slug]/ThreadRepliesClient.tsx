@@ -117,32 +117,32 @@ export default function ThreadRepliesClient({ threadId, initialPosts, isLocked }
           return (
             <div 
               key={post.id} 
-              className={`bg-[#122A1E]/80 border border-[#B59551]/20 rounded-2xl p-6 md:p-8 backdrop-blur-md shadow-lg ${
-                isFirst ? 'border-[#B59551]/50' : ''
+              className={`bg-[var(--eau-sombre)]/80 border border-[var(--or-ancestral)]/20 rounded-2xl p-6 md:p-8 backdrop-blur-md shadow-lg ${
+                isFirst ? 'border-[var(--or-ancestral)]/50' : ''
               }`}
             >
-              <div className="flex items-center justify-between mb-6 border-b border-[#B59551]/10 pb-4">
+              <div className="flex items-center justify-between mb-6 border-b border-[var(--or-ancestral)]/10 pb-4">
                 <div className="flex items-center gap-4">
-                  <div className="relative w-10 h-10 rounded-full overflow-hidden border border-[#B59551]/40">
+                  <div className="relative w-10 h-10 rounded-full overflow-hidden border border-[var(--or-ancestral)]/40">
                      <MemberImage profile={post.profiles || {}} priority={false} />
                   </div>
                   <div>
-                    <h4 className="text-[#F2EEDD] font-medium flex items-center gap-2">
+                    <h4 className="text-[var(--ivoire-ancien)] font-medium flex items-center gap-2">
                       {post.profiles?.nickname || post.profiles?.username || 'Villageois Anonyme'}
                       {['admin', 'manager'].includes(post.profiles?.role || '') && (
-                        <span className="text-[10px] uppercase tracking-widest bg-[#B59551]/20 text-[#B59551] px-2 py-0.5 rounded-full">
+                        <span className="text-[10px] uppercase tracking-widest bg-[var(--or-ancestral)]/20 text-[var(--or-ancestral)] px-2 py-0.5 rounded-full">
                           {post.profiles?.role}
                         </span>
                       )}
                     </h4>
-                    <span className="text-sm text-[#F2EEDD]/40 font-light">
+                    <span className="text-sm text-[var(--ivoire-ancien)]/40 font-light">
                       {new Date(post.created_at).toLocaleString('fr-FR', { day: 'numeric', month: 'long', hour: '2-digit', minute:'2-digit' })}
                     </span>
                   </div>
                 </div>
               </div>
 
-              <div className="prose prose-invert prose-p:text-[#F2EEDD]/80 prose-headings:text-[#F2EEDD] prose-a:text-[#B59551] prose-strong:text-[#B59551] max-w-none font-light text-lg leading-relaxed">
+              <div className="prose prose-invert prose-p:text-[var(--ivoire-ancien)]/80 prose-headings:text-[var(--ivoire-ancien)] prose-a:text-[var(--or-ancestral)] prose-strong:text-[var(--or-ancestral)] max-w-none font-light text-lg leading-relaxed">
                 <ReactMarkdown remarkPlugins={[remarkGfm]}>{post.content}</ReactMarkdown>
               </div>
             </div>
@@ -156,8 +156,8 @@ export default function ThreadRepliesClient({ threadId, initialPosts, isLocked }
           <p className="text-red-400 font-light">Ce sujet est fermé. Vous ne pouvez plus y répondre.</p>
         </div>
       ) : currentUser ? (
-        <form onSubmit={handleReplySubmit} className="mt-8 bg-[#122A1E]/30 border border-[#B59551]/20 rounded-2xl p-6 md:p-8 backdrop-blur-md">
-          <h3 className="text-xl font-light text-[#F2EEDD] mb-6">Ajouter une réponse</h3>
+        <form onSubmit={handleReplySubmit} className="mt-8 bg-[var(--eau-sombre)]/30 border border-[var(--or-ancestral)]/20 rounded-2xl p-6 md:p-8 backdrop-blur-md">
+          <h3 className="text-xl font-light text-[var(--ivoire-ancien)] mb-6">Ajouter une réponse</h3>
           
           {error && (
             <div className="bg-red-500/10 border border-red-500/50 text-red-200 p-4 rounded-xl mb-6 flex items-center justify-between">
@@ -172,7 +172,7 @@ export default function ThreadRepliesClient({ threadId, initialPosts, isLocked }
             <button
               type="submit"
               disabled={isSubmitting || !replyContent.trim()}
-              className="bg-[#B59551] text-[#0A1F15] px-8 py-3 rounded-xl font-medium transition-all hover:bg-[#F2EEDD] disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+              className="bg-[var(--or-ancestral)] text-[var(--foret-nocturne)] px-8 py-3 rounded-xl font-medium transition-all hover:bg-[var(--ivoire-ancien)] disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
             >
               {isSubmitting ? (
                 <>
@@ -186,9 +186,9 @@ export default function ThreadRepliesClient({ threadId, initialPosts, isLocked }
           </div>
         </form>
       ) : (
-        <div className="mt-8 text-center py-10 bg-[#122A1E]/30 border border-[#B59551]/20 rounded-2xl">
-          <p className="text-[#F2EEDD]/50 font-light mb-4">Vous devez être connecté pour participer à la discussion.</p>
-          <a href={`/auth?redirect=/forum/thread/${threadId}`} className="inline-block bg-[#B59551]/10 text-[#B59551] border border-[#B59551]/30 px-6 py-2 rounded-xl transition-all hover:bg-[#B59551]/20">
+        <div className="mt-8 text-center py-10 bg-[var(--eau-sombre)]/30 border border-[var(--or-ancestral)]/20 rounded-2xl">
+          <p className="text-[var(--ivoire-ancien)]/50 font-light mb-4">Vous devez être connecté pour participer à la discussion.</p>
+          <a href={`/auth?redirect=/forum/thread/${threadId}`} className="inline-block bg-[var(--or-ancestral)]/10 text-[var(--or-ancestral)] border border-[var(--or-ancestral)]/30 px-6 py-2 rounded-xl transition-all hover:bg-[var(--or-ancestral)]/20">
             Se connecter
           </a>
         </div>

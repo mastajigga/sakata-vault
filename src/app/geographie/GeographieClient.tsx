@@ -204,7 +204,7 @@ export default function GeographieClient() {
             initial={{ scale: 0, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             onClick={() => setHudVisible(!hudVisible)}
-            className="fixed bottom-6 right-6 z-[70] w-14 h-14 rounded-full bg-[#0A1F15]/80 backdrop-blur-xl border border-or-ancestral/30 flex items-center justify-center text-or-ancestral shadow-[0_0_20px_rgba(0,0,0,0.4)] pointer-events-auto active:scale-90 transition-transform"
+            className="fixed bottom-6 right-6 z-[70] w-14 h-14 rounded-full bg-[var(--foret-nocturne)]/80 backdrop-blur-xl border border-or-ancestral/30 flex items-center justify-center text-or-ancestral shadow-[0_0_20px_rgba(0,0,0,0.4)] pointer-events-auto active:scale-90 transition-transform"
           >
             {hudVisible ? <X size={24} /> : <Globe2 size={24} />}
           </motion.button>

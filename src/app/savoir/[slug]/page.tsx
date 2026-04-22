@@ -17,6 +17,7 @@ import { Eye, Lock } from "lucide-react";
 import Link from "next/link";
 import AudioNarrator from "@/components/AudioNarrator";
 import { ArticleData } from "@/types/i18n";
+import { DB_TABLES } from "@/lib/constants/db";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -35,7 +36,7 @@ const ArticlePage = () => {
       setLoading(true);
       try {
         const { data, error } = await supabase
-          .from("articles")
+          .from(DB_TABLES.ARTICLES)
           .select("*")
           .eq("slug", slug)
           .single();
@@ -179,7 +180,7 @@ const ArticlePage = () => {
       
       {/* Hero */}
       <section className="relative h-[65vh] md:h-[75vh] flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0 bg-[#0A1F15]">
+        <div className="absolute inset-0 bg-[var(--foret-nocturne)]">
           {(article.featured_image || article.image) ? (
              <Image
                src={article.featured_image || article.image || ""}
@@ -200,7 +201,7 @@ const ArticlePage = () => {
                </video>
            )}
         </div>
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0A1F15] via-transparent to-[#0A1F15]/60" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[var(--foret-nocturne)] via-transparent to-[var(--foret-nocturne)]/60" />
         <div className="relative z-10 text-center px-6 max-w-5xl">
           <motion.span 
             initial={{ opacity: 0, y: 10 }}
@@ -314,7 +315,7 @@ const ArticlePage = () => {
               </div>
 
               {/* Stats Card */}
-              <div className="p-8 bg-[#0D241A] rounded-[2.5rem] border border-white/5 shadow-xl">
+              <div className="p-8 bg-[var(--eau-sombre)] rounded-[2.5rem] border border-white/5 shadow-xl">
                  <div className="flex items-center justify-between mb-8">
                     <div className="flex items-center gap-3">
                        <Eye size={20} className="text-or-ancestral" />
@@ -352,7 +353,7 @@ const ArticlePage = () => {
       </section>
 
       {/* Footer Nav */}
-      <section className="py-24 text-center border-t border-white/5 bg-[#071610]">
+      <section className="py-24 text-center border-t border-white/5 bg-[var(--foret-nocturne)]">
         <Link 
           href="/savoir"
           className="font-display text-2xl hover:text-or-ancestral transition-colors flex items-center justify-center gap-6 group text-ivoire-ancien"

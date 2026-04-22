@@ -1,3 +1,4 @@
+import { DB_TABLES } from "@/lib/constants/db";
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
@@ -71,7 +72,7 @@ export function useEcoleProgress(programs: MathematicsProgramYear[], namespace =
       }
 
       const { data, error } = await supabase
-        .from("ecole_progress")
+        .from(DB_TABLES.ECOLE_PROGRESS)
         .select("year_slug, completed_exercises")
         .eq("user_id", user.id);
 
@@ -169,7 +170,7 @@ export function useEcoleProgress(programs: MathematicsProgramYear[], namespace =
 
     // P1-D fix: retry sur l'upsert — la progression ne doit jamais être silencieusement perdue
     const { error } = await withRetry(async () =>
-      supabase.from("ecole_progress").upsert(
+      supabase.from(DB_TABLES.ECOLE_PROGRESS).upsert(
         {
           user_id: user.id,
           year_slug: yearSlug,

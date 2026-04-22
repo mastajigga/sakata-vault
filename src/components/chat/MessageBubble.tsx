@@ -2,11 +2,11 @@
 
 import React, { useRef, useState, useEffect, useCallback } from "react";
 import { Message, ReactionMap } from "./ChatWindow";
-import { FileText, Clock, Play, Pause, Download, Lock, Eye, Check, CheckCheck } from "lucide-react";
+import { FileText, Clock, Play, Pause, Download, Lock, Eye, Check, CheckCheck, Reply, X } from "lucide-react";
 import { TIMINGS } from "@/lib/constants/timings";
 import { msgViewedKey } from "@/lib/constants/storage";
 import { supabase } from "@/lib/supabase";
-import { DB_BUCKETS } from "@/lib/constants/db";
+import { DB_BUCKETS, DB_TABLES } from "@/lib/constants/db";
 
 // Calculate signed URL expiry duration (in seconds) based on message settings
 function getSignedUrlDuration(maxViews?: 1 | 2, expiresIn?: string): number {
@@ -33,6 +33,7 @@ interface MessageBubbleProps {
   reactions?: ReactionMap;
   myReactions?: Set<string>;
   onReact?: (messageId: string, emoji: string) => void;
+  onReply?: (message: Message) => void;
 }
 
 // ─── Audio Player ────────────────────────────────────────────────────────────
@@ -370,13 +371,47 @@ function ProtectedImage({
 
 // ─── MessageBubble ────────────────────────────────────────────────────────────
 
-export function MessageBubble({ message, isTemporary, reactions = {}, myReactions, onReact }: MessageBubbleProps) {
+export function MessageBubble({ message, isTemporary, reactions = {}, myReactions, onReact, onReply }: MessageBubbleProps) {
   const isMe = message.isMe;
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+  const [repliedToMessage, setRepliedToMessage] = useState<Message | undefined>(message.replied_to_message);
   const isProtectedImage =
     message.fileType === "image" &&
     message.fileUrl &&
     (isTemporary || !!message.maxViews);
+
+  // Fetch the replied-to message if we have a reply_to_message_id but no data
+  useEffect(() => {
+    if (message.reply_to_message_id && !repliedToMessage) {
+      (async () => {
+        try {
+          const { data } = await supabase
+            .from(DB_TABLES.CHAT_MESSAGES)
+            .select(`
+              id, content, sender_id, file_type,
+              profiles:sender_id ( nickname, username )
+            `)
+            .eq('id', message.reply_to_message_id)
+            .single();
+
+          if (data) {
+            setRepliedToMessage({
+              id: data.id,
+              senderId: data.sender_id,
+              senderName: data.profiles?.nickname || data.profiles?.username || "Inconnu",
+              content: data.content || "",
+              fileType: data.file_type,
+              isMe: false,
+              createdAt: "",
+              createdAtRaw: "",
+            } as Message);
+          }
+        } catch (err) {
+          console.error("Failed to fetch replied-to message:", err);
+        }
+      })();
+    }
+  }, [message.reply_to_message_id]);
 
   const renderContent = () => {
     if (message.fileUrl) {
@@ -462,6 +497,16 @@ export function MessageBubble({ message, isTemporary, reactions = {}, myReaction
           </span>
         )}
 
+        {/* Reply context display */}
+        {repliedToMessage && (
+          <div className={`text-xs mb-2 pl-3 border-l-2 border-amber-400/50 py-1 ${isMe ? "bg-amber-100/20 dark:bg-amber-900/20 text-amber-700 dark:text-amber-300" : "bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-400"}`}>
+            <div className="font-medium opacity-75">{repliedToMessage.senderName}</div>
+            <div className="line-clamp-1 opacity-60">
+              {repliedToMessage.content.substring(0, 100)}
+            </div>
+          </div>
+        )}
+
         <div className="relative group">
           <div
             className={`
@@ -476,32 +521,48 @@ export function MessageBubble({ message, isTemporary, reactions = {}, myReaction
             {renderContent()}
           </div>
 
-          {/* Emoji react button (visible au hover) */}
-          {onReact && (
-            <div className={`absolute top-1 ${isMe ? "left-0 -translate-x-full pr-1" : "right-0 translate-x-full pl-1"} opacity-0 group-hover:opacity-100 transition-opacity`}>
-              <button
-                type="button"
-                aria-label="Ajouter une réaction"
-                onClick={() => setShowEmojiPicker(v => !v)}
-                className="w-7 h-7 rounded-full bg-stone-100 dark:bg-stone-700 hover:bg-stone-200 dark:hover:bg-stone-600 flex items-center justify-center text-sm shadow transition-colors"
-              >
-                😊
-              </button>
-              {showEmojiPicker && (
-                <div className={`absolute bottom-full mb-1 ${isMe ? "right-0" : "left-0"} flex gap-1 bg-white dark:bg-stone-800 border border-stone-200 dark:border-stone-700 rounded-xl p-1.5 shadow-xl z-20`}>
-                  {REACTION_EMOJIS.map(emoji => (
-                    <button
-                      key={emoji}
-                      type="button"
-                      aria-label={`Réagir avec ${emoji}`}
-                      onClick={() => { onReact(message.id, emoji); setShowEmojiPicker(false); }}
-                      className={`text-lg hover:scale-125 transition-transform px-0.5 ${myReactions?.has(emoji) ? "ring-2 ring-amber-500 rounded-md" : ""}`}
-                    >
-                      {emoji}
-                    </button>
-                  ))}
-                </div>
+          {/* Action buttons (visible au hover) */}
+          {(onReply || onReact) && (
+            <div className={`absolute top-1 ${isMe ? "left-0 -translate-x-full pr-1 flex-row-reverse" : "right-0 translate-x-full pl-1"} opacity-0 group-hover:opacity-100 transition-opacity flex gap-1`}>
+              {/* Reply button */}
+              {onReply && (
+                <button
+                  type="button"
+                  aria-label="Répondre au message"
+                  onClick={() => onReply(message)}
+                  className="w-7 h-7 rounded-full bg-stone-100 dark:bg-stone-700 hover:bg-stone-200 dark:hover:bg-stone-600 flex items-center justify-center text-sm shadow transition-colors"
+                  title="Répondre"
+                >
+                  <Reply size={14} className="text-stone-600 dark:text-stone-300" />
+                </button>
               )}
+
+              {/* Emoji react button */}
+              {onReact && (
+                <button
+                  type="button"
+                  aria-label="Ajouter une réaction"
+                  onClick={() => setShowEmojiPicker(v => !v)}
+                  className="w-7 h-7 rounded-full bg-stone-100 dark:bg-stone-700 hover:bg-stone-200 dark:hover:bg-stone-600 flex items-center justify-center text-sm shadow transition-colors"
+                >
+                  😊
+                </button>
+              )}
+                {showEmojiPicker && (
+                  <div className={`absolute bottom-full mb-1 ${isMe ? "right-0" : "left-0"} flex gap-1 bg-white dark:bg-stone-800 border border-stone-200 dark:border-stone-700 rounded-xl p-1.5 shadow-xl z-20`}>
+                    {REACTION_EMOJIS.map(emoji => (
+                      <button
+                        key={emoji}
+                        type="button"
+                        aria-label={`Réagir avec ${emoji}`}
+                        onClick={() => { onReact!(message.id, emoji); setShowEmojiPicker(false); }}
+                        className={`text-lg hover:scale-125 transition-transform px-0.5 ${myReactions?.has(emoji) ? "ring-2 ring-amber-500 rounded-md" : ""}`}
+                      >
+                        {emoji}
+                      </button>
+                    ))}
+                  </div>
+                )}
             </div>
           )}
 

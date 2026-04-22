@@ -27,6 +27,8 @@ export type Message = {
   maxViews?: 1 | 2;
   viewCount?: number;
   hasBeenViewedByMe?: boolean;
+  reply_to_message_id?: string;
+  replied_to_message?: Message;
 };
 
 // Emoji → nombre d'utilisateurs ayant réagi
@@ -157,6 +159,9 @@ export function ChatWindow({ conversationId, onBack }: ChatWindowProps) {
   const [temporaryDuration, setTemporaryDuration] = useState<"24h" | "48h">("24h");
   const [showEphemeralSubmenu, setShowEphemeralSubmenu] = useState(false);
 
+  // Reply state
+  const [repliedMessage, setRepliedMessage] = useState<Message | null>(null);
+
   // Close menus on outside click
   useEffect(() => {
     const handleClick = () => {
@@ -175,8 +180,13 @@ export function ChatWindow({ conversationId, onBack }: ChatWindowProps) {
     expiresIn?: string,
     maxViews?: 1 | 2
   ) => {
-    await sendMessage(content, attachment, expiresIn, maxViews);
+    await sendMessage(content, attachment, expiresIn, maxViews, repliedMessage?.id);
+    setRepliedMessage(null);
   };
+
+  const handleReply = useCallback((message: Message) => {
+    setRepliedMessage(message);
+  }, []);
 
   const activateEphemeral = (duration: "24h" | "48h") => {
     setTemporaryDuration(duration);
@@ -411,6 +421,7 @@ export function ChatWindow({ conversationId, onBack }: ChatWindowProps) {
                 reactions={allReactions[msg.id]}
                 myReactions={myReactions[msg.id]}
                 onReact={handleReact}
+                onReply={handleReply}
               />
             );
           })
@@ -437,6 +448,8 @@ export function ChatWindow({ conversationId, onBack }: ChatWindowProps) {
         onTyping={updateTyping}
         isTemporaryConversation={isTemporaryConversation}
         temporaryDuration={temporaryDuration}
+        repliedMessage={repliedMessage}
+        onClearReply={() => setRepliedMessage(null)}
       />
     </div>
   );

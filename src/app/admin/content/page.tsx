@@ -1,3 +1,4 @@
+import { DB_TABLES } from "@/lib/constants/db";
 "use client";
 
 import React, { useEffect, useState } from "react";
@@ -18,7 +19,7 @@ const AdminArticlesPage = () => {
   const fetchArticles = async () => {
     setLoading(true);
     const { data, error } = await supabase
-      .from("articles")
+      .from(DB_TABLES.ARTICLES)
       .select("*")
       .order("created_at", { ascending: false });
     
@@ -45,7 +46,7 @@ const AdminArticlesPage = () => {
       const translated = await translateArticle(article, langs);
       
       const { error } = await supabase
-        .from("articles")
+        .from(DB_TABLES.ARTICLES)
         .update({
           title: translated.title,
           content: translated.content,
@@ -66,7 +67,7 @@ const AdminArticlesPage = () => {
 
   const handleDelete = async (slug: string) => {
     if (confirm("Êtes-vous sûr de vouloir effacer ce savoir de la mémoire numérique ?")) {
-      const { error } = await supabase.from("articles").delete().eq("slug", slug);
+      const { error } = await supabase.from(DB_TABLES.ARTICLES).delete().eq("slug", slug);
       if (!error) {
         setArticles(articles.filter(a => a.slug !== slug));
       } else {
