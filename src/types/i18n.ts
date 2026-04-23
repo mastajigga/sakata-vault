@@ -17,7 +17,7 @@ export interface ContentBlock {
   body?: string;
   url?: string;
   caption?: string;
-  alignment?: "full" | "left" | "right";
+  alignment?: "full" | "left" | "right" | "sidebar";
   level?: 1 | 2 | 3;
 }
 

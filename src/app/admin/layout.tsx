@@ -8,6 +8,7 @@ import { LayoutDashboard, Users, FileText, BarChart3, Settings, LogOut, Bell, Sp
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AdminPresentationModal } from "@/components/admin/AdminPresentationModal";
+import AdminHelpModal from "@/components/admin/AdminHelpModal";
 
 const AdminLayout = ({ children }: { children: React.ReactNode }) => {
   const { user, role, isLoading } = useAuth();

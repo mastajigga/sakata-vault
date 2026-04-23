@@ -9,6 +9,7 @@ import {
   Award, MessageSquare, Heart 
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import Link from "next/link";
 
 const UserDetailsModal = ({ user, onClose }: { user: any, onClose: () => void }) => {
   if (!user) return null;
@@ -43,13 +44,22 @@ const UserDetailsModal = ({ user, onClose }: { user: any, onClose: () => void })
                  {user.avatar_url ? <img src={user.avatar_url} className="w-full h-full object-cover" /> : (user.nickname ? user.nickname[0] : "?")}
               </div>
             </div>
-            <div className="flex gap-2 mb-2">
-              <span className={`px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-wider ${user.subscription_tier === 'premium' ? 'bg-or-ancestral text-foret-nocturne' : 'bg-white/5 text-white/40'}`}>
-                {user.subscription_tier || 'free'}
-              </span>
-              <span className="px-4 py-1.5 rounded-full bg-white/5 text-white/40 text-[10px] font-bold uppercase tracking-wider">
-                {user.role || 'user'}
-              </span>
+            <div className="flex flex-col items-end gap-2 mb-2">
+              <div className="flex gap-2">
+                <span className={`px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-wider ${user.subscription_tier === 'premium' ? 'bg-or-ancestral text-foret-nocturne' : 'bg-white/5 text-white/40'}`}>
+                  {user.subscription_tier || 'free'}
+                </span>
+                <span className="px-4 py-1.5 rounded-full bg-white/5 text-white/40 text-[10px] font-bold uppercase tracking-wider">
+                  {user.role || 'user'}
+                </span>
+              </div>
+              <Link 
+                href={`/membre/${user.nickname || user.username || user.id}`}
+                target="_blank"
+                className="text-[10px] font-bold uppercase tracking-tighter text-or-ancestral/60 hover:text-or-ancestral transition-colors flex items-center gap-1 bg-white/5 px-3 py-1 rounded-lg border border-white/5"
+              >
+                <Eye className="w-3 h-3" /> Voir profil public
+              </Link>
             </div>
           </div>
 

@@ -7,12 +7,13 @@ import { supabase } from "@/lib/supabase";
 import { 
   Save, Globe, ArrowLeft, Loader2, Sparkles, 
   Image as ImageIcon, Plus, Trash2, GripVertical, 
-  Type, Quote, Heading2, AlignLeft, AlignCenter, AlignRight
+  Type, Quote, Heading2, AlignLeft, AlignCenter, AlignRight,
+  AudioLines, Layers, Library, Search, X, Volume2
 } from "lucide-react";
 import Link from "next/link";
 import { translateArticle, LanguageCode } from "@/lib/translate";
 import { ContentBlock } from "@/types/i18n";
-import { motion, Reorder } from "framer-motion";
+import { motion, Reorder, AnimatePresence } from "framer-motion";
 
 const languages: { label: string; code: LanguageCode }[] = [
   { label: "Français", code: "fr" },
@@ -96,24 +97,30 @@ const BlockEditor = ({
                         <ImageIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 opacity-30" />
                       </div>
                       <div className="flex bg-black/20 rounded-xl p-1 border border-white/10">
-                        {(["left", "full", "right"] as const).map(align => (
-                          <button
-                            key={align}
-                            onClick={() => updateBlock(block.id, { alignment: align })}
-                            className={`p-2 rounded-lg transition-all ${block.alignment === align ? 'bg-or-ancestral text-foret-nocturne' : 'opacity-40 hover:opacity-100'}`}
-                          >
-                            {align === "left" && <AlignLeft className="w-4 h-4" />}
-                            {align === "full" && <AlignCenter className="w-4 h-4" />}
-                            {align === "right" && <AlignRight className="w-4 h-4" />}
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-                    {block.url && (
-                      <div className={`rounded-xl overflow-hidden border border-white/5 bg-black/20 ${block.alignment === 'full' ? 'w-full' : 'w-1/2 mx-auto'}`}>
-                        <img src={block.url} alt="" className="w-full h-auto object-cover opacity-60" />
-                      </div>
-                    )}
+                        {(["left", "full", "right", "sidebar"] as const).map(align => (
+                           <button
+                             key={align}
+                             onClick={() => updateBlock(block.id, { alignment: align })}
+                             title={align === "sidebar" ? "Afficher dans la barre latérale" : `Alignement ${align}`}
+                             className={`p-2 rounded-lg transition-all ${block.alignment === align ? 'bg-or-ancestral text-foret-nocturne' : 'opacity-40 hover:opacity-100'}`}
+                           >
+                             {align === "left" && <AlignLeft className="w-4 h-4" />}
+                             {align === "full" && <AlignCenter className="w-4 h-4" />}
+                             {align === "right" && <AlignRight className="w-4 h-4" />}
+                             {align === "sidebar" && <Layers className="w-4 h-4" />}
+                           </button>
+                         ))}
+                       </div>
+                     </div>
+                     {block.url && (
+                       <div className={`rounded-xl overflow-hidden border border-white/5 bg-black/20 transition-all ${
+                         block.alignment === 'full' ? 'w-full' : 
+                         block.alignment === 'sidebar' ? 'w-1/3 border-or-ancestral/30 shadow-[0_0_15px_rgba(193,107,52,0.1)]' : 
+                         'w-1/2 mx-auto'
+                       }`}>
+                         <img src={block.url} alt="" className="w-full h-auto object-cover opacity-60" />
+                       </div>
+                     )}
                     <input 
                       type="text"
                       value={block.caption || ""}
@@ -193,8 +200,24 @@ const ArticleEditor = () => {
     featured_image: "",
     title: { fr: "" },
     content: { fr: "" },
-    summary: { fr: "" }
+    summary: { fr: "" },
+    has_narrator: false
   });
+
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [outlineOpen, setOutlineOpen] = useState(false);
+  const [libraryFiles, setLibraryFiles] = useState<any[]>([]);
+  const [isVoiceLoading, setIsVoiceLoading] = useState(false);
+
+  const fetchLibrary = async () => {
+    const res = await fetch("/api/admin/media");
+    const data = await res.json();
+    if (Array.isArray(data)) setLibraryFiles(data);
+  };
+
+  useEffect(() => {
+    fetchLibrary();
+  }, []);
 
   const stringToBlocks = (text: string): ContentBlock[] => {
     if (!text) return [];
@@ -203,8 +226,32 @@ const ArticleEditor = () => {
   };
 
   const blocksToString = (blocks: ContentBlock[]): string => {
-    // Simple serialization if needed for legacy components, but we aim for JSONB support
     return JSON.stringify(blocks);
+  };
+
+  const handleVoiceGenerate = async () => {
+    if (!article.content[activeTab]) return;
+    setIsVoiceLoading(true);
+    try {
+      const text = Array.isArray(article.content[activeTab]) 
+        ? article.content[activeTab].map((b: any) => b.body || "").join(" ")
+        : article.content[activeTab];
+
+      const res = await fetch("/api/admin/ai/voice", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text })
+      });
+      const data = await res.json();
+      if (data.audioUrl) {
+         setArticle({ ...article, has_narrator: true });
+         alert("Narration IA générée avec succès ! Ne pas oublier de sauvegarder l'article.");
+      }
+    } catch (e) {
+      console.error(e);
+    } finally {
+       setIsVoiceLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -302,16 +349,23 @@ const ArticleEditor = () => {
   );
 
   return (
-    <div className="space-y-8 pb-24">
+    <div className="space-y-8 pb-24 relative">
       <header className="flex items-center justify-between">
         <div className="flex items-center gap-4">
           <Link href="/admin/content" className="p-2 hover:bg-white/5 rounded-full transition-colors opacity-40 hover:opacity-100">
             <ArrowLeft className="w-5 h-5" />
           </Link>
           <div className="space-y-1">
-            <span className="eyebrow" style={{ color: "var(--or-ancestral)" }}>
-              {isNew ? "Création" : "Édition"}
-            </span>
+            <div className="flex items-center gap-3">
+              <span className="eyebrow" style={{ color: "var(--or-ancestral)" }}>
+                {isNew ? "Création" : "Édition"}
+              </span>
+              {article.has_narrator && (
+                <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-emerald-500/10 text-emerald-400 text-[10px] font-bold">
+                  <Volume2 className="w-3 h-3" /> VOIX ACTIVE
+                </div>
+              )}
+            </div>
             <h1 className="font-display text-3xl font-bold">
                {isNew ? "Nouveau Récit" : article.title.fr || article.slug}
             </h1>
@@ -320,9 +374,26 @@ const ArticleEditor = () => {
 
         <div className="flex items-center gap-3">
           <button
+            onClick={() => setSidebarOpen(!sidebarOpen)}
+            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl border transition-all font-bold text-sm ${sidebarOpen ? 'bg-blue-500/10 border-blue-500/30 text-blue-400' : 'border-white/10 text-ivoire-ancien/60 hover:text-ivoire-ancien'}`}
+          >
+            <Library className="w-4 h-4" /> Médiathèque
+          </button>
+
+          <button
+            onClick={handleVoiceGenerate}
+            disabled={isVoiceLoading || !article.content[activeTab]}
+            className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-orange-500/10 text-orange-400 border border-orange-500/20 hover:bg-orange-500/20 transition-all font-bold text-sm disabled:opacity-30"
+          >
+            {isVoiceLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <AudioLines className="w-4 h-4" />}
+            Auto Voix
+          </button>
+
+          <button
             onClick={toggleMode}
             className="flex items-center gap-2 px-4 py-2.5 rounded-xl border border-white/10 text-ivoire-ancien/60 hover:text-ivoire-ancien transition-all font-bold text-sm"
           >
+            {editorMode === "text" ? <Type className="w-4 h-4" /> : <Layers className="w-4 h-4" />}
             Mode: {editorMode === "text" ? "Markdown" : "Blocs"}
           </button>
 
@@ -332,71 +403,76 @@ const ArticleEditor = () => {
             className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 hover:bg-emerald-500/20 transition-all font-bold text-sm disabled:opacity-30"
           >
             {translating ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
-            Traduction Automatique
+            Traduire tout
           </button>
           
           <button
             onClick={handleSave}
             disabled={saving}
-            className="flex items-center gap-2 px-6 py-2.5 rounded-xl bg-or-ancestral text-foret-nocturne font-bold hover:scale-105 transition-all text-sm"
+            className="flex items-center gap-2 px-6 py-2.5 rounded-xl bg-or-ancestral text-foret-nocturne font-bold hover:scale-105 transition-all text-sm shadow-[0_0_20px_rgba(193,107,52,0.2)]"
           >
             {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
-            Sauvegarder
+            Publier
           </button>
         </div>
       </header>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-        {/* Left Side: Metadata */}
-        <div className="lg:col-span-4 space-y-8">
-           <div className="p-8 rounded-[2rem] bg-white/5 border border-white/10 space-y-6">
-              <h3 className="font-display text-lg font-bold border-b border-white/5 pb-4">Paramètres</h3>
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        {/* Left Side: Metadata & Outline */}
+        <div className="lg:col-span-3 space-y-8 h-fit lg:sticky lg:top-28">
+           <div className="p-6 rounded-[2rem] bg-white/5 border border-white/10 space-y-6">
+              <h3 className="font-display text-lg font-bold border-b border-white/5 pb-4 flex items-center gap-2">
+                <Layers className="w-4 h-4 text-or-ancestral" /> Structure
+              </h3>
               
-              <div className="space-y-2">
-                <label className="text-[10px] uppercase tracking-widest opacity-40 font-bold ml-2">Slug permanent</label>
-                <input 
-                  type="text" 
-                  value={article.slug}
-                  disabled={!isNew}
-                  onChange={(e) => setArticle({...article, slug: e.target.value})}
-                  className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-or-ancestral/50 transition-all text-sm"
-                  placeholder="nom-de-l-article"
-                />
+              <div className="space-y-2 max-h-[300px] overflow-y-auto pr-2 scrollbar-hide">
+                {editorMode === "blocks" && Array.isArray(article.content[activeTab]) && (article.content[activeTab] as any[]).map((block, i) => (
+                   <div key={block.id} className="flex items-center gap-3 p-2 rounded-xl hover:bg-white/5 text-[10px] transition-colors group">
+                     <span className="opacity-20 font-mono">{i+1}</span>
+                     {block.type === "heading" ? <Heading2 className="w-3 h-3 text-or-ancestral" /> : 
+                      block.type === "image" ? <ImageIcon className="w-3 h-3 text-blue-400" /> : 
+                      block.type === "quote" ? <Quote className="w-3 h-3 text-emerald-400" /> : <Type className="w-3 h-3 opacity-40" />}
+                     <span className="truncate flex-1 opacity-60 group-hover:opacity-100">
+                       {block.body ? block.body.substring(0, 20) + "..." : block.type.toUpperCase()}
+                     </span>
+                     {block.alignment === "sidebar" && <span className="bg-or-ancestral/20 text-or-ancestral px-1.5 rounded uppercase">Side</span>}
+                   </div>
+                ))}
               </div>
 
-              <div className="space-y-2">
-                <label className="text-[10px] uppercase tracking-widest opacity-40 font-bold ml-2">Catégorie</label>
-                <select 
-                  value={article.category}
-                  onChange={(e) => setArticle({...article, category: e.target.value})}
-                  className="w-full bg-[var(--foret-nocturne)] border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-or-ancestral/50 transition-all text-sm appearance-none"
-                >
-                  <option value="histoire">Histoire</option>
-                  <option value="culture">Culture</option>
-                  <option value="sagesse">Sagesse</option>
-                  <option value="langue">Langue & Proverbes</option>
-                </select>
-              </div>
+              <div className="border-t border-white/5 pt-6 space-y-6">
+                 <div className="space-y-2">
+                   <label className="text-[10px] uppercase tracking-widest opacity-40 font-bold ml-2">Slug</label>
+                   <input 
+                     type="text" 
+                     value={article.slug}
+                     disabled={!isNew}
+                     onChange={(e) => setArticle({...article, slug: e.target.value})}
+                     className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-or-ancestral/50 transition-all text-sm"
+                   />
+                 </div>
 
-              <div className="space-y-2">
-                <label className="text-[10px] uppercase tracking-widest opacity-40 font-bold ml-2">Image de couverture (URL)</label>
-                <div className="relative">
-                  <input 
-                    type="text" 
-                    value={article.featured_image}
-                    onChange={(e) => setArticle({...article, featured_image: e.target.value})}
-                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 pl-12 outline-none focus:border-or-ancestral/50 transition-all text-sm"
-                    placeholder="/images/..."
-                  />
-                  <ImageIcon className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 opacity-30" />
-                </div>
+                 <div className="space-y-2">
+                   <label className="text-[10px] uppercase tracking-widest opacity-40 font-bold ml-2">Image Principale</label>
+                   <div className="relative group">
+                     <input 
+                       type="text" 
+                       value={article.featured_image}
+                       onChange={(e) => setArticle({...article, featured_image: e.target.value})}
+                       className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 pl-10 outline-none focus:border-or-ancestral/50 transition-all text-xs"
+                     />
+                     <ImageIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 opacity-30" />
+                   </div>
+                   {article.featured_image && (
+                     <img src={article.featured_image} className="w-full h-20 object-cover rounded-xl mt-2 opacity-50 border border-white/10" />
+                   )}
+                 </div>
               </div>
            </div>
         </div>
 
-        {/* Right Side: Content Editor */}
-        <div className="lg:col-span-8 space-y-8">
-           {/* Language Tabs */}
+        {/* Center: Content Editor */}
+        <div className={`${sidebarOpen ? 'lg:col-span-6' : 'lg:col-span-9'} space-y-8 transition-all duration-500`}>
            <div className="flex items-center gap-1 p-1 bg-white/5 rounded-2xl w-fit">
               {languages.map(lang => (
                 <button
@@ -409,36 +485,34 @@ const ArticleEditor = () => {
               ))}
            </div>
 
-           <div className="space-y-8 animate-in fade-in duration-500">
+           <div className="space-y-8">
               <div className="space-y-2">
-                <label className="text-[10px] uppercase tracking-widest opacity-40 font-bold ml-2">Titre ({activeTab})</label>
                 <input 
                   type="text" 
                   value={article.title[activeTab] || ""}
                   onChange={(e) => updateField(activeTab, "title", e.target.value)}
-                  className="w-full bg-transparent border-b border-white/10 py-4 text-3xl font-display font-bold outline-none focus:border-or-ancestral transition-all"
-                  placeholder="Écrivez le titre ici..."
+                  className="w-full bg-transparent border-b border-white/10 py-6 text-4xl font-display font-bold outline-none focus:border-or-ancestral transition-all"
+                  placeholder="Le Secret des Ancêtres..."
                 />
               </div>
 
               <div className="space-y-2">
-                <label className="text-[10px] uppercase tracking-widest opacity-40 font-bold ml-2">Résumé ({activeTab})</label>
+                <label className="text-[10px] uppercase tracking-widest opacity-40 font-bold ml-2">Préambule ({activeTab})</label>
                 <textarea 
                   value={article.summary[activeTab] || ""}
                   onChange={(e) => updateField(activeTab, "summary", e.target.value)}
                   className="w-full bg-white/5 border border-white/10 rounded-2xl p-6 outline-none focus:border-or-ancestral/50 transition-all text-sm italic h-24 resize-none"
-                  placeholder="Bref aperçu du récit..."
+                  placeholder="Un avant-goût du savoir..."
                 />
               </div>
 
               <div className="space-y-2">
-                <label className="text-[10px] uppercase tracking-widest opacity-40 font-bold ml-2">Contenu (Markdown - {activeTab})</label>
                 {editorMode === "text" ? (
                   <textarea 
                     value={typeof article.content[activeTab] === 'string' ? article.content[activeTab] : JSON.stringify(article.content[activeTab])}
                     onChange={(e) => updateField(activeTab, "content", e.target.value)}
-                    className="w-full bg-[#050C09] border border-white/5 rounded-[2rem] p-8 outline-none focus:border-white/20 transition-all font-body leading-relaxed h-[400px] resize-none"
-                    placeholder="Laissez parler les ancêtres..."
+                    className="w-full bg-[#050C09] border border-white/5 rounded-[2.5rem] p-8 outline-none focus:border-white/20 transition-all font-body leading-relaxed h-[600px] resize-none text-ivoire-ancien/70"
+                    placeholder="Épanchez votre sagesse..."
                   />
                 ) : (
                   <BlockEditor 
@@ -449,6 +523,74 @@ const ArticleEditor = () => {
               </div>
            </div>
         </div>
+
+        {/* Right Side: Media Library Sidebar */}
+        <AnimatePresence>
+          {sidebarOpen && (
+            <motion.div 
+              initial={{ opacity: 0, x: 50 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 50 }}
+              className="lg:col-span-3 space-y-6"
+            >
+              <div className="p-6 rounded-[2rem] bg-black/40 border border-blue-500/20 backdrop-blur-3xl h-[80vh] flex flex-col sticky top-28">
+                <div className="flex items-center justify-between mb-6">
+                   <h3 className="font-display font-bold text-blue-400 flex items-center gap-2">
+                     <Library className="w-4 h-4" /> Médiathèque
+                   </h3>
+                   <button onClick={() => setSidebarOpen(false)} className="opacity-40 hover:opacity-100">
+                     <X className="w-4 h-4" />
+                   </button>
+                </div>
+
+                <div className="relative mb-6">
+                   <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 opacity-30" />
+                   <input type="text" placeholder="Rechercher..." className="w-full bg-white/5 border border-white/10 rounded-xl px-10 py-2.5 text-xs outline-none focus:border-blue-500/50" />
+                </div>
+
+                <div className="flex-1 overflow-y-auto space-y-4 pr-2 scrollbar-hide">
+                   {libraryFiles.map((file, i) => (
+                      <div key={i} className="group relative rounded-xl overflow-hidden aspect-video bg-black/20 border border-white/5 hover:border-blue-500/50 transition-all cursor-pointer">
+                         <img src={file.url} className="w-full h-full object-cover opacity-60 group-hover:opacity-100 group-hover:scale-110 transition-all" />
+                         <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent p-3 flex flex-col justify-end opacity-0 group-hover:opacity-100 transition-opacity">
+                            <p className="text-[8px] font-bold truncate">{file.name}</p>
+                            <div className="flex gap-1 mt-1">
+                               <button 
+                                 onClick={() => {
+                                   if (editorMode === "blocks") {
+                                      const newBlock: ContentBlock = { id: Math.random().toString(36).substr(2, 9), type: "image", url: file.url, alignment: "sidebar" };
+                                      updateField(activeTab, "content", [...(article.content[activeTab] || []), newBlock]);
+                                   } else {
+                                      updateField(activeTab, "content", (article.content[activeTab] || "") + `\n\n![${file.name}](${file.url})`);
+                                   }
+                                 }}
+                                 className="flex-1 bg-blue-500/20 hover:bg-blue-500 text-[8px] font-bold py-1 rounded"
+                               >
+                                 SIDE
+                               </button>
+                               <button 
+                                 onClick={() => {
+                                   if (editorMode === "blocks") {
+                                      const newBlock: ContentBlock = { id: Math.random().toString(36).substr(2, 9), type: "image", url: file.url, alignment: "full" };
+                                      updateField(activeTab, "content", [...(article.content[activeTab] || []), newBlock]);
+                                   } else {
+                                      updateField(activeTab, "content", (article.content[activeTab] || "") + `\n\n![${file.name}](${file.url})`);
+                                   }
+                                 }}
+                                 className="flex-1 bg-white/20 hover:bg-white/40 text-[8px] font-bold py-1 rounded"
+                               >
+                                 BLOC
+                               </button>
+                            </div>
+                         </div>
+                      </div>
+                   ))}
+                   {libraryFiles.length === 0 && <p className="text-[10px] opacity-20 italic text-center py-10">Médiathèque vide</p>}
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </div>
   );
