@@ -3,14 +3,21 @@
 import { motion } from "framer-motion";
 import { VARIANTS } from "@/lib/constants/animations";
 import Link from "next/link";
-import { MessageSquare } from "lucide-react";
+import { BookOpen, Flame, Users, MessageSquare } from "lucide-react";
+
+// Lucide icon mapping for categories
+const ICON_MAP: Record<string, React.ElementType> = {
+  book: BookOpen,
+  flame: Flame,
+  users: Users,
+  messages: MessageSquare
+};
 
 interface CategoryListClientProps {
   categories: any[];
-  iconMap: Record<string, React.ElementType>;
 }
 
-export function CategoryListClient({ categories, iconMap }: CategoryListClientProps) {
+export function CategoryListClient({ categories }: CategoryListClientProps) {
   return (
     <motion.div
       variants={VARIANTS.staggerContainer}
@@ -19,7 +26,7 @@ export function CategoryListClient({ categories, iconMap }: CategoryListClientPr
       className="grid grid-cols-1 md:grid-cols-2 gap-6"
     >
       {categories.map((cat) => {
-        const IconComponent = cat.icon ? iconMap[cat.icon as string] || MessageSquare : MessageSquare;
+        const IconComponent = cat.icon ? ICON_MAP[cat.icon as string] || MessageSquare : MessageSquare;
         const name = typeof cat.name === 'string' ? JSON.parse(cat.name) : cat.name;
         const description = typeof cat.description === 'string' ? JSON.parse(cat.description) : cat.description;
         const threadsCount = cat.forum_threads?.[0]?.count || 0;

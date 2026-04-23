@@ -9,14 +9,6 @@ export const metadata: Metadata = {
   description: "Rejoignez le village virtuel pour échanger sur la culture Sakata.",
 };
 
-// Lucide icon mapping
-const IconMap: Record<string, React.ElementType> = {
-  book: BookOpen,
-  flame: Flame,
-  users: Users,
-  messages: MessageSquare
-};
-
 export const revalidate = 60; // Revalidate every 60s
 
 export default async function ForumIndex() {
@@ -50,7 +42,7 @@ export default async function ForumIndex() {
           </p>
         </div>
 
-        <CategoryListClient categories={categories || []} iconMap={IconMap} />
+        <CategoryListClient categories={categories || []} />
       </section>
     </main>
   );
