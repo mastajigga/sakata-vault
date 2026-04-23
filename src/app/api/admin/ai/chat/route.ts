@@ -2,11 +2,13 @@ import { Pinecone } from "@pinecone-database/pinecone";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { NextResponse } from "next/server";
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || "");
-const pc = new Pinecone({ apiKey: process.env.PINECONE_API_KEY || "" });
-const index = pc.Index(process.env.PINECONE_INDEX || "sakata");
+export const dynamic = 'force-dynamic';
 
 export async function POST(req: Request) {
+  const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || "");
+  const pc = new Pinecone({ apiKey: process.env.PINECONE_API_KEY || "" });
+  const index = pc.Index(process.env.PINECONE_INDEX || "sakata");
+
   try {
     const { message, history = [] } = await req.json();
 

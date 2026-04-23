@@ -1,9 +1,10 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { NextResponse } from "next/server";
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || "");
+export const dynamic = 'force-dynamic';
 
 export async function POST(req: Request) {
+  const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || "");
   try {
     const { text, voice = "Puck" } = await req.json();
 
