@@ -241,7 +241,7 @@ export default function MembresPage() {
                   transition={{ duration: 0.4, delay: Math.min(i * 0.05, 0.5) }}
                   className="group"
                 >
-                  <Link href={`/membre/${profile.username}`} className="block relative w-full aspect-[3/4] rounded-3xl overflow-hidden shadow-2xl bg-stone-800">
+                  <Link href={`/membre/${profile.username || profile.id}`} className="block relative w-full aspect-[3/4] rounded-3xl overflow-hidden shadow-2xl bg-stone-800">
                     <MemberImage profile={profile} priority={i < 4} />
 
                     <div className="absolute inset-0 bg-gradient-to-t from-[var(--foret-nocturne)] via-[var(--foret-nocturne)]/40 to-transparent opacity-90 transition-opacity duration-500 group-hover:opacity-80" />
@@ -257,7 +257,7 @@ export default function MembresPage() {
                         {profile.nickname || profile.username}
                       </h2>
                       <p className="text-xs tracking-wide uppercase mb-3" style={{ color: "var(--or-ancestral)", fontWeight: 600 }}>
-                        @{profile.username}
+                        @{profile.username || "Membre_" + profile.id.slice(0, 4)}
                       </p>
 
                       {profile.short_bio && (

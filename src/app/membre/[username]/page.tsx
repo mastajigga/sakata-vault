@@ -44,11 +44,17 @@ const MemberProfilePage = () => {
       try {
         setLoading(true);
         // Fetch profile
-        const { data: profileData, error: profileError } = await supabase
-          .from(DB_TABLES.PROFILES)
-          .select("*")
-          .eq("username", username)
-          .single();
+        const isUUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(username as string);
+        
+        let query = supabase.from(DB_TABLES.PROFILES).select("*");
+        
+        if (isUUID) {
+          query = query.or(`username.eq.${username},id.eq.${username}`);
+        } else {
+          query = query.eq("username", username);
+        }
+
+        const { data: profileData, error: profileError } = await query.single();
 
         if (!mounted) return;
 
@@ -146,7 +152,7 @@ const MemberProfilePage = () => {
                 <h1 className="text-3xl md:text-4xl font-display font-bold text-or-ancestral">
                   {profile.nickname || profile.username}
                 </h1>
-                <p className="text-ivoire-ancien/40 font-mono text-sm">@{profile.username}</p>
+                <p className="text-ivoire-ancien/40 font-mono text-sm">@{profile.username || "Membre_" + profile.id.slice(0, 4)}</p>
               </div>
 
               <div className="flex items-center gap-3">
