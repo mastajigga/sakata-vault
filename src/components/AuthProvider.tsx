@@ -7,6 +7,7 @@ import { supabase } from "@/lib/supabase";
 import { withRetry } from "@/lib/supabase-retry";
 import { APP_VERSION, SUBSCRIPTION_TIERS, UserRole } from "@/lib/constants/business";
 import { STORAGE_KEYS, SESSION_KEYS } from "@/lib/constants/storage";
+import { DB_TABLES } from "@/lib/constants/db";
 
 interface AuthContextType {
   user: User | null;

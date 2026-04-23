@@ -11,7 +11,7 @@ import { ContributorBadge } from "@/components/badges/ContributorBadge";
 import { supabase } from "@/lib/supabase";
 import { useLanguage } from "@/components/LanguageProvider";
 import { ROUTES } from "@/lib/constants/routes";
-import { DB_TABLES } from "@/lib/constants/db";
+import { DB_TABLES, DB_BUCKETS } from "@/lib/constants/db";
 import Navbar from "@/components/Navbar";
 import Link from "next/link";
 import { resolveStorageUrl } from "@/lib/supabase/storage-utils";
@@ -124,7 +124,7 @@ const ProfilePage = () => {
       const fetchGallery = async () => {
         try {
           const { data, error } = await supabase
-            .from("profile_gallery")
+            .from(DB_TABLES.PROFILE_GALLERY)
             .select("*")
             .eq("user_id", user.id)
             .order("created_at", { ascending: false });
@@ -262,13 +262,13 @@ const ProfilePage = () => {
       const filePath = `${user.id}/${Date.now()}_${Math.random().toString(36).substring(7)}.${fileExt}`;
       
       const { error: uploadError, data } = await supabase.storage
-        .from("user_gallery")
+        .from(DB_TABLES.USER_GALLERY)
         .upload(filePath, file);
 
       if (uploadError) throw uploadError;
 
       const { data: { publicUrl } } = supabase.storage
-        .from("user_gallery")
+        .from(DB_TABLES.USER_GALLERY)
         .getPublicUrl(filePath);
 
       let determinedType = 'image';
@@ -276,7 +276,7 @@ const ProfilePage = () => {
       else if (file.type === 'application/pdf') determinedType = 'pdf';
 
       const { error: dbError, data: insertedData } = await supabase
-        .from("profile_gallery")
+        .from(DB_TABLES.PROFILE_GALLERY)
         .insert({
           user_id: user.id,
           file_url: publicUrl,
@@ -303,7 +303,7 @@ const ProfilePage = () => {
     try {
       // Opt: Delete from storage bucket if desired. Since path is publicUrl, extracting path requires regex.
       // Skipping bucket deletion for brevity, just DB deletion for now.
-      const { error } = await supabase.from("profile_gallery").delete().eq("id", id).eq("user_id", user.id);
+      const { error } = await supabase.from(DB_TABLES.PROFILE_GALLERY).delete().eq("id", id).eq("user_id", user.id);
       if (error) throw error;
       setGalleryItems(prev => prev.filter(item => item.id !== id));
     } catch (err) {

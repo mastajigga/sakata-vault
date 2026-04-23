@@ -108,7 +108,7 @@ export default function ContributionRequestsPage() {
   return (
     <div className="space-y-8 animate-in fade-in duration-700">
       <div>
-        <h1 className="text-3xl font-bold bg-gradient-to-r from-[#C16B34] to-[#E8D5B5] bg-clip-text text-transparent">
+        <h1 className="text-3xl font-bold bg-gradient-to-r from-[var(--or-ancestral)] to-[#E8D5B5] bg-clip-text text-transparent">
           Demandes de Contribution
         </h1>
         <p className="text-gray-400">Gérez les nouveaux gardiens du savoir Sakata</p>
@@ -117,7 +117,7 @@ export default function ContributionRequestsPage() {
       <div className="grid gap-4">
         {isLoading ? (
           <div className="flex justify-center p-12">
-            <Loader2 className="w-8 h-8 animate-spin text-[#C16B34]" />
+            <Loader2 className="w-8 h-8 animate-spin text-[var(--or-ancestral)]" />
           </div>
         ) : requests.length === 0 ? (
           <div className="p-8 border border-white/10 rounded-xl bg-white/5 text-center text-gray-500">
@@ -127,14 +127,14 @@ export default function ContributionRequestsPage() {
           requests.map((req) => (
             <div
               key={req.id}
-              className="p-6 border border-white/10 rounded-xl bg-black/40 backdrop-blur-md flex items-center justify-between group hover:border-[#C16B34]/30 transition-all duration-300"
+              className="p-6 border border-white/10 rounded-xl bg-black/40 backdrop-blur-md flex items-center justify-between group hover:border-[var(--or-ancestral)]/30 transition-all duration-300"
             >
               <div className="space-y-1">
                 <div className="flex items-center gap-3">
                   <span className="font-bold text-white">
                     {req.profiles?.nickname || req.profiles?.username || "Inconnu"}
                   </span>
-                  <span className="text-xs px-2 py-0.5 rounded-full bg-[#C16B34]/20 text-[#C16B34] border border-[#C16B34]/30 capitalize">
+                  <span className="text-xs px-2 py-0.5 rounded-full bg-[var(--or-ancestral)]/20 text-[var(--or-ancestral)] border border-[var(--or-ancestral)]/30 capitalize">
                     {req.request_type === "article_writer" ? "Rédacteur" : "Contributeur"}
                   </span>
                   <span className={`text-xs px-2 py-0.5 rounded-full border ${

@@ -8,6 +8,7 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { useAuth } from "@/components/AuthProvider";
 import { MemberImage } from "@/components/MemberImage";
+import { DB_TABLES } from "@/lib/constants/db";
 
 interface Post {
   id: string;

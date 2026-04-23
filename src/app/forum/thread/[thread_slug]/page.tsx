@@ -6,6 +6,7 @@ import { notFound } from "next/navigation";
 import { ArrowLeft, Clock, Eye } from "lucide-react";
 import ThreadRepliesClient from "./ThreadRepliesClient";
 import { supabasePublic, supabaseAdmin } from "@/lib/supabase/admin";
+import { DB_TABLES } from "@/lib/constants/db";
 
 export const revalidate = 60;
 
@@ -13,7 +14,7 @@ export default async function ThreadPage(props: { params: Promise<{ thread_slug:
   const params = await props.params;
   // Fetch Thread details with author and category
   const { data: thread, error: threadError } = await supabasePublic
-    .from("forum_threads")
+    .from(DB_TABLES.FORUM_THREADS)
     .select(`
       *,
       profiles ( id, username, nickname, avatar_url, role ),
@@ -38,7 +39,7 @@ export default async function ThreadPage(props: { params: Promise<{ thread_slug:
 
   // Fetch initial posts associated with this thread
   const { data: initialPosts, error: postsError } = await supabasePublic
-    .from("forum_posts")
+    .from(DB_TABLES.FORUM_POSTS)
     .select(`
       *,
       profiles ( id, username, nickname, avatar_url, role )

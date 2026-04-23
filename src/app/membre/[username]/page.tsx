@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
 import { motion } from "framer-motion";
 import { supabase } from "@/lib/supabase";
+import { DB_TABLES } from "@/lib/constants/db";
 import Navbar from "@/components/Navbar";
 import { 
   User as UserIcon, 
@@ -44,7 +45,7 @@ const MemberProfilePage = () => {
         setLoading(true);
         // Fetch profile
         const { data: profileData, error: profileError } = await supabase
-          .from("profiles")
+          .from(DB_TABLES.PROFILES)
           .select("*")
           .eq("username", username)
           .single();
@@ -60,7 +61,7 @@ const MemberProfilePage = () => {
 
         // Fetch gallery
         const { data: galleryData, error: galleryError } = await supabase
-          .from("profile_gallery")
+          .from(DB_TABLES.PROFILE_GALLERY)
           .select("*")
           .eq("user_id", profileData.id)
           .order("created_at", { ascending: false });

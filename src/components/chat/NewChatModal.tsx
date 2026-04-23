@@ -6,6 +6,7 @@ import Image from "next/image";
 import { supabase } from "@/lib/supabase";
 import { useAuth } from "@/components/AuthProvider";
 import { useRouter } from "next/navigation";
+import { DB_TABLES } from "@/lib/constants/db";
 
 interface Profile {
   id: string;

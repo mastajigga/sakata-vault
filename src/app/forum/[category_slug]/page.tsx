@@ -1,4 +1,5 @@
 import { supabasePublic, supabaseAdmin } from "@/lib/supabase/admin";
+import { DB_TABLES } from "@/lib/constants/db";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { ThreadCard } from "@/components/forum/ThreadCard";
@@ -12,7 +13,7 @@ export default async function ForumCategoryPage(props: { params: Promise<{ categ
   const params = await props.params;
   // 1. Fetch Category Details
   const { data: category, error: catError } = await supabasePublic
-    .from("forum_categories")
+    .from(DB_TABLES.FORUM_CATEGORIES)
     .select("*")
     .eq("slug", params.category_slug)
     .single();
@@ -28,7 +29,7 @@ export default async function ForumCategoryPage(props: { params: Promise<{ categ
   console.log(`[ForumCategory] Fetching threads for category_id: ${category.id}`);
 
   const { data: threads, error: threadsError, status } = await supabasePublic
-    .from("forum_threads")
+    .from(DB_TABLES.FORUM_THREADS)
     .select(`
       *,
       profiles ( username, avatar_url, nickname ),

@@ -437,7 +437,7 @@ const AdminDashboard = () => {
            <Link href="/" className="flex items-center gap-2 px-4 py-2 bg-white/5 rounded-full border border-white/10 text-xs hover:border-white/30 transition-colors">
               <ChevronLeft className="w-4 h-4" /> Retour
            </Link>
-           <Link href="/admin/notifications" className="flex items-center gap-2 px-4 py-2 bg-white/5 rounded-full border border-[#C16B34]/30 text-[#C16B34] text-xs hover:bg-[#C16B34]/10 transition-colors">
+           <Link href="/admin/notifications" className="flex items-center gap-2 px-4 py-2 bg-white/5 rounded-full border border-[var(--or-ancestral)]/30 text-[var(--or-ancestral)] text-xs hover:bg-[var(--or-ancestral)]/10 transition-colors">
               <Mail className="w-4 h-4" /> Notifications
            </Link>
            <Link href="/profil" className="flex items-center gap-2 px-4 py-2 bg-white/5 rounded-full border border-or/20 text-or-ancestral text-xs hover:bg-or/10 transition-colors">

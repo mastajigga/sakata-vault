@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 import { MarkdownEditor } from "@/components/forum/MarkdownEditor";
 import { Loader2 } from "lucide-react";
+import { DB_TABLES } from "@/lib/constants/db";
 
 export default function NewThreadClient({ categoryId, categorySlug }: { categoryId: string, categorySlug: string }) {
   const router = useRouter();

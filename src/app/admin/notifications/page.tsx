@@ -99,7 +99,7 @@ export default function AdminNotificationPage() {
           <button
             onClick={handleSend}
             disabled={status === "sending"}
-            className="flex items-center gap-2 px-6 py-2 rounded-lg bg-[#C16B34] hover:bg-[#A15B24] transition-all font-bold disabled:opacity-50"
+            className="flex items-center gap-2 px-6 py-2 rounded-lg bg-[var(--or-ancestral)] hover:bg-[var(--or-profond,#A15B24)] transition-all font-bold disabled:opacity-50"
           >
             <Send size={18} />
             {status === "sending" ? "Envoi..." : "Diffuser"}
@@ -112,7 +112,7 @@ export default function AdminNotificationPage() {
         <div className="lg:col-span-1 space-y-6">
           <div className="bg-white/5 p-6 rounded-2xl border border-white/10 backdrop-blur-md">
             <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
-              <CheckCircle2 size={18} className="text-[#C16B34]" />
+              <CheckCircle2 size={18} className="text-[var(--or-ancestral)]" />
               Source des données
             </h3>
             <div className="space-y-3">
@@ -120,7 +120,7 @@ export default function AdminNotificationPage() {
               <select
                 value={selectedVersion}
                 onChange={(e) => setSelectedVersion(e.target.value)}
-                className="w-full bg-black/40 border border-white/20 rounded-lg px-4 py-2 focus:ring-2 focus:ring-[#C16B34] outline-none"
+                className="w-full bg-black/40 border border-white/20 rounded-lg px-4 py-2 focus:ring-2 focus:ring-[var(--or-ancestral)] outline-none"
               >
                 {changelogData.map(v => (
                   <option key={v.version} value={v.version}>{v.version} ({v.date})</option>
@@ -128,8 +128,8 @@ export default function AdminNotificationPage() {
               </select>
             </div>
             
-            <div className="mt-8 p-4 bg-[#C16B34]/10 border border-[#C16B34]/30 rounded-xl space-y-2">
-              <p className="text-sm text-[#C16B34] font-medium flex items-center gap-2">
+            <div className="mt-8 p-4 bg-[var(--or-ancestral)]/10 border border-[var(--or-ancestral)]/30 rounded-xl space-y-2">
+              <p className="text-sm text-[var(--or-ancestral)] font-medium flex items-center gap-2">
                 <AlertCircle size={14} />
                 Conseil Éditorial
               </p>
@@ -175,7 +175,7 @@ export default function AdminNotificationPage() {
             <div className="bg-white p-12 rounded-2xl text-gray-900 shadow-2xl min-h-[600px] border border-gray-200 font-sans">
               {/* Email Styled Preview */}
               <div className="max-w-xl mx-auto">
-                <div className="w-16 h-1 w bg-[#C16B34] mb-8" />
+                <div className="w-16 h-1 w bg-[var(--or-ancestral)] mb-8" />
                 <h1 className="text-3xl font-bold text-gray-900 mb-4">{subject}</h1>
                 <div className="text-gray-600 leading-relaxed whitespace-pre-line text-lg">
                   {emailContent}
@@ -195,7 +195,7 @@ export default function AdminNotificationPage() {
                   type="text"
                   value={subject}
                   onChange={(e) => setSubject(e.target.value)}
-                  className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-lg focus:ring-2 focus:ring-[#C16B34] outline-none"
+                  className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-lg focus:ring-2 focus:ring-[var(--or-ancestral)] outline-none"
                 />
               </div>
               <div className="space-y-2">
@@ -203,7 +203,7 @@ export default function AdminNotificationPage() {
                 <textarea
                   value={emailContent}
                   onChange={(e) => setEmailContent(e.target.value)}
-                  className="w-full h-[500px] bg-white/5 border border-white/10 rounded-xl px-4 py-4 font-mono text-sm focus:ring-2 focus:ring-[#C16B34] outline-none resize-none"
+                  className="w-full h-[500px] bg-white/5 border border-white/10 rounded-xl px-4 py-4 font-mono text-sm focus:ring-2 focus:ring-[var(--or-ancestral)] outline-none resize-none"
                 />
               </div>
             </div>

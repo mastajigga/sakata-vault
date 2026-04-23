@@ -82,7 +82,7 @@ export default function ContributorGuidePage() {
             transition={{ duration: 0.6 }}
             className="mb-16"
           >
-            <h1 className="text-5xl font-light mb-4 bg-gradient-to-r from-white via-gray-200 to-[#C16B34] bg-clip-text text-transparent">
+            <h1 className="text-5xl font-light mb-4 bg-gradient-to-r from-white via-gray-200 to-[var(--or-ancestral)] bg-clip-text text-transparent">
               Guide Contributeur
             </h1>
             <p className="text-xl text-gray-400 max-w-2xl">
@@ -108,7 +108,7 @@ export default function ContributorGuidePage() {
                 className="rounded-lg border border-white/10 bg-white/5 backdrop-blur-sm p-6 text-center"
               >
                 <p className="text-gray-400 text-sm mb-2">{stat.label}</p>
-                <p className="text-2xl font-light text-[#C16B34]">{stat.value}</p>
+                <p className="text-2xl font-light text-[var(--or-ancestral)]">{stat.value}</p>
               </div>
             ))}
           </motion.div>
@@ -124,7 +124,7 @@ export default function ContributorGuidePage() {
             viewport={{ once: true }}
           >
             <div className="flex items-center gap-3 mb-6">
-              <motion.div {...iconVariants} transition={{ type: "spring", stiffness: 260, damping: 20 }} className="text-[#C16B34]">
+              <motion.div {...iconVariants} transition={{ type: "spring", stiffness: 260, damping: 20 }} className="text-[var(--or-ancestral)]">
                 <Heart size={32} />
               </motion.div>
               <h2 className="text-3xl font-light">Pourquoi contribuer ?</h2>
@@ -141,7 +141,7 @@ export default function ContributorGuidePage() {
                 "Contribuent à la diaspora sakata en renforçant le lien avec les racines",
               ].map((item, i) => (
                 <li key={i} className="flex items-start gap-3">
-                  <CheckCircle2 size={20} className="text-[#C16B34] mt-1 shrink-0" />
+                  <CheckCircle2 size={20} className="text-[var(--or-ancestral)] mt-1 shrink-0" />
                   <span className="text-gray-300">{item}</span>
                 </li>
               ))}
@@ -156,7 +156,7 @@ export default function ContributorGuidePage() {
             viewport={{ once: true }}
           >
             <div className="flex items-center gap-3 mb-6">
-              <motion.div {...iconVariants} transition={{ type: "spring", stiffness: 260, damping: 20 }} className="text-[#C16B34]">
+              <motion.div {...iconVariants} transition={{ type: "spring", stiffness: 260, damping: 20 }} className="text-[var(--or-ancestral)]">
                 <FileText size={32} />
               </motion.div>
               <h2 className="text-3xl font-light">Comment devenir contributeur ?</h2>
@@ -185,7 +185,7 @@ export default function ContributorGuidePage() {
                 },
               ].map((step, i) => (
                 <div key={i} className="flex gap-4">
-                  <div className="flex-shrink-0 w-10 h-10 rounded-full bg-[#C16B34]/20 border border-[#C16B34]/50 flex items-center justify-center text-[#C16B34] font-light">
+                  <div className="flex-shrink-0 w-10 h-10 rounded-full bg-[var(--or-ancestral)]/20 border border-[var(--or-ancestral)]/50 flex items-center justify-center text-[var(--or-ancestral)] font-light">
                     {step.num}
                   </div>
                   <div>
@@ -205,7 +205,7 @@ export default function ContributorGuidePage() {
             viewport={{ once: true }}
           >
             <div className="flex items-center gap-3 mb-6">
-              <motion.div {...iconVariants} transition={{ type: "spring", stiffness: 260, damping: 20 }} className="text-[#C16B34]">
+              <motion.div {...iconVariants} transition={{ type: "spring", stiffness: 260, damping: 20 }} className="text-[var(--or-ancestral)]">
                 <FileText size={32} />
               </motion.div>
               <h2 className="text-3xl font-light">Types de contributions</h2>
@@ -248,7 +248,7 @@ export default function ContributorGuidePage() {
             viewport={{ once: true }}
           >
             <div className="flex items-center gap-3 mb-6">
-              <motion.div {...iconVariants} transition={{ type: "spring", stiffness: 260, damping: 20 }} className="text-[#C16B34]">
+              <motion.div {...iconVariants} transition={{ type: "spring", stiffness: 260, damping: 20 }} className="text-[var(--or-ancestral)]">
                 <Shield size={32} />
               </motion.div>
               <h2 className="text-3xl font-light">Critères de qualité</h2>
@@ -266,7 +266,7 @@ export default function ContributorGuidePage() {
                 "**Originalité** : Contenu créé pour Kisakata, pas copiée d'ailleurs",
               ].map((criterion, i) => (
                 <div key={i} className="flex items-start gap-3">
-                  <CheckCircle2 size={20} className="text-[#C16B34] mt-1 shrink-0" />
+                  <CheckCircle2 size={20} className="text-[var(--or-ancestral)] mt-1 shrink-0" />
                   <p className="text-gray-300">{criterion}</p>
                 </div>
               ))}
@@ -281,7 +281,7 @@ export default function ContributorGuidePage() {
             viewport={{ once: true }}
           >
             <div className="flex items-center gap-3 mb-8">
-              <motion.div {...iconVariants} transition={{ type: "spring", stiffness: 260, damping: 20 }} className="text-[#C16B34]">
+              <motion.div {...iconVariants} transition={{ type: "spring", stiffness: 260, damping: 20 }} className="text-[var(--or-ancestral)]">
                 <HelpCircle size={32} />
               </motion.div>
               <h2 className="text-3xl font-light">Questions fréquentes</h2>
@@ -310,7 +310,7 @@ export default function ContributorGuidePage() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
-            className="bg-gradient-to-r from-[#C16B34]/20 to-transparent border border-[#C16B34]/30 rounded-lg p-12 text-center"
+            className="bg-gradient-to-r from-[var(--or-ancestral)]/20 to-transparent border border-[var(--or-ancestral)]/30 rounded-lg p-12 text-center"
           >
             <h2 className="text-3xl font-light mb-4">Prêt à contribuer ?</h2>
             <p className="text-gray-400 mb-8 max-w-2xl mx-auto">
@@ -320,13 +320,13 @@ export default function ContributorGuidePage() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
                 href={ROUTES.PROFIL}
-                className="inline-flex items-center justify-center px-8 py-3 bg-[#C16B34] hover:bg-[#a85a2a] text-white rounded-lg transition-colors font-medium"
+                className="inline-flex items-center justify-center px-8 py-3 bg-[var(--or-ancestral)] hover:bg-[var(--or-profond,#a85a2a)] text-white rounded-lg transition-colors font-medium"
               >
                 Demander l'accès
               </Link>
               <Link
                 href={ROUTES.CONTRIBUTEUR}
-                className="inline-flex items-center justify-center px-8 py-3 border border-white/20 hover:border-[#C16B34]/50 rounded-lg transition-colors"
+                className="inline-flex items-center justify-center px-8 py-3 border border-white/20 hover:border-[var(--or-ancestral)]/50 rounded-lg transition-colors"
               >
                 Voir mon tableau de bord
               </Link>

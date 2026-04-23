@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useRef } from "react";
 import { supabase } from "@/lib/supabase";
+import { DB_TABLES } from "@/lib/constants/db";
 
 export function useTyping(conversationId: string) {
   const [typingUsers, setTypingUsers] = useState<string[]>([]);
