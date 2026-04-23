@@ -206,17 +206,17 @@ export default function WelcomeModal() {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 w-full text-left mb-10">
 
-              {/* Dernières Mises à Jour (v2.5.0) */}
+              {/* Dernières Mises à Jour (v2.6.0) */}
               <div data-card className="bg-gradient-to-br from-[#1A3A2E] to-[#0F2818] border border-[#B59551]/40 rounded-2xl p-5 hover:border-[#B59551]/60 transition-colors duration-300">
                 <h3 className="text-[#B59551] font-medium text-base mb-3 flex items-center gap-2">
                   <Zap className="w-4 h-4 flex-shrink-0" />
-                  Mises à jour (v2.5.0)
+                  Mises à jour (v2.6.0)
                 </h3>
                 <ul className="text-[#F2EEDD]/70 text-sm space-y-2 list-disc pl-4">
-                  <li><strong>Stabilité Réseau:</strong> Fix des blocages de chargement</li>
-                  <li><strong>Chat Sync:</strong> Messagerie réactive dès l'arrivée</li>
-                  <li><strong>Email Hub:</strong> Notifications sacrées actives</li>
-                  <li><strong>Personnalisation:</strong> Accueil sur mesure (Savoir/École)</li>
+                  <li><strong>Stabilité 3D:</strong> Carte interactive sans crash (fix Mapbox)</li>
+                  <li><strong>Forum Mboka:</strong> Correction sérialisation (Next.js fix)</li>
+                  <li><strong>Fluidité:</strong> Nouvelles transitions de pages premium</li>
+                  <li><strong>Robustesse Auth:</strong> Hardening des sessions Supabase</li>
                 </ul>
               </div>
 

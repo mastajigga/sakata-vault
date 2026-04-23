@@ -276,6 +276,7 @@ import { withRetry, withRetryRaw } from "@/lib/supabase-retry";
 
 | Date | Modification |
 |------|-------------|
+| 2026-04-23 | **MODERN STABILIZATION v2.6** — Résolution du crash Mapbox (setFog CSS vars). Fix de la sérialisation Next.js pour les icônes du Forum. Centralisation du RootLayout et système de transitions premium. |
 | 2026-04-19 | **TRAFFIC CONTROL & RÉSEAU** — Implémentation d'un limiteur de concurrence dans le proxy Supabase (Max 4 requêtes). Priorisation des appels `profiles`. Séquençage Auth vs Data et ajout de l'audit de robustesse (`audit_stabilite_reseau.md`). |
 | 2026-04-19 | **STABILISATION v2.6** — Correction de la boucle infinie AuthProvider (verrou init). Suppression des logs verbeux. Fix 404 assets Ngongo. Conformité `supabasePublic` pour SSR Netlify. |
 | 2026-04-19 | APP_VERSION bumpé `2.5.0` → `2.6.0` |

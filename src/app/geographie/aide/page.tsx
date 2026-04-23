@@ -165,7 +165,9 @@ export default function AidePage() {
                 <MapPin className="w-3 h-3" />
                 Projection 3D
               </h3>
-              <p className="text-xs opacity-70">Lancez une séquence de survol (Flythrough) pour découvrir les lieux emblématiques sous un nouvel angle.</p>
+              <p className="text-xs opacity-70">
+                Lancez une séquence de survol (Flythrough) stabilisée. Le moteur de rendu a été optimisé pour une fluidité maximale sur tous les navigateurs modernes.
+              </p>
             </div>
           </div>
         </section>

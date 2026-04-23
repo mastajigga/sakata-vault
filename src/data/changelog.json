@@ -1,5 +1,38 @@
 [
   {
+    "version": "v2.6.0",
+    "date": "Avril 2026 (Aujourd'hui)",
+    "subtitle": "Stabilité 3D, Forum & Expérience Premium",
+    "sections": [
+      {
+        "title": "🌍 Géographie & 3D (Mapbox)",
+        "items": [
+          "Stabilisation du moteur de rendu 3D (fix crash setFog)",
+          "Initialisation robuste du container de carte par ID unique",
+          "Optimisation des performances d'affichage du globe et du terrain",
+          "Correction des variables CSS non-supportées par le runtime Mapbox"
+        ]
+      },
+      {
+        "title": "🏛️ Forum & Communauté",
+        "items": [
+          "Correction critique de la sérialisation des icônes (Next.js build fix)",
+          "Mboka — Le nouveau \"feu de camp\" numérique stabilisé pour tous les membres",
+          "Amélioration des transitions de chargement entre les catégories"
+        ]
+      },
+      {
+        "title": "✨ Expérience Premium & Motion",
+        "items": [
+          "Système de transitions de pages fluide (Bézier personnalisé)",
+          "Centralisation du RootLayout pour une navigation sans scintillement",
+          "Hardening de l'authentification (retry logic contre lock contention)",
+          "Nettoyage architectural global des composants Navbar et Footer"
+        ]
+      }
+    ]
+  },
+  {
     "version": "v2.5.0",
     "date": "Avril 2026",
     "subtitle": "Personnalisation, Robustesse Visuelle & Emailing",
