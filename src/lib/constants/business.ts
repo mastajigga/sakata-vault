@@ -34,7 +34,7 @@ export const MAX_VIEWS = {
   TWICE: 2,
 } as const;
 
-export const APP_VERSION = "2.7.1"; // Bumped 2026-04-23 — HUD Interactivity Fix
+export const APP_VERSION = "2.7.2"; // Bumped 2026-04-23 — Chat Realtime + Optimistic UI
 export const PINECONE_DEFAULT_INDEX = "sakata-mathematics";
 
 // ─── Hiérarchie des rôles ────────────────────────────────────────────────────

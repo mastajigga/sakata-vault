@@ -94,6 +94,7 @@ docs/
 ### Règles Éphémères (IMPORTANT)
 - **L'envoyeur voit toujours sa propre image** — vérifier `isMe` avant d'appliquer `viewState = "locked"`.
 - **localStorage** : Clé `msgViewedKey(id)` = `"sakata-msg-viewed-{id}"` — persiste l'état "vu" entre sessions.
+- **Current Version**: v2.7.2
 - **maxViews: 1** → countdown `VIEW_ONCE_COUNTDOWN` (5s). **maxViews: 2** → `VIEW_TWICE_COUNTDOWN` (10s).
 - **Détection capture d'écran** : `visibilitychange` + `window.blur` → overlay flou. Skippé pour `isMe`.
 
@@ -133,7 +134,7 @@ import { USER_ROLES, SUBSCRIPTION_TIERS, EXPIRY_DURATIONS, IMAGE_VIEW_MODES, APP
 import { withRetry, withRetryRaw } from "@/lib/supabase-retry";
 ```
 
-**APP_VERSION** : Bumper à chaque déploiement majeur dans `business.ts` pour invalider automatiquement les entrées localStorage périmées (`sakata-*`). Version actuelle : `2.7.1`.
+**APP_VERSION** : Bumper à chaque déploiement majeur dans `business.ts` pour invalider automatiquement les entrées localStorage périmées (`sakata-*`). Version actuelle : `2.7.2`.
 
 ---
 
@@ -144,6 +145,8 @@ import { withRetry, withRetryRaw } from "@/lib/supabase-retry";
 - **Hydratation & Loading:** `LoadingProvider` gère les transitions de page. Ne pas introduire de délais artificiels (le timeout de sécurité est de 4s).
 - **Hydratation:** La structure HTML doit toujours être stricte. Ne pas insérer de valeurs aléatoires (ex: `Date.now()`) lors du rendu serveur sans protection `useEffect`.
 - **Composants Client vs Serveur:** `use client` est nécessaire au sommet des fichiers qui intègrent de l'interactivité (GSAP, Etat local, Formulaires).
+- v2.7.2: Optimistic UI Chat + WebSocket stability fix.
+- v2.7.1: Geography HUD interactivity fix (Z-index conflict with Navbar).
 - **Styles:** Ne jamais surcharger les polices globales avec des utilitaires Tailwind sans raison. Garder les variables `--foret-nocturne`, `--or-ancestral`, et `--ivoire-ancien` comme base canonique.
 - **TypeScript `as const` + `useState`:** Quand une constante `as const` a un type littéral (ex: `5`), utiliser `useState<number>(val)` explicitement pour éviter l'erreur `Type 'number' is not assignable to type '5 | 10'`.
 - **Vidéos dans les Hero :** Toujours utiliser `preload="auto"` + `onCanPlay={() => setVideoReady(true)}` + transition `opacity 0.8s` pour éviter le flash de vidéo après chargement de page.

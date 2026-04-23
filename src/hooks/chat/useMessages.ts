@@ -274,7 +274,29 @@ export function useMessages(conversationId: string) {
           formatted = { ...formatted, fileUrl: resolved };
         }
 
-        setMessages(prev => [...prev, formatted]);
+        setMessages(prev => {
+          // Si c'est notre propre message qui revient via Realtime, 
+          // on cherche s'il y a une version optimiste à remplacer.
+          if (newMsg.sender_id === uid) {
+            const hasOptimistic = prev.some(m => (m as any).isOptimistic && m.content === newMsg.content);
+            if (hasOptimistic) {
+              // On remplace le premier message optimiste correspondant par la version officielle
+              let replaced = false;
+              return prev.map(m => {
+                if (!replaced && (m as any).isOptimistic && m.content === newMsg.content) {
+                  replaced = true;
+                  return formatted;
+                }
+                return m;
+              });
+            }
+          }
+          
+          // Sinon (message d'autrui ou pas d'optimiste trouvé), on l'ajoute simplement
+          // On vérifie quand même les doublons par ID
+          if (prev.some(m => m.id === formatted.id)) return prev;
+          return [...prev, formatted];
+        });
         if (newMsg.sender_id !== uid) markAsRead();
       })
       .on('postgres_changes', {
@@ -314,7 +336,7 @@ export function useMessages(conversationId: string) {
         clearTimeout(profileFetchTimeoutRef.current);
       }
     };
-  }, [conversationId, currentUserId, formatMessage, resolveSignedUrls, resolveFileUrl, messages.length]); // Re-sub on length change to update reaction listener closure if needed
+  }, [conversationId, currentUserId, formatMessage, resolveSignedUrls, resolveFileUrl]); // Supression de messages.length pour stabiliser le WebSocket
 
 
   const loadMore = useCallback(async () => {
@@ -400,28 +422,53 @@ export function useMessages(conversationId: string) {
     const senderName = profile?.nickname || profile?.username || "Utilisateur";
     const messagePreview = content.substring(0, 50) + (content.length > 50 ? "..." : "");
 
-    await withRetry(async () => supabase.from(DB_TABLES.CHAT_MESSAGES).insert({
-      conversation_id: conversationId,
-      sender_id: user.id,
+    // Optimistic UI update
+    const optimisticId = `optimistic-${Date.now()}`;
+    const optimisticMessage: Message = {
+      id: optimisticId,
+      senderId: user.id,
+      senderName: senderName,
       content,
-      file_url: fileUrl,
-      file_type: fileType,
-      expires_in: expiresIn || "never",
-      max_views: maxViews,
-      reply_to_message_id: reply_to_message_id || null
-    }));
+      fileUrl: fileUrl || undefined,
+      fileType: (fileType as any) || undefined,
+      createdAt: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      createdAtRaw: new Date().toISOString(),
+      isMe: true,
+      reply_to_message_id: reply_to_message_id,
+    };
+    (optimisticMessage as any).isOptimistic = true;
 
-    // Send push notifications to other participants
-    await fetch("/api/push/notify", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        conversationId,
-        senderName,
-        messagePreview,
-        senderId: user.id,
-      }),
-    }).catch(err => console.error("Failed to send push notifications:", err));
+    setMessages(prev => [...prev, optimisticMessage]);
+
+    try {
+      await withRetry(async () => supabase.from(DB_TABLES.CHAT_MESSAGES).insert({
+        conversation_id: conversationId,
+        sender_id: user.id,
+        content,
+        file_url: fileUrl,
+        file_type: fileType,
+        expires_in: expiresIn || "never",
+        max_views: maxViews,
+        reply_to_message_id: reply_to_message_id || null
+      }));
+
+      // Send push notifications to other participants
+      await fetch("/api/push/notify", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          conversationId,
+          senderName,
+          messagePreview,
+          senderId: user.id,
+        }),
+      });
+    } catch (err) {
+      console.error("Failed to send message:", err);
+      // Remove optimistic message on failure
+      setMessages(prev => prev.filter(m => m.id !== optimisticId));
+      throw err;
+    }
   };
 
   // Soft delete: set is_deleted=true (sender only, optimistic UI)
