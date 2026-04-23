@@ -4,7 +4,8 @@ import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import {
   BarChart3, Users, FileText, Eye, TrendingUp, Clock,
-  ArrowUpRight, Heart, Globe, Share2, ChevronLeft, UserCircle, Mail
+  ArrowUpRight, Heart, Globe, Share2, ChevronLeft, UserCircle, Mail,
+  Sparkles, MessageSquare, Image as ImageIcon, ShieldCheck, Activity
 } from "lucide-react";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase";
@@ -437,18 +438,42 @@ const AdminDashboard = () => {
            <Link href="/" className="flex items-center gap-2 px-4 py-2 bg-white/5 rounded-full border border-white/10 text-xs hover:border-white/30 transition-colors">
               <ChevronLeft className="w-4 h-4" /> Retour
            </Link>
-           <Link href="/admin/notifications" className="flex items-center gap-2 px-4 py-2 bg-white/5 rounded-full border border-[var(--or-ancestral)]/30 text-[var(--or-ancestral)] text-xs hover:bg-[var(--or-ancestral)]/10 transition-colors">
-              <Mail className="w-4 h-4" /> Notifications
-           </Link>
-           <Link href="/profil" className="flex items-center gap-2 px-4 py-2 bg-white/5 rounded-full border border-or/20 text-or-ancestral text-xs hover:bg-or/10 transition-colors">
-              <UserCircle className="w-4 h-4" /> Mon Profil
-           </Link>
            <div className="flex items-center gap-2 px-4 py-2 bg-white/10 rounded-full border border-white/10 text-[10px] uppercase font-bold tracking-widest text-emerald-400">
               <span className="w-2 h-2 rounded-full bg-emerald-500 animate-[pulse_2s_ease-in-out_infinite] shadow-[0_0_8px_rgba(16,185,129,0.5)]" />
               Télémétrie Active
            </div>
         </div>
       </header>
+
+      {/* Quick Access Modules */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+         <Link href="/admin/ai" className="p-8 rounded-[2.5rem] bg-white/5 border border-white/10 backdrop-blur-xl hover:bg-white/10 transition-all group">
+            <div className="flex justify-between items-start mb-6">
+               <Sparkles className="w-8 h-8 text-or-ancestral" />
+               <ArrowUpRight className="w-5 h-5 opacity-0 group-hover:opacity-40 transition-opacity" />
+            </div>
+            <h3 className="font-display text-xl font-bold">Orchestration IA</h3>
+            <p className="text-xs opacity-40 mt-2 uppercase tracking-widest font-bold">Vieux Sage • Pinecone • Audio</p>
+         </Link>
+
+         <Link href="/admin/forum" className="p-8 rounded-[2.5rem] bg-white/5 border border-white/10 backdrop-blur-xl hover:bg-white/10 transition-all group">
+            <div className="flex justify-between items-start mb-6">
+               <MessageSquare className="w-8 h-8 text-emerald-400" />
+               <div className="bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full animate-pulse">2 SIGNALEMENTS</div>
+            </div>
+            <h3 className="font-display text-xl font-bold">Modération Forum</h3>
+            <p className="text-xs opacity-40 mt-2 uppercase tracking-widest font-bold">Mboka • Sécurité • Gardiens</p>
+         </Link>
+
+         <Link href="/admin/media" className="p-8 rounded-[2.5rem] bg-white/5 border border-white/10 backdrop-blur-xl hover:bg-white/10 transition-all group">
+            <div className="flex justify-between items-start mb-6">
+               <ImageIcon className="w-8 h-8 text-blue-400" />
+               <ArrowUpRight className="w-5 h-5 opacity-0 group-hover:opacity-40 transition-opacity" />
+            </div>
+            <h3 className="font-display text-xl font-bold">Médiathèque</h3>
+            <p className="text-xs opacity-40 mt-2 uppercase tracking-widest font-bold">Archives • Images • Bibliothèque</p>
+         </Link>
+      </div>
 
       {/* Main Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">

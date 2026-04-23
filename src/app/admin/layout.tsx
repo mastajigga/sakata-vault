@@ -4,12 +4,14 @@ import React from "react";
 import { useAuth } from "@/components/AuthProvider";
 import { useRouter } from "next/navigation";
 import Navbar from "@/components/Navbar";
-import { LayoutDashboard, Users, FileText, BarChart3, Settings, LogOut, Bell } from "lucide-react";
+import { LayoutDashboard, Users, FileText, BarChart3, Settings, LogOut, Bell, Sparkles, MessageSquare, Image, ShieldCheck } from "lucide-react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const AdminLayout = ({ children }: { children: React.ReactNode }) => {
   const { user, role, isLoading } = useAuth();
   const router = useRouter();
+  const pathname = usePathname();
 
   React.useEffect(() => {
     if (!isLoading && (!user || !["admin", "manager", "contributor"].includes(role || ""))) {
@@ -27,6 +29,16 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
     );
   }
 
+  const navItems = [
+    { name: "Tableau de Bord", href: "/admin", icon: LayoutDashboard, roles: ["admin", "manager", "contributor"] },
+    { name: "Articles", href: "/admin/content", icon: FileText, roles: ["admin", "manager", "contributor"] },
+    { name: "Orchestration IA", href: "/admin/ai", icon: Sparkles, roles: ["admin", "manager"] },
+    { name: "Modération Forum", href: "/admin/forum", icon: MessageSquare, roles: ["admin", "manager"] },
+    { name: "Médiathèque", href: "/admin/media", icon: Image, roles: ["admin", "manager", "contributor"] },
+    { name: "Notifications", href: "/admin/notifications", icon: Bell, roles: ["admin", "manager"] },
+    { name: "Membres", href: "/admin/users", icon: Users, roles: ["admin"] },
+  ];
+
   return (
     <div className="min-h-[100dvh] bg-[#050C09] text-ivoire-ancien font-body">
       <Navbar />
@@ -34,30 +46,28 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
       <div className="pt-24 flex min-h-[100dvh] overflow-hidden">
         {/* Sidebar */}
         <aside className="w-64 border-r border-white/5 bg-[var(--foret-nocturne)]/50 backdrop-blur-md hidden md:flex flex-col p-6 space-y-8">
-          <div className="space-y-2">
-            <p className="text-[10px] uppercase tracking-widest opacity-40 font-bold ml-4">
-              Menu Principal
-            </p>
-            <nav className="space-y-1">
-              <Link href="/admin" className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-white/5 transition-all text-sm group">
-                <LayoutDashboard className="w-4 h-4 text-or-ancestral opacity-60 group-hover:opacity-100" />
-                Tableau de Bord
-              </Link>
-              <Link href="/admin/content" className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-white/5 transition-all text-sm group">
-                <FileText className="w-4 h-4 text-or-ancestral opacity-60 group-hover:opacity-100" />
-                Articles
-              </Link>
-              <Link href="/admin/notifications" className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-white/5 transition-all text-sm group">
-                <Bell className="w-4 h-4 text-or-ancestral opacity-60 group-hover:opacity-100" />
-                Notifications
-              </Link>
-              {role === "admin" && (
-                <Link href="/admin/users" className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-white/5 transition-all text-sm group">
-                  <Users className="w-4 h-4 text-or-ancestral opacity-60 group-hover:opacity-100" />
-                  Utilisateurs
-                </Link>
-              )}
-            </nav>
+          <div className="space-y-4">
+            <div>
+              <p className="text-[10px] uppercase tracking-[0.2em] opacity-40 font-bold ml-4 mb-4">
+                Command Center
+              </p>
+              <nav className="space-y-1">
+                {navItems.filter(item => item.roles.includes(role || "")).map((item) => {
+                  const Icon = item.icon;
+                  const isActive = pathname === item.href;
+                  return (
+                    <Link 
+                      key={item.href}
+                      href={item.href} 
+                      className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all text-sm group ${isActive ? 'bg-or-ancestral/10 text-or-ancestral border border-or-ancestral/20' : 'hover:bg-white/5 opacity-60 hover:opacity-100'}`}
+                    >
+                      <Icon className={`w-4 h-4 ${isActive ? 'text-or-ancestral' : 'text-ivoire-ancien opacity-60 group-hover:opacity-100'}`} />
+                      {item.name}
+                    </Link>
+                  );
+                })}
+              </nav>
+            </div>
           </div>
 
           <div className="space-y-2 mt-auto">
