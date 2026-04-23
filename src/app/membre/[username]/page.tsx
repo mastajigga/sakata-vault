@@ -93,8 +93,21 @@ const MemberProfilePage = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-foret-nocturne flex items-center justify-center">
-        <div className="w-8 h-8 border-2 border-or-ancestral border-t-transparent rounded-full animate-spin" />
+      <div className="min-h-screen bg-foret-nocturne pt-32 px-4 sm:px-8 md:px-16 max-w-4xl mx-auto">
+        <div className="animate-pulse space-y-8">
+          <div className="flex items-center gap-4">
+            <div className="w-20 h-20 rounded-full bg-white/5" />
+            <div className="space-y-3">
+              <div className="h-6 w-40 bg-white/5 rounded-xl" />
+              <div className="h-4 w-24 bg-white/5 rounded-lg" />
+            </div>
+          </div>
+          <div className="h-48 bg-white/5 rounded-2xl" />
+          <div className="grid grid-cols-2 gap-4">
+            <div className="h-24 bg-white/5 rounded-2xl" />
+            <div className="h-24 bg-white/5 rounded-2xl" />
+          </div>
+        </div>
       </div>
     );
   }

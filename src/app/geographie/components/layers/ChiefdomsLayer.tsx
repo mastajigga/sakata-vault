@@ -3,6 +3,7 @@
 import React, { useMemo } from "react";
 import { Source, Layer } from "react-map-gl";
 import type { FillLayer, LineLayer, SymbolLayer, CircleLayer } from "react-map-gl";
+import { KISAKATA_COLORS } from "../../lib/mapStyles";
 
 interface ChiefdomsLayerProps {
   data: GeoJSON.FeatureCollection<GeoJSON.Polygon>;
@@ -179,7 +180,7 @@ export default function ChiefdomsLayer({ data, pointsData }: ChiefdomsLayerProps
       },
       paint: {
         "text-color": "#F0EDE5",
-        "text-halo-color": "var(--foret-nocturne)",
+        "text-halo-color": KISAKATA_COLORS.foretNocturne,
         "text-halo-width": 3,
         "text-halo-blur": 1,
       },

@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -6,7 +6,7 @@ import { secondairePrograms } from "@/app/ecole/data/mathematics-curriculum";
 import CoursePage from "../../1ere-secondaire/cours/CoursePage";
 
 export const metadata: Metadata = {
-  title: "2e Secondaire — Cours complet | Kisakata École",
+  title: "2e Secondaire — Cours complet | Sakata École",
   description:
     "Fonctions linéaires, systèmes d'équations et géométrie plane — parcours animé style Brilliant.org ancré dans la culture Basakata.",
 };

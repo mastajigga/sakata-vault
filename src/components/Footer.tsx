@@ -18,7 +18,7 @@ const Footer = () => {
       <div className="flex flex-col md:flex-row justify-between items-center gap-8">
         <div className="flex flex-col gap-2">
           <span className="font-display font-bold text-xl" style={{ color: "var(--or-ancestral)" }}>
-            KISAKATA
+            SAKATA
           </span>
           <p className="font-body text-xs opacity-40" style={{ color: "var(--ivoire-ancien)" }}>
             {t("footer.rights")}

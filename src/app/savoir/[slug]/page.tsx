@@ -112,9 +112,24 @@ const ArticlePage = () => {
   }, [article?.id, article?.slug, slug]);
 
   if (loading) return (
-    <div className="min-h-[100dvh] bg-foret-nocturne flex items-center justify-center">
-      <div className="animate-pulse text-or-ancestral font-mono tracking-widest uppercase">
-        Invocation du récit...
+    <div className="min-h-[100dvh] bg-foret-nocturne pt-0">
+      {/* Hero skeleton */}
+      <div className="animate-pulse h-[65vh] md:h-[75vh] bg-white/5" />
+      {/* Content skeleton */}
+      <div className="relative py-12 md:py-24 px-6 md:px-12 lg:px-24 max-w-[1400px] mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
+          <div className="lg:col-span-8 space-y-6 animate-pulse">
+            <div className="h-4 w-full bg-white/5 rounded-lg" />
+            <div className="h-4 w-5/6 bg-white/5 rounded-lg" />
+            <div className="h-4 w-4/6 bg-white/5 rounded-lg" />
+            <div className="h-32 bg-white/5 rounded-2xl mt-8" />
+            <div className="h-4 w-full bg-white/5 rounded-lg" />
+            <div className="h-4 w-3/4 bg-white/5 rounded-lg" />
+          </div>
+          <div className="lg:col-span-4 animate-pulse">
+            <div className="h-64 bg-white/5 rounded-[2.5rem]" />
+          </div>
+        </div>
       </div>
     </div>
   );

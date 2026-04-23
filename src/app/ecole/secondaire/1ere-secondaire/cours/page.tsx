@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -6,7 +6,7 @@ import { secondairePrograms } from "@/app/ecole/data/mathematics-curriculum";
 import CoursPage from "./CoursePage";
 
 export const metadata: Metadata = {
-  title: "1ère Secondaire — Cours complet | Kisakata École",
+  title: "1ère Secondaire — Cours complet | Sakata École",
   description:
     "Algèbre, équations du 1er degré et théorie des ensembles — parcours animé style Brilliant.org ancré dans la culture Basakata.",
 };

@@ -75,7 +75,7 @@ export function ContributionRequestModal({
   const titleMap = {
     article_writer:
       "Devenir Documentaliste Culturel",
-    contributor: "Contribuer à Kisakata",
+    contributor: "Contribuer à Sakata",
   };
 
   const descriptionMap = {

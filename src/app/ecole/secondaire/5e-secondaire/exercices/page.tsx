@@ -1,4 +1,4 @@
-import { Suspense } from "react";
+﻿import { Suspense } from "react";
 import { notFound } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -6,7 +6,7 @@ import { secondairePrograms } from "@/app/ecole/data/mathematics-curriculum";
 import ExercicesPage from "@/app/ecole/secondaire/1ere-secondaire/exercices/ExercicesPage";
 
 export const metadata = {
-  title: "Exercices — 5e Secondaire | Kisakata École",
+  title: "Exercices — 5e Secondaire | Sakata École",
   description: "Exercices interactifs de suites, probabilités et dérivées pour la 5e secondaire.",
 };
 

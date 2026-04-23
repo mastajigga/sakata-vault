@@ -13,7 +13,7 @@ export default function GlobalError({
 }) {
   useEffect(() => {
     // Log profoundly to the console for tracking
-    console.error("🔥 [CRITICAL RENDER ERROR] Kisakata App Crashed:", error);
+    console.error("🔥 [CRITICAL RENDER ERROR] Sakata App Crashed:", error);
     if (error.digest) {
       console.error("Digest ID:", error.digest);
     }

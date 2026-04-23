@@ -133,7 +133,7 @@ import { USER_ROLES, SUBSCRIPTION_TIERS, EXPIRY_DURATIONS, IMAGE_VIEW_MODES, APP
 import { withRetry, withRetryRaw } from "@/lib/supabase-retry";
 ```
 
-**APP_VERSION** : Bumper à chaque déploiement majeur dans `business.ts` pour invalider automatiquement les entrées localStorage périmées (`sakata-*`). Version actuelle : `2.6.0`.
+**APP_VERSION** : Bumper à chaque déploiement majeur dans `business.ts` pour invalider automatiquement les entrées localStorage périmées (`sakata-*`). Version actuelle : `2.7.0`.
 
 ---
 
@@ -276,6 +276,7 @@ import { withRetry, withRetryRaw } from "@/lib/supabase-retry";
 
 | Date | Modification |
 |------|-------------|
+| 2026-04-23 | **INTERACTIVITY & NOTIFICATIONS v2.7** — Réactions émoji en temps réel (Mboka). Centre de notifications Push dans le profil. Skeletons screens premium. Optimisations SEO (Sitemap/404) et performance scolaire. |
 | 2026-04-23 | **MODERN STABILIZATION v2.6** — Résolution du crash Mapbox (setFog CSS vars). Fix de la sérialisation Next.js pour les icônes du Forum. Centralisation du RootLayout et système de transitions premium. |
 | 2026-04-19 | **TRAFFIC CONTROL & RÉSEAU** — Implémentation d'un limiteur de concurrence dans le proxy Supabase (Max 4 requêtes). Priorisation des appels `profiles`. Séquençage Auth vs Data et ajout de l'audit de robustesse (`audit_stabilite_reseau.md`). |
 | 2026-04-19 | **STABILISATION v2.6** — Correction de la boucle infinie AuthProvider (verrou init). Suppression des logs verbeux. Fix 404 assets Ngongo. Conformité `supabasePublic` pour SSR Netlify. |

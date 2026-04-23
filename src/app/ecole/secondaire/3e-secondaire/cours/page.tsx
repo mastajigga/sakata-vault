@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -6,7 +6,7 @@ import { secondairePrograms } from "@/app/ecole/data/mathematics-curriculum";
 import CoursePage from "../../1ere-secondaire/cours/CoursePage";
 
 export const metadata: Metadata = {
-  title: "3e Secondaire — Cours complet | Kisakata École",
+  title: "3e Secondaire — Cours complet | Sakata École",
   description:
     "Équations du 2nd degré, théorème de Pythagore et statistiques — parcours animé style Brilliant.org ancré dans la culture Basakata.",
 };

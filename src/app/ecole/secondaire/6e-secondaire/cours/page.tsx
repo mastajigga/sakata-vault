@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -6,7 +6,7 @@ import { secondairePrograms } from "@/app/ecole/data/mathematics-curriculum";
 import CoursPage from "@/app/ecole/secondaire/1ere-secondaire/cours/CoursePage";
 
 export const metadata: Metadata = {
-  title: "6e Secondaire — Cours complet | Kisakata École",
+  title: "6e Secondaire — Cours complet | Sakata École",
   description:
     "Intégrales, matrices, nombres complexes et coniques — baccalauréat, parcours animé ancré dans la culture Basakata.",
 };

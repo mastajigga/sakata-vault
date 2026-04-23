@@ -125,7 +125,7 @@ export default function GeographieClient() {
                   >
                     <Globe2 size={48} className="text-or-ancestral mx-auto mb-4" />
                   </motion.div>
-                  <h1 className="text-xl font-display font-bold tracking-[0.3em] text-ivoire-ancien uppercase mb-1">Kisakata</h1>
+                  <h1 className="text-xl font-display font-bold tracking-[0.3em] text-ivoire-ancien uppercase mb-1">Sakata</h1>
                   <p className="text-[10px] font-mono tracking-widest text-or-ancestral/60 uppercase">Cartographie Sacrée</p>
                </div>
             </div>

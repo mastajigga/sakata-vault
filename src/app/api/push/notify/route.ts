@@ -20,6 +20,23 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ sent: 0 });
     }
 
+    // Authenticate the caller via their Supabase session
+    const cookieStore = await cookies();
+    const supabaseAuth = createServerClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL || "",
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "",
+      {
+        cookies: {
+          getAll: () => cookieStore.getAll(),
+          setAll: () => {},
+        },
+      }
+    );
+    const { data: { user } } = await supabaseAuth.auth.getUser();
+    if (!user) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
     const { conversationId, senderName, messagePreview, senderId } = await req.json();
 
     if (!conversationId || !senderName) {
@@ -29,8 +46,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Create Supabase server client
-    const cookieStore = await cookies();
+    // Create service-role Supabase client for DB queries
     const supabase = createServerClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL || "",
       process.env.SUPABASE_SERVICE_ROLE_KEY || "",

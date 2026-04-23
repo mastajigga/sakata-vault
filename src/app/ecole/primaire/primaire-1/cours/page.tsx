@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -6,7 +6,7 @@ import { primaryPrograms } from "@/app/ecole/data/mathematics-curriculum";
 import CoursePage from "@/app/ecole/secondaire/1ere-secondaire/cours/CoursePage";
 
 export const metadata: Metadata = {
-  title: "Primaire 1 — Cours complet | Kisakata École",
+  title: "Primaire 1 — Cours complet | Sakata École",
   description:
     "Compter jusqu'à 10, formes géométriques simples, avant et après — parcours animé pour enfants de 5-6 ans ancré dans la culture Basakata.",
 };

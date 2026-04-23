@@ -40,7 +40,7 @@ const LoadingScreen = ({ isLoading }: { isLoading: boolean }) => {
                 textShadow: "0 0 40px rgba(196, 160, 53, 0.5)",
               }}
             >
-              KISAKATA
+              SAKATA
             </motion.div>
 
             {/* Loading Indicator */}

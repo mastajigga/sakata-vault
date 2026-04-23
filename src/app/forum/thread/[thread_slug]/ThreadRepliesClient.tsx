@@ -9,6 +9,7 @@ import remarkGfm from "remark-gfm";
 import { useAuth } from "@/components/AuthProvider";
 import { MemberImage } from "@/components/MemberImage";
 import { DB_TABLES } from "@/lib/constants/db";
+import ForumReactions from "@/components/forum/ForumReactions";
 
 interface Post {
   id: string;
@@ -121,6 +122,13 @@ export default function ThreadRepliesClient({ threadId, initialPosts, isLocked }
   return (
     <div className="flex flex-col gap-6">
       <div className="space-y-6">
+        {posts.length === 0 && (
+          <div className="bg-[var(--eau-sombre)]/30 border border-[var(--or-ancestral)]/20 rounded-2xl p-10 text-center">
+            <p className="text-[var(--ivoire-ancien)]/40 font-light text-lg">
+              Ce sujet n&apos;a pas encore de message. Soyez le premier à répondre.
+            </p>
+          </div>
+        )}
         {posts.map((post, idx) => {
           const isFirst = idx === 0;
           return (
@@ -154,6 +162,8 @@ export default function ThreadRepliesClient({ threadId, initialPosts, isLocked }
               <div className="prose prose-invert prose-p:text-[var(--ivoire-ancien)]/80 prose-headings:text-[var(--ivoire-ancien)] prose-a:text-[var(--or-ancestral)] prose-strong:text-[var(--or-ancestral)] max-w-none font-light text-lg leading-relaxed">
                 <ReactMarkdown remarkPlugins={[remarkGfm]}>{post.content}</ReactMarkdown>
               </div>
+
+              <ForumReactions postId={post.id} />
             </div>
           );
         })}

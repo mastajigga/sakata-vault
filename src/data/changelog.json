@@ -1,5 +1,36 @@
 [
   {
+    "version": "v2.7.0",
+    "date": "Avril 2026 (Aujourd'hui)",
+    "subtitle": "Interactivité & Notifications en temps réel",
+    "sections": [
+      {
+        "title": "💬 Forum & Réactions",
+        "items": [
+          "Nouveau système de réactions émoji (👍 ❤️ 🔥) sur les messages Mboka",
+          "Mise à jour en temps réel des compteurs de réactions via Realtime",
+          "Optimisation du chargement des réponses avec skeleton screens"
+        ]
+      },
+      {
+        "title": "🔔 Notifications Push",
+        "items": [
+          "Support des notifications Push sur desktop et mobile",
+          "Nouveau centre de contrôle des notifications dans le profil utilisateur",
+          "Alertes de nouveaux messages en arrière-plan"
+        ]
+      },
+      {
+        "title": "✨ Expérience Utilisateur (UX)",
+        "items": [
+          "Skeleton screens premium pour le profil et les articles du Savoir",
+          "Nouveaux fichiers sitemap, robots.txt et page 404 personnalisée pour le SEO",
+          "Amélioration des performances de chargement des chapitres de l'école"
+        ]
+      }
+    ]
+  },
+  {
     "version": "v2.6.0",
     "date": "Avril 2026 (Aujourd'hui)",
     "subtitle": "Stabilité 3D, Forum & Expérience Premium",

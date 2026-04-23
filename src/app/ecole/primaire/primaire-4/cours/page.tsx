@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -6,7 +6,7 @@ import { primaryPrograms } from "@/app/ecole/data/mathematics-curriculum";
 import CoursePage from "@/app/ecole/secondaire/1ere-secondaire/cours/CoursePage";
 
 export const metadata: Metadata = {
-  title: "Primaire 4 — Cours complet | Kisakata École",
+  title: "Primaire 4 — Cours complet | Sakata École",
   description:
     "Tables de multiplication, fractions et géométrie — parcours animé pour enfants de 8-9 ans ancré dans la culture Basakata.",
 };

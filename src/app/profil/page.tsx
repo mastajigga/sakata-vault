@@ -33,8 +33,11 @@ import {
   Globe,
   Lock,
   Trash2,
-  Plus
+  Plus,
+  Bell,
+  BellOff
 } from "lucide-react";
+import { usePushNotifications } from "@/hooks/usePushNotifications";
 
 type ProfileFormData = {
   first_name?: string;
@@ -48,6 +51,7 @@ type ProfileFormData = {
 const ProfilePage = () => {
   const { user, role, subscriptionTier, isLoading: authLoading } = useAuth() as any;
   const { t } = useLanguage();
+  const { isSupported: pushSupported, isSubscribed: pushSubscribed, isLoading: pushLoading, subscribe: subscribePush, unsubscribe: unsubscribePush } = usePushNotifications();
 
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -310,7 +314,18 @@ const ProfilePage = () => {
     }
   };
 
-  if (authLoading) return null;
+  if (authLoading) return (
+    <main className="min-h-[100dvh] bg-foret-nocturne pt-32 px-4 sm:px-8 md:px-16 max-w-5xl mx-auto w-full">
+      <div className="animate-pulse space-y-6">
+        <div className="h-8 w-56 bg-white/5 rounded-xl" />
+        <div className="h-64 bg-white/5 rounded-2xl" />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="h-32 bg-white/5 rounded-2xl" />
+          <div className="h-32 bg-white/5 rounded-2xl" />
+        </div>
+      </div>
+    </main>
+  );
 
   if (!user) {
     return (
@@ -699,6 +714,55 @@ const ProfilePage = () => {
             )}
 
           </div>
+
+          {/* Push Notifications Card */}
+          {pushSupported && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.35 }}
+              className="mt-6 p-6 rounded-2xl border border-white/5 bg-white/[0.02] backdrop-blur-xl"
+            >
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="p-2 rounded bg-or-ancestral/10">
+                    {pushSubscribed ? (
+                      <Bell className="w-4 h-4 text-or-ancestral" />
+                    ) : (
+                      <BellOff className="w-4 h-4 text-ivoire-ancien/40" />
+                    )}
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-bold text-ivoire-ancien">Notifications</h3>
+                    <p className="text-xs text-ivoire-ancien/50 mt-0.5">
+                      {pushSubscribed
+                        ? "Vous recevez les notifications de nouveaux messages."
+                        : "Activez les notifications pour ne rien manquer."}
+                    </p>
+                  </div>
+                </div>
+
+                <button
+                  onClick={pushSubscribed ? unsubscribePush : subscribePush}
+                  disabled={pushLoading}
+                  className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 transition-colors duration-200 ease-in-out focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed ${
+                    pushSubscribed
+                      ? "bg-[var(--or-ancestral)] border-[var(--or-ancestral)]"
+                      : "bg-white/10 border-white/10"
+                  }`}
+                  aria-checked={pushSubscribed}
+                  role="switch"
+                  title={pushSubscribed ? "Désactiver les notifications" : "Activer les notifications"}
+                >
+                  <span
+                    className={`pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out mt-0.5 ${
+                      pushSubscribed ? "translate-x-5 ml-0.5" : "translate-x-0 ml-0.5"
+                    }`}
+                  />
+                </button>
+              </div>
+            </motion.div>
+          )}
         </div>
 
         {/* Gallery Section */}

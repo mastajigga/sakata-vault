@@ -12,6 +12,7 @@ export const DB_TABLES = {
   FORUM_CATEGORIES: "forum_categories",
   FORUM_THREADS: "forum_threads",
   FORUM_POSTS: "forum_posts",
+  FORUM_REACTIONS: "forum_reactions",
   PROFILE_GALLERY: "profile_gallery",
   USER_GALLERY: "user_gallery",
   CHAT_REACTIONS: "chat_reactions",
