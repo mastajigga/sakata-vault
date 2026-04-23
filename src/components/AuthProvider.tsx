@@ -258,20 +258,18 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       
       console.log("[AuthProvider] init: START");
       try {
-        // Timeout de sécurité sur getSession (parfois capricieux sur certains navigateurs)
-        const sessionPromise = supabase.auth.getSession();
-        const timeoutPromise = new Promise<{data: {session: null}, error: any}>((_, reject) => 
-          setTimeout(() => reject(new Error("Timeout getSession")), 10000)
-        );
-
+        // Note: onAuthStateChange fires SIGNED_IN independently (and usually first).
+        // getSession() can be slow when the Supabase token refresh endpoint lags.
+        // We await it directly — the 15s safetyTimer above handles extreme hangs.
         console.log("[AuthProvider] init: getSession start...");
-        const { data: { session }, error } = await Promise.race([sessionPromise, timeoutPromise]) as any;
-        
+        const { data: { session }, error } = await supabase.auth.getSession();
+
         if (error) {
           console.error("[AuthProvider] init: getSession error:", error);
         }
-        
-        if (mounted && session) {
+
+        // Only apply if SIGNED_IN hasn't already set the user (avoid double-fetch)
+        if (mounted && session && !user) {
           setSession(session);
           setUser(session.user);
           await fetchProfile(session.user.id);

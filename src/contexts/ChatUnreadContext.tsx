@@ -40,6 +40,13 @@ export function ChatUnreadProvider({
     const controller = new AbortController();
     const userId = user?.id;
 
+    // Reset concurrency guard at the start of each effect instance.
+    // The old effect's fetch may still be in the proxy queue when the effect
+    // re-runs (e.g., authLoading changed). Without this reset the new
+    // fetchConversations call would see isFetchingRef=true and bail out —
+    // leaving loading=true forever.
+    isFetchingRef.current = false;
+
     async function fetchConversations(showLoading = false) {
       if (isFetchingRef.current || authLoading) return;
       
@@ -111,7 +118,10 @@ export function ChatUnreadProvider({
         }
       } finally {
         isFetchingRef.current = false;
-        if (!cancelled) setLoading(false);
+        // Always reset loading — if cancelled, the new effect instance will
+        // immediately call setLoading(true) again via showLoading=true.
+        // Leaving loading=true on cancel creates a permanent "Chargement..." state.
+        setLoading(false);
       }
     }
 
