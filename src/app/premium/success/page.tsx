@@ -12,11 +12,13 @@ import { useAuth } from '@/components/AuthProvider';
 function PremiumSuccessContent() {
   const searchParams = useSearchParams();
   const sessionId = searchParams.get('session_id');
-  const { refreshProfile } = useAuth() as any;
+  const { session, isLoading: authLoading, refreshProfile } = useAuth() as any;
 
   const [status, setStatus] = useState<'loading' | 'verified' | 'error'>('loading');
 
   useEffect(() => {
+    if (authLoading) return;
+    
     if (!sessionId) {
       setStatus('error');
       return;
@@ -44,48 +46,15 @@ function PremiumSuccessContent() {
       }
     };
 
-    const attemptVerify = async () => {
-      // Après un redirect Stripe (cross-origin), la session Supabase
-      // peut prendre quelques ms à être restaurée depuis localStorage.
-      // On essaye immédiatement, puis on attend onAuthStateChange si vide.
-      const { data: { session } } = await supabase.auth.getSession();
+    if (session?.access_token) {
+      verifyPayment(session.access_token);
+    } else {
+      // Si après le chargement initial on n'a toujours pas de session, c'est une erreur d'auth
+      setStatus('error');
+    }
 
-      if (session?.access_token) {
-        return verifyPayment(session.access_token);
-      }
-
-      // Session pas prête — attendre l'événement de restauration (INITIAL_SESSION)
-      const { data: { subscription } } = supabase.auth.onAuthStateChange(
-        async (event: any, newSession: any) => {
-          if (cancelled) return;
-
-          if (
-            (event === 'INITIAL_SESSION' || event === 'SIGNED_IN') &&
-            newSession?.access_token
-          ) {
-            subscription.unsubscribe();
-            return verifyPayment(newSession.access_token);
-          }
-        }
-      );
-
-      // Timeout de sécurité — 10s max avant erreur
-      const timeout = setTimeout(() => {
-        if (!cancelled) {
-          subscription.unsubscribe();
-          setStatus('error');
-        }
-      }, 10000);
-
-      return () => {
-        clearTimeout(timeout);
-        subscription.unsubscribe();
-      };
-    };
-
-    attemptVerify();
     return () => { cancelled = true; };
-  }, [sessionId]);
+  }, [sessionId, authLoading, session]);
 
   return (
     <div className="min-h-screen bg-black text-[#F4F4F5]">

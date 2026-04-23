@@ -10,7 +10,7 @@ import { getStripe } from '@/lib/stripe-client';
 import { supabase } from '@/lib/supabase';
 
 const PremiumPage = () => {
-  const { user } = useAuth();
+  const { user, session } = useAuth() as any;
   const [loading, setLoading] = useState(false);
 
   // Configurer NEXT_PUBLIC_STRIPE_PREMIUM_PRICE_ID dans les variables d'env Netlify + .env.local
@@ -30,7 +30,6 @@ const PremiumPage = () => {
     try {
       setLoading(true);
 
-      const { data: { session } } = await supabase.auth.getSession();
       const token = session?.access_token;
       
       const res = await fetch('/api/stripe/checkout', {

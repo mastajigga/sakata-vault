@@ -69,6 +69,17 @@ export const emailTemplates = {
       <li><strong>Déploiement Résilient :</strong> Déplacement et sécurisation des routes d'aide et de mises à jour vers /help.</li>
     </ul>
   `,
+
+  v2_7UpdateHtml: () => `
+    <div class="update-title">⚡ Version 2.7 — Interactivité Totale & Fluidité Auth</div>
+    <ul class="update-list">
+      <li><strong>Chat & Optimistic UI :</strong> Vos messages apparaissent instantanément dès l'envoi. La connexion WebSocket a été stabilisée pour éviter les déconnexions.</li>
+      <li><strong>Stabilité Authentification :</strong> Correction des erreurs "Lock Stolen". La navigation entre le Chat et l'Accueil est désormais fluide et sans erreurs.</li>
+      <li><strong>Réactions Forum (Mboka) :</strong> Exprimez-vous avec des émojis sur tous les messages du forum communautaire, en temps réel.</li>
+      <li><strong>Notifications Push :</strong> Recevez des alertes pour vos nouveaux messages directement sur votre smartphone ou ordinateur.</li>
+      <li><strong>Géographie Avancée :</strong> HUD interactif corrigé pour une navigation transversale facilitée sur la carte 3D.</li>
+    </ul>
+  `,
 };
 
 export function getPhase2Updates() {
@@ -77,4 +88,8 @@ export function getPhase2Updates() {
 
 export function getV2_6Updates() {
   return [emailTemplates.v2_6UpdateHtml()];
+}
+
+export function getV2_7Updates() {
+  return [emailTemplates.v2_7UpdateHtml()];
 }

@@ -4,7 +4,7 @@ import { useSearchParams } from "next/navigation";
 import { useEffect, useState, Suspense } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { emailTemplates, getPhase2Updates, getV2_6Updates } from "@/lib/email/templates";
+import { emailTemplates, getPhase2Updates, getV2_6Updates, getV2_7Updates } from "@/lib/email/templates";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 
@@ -15,7 +15,7 @@ function UpdatesContent() {
 
   useEffect(() => {
     setMounted(true);
-    const updateType = searchParams.get("type") || "v2.6";
+    const updateType = searchParams.get("type") || "v2.7";
 
     // Get user's name or use default
     const userName = "Utilisateur";
@@ -24,7 +24,10 @@ function UpdatesContent() {
     let updates: string[] = [];
     let subject = "✨ Nouvelles du Sanctuaire : Mises à jour";
     
-    if (updateType === "v2.6") {
+    if (updateType === "v2.7") {
+      updates = getV2_7Updates();
+      subject = "⚡ Kisakata v2.7 : Interactivité et Fluidité";
+    } else if (updateType === "v2.6") {
       updates = getV2_6Updates();
       subject = "🌲 Kisakata v2.6 : Restauration et Intelligence Ancestrale";
     } else if (updateType === "phase2") {

@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, useCallback } from "react";
 import { supabase } from "@/lib/supabase";
 import { withRetry } from "@/lib/supabase-retry";
 import { Message } from "@/components/chat/ChatWindow";
+import { useAuth } from "@/components/AuthProvider";
 import { DB_TABLES, DB_BUCKETS } from "@/lib/constants/db";
 
 const PAGE_SIZE = 50;
@@ -26,22 +27,14 @@ export function useMessages(conversationId: string) {
   const pendingProfileFetchRef = useRef<Set<string>>(new Set());
   const profileFetchTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  // Résoudre l'userId une seule fois au montage, puis le mettre à jour si la session change
+  const { user } = useAuth() as any;
+
+  // Synchronisation de l'userId avec l'état global AuthContext
   useEffect(() => {
-    supabase.auth.getSession().then(({ data }: { data: any }) => {
-      const uid = data.session?.user?.id || "";
-      userIdRef.current = uid;
-      setCurrentUserId(uid);
-    });
-
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event: any, session: any) => {
-      const uid = session?.user?.id || "";
-      userIdRef.current = uid;
-      setCurrentUserId(uid);
-    });
-
-    return () => subscription.unsubscribe();
-  }, []);
+    const uid = user?.id || "";
+    userIdRef.current = uid;
+    setCurrentUserId(uid);
+  }, [user]);
 
   // Résoudre une signed URL depuis un chemin storage:
   // - Images éphémères (maxViews > 0) : TTL 60s pour forcer l'expiration après countdown

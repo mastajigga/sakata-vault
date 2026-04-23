@@ -206,17 +206,17 @@ export default function WelcomeModal() {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 w-full text-left mb-10">
 
-              {/* Dernières Mises à Jour (v2.7.0) */}
+              {/* Dernières Mises à Jour (v2.7.3) */}
               <div data-card className="bg-gradient-to-br from-[#1A3A2E] to-[#0F2818] border border-[#B59551]/40 rounded-2xl p-5 hover:border-[#B59551]/60 transition-colors duration-300">
                 <h3 className="text-[#B59551] font-medium text-base mb-3 flex items-center gap-2">
                   <Zap className="w-4 h-4 flex-shrink-0" />
-                  Mises à jour (v2.7.0)
+                  Mises à jour (v2.7.3)
                 </h3>
                 <ul className="text-[#F2EEDD]/70 text-sm space-y-2 list-disc pl-4">
-                  <li><strong>Forum:</strong> Réactions ❤️ 🔥 👍 en temps réel sur les messages</li>
-                  <li><strong>Notifications:</strong> Centre de contrôle Push dans le profil</li>
-                  <li><strong>Expérience:</strong> Skeletons screens et optimisation SEO (Sitemap/404)</li>
-                  <li><strong>Fluidité:</strong> Chargement accéléré des programmes scolaires</li>
+                  <li><strong>Chat:</strong> Envoi instantané (Optimistic UI) et connexion stabilisée</li>
+                  <li><strong>Sécurité:</strong> Navigation fluide sans erreurs de session</li>
+                  <li><strong>Forum:</strong> Réactions émojis ❤️ 🔥 👍 en temps réel</li>
+                  <li><strong>Notifications:</strong> Centre de contrôle Push sur mobile et desktop</li>
                 </ul>
               </div>
 

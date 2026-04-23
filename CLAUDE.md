@@ -94,7 +94,7 @@ docs/
 ### Règles Éphémères (IMPORTANT)
 - **L'envoyeur voit toujours sa propre image** — vérifier `isMe` avant d'appliquer `viewState = "locked"`.
 - **localStorage** : Clé `msgViewedKey(id)` = `"sakata-msg-viewed-{id}"` — persiste l'état "vu" entre sessions.
-- **Current Version**: v2.7.2
+- **Current Version**: v2.7.3
 - **maxViews: 1** → countdown `VIEW_ONCE_COUNTDOWN` (5s). **maxViews: 2** → `VIEW_TWICE_COUNTDOWN` (10s).
 - **Détection capture d'écran** : `visibilitychange` + `window.blur` → overlay flou. Skippé pour `isMe`.
 
@@ -134,7 +134,7 @@ import { USER_ROLES, SUBSCRIPTION_TIERS, EXPIRY_DURATIONS, IMAGE_VIEW_MODES, APP
 import { withRetry, withRetryRaw } from "@/lib/supabase-retry";
 ```
 
-**APP_VERSION** : Bumper à chaque déploiement majeur dans `business.ts` pour invalider automatiquement les entrées localStorage périmées (`sakata-*`). Version actuelle : `2.7.2`.
+**APP_VERSION** : Bumper à chaque déploiement majeur dans `business.ts` pour invalider automatiquement les entrées localStorage périmées (`sakata-*`). Version actuelle : `2.7.3`.
 
 ---
 
@@ -317,6 +317,10 @@ import { withRetry, withRetryRaw } from "@/lib/supabase-retry";
 | 2026-04-15 | `WELCOME_SEEN` corrigé → `"sakata-welcome-seen-v2"` (underscore → tiret) |
 | 2026-04-15 | AuthProvider — listener `storage "sb-*"` supprimé (redondant), `onAuthStateChange` seul |
 | 2026-04-15 | AuthProvider — whitelist localStorage exhaustive + purge des vieilles clés sans préfixe |
+| 2026-04-23 | Auth Lock Stolen Fix (v2.7.3) — Centralisation AuthProvider + Redondance getSession() supprimée |
+| 2026-04-23 | Chat (v2.7.2) — Optimistic UI & WebSocket connection stabilization |
+| 2026-04-23 | Géographie (v2.7.1) — Fix interactivité HUD (Z-index 70) |
+| 2026-04-23 | Audit (v2.7.0) — Notifications Push & Réactions Forum Mboka |
 | 2026-04-15 | AuthProvider — `tokenRefreshPending` flag exposé dans le contexte |
 | 2026-04-15 | AnalyticsProvider — `sessionStorage` → `localStorage` pour SESSION_ID; user connecté = session stable `user-{id}` |
 | 2026-04-15 | useEcoleProgress — `sessionStorage` → `localStorage` + withRetry sur upsert |

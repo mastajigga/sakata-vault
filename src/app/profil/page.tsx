@@ -49,7 +49,7 @@ type ProfileFormData = {
 };
 
 const ProfilePage = () => {
-  const { user, role, subscriptionTier, isLoading: authLoading } = useAuth() as any;
+  const { user, session, role, subscriptionTier, isLoading: authLoading } = useAuth() as any;
   const { t } = useLanguage();
   const { isSupported: pushSupported, isSubscribed: pushSubscribed, isLoading: pushLoading, subscribe: subscribePush, unsubscribe: unsubscribePush } = usePushNotifications();
 
@@ -240,7 +240,6 @@ const ProfilePage = () => {
     if (!user) return;
     try {
       setPortalLoading(true);
-      const { data: { session } } = await supabase.auth.getSession();
       const token = session?.access_token;
       const res = await fetch('/api/stripe/portal', {
         method: 'POST',

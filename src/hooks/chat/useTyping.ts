@@ -2,23 +2,22 @@
 
 import { useEffect, useState, useRef } from "react";
 import { supabase } from "@/lib/supabase";
+import { useAuth } from "@/components/AuthProvider";
 import { DB_TABLES } from "@/lib/constants/db";
 
 export function useTyping(conversationId: string) {
+  const { session, isLoading: authLoading } = useAuth() as any;
   const [typingUsers, setTypingUsers] = useState<string[]>([]);
   const channelRef = useRef<any>(null);
 
   useEffect(() => {
-    if (!conversationId) return;
+    if (authLoading || !conversationId) return;
     
     // We prefix the channel with 'typing:' to separate it from postgres_changes
     const channelName = `typing:${conversationId}`;
     let isMounted = true;
 
     async function initPresence() {
-      if (!isMounted) return;
-      
-      const { data: { session } } = await supabase.auth.getSession();
       if (!isMounted) return;
       
       const currentUserId = session?.user?.id;
@@ -75,7 +74,7 @@ export function useTyping(conversationId: string) {
       }
       channelRef.current = null;
     };
-  }, [conversationId]);
+  }, [conversationId, session, authLoading]);
 
   const updateTyping = async (isTyping: boolean) => {
     if (channelRef.current?.room) {

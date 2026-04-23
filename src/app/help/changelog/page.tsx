@@ -70,11 +70,11 @@ export default function ChangelogPage() {
             </p>
             <p className="flex items-start gap-3">
               <span className="text-[#C16B34] font-bold">→</span>
-              <span><strong>Système de Recommandations</strong> : Contenu personnalisé basé sur les préférences</span>
+              <span><strong>Audio Narrator (Vieux Sage)</strong> : Narration audio immersive pour tous les articles du Savoir</span>
             </p>
             <p className="flex items-start gap-3">
               <span className="text-[#C16B34] font-bold">→</span>
-              <span><strong>Intégration Pinecone</strong> : Recherche sémantique avancée</span>
+              <span><strong>Intégration Pinecone (V2)</strong> : Recherche sémantique universelle par conversation</span>
             </p>
           </div>
         </section>
@@ -114,11 +114,11 @@ export default function ChangelogPage() {
           </p>
           <p className="flex items-start gap-3">
             <span className="text-[#C16B34] font-bold">→</span>
-            <span><strong>Recommendation System</strong> : Personalized content based on preferences</span>
+            <span><strong>Audio Narrator (Wise Elder)</strong> : Immersive audio narration for all Knowledge articles</span>
           </p>
           <p className="flex items-start gap-3">
             <span className="text-[#C16B34] font-bold">→</span>
-            <span><strong>Pinecone Integration</strong> : Advanced semantic search</span>
+            <span><strong>Pinecone Integration (V2)</strong> : Conversational universal semantic search</span>
           </p>
         </div>
       </section>

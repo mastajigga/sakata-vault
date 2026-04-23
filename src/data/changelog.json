@@ -1,5 +1,21 @@
 [
   {
+    "version": "v2.7.3",
+    "date": "23 Avril 2026",
+    "subtitle": "Résolution Conflits d'Authentification",
+    "sections": [
+      {
+        "title": "🔒 Sécurité & Auth",
+        "items": [
+          "Correction critique de l'erreur 'Lock Stolen' lors de la navigation client",
+          "Centralisation de la gestion de session dans l'AuthProvider",
+          "Suppression des appels getSession() redondants dans la messagerie et le profil",
+          "Optimisation de la restauration de session après redirection Stripe"
+        ]
+      }
+    ]
+  },
+  {
     "version": "v2.7.2",
     "date": "23 Avril 2026",
     "subtitle": "Optimistic UI & Stabilité Chat",
