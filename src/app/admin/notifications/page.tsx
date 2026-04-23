@@ -32,7 +32,7 @@ export default function AdminNotificationPage() {
     if (versionData) {
       setSubject(`Mise à jour Sakata Digital : ${versionData.version}`);
       
-      let content = `Bonjour la communauté Basakata,\n\nNous sommes ravis de vous annoncer la sortie de la version ${versionData.version} (${versionData.date}).\n\n${versionData.subtitle}\n\n`;
+      let content = `Mboté la communauté Basakata,\n\nNous sommes ravis de vous annoncer la sortie de la version ${versionData.version} (${versionData.date}).\n\n${versionData.subtitle}\n\n`;
       
       versionData.sections.forEach(section => {
         content += `### ${section.title}\n`;
@@ -42,7 +42,7 @@ export default function AdminNotificationPage() {
         content += `\n`;
       });
       
-      content += `Explorez ces nouveautés dès maintenant sur https://kisakata.com\n\nL'équipe Sakata Digital Hub`;
+      content += `Explorez ces nouveautés dès maintenant sur https://sakata-basakata.com\n\nL'équipe Sakata Digital Hub`;
       setEmailContent(content);
     }
   }, [selectedVersion]);

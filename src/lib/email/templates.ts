@@ -1,45 +1,113 @@
 export const emailTemplates = {
   updateNotification: (userName: string, updates: string[]) => ({
-    subject: "✨ Nouvelles du Sanctuaire : Phase 2 est Arrivée !",
+    subject: "⚡ Kisakata Digital Dashboard : Mises à jour",
     html: `
       <!DOCTYPE html>
       <html>
       <head>
         <style>
-          body { font-family: 'Inter', sans-serif; line-height: 1.6; color: #1a1a1a; margin: 0; padding: 0; }
-          .container { max-width: 600px; mx-auto; padding: 40px 20px; }
-          .header { text-align: center; margin-bottom: 40px; }
-          .title { color: #C16B34; font-size: 28px; font-weight: bold; margin-bottom: 10px; }
-          .content { background: #f9f9f9; padding: 30px; border-radius: 12px; border: 1px solid #eee; }
-          .update-list { list-style: none; padding: 0; }
-          .update-item { margin-bottom: 20px; padding-left: 20px; border-left: 3px solid #C16B34; }
-          .update-title { font-weight: bold; color: #0A1F15; display: block; }
-          .footer { text-align: center; margin-top: 40px; font-size: 12px; color: #666; }
+          @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+          body { font-family: 'Inter', Arial, sans-serif; line-height: 1.6; color: #F2EEDD; background-color: #050B08; margin: 0; padding: 0; }
+          .wrapper { background-color: #050B08; padding: 40px 10px; width: 100%; table-layout: fixed; }
+          .container { max-width: 600px; margin: 0 auto; background-color: #0A1F15; border-radius: 24px; border: 1px solid rgba(181, 149, 81, 0.2); overflow: hidden; box-shadow: 0 10px 40px rgba(0,0,0,0.5); }
+          .header { text-align: center; padding: 50px 30px; background: linear-gradient(180deg, #122A1E 0%, #0A1F15 100%); }
+          .title { color: #B59551; font-size: 32px; font-weight: 700; margin-bottom: 8px; letter-spacing: -0.5px; }
+          .subtitle { color: rgba(242, 238, 221, 0.6); font-size: 14px; text-transform: uppercase; letter-spacing: 2px; }
+          .content { padding: 40px 35px; }
+          .greeting { font-size: 20px; font-weight: 600; color: #F2EEDD; margin-bottom: 20px; }
+          .intro { color: rgba(242, 238, 221, 0.8); font-size: 16px; margin-bottom: 30px; }
+          .update-section { margin-bottom: 30px; }
+          .update-title { font-weight: 700; color: #B59551; font-size: 18px; display: block; margin-bottom: 15px; border-bottom: 1px solid rgba(181, 149, 81, 0.1); padding-bottom: 8px; }
+          .update-list { list-style: none; padding: 0; margin: 0; }
+          .update-list li { margin-bottom: 12px; padding-left: 20px; position: relative; color: rgba(242, 238, 221, 0.9); font-size: 14px; }
+          .update-list li::before { content: "•"; color: #B59551; font-weight: bold; position: absolute; left: 0; }
+          .cta-wrapper { text-align: center; margin-top: 40px; }
+          .cta-button { background-color: #B59551; color: #0A1F15 !important; padding: 16px 32px; border-radius: 50px; text-decoration: none; font-weight: 700; font-size: 16px; display: inline-block; transition: background-color 0.3s; }
+          .footer { text-align: center; padding: 30px; font-size: 12px; color: rgba(242, 238, 221, 0.4); border-top: 1px solid rgba(181, 149, 81, 0.1); }
+          .footer a { color: #B59551; text-decoration: none; }
         </style>
       </head>
       <body>
-        <div class="container">
-          <div class="header">
-            <div class="title">Kisakata Digital</div>
-            <p>Le Hub Culturel du Peuple Sakata</p>
-          </div>
-          
-          <div class="content">
-            <p>Mboté <strong>${userName}</strong>,</p>
-            <p>La forêt s'éveille avec de nouvelles possibilités. Nous sommes ravis de vous présenter les dernières évolutions de votre plateforme :</p>
-            
-            <div class="update-list">
-              ${updates.join("")}
+        <div class="wrapper">
+          <div class="container">
+            <div class="header">
+              <div class="title">Sakata Digital Hub</div>
+              <div class="subtitle">L'Héritage Ancestral au Cœur du Numérique</div>
             </div>
             
-            <p style="margin-top: 30px;">
-              Explorez ces nouveautés dès maintenant sur <a href="https://kisakata.com" style="color: #C16B34; text-decoration: none; font-weight: bold;">kisakata.com</a>.
-            </p>
+            <div class="content">
+              <p class="greeting">Mboté <strong>${userName}</strong>,</p>
+              <p class="intro">La brume se lève sur une nouvelle ère pour notre hub. Nous avons le plaisir de vous annoncer les derniers déploiements sur votre plateforme :</p>
+              
+              <div class="update-section">
+                ${updates.join("")}
+              </div>
+              
+              <div class="cta-wrapper">
+                <a href="https://sakata-basakata.com" class="cta-button">Accéder au Hub</a>
+              </div>
+            </div>
+            
+            <div class="footer">
+              <p>© ${new Date().getFullYear()} Sakata Digital Hub. Tous droits réservés.</p>
+              <p>Vous recevez cet email car vous êtes membre de la communauté Sakata. <br/> 
+                 <a href="https://sakata-basakata.com/help">Aide & Support</a> | <a href="https://sakata-basakata.com/profil">Mon Compte</a>
+              </p>
+            </div>
           </div>
-          
-          <div class="footer">
-            <p>© ${new Date().getFullYear()} Sakata Digital Hub. Tous droits réservés.</p>
-            <p>Vous recevez cet email car vous êtes inscrit à la newsletter de Kisakata.</p>
+        </div>
+      </body>
+      </html>
+    `,
+  }),
+  
+  broadcastTemplate: (content: string, version: string) => ({
+    html: `
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <style>
+          @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+          body { font-family: 'Inter', Arial, sans-serif; line-height: 1.6; color: #F2EEDD; background-color: #050B08; margin: 0; padding: 0; }
+          .wrapper { background-color: #050B08; padding: 40px 10px; width: 100%; table-layout: fixed; }
+          .container { max-width: 600px; margin: 0 auto; background-color: #0A1F15; border-radius: 24px; border: 1px solid rgba(181, 149, 81, 0.2); overflow: hidden; box-shadow: 0 10px 40px rgba(0,0,0,0.5); }
+          .header { text-align: center; padding: 50px 30px; background: linear-gradient(180deg, #122A1E 0%, #0A1F15 100%); }
+          .title { color: #B59551; font-size: 32px; font-weight: 700; margin-bottom: 8px; letter-spacing: -0.5px; }
+          .subtitle { color: rgba(242, 238, 221, 0.6); font-size: 14px; text-transform: uppercase; letter-spacing: 2px; }
+          .content { padding: 40px 35px; color: rgba(242, 238, 221, 0.9); font-size: 16px; whitespace: pre-line; }
+          .content h3 { color: #B59551; font-size: 20px; border-bottom: 1px solid rgba(181, 149, 81, 0.1); padding-bottom: 10px; margin-top: 30px; }
+          .content p { margin-bottom: 20px; }
+          .content ul { list-style: none; padding: 0; }
+          .content li { margin-bottom: 10px; padding-left: 20px; position: relative; }
+          .content li::before { content: "•"; color: #B59551; position: absolute; left: 0; }
+          .cta-wrapper { text-align: center; margin-top: 40px; }
+          .cta-button { background-color: #B59551; color: #0A1F15 !important; padding: 16px 32px; border-radius: 50px; text-decoration: none; font-weight: 700; font-size: 16px; display: inline-block; }
+          .footer { text-align: center; padding: 30px; font-size: 12px; color: rgba(242, 238, 221, 0.4); border-top: 1px solid rgba(181, 149, 81, 0.1); }
+          .footer a { color: #B59551; text-decoration: none; }
+        </style>
+      </head>
+      <body>
+        <div class="wrapper">
+          <div class="container">
+            <div class="header">
+              <div class="title">Sakata Digital Hub</div>
+              <div class="subtitle">Mise à jour v${version}</div>
+            </div>
+            
+            <div class="content">
+              ${content.replace(/\n/g, '<br/>')}
+            </div>
+            
+            <div class="cta-wrapper" style="margin-bottom: 40px;">
+              <a href="https://sakata-basakata.com" class="cta-button">Découvrir les nouveautés</a>
+            </div>
+            
+            <div class="footer">
+              <p>© ${new Date().getFullYear()} Sakata Digital Hub. Tous droits réservés.</p>
+              <p>Vous recevez cet email car vous êtes membre de la communauté Sakata. <br/> 
+                 <a href="https://sakata-basakata.com">Visiter le site</a>
+              </p>
+            </div>
           </div>
         </div>
       </body>

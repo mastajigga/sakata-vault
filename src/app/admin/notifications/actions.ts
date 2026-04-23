@@ -2,6 +2,7 @@
 
 import { supabaseAdmin } from "@/lib/supabase/admin";
 import { sendEmail } from "@/lib/email/resend";
+import { emailTemplates } from "@/lib/email/templates";
 import { revalidatePath } from "next/cache";
 
 interface BroadcastEmailParams {
@@ -45,22 +46,7 @@ export async function broadcastUpdateEmail({ subject, content, version }: Broadc
       sendEmail({
         to: chunk,
         subject: subject,
-        html: `
-          <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; line-height: 1.6;">
-            <div style="background: var(--foret-nocturne); padding: 40px; text-align: center; border-radius: 12px 12px 0 0;">
-              <h1 style="color: #C16B34; margin: 0;">Sakata Digital</h1>
-              <p style="color: var(--ivoire-ancien); opacity: 0.6; margin: 10px 0 0;">Mise à jour v${version}</p>
-            </div>
-            <div style="padding: 40px; border: 1px solid #eee; border-top: 0; border-radius: 0 0 12px 12px;">
-              ${content.replace(/\n/g, '<br/>')}
-              <hr style="margin: 30px 0; border: 0; border-top: 1px solid #eee;"/>
-              <p style="font-size: 12px; color: #999; text-align: center;">
-                Vous recevez cet email car vous êtes membre du Sakata Digital Hub.<br/>
-                &copy; ${new Date().getFullYear()} Sakata Digital Hub
-              </p>
-            </div>
-          </div>
-        `,
+        html: emailTemplates.broadcastTemplate(content, version).html,
       })
     );
 
