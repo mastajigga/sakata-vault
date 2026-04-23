@@ -3,8 +3,6 @@
 import { motion } from "framer-motion";
 import { GraduationCap, ArrowRight, BookOpen, Sparkles, BookMarked, HelpCircle, Sigma } from "lucide-react";
 import Link from "next/link";
-import Footer from "@/components/Footer";
-import Navbar from "@/components/Navbar";
 import EcoleHero from "./components/EcoleHero";
 import CourseRiver from "./components/CourseRiver";
 import { primaryPrograms, secondairePrograms } from "./data/mathematics-curriculum";
@@ -12,7 +10,6 @@ import { primaryPrograms, secondairePrograms } from "./data/mathematics-curricul
 export default function EcolePage() {
   return (
     <main className="min-h-screen bg-[#0a0f16] font-sans selection:bg-blue-500/30 selection:text-blue-200">
-      <Navbar />
       <EcoleHero />
 
       <section className="relative z-10 -mt-20 pb-24 px-4 sm:px-6 lg:px-8">
@@ -169,7 +166,6 @@ export default function EcolePage() {
       <div className="fixed top-0 right-0 w-[500px] h-[500px] bg-blue-600/5 blur-[120px] rounded-full pointer-events-none -z-10" />
       <div className="fixed bottom-0 left-0 w-[500px] h-[500px] bg-teal-600/5 blur-[120px] rounded-full pointer-events-none -z-10" />
       
-      <Footer />
     </main>
   );
 }

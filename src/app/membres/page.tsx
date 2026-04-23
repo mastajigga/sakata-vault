@@ -5,7 +5,6 @@ import Link from "next/link";
 import Image from "next/image";
 import { supabase } from "@/lib/supabase";
 import { DB_TABLES } from "@/lib/constants/db";
-import Navbar from "@/components/Navbar";
 import { motion } from "framer-motion";
 import { Search, SortAsc, Clock, Users, MapPin, MessageCircle } from "lucide-react";
 import { MemberImage } from "@/components/MemberImage";
@@ -141,7 +140,7 @@ export default function MembresPage() {
 
   return (
     <div className="min-h-screen pb-12" style={{ backgroundColor: "var(--foret-nocturne)" }}>
-      <Navbar />
+      
 
       {/* Hero Banner */}
       <div className="relative w-full h-[35vh] min-h-[250px]">

@@ -3,7 +3,6 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import Navbar from "@/components/Navbar";
 import { ContributorBadge } from "@/components/badges/ContributorBadge";
 import { useAuth } from "@/components/AuthProvider";
 import { supabase } from "@/lib/supabase";
@@ -123,7 +122,7 @@ export default function ContributorPage() {
   if (isLoading || loading) {
     return (
       <div className="min-h-screen bg-black text-white">
-        <Navbar />
+        
         <div className="pt-32 pb-24 px-6 text-center">
           <div className="animate-spin rounded-full h-8 w-8 border border-[var(--or-ancestral)]/30 border-t-[var(--or-ancestral)] mx-auto"></div>
           <p className="mt-4 text-gray-400">Chargement...</p>
@@ -138,7 +137,7 @@ export default function ContributorPage() {
 
   return (
     <div className="min-h-screen bg-black text-white">
-      <Navbar />
+      
       <main className="pt-32 pb-24 px-6 max-w-4xl mx-auto">
         {/* Breadcrumbs */}
         <nav className="flex items-center gap-2 text-sm text-gray-400 mb-8">

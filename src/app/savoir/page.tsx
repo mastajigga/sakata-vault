@@ -1,5 +1,4 @@
 import React from "react";
-import Navbar from "@/components/Navbar";
 import SectionCard from "@/components/SectionCard";
 import SavoirClientContent from "./SavoirClientContent";
 import { supabasePublic } from "@/lib/supabase";
@@ -33,7 +32,6 @@ export default async function SavoirIndex() {
 
   return (
     <main className="grain-overlay min-h-[100dvh] bg-foret-nocturne pb-24">
-      <Navbar />
       <SavoirClientContent articles={articles} />
     </main>
   );

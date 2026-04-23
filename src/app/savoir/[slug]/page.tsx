@@ -4,7 +4,6 @@ import React, { useEffect, useRef, useState } from "react";
 import { useParams, notFound } from "next/navigation";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import Navbar from "@/components/Navbar";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { useLanguage } from "@/components/LanguageProvider";
@@ -163,7 +162,6 @@ const ArticlePage = () => {
 
   return (
     <main className="grain-overlay min-h-[100dvh] bg-foret-nocturne">
-      <Navbar />
       
       <StructuredData 
         data={{

@@ -12,7 +12,6 @@ import { supabase } from "@/lib/supabase";
 import { useLanguage } from "@/components/LanguageProvider";
 import { ROUTES } from "@/lib/constants/routes";
 import { DB_TABLES, DB_BUCKETS } from "@/lib/constants/db";
-import Navbar from "@/components/Navbar";
 import Link from "next/link";
 import { resolveStorageUrl } from "@/lib/supabase/storage-utils";
 import { MemberImage } from "@/components/MemberImage";
@@ -327,7 +326,6 @@ const ProfilePage = () => {
 
   return (
     <main className="min-h-[100dvh] bg-foret-nocturne">
-      <Navbar />
       
       <div className="pt-32 pb-20 px-4 md:px-8 max-w-6xl mx-auto">
         {/* Navigation Actions */}

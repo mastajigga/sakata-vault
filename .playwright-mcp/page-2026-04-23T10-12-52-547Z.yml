@@ -1,0 +1,113 @@
+- generic [active] [ref=e1]:
+  - main [ref=e2]:
+    - navigation [ref=e3]:
+      - generic [ref=e4]:
+        - link "SAKATA" [ref=e5] [cursor=pointer]:
+          - /url: /
+        - generic [ref=e6]:
+          - button "FR" [ref=e8] [cursor=pointer]:
+            - img [ref=e9]
+            - generic [ref=e12]: FR
+            - img [ref=e13]
+          - button "Toggle menu" [ref=e15] [cursor=pointer]
+    - generic [ref=e22]:
+      - generic [ref=e23]: Le Souffle de la Forêt
+      - heading "Là où la mémoire coule comme le Lukenie" [level=1] [ref=e24]
+      - paragraph [ref=e25]: Le passé n'est pas mort, il respire encore sous la brume. Naviguez dans les profondeurs de notre héritage, entre tradition ancestrale et éveil numérique.
+      - link "Explorer le Savoir" [ref=e26] [cursor=pointer]:
+        - /url: /savoir
+        - generic [ref=e28]: Explorer le Savoir
+        - img [ref=e29]
+    - generic [ref=e32]:
+      - img "Patrimoine vivant du peuple Sakata dans la region du Mai-Ndombe" [ref=e34]
+      - generic [ref=e35]:
+        - generic [ref=e36]: Notre Vision
+        - heading "Plus qu'une archive, un héritage vivant." [level=2] [ref=e37]
+        - generic [ref=e38]:
+          - paragraph [ref=e39]: La langue kisakata est comme la rivière Lukenie — elle coule depuis la nuit des temps, elle contourne les obstacles, elle nourrit tout ce qu'elle touche. Si elle s'assèche, c'est tout le village qui a soif.
+          - paragraph [ref=e40]: Notre mboka (terroir) ne se limite pas à un point sur la carte. C'est un endroit où la terre vous reconnait, où les arbres connaissent votre nom. Sakata.com est le pont entre cet héritage et le monde moderne.
+        - generic [ref=e41]:
+          - generic [ref=e42]:
+            - generic [ref=e43]: "2026"
+            - generic [ref=e44]: Fondation
+          - generic [ref=e45]:
+            - generic [ref=e46]: "5"
+            - generic [ref=e47]: Langues
+          - generic [ref=e48]:
+            - generic [ref=e49]: Mai-Ndombe
+            - generic [ref=e50]: Berceau
+    - generic [ref=e51]:
+      - generic [ref=e52]:
+        - generic [ref=e53]: Patrimoine Vivant
+        - heading "Explorer les Savoirs" [level=2] [ref=e54]
+      - generic [ref=e55]: Éveil des mémoires...
+    - generic [ref=e56]:
+      - generic [ref=e57]:
+        - generic [ref=e58]: Plateforme
+        - heading "Dernières mises à jour" [level=2] [ref=e59]
+        - paragraph [ref=e60]: La plateforme évolue continuellement pour vous offrir une expérience plus riche et sécurisée.
+      - generic [ref=e61]:
+        - generic [ref=e62]:
+          - generic [ref=e63]:
+            - generic [ref=e64]: ✨
+            - generic [ref=e65]: Avril 2026
+          - generic [ref=e66]:
+            - heading "Identité & Accueil" [level=3] [ref=e67]
+            - paragraph [ref=e68]: Personnalisation dynamique des sections Savoir et École. Le Hub reconnaît désormais votre parcours et vous accueille personnellement.
+          - generic [ref=e71]: Détails
+        - generic [ref=e72]:
+          - generic [ref=e73]:
+            - generic [ref=e74]: 🛡️
+            - generic [ref=e75]: Avril 2026
+          - generic [ref=e76]:
+            - heading "Stabilité & Robustesse v2.6" [level=3] [ref=e77]
+            - paragraph [ref=e78]: "Audit de robustesse complet : résolution de la boucle infinie d'authentification et optimisation du proxy réseau. Performance et fluidité accrues."
+          - generic [ref=e81]: Détails
+        - generic [ref=e82]:
+          - generic [ref=e83]:
+            - generic [ref=e84]: 📧
+            - generic [ref=e85]: Avril 2026
+          - generic [ref=e86]:
+            - heading "Infrastructure Email" [level=3] [ref=e87]
+            - paragraph [ref=e88]: Intégration de Resend pour les notifications et newsletters. Configuration DNS (DKIM/SPF) validée pour sakata-basakata.com.
+          - generic [ref=e91]: Détails
+        - generic [ref=e92]:
+          - generic [ref=e93]:
+            - generic [ref=e94]: 🌍
+            - generic [ref=e95]: Avril 2026
+          - generic [ref=e96]:
+            - heading "Géographie v2.4" [level=3] [ref=e97]
+            - paragraph [ref=e98]: Calque des 26 provinces de la RDC avec focus sur le Mai-Ndombe. Moteur Mapbox GL JS v3 avec relief 3D.
+          - generic [ref=e101]: Détails
+        - generic [ref=e102]:
+          - generic [ref=e103]:
+            - generic [ref=e104]: 📜
+            - generic [ref=e105]: Avril 2026
+          - generic [ref=e106]:
+            - heading "Sagesse Ngongo" [level=3] [ref=e107]
+            - paragraph [ref=e108]: Archives majeures sur les rites Ngongo. Recherche exhaustive sur la philosophie ancestrale basakata.
+          - generic [ref=e111]: Détails
+    - generic [ref=e116]:
+      - generic [ref=e117]: Communauté & Savoir
+      - heading "Contribuez au savoir" [level=2] [ref=e118]
+      - paragraph [ref=e119]: Votre histoire est une partie de la nôtre. Devenez documentaliste culturel et aidez-nous à préserver les traditions Sakata pour les prochaines générations.
+      - link "Devenir Contributeur" [ref=e120] [cursor=pointer]:
+        - /url: /auth
+        - text: Devenir Contributeur
+        - img [ref=e121]
+    - generic [ref=e124]:
+      - generic [ref=e125]:
+        - generic [ref=e126]: KISAKATA
+        - paragraph [ref=e127]: © 2026 — Brume de la Rivière. Tous droits réservés.
+      - generic [ref=e128]:
+        - link "CULTURE" [ref=e129] [cursor=pointer]:
+          - /url: /savoir
+        - link "ECOLE" [ref=e130] [cursor=pointer]:
+          - /url: /ecole
+        - link "LANGUE" [ref=e131] [cursor=pointer]:
+          - /url: /#langue
+        - link "HISTOIRE" [ref=e132] [cursor=pointer]:
+          - /url: /#histoire
+        - link "FORUM" [ref=e133] [cursor=pointer]:
+          - /url: /forum
+  - alert [ref=e134]

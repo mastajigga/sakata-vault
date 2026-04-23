@@ -8,7 +8,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useLanguage } from "@/components/LanguageProvider";
 import { useAuth } from "@/components/AuthProvider";
 import { useRouter } from "next/navigation";
-import Navbar from "@/components/Navbar";
 import { authSchema, type AuthFormData } from "@/lib/schemas/validation";
 
 const AuthPage = () => {
@@ -82,7 +81,6 @@ const AuthPage = () => {
 
   return (
     <main className="grain-overlay min-h-[100dvh] bg-foret-nocturne flex flex-col overflow-hidden">
-      <Navbar />
       
       <section className="flex-1 flex items-center justify-center p-6 pt-32">
         <motion.div 

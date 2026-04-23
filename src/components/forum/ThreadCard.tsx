@@ -1,7 +1,11 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
 import { Pin, Lock, MessageSquare, Eye, Clock } from "lucide-react";
 import { MemberImage } from "@/components/MemberImage";
+import { motion } from "framer-motion";
+import { VARIANTS } from "@/lib/constants/animations";
 
 interface ThreadCardProps {
   thread: any;
@@ -17,12 +21,17 @@ export function ThreadCard({ thread, author, postsCount, categorySlug }: ThreadC
     : 'Récemment';
 
   return (
-    <Link 
-      href={`/forum/thread/${thread.slug}`}
-      className={`group block bg-[var(--eau-sombre)]/50 border rounded-xl p-5 md:p-6 transition-all duration-300 hover:bg-[var(--eau-sombre)] ${
-        thread.is_pinned ? 'border-[var(--or-ancestral)]/40' : 'border-[var(--or-ancestral)]/10 hover:border-[var(--or-ancestral)]/30'
-      }`}
+    <motion.div
+      variants={VARIANTS.slideUp}
+      whileHover={{ y: -2, scale: 1.005 }}
+      whileTap={{ scale: 0.995 }}
     >
+      <Link 
+        href={`/forum/thread/${thread.slug}`}
+        className={`group block bg-[var(--eau-sombre)]/50 border rounded-xl p-5 md:p-6 transition-all duration-300 hover:bg-[var(--eau-sombre)] ${
+          thread.is_pinned ? 'border-[var(--or-ancestral)]/40' : 'border-[var(--or-ancestral)]/10 hover:border-[var(--or-ancestral)]/30'
+        }`}
+      >
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div className="flex-grow pr-4">
           <div className="flex items-center space-x-3 mb-2">
@@ -69,6 +78,7 @@ export function ThreadCard({ thread, author, postsCount, categorySlug }: ThreadC
           </div>
         </div>
       </div>
-    </Link>
+      </Link>
+    </motion.div>
   );
 }

@@ -1,0 +1,272 @@
+- generic [active] [ref=e1]:
+  - main [ref=e2]:
+    - navigation [ref=e3]:
+      - generic [ref=e4]:
+        - link "SAKATA" [ref=e5] [cursor=pointer]:
+          - /url: /
+        - generic [ref=e6]:
+          - button "FR" [ref=e8] [cursor=pointer]:
+            - img [ref=e9]
+            - generic [ref=e12]: FR
+            - img [ref=e13]
+          - button "Toggle menu" [ref=e15] [cursor=pointer]
+    - generic [ref=e26]:
+      - generic [ref=e27]:
+        - generic [ref=e28]: Sanctuaire vivant de transmission
+        - heading "L’École de la Brume" [level=1] [ref=e29]
+        - paragraph [ref=e30]: Où la langue Kisakata, les mathématiques du pays et l’histoire précoloniale coulent comme la Lukenie pour nourrir les générations futures.
+        - paragraph [ref=e31]: L’école est pensée comme une maison de brume calme, ouverte aux enfants, aux familles et aux gardiens du savoir. On y apprend avec la main, la voix, la mémoire et le raisonnement, dans une esthétique douce qui respecte le souffle du territoire Sakata.
+        - generic [ref=e32]:
+          - link "Entrer dans l’atelier mathématique" [ref=e33] [cursor=pointer]:
+            - /url: "#mathematiques"
+            - text: Entrer dans l’atelier mathématique
+            - img [ref=e34]
+          - link "Créer un compte pour sauvegarder sa progression" [ref=e36] [cursor=pointer]:
+            - /url: /auth
+      - complementary [ref=e37]:
+        - generic [ref=e38]:
+          - img [ref=e39]
+          - paragraph [ref=e42]: Programme poétique et rigoureux
+        - generic [ref=e43]:
+          - generic [ref=e44]:
+            - generic [ref=e45]:
+              - img [ref=e46]
+              - heading "Langue" [level=2] [ref=e48]
+            - paragraph [ref=e49]: Lecture, oralité, lexiques de la rivière, proverbes et diction claire.
+          - generic [ref=e50]:
+            - generic [ref=e51]:
+              - img [ref=e52]
+              - heading "Mathématiques" [level=2] [ref=e54]
+            - paragraph [ref=e55]: Théorie guidée, exercices interactifs, indices, correction immédiate.
+          - generic [ref=e56]:
+            - generic [ref=e57]:
+              - img [ref=e58]
+              - heading "Histoire" [level=2] [ref=e61]
+            - paragraph [ref=e62]: Chefferies, repères de temps, mémoire précoloniale et transmission orale.
+        - generic [ref=e63]:
+          - generic [ref=e64]:
+            - paragraph [ref=e65]: "3"
+            - paragraph [ref=e66]: Rivières de savoir
+          - generic [ref=e67]:
+            - paragraph [ref=e68]: "6"
+            - paragraph [ref=e69]: Années couvertes
+          - generic [ref=e70]:
+            - paragraph [ref=e71]: Supabase + local
+            - paragraph [ref=e72]: Progression sauvegardée
+    - generic [ref=e74]:
+      - generic [ref=e75]:
+        - generic [ref=e76]:
+          - img [ref=e77]
+          - text: Sakata Educational Hub
+        - heading "Choisis ton Champ d'Apprentissage" [level=2] [ref=e80]
+      - generic [ref=e81]:
+        - generic [ref=e82] [cursor=pointer]:
+          - link [ref=e83]:
+            - /url: /ecole/primaire
+          - generic [ref=e85]:
+            - img [ref=e87]
+            - heading "École Primaire" [level=3] [ref=e89]
+            - paragraph [ref=e90]: Découvrez les bases des mathématiques à travers les contes et les défis de la forêt Sakata. Une aventure ludique pour les 6-12 ans.
+            - generic [ref=e91]:
+              - generic [ref=e92]: Rejoindre l'Aventure
+              - img [ref=e93]
+        - generic [ref=e95] [cursor=pointer]:
+          - link [ref=e96]:
+            - /url: /ecole/secondaire
+          - generic [ref=e98]:
+            - img [ref=e101]
+            - generic [ref=e103]:
+              - heading "École Secondaire" [level=3] [ref=e104]
+              - paragraph [ref=e105]: Maîtrisez l'algèbre et la géométrie avancées pour devenir les futurs leaders de notre communauté.
+              - generic [ref=e106]:
+                - generic [ref=e107]: Voir le curriculum
+                - img [ref=e108]
+      - generic [ref=e111]:
+        - generic:
+          - img
+        - generic [ref=e112]:
+          - generic [ref=e113]:
+            - generic [ref=e114]:
+              - img [ref=e115]
+              - text: Le cours d'eau du savoir
+            - heading "Douze années qui coulent comme la Lukenie" [level=3] [ref=e117]
+            - paragraph [ref=e118]: De la source primaire au delta secondaire, chaque année est une station sur le cours d'eau du savoir. Descendez la rivière, posez le pied sur un gué, entrez dans le cours.
+          - generic [ref=e119]:
+            - generic [ref=e120]:
+              - img [ref=e122]
+              - generic [ref=e125]:
+                - paragraph [ref=e126]: Source · Primaire
+                - paragraph [ref=e127]: 6 années · Les premières brumes
+            - generic [ref=e128]:
+              - generic [ref=e129]:
+                - paragraph [ref=e130]: Delta · Secondaire
+                - paragraph [ref=e131]: 6 années · Le cours mûri
+              - img [ref=e133]
+          - generic [ref=e135]:
+            - link "P1 Primaire 1 Degré élémentaire Compter jusqu'à 10, formes, avant et après Entrer" [ref=e137] [cursor=pointer]:
+              - /url: /ecole/primaire/primaire-1/cours
+              - generic [ref=e138]:
+                - img [ref=e140]
+                - generic [ref=e143]: P1
+              - heading "Primaire 1" [level=4] [ref=e144]
+              - paragraph [ref=e145]: Degré élémentaire
+              - paragraph [ref=e146]: Compter jusqu'à 10, formes, avant et après
+              - generic [ref=e147]:
+                - text: Entrer
+                - img [ref=e148]
+            - link "P2 Primaire 2 Degré élémentaire Ajouter et retirer, argent Entrer" [ref=e151] [cursor=pointer]:
+              - /url: /ecole/primaire/primaire-2/cours
+              - generic [ref=e152]:
+                - img [ref=e154]
+                - generic [ref=e157]: P2
+              - heading "Primaire 2" [level=4] [ref=e158]
+              - paragraph [ref=e159]: Degré élémentaire
+              - paragraph [ref=e160]: Ajouter et retirer, argent
+              - generic [ref=e161]:
+                - text: Entrer
+                - img [ref=e162]
+            - link "P3 Primaire 3 Degré moyen Valeur de position, multiplication Entrer" [ref=e165] [cursor=pointer]:
+              - /url: /ecole/primaire/primaire-3/cours
+              - generic [ref=e166]:
+                - img [ref=e168]
+                - generic [ref=e171]: P3
+              - heading "Primaire 3" [level=4] [ref=e172]
+              - paragraph [ref=e173]: Degré moyen
+              - paragraph [ref=e174]: Valeur de position, multiplication
+              - generic [ref=e175]:
+                - text: Entrer
+                - img [ref=e176]
+            - link "P4 Primaire 4 Degré moyen Tables, fractions, géométrie Entrer" [ref=e179] [cursor=pointer]:
+              - /url: /ecole/primaire/primaire-4/cours
+              - generic [ref=e180]:
+                - img [ref=e182]
+                - generic [ref=e185]: P4
+              - heading "Primaire 4" [level=4] [ref=e186]
+              - paragraph [ref=e187]: Degré moyen
+              - paragraph [ref=e188]: Tables, fractions, géométrie
+              - generic [ref=e189]:
+                - text: Entrer
+                - img [ref=e190]
+            - link "P5 Primaire 5 Degré moyen Décimaux, fractions, surfaces Entrer" [ref=e193] [cursor=pointer]:
+              - /url: /ecole/primaire/primaire-5/cours
+              - generic [ref=e194]:
+                - img [ref=e196]
+                - generic [ref=e199]: P5
+              - heading "Primaire 5" [level=4] [ref=e200]
+              - paragraph [ref=e201]: Degré moyen
+              - paragraph [ref=e202]: Décimaux, fractions, surfaces
+              - generic [ref=e203]:
+                - text: Entrer
+                - img [ref=e204]
+            - link "P6 Primaire 6 Degré moyen Pourcentages, proportions, géométrie Entrer" [ref=e207] [cursor=pointer]:
+              - /url: /ecole/primaire/primaire-6/cours
+              - generic [ref=e208]:
+                - img [ref=e210]
+                - generic [ref=e213]: P6
+              - heading "Primaire 6" [level=4] [ref=e214]
+              - paragraph [ref=e215]: Degré moyen
+              - paragraph [ref=e216]: Pourcentages, proportions, géométrie
+              - generic [ref=e217]:
+                - text: Entrer
+                - img [ref=e218]
+            - link "S1 1ère secondaire Secondaire — 1er cycle Algèbre, équations du 1er degré, ensembles Entrer" [ref=e221] [cursor=pointer]:
+              - /url: /ecole/secondaire/1ere-secondaire/cours
+              - generic [ref=e222]:
+                - img [ref=e224]
+                - generic [ref=e226]: S1
+              - heading "1ère secondaire" [level=4] [ref=e227]
+              - paragraph [ref=e228]: Secondaire — 1er cycle
+              - paragraph [ref=e229]: Algèbre, équations du 1er degré, ensembles
+              - generic [ref=e230]:
+                - text: Entrer
+                - img [ref=e231]
+            - link "S2 2e secondaire Secondaire — 1er cycle Fonctions linéaires, systèmes d'équations, géométrie plane Entrer" [ref=e234] [cursor=pointer]:
+              - /url: /ecole/secondaire/2e-secondaire/cours
+              - generic [ref=e235]:
+                - img [ref=e237]
+                - generic [ref=e239]: S2
+              - heading "2e secondaire" [level=4] [ref=e240]
+              - paragraph [ref=e241]: Secondaire — 1er cycle
+              - paragraph [ref=e242]: Fonctions linéaires, systèmes d'équations, géométrie plane
+              - generic [ref=e243]:
+                - text: Entrer
+                - img [ref=e244]
+            - link "S3 3e secondaire Secondaire — 1er cycle Équations du 2nd degré, théorème de Pythagore, statistiques Entrer" [ref=e247] [cursor=pointer]:
+              - /url: /ecole/secondaire/3e-secondaire/cours
+              - generic [ref=e248]:
+                - img [ref=e250]
+                - generic [ref=e252]: S3
+              - heading "3e secondaire" [level=4] [ref=e253]
+              - paragraph [ref=e254]: Secondaire — 1er cycle
+              - paragraph [ref=e255]: Équations du 2nd degré, théorème de Pythagore, statistiques
+              - generic [ref=e256]:
+                - text: Entrer
+                - img [ref=e257]
+            - link "S4 4e secondaire Secondaire — 2e cycle Trigonométrie, vecteurs, logarithmes Entrer" [ref=e260] [cursor=pointer]:
+              - /url: /ecole/secondaire/4e-secondaire/cours
+              - generic [ref=e261]:
+                - img [ref=e263]
+                - generic [ref=e265]: S4
+              - heading "4e secondaire" [level=4] [ref=e266]
+              - paragraph [ref=e267]: Secondaire — 2e cycle
+              - paragraph [ref=e268]: Trigonométrie, vecteurs, logarithmes
+              - generic [ref=e269]:
+                - text: Entrer
+                - img [ref=e270]
+            - link "S5 5e secondaire Secondaire — 2e cycle Suites, exponentielles, statistiques avancées Entrer" [ref=e273] [cursor=pointer]:
+              - /url: /ecole/secondaire/5e-secondaire/cours
+              - generic [ref=e274]:
+                - img [ref=e276]
+                - generic [ref=e278]: S5
+              - heading "5e secondaire" [level=4] [ref=e279]
+              - paragraph [ref=e280]: Secondaire — 2e cycle
+              - paragraph [ref=e281]: Suites, exponentielles, statistiques avancées
+              - generic [ref=e282]:
+                - text: Entrer
+                - img [ref=e283]
+            - link "S6 6e secondaire Secondaire — Terminal Dérivées, intégrales, probabilités et synthèse Entrer" [ref=e286] [cursor=pointer]:
+              - /url: /ecole/secondaire/6e-secondaire/cours
+              - generic [ref=e287]:
+                - img [ref=e289]
+                - generic [ref=e291]: S6
+              - heading "6e secondaire" [level=4] [ref=e292]
+              - paragraph [ref=e293]: Secondaire — Terminal
+              - paragraph [ref=e294]: Dérivées, intégrales, probabilités et synthèse
+              - generic [ref=e295]:
+                - text: Entrer
+                - img [ref=e296]
+      - generic [ref=e298]:
+        - generic [ref=e299] [cursor=pointer]:
+          - link [ref=e300]:
+            - /url: /help/ecole
+          - generic [ref=e301]:
+            - img [ref=e303]
+            - heading "Besoin d'aide ?" [level=4] [ref=e306]
+          - paragraph [ref=e307]: Comprenez notre vision pédagogique, la stack technique et comment naviguer dans le Hub.
+          - generic [ref=e308]:
+            - generic [ref=e309]: Espace Help
+            - img [ref=e310]
+        - generic [ref=e313]:
+          - generic [ref=e314]:
+            - img [ref=e316]
+            - heading "Bibliothèque Sakata" [level=4] [ref=e319]
+          - paragraph [ref=e320]: Accédez à des documents culturels et des leçons supplémentaires sur l'histoire de notre peuple.
+          - generic [ref=e321]: Coming soon
+    - generic [ref=e323]:
+      - generic [ref=e324]:
+        - generic [ref=e325]: KISAKATA
+        - paragraph [ref=e326]: © 2026 — Brume de la Rivière. Tous droits réservés.
+      - generic [ref=e327]:
+        - link "CULTURE" [ref=e328] [cursor=pointer]:
+          - /url: /savoir
+        - link "ECOLE" [ref=e329] [cursor=pointer]:
+          - /url: /ecole
+        - link "LANGUE" [ref=e330] [cursor=pointer]:
+          - /url: /#langue
+        - link "HISTOIRE" [ref=e331] [cursor=pointer]:
+          - /url: /#histoire
+        - link "FORUM" [ref=e332] [cursor=pointer]:
+          - /url: /forum
+  - button "Open Next.js Dev Tools" [ref=e338] [cursor=pointer]:
+    - img [ref=e339]
+  - alert [ref=e342]

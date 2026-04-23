@@ -1,5 +1,3 @@
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 import Link from "next/link";
 import { MemberImage } from "@/components/MemberImage";
 import { notFound } from "next/navigation";
@@ -71,8 +69,7 @@ export default async function ThreadPage(props: { params: Promise<{ thread_slug:
   return (
     <main className="min-h-[100dvh] bg-[var(--foret-nocturne)] text-[var(--ivoire-ancien)] flex flex-col font-sans selection:bg-[var(--or-ancestral)]/30">
       <div className="absolute inset-0 opacity-5 pointer-events-none mix-blend-overlay"></div>
-      <Navbar />
-
+      
       <section className="relative pt-32 pb-20 px-4 sm:px-8 md:px-16 max-w-5xl mx-auto w-full z-10 flex-grow">
         <Link 
           href={`/forum/${thread.forum_categories?.slug}`} 
@@ -107,7 +104,6 @@ export default async function ThreadPage(props: { params: Promise<{ thread_slug:
         />
       </section>
 
-      <Footer />
     </main>
   );
 }

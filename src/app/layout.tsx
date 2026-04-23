@@ -34,6 +34,9 @@ export const metadata: Metadata = {
 
 import { AnalyticsProvider } from "@/components/AnalyticsProvider";
 import { ChatUnreadProvider } from "@/contexts/ChatUnreadContext";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+import { PageAnimate } from "@/components/ui/PageAnimate";
 
 export default function RootLayout({
   children,
@@ -42,14 +45,18 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fr" data-scroll-behavior="smooth" className={`${outfit.variable} ${schibsted.variable} ${geistMono.variable}`}>
-      <body className="antialiased">
+      <body className="antialiased min-h-screen flex flex-col">
         <AuthProvider>
           <LanguageProvider>
             <LoadingProvider>
               <AnalyticsProvider>
                 <ChatUnreadProvider>
+                  <Navbar />
                   <WelcomeModal />
-                  {children}
+                  <PageAnimate>
+                    {children}
+                  </PageAnimate>
+                  <Footer />
                 </ChatUnreadProvider>
               </AnalyticsProvider>
             </LoadingProvider>

@@ -1,8 +1,6 @@
 import { supabasePublic, supabaseAdmin } from "@/lib/supabase/admin";
 import { DB_TABLES } from "@/lib/constants/db";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
-import { ThreadCard } from "@/components/forum/ThreadCard";
+import { ThreadListClient } from "@/components/forum/ThreadListClient";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, MessageSquarePlus } from "lucide-react";
@@ -49,8 +47,6 @@ export default async function ForumCategoryPage(props: { params: Promise<{ categ
   return (
     <main className="min-h-[100dvh] bg-[var(--foret-nocturne)] text-[var(--ivoire-ancien)] flex flex-col font-sans selection:bg-[var(--or-ancestral)]/30">
       <div className="absolute inset-0 opacity-5 pointer-events-none mix-blend-overlay"></div>
-      <Navbar />
-
       <section className="relative pt-32 pb-20 px-6 sm:px-12 md:px-24 max-w-5xl mx-auto w-full z-10 flex-grow">
         <Link 
           href="/forum" 
@@ -84,24 +80,10 @@ export default async function ForumCategoryPage(props: { params: Promise<{ categ
               <p className="text-[var(--or-ancestral)] mt-2">Soyez le premier à ouvrir la discussion !</p>
             </div>
           ) : (
-            threads.map((thread) => {
-               // forum_posts counts can be an array depending on supabase return structure
-               const postsCount = thread.forum_posts?.[0]?.count || 0;
-               return (
-                <ThreadCard 
-                  key={thread.id} 
-                  thread={thread} 
-                  author={thread.profiles} 
-                  postsCount={postsCount} 
-                  categorySlug={params.category_slug} 
-                />
-               );
-            })
+            <ThreadListClient threads={threads} categorySlug={params.category_slug} />
           )}
         </div>
       </section>
-
-      <Footer />
     </main>
   );
 }
