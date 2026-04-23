@@ -254,80 +254,28 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     let mounted = true;
 
-    const init = async () => {
-      if (initStarted.current) return;
-      initStarted.current = true;
-      
-      console.log("[AuthProvider] init: START");
-      try {
-        // Note: onAuthStateChange fires SIGNED_IN independently (and usually first).
-        // getSession() can be slow when the Supabase token refresh endpoint lags.
-        // We await it directly — the 15s safetyTimer above handles extreme hangs.
-        console.log("[AuthProvider] init: getSession start...");
-        const { data: { session }, error } = await withRetryRaw(() => supabase.auth.getSession()) as any;
-
-        if (error) {
-          console.error("[AuthProvider] init: getSession error (after retries):", error);
-        }
-
-        // Only apply if SIGNED_IN hasn't already set the user (avoid double-fetch)
-        if (mounted && session && !user) {
-          setSession(session);
-          setUser(session.user);
-          await fetchProfile(session.user.id);
-        }
-      } catch (e) {
-        console.error("[AuthProvider] init: EXCEPTION:", e);
-      } finally {
-        if (mounted) setIsLoading(false);
-      }
-    };
-
-    // Décaler légèrement le check de connexion pour laisser la priorité au getSession
-    setTimeout(() => {
-      if (mounted) checkConnection().catch(console.error);
-    }, 1500);
-
-    // Safety Timeout : Force isLoading=false après 15s (ultime recours)
-    const safetyTimer = setTimeout(() => {
-      if (mounted && isLoading) {
-        console.warn("[AuthProvider] TIMEOUT DE SÉCURITÉ (15s) atteint.");
-        setIsStalled(true);
-        setIsLoading(false);
-      }
-    }, 15000);
-
-    init().finally(() => {
-      if (mounted) {
-        clearTimeout(safetyTimer);
-        setIsStalled(false);
-      }
-    });
-
+    // 1. Initialiser l'écouteur en premier. 
+    // Au moment du .subscribe(), Supabase émet souvent INITIAL_SESSION immédiatement.
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event: any, newSession: any) => {
       if (!mounted) return;
 
+      console.log(`[AuthProvider] Event: ${event}`, { hasUser: !!newSession?.user, isLoading });
+
       switch (event) {
         case "INITIAL_SESSION":
-          // Géré par init() ci-dessus — on ignore pour éviter le double fetch
-          break;
-
+        case "SIGNED_IN":
         case "TOKEN_REFRESHED":
-          // Nouveau JWT émis (rotation depuis un autre device)
-          // P2-B: on désactive le flag pending dès que le token est prêt
+          setSessionExpired(false);
           setTokenRefreshPending(false);
           setSession(newSession);
           setUser(newSession?.user ?? null);
-          if (newSession?.user) await fetchProfile(newSession.user.id);
-          router.refresh(); // Invalide le Next.js Router Cache
-          break;
-
-        case "SIGNED_IN":
-          setSessionExpired(false);
-          setSession(newSession);
-          setUser(newSession?.user ?? null);
-          if (newSession?.user) await fetchProfile(newSession.user.id);
-          router.refresh();
+          if (newSession?.user) {
+            // fetchProfile dédoublonne déjà les appels en interne (promiseRef)
+            fetchProfile(newSession.user.id);
+          }
+          if (event !== "INITIAL_SESSION") {
+            router.refresh();
+          }
           setIsLoading(false);
           break;
 
@@ -340,15 +288,60 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           setNickname(null);
           setUsername(null);
           setIsLoading(false);
-          // Si un utilisateur était connecté, c'est probablement une invalidation forcée
           setSessionExpired(true);
           break;
       }
     });
 
+    // 2. Init complémentaire (pour les cas où onAuthStateChange tarde ou manque le signal)
+    const init = async () => {
+      if (initStarted.current) return;
+      initStarted.current = true;
+      
+      try {
+        // P2: On tente getSession mais sans retry agressif. Si INITIAL_SESSION a déjà 
+        // rempli 'session', on n'a rien à faire ici.
+        if (session) {
+          console.log("[AuthProvider] init: Session déjà présente via listener.");
+          return;
+        }
+
+        const { data: { session: fetchedSession }, error } = await supabase.auth.getSession();
+        
+        if (mounted && fetchedSession && !user) {
+          console.log("[AuthProvider] init: Session récupérée par getSession.");
+          setSession(fetchedSession);
+          setUser(fetchedSession.user);
+          await fetchProfile(fetchedSession.user.id);
+        }
+      } catch (e) {
+        console.error("[AuthProvider] init: EXCEPTION (non fatale):", e);
+      } finally {
+        if (mounted) setIsLoading(false);
+      }
+    };
+
+    // 3. Exécution
+    init();
+
+    // Décaler le check de connexion pour laisser la priorité à l'auth
+    const connectionTimer = setTimeout(() => {
+      if (mounted) checkConnection().catch(console.error);
+    }, 3000);
+
+    // Safety Timeout : Force isLoading=false après 15s
+    const safetyTimer = setTimeout(() => {
+      if (mounted && isLoading) {
+        console.warn("[AuthProvider] Safety timeout reached.");
+        setIsLoading(false);
+      }
+    }, 15000);
+
     return () => {
       mounted = false;
       subscription.unsubscribe();
+      clearTimeout(connectionTimer);
+      clearTimeout(safetyTimer);
     };
   }, [fetchProfile, checkConnection]);
 

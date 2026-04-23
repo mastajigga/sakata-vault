@@ -16,7 +16,6 @@
 const DEFAULT_MAX_RETRIES = 3;
 const BASE_DELAY_MS = 300;
 
-/** Erreurs réseau sur lesquelles on retente (pas les erreurs RLS/auth métier) */
 const RETRYABLE_MESSAGES = [
   "Failed to fetch",
   "NetworkError",
@@ -27,7 +26,14 @@ const RETRYABLE_MESSAGES = [
   "Load failed",
   "released because another request stole it",
   "Lock was released",
+  "stole it",
 ];
+
+function isLockError(error: unknown): boolean {
+  if (!error) return false;
+  const msg = error instanceof Error ? error.message : String(error);
+  return msg.includes("stole it") || msg.includes("Lock was released");
+}
 
 function isRetryable(error: unknown): boolean {
   if (!error) return false;
@@ -53,8 +59,15 @@ export async function withRetry<T>(
       if (result.error && isRetryable(result.error)) {
         lastError = result.error;
         if (attempt < maxRetries) {
-          const waitMs = BASE_DELAY_MS * Math.pow(3, attempt);
-          console.warn(`[withRetry] Tentative ${attempt + 1}/${maxRetries} échouée. Retry dans ${waitMs}ms...`, result.error?.message);
+          let waitMs = BASE_DELAY_MS * Math.pow(3, attempt);
+          
+          // P2: Si c'est un problème de Lock (concurrence), on attend significativement plus
+          // pour laisser la requête "voleuse" se terminer proprement.
+          if (isLockError(result.error)) {
+            waitMs += 1000 + Math.random() * 500;
+          }
+
+          console.warn(`[withRetry] Tentative ${attempt + 1}/${maxRetries} échouée (Verrou/Réseau). Retry dans ${Math.round(waitMs)}ms...`, result.error?.message);
           await delay(waitMs);
           continue;
         }
@@ -66,8 +79,11 @@ export async function withRetry<T>(
     } catch (err) {
       lastError = err;
       if (attempt < maxRetries && isRetryable(err)) {
-        const waitMs = BASE_DELAY_MS * Math.pow(3, attempt);
-        console.warn(`[withRetry] Exception tentative ${attempt + 1}/${maxRetries}. Retry dans ${waitMs}ms...`, err);
+        let waitMs = BASE_DELAY_MS * Math.pow(3, attempt);
+        if (isLockError(err)) {
+          waitMs += 1000 + Math.random() * 500;
+        }
+        console.warn(`[withRetry] Exception tentative ${attempt + 1}/${maxRetries}. Retry dans ${Math.round(waitMs)}ms...`, err);
         await delay(waitMs);
         continue;
       }
@@ -95,8 +111,11 @@ export async function withRetryRaw<T>(
     } catch (err) {
       lastError = err;
       if (attempt < maxRetries && isRetryable(err)) {
-        const waitMs = BASE_DELAY_MS * Math.pow(3, attempt);
-        console.warn(`[withRetryRaw] Exception tentative ${attempt + 1}/${maxRetries}. Retry dans ${waitMs}ms...`, err);
+        let waitMs = BASE_DELAY_MS * Math.pow(3, attempt);
+        if (isLockError(err)) {
+          waitMs += 1000 + Math.random() * 500;
+        }
+        console.warn(`[withRetryRaw] Exception tentative ${attempt + 1}/${maxRetries}. Retry dans ${Math.round(waitMs)}ms...`, err);
         await delay(waitMs);
       } else {
         throw err;
