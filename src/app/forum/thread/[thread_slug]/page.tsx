@@ -47,30 +47,26 @@ export default async function ThreadPage(props: { params: Promise<{ thread_slug:
     .eq("thread_id", thread.id)
     .order("created_at", { ascending: true });
 
-  // Increment views in background safely
+  // Increment views in background safely using RPC
   (async () => {
     try {
       await supabaseAdmin.rpc('increment_thread_views', { t_id: thread.id });
     } catch (err) {
       console.error('[ThreadPage] Failed to increment views:', err);
     }
-  })().catch(() => {}); // Ignore any unhandled promise rejections
-
-  // Fallback: direct update if RPC fails
-  (async () => {
-    try {
-      await supabaseAdmin.from('forum_threads')
-        .update({ views_count: (thread.views_count || 0) + 1 })
-        .eq('id', thread.id);
-    } catch (err) {
-      console.error('[ThreadPage] Failed to update views count:', err);
-    }
   })().catch(() => {});
 
   const formattedDate = new Date(thread.created_at).toLocaleDateString("fr-FR", { day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' });
-  const catName = typeof thread.forum_categories?.name === 'string' 
-    ? JSON.parse(thread.forum_categories.name) 
-    : thread.forum_categories?.name;
+  
+  // Safe parsing for multilingual category name
+  let catNameFR = 'la catégorie';
+  try {
+    const rawName = thread.forum_categories?.name;
+    const parsedName = typeof rawName === 'string' ? JSON.parse(rawName) : rawName;
+    catNameFR = (typeof parsedName === 'object' ? parsedName?.fr : parsedName) || 'la catégorie';
+  } catch (e) {
+    console.error('[ThreadPage] Error parsing category name:', e);
+  }
 
   return (
     <main className="min-h-[100dvh] bg-[var(--foret-nocturne)] text-[var(--ivoire-ancien)] flex flex-col font-sans selection:bg-[var(--or-ancestral)]/30">
@@ -83,7 +79,7 @@ export default async function ThreadPage(props: { params: Promise<{ thread_slug:
           className="inline-flex items-center text-[var(--or-ancestral)] hover:text-[var(--ivoire-ancien)] transition-colors mb-8 text-sm uppercase tracking-widest font-medium group"
         >
           <ArrowLeft size={16} className="mr-2 group-hover:-translate-x-1 transition-transform" /> 
-          Retour à {catName?.fr || 'la catégorie'}
+          Retour à {catNameFR}
         </Link>
         
         {/* Thread Header */}

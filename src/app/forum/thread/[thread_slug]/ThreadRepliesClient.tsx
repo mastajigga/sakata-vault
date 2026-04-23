@@ -61,7 +61,15 @@ export default function ThreadRepliesClient({ threadId, initialPosts, isLocked }
             
           setPosts(prev => {
             if (prev.find(p => p.id === newPost.id)) return prev;
-            return [...prev, { ...newPost, profiles: (profile || undefined) as any }];
+            // Merge with existing but potentially updated profile info
+            const updatedProfile = (profile || { 
+              id: newPost.author_id, 
+              username: 'Villageois', 
+              nickname: 'Villageois Anonyme', 
+              avatar_url: null, 
+              role: 'member' 
+            });
+            return [...prev, { ...newPost, profiles: updatedProfile as any }];
           });
           
           setTimeout(() => {
