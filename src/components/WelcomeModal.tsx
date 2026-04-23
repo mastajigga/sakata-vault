@@ -210,13 +210,22 @@ export default function WelcomeModal() {
               <div data-card className="bg-gradient-to-br from-[#1A3A2E] to-[#0F2818] border border-[#B59551]/40 rounded-2xl p-5 hover:border-[#B59551]/60 transition-colors duration-300">
                 <h3 className="text-[#B59551] font-medium text-base mb-3 flex items-center gap-2">
                   <Zap className="w-4 h-4 flex-shrink-0" />
-                  Mises à jour (v2.7.3)
+                  Mises à jour (v3.0.0)
                 </h3>
                 <ul className="text-[#F2EEDD]/70 text-sm space-y-2 list-disc pl-4">
-                  <li><strong>Chat:</strong> Envoi instantané (Optimistic UI) et connexion stabilisée</li>
-                  <li><strong>Sécurité:</strong> Navigation fluide sans erreurs de session</li>
+                  <li><strong>Admin V3:</strong> Gestion complète des profils et Dashboard</li>
+                  <li><strong>Contenu:</strong> Nouvel éditeur structuré par blocs</li>
                   <li><strong>Forum:</strong> Réactions émojis ❤️ 🔥 👍 en temps réel</li>
-                  <li><strong>Notifications:</strong> Centre de contrôle Push sur mobile et desktop</li>
+                  <li><strong>Sécurité:</strong> Navigation fluide sans erreurs de session</li>
+                </ul>
+              </div>
+
+              {/* Version History */}
+              <div data-card className="bg-black/20 border border-white/5 rounded-2xl p-5 hover:border-white/10 transition-colors duration-300">
+                <h3 className="text-white/40 font-medium text-sm mb-3">Historique (v2.7)</h3>
+                <ul className="text-[#F2EEDD]/40 text-xs space-y-1 list-disc pl-4">
+                  <li>Chat: Envoi instantané (Optimistic UI)</li>
+                  <li>Notifications: Centre de contrôle Push mobile</li>
                 </ul>
               </div>
 

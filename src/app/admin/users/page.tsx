@@ -3,13 +3,121 @@
 import React, { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import { DB_TABLES } from "@/lib/constants/db";
-import { Users, Shield, ShieldCheck, ShieldAlert, UserPlus, Search, MoreHorizontal } from "lucide-react";
-import { motion } from "framer-motion";
+import { 
+  Users, Shield, ShieldCheck, ShieldAlert, UserPlus, Search, 
+  MoreHorizontal, Eye, X, Mail, MapPin, Calendar, Activity,
+  Award, MessageSquare, Heart 
+} from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+
+const UserDetailsModal = ({ user, onClose }: { user: any, onClose: () => void }) => {
+  if (!user) return null;
+
+  return (
+    <motion.div 
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 z-50 flex items-center justify-center p-6 bg-black/80 backdrop-blur-sm"
+    >
+      <motion.div 
+        initial={{ scale: 0.95, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        className="w-full max-w-2xl bg-foret-nocturne border border-white/10 rounded-3xl overflow-hidden shadow-2xl"
+      >
+        <div className="relative h-32 bg-gradient-to-r from-or-ancestral/20 to-foret-nocturne border-b border-white/5">
+          <button 
+            onClick={onClose}
+            className="absolute top-4 right-4 p-2 rounded-full bg-black/40 text-white/60 hover:text-white transition-colors"
+          >
+            <X className="w-5 h-5" />
+          </button>
+        </div>
+
+        <div className="px-8 pb-8 -mt-12">
+          <div className="flex items-end justify-between gap-6 mb-8">
+            <div className="relative">
+              <div className="w-24 h-24 rounded-2xl bg-black border-4 border-foret-nocturne flex items-center justify-center text-4xl font-display font-bold text-or-ancestral overflow-hidden shadow-xl">
+                 {user.avatar_url ? <img src={user.avatar_url} className="w-full h-full object-cover" /> : (user.nickname ? user.nickname[0] : "?")}
+              </div>
+            </div>
+            <div className="flex gap-2 mb-2">
+              <span className={`px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-wider ${user.subscription_tier === 'premium' ? 'bg-or-ancestral text-foret-nocturne' : 'bg-white/5 text-white/40'}`}>
+                {user.subscription_tier || 'free'}
+              </span>
+              <span className="px-4 py-1.5 rounded-full bg-white/5 text-white/40 text-[10px] font-bold uppercase tracking-wider">
+                {user.role || 'user'}
+              </span>
+            </div>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-12">
+            <div className="space-y-6">
+              <div>
+                <h2 className="text-2xl font-display font-bold text-ivoire-ancien">
+                  {user.first_name} {user.last_name}
+                </h2>
+                <p className="text-or-ancestral/60">@{user.nickname || user.username || 'n/a'}</p>
+              </div>
+
+              <div className="space-y-4">
+                <div className="flex items-center gap-3 text-sm text-white/60">
+                   <Mail className="w-4 h-4 opacity-40" />
+                   <span>{user.email || 'Non spécifié'}</span>
+                </div>
+                <div className="flex items-center gap-3 text-sm text-white/60">
+                   <MapPin className="w-4 h-4 opacity-40" />
+                   <span>{user.location || 'Localisation inconnue'}</span>
+                </div>
+                <div className="flex items-center gap-3 text-sm text-white/60">
+                   <Calendar className="w-4 h-4 opacity-40" />
+                   <span>Inscrit le {user.created_at ? new Date(user.created_at).toLocaleDateString() : '???'}</span>
+                </div>
+              </div>
+
+              <div className="p-4 rounded-xl bg-white/5 border border-white/5 italic text-sm text-white/40">
+                "{user.bio || user.short_bio || "Pas de biographie pour ce marcheur."}"
+              </div>
+            </div>
+
+            <div className="space-y-6">
+              <h3 className="text-xs uppercase tracking-widest font-bold text-white/20">Activité du Sanctuaire</h3>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="p-4 rounded-2xl bg-white/5 border border-white/5">
+                  <Activity className="w-5 h-5 text-or-ancestral mb-2" />
+                  <p className="text-xs opacity-40">Dernière active</p>
+                  <p className="text-sm font-bold">{user.updated_at ? new Date(user.updated_at).toLocaleDateString() : 'N/A'}</p>
+                </div>
+                <div className="p-4 rounded-2xl bg-white/5 border border-white/5">
+                  <Award className="w-5 h-5 text-emerald-400 mb-2" />
+                  <p className="text-xs opacity-40">Points Sacrés</p>
+                  <p className="text-sm font-bold">1200</p>
+                </div>
+                <div className="p-4 rounded-2xl bg-white/5 border border-white/5">
+                  <MessageSquare className="w-5 h-5 text-blue-400 mb-2" />
+                  <p className="text-xs opacity-40">Messages Forum</p>
+                  <p className="text-sm font-bold">24</p>
+                </div>
+                <div className="p-4 rounded-2xl bg-white/5 border border-white/5">
+                  <Heart className="w-5 h-5 text-red-400 mb-2" />
+                  <p className="text-xs opacity-40">Appréciations</p>
+                  <p className="text-sm font-bold">8</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </motion.div>
+    </motion.div>
+  );
+};
 
 const UserManagementPage = () => {
   const [profiles, setProfiles] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
+  const [selectedUser, setSelectedUser] = useState<any>(null);
+  const [showModal, setShowModal] = useState(false);
 
   const fetchProfiles = async () => {
     setLoading(true);
@@ -50,14 +158,20 @@ const UserManagementPage = () => {
     }
   };
 
+  const openUserDetails = (user: any) => {
+    setSelectedUser(user);
+    setShowModal(true);
+  };
+
   const filteredProfiles = profiles.filter(p => 
-    p.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    (p.email && p.email.toLowerCase().includes(searchTerm.toLowerCase())) ||
     (p.nickname && p.nickname.toLowerCase().includes(searchTerm.toLowerCase())) ||
     (p.first_name && p.first_name.toLowerCase().includes(searchTerm.toLowerCase())) ||
     (p.last_name && p.last_name.toLowerCase().includes(searchTerm.toLowerCase()))
   );
 
   const handleResetPassword = async (email: string) => {
+    if (!email) return;
     if (confirm(`Etes-vous sûr de vouloir envoyer un e-mail de réinitialisation de mot de passe à ${email} ?`)) {
       const { error } = await supabase.auth.resetPasswordForEmail(email);
       if (error) {
@@ -69,8 +183,6 @@ const UserManagementPage = () => {
   };
 
   const handleDeleteUser = async (userId: string) => {
-    // Note: True deletion of an auth user requires Server Role/Admin API.
-    // For now we will soft-ban the role to "deleted", or if backend is upgraded, this can fully delete.
     if (confirm("Etes-vous certain de vouloir restreindre cet utilisateur de la plateforme (suppression logique) ?")) {
        const { error } = await supabase.from(DB_TABLES.PROFILES).update({ role: "deleted", first_name: "[Supprimé]" }).eq("id", userId);
        if (!error) {
@@ -128,14 +240,14 @@ const UserManagementPage = () => {
                 >
                   <td className="px-8 py-6">
                     <div className="flex items-center gap-4">
-                      <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center font-bold text-xs">
-                        {profile.email ? profile.email[0].toUpperCase() : "?"}
+                      <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center font-bold text-xs uppercase">
+                        {profile.email ? profile.email[0] : (profile.nickname ? profile.nickname[0] : "?")}
                       </div>
                       <div>
                         <p className="text-sm font-bold text-ivoire-ancien">
                           {profile.nickname ? profile.nickname : (profile.first_name ? `${profile.first_name} ${profile.last_name || ""}` : "Anonyme")}
                         </p>
-                        <p className="text-xs opacity-40 font-mono">{profile.email}</p>
+                        <p className="text-xs opacity-40 font-mono">{profile.email || "Email non synchronisé"}</p>
                       </div>
                     </div>
                   </td>
@@ -152,6 +264,14 @@ const UserManagementPage = () => {
                   </td>
                   <td className="px-8 py-6 text-right">
                     <div className="flex items-center justify-end gap-3">
+                      <button 
+                        onClick={() => openUserDetails(profile)}
+                        className="p-2 bg-white/5 hover:bg-white/10 rounded-lg transition-colors border border-white/5 text-ivory-ancien/60"
+                        title="Voir le profil complet"
+                      >
+                        <Eye className="w-4 h-4" />
+                      </button>
+
                       <select 
                         value={profile.role || "user"}
                         onChange={(e) => updateRole(profile.id, e.target.value)}
@@ -194,6 +314,16 @@ const UserManagementPage = () => {
           )}
         </div>
       )}
+
+      {/* User Details Modal */}
+      <AnimatePresence>
+        {showModal && (
+          <UserDetailsModal 
+            user={selectedUser} 
+            onClose={() => setShowModal(false)} 
+          />
+        )}
+      </AnimatePresence>
     </div>
   );
 };

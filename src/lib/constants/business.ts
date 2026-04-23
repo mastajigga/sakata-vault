@@ -34,7 +34,7 @@ export const MAX_VIEWS = {
   TWICE: 2,
 } as const;
 
-export const APP_VERSION = "2.7.3"; // Bumped 2026-04-23 — Auth Lock Stolen Fix
+export const APP_VERSION = "3.0.0"; // Major Release 2026-04-23 — Admin Command Center V3 & Block Editor
 export const PINECONE_DEFAULT_INDEX = "sakata-mathematics";
 
 // ─── Hiérarchie des rôles ────────────────────────────────────────────────────

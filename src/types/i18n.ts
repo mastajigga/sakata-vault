@@ -11,6 +11,20 @@ export interface TranslatedText {
   tsh?: string;
 }
 
+export interface ContentBlock {
+  id: string;
+  type: "text" | "image" | "quote" | "heading";
+  body?: string;
+  url?: string;
+  caption?: string;
+  alignment?: "full" | "left" | "right";
+  level?: 1 | 2 | 3;
+}
+
+export type StructuredContent = {
+  [key in Language]?: ContentBlock[];
+};
+
 /**
  * ============================================
  * DISTINCTION ARTICLE vs LIVRE (BOOK)
@@ -58,7 +72,7 @@ export interface ArticleData {
   summary: TranslatedText;
 
   /** LIVRE : contenu complet et détaillé (2000+ mots) pour lecture profonde */
-  content: TranslatedText;
+  content: TranslatedText | StructuredContent;
 
   /** Métadonnées d'affichage */
   image?: string;

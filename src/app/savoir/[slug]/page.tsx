@@ -148,17 +148,24 @@ const ArticlePage = () => {
   let finalContent = displayContent;
   let showPaywall = false;
 
-  if (!hasAccess && finalContent.length > 500) {
+  // Only apply string-based paywall logic if it's a string
+  if (typeof finalContent === 'string' && !hasAccess && finalContent.length > 500) {
     finalContent = finalContent.substring(0, 500) + "...";
     showPaywall = true;
+  } else if (Array.isArray(finalContent) && !hasAccess) {
+    // If it's blocks, we might want to trim the blocks array
+    if (finalContent.length > 3) {
+      finalContent = finalContent.slice(0, 3);
+      showPaywall = true;
+    }
   }
 
-  // Parse References
-  const hasReferences = finalContent.includes("**Références**");
+  // Parse References (only for legacy string content)
+  const hasReferences = typeof finalContent === 'string' && finalContent.includes("**Références**");
   let mainBody = finalContent;
   let referencesContent = "";
 
-  if (hasReferences) {
+  if (hasReferences && typeof finalContent === 'string') {
     const parts = finalContent.split("**Références**");
     mainBody = parts[0];
     referencesContent = parts[parts.length - 1]; // Take the last part as references
@@ -173,6 +180,40 @@ const ArticlePage = () => {
       .replace(/^---$/gm, '<hr class="border-t border-white/10 my-12" />')
       .replace(/\n\n/g, '<div class="h-6 md:h-8"></div>')
       .replace(/\n/g, "<br />");
+  };
+
+  const renderBlocks = (blocks: any[]) => {
+    return blocks.map((block: any, i: number) => {
+      switch (block.type) {
+        case "text":
+          return <div key={block.id || i} className="mb-0" dangerouslySetInnerHTML={{ __html: renderHtml(block.body || "") }} />;
+        case "heading":
+          return <h2 key={block.id || i} className="font-display text-2xl md:text-3xl font-bold mt-12 mb-6 text-ivoire-ancien border-b border-white/5 pb-4">{block.body}</h2>;
+        case "image":
+          const alignmentClasses = block.alignment === 'left' ? 'float-left md:-ml-24 mr-8 mb-8 w-full md:w-[60%]' : block.alignment === 'right' ? 'float-right md:-mr-24 ml-8 mb-8 w-full md:w-[60%]' : 'w-full mb-12';
+          return (
+            <div key={block.id || i} className={`${alignmentClasses} clear-both group`}>
+              <div className="rounded-3xl overflow-hidden border border-white/5 bg-white/5 shadow-2xl">
+                <img 
+                  src={block.url} 
+                  alt={block.caption || ""} 
+                  className="w-full h-auto transition-transform duration-700 group-hover:scale-105" 
+                />
+              </div>
+              {block.caption && <p className="mt-4 text-xs italic opacity-40 font-light px-4">{block.caption}</p>}
+            </div>
+          );
+        case "quote":
+          return (
+            <blockquote key={block.id || i} className="pl-8 border-l-2 border-or-ancestral/50 my-16 py-4 bg-or-ancestral/[0.03] pr-8 rounded-r-3xl">
+              <p className="text-2xl md:text-3xl font-display italic text-ivoire-ancien/90 mb-6 leading-relaxed">"{block.body}"</p>
+              {block.caption && <cite className="text-sm font-bold text-or-ancestral not-italic tracking-widest uppercase">— {block.caption}</cite>}
+            </blockquote>
+          );
+        default:
+          return null;
+      }
+    });
   };
 
   return (
@@ -256,10 +297,22 @@ const ArticlePage = () => {
             )}
 
             <div 
-              className="font-body text-lg md:text-xl leading-relaxed space-y-8"
+              className="font-body text-lg md:text-xl leading-relaxed space-y-12 pb-12"
               style={{ color: "rgba(242, 238, 221, 0.85)" }}
-              dangerouslySetInnerHTML={{ __html: renderHtml(mainBody) }}
-            />
+            >
+              {(() => {
+                const isStructured = Array.isArray(displayContent) || (typeof displayContent === 'string' && displayContent.startsWith('['));
+                if (isStructured) {
+                  try {
+                    const blocks = typeof displayContent === 'string' ? JSON.parse(displayContent) : displayContent;
+                    return renderBlocks(blocks);
+                  } catch(e) {
+                    console.warn("Failed to parse structured content", e);
+                  }
+                }
+                return <div dangerouslySetInnerHTML={{ __html: renderHtml(mainBody as string) }} />;
+              })()}
+            </div>
 
             {/* Structured References if parsed */}
             {referencesContent && (

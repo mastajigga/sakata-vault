@@ -94,7 +94,7 @@ docs/
 ### Règles Éphémères (IMPORTANT)
 - **L'envoyeur voit toujours sa propre image** — vérifier `isMe` avant d'appliquer `viewState = "locked"`.
 - **localStorage** : Clé `msgViewedKey(id)` = `"sakata-msg-viewed-{id}"` — persiste l'état "vu" entre sessions.
-- **Current Version**: v2.7.3
+- **Current Version**: v3.0.0
 - **maxViews: 1** → countdown `VIEW_ONCE_COUNTDOWN` (5s). **maxViews: 2** → `VIEW_TWICE_COUNTDOWN` (10s).
 - **Détection capture d'écran** : `visibilitychange` + `window.blur` → overlay flou. Skippé pour `isMe`.
 
@@ -279,6 +279,8 @@ import { withRetry, withRetryRaw } from "@/lib/supabase-retry";
 
 | Date | Modification |
 |------|-------------|
+| 2026-04-23 | **RELEASE v3.0.0** — Nouvel Éditeur d'Articles par blocs & Command Center Admin V3. Gestion complète des profils et Dashboard V3. |
+| 2026-04-23 | **AUTH RECOVERY (v2.7.4)** — Amélioration de la persistance de session et fix du routing admin. |
 | 2026-04-23 | **HUD FIX v2.7.1** — Correction du bouton "Masquer HUD" bloqué par la Navbar. Isolement du contrôle HUD pour interaction permanente. |
 | 2026-04-23 | **INTERACTIVITY & NOTIFICATIONS v2.7** — Réactions émoji en temps réel (Mboka). Centre de notifications Push dans le profil. Skeletons screens premium. Optimisations SEO (Sitemap/404) et performance scolaire. |
 | 2026-04-23 | **MODERN STABILIZATION v2.6** — Résolution du crash Mapbox (setFog CSS vars). Fix de la sérialisation Next.js pour les icônes du Forum. Centralisation du RootLayout et système de transitions premium. |

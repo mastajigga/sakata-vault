@@ -143,3 +143,15 @@ Chaque article publié sur Kisakata.com DOIT suivre cette structure :
 Chaque membre ou contributeur doit être représenté avec dignité.
 - **MemberImage** : Utiliser systématiquement le composant `MemberImage` pour garantir que chaque visage (même en l'absence d'avatar) est rendu avec harmonie (fallbacks, initiales, design 1px).
 - **Crédits visuels** : Les photos issues de recherches (Facebook, Archives) doivent porter une mention de copyright ou de source `[Media]`.
+
+## 8. ÉDITION STRUCTURÉE & MÉDIA (V3)
+L'article n'est plus un simple bloc de texte Markdown. Il est désormais composé de **blocs structurels** (`ContentBlock`) :
+- **Bloc Texte :** Contenu rédactionnel principal.
+- **Bloc Image :** Intégration visuelle avec gestion de l'alignement (`full`, `left`, `right`).
+- **Bloc Citation :** Mise en exergue des paroles d'anciens ou proverbes.
+- **Bloc Titre :** Structure hiérarchique (H2, H3).
+
+### Règles de mise en page :
+- **Insertion Médias :** Privilégier l'insertion d'images entre les paragraphes pour illustrer des concepts spécifiques.
+- **Alignement :** Utiliser `full` pour les paysages ou cartes, et `left/right` pour les portraits ou illustrations secondaires.
+- **Migration :** Les anciens articles Markdown sont supportés, mais toute nouvelle contribution de haute qualité DOIT utiliser l'éditeur par blocs.
