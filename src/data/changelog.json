@@ -1,5 +1,19 @@
 [
   {
+    "version": "v2.7.1",
+    "date": "23 Avril 2026",
+    "subtitle": "Correctif d'interactivité Carte Interactive",
+    "sections": [
+      {
+        "title": "🗺️ Géographie & HUD",
+        "items": [
+          "Correction du bouton 'Masquer HUD' bloqué par la Navbar",
+          "Isolement du contrôle HUD (Z-index 70) pour une accessibilité permanente"
+        ]
+      }
+    ]
+  },
+  {
     "version": "v2.7.0",
     "date": "Avril 2026 (Aujourd'hui)",
     "subtitle": "Interactivité & Notifications en temps réel",
