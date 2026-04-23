@@ -34,7 +34,7 @@ export const MAX_VIEWS = {
   TWICE: 2,
 } as const;
 
-export const APP_VERSION = "3.0.0"; // Major Release 2026-04-23 — Admin Command Center V3 & Block Editor
+export const APP_VERSION = "3.1.0"; // AI Orchestration 2026-04-23 — Gemini Semantic Chat & Voice Synthesis
 export const PINECONE_DEFAULT_INDEX = "sakata-mathematics";
 
 // ─── Hiérarchie des rôles ────────────────────────────────────────────────────

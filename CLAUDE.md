@@ -279,6 +279,7 @@ import { withRetry, withRetryRaw } from "@/lib/supabase-retry";
 
 | Date | Modification |
 |------|-------------|
+| 2026-04-23 | **AI ORCHESTRATION v3.1.0** — Intégration de Gemini 1.5 Pro (Semantic Chat) et Gemini Voice Synthesis. Système robuste de logging d'activité utilisateur dans le metadata. |
 | 2026-04-23 | **RELEASE v3.0.0** — Nouvel Éditeur d'Articles par blocs & Command Center Admin V3. Gestion complète des profils et Dashboard V3. |
 | 2026-04-23 | **AUTH RECOVERY (v2.7.4)** — Amélioration de la persistance de session et fix du routing admin. |
 | 2026-04-23 | **HUD FIX v2.7.1** — Correction du bouton "Masquer HUD" bloqué par la Navbar. Isolement du contrôle HUD pour interaction permanente. |

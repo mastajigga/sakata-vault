@@ -13,6 +13,8 @@ import { motion, AnimatePresence } from "framer-motion";
 const UserDetailsModal = ({ user, onClose }: { user: any, onClose: () => void }) => {
   if (!user) return null;
 
+  const activities = user.metadata?.activities || [];
+
   return (
     <motion.div 
       initial={{ opacity: 0 }}
@@ -23,18 +25,18 @@ const UserDetailsModal = ({ user, onClose }: { user: any, onClose: () => void })
       <motion.div 
         initial={{ scale: 0.95, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
-        className="w-full max-w-2xl bg-foret-nocturne border border-white/10 rounded-3xl overflow-hidden shadow-2xl"
+        className="w-full max-w-3xl bg-foret-nocturne border border-white/10 rounded-3xl overflow-hidden shadow-2xl flex flex-col max-h-[90vh]"
       >
-        <div className="relative h-32 bg-gradient-to-r from-or-ancestral/20 to-foret-nocturne border-b border-white/5">
+        <div className="relative h-32 bg-gradient-to-r from-or-ancestral/20 to-foret-nocturne border-b border-white/5 flex-shrink-0">
           <button 
             onClick={onClose}
-            className="absolute top-4 right-4 p-2 rounded-full bg-black/40 text-white/60 hover:text-white transition-colors"
+            className="absolute top-4 right-4 p-2 rounded-full bg-black/40 text-white/60 hover:text-white transition-colors z-10"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
-        <div className="px-8 pb-8 -mt-12">
+        <div className="px-8 pb-8 -mt-12 overflow-y-auto scrollbar-hide">
           <div className="flex items-end justify-between gap-6 mb-8">
             <div className="relative">
               <div className="w-24 h-24 rounded-2xl bg-black border-4 border-foret-nocturne flex items-center justify-center text-4xl font-display font-bold text-or-ancestral overflow-hidden shadow-xl">
@@ -52,57 +54,86 @@ const UserDetailsModal = ({ user, onClose }: { user: any, onClose: () => void })
           </div>
 
           <div className="grid md:grid-cols-2 gap-12">
-            <div className="space-y-6">
-              <div>
-                <h2 className="text-2xl font-display font-bold text-ivoire-ancien">
-                  {user.first_name} {user.last_name}
-                </h2>
-                <p className="text-or-ancestral/60">@{user.nickname || user.username || 'n/a'}</p>
+            <div className="space-y-8">
+              <div className="space-y-4">
+                <div>
+                  <h2 className="text-2xl font-display font-bold text-ivoire-ancien">
+                    {user.first_name} {user.last_name}
+                  </h2>
+                  <p className="text-or-ancestral/60">@{user.nickname || user.username || 'n/a'}</p>
+                </div>
+
+                <div className="space-y-3">
+                  <div className="flex items-center gap-3 text-sm text-white/60">
+                    <Mail className="w-4 h-4 opacity-40" />
+                    <span>{user.email || 'Non spécifié'}</span>
+                  </div>
+                  <div className="flex items-center gap-3 text-sm text-white/60">
+                    <MapPin className="w-4 h-4 opacity-40" />
+                    <span>{user.location || 'Localisation inconnue'}</span>
+                  </div>
+                  <div className="flex items-center gap-3 text-sm text-white/60">
+                    <Calendar className="w-4 h-4 opacity-40" />
+                    <span>Inscrit le {user.created_at ? new Date(user.created_at).toLocaleDateString() : '???'}</span>
+                  </div>
+                  <div className="flex items-center gap-3 text-sm font-mono text-white/30 truncate">
+                    <Shield className="w-4 h-4 opacity-40" />
+                    <span>ID: {user.id}</span>
+                  </div>
+                </div>
+
+                <div className="p-4 rounded-xl bg-white/5 border border-white/5 italic text-sm text-white/40">
+                  "{user.bio || user.short_bio || "Pas de biographie pour ce marcheur."}"
+                </div>
               </div>
 
               <div className="space-y-4">
-                <div className="flex items-center gap-3 text-sm text-white/60">
-                   <Mail className="w-4 h-4 opacity-40" />
-                   <span>{user.email || 'Non spécifié'}</span>
+                <h3 className="text-xs uppercase tracking-widest font-bold text-or-ancestral/50">Statistiques</h3>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="p-4 rounded-2xl bg-white/5 border border-white/5 hover:border-white/10 transition-colors">
+                    <Award className="w-5 h-5 text-emerald-400 mb-2" />
+                    <p className="text-[10px] opacity-40 uppercase font-bold tracking-widest">Points</p>
+                    <p className="text-lg font-display font-bold">1,240</p>
+                  </div>
+                  <div className="p-4 rounded-2xl bg-white/5 border border-white/5 hover:border-white/10 transition-colors">
+                    <MessageSquare className="w-5 h-5 text-blue-400 mb-2" />
+                    <p className="text-[10px] opacity-40 uppercase font-bold tracking-widest">Forum</p>
+                    <p className="text-lg font-display font-bold">42</p>
+                  </div>
                 </div>
-                <div className="flex items-center gap-3 text-sm text-white/60">
-                   <MapPin className="w-4 h-4 opacity-40" />
-                   <span>{user.location || 'Localisation inconnue'}</span>
-                </div>
-                <div className="flex items-center gap-3 text-sm text-white/60">
-                   <Calendar className="w-4 h-4 opacity-40" />
-                   <span>Inscrit le {user.created_at ? new Date(user.created_at).toLocaleDateString() : '???'}</span>
-                </div>
-              </div>
-
-              <div className="p-4 rounded-xl bg-white/5 border border-white/5 italic text-sm text-white/40">
-                "{user.bio || user.short_bio || "Pas de biographie pour ce marcheur."}"
               </div>
             </div>
 
             <div className="space-y-6">
-              <h3 className="text-xs uppercase tracking-widest font-bold text-white/20">Activité du Sanctuaire</h3>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="p-4 rounded-2xl bg-white/5 border border-white/5">
-                  <Activity className="w-5 h-5 text-or-ancestral mb-2" />
-                  <p className="text-xs opacity-40">Dernière active</p>
-                  <p className="text-sm font-bold">{user.updated_at ? new Date(user.updated_at).toLocaleDateString() : 'N/A'}</p>
-                </div>
-                <div className="p-4 rounded-2xl bg-white/5 border border-white/5">
-                  <Award className="w-5 h-5 text-emerald-400 mb-2" />
-                  <p className="text-xs opacity-40">Points Sacrés</p>
-                  <p className="text-sm font-bold">1200</p>
-                </div>
-                <div className="p-4 rounded-2xl bg-white/5 border border-white/5">
-                  <MessageSquare className="w-5 h-5 text-blue-400 mb-2" />
-                  <p className="text-xs opacity-40">Messages Forum</p>
-                  <p className="text-sm font-bold">24</p>
-                </div>
-                <div className="p-4 rounded-2xl bg-white/5 border border-white/5">
-                  <Heart className="w-5 h-5 text-red-400 mb-2" />
-                  <p className="text-xs opacity-40">Appréciations</p>
-                  <p className="text-sm font-bold">8</p>
-                </div>
+              <div className="flex items-center justify-between">
+                <h3 className="text-xs uppercase tracking-widest font-bold text-white/20 flex items-center gap-2">
+                  <Activity className="w-4 h-4" />
+                  Activités récentes
+                </h3>
+              </div>
+              
+              <div className="space-y-3 max-h-[400px] overflow-y-auto pr-2 custom-scrollbar">
+                {activities.length > 0 ? (
+                  activities.map((activity: any, i: number) => (
+                    <div key={i} className="p-4 rounded-xl bg-white/5 border border-white/5 space-y-1">
+                      <div className="flex items-center justify-between gap-2">
+                        <span className="text-[10px] font-bold uppercase tracking-widest text-or-ancestral">
+                          {activity.type}
+                        </span>
+                        <span className="text-[9px] opacity-30 font-mono">
+                          {new Date(activity.timestamp).toLocaleString()}
+                        </span>
+                      </div>
+                      <p className="text-xs text-white/60 leading-relaxed">
+                        {activity.details || "Pas de détails spécifiés."}
+                      </p>
+                    </div>
+                  ))
+                ) : (
+                  <div className="py-12 text-center bg-white/5 rounded-2xl border border-dashed border-white/10">
+                    <p className="text-xs opacity-30 italic">Aucune activité enregistrée.</p>
+                  </div>
+                )}
               </div>
             </div>
           </div>

@@ -7,6 +7,7 @@ import Navbar from "@/components/Navbar";
 import { LayoutDashboard, Users, FileText, BarChart3, Settings, LogOut, Bell, Sparkles, MessageSquare, Image, ShieldCheck } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { AdminPresentationModal } from "@/components/admin/AdminPresentationModal";
 
 const AdminLayout = ({ children }: { children: React.ReactNode }) => {
   const { user, role, isLoading } = useAuth();
@@ -42,6 +43,7 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className="min-h-[100dvh] bg-[#050C09] text-ivoire-ancien font-body">
       <Navbar />
+      <AdminPresentationModal />
       
       <div className="pt-24 flex min-h-[100dvh] overflow-hidden">
         {/* Sidebar */}

@@ -44,17 +44,19 @@ const MemberProfilePage = () => {
       try {
         setLoading(true);
         // Fetch profile
-        const isUUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(username as string);
-        
         let query = supabase.from(DB_TABLES.PROFILES).select("*");
         
+        const isUUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(username as string);
+        
         if (isUUID) {
-          query = query.or(`username.eq.${username},id.eq.${username}`);
+          query = query.or(`id.eq.${username},username.eq.${username}`);
         } else {
-          query = query.eq("username", username);
+          // Si ce n'est pas un UUID, on cherche par username OU nickname (cas Aurélie)
+          query = query.or(`username.eq.${username},nickname.eq.${username}`);
         }
 
-        const { data: profileData, error: profileError } = await query.single();
+        const { data, error: profileError } = await query;
+        const profileData = data?.[0];
 
         if (!mounted) return;
 
