@@ -297,3 +297,5 @@ Fast Refresh requires at least one parent function component in your React tree.
 [27176698ms] [LOG] [ChatUnread] Fetching for user: undefined @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
 [27185805ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
 [27186071ms] [LOG] [Fast Refresh] done in 325ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[28984604ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[28984903ms] [LOG] [Fast Refresh] done in 364ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431

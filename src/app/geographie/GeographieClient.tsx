@@ -89,9 +89,11 @@ export default function GeographieClient() {
           <motion.div 
             initial={{ y: -100, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
-            className="absolute left-0 right-0 top-0 z-[60]"
+            className="absolute left-0 right-0 top-0 z-[60] pointer-events-none"
           >
-            <Navbar />
+            <div className="pointer-events-auto">
+              <Navbar />
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
@@ -197,17 +199,35 @@ export default function GeographieClient() {
         )}
       </AnimatePresence>
 
-      {/* Floating HUD Toggle (Mobile Focus) */}
+
+      {/* Independent HUD Control (Always Top Right) */}
       <AnimatePresence>
-        {isReady && isMobile && (
-          <motion.button
-            initial={{ scale: 0, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            onClick={() => setHudVisible(!hudVisible)}
-            className="fixed bottom-6 right-6 z-[70] w-14 h-14 rounded-full bg-[var(--foret-nocturne)]/80 backdrop-blur-xl border border-or-ancestral/30 flex items-center justify-center text-or-ancestral shadow-[0_0_20px_rgba(0,0,0,0.4)] pointer-events-auto active:scale-90 transition-transform"
+        {isReady && (
+          <motion.div 
+            initial={{ y: -20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            className={cn(
+              "absolute z-[70] pointer-events-auto",
+              isMobile ? "bottom-6 right-6" : "top-24 md:top-32 right-6 md:right-10"
+            )}
           >
-            {hudVisible ? <X size={24} /> : <Globe2 size={24} />}
-          </motion.button>
+            <button 
+              onClick={() => setHudVisible(!hudVisible)}
+              className="group flex items-center gap-3 px-4 md:px-5 py-2.5 rounded-2xl bg-black/60 backdrop-blur-xl border border-white/10 text-[10px] font-mono text-ivoire-ancien/60 hover:text-ivoire-ancien hover:border-or-ancestral/50 hover:bg-black/80 transition-all uppercase tracking-[0.2em] shadow-2xl"
+            >
+              <div className={cn(
+                "w-1.5 h-1.5 rounded-full transition-all duration-500 shadow-[0_0_8px_rgba(196,160,53,0.4)]",
+                hudVisible ? "bg-or-ancestral animate-pulse" : "bg-white/20"
+              )} />
+              <Settings2 size={13} className={cn("transition-transform duration-500", !hudVisible && "rotate-180")} />
+              <span className="hidden sm:inline">
+                {hudVisible ? "Masquer HUD" : "Afficher HUD"}
+              </span>
+              <span className="sm:hidden">
+                {hudVisible ? <X size={18} /> : <Settings2 size={18} />}
+              </span>
+            </button>
+          </motion.div>
         )}
       </AnimatePresence>
 
@@ -216,22 +236,13 @@ export default function GeographieClient() {
         <div className={cn(
           "absolute inset-0 z-30 pointer-events-none flex flex-col transition-all duration-700",
           isMobile ? "pt-20 px-4 pb-24" : "pt-24 md:pt-32 p-4 md:p-6",
-          !hudVisible && "opacity-0 scale-95 pointer-events-none"
+          !hudVisible && "opacity-0 scale-[0.98] blur-sm pointer-events-none translate-y-4"
         )}>
           
-          {/* Top Section */}
+          {/* Top Section (Spacing for HUD button area) */}
           <div className="flex justify-between items-start">
              <div className={cn("h-1 transition-all", isMobile ? "w-0" : "w-80")} />
-             <div className="pointer-events-auto flex gap-3">
-                <button 
-                  onClick={() => !isMobile && setHudVisible(!hudVisible)}
-                  className="flex items-center gap-2 px-3 md:px-4 py-2 rounded-xl bg-black/40 backdrop-blur-md border border-white/5 text-[9px] md:text-[10px] font-mono text-ivoire-ancien/60 hover:text-ivoire-ancien hover:bg-black/60 transition-all uppercase tracking-widest shadow-xl"
-                >
-                  <Settings2 size={12} />
-                  {!isMobile && (hudVisible ? "Masquer HUD" : "Afficher HUD")}
-                  {isMobile && "Système"}
-                </button>
-             </div>
+             <div className="h-10 w-40" /> {/* Spacer for HUD button */}
           </div>
 
           {/* Center Section */}
