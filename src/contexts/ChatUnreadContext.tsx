@@ -9,6 +9,7 @@ import React, {
   useState,
 } from "react";
 import { supabase } from "@/lib/supabase";
+import { withRetry } from "@/lib/supabase-retry";
 import { DB_TABLES } from "@/lib/constants/db";
 import { useAuth } from "@/components/AuthProvider";
 import type { ConversationItem } from "@/components/chat/ChatSidebar";
@@ -67,10 +68,12 @@ export function ChatUnreadProvider({
           return;
         }
 
-        const { data: convData, error } = await supabase.rpc(
-          "get_user_conversations_v4",
-          { p_user_id: userId }
-        ).abortSignal(controller.signal);
+        const { data: convData, error } = await withRetry(() => 
+          supabase.rpc(
+            "get_user_conversations_v4",
+            { p_user_id: userId }
+          ).abortSignal(controller.signal)
+        );
 
         if (cancelled) return;
 
@@ -78,12 +81,12 @@ export function ChatUnreadProvider({
           if (error.message?.includes("AbortError") || error.message?.includes("abort")) {
             console.log("[ChatUnread] RPC annulé.");
           } else {
-            console.error("[ChatUnread] RPC error:", error);
+            console.error("[ChatUnread] RPC error (after retries):", error);
           }
           return;
         }
 
-        if (convData) {
+        if (convData && Array.isArray(convData)) {
           console.log("[ChatUnread] Conversations récupérées:", convData.length);
           const mapped: ConversationItem[] = convData.map((conv: any) => {
             let displayName = conv.name;

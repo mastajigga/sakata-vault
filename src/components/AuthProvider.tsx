@@ -4,7 +4,7 @@ import React, { createContext, useContext, useEffect, useState, useCallback, use
 import { User, Session } from "@supabase/supabase-js";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
-import { withRetry } from "@/lib/supabase-retry";
+import { withRetry, withRetryRaw } from "@/lib/supabase-retry";
 import { APP_VERSION, SUBSCRIPTION_TIERS, UserRole } from "@/lib/constants/business";
 import { STORAGE_KEYS, SESSION_KEYS } from "@/lib/constants/storage";
 import { DB_TABLES } from "@/lib/constants/db";
@@ -190,16 +190,18 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       const timeoutId = setTimeout(() => controller.abort(), 8000);
 
       try {
-        const { data, error } = await supabase
-          .from("profiles")
-          .select("role, subscription_tier, contributor_status, nickname, username")
-          .eq("id", userId)
-          .limit(1)
-          .abortSignal(controller.signal);
+        const { data, error } = await withRetry<any>(() => 
+          supabase
+            .from("profiles")
+            .select("role, subscription_tier, contributor_status, nickname, username")
+            .eq("id", userId)
+            .limit(1)
+            .abortSignal(controller.signal)
+        );
         
         clearTimeout(timeoutId);
 
-        const profile = data && data.length > 0 ? data[0] : null;
+        const profile = (data && Array.isArray(data) && data.length > 0) ? data[0] : null;
 
         if (!error && profile) {
           setRole(profile.role as UserRole);
@@ -208,7 +210,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           setNickname(profile.nickname);
           setUsername(profile.username);
         } else if (error) {
-          console.error("[AuthProvider] fetchProfile query error:", error.message);
+          console.error("[AuthProvider] fetchProfile query error (after retries):", error.message);
         }
       } catch (err: any) {
         if (err.name === 'AbortError') {
@@ -262,10 +264,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         // getSession() can be slow when the Supabase token refresh endpoint lags.
         // We await it directly — the 15s safetyTimer above handles extreme hangs.
         console.log("[AuthProvider] init: getSession start...");
-        const { data: { session }, error } = await supabase.auth.getSession();
+        const { data: { session }, error } = await withRetryRaw(() => supabase.auth.getSession()) as any;
 
         if (error) {
-          console.error("[AuthProvider] init: getSession error:", error);
+          console.error("[AuthProvider] init: getSession error (after retries):", error);
         }
 
         // Only apply if SIGNED_IN hasn't already set the user (avoid double-fetch)

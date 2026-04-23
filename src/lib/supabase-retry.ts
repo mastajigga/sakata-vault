@@ -25,6 +25,8 @@ const RETRYABLE_MESSAGES = [
   "ECONNRESET",
   "fetch failed",
   "Load failed",
+  "released because another request stole it",
+  "Lock was released",
 ];
 
 function isRetryable(error: unknown): boolean {
