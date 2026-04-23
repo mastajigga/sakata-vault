@@ -2,7 +2,7 @@
 
 import React, { useRef, useState, useEffect, useCallback } from "react";
 import { Message, ReactionMap } from "./ChatWindow";
-import { FileText, Clock, Play, Pause, Download, Lock, Eye, Check, CheckCheck, Reply, X } from "lucide-react";
+import { FileText, Clock, Play, Pause, Download, Lock, Eye, Check, CheckCheck, Reply, X, Trash2 } from "lucide-react";
 import { TIMINGS } from "@/lib/constants/timings";
 import { msgViewedKey } from "@/lib/constants/storage";
 import { supabase } from "@/lib/supabase";
@@ -34,6 +34,7 @@ interface MessageBubbleProps {
   myReactions?: Set<string>;
   onReact?: (messageId: string, emoji: string) => void;
   onReply?: (message: Message) => void;
+  onDelete?: (id: string) => void;
 }
 
 // ─── Audio Player ────────────────────────────────────────────────────────────
@@ -371,7 +372,7 @@ function ProtectedImage({
 
 // ─── MessageBubble ────────────────────────────────────────────────────────────
 
-export function MessageBubble({ message, isTemporary, reactions = {}, myReactions, onReact, onReply }: MessageBubbleProps) {
+export function MessageBubble({ message, isTemporary, reactions = {}, myReactions, onReact, onReply, onDelete }: MessageBubbleProps) {
   const isMe = message.isMe;
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [repliedToMessage, setRepliedToMessage] = useState<Message | undefined>(message.replied_to_message);
@@ -522,7 +523,7 @@ export function MessageBubble({ message, isTemporary, reactions = {}, myReaction
           </div>
 
           {/* Action buttons (visible au hover) */}
-          {(onReply || onReact) && (
+          {(onReply || onReact || (isMe && onDelete)) && (
             <div className={`absolute top-1 ${isMe ? "left-0 -translate-x-full pr-1 flex-row-reverse" : "right-0 translate-x-full pl-1"} opacity-0 group-hover:opacity-100 transition-opacity flex gap-1`}>
               {/* Reply button */}
               {onReply && (
@@ -546,6 +547,19 @@ export function MessageBubble({ message, isTemporary, reactions = {}, myReaction
                   className="w-7 h-7 rounded-full bg-stone-100 dark:bg-stone-700 hover:bg-stone-200 dark:hover:bg-stone-600 flex items-center justify-center text-sm shadow transition-colors"
                 >
                   😊
+                </button>
+              )}
+
+              {/* Delete button — only for own messages */}
+              {isMe && onDelete && (
+                <button
+                  type="button"
+                  aria-label="Supprimer le message"
+                  onClick={() => onDelete(message.id)}
+                  className="w-7 h-7 rounded-full bg-stone-100 dark:bg-stone-700 hover:bg-red-100 dark:hover:bg-red-900/30 flex items-center justify-center text-sm shadow transition-colors"
+                  title="Supprimer"
+                >
+                  <Trash2 size={13} className="text-stone-400 hover:text-red-500 transition-colors" />
                 </button>
               )}
                 {showEmojiPicker && (

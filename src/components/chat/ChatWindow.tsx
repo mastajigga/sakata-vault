@@ -1,9 +1,10 @@
 "use client";
 
 import React, { useEffect, useRef, useState, useCallback } from "react";
-import { ArrowLeft, MoreVertical, Timer, TimerOff, Loader2 } from "lucide-react";
+import { ArrowLeft, MoreVertical, Timer, TimerOff, Loader2, Search as SearchIcon } from "lucide-react";
 import { MessageBubble } from "./MessageBubble";
 import { ChatInput } from "./ChatInput";
+import { ChatSearch } from "./ChatSearch";
 import { useMessages } from "@/hooks/chat/useMessages";
 import { useTyping } from "@/hooks/chat/useTyping";
 import { supabase } from "@/lib/supabase";
@@ -46,20 +47,22 @@ interface ChatWindowProps {
 export function ChatWindow({ conversationId, onBack }: ChatWindowProps) {
   const { user } = useAuth();
   const scrollRef = useRef<HTMLDivElement>(null);
-  const { 
-    messages, 
-    loading, 
-    hasMore, 
-    loadingMore, 
-    loadMore, 
-    sendMessage, 
+  const {
+    messages,
+    loading,
+    hasMore,
+    loadingMore,
+    loadMore,
+    sendMessage,
+    deleteMessage,
     readTimestamps,
     allReactions,
     myReactions,
-    toggleReaction 
+    toggleReaction
   } = useMessages(conversationId);
   const { typingUsers, updateTyping } = useTyping(conversationId);
   const [showMenu, setShowMenu] = useState(false);
+  const [showSearch, setShowSearch] = useState(false);
 
   // Dynamic conversation name + avatar
   const [conversationName, setConversationName] = useState("Conversation");
@@ -215,6 +218,24 @@ export function ChatWindow({ conversationId, onBack }: ChatWindowProps) {
     setRepliedMessage(message);
   }, []);
 
+  const handleDelete = useCallback((id: string) => {
+    deleteMessage(id);
+  }, [deleteMessage]);
+
+  const handleJumpToMessage = useCallback((messageId: string) => {
+    setShowSearch(false);
+    requestAnimationFrame(() => {
+      const el = document.querySelector<HTMLElement>(`[data-message-id="${messageId}"]`);
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth", block: "center" });
+        el.style.transition = "box-shadow 0.3s";
+        el.style.boxShadow = "0 0 0 2px rgba(217,119,6,0.5)";
+        el.style.borderRadius = "0.75rem";
+        setTimeout(() => { el.style.boxShadow = ""; }, 2000);
+      }
+    });
+  }, []);
+
   const activateEphemeral = (duration: "24h" | "48h") => {
     setTemporaryDuration(duration);
     setIsTemporaryConversation(true);
@@ -284,6 +305,13 @@ export function ChatWindow({ conversationId, onBack }: ChatWindowProps) {
         </div>
 
         <div className="flex items-center text-stone-500 gap-1 md:gap-3 relative">
+          <button
+            onClick={() => setShowSearch(v => !v)}
+            className={`p-2 rounded-full hover:bg-stone-100 dark:hover:bg-stone-800 transition-colors ${showSearch ? "text-amber-600 bg-amber-50 dark:bg-amber-900/20" : ""}`}
+            aria-label="Rechercher dans la conversation"
+          >
+            <SearchIcon size={18} />
+          </button>
           <button
             onClick={(e) => {
               e.stopPropagation();
@@ -388,6 +416,15 @@ export function ChatWindow({ conversationId, onBack }: ChatWindowProps) {
         </div>
       </div>
 
+      {/* In-conversation search */}
+      {showSearch && (
+        <ChatSearch
+          conversationId={conversationId}
+          onClose={() => setShowSearch(false)}
+          onJumpToMessage={handleJumpToMessage}
+        />
+      )}
+
       {/* Ephemeral mode banner */}
       {isTemporaryConversation && (
         <div className="flex items-center justify-center gap-2 px-4 py-1.5 bg-amber-50 dark:bg-amber-900/20 border-b border-amber-200 dark:border-amber-800/40">
@@ -449,6 +486,7 @@ export function ChatWindow({ conversationId, onBack }: ChatWindowProps) {
                 myReactions={myReactions[msg.id]}
                 onReact={handleReact}
                 onReply={handleReply}
+                onDelete={handleDelete}
               />
             );
           })

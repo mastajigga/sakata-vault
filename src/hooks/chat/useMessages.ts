@@ -424,6 +424,23 @@ export function useMessages(conversationId: string) {
     }).catch(err => console.error("Failed to send push notifications:", err));
   };
 
+  // Soft delete: set is_deleted=true (sender only, optimistic UI)
+  const deleteMessage = useCallback(async (id: string) => {
+    // Optimistic: remove immediately from local state
+    setMessages(prev => prev.filter(m => m.id !== id));
+    try {
+      await withRetry(async () =>
+        supabase
+          .from(DB_TABLES.CHAT_MESSAGES)
+          .update({ is_deleted: true })
+          .eq('id', id)
+          .eq('sender_id', userIdRef.current)
+      );
+    } catch (err) {
+      console.error('[Chat] Failed to delete message:', err);
+    }
+  }, []);
+
   const toggleReaction = useCallback(async (messageId: string, emoji: string) => {
     const uid = userIdRef.current;
     if (!uid) return;
@@ -478,13 +495,14 @@ export function useMessages(conversationId: string) {
     }
   }, [myReactions]);
 
-  return { 
-    messages, 
-    loading, 
-    hasMore, 
-    loadingMore, 
-    loadMore, 
-    sendMessage, 
+  return {
+    messages,
+    loading,
+    hasMore,
+    loadingMore,
+    loadMore,
+    sendMessage,
+    deleteMessage,
     readTimestamps,
     allReactions,
     myReactions,

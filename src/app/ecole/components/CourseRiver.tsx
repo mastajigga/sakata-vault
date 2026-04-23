@@ -1,5 +1,6 @@
 "use client";
 
+import React, { useRef, useEffect, useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { GraduationCap, Sigma, ArrowRight } from "lucide-react";
@@ -20,6 +21,21 @@ export default function CourseRiver({
   primaryPrograms,
   secondaryPrograms,
 }: CourseRiverProps) {
+  // IntersectionObserver — pause SVG animations when off-screen (0 CPU cost)
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [isVisible, setIsVisible] = useState(true); // default true to avoid flash on first render
+
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el || typeof IntersectionObserver === "undefined") return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setIsVisible(entry.isIntersecting),
+      { threshold: 0.05 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   // Combine les 12 années en ordre : primaire (0-5), puis secondaire (6-11)
   const stations: Station[] = [
     ...primaryPrograms.map((program, index) => ({
@@ -35,7 +51,10 @@ export default function CourseRiver({
   ];
 
   return (
-    <div className="relative overflow-hidden rounded-[2.5rem] border border-white/10 bg-gradient-to-br from-blue-950/40 via-[#0a0f16] to-purple-950/30 backdrop-blur-sm">
+    <div
+      ref={containerRef}
+      className="relative overflow-hidden rounded-[2.5rem] border border-white/10 bg-gradient-to-br from-blue-950/40 via-[#0a0f16] to-purple-950/30 backdrop-blur-sm"
+    >
       {/* Rivière SVG animée - arrière-plan absolu */}
       <div
         className="pointer-events-none absolute inset-0 flex items-center justify-center"
@@ -79,25 +98,25 @@ export default function CourseRiver({
           </defs>
 
           {/* Couche 3 — profondeur (lente, large, sombre) */}
-          <g className="river-flow-anim river-flow-slow">
+          <g className={`${isVisible ? "river-flow-anim" : ""} river-flow-slow`}>
             <use href="#river-wave" stroke="url(#river-gradient-3)" strokeWidth="32" />
             <use href="#river-wave" x="2400" stroke="url(#river-gradient-3)" strokeWidth="32" />
           </g>
 
           {/* Couche 2 — courant (moyen) */}
-          <g className="river-flow-anim river-flow-medium">
+          <g className={`${isVisible ? "river-flow-anim" : ""} river-flow-medium`}>
             <use href="#river-wave" stroke="url(#river-gradient-2)" strokeWidth="14" />
             <use href="#river-wave" x="2400" stroke="url(#river-gradient-2)" strokeWidth="14" />
           </g>
 
           {/* Couche 1 — surface (rapide, fine, éclatante) */}
-          <g className="river-flow-anim river-flow-fast">
+          <g className={`${isVisible ? "river-flow-anim" : ""} river-flow-fast`}>
             <use href="#river-wave" stroke="url(#river-gradient-1)" strokeWidth="3" />
             <use href="#river-wave" x="2400" stroke="url(#river-gradient-1)" strokeWidth="3" />
           </g>
 
           {/* Reflets - points scintillants sur la crête */}
-          <g className="river-ripple-anim">
+          <g className={isVisible ? "river-ripple-anim" : ""}>
             <circle cx="300" cy="280" r="2" fill="#5eead4" opacity="0.8" />
             <circle cx="900" cy="320" r="1.5" fill="#ffffff" opacity="0.6" />
             <circle cx="1500" cy="280" r="2" fill="#5eead4" opacity="0.7" />
