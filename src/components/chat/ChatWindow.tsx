@@ -524,18 +524,25 @@ export function ChatWindow({ conversationId, onBack }: ChatWindowProps) {
               }
             }
 
+            const handleUnreadClick = () => {
+              if (!isRead) {
+                scrollToBottom();
+              }
+            };
+
             return (
-              <MessageBubble
-                key={msg.id}
-                message={{ ...msg, isRead }}
-                isTemporary={isTemporaryConversation}
-                reactions={allReactions[msg.id]}
-                myReactions={myReactions[msg.id]}
-                onReact={handleReact}
-                onReply={handleReply}
-                onDelete={handleDelete}
-                onEdit={handleEdit}
-              />
+              <div key={msg.id} onClick={handleUnreadClick}>
+                <MessageBubble
+                  message={{ ...msg, isRead }}
+                  isTemporary={isTemporaryConversation}
+                  reactions={allReactions[msg.id]}
+                  myReactions={myReactions[msg.id]}
+                  onReact={handleReact}
+                  onReply={handleReply}
+                  onDelete={handleDelete}
+                  onEdit={handleEdit}
+                />
+              </div>
             );
           })
         )}

@@ -3,7 +3,7 @@
 import { useRef, useState, useCallback, useMemo } from "react";
 import NextImage from "next/image";
 import { useArticleEditor, type ArticleSection, type ArticleImage } from "@/hooks/useArticleEditor";
-import { Plus, Trash2, Upload, Loader2, AlertCircle, Save } from "lucide-react";
+import { Plus, Trash2, Upload, Loader2, AlertCircle, Save, X, Video } from "lucide-react";
 
 interface ArticleEditorProps {
   articleId?: string;
@@ -13,7 +13,9 @@ interface ArticleEditorProps {
 export function ArticleEditor({ onSave }: ArticleEditorProps) {
   const editor = useArticleEditor();
   const [uploading, setUploading] = useState(false);
+  const [uploadingVideo, setUploadingVideo] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const videoInputRef = useRef<HTMLInputElement>(null);
   const [activeSectionId, setActiveSectionId] = useState<string | null>(null);
 
   const handleImageUpload = useCallback(
@@ -62,6 +64,23 @@ export function ArticleEditor({ onSave }: ArticleEditorProps) {
       } catch (err) {
         console.error("Image upload error:", err);
         setUploading(false);
+      }
+    },
+    [editor]
+  );
+
+  const handleVideoUpload = useCallback(
+    async (files: FileList | null) => {
+      if (!files || files.length === 0) return;
+
+      setUploadingVideo(true);
+      try {
+        const file = files[0];
+        await editor.uploadVideo(file);
+      } catch (err) {
+        console.error("Video upload error:", err);
+      } finally {
+        setUploadingVideo(false);
       }
     },
     [editor]
@@ -193,6 +212,54 @@ export function ArticleEditor({ onSave }: ArticleEditorProps) {
         <label htmlFor="requiresPremium" className="text-sm font-medium text-slate-200">
           Contenu réservé aux abonnés Premium
         </label>
+      </div>
+
+      {/* Hero Video Section */}
+      <div className="space-y-3 rounded-lg border border-slate-700 bg-slate-900/50 p-4">
+        <div className="flex items-center gap-2 mb-3">
+          <Video size={20} className="text-amber-600" />
+          <h3 className="text-lg font-bold text-white">Vidéo Héro</h3>
+        </div>
+
+        {editor.heroVideoUrl ? (
+          <div className="space-y-3">
+            <div className="relative w-full bg-black rounded-lg overflow-hidden">
+              <video
+                src={editor.heroVideoUrl}
+                controls
+                className="w-full h-64 object-cover"
+              />
+              <div className="absolute top-2 right-2 flex gap-2">
+                <button
+                  onClick={() => editor.setHeroVideoUrl("")}
+                  className="p-2 bg-red-600 hover:bg-red-700 text-white rounded transition"
+                  title="Supprimer la vidéo"
+                >
+                  <X size={16} />
+                </button>
+              </div>
+            </div>
+            <p className="text-sm text-slate-400">Vidéo héro configurée</p>
+          </div>
+        ) : (
+          <button
+            onClick={() => videoInputRef.current?.click()}
+            disabled={uploadingVideo}
+            className="w-full flex items-center justify-center gap-2 px-4 py-3 border-2 border-dashed border-slate-600 hover:border-amber-600 rounded-lg text-slate-300 hover:text-amber-600 transition disabled:opacity-50 bg-slate-800/50"
+          >
+            {uploadingVideo ? (
+              <>
+                <Loader2 size={18} className="animate-spin" />
+                Chargement vidéo...
+              </>
+            ) : (
+              <>
+                <Video size={18} />
+                Ajouter une vidéo héro (MP4, WebM, MOV - Max 50MB)
+              </>
+            )}
+          </button>
+        )}
       </div>
 
       {/* Content Sections */}
@@ -410,7 +477,7 @@ export function ArticleEditor({ onSave }: ArticleEditorProps) {
         </button>
       </div>
 
-      {/* Hidden file input */}
+      {/* Hidden file inputs */}
       <input
         ref={fileInputRef}
         type="file"
@@ -418,6 +485,17 @@ export function ArticleEditor({ onSave }: ArticleEditorProps) {
         onChange={(e) => {
           if (activeSectionId && e.target.files) {
             handleImageUpload(activeSectionId, e.target.files);
+          }
+        }}
+        className="hidden"
+      />
+      <input
+        ref={videoInputRef}
+        type="file"
+        accept="video/mp4,video/webm,video/quicktime"
+        onChange={(e) => {
+          if (e.target.files) {
+            handleVideoUpload(e.target.files);
           }
         }}
         className="hidden"

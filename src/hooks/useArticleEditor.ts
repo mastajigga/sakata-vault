@@ -36,6 +36,7 @@ export interface Article {
   slug: string;
   author_id: string;
   featured_image_url?: string;
+  hero_video_url?: string;
   content: ArticleContent;
   status: "draft" | "submitted_for_review" | "published" | "rejected";
   requires_premium: boolean;
@@ -53,6 +54,7 @@ export function useArticleEditor(initialArticle?: Article) {
   const [sources, setSources] = useState<ArticleSource[]>(
     initialArticle?.content.sources || []
   );
+  const [heroVideoUrl, setHeroVideoUrl] = useState(initialArticle?.hero_video_url || "");
   const [requiresPremium, setRequiresPremium] = useState(
     initialArticle?.requires_premium || false
   );
@@ -187,6 +189,45 @@ export function useArticleEditor(initialArticle?: Article) {
     []
   );
 
+  const uploadVideo = useCallback(
+    async (file: File): Promise<string | null> => {
+      try {
+        const maxSize = 50 * 1024 * 1024;
+        if (file.size > maxSize) {
+          setError("Vidéo trop volumineux. Maximum 50MB");
+          return null;
+        }
+
+        const validTypes = ["video/mp4", "video/webm", "video/quicktime"];
+        if (!validTypes.includes(file.type)) {
+          setError("Format vidéo non supporté. Utilisez MP4, WebM ou MOV");
+          return null;
+        }
+
+        const fileName = `${Date.now()}-${file.name}`;
+        const { error: uploadError } = await supabase.storage
+          .from("article-videos")
+          .upload(`articles/${fileName}`, file);
+
+        if (uploadError) throw uploadError;
+
+        const {
+          data: { publicUrl },
+        } = supabase.storage
+          .from("article-videos")
+          .getPublicUrl(`articles/${fileName}`);
+
+        setHeroVideoUrl(publicUrl);
+        return publicUrl;
+      } catch (err) {
+        console.error("Video upload error:", err);
+        setError("Erreur lors de l'upload de la vidéo");
+        return null;
+      }
+    },
+    []
+  );
+
   const saveArticle = useCallback(
     async (
       status: "draft" | "submitted_for_review" = "draft"
@@ -224,6 +265,7 @@ export function useArticleEditor(initialArticle?: Article) {
           content: { sections, sources },
           status,
           requires_premium: requiresPremium,
+          hero_video_url: heroVideoUrl || null,
           author_id: user.id,
         };
 
@@ -254,7 +296,7 @@ export function useArticleEditor(initialArticle?: Article) {
         setLoading(false);
       }
     },
-    [title, slug, sections, sources, requiresPremium, initialArticle]
+    [title, slug, sections, sources, requiresPremium, heroVideoUrl, initialArticle]
   );
 
   return {
@@ -272,9 +314,12 @@ export function useArticleEditor(initialArticle?: Article) {
     addSource,
     updateSource,
     deleteSource,
+    heroVideoUrl,
+    setHeroVideoUrl,
     requiresPremium,
     setRequiresPremium,
     uploadImage,
+    uploadVideo,
     saveArticle,
     loading,
     error,

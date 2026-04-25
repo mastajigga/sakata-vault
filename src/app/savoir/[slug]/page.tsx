@@ -235,7 +235,18 @@ const ArticlePage = () => {
       {/* Hero */}
       <section className="relative h-[65vh] md:h-[75vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 bg-[var(--foret-nocturne)]">
-          {(article.featured_image || article.image) ? (
+          {article.hero_video_url ? (
+            <video
+              ref={videoRef}
+              autoPlay muted loop playsInline
+              className="absolute inset-0 w-full h-full object-cover opacity-40"
+              style={{ filter: "brightness(0.5) contrast(1.1)" }}
+              onCanPlay={() => {}}
+            >
+              <source src={article.hero_video_url} type="video/mp4" />
+              <source src={article.hero_video_url} type="video/webm" />
+            </video>
+          ) : (article.featured_image || article.image) ? (
              <Image
                src={article.featured_image || article.image || ""}
                alt={displayTitle}
