@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo, useCallback } from "react";
 import { motion } from "framer-motion";
 import {
   BarChart3, Users, FileText, Eye, TrendingUp, Clock,
@@ -11,9 +11,9 @@ import Link from "next/link";
 import { supabase } from "@/lib/supabase";
 import { DB_TABLES } from "@/lib/constants/db";
 import { useAuth } from "@/components/AuthProvider";
-import { 
-  AreaChart, Area, XAxis, YAxis, CartesianGrid, 
-  Tooltip, ResponsiveContainer, BarChart, Bar 
+import {
+  AreaChart, Area, XAxis, YAxis, CartesianGrid,
+  Tooltip, ResponsiveContainer, BarChart, Bar
 } from "recharts";
 
 const COUNTRY_NAMES: Record<string, string> = {
@@ -105,13 +105,274 @@ const COUNTRY_NAMES: Record<string, string> = {
 };
 
 const getCountryFullName = (shortName: string): string => {
-  // Check if it's already in the mapping
   if (COUNTRY_NAMES[shortName]) {
     return COUNTRY_NAMES[shortName];
   }
-  // If not, return the short name as-is
   return shortName;
 };
+
+// Memoized stat card component
+const StatCard = React.memo(({ icon: Icon, label, value, color = "text-or-ancestral", bgColor = "bg-or-ancestral" }: any) => (
+  <div className={`p-8 rounded-[2.5rem] ${bgColor} ${bgColor === "bg-or-ancestral" ? "text-foret-nocturne" : "text-ivoire-ancien"} flex flex-col justify-between ${bgColor === "bg-or-ancestral" ? "" : "bg-white/5 border border-white/10 backdrop-blur-xl"}`}>
+    <div className="flex justify-between items-start">
+      <Icon className={`w-6 h-6 ${bgColor === "bg-or-ancestral" ? "" : color}`} />
+      <ArrowUpRight className={`w-6 h-6 ${bgColor === "bg-or-ancestral" ? "opacity-40" : "opacity-0"}`} />
+    </div>
+    <div className="mt-8">
+      <span className="text-5xl font-mono font-bold">{value}</span>
+      <p className={`text-xs uppercase tracking-widest font-bold mt-1 ${bgColor === "bg-or-ancestral" ? "opacity-60" : "opacity-40"}`}>{label}</p>
+    </div>
+  </div>
+));
+StatCard.displayName = "StatCard";
+
+// Memoized chart component
+const AnalyticsChart = React.memo(({ chartData, timeframe, onTimeframeChange }: any) => (
+  <motion.div
+    initial={{ opacity: 0, y: 20 }}
+    animate={{ opacity: 1, y: 0 }}
+    className="lg:col-span-8 p-8 rounded-[2.5rem] bg-white/5 border border-white/10 backdrop-blur-xl h-[450px] flex flex-col"
+  >
+    <div className="flex justify-between items-center mb-12">
+      <div>
+        <h3 className="font-display text-xl font-bold">Évolution de l'Audience</h3>
+        <p className="text-xs opacity-40 uppercase tracking-widest mt-1">Flux de conscience {timeframe === '6_months' ? 'MENSUEL' : timeframe === '24_hours' ? 'HORAIRE' : 'JOURNALIER'}</p>
+      </div>
+      <select
+        value={timeframe}
+        onChange={(e) => onTimeframeChange(e.target.value)}
+        className="bg-transparent border-none text-xs text-or-ancestral font-bold cursor-pointer outline-none"
+      >
+        <option value="24_hours">24 DERNIÈRES HEURES</option>
+        <option value="7_days">7 DERNIERS JOURS</option>
+        <option value="30_days">30 JOURS</option>
+        <option value="6_months">6 MOIS</option>
+      </select>
+    </div>
+
+    <div className="flex-1 w-full -ml-8">
+      <ResponsiveContainer width="100%" height="100%">
+        <AreaChart data={chartData}>
+          <defs>
+            <linearGradient id="colorVisits" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="5%" stopColor="var(--or-ancestral)" stopOpacity={0.3} />
+              <stop offset="95%" stopColor="var(--or-ancestral)" stopOpacity={0} />
+            </linearGradient>
+          </defs>
+          <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(255,255,255,0.05)" />
+          <XAxis
+            dataKey="name"
+            axisLine={false}
+            tickLine={false}
+            tick={{ fill: 'rgba(255,255,255,0.3)', fontSize: 10 }}
+          />
+          <YAxis hide domain={['auto', 'auto']} />
+          <Tooltip
+            contentStyle={{ backgroundColor: "var(--foret-nocturne)", border: '1px solid rgba(255,255,255,0.1)', borderRadius: '12px' }}
+            itemStyle={{ color: 'var(--or-ancestral)', fontWeight: 'bold' }}
+          />
+          <Area
+            type="monotone"
+            dataKey="visits"
+            stroke="var(--or-ancestral)"
+            strokeWidth={3}
+            fillOpacity={1}
+            fill="url(#colorVisits)"
+          />
+        </AreaChart>
+      </ResponsiveContainer>
+    </div>
+  </motion.div>
+));
+AnalyticsChart.displayName = "AnalyticsChart";
+
+// Memoized top articles component
+const TopArticlesSection = React.memo(({ topArticles }: any) => (
+  <motion.div
+    initial={{ opacity: 0, x: -20 }}
+    animate={{ opacity: 1, x: 0 }}
+    className="lg:col-span-7 p-8 rounded-[2.5rem] bg-white/5 border border-white/10 backdrop-blur-xl"
+  >
+    <div className="flex items-center gap-3 mb-8">
+      <TrendingUp className="w-5 h-5 text-or-ancestral" />
+      <h3 className="font-display text-xl font-bold">Contenus Les Plus Aimés</h3>
+    </div>
+
+    <div className="space-y-4">
+      {topArticles.map((art: any, i: number) => (
+        <div key={i} className="group flex items-center justify-between p-4 rounded-3xl hover:bg-white/5 transition-colors border border-transparent hover:border-white/10">
+          <div className="flex items-center gap-4">
+            <div className="w-10 h-10 rounded-2xl bg-white/5 flex items-center justify-center font-mono text-xs opacity-40">
+              0{i + 1}
+            </div>
+            <div>
+              <p className="font-bold text-ivoire-ancien group-hover:text-or-ancestral transition-colors">
+                {art.title?.fr || art.slug}
+              </p>
+              <p className="text-[10px] opacity-40 uppercase tracking-widest">Savoir • {art.reads_count} lectures</p>
+            </div>
+          </div>
+          <div className="flex items-center gap-2 text-or-ancestral bg-or-ancestral/10 px-3 py-1 rounded-full text-xs font-bold">
+            <Heart size={12} fill="currentColor" />
+            {art.likes_count}
+          </div>
+        </div>
+      ))}
+    </div>
+  </motion.div>
+));
+TopArticlesSection.displayName = "TopArticlesSection";
+
+// Memoized languages & devices insights component
+const LanguagesDevicesInsights = React.memo(({
+  stats,
+  insightView,
+  insightUnique,
+  onInsightViewChange,
+  onInsightUniqueChange
+}: any) => {
+  const isToday = insightView === "today";
+  const langs = isToday ? (insightUnique ? stats.todayLangDistribUniq : stats.todayLangDistribution) : (insightUnique ? stats.totalLangDistribUniq : stats.langDistribution);
+  const devices = isToday ? (insightUnique ? stats.todayDeviceDistribUniq : stats.todayDeviceDistribution) : (insightUnique ? stats.totalDeviceDistribUniq : stats.deviceDistribution);
+  const locs = isToday ? (insightUnique ? stats.todayTopLocationsUniq : stats.todayTopLocations) : (insightUnique ? stats.totalTopLocationsUniq : stats.topLocations);
+  const sources = isToday ? (insightUnique ? stats.todayTopSourcesUniq : stats.todayTopSources) : (insightUnique ? stats.totalTopSourcesUniq : stats.topSources);
+  const totalV = isToday ? stats.todayVisits : stats.totalVisits;
+  const totalU = isToday ? stats.todayUniqueVisitors : stats.uniqueVisitors;
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, x: 20 }}
+      animate={{ opacity: 1, x: 0 }}
+      className="lg:col-span-5 p-8 rounded-[2.5rem] bg-white/5 border border-white/10 backdrop-blur-xl flex flex-col"
+    >
+      <div className="flex flex-col gap-3 mb-8">
+        <div className="flex items-center gap-3">
+          <Globe className="w-5 h-5 text-emerald-400" />
+          <h3 className="font-display text-xl font-bold">Langues & Terminaux</h3>
+        </div>
+        <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1 bg-white/5 rounded-full p-1 border border-white/10">
+            <button
+              onClick={() => onInsightViewChange("today")}
+              className={`text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full transition-all ${insightView === "today" ? "bg-emerald-500/20 text-emerald-400" : "opacity-40 hover:opacity-70"}`}
+            >
+              Aujourd'hui
+            </button>
+            <button
+              onClick={() => onInsightViewChange("total")}
+              className={`text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full transition-all ${insightView === "total" ? "bg-white/10 text-ivoire-ancien" : "opacity-40 hover:opacity-70"}`}
+            >
+              Total
+            </button>
+          </div>
+          <div className="flex items-center gap-1 bg-white/5 rounded-full p-1 border border-white/10">
+            <button
+              onClick={() => onInsightUniqueChange(false)}
+              className={`text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full transition-all ${!insightUnique ? "bg-white/10 text-ivoire-ancien" : "opacity-40 hover:opacity-70"}`}
+            >
+              Toutes
+            </button>
+            <button
+              onClick={() => onInsightUniqueChange(true)}
+              className={`text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full transition-all ${insightUnique ? "bg-or-ancestral/20 text-or-ancestral" : "opacity-40 hover:opacity-70"}`}
+            >
+              Uniques
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div className="flex-1 flex flex-col justify-between">
+        <div className="space-y-8">
+          <div className="space-y-4">
+            <p className="text-[10px] uppercase tracking-widest opacity-40 font-bold">Préférences Linguistiques</p>
+            <div className="space-y-2">
+              {langs.length > 0 ? langs.map((lang: any, i: number) => (
+                <div key={i} className="space-y-1">
+                  <div className="flex justify-between text-[10px] font-bold">
+                    <span className="opacity-60 uppercase tracking-tighter">{lang.name}</span>
+                    <span className="font-mono text-ivoire-ancien">{lang.value}</span>
+                  </div>
+                  <div className="h-1 w-full bg-white/5 rounded-full overflow-hidden">
+                    <motion.div
+                      key={`${insightView}-${insightUnique}-lang-${i}`}
+                      initial={{ width: 0 }}
+                      animate={{ width: `${Math.min(100, (lang.value / (insightUnique ? (totalU || 1) : (totalV || 1))) * 100)}%` }}
+                      className="h-full bg-or-ancestral rounded-full"
+                    />
+                  </div>
+                </div>
+              )) : (
+                <p className="text-xs opacity-40 italic">Aucune donnée pour cette période</p>
+              )}
+            </div>
+          </div>
+
+          <div className="space-y-4">
+            <p className="text-[10px] uppercase tracking-widest opacity-40 font-bold">Types d'Appareils</p>
+            <div className="grid grid-cols-2 gap-4">
+              {devices.map((device: any, i: number) => (
+                <div key={i} className="bg-white/5 p-4 rounded-3xl border border-white/5 text-center">
+                  <p className="text-[10px] uppercase tracking-tighter opacity-40 mb-1">{device.name}</p>
+                  <p className="text-xl font-mono font-bold text-ivoire-ancien">{device.value}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="space-y-4 pt-4">
+            <p className="text-[10px] uppercase tracking-widest opacity-40 font-bold">Distribution Géographique (IP)</p>
+            <div className="space-y-3">
+              {locs.map((loc: any, i: number) => (
+                <div key={i} className="flex items-center justify-between group" title={getCountryFullName(loc.name)}>
+                  <span className="text-xs font-medium text-ivoire-ancien/80 cursor-help hover:text-or-ancestral transition-colors">{loc.name}</span>
+                  <div className="flex items-center gap-3">
+                    <div className="w-24 h-1.5 bg-white/5 rounded-full overflow-hidden">
+                      <motion.div
+                        key={`${insightView}-${insightUnique}-loc-${i}`}
+                        initial={{ width: 0 }}
+                        animate={{ width: `${(loc.value / (totalU || 1)) * 100}%` }}
+                        className="h-full bg-emerald-500/50"
+                      />
+                    </div>
+                    <span className="text-[10px] font-mono opacity-40">{loc.value}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {sources && sources.length > 0 && (
+            <div className="space-y-4 pt-4 border-t border-white/5">
+              <p className="text-[10px] uppercase tracking-widest opacity-40 font-bold flex items-center justify-between">
+                <span>Sources d'Acquisition (Referrers)</span>
+              </p>
+              <div className="space-y-3">
+                {sources.map((source: any, i: number) => (
+                  <div key={`src-${i}`} className="flex items-center justify-between">
+                    <span className="text-xs font-medium text-ivoire-ancien/80">{source.name}</span>
+                    <span className="text-[10px] font-mono text-or-ancestral bg-or-ancestral/10 px-2 py-0.5 rounded-full">{source.count}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+
+        <div className="mt-8 p-6 bg-white/5 rounded-3xl border border-white/5 flex items-center justify-between">
+          <div>
+            <p className="text-[10px] opacity-40 uppercase font-bold tracking-widest flex items-center gap-2">Télémétrie Live <span className="bg-emerald-500/20 text-emerald-400 px-1 rounded text-[8px]">H24</span></p>
+            <p className="text-xl font-mono font-bold text-ivoire-ancien">Activée</p>
+          </div>
+          <div className="w-10 h-10 rounded-full border border-emerald-500/20 flex items-center justify-center">
+            <div className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  );
+});
+LanguagesDevicesInsights.displayName = "LanguagesDevicesInsights";
 
 const AdminDashboard = () => {
   const [stats, setStats] = useState({
@@ -152,6 +413,10 @@ const AdminDashboard = () => {
   const [topArticles, setTopArticles] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [timeframe, setTimeframe] = useState<"24_hours" | "7_days" | "30_days" | "6_months">("7_days");
+
+  const handleTimeframeChange = useCallback((newTimeframe: string) => {
+    setTimeframe(newTimeframe as "24_hours" | "7_days" | "30_days" | "6_months");
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -477,310 +742,53 @@ const AdminDashboard = () => {
 
       {/* Main Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        
-        {/* Analytics Chart - 8 cols */}
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="lg:col-span-8 p-8 rounded-[2.5rem] bg-white/5 border border-white/10 backdrop-blur-xl h-[450px] flex flex-col"
-        >
-          <div className="flex justify-between items-center mb-12">
-            <div>
-              <h3 className="font-display text-xl font-bold">Évolution de l'Audience</h3>
-              <p className="text-xs opacity-40 uppercase tracking-widest mt-1">Flux de conscience {timeframe === '6_months' ? 'MENSUEL' : timeframe === '24_hours' ? 'HORAIRE' : 'JOURNALIER'}</p>
-            </div>
-            <select
-              value={timeframe}
-              onChange={(e) => setTimeframe(e.target.value as any)}
-              className="bg-transparent border-none text-xs text-or-ancestral font-bold cursor-pointer outline-none"
-            >
-               <option value="24_hours">24 DERNIÈRES HEURES</option>
-               <option value="7_days">7 DERNIERS JOURS</option>
-               <option value="30_days">30 JOURS</option>
-               <option value="6_months">6 MOIS</option>
-            </select>
-          </div>
-          
-          <div className="flex-1 w-full -ml-8">
-            <ResponsiveContainer width="100%" height="100%">
-              <AreaChart data={chartData}>
-                <defs>
-                  <linearGradient id="colorVisits" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="var(--or-ancestral)" stopOpacity={0.3}/>
-                    <stop offset="95%" stopColor="var(--or-ancestral)" stopOpacity={0}/>
-                  </linearGradient>
-                </defs>
-                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(255,255,255,0.05)" />
-                <XAxis 
-                  dataKey="name" 
-                  axisLine={false} 
-                  tickLine={false} 
-                  tick={{ fill: 'rgba(255,255,255,0.3)', fontSize: 10 }}
-                />
-                <YAxis 
-                  hide 
-                  domain={['auto', 'auto']}
-                />
-                <Tooltip 
-                  contentStyle={{ backgroundColor: "var(--foret-nocturne)", border: '1px solid rgba(255,255,255,0.1)', borderRadius: '12px' }}
-                  itemStyle={{ color: 'var(--or-ancestral)', fontWeight: 'bold' }}
-                />
-                <Area 
-                  type="monotone" 
-                  dataKey="visits" 
-                  stroke="var(--or-ancestral)" 
-                  strokeWidth={3}
-                  fillOpacity={1} 
-                  fill="url(#colorVisits)" 
-                />
-              </AreaChart>
-            </ResponsiveContainer>
-          </div>
-        </motion.div>
+        <AnalyticsChart chartData={chartData} timeframe={timeframe} onTimeframeChange={handleTimeframeChange} />
 
         {/* Small Stats Grid - 4 cols */}
         <div className="lg:col-span-4 grid grid-cols-1 gap-6">
-           {/* Stat: Popularity */}
-           <div className="p-8 rounded-[2.5rem] bg-or-ancestral text-foret-nocturne flex flex-col justify-between">
-              <div className="flex justify-between items-start">
-                <Heart className="w-6 h-6" />
-                <ArrowUpRight className="w-6 h-6 opacity-40" />
+          <StatCard icon={Heart} label="Appréciations Totales" value={stats.totalLikes} bgColor="bg-or-ancestral" />
+          <StatCard icon={Users} label="Membres du Village" value={stats.totalUsers} color="text-or-ancestral" />
+          <div
+            className="p-8 rounded-[2.5rem] bg-white/5 border border-white/10 flex flex-col justify-between backdrop-blur-xl group cursor-help"
+            title="Données actuelles basées sur les sessions analytiques."
+          >
+            <div className="flex justify-between items-start">
+              <Eye className="w-6 h-6 text-emerald-400" />
+              <span className="text-[10px] font-mono opacity-40 border border-white/10 px-2 py-0.5 rounded-full">Donnée Approximative</span>
+            </div>
+            <div className="mt-8 flex justify-between items-end">
+              <div>
+                <span className="text-5xl font-mono font-bold text-ivoire-ancien">{stats.uniqueVisitors}</span>
+                <p className="text-xs uppercase tracking-widest font-bold mt-1 text-emerald-400">Visiteurs Uniques</p>
               </div>
-              <div className="mt-8">
-                <span className="text-5xl font-mono font-bold">{stats.totalLikes}</span>
-                <p className="text-xs uppercase tracking-widest font-bold mt-1 opacity-60">Appréciations Totales</p>
+              <div className="text-right">
+                <span className="text-xl font-mono font-bold text-ivoire-ancien/60">{stats.totalVisits}</span>
+                <p className="text-[10px] uppercase tracking-widest font-bold mt-1 opacity-40">Visites Tot.</p>
               </div>
-           </div>
-
-           {/* Stat: Members */}
-           <div className="p-8 rounded-[2.5rem] bg-white/5 border border-white/10 flex flex-col justify-between backdrop-blur-xl">
-              <div className="flex justify-between items-start">
-                <Users className="w-6 h-6 text-or-ancestral" />
-                <span className="text-xs font-mono text-emerald-400">+{stats.totalUsers > 0 ? "1" : "0"} ce jour</span>
+            </div>
+            <div className="my-4 border-t border-white/10" />
+            <div className="flex justify-between items-end">
+              <div>
+                <span className="text-2xl font-mono font-bold text-emerald-400">{stats.todayUniqueVisitors}</span>
+                <p className="text-[10px] uppercase tracking-widest font-bold mt-1 text-emerald-400/70">Uniques Aujourd'hui</p>
               </div>
-              <div className="mt-8">
-                <span className="text-5xl font-mono font-bold text-ivoire-ancien">{stats.totalUsers}</span>
-                <p className="text-xs uppercase tracking-widest font-bold mt-1 opacity-40">Membres du Village</p>
+              <div className="text-right">
+                <span className="text-2xl font-mono font-bold text-ivoire-ancien/80">{stats.todayVisits}</span>
+                <p className="text-[10px] uppercase tracking-widest font-bold mt-1 opacity-40">Visites Aujourd'hui</p>
               </div>
-           </div>
-
-           {/* Stat: Visitors */}
-           <div
-             className="p-8 rounded-[2.5rem] bg-white/5 border border-white/10 flex flex-col justify-between backdrop-blur-xl group cursor-help"
-             title="Données actuelles basées sur les sessions analytiques."
-           >
-              <div className="flex justify-between items-start">
-                <Eye className="w-6 h-6 text-emerald-400" />
-                <span className="text-[10px] font-mono opacity-40 border border-white/10 px-2 py-0.5 rounded-full">Donnée Approximative</span>
-              </div>
-              {/* Totaux (période sélectionnée) */}
-              <div className="mt-8 flex justify-between items-end">
-                <div>
-                   <span className="text-5xl font-mono font-bold text-ivoire-ancien">{stats.uniqueVisitors}</span>
-                   <p className="text-xs uppercase tracking-widest font-bold mt-1 text-emerald-400">Visiteurs Uniques</p>
-                </div>
-                <div className="text-right">
-                   <span className="text-xl font-mono font-bold text-ivoire-ancien/60">{stats.totalVisits}</span>
-                   <p className="text-[10px] uppercase tracking-widest font-bold mt-1 opacity-40">Visites Tot.</p>
-                </div>
-              </div>
-              {/* Séparateur */}
-              <div className="my-4 border-t border-white/10" />
-              {/* Stats précises du jour */}
-              <div className="flex justify-between items-end">
-                <div>
-                  <span className="text-2xl font-mono font-bold text-emerald-400">{stats.todayUniqueVisitors}</span>
-                  <p className="text-[10px] uppercase tracking-widest font-bold mt-1 text-emerald-400/70">Uniques Aujourd'hui</p>
-                </div>
-                <div className="text-right">
-                  <span className="text-2xl font-mono font-bold text-ivoire-ancien/80">{stats.todayVisits}</span>
-                  <p className="text-[10px] uppercase tracking-widest font-bold mt-1 opacity-40">Visites Aujourd'hui</p>
-                </div>
-              </div>
-           </div>
+            </div>
+          </div>
         </div>
 
-        {/* Top Content Table - 7 cols */}
-        <motion.div 
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          className="lg:col-span-7 p-8 rounded-[2.5rem] bg-white/5 border border-white/10 backdrop-blur-xl"
-        >
-          <div className="flex items-center gap-3 mb-8">
-            <TrendingUp className="w-5 h-5 text-or-ancestral" />
-            <h3 className="font-display text-xl font-bold">Contenus Les Plus Aimés</h3>
-          </div>
-          
-          <div className="space-y-4">
-            {topArticles.map((art, i) => (
-              <div key={i} className="group flex items-center justify-between p-4 rounded-3xl hover:bg-white/5 transition-colors border border-transparent hover:border-white/10">
-                <div className="flex items-center gap-4">
-                   <div className="w-10 h-10 rounded-2xl bg-white/5 flex items-center justify-center font-mono text-xs opacity-40">
-                     0{i+1}
-                   </div>
-                   <div>
-                     <p className="font-bold text-ivoire-ancien group-hover:text-or-ancestral transition-colors">
-                       {art.title?.fr || art.slug}
-                     </p>
-                     <p className="text-[10px] opacity-40 uppercase tracking-widest">Savoir • {art.reads_count} lectures</p>
-                   </div>
-                </div>
-                <div className="flex items-center gap-2 text-or-ancestral bg-or-ancestral/10 px-3 py-1 rounded-full text-xs font-bold">
-                   <Heart size={12} fill="currentColor" />
-                   {art.likes_count}
-                </div>
-              </div>
-            ))}
-          </div>
-        </motion.div>
+        <TopArticlesSection topArticles={topArticles} />
 
-        {/* Languages & Devices - 5 cols */}
-        <motion.div
-           initial={{ opacity: 0, x: 20 }}
-           animate={{ opacity: 1, x: 0 }}
-           className="lg:col-span-5 p-8 rounded-[2.5rem] bg-white/5 border border-white/10 backdrop-blur-xl flex flex-col"
-        >
-          <div className="flex flex-col gap-3 mb-8">
-            <div className="flex items-center gap-3">
-              <Globe className="w-5 h-5 text-emerald-400" />
-              <h3 className="font-display text-xl font-bold">Langues & Terminaux</h3>
-            </div>
-            <div className="flex items-center gap-2">
-              {/* Toggle Aujourd'hui / Total */}
-              <div className="flex items-center gap-1 bg-white/5 rounded-full p-1 border border-white/10">
-                <button
-                  onClick={() => setInsightView("today")}
-                  className={`text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full transition-all ${insightView === "today" ? "bg-emerald-500/20 text-emerald-400" : "opacity-40 hover:opacity-70"}`}
-                >
-                  Aujourd'hui
-                </button>
-                <button
-                  onClick={() => setInsightView("total")}
-                  className={`text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full transition-all ${insightView === "total" ? "bg-white/10 text-ivoire-ancien" : "opacity-40 hover:opacity-70"}`}
-                >
-                  Total
-                </button>
-              </div>
-              {/* Toggle Toutes visites / Uniques */}
-              <div className="flex items-center gap-1 bg-white/5 rounded-full p-1 border border-white/10">
-                <button
-                  onClick={() => setInsightUnique(false)}
-                  className={`text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full transition-all ${!insightUnique ? "bg-white/10 text-ivoire-ancien" : "opacity-40 hover:opacity-70"}`}
-                >
-                  Toutes
-                </button>
-                <button
-                  onClick={() => setInsightUnique(true)}
-                  className={`text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full transition-all ${insightUnique ? "bg-or-ancestral/20 text-or-ancestral" : "opacity-40 hover:opacity-70"}`}
-                >
-                  Uniques
-                </button>
-              </div>
-            </div>
-          </div>
-
-          {(() => {
-            const isToday = insightView === "today";
-            const langs   = isToday ? (insightUnique ? stats.todayLangDistribUniq   : stats.todayLangDistribution)   : (insightUnique ? stats.totalLangDistribUniq   : stats.langDistribution);
-            const devices = isToday ? (insightUnique ? stats.todayDeviceDistribUniq : stats.todayDeviceDistribution) : (insightUnique ? stats.totalDeviceDistribUniq : stats.deviceDistribution);
-            const locs    = isToday ? (insightUnique ? stats.todayTopLocationsUniq  : stats.todayTopLocations)       : (insightUnique ? stats.totalTopLocationsUniq  : stats.topLocations);
-            const sources = isToday ? (insightUnique ? stats.todayTopSourcesUniq    : stats.todayTopSources)         : (insightUnique ? stats.totalTopSourcesUniq    : stats.topSources);
-            const totalV  = isToday ? stats.todayVisits       : stats.totalVisits;
-            const totalU  = isToday ? stats.todayUniqueVisitors : stats.uniqueVisitors;
-            return (
-          <div className="flex-1 flex flex-col justify-between">
-             <div className="space-y-8">
-                {/* Languages */}
-                <div className="space-y-4">
-                   <p className="text-[10px] uppercase tracking-widest opacity-40 font-bold">Préférences Linguistiques</p>
-                   <div className="space-y-2">
-                      {langs.length > 0 ? langs.map((lang: any, i: number) => (
-                        <div key={i} className="space-y-1">
-                           <div className="flex justify-between text-[10px] font-bold">
-                              <span className="opacity-60 uppercase tracking-tighter">{lang.name}</span>
-                              <span className="font-mono text-ivoire-ancien">{lang.value}</span>
-                           </div>
-                           <div className="h-1 w-full bg-white/5 rounded-full overflow-hidden">
-                              <motion.div
-                                 key={`${insightView}-${insightUnique}-lang-${i}`}
-                                 initial={{ width: 0 }}
-                                 animate={{ width: `${Math.min(100, (lang.value / (insightUnique ? (totalU || 1) : (totalV || 1))) * 100)}%` }}
-                                 className="h-full bg-or-ancestral rounded-full"
-                              />
-                           </div>
-                        </div>
-                      )) : (
-                        <p className="text-xs opacity-40 italic">Aucune donnée pour cette période</p>
-                      )}
-                   </div>
-                </div>
-
-                 <div className="space-y-4">
-                    <p className="text-[10px] uppercase tracking-widest opacity-40 font-bold">Types d'Appareils</p>
-                    <div className="grid grid-cols-2 gap-4">
-                       {devices.map((device: any, i: number) => (
-                         <div key={i} className="bg-white/5 p-4 rounded-3xl border border-white/5 text-center">
-                            <p className="text-[10px] uppercase tracking-tighter opacity-40 mb-1">{device.name}</p>
-                            <p className="text-xl font-mono font-bold text-ivoire-ancien">{device.value}</p>
-                         </div>
-                       ))}
-                    </div>
-                 </div>
-
-                 {/* Locations */}
-                 <div className="space-y-4 pt-4">
-                    <p className="text-[10px] uppercase tracking-widest opacity-40 font-bold">Distribution Géographique (IP)</p>
-                    <div className="space-y-3">
-                       {locs.map((loc: any, i: number) => (
-                         <div key={i} className="flex items-center justify-between group" title={getCountryFullName(loc.name)}>
-                            <span className="text-xs font-medium text-ivoire-ancien/80 cursor-help hover:text-or-ancestral transition-colors">{loc.name}</span>
-                            <div className="flex items-center gap-3">
-                               <div className="w-24 h-1.5 bg-white/5 rounded-full overflow-hidden">
-                                  <motion.div
-                                    key={`${insightView}-${insightUnique}-loc-${i}`}
-                                    initial={{ width: 0 }}
-                                    animate={{ width: `${(loc.value / (totalU || 1)) * 100}%` }}
-                                    className="h-full bg-emerald-500/50"
-                                  />
-                               </div>
-                               <span className="text-[10px] font-mono opacity-40">{loc.value}</span>
-                            </div>
-                         </div>
-                       ))}
-                    </div>
-                 </div>
-
-                 {/* Top Sources */}
-                 {sources && sources.length > 0 && (
-                 <div className="space-y-4 pt-4 border-t border-white/5">
-                    <p className="text-[10px] uppercase tracking-widest opacity-40 font-bold flex items-center justify-between">
-                      <span>Sources d'Acquisition (Referrers)</span>
-                    </p>
-                    <div className="space-y-3">
-                       {sources.map((source: any, i: number) => (
-                         <div key={`src-${i}`} className="flex items-center justify-between">
-                            <span className="text-xs font-medium text-ivoire-ancien/80">{source.name}</span>
-                            <span className="text-[10px] font-mono text-or-ancestral bg-or-ancestral/10 px-2 py-0.5 rounded-full">{source.count}</span>
-                         </div>
-                       ))}
-                    </div>
-                 </div>
-                 )}
-              </div>
-
-             <div className="mt-8 p-6 bg-white/5 rounded-3xl border border-white/5 flex items-center justify-between">
-                <div>
-                   <p className="text-[10px] opacity-40 uppercase font-bold tracking-widest flex items-center gap-2">Télémétrie Live <span className="bg-emerald-500/20 text-emerald-400 px-1 rounded text-[8px]">H24</span></p>
-                   <p className="text-xl font-mono font-bold text-ivoire-ancien">Activée</p>
-                </div>
-                <div className="w-10 h-10 rounded-full border border-emerald-500/20 flex items-center justify-center">
-                   <div className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
-                </div>
-             </div>
-          </div>
-            );
-          })()}
-        </motion.div>
+        <LanguagesDevicesInsights
+          stats={stats}
+          insightView={insightView}
+          insightUnique={insightUnique}
+          onInsightViewChange={setInsightView}
+          onInsightUniqueChange={setInsightUnique}
+        />
 
       </div>
 
