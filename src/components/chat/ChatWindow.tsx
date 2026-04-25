@@ -315,10 +315,13 @@ export function ChatWindow({ conversationId, onBack }: ChatWindowProps) {
       if (window.confirm("Êtes-vous sûr de vouloir supprimer cette conversation ?")) {
         try {
           if (!user) return;
-          await supabase
-            .from(DB_TABLES.CHAT_PARTICIPANTS)
-            .delete()
-            .match({ conversation_id: conversationId, user_id: user.id });
+          const { error } = await withRetry(async () =>
+            supabase
+              .from(DB_TABLES.CHAT_PARTICIPANTS)
+              .delete()
+              .match({ conversation_id: conversationId, user_id: user.id })
+          );
+          if (error) throw error;
           window.location.reload();
         } catch (error) {
           console.error("Error deleting conversation:", error);
