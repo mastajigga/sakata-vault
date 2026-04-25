@@ -114,7 +114,6 @@ export async function POST(req: Request) {
   } catch (err: any) {
     console.error("[Stripe Checkout] Session creation failed:", {
       error: err instanceof Error ? err.message : String(err),
-      userId: user?.id,
       action: "create_checkout_session",
       timestamp: new Date().toISOString(),
     });
