@@ -78,7 +78,8 @@ export interface ArticleData {
   image?: string;
   video_background?: string;
   featured_image?: string;
-  
+  hero_video_url?: string;
+
   /** Narration et Stats */
   has_narrator?: boolean;
   date?: string;
