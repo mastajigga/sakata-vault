@@ -32,6 +32,9 @@ export type Message = {
   replied_to_message?: Message;
   edited_at?: string | null;
   edited_by_user_id?: string | null;
+  deleted_at?: string | null;
+  deleted_for_all?: boolean;
+  deleted_by_user_id?: string | null;
 };
 
 // Emoji → nombre d'utilisateurs ayant réagi
@@ -236,8 +239,8 @@ export function ChatWindow({ conversationId, onBack }: ChatWindowProps) {
     });
   }, []);
 
-  const handleDelete = useCallback((id: string) => {
-    deleteMessage(id);
+  const handleDelete = useCallback((id: string, mode: "self" | "all") => {
+    deleteMessage(id, mode);
   }, [deleteMessage]);
 
   const handleEdit = useCallback(async (message: Message, newContent: string) => {

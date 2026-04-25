@@ -72,6 +72,9 @@ export function useMessages(conversationId: string) {
     reply_to_message_id: msg.reply_to_message_id,
     edited_at: msg.edited_at || null,
     edited_by_user_id: msg.edited_by_user_id || null,
+    deleted_at: msg.deleted_at || null,
+    deleted_for_all: msg.deleted_for_all || false,
+    deleted_by_user_id: msg.deleted_by_user_id || null,
   }), []);
 
   const resolveSignedUrls = useCallback(async (msgs: Message[]): Promise<Message[]> => {
@@ -179,6 +182,7 @@ export function useMessages(conversationId: string) {
               id, content, file_url, file_type, created_at, expires_in,
               sender_id, max_views, reply_to_message_id,
               edited_at, edited_by_user_id,
+              deleted_at, deleted_for_all, deleted_by_user_id,
               profiles:sender_id ( nickname, username )
             `)
             .eq('conversation_id', conversationId)
@@ -315,6 +319,22 @@ export function useMessages(conversationId: string) {
               : msg
           ));
         }
+        if (updated.deleted_at) {
+          const uid = userIdRef.current;
+          if (updated.deleted_for_all) {
+            // Visible to all as deleted placeholder
+            setMessages(prev => prev.map(msg =>
+              msg.id === updated.id
+                ? { ...msg, content: "[Message supprimé]", deleted_at: updated.deleted_at, deleted_for_all: true, deleted_by_user_id: updated.deleted_by_user_id }
+                : msg
+            ));
+          } else {
+            // Hidden for non-senders
+            if (updated.deleted_by_user_id !== uid) {
+              setMessages(prev => prev.filter(msg => msg.id !== updated.id));
+            }
+          }
+        }
       })
       .on('postgres_changes', {
         event: 'UPDATE',
@@ -373,6 +393,7 @@ export function useMessages(conversationId: string) {
             id, content, file_url, file_type, created_at, expires_in,
             sender_id, max_views, reply_to_message_id,
             edited_at, edited_by_user_id,
+            deleted_at, deleted_for_all, deleted_by_user_id,
             profiles:sender_id ( nickname, username )
           `)
           .eq('conversation_id', conversationId)
@@ -489,20 +510,35 @@ export function useMessages(conversationId: string) {
     }
   };
 
-  // Soft delete: set is_deleted=true (sender only, optimistic UI)
-  const deleteMessage = useCallback(async (id: string) => {
-    // Optimistic: remove immediately from local state
-    setMessages(prev => prev.filter(m => m.id !== id));
+  const deleteMessage = useCallback(async (id: string, mode: "self" | "all") => {
+    if (!userIdRef.current) return;
+
     try {
-      await withRetry(async () =>
-        supabase
-          .from(DB_TABLES.CHAT_MESSAGES)
-          .update({ is_deleted: true })
-          .eq('id', id)
-          .eq('sender_id', userIdRef.current)
-      );
+      const { data: { session } } = await supabase.auth.getSession();
+      const token = session?.access_token;
+      if (!token) {
+        console.error('[Chat] No auth token available');
+        return;
+      }
+
+      const response = await fetch(`/api/chat/messages/${id}/delete`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`,
+        },
+        body: JSON.stringify({ mode }),
+      });
+
+      if (!response.ok) {
+        const err = await response.json();
+        throw new Error(err.error || "Failed to delete message");
+      }
+
+      // Realtime subscription will automatically sync the deletion
     } catch (err) {
       console.error('[Chat] Failed to delete message:', err);
+      throw err;
     }
   }, []);
 

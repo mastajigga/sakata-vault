@@ -34,7 +34,7 @@ interface MessageBubbleProps {
   myReactions?: Set<string>;
   onReact?: (messageId: string, emoji: string) => void;
   onReply?: (message: Message) => void;
-  onDelete?: (id: string) => void;
+  onDelete?: (id: string, mode: "self" | "all") => void;
   onEdit?: (message: Message, newContent: string) => void;
 }
 
@@ -379,6 +379,7 @@ export function MessageBubble({ message, isTemporary, reactions = {}, myReaction
   const [repliedToMessage, setRepliedToMessage] = useState<Message | undefined>(message.replied_to_message);
   const [isEditMode, setIsEditMode] = useState(false);
   const [editedContent, setEditedContent] = useState(message.content);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const isProtectedImage =
     message.fileType === "image" &&
     message.fileUrl &&
@@ -418,6 +419,15 @@ export function MessageBubble({ message, isTemporary, reactions = {}, myReaction
   }, [message.reply_to_message_id]);
 
   const renderContent = () => {
+    // Handle deleted messages
+    if (message.deleted_at && message.deleted_for_all) {
+      return (
+        <div className="px-4 py-3 bg-stone-100 dark:bg-stone-800 text-stone-500 dark:text-stone-400 italic rounded">
+          [Message supprimé]
+        </div>
+      );
+    }
+
     if (message.fileUrl) {
       if (message.fileType === "audio") {
         return (
@@ -609,7 +619,7 @@ export function MessageBubble({ message, isTemporary, reactions = {}, myReaction
                 <button
                   type="button"
                   aria-label="Supprimer le message"
-                  onClick={() => onDelete(message.id)}
+                  onClick={() => setShowDeleteModal(true)}
                   className="w-7 h-7 rounded-full bg-stone-100 dark:bg-stone-700 hover:bg-red-100 dark:hover:bg-red-900/30 flex items-center justify-center text-sm shadow transition-colors"
                   title="Supprimer"
                 >
@@ -629,6 +639,51 @@ export function MessageBubble({ message, isTemporary, reactions = {}, myReaction
                         {emoji}
                       </button>
                     ))}
+                  </div>
+                )}
+
+                {/* Delete confirmation modal */}
+                {showDeleteModal && (
+                  <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/50 p-4">
+                    <div className="bg-white dark:bg-stone-800 rounded-lg shadow-xl max-w-sm w-full animate-in fade-in slide-in-from-bottom-4 sm:slide-in-from-center">
+                      <div className="p-6">
+                        <h3 className="text-lg font-semibold text-stone-900 dark:text-white mb-2">
+                          Supprimer le message ?
+                        </h3>
+                        <p className="text-sm text-stone-600 dark:text-stone-400 mb-6">
+                          Choisissez comment supprimer ce message.
+                        </p>
+                        <div className="flex flex-col gap-3">
+                          <button
+                            type="button"
+                            onClick={() => {
+                              onDelete?.(message.id, "self");
+                              setShowDeleteModal(false);
+                            }}
+                            className="px-4 py-3 rounded-lg bg-red-500 hover:bg-red-600 text-white font-medium transition-colors text-center"
+                          >
+                            Supprimer pour moi
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              onDelete?.(message.id, "all");
+                              setShowDeleteModal(false);
+                            }}
+                            className="px-4 py-3 rounded-lg bg-red-600 hover:bg-red-700 text-white font-medium transition-colors text-center"
+                          >
+                            Supprimer pour tous
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => setShowDeleteModal(false)}
+                            className="px-4 py-3 rounded-lg bg-stone-200 dark:bg-stone-700 hover:bg-stone-300 dark:hover:bg-stone-600 text-stone-900 dark:text-white font-medium transition-colors text-center"
+                          >
+                            Annuler
+                          </button>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 )}
             </div>
