@@ -94,6 +94,41 @@ export function NewChatModal({ isOpen, onClose }: NewChatModalProps) {
     const isGroup = selectedUsers.length > 1;
 
     try {
+      // For direct conversations, check if one already exists
+      let convId: string;
+
+      if (!isGroup) {
+        // Look for existing direct conversation with this user
+        const { data: existingConv } = await supabase
+          .from("chat_conversations")
+          .select("id")
+          .eq("type", "direct")
+          .eq("created_by", user.id)
+          .single();
+
+        if (existingConv) {
+          // Check if both users are participants
+          const { data: participants } = await supabase
+            .from("chat_participants")
+            .select("user_id")
+            .eq("conversation_id", existingConv.id);
+
+          const participantIds = (participants || []).map((p) => p.user_id);
+          const selectedUserId = selectedUsers[0].id;
+
+          if (
+            participantIds.includes(user.id) &&
+            participantIds.includes(selectedUserId)
+          ) {
+            // Conversation already exists with both users
+            onClose();
+            router.push(`/chat/${existingConv.id}`);
+            return;
+          }
+        }
+      }
+
+      // Create new conversation
       const { data: convData, error: convError } = await supabase
         .from("chat_conversations")
         .insert({
@@ -106,7 +141,7 @@ export function NewChatModal({ isOpen, onClose }: NewChatModalProps) {
 
       if (convError) throw convError;
 
-      const convId = convData.id;
+      convId = convData.id;
 
       // Add all participants
       const participants = [
