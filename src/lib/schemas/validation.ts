@@ -28,7 +28,36 @@ export const articleSchema = z.object({
   is_premium: z.boolean().optional(),
 });
 
+export const trackingSchema = z.object({
+  path: z.string().min(1).max(2048),
+  language: z.enum(["en", "fr", "skt", "lin", "swa", "tsh"]),
+  user_id: z.string().uuid().optional().or(z.null()),
+  session_id: z.string().optional().or(z.null()),
+  referrer: z.string().max(2048).optional().or(z.null()),
+  user_agent: z.string().optional().or(z.null()),
+  metadata: z.record(z.string(), z.unknown()).optional(),
+});
+
+export const pushSubscribeSchema = z.object({
+  endpoint: z.string().url(),
+  p256dh: z.string(),
+  auth: z.string(),
+});
+
+export const pushUnsubscribeSchema = z.object({
+  endpoint: z.string().url(),
+});
+
+export const contributionRequestSchema = z.object({
+  requestType: z.enum(["article_writer", "contributor"]),
+  message: z.string().max(5000).optional().or(z.literal("")).or(z.null()),
+});
+
 export type AuthFormData = z.infer<typeof authSchema>;
 export type ProfileFormData = z.infer<typeof profileSchema>;
 export type ChatInputData = z.infer<typeof chatInputSchema>;
 export type ArticleFormData = z.infer<typeof articleSchema>;
+export type TrackingData = z.infer<typeof trackingSchema>;
+export type PushSubscribeData = z.infer<typeof pushSubscribeSchema>;
+export type PushUnsubscribeData = z.infer<typeof pushUnsubscribeSchema>;
+export type ContributionRequestData = z.infer<typeof contributionRequestSchema>;

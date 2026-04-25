@@ -1,15 +1,45 @@
 import { Pinecone } from "@pinecone-database/pinecone";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { NextResponse } from "next/server";
+import { createServerClient } from "@supabase/ssr";
+import { cookies } from "next/headers";
 
 export const dynamic = 'force-dynamic';
 
-export async function POST(req: Request) {
-  const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || "");
-  const pc = new Pinecone({ apiKey: process.env.PINECONE_API_KEY || "" });
-  const index = pc.Index(process.env.PINECONE_INDEX || "sakata");
+async function authGuard() {
+  const cookieStore = await cookies();
+  const supabase = createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    { cookies: { getAll: () => cookieStore.getAll(), setAll: () => {} } }
+  );
 
+  const { data: { user }, error: authError } = await supabase.auth.getUser();
+  if (!user || authError) {
+    return { authorized: false, user: null };
+  }
+
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("role")
+    .eq("id", user.id)
+    .single();
+
+  const isAdmin = profile?.role === "admin" || profile?.role === "manager";
+  return { authorized: isAdmin, user };
+}
+
+export async function POST(req: Request) {
   try {
+    const { authorized } = await authGuard();
+    if (!authorized) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || "");
+    const pc = new Pinecone({ apiKey: process.env.PINECONE_API_KEY || "" });
+    const index = pc.Index(process.env.PINECONE_INDEX || "sakata");
+
     const { message, history = [] } = await req.json();
 
     if (!message) {

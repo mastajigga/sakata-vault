@@ -1,12 +1,42 @@
 import { supabaseAdmin } from "@/lib/supabase/admin";
+import { createServerClient } from "@supabase/ssr";
+import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
 export const dynamic = 'force-dynamic';
 
 const BUCKET = "library";
 
+async function authGuard() {
+  const cookieStore = await cookies();
+  const supabase = createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    { cookies: { getAll: () => cookieStore.getAll(), setAll: () => {} } }
+  );
+
+  const { data: { user }, error: authError } = await supabase.auth.getUser();
+  if (!user || authError) {
+    return { authorized: false, user: null };
+  }
+
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("role")
+    .eq("id", user.id)
+    .single();
+
+  const isAdmin = profile?.role === "admin" || profile?.role === "manager";
+  return { authorized: isAdmin, user };
+}
+
 export async function GET() {
   try {
+    const { authorized } = await authGuard();
+    if (!authorized) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
     const { data: files, error } = await supabaseAdmin.storage.from(BUCKET).list("", {
       limit: 100,
       offset: 0,
@@ -32,6 +62,11 @@ export async function GET() {
 
 export async function POST(req: Request) {
   try {
+    const { authorized } = await authGuard();
+    if (!authorized) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
     const formData = await req.formData();
     const file = formData.get("file") as File;
 
@@ -60,6 +95,11 @@ export async function POST(req: Request) {
 
 export async function DELETE(req: Request) {
   try {
+    const { authorized } = await authGuard();
+    if (!authorized) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
     const { searchParams } = new URL(req.url);
     const fileName = searchParams.get("fileName");
 

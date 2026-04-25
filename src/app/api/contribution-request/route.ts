@@ -1,7 +1,9 @@
 import { NextResponse } from "next/server";
+import { z } from "zod";
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 import { DB_TABLES } from "@/lib/constants/db";
+import { contributionRequestSchema } from "@/lib/schemas/validation";
 
 export async function POST(request: Request) {
   try {
@@ -34,14 +36,9 @@ export async function POST(request: Request) {
       );
     }
 
-    const { requestType = "article_writer", message = "" } = await request.json();
-
-    if (!["article_writer", "contributor"].includes(requestType)) {
-      return NextResponse.json(
-        { error: "Type de demande invalide" },
-        { status: 400 }
-      );
-    }
+    const body = await request.json();
+    const validated = contributionRequestSchema.parse(body);
+    const { requestType, message } = validated;
 
     // Check if user already has a pending request of this type
     const { data: existingRequest } = await supabase
@@ -92,6 +89,12 @@ export async function POST(request: Request) {
       { status: 201 }
     );
   } catch (err) {
+    if (err instanceof z.ZodError) {
+      return NextResponse.json(
+        { error: "Validation failed", details: err.issues },
+        { status: 400 }
+      );
+    }
     console.error("POST /api/contribution-request:", err);
     const message = err instanceof Error ? err.message : "Unknown error";
     return NextResponse.json(
