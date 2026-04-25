@@ -103,7 +103,7 @@ export async function POST(request: Request) {
 
     if (err instanceof z.ZodError) {
       return NextResponse.json(
-        { error: "Validation échouée.", details: err.errors },
+        { error: "Validation échouée.", details: err.issues },
         { status: 400 }
       );
     }
