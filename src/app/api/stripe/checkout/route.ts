@@ -112,7 +112,12 @@ export async function POST(req: Request) {
     return NextResponse.json({ url: checkoutSession.url, sessionId: checkoutSession.id });
 
   } catch (err: any) {
-    console.error("Erreur lors de la création de la session checkout:", err);
-    return NextResponse.json({ error: "Erreur serveur : " + err.message }, { status: 500 });
+    console.error("[Stripe Checkout] Session creation failed:", {
+      error: err instanceof Error ? err.message : String(err),
+      userId: user?.id,
+      action: "create_checkout_session",
+      timestamp: new Date().toISOString(),
+    });
+    return NextResponse.json({ error: "Erreur serveur lors de la création de la session de paiement" }, { status: 500 });
   }
 }

@@ -44,8 +44,21 @@ export default function CoursePage({ program }: CoursPageProps) {
       if (res.ok) {
         const data = (await res.json()) as SemanticEnrichment;
         setEnrichments((prev) => ({ ...prev, [chapterId]: data }));
+      } else if (!res.ok) {
+        console.warn("[CoursePage] Semantic enrichment failed:", {
+          status: res.status,
+          chapterId,
+          program: program.slug,
+        });
       }
-    } catch {}
+    } catch (err) {
+      console.error("[CoursePage] Semantic enrichment error:", {
+        error: err instanceof Error ? err.message : String(err),
+        chapterId,
+        program: program.slug,
+        timestamp: new Date().toISOString(),
+      });
+    }
   }, []); // no dep on enrichments
   useEffect(() => {
     if (activeChapterId) fetchEnrichment(activeChapterId);

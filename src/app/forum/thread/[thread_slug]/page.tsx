@@ -50,7 +50,12 @@ export default async function ThreadPage(props: { params: Promise<{ thread_slug:
     try {
       await supabaseAdmin.rpc('increment_thread_views', { t_id: thread.id });
     } catch (err) {
-      console.error('[ThreadPage] Failed to increment views:', err);
+      console.error('[ThreadPage] Failed to increment views:', {
+        error: err instanceof Error ? err.message : String(err),
+        threadId: thread.id,
+        threadSlug: thread.slug,
+        timestamp: new Date().toISOString(),
+      });
     }
   })().catch(() => {});
 

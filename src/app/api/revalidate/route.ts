@@ -18,7 +18,13 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const body = await request.json().catch(() => ({}));
+  const body = await request.json().catch((err) => {
+    console.error("[Revalidate] JSON parse failed:", {
+      error: err instanceof Error ? err.message : String(err),
+      timestamp: new Date().toISOString(),
+    });
+    return {};
+  });
   const { tag, path } = body as { tag?: string; path?: string };
 
   if (!tag && !path) {

@@ -248,7 +248,12 @@ const ArticleEditor = () => {
          alert("Narration IA générée avec succès ! Ne pas oublier de sauvegarder l'article.");
       }
     } catch (e) {
-      console.error(e);
+      console.error("[ArticleEditor] Voice generation failed:", {
+        error: e instanceof Error ? e.message : String(e),
+        slug,
+        timestamp: new Date().toISOString(),
+      });
+      alert("Erreur lors de la génération de la narration vocale. Veuillez réessayer.");
     } finally {
        setIsVoiceLoading(false);
     }

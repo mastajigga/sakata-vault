@@ -110,7 +110,12 @@ const Navbar = () => {
                   .filter((k) => k.startsWith("sakata-") || k.startsWith("sb-"))
                   .forEach((k) => localStorage.removeItem(k));
                 sessionStorage.clear();
-              } catch {}
+              } catch (err) {
+                console.error("[Navbar] Cache clearing failed:", {
+                  error: err instanceof Error ? err.message : String(err),
+                  timestamp: new Date().toISOString(),
+                });
+              }
               // 2. Vider le cache Service Worker / Next.js (Cache API)
               if ("caches" in window) {
                 caches.keys().then((keys) => keys.forEach((k) => caches.delete(k)));

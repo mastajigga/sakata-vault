@@ -4,7 +4,8 @@
       "Bash(git add *)",
       "Bash(git commit -m 'fix\\(help\\): add missing Navbar to help pages layout *)",
       "Bash(git push *)",
-      "Bash(git commit -m 'fix\\(chat\\): Phase 1 critical fixes — colors.ts + subscription error handlers + signed URL durations *)"
+      "Bash(git commit -m 'fix\\(chat\\): Phase 1 critical fixes — colors.ts + subscription error handlers + signed URL durations *)",
+      "Bash(npm run *)"
     ]
   }
 }

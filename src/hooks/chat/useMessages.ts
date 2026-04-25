@@ -206,7 +206,12 @@ export function useMessages(conversationId: string) {
         }
       } catch (err: any) {
         if (err.name !== 'AbortError') {
-          console.error("JS Exception fetching messages:", err);
+          console.error("[Chat] Message fetch exception:", {
+            error: err instanceof Error ? err.message : String(err),
+            conversationId,
+            userId: userIdRef.current,
+            timestamp: new Date().toISOString(),
+          });
         }
       } finally {
         if (mounted) setLoading(false);
