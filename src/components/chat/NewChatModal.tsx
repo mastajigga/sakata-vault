@@ -113,7 +113,7 @@ export function NewChatModal({ isOpen, onClose }: NewChatModalProps) {
             .select("user_id")
             .eq("conversation_id", existingConv.id);
 
-          const participantIds = (participants || []).map((p) => p.user_id);
+          const participantIds = (participants as { user_id: string }[] || []).map((p) => p.user_id);
           const selectedUserId = selectedUsers[0].id;
 
           if (
