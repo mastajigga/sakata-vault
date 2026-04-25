@@ -3,7 +3,7 @@
 import React, { useEffect, useRef, useState, useCallback } from "react";
 import { ArrowLeft, MoreVertical, Timer, TimerOff, Loader2, Search as SearchIcon } from "lucide-react";
 import { MessageBubble } from "./MessageBubble";
-import { ChatInput } from "./ChatInput";
+import ChatInput from "./ChatInput";
 import { ChatSearch } from "./ChatSearch";
 import { useMessages } from "@/hooks/chat/useMessages";
 import { useTyping } from "@/hooks/chat/useTyping";
@@ -30,6 +30,8 @@ export type Message = {
   hasBeenViewedByMe?: boolean;
   reply_to_message_id?: string;
   replied_to_message?: Message;
+  edited_at?: string | null;
+  edited_by_user_id?: string | null;
 };
 
 // Emoji → nombre d'utilisateurs ayant réagi
@@ -47,6 +49,7 @@ interface ChatWindowProps {
 export function ChatWindow({ conversationId, onBack }: ChatWindowProps) {
   const { user } = useAuth();
   const scrollRef = useRef<HTMLDivElement>(null);
+  const chatInputRef = useRef<{ focusInput: () => void } | null>(null);
   const {
     messages,
     loading,
@@ -214,13 +217,54 @@ export function ChatWindow({ conversationId, onBack }: ChatWindowProps) {
     setRepliedMessage(null);
   };
 
+  const scrollToBottom = useCallback(() => {
+    if (scrollRef.current) {
+      requestAnimationFrame(() => {
+        if (scrollRef.current) {
+          scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+          isAtBottomRef.current = true;
+        }
+      });
+    }
+  }, []);
+
   const handleReply = useCallback((message: Message) => {
     setRepliedMessage(message);
+    // Auto-focus input after setting reply
+    requestAnimationFrame(() => {
+      chatInputRef.current?.focusInput();
+    });
   }, []);
 
   const handleDelete = useCallback((id: string) => {
     deleteMessage(id);
   }, [deleteMessage]);
+
+  const handleEdit = useCallback(async (message: Message, newContent: string) => {
+    if (!user?.id) return;
+
+    try {
+      const response = await fetch(`/api/chat/messages/${message.id}/edit`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${(await supabase.auth.getSession()).data.session?.access_token || ""}`,
+        },
+        body: JSON.stringify({ content: newContent }),
+      });
+
+      if (!response.ok) {
+        const err = await response.json();
+        alert(`Erreur: ${err.error || "Impossible de modifier le message"}`);
+        return;
+      }
+
+      // Realtime subscription will automatically sync the updated message
+    } catch (err) {
+      console.error("Failed to edit message:", err);
+      alert("Erreur lors de la modification du message");
+    }
+  }, [user?.id]);
 
   const handleJumpToMessage = useCallback((messageId: string) => {
     setShowSearch(false);
@@ -487,6 +531,7 @@ export function ChatWindow({ conversationId, onBack }: ChatWindowProps) {
                 onReact={handleReact}
                 onReply={handleReply}
                 onDelete={handleDelete}
+                onEdit={handleEdit}
               />
             );
           })
@@ -509,6 +554,7 @@ export function ChatWindow({ conversationId, onBack }: ChatWindowProps) {
 
       {/* Input */}
       <ChatInput
+        ref={chatInputRef}
         onSend={handleSendMessage}
         onTyping={updateTyping}
         isTemporaryConversation={isTemporaryConversation}

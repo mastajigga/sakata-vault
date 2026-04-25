@@ -2,7 +2,7 @@
 
 import React, { useRef, useState, useEffect, useCallback } from "react";
 import { Message, ReactionMap } from "./ChatWindow";
-import { FileText, Clock, Play, Pause, Download, Lock, Eye, Check, CheckCheck, Reply, X, Trash2 } from "lucide-react";
+import { FileText, Clock, Play, Pause, Download, Lock, Eye, Check, CheckCheck, Reply, X, Trash2, Edit2 } from "lucide-react";
 import { TIMINGS } from "@/lib/constants/timings";
 import { msgViewedKey } from "@/lib/constants/storage";
 import { supabase } from "@/lib/supabase";
@@ -35,6 +35,7 @@ interface MessageBubbleProps {
   onReact?: (messageId: string, emoji: string) => void;
   onReply?: (message: Message) => void;
   onDelete?: (id: string) => void;
+  onEdit?: (message: Message, newContent: string) => void;
 }
 
 // ─── Audio Player ────────────────────────────────────────────────────────────
@@ -372,10 +373,12 @@ function ProtectedImage({
 
 // ─── MessageBubble ────────────────────────────────────────────────────────────
 
-export function MessageBubble({ message, isTemporary, reactions = {}, myReactions, onReact, onReply, onDelete }: MessageBubbleProps) {
+export function MessageBubble({ message, isTemporary, reactions = {}, myReactions, onReact, onReply, onDelete, onEdit }: MessageBubbleProps) {
   const isMe = message.isMe;
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [repliedToMessage, setRepliedToMessage] = useState<Message | undefined>(message.replied_to_message);
+  const [isEditMode, setIsEditMode] = useState(false);
+  const [editedContent, setEditedContent] = useState(message.content);
   const isProtectedImage =
     message.fileType === "image" &&
     message.fileUrl &&
@@ -470,6 +473,44 @@ export function MessageBubble({ message, isTemporary, reactions = {}, myReaction
       }
     }
 
+    if (isEditMode) {
+      return (
+        <div className="flex flex-col gap-2">
+          <textarea
+            autoFocus
+            value={editedContent}
+            onChange={(e) => setEditedContent(e.target.value)}
+            className="p-2 rounded border border-amber-400/50 bg-white dark:bg-stone-700 text-stone-800 dark:text-white resize-none text-[15px] max-w-xs"
+            style={{ minHeight: "60px" }}
+          />
+          <div className="flex gap-2">
+            <button
+              type="button"
+              onClick={() => {
+                if (editedContent.trim()) {
+                  onEdit?.(message, editedContent.trim());
+                  setIsEditMode(false);
+                }
+              }}
+              className="px-3 py-1 rounded bg-amber-600 hover:bg-amber-700 text-white text-sm transition-colors"
+            >
+              Enregistrer
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setIsEditMode(false);
+                setEditedContent(message.content);
+              }}
+              className="px-3 py-1 rounded bg-stone-300 dark:bg-stone-600 hover:bg-stone-400 dark:hover:bg-stone-500 text-stone-800 dark:text-white text-sm transition-colors"
+            >
+              Annuler
+            </button>
+          </div>
+        </div>
+      );
+    }
+
     return <p className="text-[15px] leading-relaxed">{message.content}</p>;
   };
 
@@ -523,7 +564,7 @@ export function MessageBubble({ message, isTemporary, reactions = {}, myReaction
           </div>
 
           {/* Action buttons (visible au hover) */}
-          {(onReply || onReact || (isMe && onDelete)) && (
+          {(onReply || onReact || (isMe && onDelete) || (isMe && onEdit)) && (
             <div className={`absolute top-1 ${isMe ? "left-0 -translate-x-full pr-1 flex-row-reverse" : "right-0 translate-x-full pl-1"} opacity-0 group-hover:opacity-100 transition-opacity flex gap-1`}>
               {/* Reply button */}
               {onReply && (
@@ -547,6 +588,19 @@ export function MessageBubble({ message, isTemporary, reactions = {}, myReaction
                   className="w-7 h-7 rounded-full bg-stone-100 dark:bg-stone-700 hover:bg-stone-200 dark:hover:bg-stone-600 flex items-center justify-center text-sm shadow transition-colors"
                 >
                   😊
+                </button>
+              )}
+
+              {/* Edit button — only for own messages */}
+              {isMe && onEdit && (
+                <button
+                  type="button"
+                  aria-label="Modifier le message"
+                  onClick={() => setIsEditMode(true)}
+                  className="w-7 h-7 rounded-full bg-stone-100 dark:bg-stone-700 hover:bg-amber-100 dark:hover:bg-amber-900/30 flex items-center justify-center text-sm shadow transition-colors"
+                  title="Modifier"
+                >
+                  <Edit2 size={13} className="text-stone-400 hover:text-amber-600 transition-colors" />
                 </button>
               )}
 
@@ -605,7 +659,7 @@ export function MessageBubble({ message, isTemporary, reactions = {}, myReaction
           <div
             className={`flex items-center mt-1 space-x-1 ${
               isMe ? "justify-end" : "justify-start"
-            }`}
+            } flex-wrap`}
           >
             {expLabel && (
               <span className="flex items-center text-[10px] text-amber-600/80 mr-1">
@@ -620,6 +674,10 @@ export function MessageBubble({ message, isTemporary, reactions = {}, myReaction
               </span>
             )}
             <span className="text-[11px] text-stone-400">{message.createdAt}</span>
+            {/* (modifié) badge */}
+            {message.edited_at && (
+              <span className="text-[10px] text-stone-400 italic">(modifié)</span>
+            )}
             {/* Double tick — indicateur de lecture */}
             {isMe && (
               <span className="ml-0.5 flex items-center">

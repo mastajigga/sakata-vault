@@ -70,6 +70,8 @@ export function useMessages(conversationId: string) {
     expiresIn: msg.expires_in,
     maxViews: msg.max_views,
     reply_to_message_id: msg.reply_to_message_id,
+    edited_at: msg.edited_at || null,
+    edited_by_user_id: msg.edited_by_user_id || null,
   }), []);
 
   const resolveSignedUrls = useCallback(async (msgs: Message[]): Promise<Message[]> => {
@@ -176,6 +178,7 @@ export function useMessages(conversationId: string) {
             .select(`
               id, content, file_url, file_type, created_at, expires_in,
               sender_id, max_views, reply_to_message_id,
+              edited_at, edited_by_user_id,
               profiles:sender_id ( nickname, username )
             `)
             .eq('conversation_id', conversationId)
@@ -300,6 +303,22 @@ export function useMessages(conversationId: string) {
       .on('postgres_changes', {
         event: 'UPDATE',
         schema: 'public',
+        table: DB_TABLES.CHAT_MESSAGES,
+        filter: `conversation_id=eq.${conversationId}`
+      }, (payload: any) => {
+        if (!mounted) return;
+        const updated = payload.new;
+        if (updated.edited_at) {
+          setMessages(prev => prev.map(msg =>
+            msg.id === updated.id
+              ? { ...msg, content: updated.content, edited_at: updated.edited_at, edited_by_user_id: updated.edited_by_user_id }
+              : msg
+          ));
+        }
+      })
+      .on('postgres_changes', {
+        event: 'UPDATE',
+        schema: 'public',
         table: DB_TABLES.CHAT_PARTICIPANTS,
         filter: `conversation_id=eq.${conversationId}`
       }, (payload: any) => {
@@ -353,6 +372,7 @@ export function useMessages(conversationId: string) {
           .select(`
             id, content, file_url, file_type, created_at, expires_in,
             sender_id, max_views, reply_to_message_id,
+            edited_at, edited_by_user_id,
             profiles:sender_id ( nickname, username )
           `)
           .eq('conversation_id', conversationId)

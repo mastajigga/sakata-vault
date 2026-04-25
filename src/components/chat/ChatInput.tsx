@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef, useEffect, useCallback } from "react";
+import React, { useState, useRef, useEffect, useCallback, useImperativeHandle } from "react";
 import { Send, Paperclip, Mic, X, Clock, Play, Pause, Eye } from "lucide-react";
 import { TIMINGS } from "@/lib/constants/timings";
 import {
@@ -113,14 +113,15 @@ function EphemeralImagePicker({
 
 // ─── ChatInput ────────────────────────────────────────────────────────────────
 
-export function ChatInput({
-  onSend,
-  onTyping,
-  isTemporaryConversation,
-  temporaryDuration,
-  repliedMessage,
-  onClearReply,
-}: ChatInputProps) {
+const ChatInput = React.forwardRef<{ focusInput: () => void }, ChatInputProps>(
+  function ChatInput({
+    onSend,
+    onTyping,
+    isTemporaryConversation,
+    temporaryDuration,
+    repliedMessage,
+    onClearReply,
+  }: ChatInputProps, ref: React.Ref<{ focusInput: () => void }>) {
   const [content, setContent] = useState("");
   const [showOptions, setShowOptions] = useState(false);
   const [expiresIn, setExpiresIn] = useState<ExpiryDuration>(
@@ -151,6 +152,15 @@ export function ChatInput({
   const previewAudioRef = useRef<HTMLAudioElement | null>(null);
 
   const typingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Expose focusInput method to parent via ref
+  useImperativeHandle(ref, () => ({
+    focusInput: () => {
+      if (inputRef.current) {
+        inputRef.current.focus();
+      }
+    }
+  }), []);
 
   // Derive whether the current attachment is an image (non-audio)
   const isImageAttachment = !!(attachment && attachment.type.startsWith("image/") && !audioPreviewUrl);
@@ -571,4 +581,7 @@ export function ChatInput({
       </div>
     </div>
   );
-}
+  }
+);
+
+export default ChatInput;
