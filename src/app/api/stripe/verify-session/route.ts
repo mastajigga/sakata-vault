@@ -1,19 +1,19 @@
 import { NextResponse } from 'next/server';
+import { z } from 'zod';
 import { stripe } from '@/lib/stripe';
 import { supabaseAdmin, supabasePublic } from '@/lib/supabase/admin';
 import { DB_TABLES } from '@/lib/constants/db';
+import { stripeVerifySessionSchema } from '@/lib/schemas/validation';
 
 export async function GET(req: Request) {
   try {
     const { searchParams } = new URL(req.url);
     const sessionId = searchParams.get('session_id');
 
+    const validated = stripeVerifySessionSchema.parse({ sessionId });
+
     const authHeader = req.headers.get('Authorization');
     const token = authHeader?.split(' ')[1];
-
-    if (!sessionId) {
-      return NextResponse.json({ error: "session_id manquant." }, { status: 400 });
-    }
 
     if (!token) {
       return NextResponse.json({ error: "Non autorisé." }, { status: 401 });
@@ -26,7 +26,7 @@ export async function GET(req: Request) {
     }
 
     // Récupérer la session Stripe
-    const session = await stripe.checkout.sessions.retrieve(sessionId, {
+    const session = await stripe.checkout.sessions.retrieve(validated.sessionId, {
       expand: ['subscription', 'customer'],
     });
 
@@ -108,6 +108,12 @@ export async function GET(req: Request) {
       { headers: { 'Cache-Control': 'no-store' } }
     );
   } catch (err: any) {
+    if (err instanceof z.ZodError) {
+      return NextResponse.json(
+        { error: "Validation failed", details: err.issues },
+        { status: 400, headers: { 'Cache-Control': 'no-store' } }
+      );
+    }
     console.error("Erreur vérification session Stripe:", err);
     return NextResponse.json(
       { error: "Erreur serveur : " + err.message },

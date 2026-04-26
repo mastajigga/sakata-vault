@@ -1,7 +1,9 @@
 import { NextResponse } from 'next/server';
+import { z } from 'zod';
 import { stripe } from '@/lib/stripe';
 import { supabaseAdmin, supabasePublic } from '@/lib/supabase/admin';
 import { DB_TABLES } from '@/lib/constants/db';
+import { stripePortalSchema } from '@/lib/schemas/validation';
 
 export async function POST(req: Request) {
   try {
@@ -18,6 +20,9 @@ export async function POST(req: Request) {
     if (authError || !user) {
       return NextResponse.json({ error: "Non autorisé. Jeton invalide." }, { status: 401 });
     }
+
+    const body = await req.json().catch(() => ({}));
+    const validated = stripePortalSchema.parse(body);
 
     // Récupérer le stripe_customer_id depuis le profil
     const { data: profile } = await supabaseAdmin
@@ -46,9 +51,15 @@ export async function POST(req: Request) {
       { headers: { 'Cache-Control': 'no-store' } }
     );
   } catch (err: any) {
+    if (err instanceof z.ZodError) {
+      return NextResponse.json(
+        { error: "Validation failed", details: err.issues },
+        { status: 400, headers: { 'Cache-Control': 'no-store' } }
+      );
+    }
     console.error("Erreur création portail Stripe:", err);
     return NextResponse.json(
-      { error: "Erreur serveur : " + err.message },
+      { error: "Erreur serveur" },
       { status: 500, headers: { 'Cache-Control': 'no-store' } }
     );
   }

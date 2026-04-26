@@ -1,13 +1,15 @@
 import { NextResponse } from 'next/server';
+import { z } from 'zod';
 import { stripe } from '@/lib/stripe';
 import { supabaseAdmin, supabasePublic } from '@/lib/supabase/admin';
 import { DB_TABLES } from '@/lib/constants/db';
+import { stripeCheckoutSchema } from '@/lib/schemas/validation';
 
 export async function POST(req: Request) {
   try {
     const authHeader = req.headers.get('Authorization');
     const token = authHeader?.split(' ')[1];
-    
+
     if (!token) {
        return NextResponse.json({ error: "Non autorisé. Jeton manquant." }, { status: 401 });
     }
@@ -21,11 +23,8 @@ export async function POST(req: Request) {
 
     const userId = user.id;
     const body = await req.json().catch(() => ({}));
-    const { priceId } = body;
-
-    if (!priceId) {
-      return NextResponse.json({ error: "Identifiant de prix manquant." }, { status: 400 });
-    }
+    const validated = stripeCheckoutSchema.parse(body);
+    const { priceId } = validated;
 
     // Check if user already has active premium subscription (prevent double-buy)
     const { data: existingSub } = await supabaseAdmin
@@ -112,11 +111,20 @@ export async function POST(req: Request) {
     return NextResponse.json({ url: checkoutSession.url, sessionId: checkoutSession.id });
 
   } catch (err: any) {
+    if (err instanceof z.ZodError) {
+      return NextResponse.json(
+        { error: "Validation failed", details: err.issues },
+        { status: 400, headers: { 'Cache-Control': 'no-store' } }
+      );
+    }
     console.error("[Stripe Checkout] Session creation failed:", {
       error: err instanceof Error ? err.message : String(err),
       action: "create_checkout_session",
       timestamp: new Date().toISOString(),
     });
-    return NextResponse.json({ error: "Erreur serveur lors de la création de la session de paiement" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Erreur serveur" },
+      { status: 500, headers: { 'Cache-Control': 'no-store' } }
+    );
   }
 }

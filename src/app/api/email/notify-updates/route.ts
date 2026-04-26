@@ -1,9 +1,11 @@
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
+import { z } from "zod";
 import { DB_TABLES } from "@/lib/constants/db";
 import { emailTemplates, getPhase2Updates } from "@/lib/email/templates";
 import { USER_ROLES } from "@/lib/constants/business";
+import { emailNotifySchema } from "@/lib/schemas/validation";
 
 export async function POST(req: NextRequest) {
   try {
@@ -48,7 +50,10 @@ export async function POST(req: NextRequest) {
 
     console.log(`✅ Email API: Admin ${user.email} authorized`);
 
-    const { subject, updateType = "phase2" } = await req.json();
+    const body = await req.json();
+    const validated = emailNotifySchema.parse(body);
+    const updateType = validated.updateType || "phase2";
+    const subject = validated.subject;
 
     // Get all registered users (exclude admin/test accounts if needed)
     const { data: profiles, error: profilesError } = await supabase
@@ -108,9 +113,15 @@ export async function POST(req: NextRequest) {
       { status: 200 }
     );
   } catch (error) {
+    if (error instanceof z.ZodError) {
+      return NextResponse.json(
+        { error: "Validation failed", details: error.issues },
+        { status: 400 }
+      );
+    }
     console.error("Email notification error:", error);
     return NextResponse.json(
-      { error: "Failed to send email notifications" },
+      { error: "Internal server error" },
       { status: 500 }
     );
   }

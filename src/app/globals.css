@@ -24,11 +24,22 @@
   --eau-sombre: #0C2920;
   --brume-matinale: #D4DDD7;
   --ivoire-ancien: #F0EDE5;
+  --ivoire-clair: #E9DCC9;
   --or-ancestral: #C4A035;
+  --or-vif: #E9C46A;
   --amber-light: #E8C670;
   --emerald-deep: #0F2C24;
   --verre-forestier: rgba(10, 31, 21, 0.6);
   --bordure-brume: rgba(212, 221, 215, 0.08);
+
+  /* Additional UI Colors */
+  --or-gold: #B59551;
+  --ivoire-warm: #F2EEDD;
+  --teal-dark-1: #122A1E;
+  --teal-dark-2: #1A3A2E;
+  --space-color: #010B14;
+  --alert-red: #EF4444;
+  --info-blue: #3B82F6;
 
   /* Functional Aliases (V1-focused) */
   --bg-primary: var(--foret-nocturne);

@@ -1,7 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
+import { z } from "zod";
 import { supabaseAdmin } from "@/lib/supabase/admin";
 import { DB_TABLES } from "@/lib/constants/db";
 import { getPineconeIndex } from "@/lib/pinecone/client";
+import { ecoleSemanticContentSchema } from "@/lib/schemas/validation";
 
 const CACHE_TTL_MS = 24 * 60 * 60 * 1000; // 24h
 
@@ -327,15 +329,10 @@ const STATIC_ENRICHMENTS: Record<string, Omit<SemanticEnrichment, "cached">> = {
 
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json() as { chapter: string; gradeLevel?: string };
-    const { chapter, gradeLevel = "secondary" } = body;
-
-    if (!chapter) {
-      return NextResponse.json(
-        { error: "chapter is required" },
-        { status: 400, headers: { "Cache-Control": "no-store" } }
-      );
-    }
+    const body = await request.json();
+    const validated = ecoleSemanticContentSchema.parse(body);
+    const chapter = validated.chapter;
+    const gradeLevel = validated.gradeLevel || "secondary";
 
     // 1. Check Supabase cache first
     try {
@@ -386,6 +383,12 @@ export async function POST(request: NextRequest) {
       headers: { "Cache-Control": "no-store" },
     });
   } catch (err) {
+    if (err instanceof z.ZodError) {
+      return NextResponse.json(
+        { error: "Validation failed", details: err.issues },
+        { status: 400, headers: { "Cache-Control": "no-store" } }
+      );
+    }
     console.error("[semantic-content]", err);
     return NextResponse.json(
       { error: "Internal server error" },

@@ -1,13 +1,8 @@
 import { NextResponse } from "next/server";
+import { supabaseAdmin } from "@/lib/supabase/admin";
 import { supabasePublic } from "@/lib/supabase/admin";
 import { withRetry } from "@/lib/supabase-retry";
 import { DB_TABLES } from "@/lib/constants/db";
-import { z } from "zod";
-
-const noteSchema = z.object({
-  title: z.string().min(1).max(200),
-  content: z.string().min(1).max(10000),
-});
 
 export async function GET(request: Request) {
   try {
@@ -30,28 +25,32 @@ export async function GET(request: Request) {
       );
     }
 
-    const { data: notes, error } = await withRetry(async () =>
-      supabasePublic
-        .from("admin_notes")
+    const { data: notes, error: notesError } = await withRetry(async () =>
+      supabaseAdmin
+        .from(DB_TABLES.ADMIN_NOTES)
         .select("*")
         .eq("user_id", user.id)
-        .eq("archived", false)
         .order("created_at", { ascending: false })
     );
 
-    if (error) {
-      console.error("[Admin Notes] Fetch failed:", error);
+    if (notesError) {
+      console.error("[Admin Notes GET] Fetch failed:", {
+        error: notesError.message,
+        userId: user.id,
+      });
       return NextResponse.json(
-        { error: "Erreur lors de la récupération des notes." },
+        { error: "Erreur lors du chargement des notes." },
         { status: 500 }
       );
     }
 
-    return NextResponse.json(notes);
+    return NextResponse.json(notes || []);
   } catch (err: any) {
-    console.error("[Admin Notes] Request failed:", err);
+    console.error("[Admin Notes GET] Request failed:", {
+      error: err instanceof Error ? err.message : String(err),
+    });
     return NextResponse.json(
-      { error: "Erreur serveur." },
+      { error: "Erreur serveur lors du chargement des notes." },
       { status: 500 }
     );
   }
@@ -79,18 +78,39 @@ export async function POST(request: Request) {
     }
 
     const body = await request.json();
-    const { title, content } = noteSchema.parse(body);
+    const { title, content } = body;
 
-    const { data: note, error } = await withRetry(async () =>
-      supabasePublic
-        .from("admin_notes")
-        .insert([{ user_id: user.id, title, content }])
+    if (!title || !content) {
+      return NextResponse.json(
+        { error: "Titre et contenu sont requis." },
+        { status: 400 }
+      );
+    }
+
+    if (title.length > 255) {
+      return NextResponse.json(
+        { error: "Le titre ne peut pas dépasser 255 caractères." },
+        { status: 400 }
+      );
+    }
+
+    const { data: note, error: insertError } = await withRetry(async () =>
+      supabaseAdmin
+        .from(DB_TABLES.ADMIN_NOTES)
+        .insert({
+          user_id: user.id,
+          title: title.trim(),
+          content: content.trim(),
+        })
         .select()
         .single()
     );
 
-    if (error || !note) {
-      console.error("[Admin Notes] Insert failed:", error);
+    if (insertError || !note) {
+      console.error("[Admin Notes POST] Insert failed:", {
+        error: insertError?.message,
+        userId: user.id,
+      });
       return NextResponse.json(
         { error: "Erreur lors de la création de la note." },
         { status: 500 }
@@ -99,17 +119,11 @@ export async function POST(request: Request) {
 
     return NextResponse.json(note, { status: 201 });
   } catch (err: any) {
-    console.error("[Admin Notes] Request failed:", err);
-
-    if (err instanceof z.ZodError) {
-      return NextResponse.json(
-        { error: "Validation échouée.", details: err.issues },
-        { status: 400 }
-      );
-    }
-
+    console.error("[Admin Notes POST] Request failed:", {
+      error: err instanceof Error ? err.message : String(err),
+    });
     return NextResponse.json(
-      { error: "Erreur serveur." },
+      { error: "Erreur serveur lors de la création de la note." },
       { status: 500 }
     );
   }

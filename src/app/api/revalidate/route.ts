@@ -1,5 +1,7 @@
 import { revalidatePath, revalidateTag } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
+import { z } from "zod";
+import { revalidateSchema } from "@/lib/schemas/validation";
 
 /**
  * ISR Cache Revalidation Endpoint
@@ -13,30 +15,41 @@ import { NextRequest, NextResponse } from "next/server";
  *   { path?: string }  — revalidate by path (falls back to "/" if absent)
  */
 export async function POST(request: NextRequest) {
-  const secret = request.headers.get("x-revalidate-secret");
-  if (secret !== process.env.REVALIDATE_SECRET) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
+  try {
+    const secret = request.headers.get("x-revalidate-secret");
+    if (secret !== process.env.REVALIDATE_SECRET) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
 
-  const body = await request.json().catch((err) => {
-    console.error("[Revalidate] JSON parse failed:", {
-      error: err instanceof Error ? err.message : String(err),
-      timestamp: new Date().toISOString(),
+    const body = await request.json().catch((err) => {
+      console.error("[Revalidate] JSON parse failed:", {
+        error: err instanceof Error ? err.message : String(err),
+        timestamp: new Date().toISOString(),
+      });
+      return {};
     });
-    return {};
-  });
-  const { tag, path } = body as { tag?: string; path?: string };
 
-  if (!tag && !path) {
-    return NextResponse.json({ error: "Missing tag or path" }, { status: 400 });
-  }
+    const validated = revalidateSchema.parse(body);
 
-  if (tag) {
-    revalidateTag(tag, {});
-  }
-  if (path) {
-    revalidatePath(path, "page");
-  }
+    if (validated.tag) {
+      revalidateTag(validated.tag, {});
+    }
+    if (validated.path) {
+      revalidatePath(validated.path, "page");
+    }
 
-  return NextResponse.json({ revalidated: true, tag, path }, { status: 200 });
+    return NextResponse.json({ revalidated: true, tag: validated.tag, path: validated.path }, { status: 200 });
+  } catch (err: any) {
+    if (err instanceof z.ZodError) {
+      return NextResponse.json(
+        { error: "Validation failed", details: err.issues },
+        { status: 400 }
+      );
+    }
+    console.error("[Revalidate] Unexpected error:", err);
+    return NextResponse.json(
+      { error: "Internal server error" },
+      { status: 500 }
+    );
+  }
 }

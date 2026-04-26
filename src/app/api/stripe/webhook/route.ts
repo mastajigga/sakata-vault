@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
+import Stripe from 'stripe';
 import { stripe } from '@/lib/stripe';
-import { supabaseAdmin } from '@/lib/supabase/admin'; 
+import { supabaseAdmin } from '@/lib/supabase/admin';
 // Note: webhook uses supabaseAdmin to bypass RLS because it is a server-to-server call.
 import { DB_TABLES } from '@/lib/constants/db';
 
@@ -21,19 +22,21 @@ export async function POST(req: Request) {
   }
 
   try {
-    switch (event.type) {
+    const typedEvent = event as Stripe.Event;
+
+    switch (typedEvent.type) {
       case 'checkout.session.completed': {
-        const session = event.data.object as any;
+        const session = typedEvent.data.object as Stripe.Checkout.Session;
         const customerId = session.customer as string;
         const subscriptionId = session.subscription as string;
-        const userId = session.metadata?.supabase_user_id;
+        const userId = (session.metadata?.supabase_user_id as string) || undefined;
         const sessionId = session.id;
 
         if (userId && subscriptionId) {
           // Get subscription details from Stripe
-          const subscription = await stripe.subscriptions.retrieve(subscriptionId) as any;
-          const currentPeriodStart = new Date(subscription.current_period_start * 1000);
-          const currentPeriodEnd = new Date(subscription.current_period_end * 1000);
+          const subscription = await stripe.subscriptions.retrieve(subscriptionId);
+          const currentPeriodStart = new Date(((subscription as any).current_period_start || 0) * 1000);
+          const currentPeriodEnd = new Date(((subscription as any).current_period_end || 0) * 1000);
 
           // Create or update chat_subscriptions entry
           const { data: existingSub } = await supabaseAdmin
@@ -96,10 +99,10 @@ export async function POST(req: Request) {
       }
 
       case 'customer.subscription.updated': {
-        const subscription = event.data.object as any;
+        const subscription = typedEvent.data.object as Stripe.Subscription;
         const customerId = subscription.customer as string;
         const status = subscription.status;
-        const currentPeriodEnd = new Date(subscription.current_period_end * 1000);
+        const currentPeriodEnd = new Date(((subscription as any).current_period_end || 0) * 1000);
 
         // Update chat_subscriptions
         await supabaseAdmin
@@ -146,7 +149,7 @@ export async function POST(req: Request) {
       }
 
       case 'customer.subscription.deleted': {
-        const subscription = event.data.object as any;
+        const subscription = typedEvent.data.object as Stripe.Subscription;
         const customerId = subscription.customer as string;
 
         // Update chat_subscriptions
@@ -172,7 +175,7 @@ export async function POST(req: Request) {
       }
 
       default:
-        console.log(`Unhandled event type ${event.type}`);
+        console.log(`Unhandled event type ${typedEvent.type}`);
     }
   } catch (error: any) {
     console.error('Webhook payload error processing:', error);

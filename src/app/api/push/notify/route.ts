@@ -2,7 +2,9 @@ import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 import * as webpush from "web-push";
+import { z } from "zod";
 import { DB_TABLES } from "@/lib/constants/db";
+import { pushNotifyRouteSchema } from "@/lib/schemas/validation";
 
 // Configure web-push with VAPID (optional for production)
 if (process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY && process.env.VAPID_PRIVATE_KEY) {
@@ -37,14 +39,9 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const { conversationId, senderName, messagePreview, senderId } = await req.json();
-
-    if (!conversationId || !senderName) {
-      return NextResponse.json(
-        { error: "Missing required fields" },
-        { status: 400 }
-      );
-    }
+    const body = await req.json();
+    const validated = pushNotifyRouteSchema.parse(body);
+    const { conversationId, senderName, messagePreview, senderId } = validated;
 
     // Create service-role Supabase client for DB queries
     const supabase = createServerClient(
@@ -129,10 +126,16 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ sent: sentCount });
   } catch (error) {
+    if (error instanceof z.ZodError) {
+      return NextResponse.json(
+        { error: "Validation échouée", details: error.issues },
+        { status: 400 }
+      );
+    }
     console.error("Push notify error:", error);
     return NextResponse.json(
-      { error: "Failed to send notifications" },
-      { status: 500 }
+      { error: "Erreur serveur" },
+      { status: 500, headers: { 'Cache-Control': 'no-store' } }
     );
   }
 }

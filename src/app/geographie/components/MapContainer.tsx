@@ -173,9 +173,9 @@ const MapContainer = forwardRef<MapRef, MapContainerProps>(
           terrain={{ source: "mapbox-dem", exaggeration: 1.1 }}
           fog={{
             range: [0.5, 10],
-            color: "#0A1F15", // KISAKATA_COLORS.foretNocturne
-            "high-color": "#1B2838",
-            "space-color": "#010B14",
+            color: "#0A1F15", // var(--foret-nocturne)
+            "high-color": "#1B2838", // var(--ciel-nocturne)
+            "space-color": "#010B14", // var(--space-color)
             "horizon-blend": 0.5,
           } as any}
           maxPitch={85}

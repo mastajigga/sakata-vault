@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
@@ -25,6 +25,7 @@ const SectionCard = ({
   href = "#",
 }: SectionCardProps) => {
   const { language, t } = useLanguage();
+  const [isHovered, setIsHovered] = useState(false);
   
   const getText = (field: TranslatedOrString, fallbackLang: string = "fr"): string => {
     if (typeof field === "string") return field;
@@ -42,7 +43,12 @@ const SectionCard = ({
       viewport={{ once: true, margin: "-100px" }}
       className="group relative"
     >
-      <Link href={href} className="block cursor-pointer outline-none rounded-[2.5rem]">
+      <Link
+        href={href}
+        className="block cursor-pointer outline-none rounded-[2.5rem]"
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+      >
         {/* Outer Bezel (Material Shell) */}
         <div 
           className="relative p-[1px] overflow-hidden transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]"
@@ -80,13 +86,23 @@ const SectionCard = ({
                   }}
                 />
               ) : (
-                <div className="w-full h-full bg-gradient-to-br from-[#0A1F15] to-black/40 flex items-center justify-center">
+                <div
+                  className="w-full h-full flex items-center justify-center"
+                  style={{
+                    background: "linear-gradient(to bottom right, var(--foret-nocturne), rgba(0, 0, 0, 0.4))"
+                  }}
+                >
                   <span className="font-display text-4xl opacity-10 select-none">{category}</span>
                 </div>
               )}
 
               {/* Overlays */}
-              <div className="absolute inset-0 bg-gradient-to-t from-[#0A1F15] via-[#0A1F15]/20 to-transparent opacity-90" />
+              <div
+                className="absolute inset-0 opacity-90"
+                style={{
+                  background: "linear-gradient(to top, var(--foret-nocturne), rgba(10, 31, 21, 0.2), transparent)"
+                }}
+              />
               
               {/* Category Tag (Floating) */}
               <div
@@ -106,14 +122,21 @@ const SectionCard = ({
             {/* Content Body */}
             <div className="relative p-6 md:p-8 pt-5 md:pt-6 flex flex-col grow min-h-[180px]">
               <h3
-                className="font-display text-xl md:text-2xl mb-3 md:mb-4 font-bold text-[#E9DCC9] group-hover:text-[#E9C46A] transition-colors duration-500"
-                style={{ letterSpacing: "-0.02em", lineHeight: 1.1 }}
+                className="font-display text-xl md:text-2xl mb-3 md:mb-4 font-bold transition-colors duration-500"
+                style={{
+                  color: isHovered ? "var(--or-vif)" : "var(--ivoire-clair)",
+                  letterSpacing: "-0.02em",
+                  lineHeight: 1.1
+                }}
               >
                 {displayTitle}
               </h3>
-              
+
               <p
-                className="font-body text-xs md:text-sm text-[#E9DCC9]/60 leading-relaxed grow line-clamp-3 mb-6 md:mb-8"
+                className="font-body text-xs md:text-sm leading-relaxed grow line-clamp-3 mb-6 md:mb-8"
+                style={{
+                  color: "rgba(233, 220, 201, 0.6)"
+                }}
               >
                 {displayDesc}
               </p>
@@ -121,19 +144,35 @@ const SectionCard = ({
               {/* Reveal Footer */}
               <div className="flex items-center justify-between pt-5 md:pt-6 border-t border-white/5 mt-auto">
                 <div className="flex items-center gap-3">
-                  <div className="w-6 md:w-8 h-[1px] bg-[#E9C46A]/40 group-hover:w-12 transition-all duration-700" />
-                  <span className="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.15em] text-[#E9C46A]">
+                  <div
+                    className="h-[1px] transition-all duration-700"
+                    style={{
+                      width: isHovered ? "3rem" : "1.5rem",
+                      backgroundColor: "rgba(233, 196, 106, 0.4)"
+                    }}
+                  />
+                  <span
+                    className="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.15em]"
+                    style={{ color: "var(--or-vif)" }}
+                  >
                     {t("common.explore")}
                   </span>
                 </div>
-                
-                <div className="w-9 h-9 md:w-10 md:h-10 rounded-full flex items-center justify-center border border-white/10 group-hover:bg-[#E9C46A] group-hover:border-[#E9C46A] transition-all duration-500">
-                  <svg 
-                    width="12" 
-                    height="12" 
-                    viewBox="0 0 14 14" 
-                    fill="none" 
-                    className="stroke-[#E9C46A] group-hover:stroke-[#0A1F15] transition-colors duration-500"
+
+                <div
+                  className="w-9 h-9 md:w-10 md:h-10 rounded-full flex items-center justify-center transition-all duration-500"
+                  style={{
+                    backgroundColor: isHovered ? "var(--or-vif)" : "transparent",
+                    border: isHovered ? "1px solid var(--or-vif)" : "1px solid rgba(255, 255, 255, 0.1)"
+                  }}
+                >
+                  <svg
+                    width="12"
+                    height="12"
+                    viewBox="0 0 14 14"
+                    fill="none"
+                    style={{ stroke: isHovered ? "var(--foret-nocturne)" : "var(--or-vif)" }}
+                    className="transition-colors duration-500"
                   >
                     <path d="M1 13L13 1M13 1H3M13 1V11" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>

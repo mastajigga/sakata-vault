@@ -15,6 +15,11 @@ import {
   AreaChart, Area, XAxis, YAxis, CartesianGrid,
   Tooltip, ResponsiveContainer, BarChart, Bar
 } from "recharts";
+import type {
+  StatCardProps, AnalyticsChartProps, TopArticlesSectionProps,
+  LanguagesDevicesInsightsProps, AdminStats, DistributionItem,
+  LocationItem, SourceItem, ArticleItem, ChartDataPoint
+} from "./types";
 
 const COUNTRY_NAMES: Record<string, string> = {
   // African countries
@@ -112,7 +117,7 @@ const getCountryFullName = (shortName: string): string => {
 };
 
 // Memoized stat card component
-const StatCard = React.memo(({ icon: Icon, label, value, color = "text-or-ancestral", bgColor = "bg-or-ancestral" }: any) => (
+const StatCard = React.memo(({ icon: Icon, label, value, color = "text-or-ancestral", bgColor = "bg-or-ancestral" }: StatCardProps) => (
   <div className={`p-8 rounded-[2.5rem] ${bgColor} ${bgColor === "bg-or-ancestral" ? "text-foret-nocturne" : "text-ivoire-ancien"} flex flex-col justify-between ${bgColor === "bg-or-ancestral" ? "" : "bg-white/5 border border-white/10 backdrop-blur-xl"}`}>
     <div className="flex justify-between items-start">
       <Icon className={`w-6 h-6 ${bgColor === "bg-or-ancestral" ? "" : color}`} />
@@ -127,7 +132,7 @@ const StatCard = React.memo(({ icon: Icon, label, value, color = "text-or-ancest
 StatCard.displayName = "StatCard";
 
 // Memoized chart component
-const AnalyticsChart = React.memo(({ chartData, timeframe, onTimeframeChange }: any) => (
+const AnalyticsChart = React.memo(({ chartData, timeframe, onTimeframeChange }: AnalyticsChartProps) => (
   <motion.div
     initial={{ opacity: 0, y: 20 }}
     animate={{ opacity: 1, y: 0 }}
@@ -187,7 +192,7 @@ const AnalyticsChart = React.memo(({ chartData, timeframe, onTimeframeChange }: 
 AnalyticsChart.displayName = "AnalyticsChart";
 
 // Memoized top articles component
-const TopArticlesSection = React.memo(({ topArticles }: any) => (
+const TopArticlesSection = React.memo(({ topArticles }: TopArticlesSectionProps) => (
   <motion.div
     initial={{ opacity: 0, x: -20 }}
     animate={{ opacity: 1, x: 0 }}
@@ -230,7 +235,7 @@ const LanguagesDevicesInsights = React.memo(({
   insightUnique,
   onInsightViewChange,
   onInsightUniqueChange
-}: any) => {
+}: LanguagesDevicesInsightsProps) => {
   const isToday = insightView === "today";
   const langs = isToday ? (insightUnique ? stats.todayLangDistribUniq : stats.todayLangDistribution) : (insightUnique ? stats.totalLangDistribUniq : stats.langDistribution);
   const devices = isToday ? (insightUnique ? stats.todayDeviceDistribUniq : stats.todayDeviceDistribution) : (insightUnique ? stats.totalDeviceDistribUniq : stats.deviceDistribution);
@@ -375,7 +380,7 @@ const LanguagesDevicesInsights = React.memo(({
 LanguagesDevicesInsights.displayName = "LanguagesDevicesInsights";
 
 const AdminDashboard = () => {
-  const [stats, setStats] = useState({
+  const [stats, setStats] = useState<AdminStats>({
     totalArticles: 0,
     totalVisits: 0,
     uniqueVisitors: 0,
@@ -383,34 +388,34 @@ const AdminDashboard = () => {
     todayUniqueVisitors: 0,
     totalUsers: 0,
     totalLikes: 0,
-    langDistribution: [] as any[],
-    deviceDistribution: [] as any[],
-    topLocations: [] as any[],
-    recentIps: [] as any[],
-    topSources: [] as any[],
+    langDistribution: [],
+    deviceDistribution: [],
+    topLocations: [],
+    recentIps: [],
+    topSources: [],
     // distributions du jour (toutes visites)
-    todayLangDistribution: [] as any[],
-    todayDeviceDistribution: [] as any[],
-    todayTopLocations: [] as any[],
-    todayTopSources: [] as any[],
+    todayLangDistribution: [],
+    todayDeviceDistribution: [],
+    todayTopLocations: [],
+    todayTopSources: [],
     // distributions du jour (uniques)
-    todayLangDistribUniq: [] as any[],
-    todayDeviceDistribUniq: [] as any[],
-    todayTopLocationsUniq: [] as any[],
-    todayTopSourcesUniq: [] as any[],
+    todayLangDistribUniq: [],
+    todayDeviceDistribUniq: [],
+    todayTopLocationsUniq: [],
+    todayTopSourcesUniq: [],
     // distributions totales (uniques)
-    totalLangDistribUniq: [] as any[],
-    totalDeviceDistribUniq: [] as any[],
-    totalTopLocationsUniq: [] as any[],
-    totalTopSourcesUniq: [] as any[],
+    totalLangDistribUniq: [],
+    totalDeviceDistribUniq: [],
+    totalTopLocationsUniq: [],
+    totalTopSourcesUniq: [],
   });
   const [insightView, setInsightView] = useState<"total" | "today">("today");
   const [insightUnique, setInsightUnique] = useState(false);
 
   const { connectionError, refreshConnection } = useAuth();
 
-  const [chartData, setChartData] = useState<any[]>([]);
-  const [topArticles, setTopArticles] = useState<any[]>([]);
+  const [chartData, setChartData] = useState<ChartDataPoint[]>([]);
+  const [topArticles, setTopArticles] = useState<ArticleItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [timeframe, setTimeframe] = useState<"24_hours" | "7_days" | "30_days" | "6_months">("7_days");
 
@@ -429,8 +434,8 @@ const AdminDashboard = () => {
         
         // Sum total likes and reads from articles table (optimized)
         const { data: allArticles } = await supabase.from(DB_TABLES.ARTICLES).select("likes_count, reads_count");
-        const totalLikes = allArticles?.reduce((acc: number, curr: any) => acc + (curr.likes_count || 0), 0) || 0;
-        const totalReads = allArticles?.reduce((acc: number, curr: any) => acc + (curr.reads_count || 0), 0) || 0;
+        const totalLikes = allArticles?.reduce((acc: number, curr: ArticleItem) => acc + (curr.likes_count || 0), 0) || 0;
+        const totalReads = allArticles?.reduce((acc: number, curr: ArticleItem) => acc + (curr.reads_count || 0), 0) || 0;
 
         // Fetch Analytics for chart and insights
         let dateFilter = new Date();
@@ -443,10 +448,10 @@ const AdminDashboard = () => {
           .from(DB_TABLES.SITE_ANALYTICS)
           .select("created_at, language, session_id, metadata, ip_address, referrer, path")
           .gte("created_at", dateFilter.toISOString())
-          .order('created_at', { ascending: true }) as { data: any[] };
+          .order('created_at', { ascending: true }) as { data: AnalyticsRecord[] };
 
         // Calculate unique visitors (Real session counting)
-        const uniqueSids = new Set(analyticsData?.map((v: any) => v.session_id).filter((id: any) => id)).size;
+        const uniqueSids = new Set(analyticsData?.map((v: AnalyticsRecord) => v.session_id).filter((id: string | undefined): id is string => !!id)).size;
 
         // Stats précises du jour (minuit heure locale → UTC)
         const todayStart = new Date();
@@ -454,18 +459,18 @@ const AdminDashboard = () => {
         const { data: todayData } = await supabase
           .from(DB_TABLES.SITE_ANALYTICS)
           .select("created_at, language, session_id, metadata, ip_address, referrer, path")
-          .gte("created_at", todayStart.toISOString()) as { data: any[] };
+          .gte("created_at", todayStart.toISOString()) as { data: AnalyticsRecord[] };
         const todayVisits = todayData?.length || 0;
-        const todayUniqueVisitors = new Set(todayData?.map((v: any) => v.session_id).filter(Boolean)).size;
+        const todayUniqueVisitors = new Set(todayData?.map((v: AnalyticsRecord) => v.session_id).filter(Boolean)).size;
 
         // Helper : calcule les distributions à partir d'un dataset analytics
         // unique=true → déduplique par session_id avant de compter
-        const computeDistributions = (data: any[], unique = false) => {
+        const computeDistributions = (data: AnalyticsRecord[], unique = false) => {
           // En mode unique, on ne garde que la première occurrence par session
           const rows = unique
             ? (() => {
                 const seen = new Set<string>();
-                return data.filter((v: any) => {
+                return data.filter((v: AnalyticsRecord) => {
                   const sid = v.session_id || v.ip_address;
                   if (!sid || seen.has(sid)) return false;
                   seen.add(sid); return true;
@@ -474,20 +479,20 @@ const AdminDashboard = () => {
             : data;
 
           // Langues
-          const langsMap: any = {};
-          rows.forEach((v: any) => { if (v.language) langsMap[v.language] = (langsMap[v.language] || 0) + 1; });
+          const langsMap: Record<string, number> = {};
+          rows.forEach((v: AnalyticsRecord) => { if (v.language) langsMap[v.language] = (langsMap[v.language] || 0) + 1; });
           const langs = Object.keys(langsMap).sort((a, b) => langsMap[b] - langsMap[a]).map(l => ({
             name: l === "fr" ? "Français" : l === "ln" ? "Lingala" : l === "sak" ? "Sakata" : l,
             value: langsMap[l],
           }));
           // Appareils
-          const devMap: any = { mobile: 0, desktop: 0 };
-          rows.forEach((v: any) => { const d = v.metadata?.device_type || "desktop"; devMap[d] = (devMap[d] || 0) + 1; });
+          const devMap: Record<string, number> = { mobile: 0, desktop: 0 };
+          rows.forEach((v: AnalyticsRecord) => { const d = v.metadata?.device_type || "desktop"; devMap[d] = (devMap[d] || 0) + 1; });
           const devices = Object.keys(devMap).map(d => ({ name: d, value: devMap[d] }));
           // Géographie (toujours par IP unique, peu importe le mode)
-          const countryMap: any = {};
-          const seenIps = new Set();
-          data.forEach((v: any) => {
+          const countryMap: Record<string, number> = {};
+          const seenIps = new Set<string>();
+          data.forEach((v: AnalyticsRecord) => {
             if (v.ip_address && !seenIps.has(v.ip_address)) {
               seenIps.add(v.ip_address);
               const c = v.metadata?.country || "Inconnu";
@@ -498,8 +503,8 @@ const AdminDashboard = () => {
             .map(c => ({ name: c === "Inconnu" ? "Origine Inconnue" : c, value: countryMap[c] }));
           if (locs.length === 0) locs.push({ name: "En attente de trafic", value: 0 });
           // Sources
-          const refMap: any = {};
-          rows.forEach((v: any) => {
+          const refMap: Record<string, number> = {};
+          rows.forEach((v: AnalyticsRecord) => {
             let ref = v.referrer || "direct";
             if (ref.includes("sakata.netlify.app") || ref.includes("localhost")) return;
             if (ref.startsWith("https://")) ref = ref.replace("https://", "").replace("http://", "").split("/")[0];
@@ -525,8 +530,8 @@ const AdminDashboard = () => {
         const totalDistribUniq   = computeDistributions(analyticsData || [], true);
         
         // Calculate Top Sources (Referrers)
-        const referrers: any = {};
-        analyticsData?.forEach((v: any) => {
+        const referrers: Record<string, number> = {};
+        analyticsData?.forEach((v: AnalyticsRecord) => {
           let ref = v.referrer || "direct";
           
           if (ref.includes("sakata.netlify.app") || ref.includes("localhost")) return; // ignore internal
@@ -552,8 +557,8 @@ const AdminDashboard = () => {
           .map(ref => ({ name: ref.slice(0, 20), count: referrers[ref] }));
 
         // Calculate Language stats
-        const langs: any = {};
-        analyticsData?.forEach((v: any) => {
+        const langs: Record<string, number> = {};
+        analyticsData?.forEach((v: AnalyticsRecord) => {
           if (v.language) langs[v.language] = (langs[v.language] || 0) + 1;
         });
         const formattedLangs = Object.keys(langs).map(l => ({ 
@@ -562,17 +567,17 @@ const AdminDashboard = () => {
         }));
 
         // Calculate Device stats from metadata
-        const devices: any = { mobile: 0, desktop: 0 };
-        analyticsData?.forEach((v: any) => {
+        const devices: Record<string, number> = { mobile: 0, desktop: 0 };
+        analyticsData?.forEach((v: AnalyticsRecord) => {
           const device = v.metadata?.device_type || 'desktop';
           devices[device] = (devices[device] || 0) + 1;
         });
         const formattedDevices = Object.keys(devices).map(d => ({ name: d, value: devices[d] }));
         
         // Real Geographic Mapping using the Country extracted via Edge API
-        const countries: any = {};
-        const uniqueGeoIps = new Set();
-        analyticsData?.forEach((v: any) => {
+        const countries: Record<string, number> = {};
+        const uniqueGeoIps = new Set<string>();
+        analyticsData?.forEach((v: AnalyticsRecord) => {
           if (v.ip_address && !uniqueGeoIps.has(v.ip_address)) {
              uniqueGeoIps.add(v.ip_address);
              const c = v.metadata?.country || "Inconnu";
