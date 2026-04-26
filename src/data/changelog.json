@@ -1,5 +1,103 @@
 [
   {
+    "version": "v3.1.0",
+    "date": "26 Avril 2026",
+    "subtitle": "AI Orchestration, Chat Avancé & Centre d'Aide Admin",
+    "sections": [
+      {
+        "title": "🤖 AI Orchestration Suite",
+        "items": [
+          "Intégration Gemini 1.5 Pro pour le chat sémantique enrichi",
+          "Synthèse vocale avec plusieurs voix (Narrator avec tonalité du Vieux Sage)",
+          "Bibliothèque multimédia admin pour gérer les assets et les documents",
+          "Logging d'activité utilisateur automatisé (accès, éditions, téléchargements)",
+          "Système de contexte persistant pour le chat IA entre sessions"
+        ]
+      },
+      {
+        "title": "💬 Chat Avancé — Édition & Suppression",
+        "items": [
+          "Édition de messages : fenêtre de 5 minutes avec badge '(modifié)' visible",
+          "Suppression de messages : fenêtre de 2 minutes, deux modes (Moi seul / Tout le monde)",
+          "Synchronisation temps réel des modifications et suppressions via Supabase Realtime",
+          "Gestion optimisée des clics lors de la suppression (fix menu freeze)"
+        ]
+      },
+      {
+        "title": "📝 Centre d'Aide Admin & Application Notes",
+        "items": [
+          "Page `/admin/help` — Hub centralisé avec accès aux ressources administrateur",
+          "Application Notes CRUD — Création, édition, archivage de notes personnelles",
+          "Timestamps automatiques (created_at, updated_at) pour chaque note",
+          "User-scoped : chaque admin accède seulement à ses propres notes",
+          "Recherche et filtrage rapides des notes par titre/contenu"
+        ]
+      },
+      {
+        "title": "🎬 Upload Vidéo pour Section Héro d'Articles",
+        "items": [
+          "Interface d'upload directe depuis le PC (mp4, webm, mov; max 50MB)",
+          "Barre de progression d'upload avec prévisualisation vidéo",
+          "Fallback automatique vers image si la vidéo ne charge pas",
+          "Stockage sécurisé via Supabase Storage (`article-videos/`)",
+          "Rendu HTML5 `<video autoplay muted loop>` avec play button overlay"
+        ]
+      },
+      {
+        "title": "⚡ Optimisations Performance",
+        "items": [
+          "Code-splitting du curriculum mathématiques par niveau (primaire/secondaire)",
+          "Memoization des composants Admin Dashboard (React.memo + useCallback)",
+          "Réduction de 30-40% du temps de rendu admin"
+        ]
+      },
+      {
+        "title": "🔒 Sécurité P0-P1",
+        "items": [
+          "Ajout complet des guards d'authentification sur les endpoints admin sensibles",
+          "Validation Zod sur tous les API routes (articles, push, profiles, etc.)",
+          "Logging d'erreur exhaustif dans tous les try-catch vides (+ contexte utilisateur)",
+          "Neutralisation injection LIKE dans la recherche d'articles (whitelist + échappement)"
+        ]
+      },
+      {
+        "title": "🐛 Corrections Chat & Stabilité",
+        "items": [
+          "Prévention des conversations directes dupliquées (réutilisation de conversations existantes)",
+          "Ajout withRetry() sur la suppression de conversations (robustesse réseau)",
+          "Type annotations explicites pour les requêtes chat_participants",
+          "Cleanup de listeners d'événements pour éviter les fuites mémoire",
+          "Fix menu chat lors du clic sur le bouton supprimer"
+        ]
+      }
+    ]
+  },
+  {
+    "version": "v3.0.0",
+    "date": "23 Avril 2026",
+    "subtitle": "Command Center Admin V2 & Éditeur d'Articles par Blocs",
+    "sections": [
+      {
+        "title": "🎯 Admin Command Center V2",
+        "items": [
+          "Refonte complète de l'interface admin avec sidebar optimisée",
+          "Nouveaux modules : Gestion AI, Forum Mboka, Bibliothèque Média",
+          "Dashboard statistiques temps réel avec cartes analytiques",
+          "Gestion complète des profils utilisateurs (rôles, abonnements)"
+        ]
+      },
+      {
+        "title": "📄 Éditeur d'Articles Enrichi",
+        "items": [
+          "Architecture par blocs (texte, image, sources, meta) avec drag-drop",
+          "Support des images intégrées et gestion de métadonnées",
+          "Validation Zod complète des schémas d'articles",
+          "Système de sources avec citations"
+        ]
+      }
+    ]
+  },
+  {
     "version": "v2.7.3",
     "date": "23 Avril 2026",
     "subtitle": "Résolution Conflits d'Authentification",

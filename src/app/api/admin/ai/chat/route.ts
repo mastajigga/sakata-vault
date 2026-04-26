@@ -3,6 +3,8 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 import { NextResponse } from "next/server";
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
+import { aiChatSchema } from "@/lib/schemas/validation";
+import { z } from "zod";
 
 export const dynamic = 'force-dynamic';
 
@@ -40,10 +42,18 @@ export async function POST(req: Request) {
     const pc = new Pinecone({ apiKey: process.env.PINECONE_API_KEY || "" });
     const index = pc.Index(process.env.PINECONE_INDEX || "sakata");
 
-    const { message, history = [] } = await req.json();
+    const body = await req.json();
 
-    if (!message) {
-      return NextResponse.json({ error: "Message is required" }, { status: 400 });
+    try {
+      var { message, history = [] } = aiChatSchema.parse(body);
+    } catch (validationError) {
+      if (validationError instanceof z.ZodError) {
+        return NextResponse.json(
+          { error: "Validation failed", details: validationError.errors },
+          { status: 400 }
+        );
+      }
+      throw validationError;
     }
 
     // 1. Generate embedding for the query

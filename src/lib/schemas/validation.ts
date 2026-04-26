@@ -114,6 +114,35 @@ export const pushNotifyRouteSchema = z.object({
   senderId: z.string().uuid("ID de l'expéditeur invalide"),
 });
 
+export const aiChatSchema = z.object({
+  message: z.string().min(1, "Message requis").max(5000, "Max 5000 caractères"),
+  history: z.array(z.object({
+    role: z.enum(["user", "model"]),
+    parts: z.array(z.object({
+      text: z.string(),
+    })),
+  })).optional(),
+});
+
+export const aiVoiceSchema = z.object({
+  text: z.string().min(1, "Texte requis").max(5000, "Max 5000 caractères"),
+  voice: z.string().max(50).optional().default("Puck"),
+});
+
+export const adminMediaDeleteSchema = z.object({
+  fileName: z.string().min(1, "Nom du fichier requis").max(255),
+});
+
+export const adminNotesSchema = z.object({
+  title: z.string().min(1, "Titre requis").max(200, "Max 200 caractères"),
+  content: z.string().max(10000, "Max 10000 caractères").optional().or(z.literal("")),
+});
+
+export const articlesSearchSchema = z.object({
+  q: z.string().min(2, "Min 2 caractères").max(100, "Max 100 caractères").optional(),
+  lang: z.enum(["fr", "en", "ln", "sw", "ts"]).optional().default("fr"),
+});
+
 export type AuthFormData = z.infer<typeof authSchema>;
 export type ProfileFormData = z.infer<typeof profileSchema>;
 export type ChatInputData = z.infer<typeof chatInputSchema>;
@@ -131,3 +160,8 @@ export type StripePortalData = z.infer<typeof stripePortalSchema>;
 export type StripeVerifySessionData = z.infer<typeof stripeVerifySessionSchema>;
 export type RevalidateData = z.infer<typeof revalidateSchema>;
 export type EcoleSemanticContentData = z.infer<typeof ecoleSemanticContentSchema>;
+export type AIChatData = z.infer<typeof aiChatSchema>;
+export type AIVoiceData = z.infer<typeof aiVoiceSchema>;
+export type AdminMediaDeleteData = z.infer<typeof adminMediaDeleteSchema>;
+export type AdminNotesData = z.infer<typeof adminNotesSchema>;
+export type ArticlesSearchData = z.infer<typeof articlesSearchSchema>;

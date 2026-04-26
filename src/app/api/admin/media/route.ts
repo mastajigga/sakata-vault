@@ -2,6 +2,8 @@ import { supabaseAdmin } from "@/lib/supabase/admin";
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
+import { adminMediaDeleteSchema } from "@/lib/schemas/validation";
+import { z } from "zod";
 
 export const dynamic = 'force-dynamic';
 
@@ -103,8 +105,16 @@ export async function DELETE(req: Request) {
     const { searchParams } = new URL(req.url);
     const fileName = searchParams.get("fileName");
 
-    if (!fileName) {
-      return NextResponse.json({ error: "Filename is required" }, { status: 400 });
+    try {
+      adminMediaDeleteSchema.parse({ fileName });
+    } catch (validationError) {
+      if (validationError instanceof z.ZodError) {
+        return NextResponse.json(
+          { error: "Validation failed", details: validationError.errors },
+          { status: 400 }
+        );
+      }
+      throw validationError;
     }
 
     const { error } = await supabaseAdmin.storage.from(BUCKET).remove([fileName]);

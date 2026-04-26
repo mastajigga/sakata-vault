@@ -2,6 +2,8 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 import { NextResponse } from "next/server";
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
+import { aiVoiceSchema } from "@/lib/schemas/validation";
+import { z } from "zod";
 
 export const dynamic = 'force-dynamic';
 
@@ -43,10 +45,19 @@ export async function POST(req: Request) {
 
   const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || "");
   try {
-    const { text, voice = "Puck" } = await req.json();
+    const body = await req.json();
 
-    if (!text) {
-      return NextResponse.json({ error: "Text is required" }, { status: 400 });
+    let text: string, voice: string;
+    try {
+      ({ text, voice } = aiVoiceSchema.parse(body));
+    } catch (validationError) {
+      if (validationError instanceof z.ZodError) {
+        return NextResponse.json(
+          { error: "Validation failed", details: validationError.errors },
+          { status: 400 }
+        );
+      }
+      throw validationError;
     }
 
     // Use a model that supports audio output

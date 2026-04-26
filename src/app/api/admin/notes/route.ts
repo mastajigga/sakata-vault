@@ -3,6 +3,8 @@ import { supabaseAdmin } from "@/lib/supabase/admin";
 import { supabasePublic } from "@/lib/supabase/admin";
 import { withRetry } from "@/lib/supabase-retry";
 import { DB_TABLES } from "@/lib/constants/db";
+import { adminNotesSchema } from "@/lib/schemas/validation";
+import { z } from "zod";
 
 export async function GET(request: Request) {
   try {
@@ -78,21 +80,21 @@ export async function POST(request: Request) {
     }
 
     const body = await request.json();
-    const { title, content } = body;
 
-    if (!title || !content) {
-      return NextResponse.json(
-        { error: "Titre et contenu sont requis." },
-        { status: 400 }
-      );
+    let validatedData;
+    try {
+      validatedData = adminNotesSchema.parse(body);
+    } catch (validationError) {
+      if (validationError instanceof z.ZodError) {
+        return NextResponse.json(
+          { error: "Validation failed", details: validationError.errors },
+          { status: 400 }
+        );
+      }
+      throw validationError;
     }
 
-    if (title.length > 255) {
-      return NextResponse.json(
-        { error: "Le titre ne peut pas dépasser 255 caractères." },
-        { status: 400 }
-      );
-    }
+    const { title, content } = validatedData;
 
     const { data: note, error: insertError } = await withRetry(async () =>
       supabaseAdmin

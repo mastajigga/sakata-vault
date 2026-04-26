@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createServerClient } from '@supabase/ssr';
 import { cookies } from 'next/headers';
 import { DB_TABLES } from '@/lib/constants/db';
+import { articlesSearchSchema } from '@/lib/schemas/validation';
+import { z } from 'zod';
 
 // Langues autorisées — whitelist stricte pour éviter l'injection dans le filtre .or()
 const ALLOWED_LANGS = ['fr', 'en', 'ln', 'sw', 'ts'] as const;
@@ -16,13 +18,22 @@ export async function GET(req: NextRequest) {
   const rawQ = req.nextUrl.searchParams.get('q')?.trim() ?? '';
   const rawLang = req.nextUrl.searchParams.get('lang') ?? 'fr';
 
-  // Validation lang contre whitelist
-  const lang: AllowedLang = (ALLOWED_LANGS as readonly string[]).includes(rawLang)
-    ? (rawLang as AllowedLang)
-    : 'fr';
+  // Validate query parameters with Zod
+  let validatedParams;
+  try {
+    validatedParams = articlesSearchSchema.parse({ q: rawQ, lang: rawLang });
+  } catch (validationError) {
+    if (validationError instanceof z.ZodError) {
+      return NextResponse.json(
+        { error: "Validation failed", details: validationError.errors },
+        { status: 400 }
+      );
+    }
+    throw validationError;
+  }
 
-  // Sanitize q : longueur max 100, échappement LIKE
-  const q = escapeLike(rawQ.slice(0, 100));
+  const q = escapeLike(validatedParams.q || '');
+  const lang: AllowedLang = validatedParams.lang as AllowedLang;
 
   if (!q || q.length < 2) {
     return NextResponse.json({ results: [], query: rawQ, source: 'empty' });
