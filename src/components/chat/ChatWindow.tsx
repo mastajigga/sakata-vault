@@ -206,8 +206,12 @@ export function ChatWindow({ conversationId, onBack }: ChatWindowProps) {
     };
     if (showMenu) {
       document.addEventListener("click", handleClick, { capture: true, once: true });
+      return () => {
+        // Note: once: true means the listener auto-removes after first click,
+        // but we still cleanup in case the effect re-runs
+        document.removeEventListener("click", handleClick, { capture: true });
+      };
     }
-    return () => document.removeEventListener("click", handleClick, true);
   }, [showMenu]);
 
   const handleSendMessage = async (
