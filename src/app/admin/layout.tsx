@@ -4,7 +4,7 @@ import React from "react";
 import { useAuth } from "@/components/AuthProvider";
 import { useRouter } from "next/navigation";
 import Navbar from "@/components/Navbar";
-import { LayoutDashboard, Users, FileText, BarChart3, Settings, LogOut, Bell, Sparkles, MessageSquare, Image, ShieldCheck } from "lucide-react";
+import { LayoutDashboard, Users, FileText, BarChart3, Settings, LogOut, Bell, Sparkles, MessageSquare, Image, ShieldCheck, Notebook } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AdminPresentationModal } from "@/components/admin/AdminPresentationModal";
@@ -38,6 +38,7 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
     { name: "Modération Forum", href: "/admin/forum", icon: MessageSquare, roles: ["admin", "manager"] },
     { name: "Médiathèque", href: "/admin/media", icon: Image, roles: ["admin", "manager", "contributor"] },
     { name: "Notifications", href: "/admin/notifications", icon: Bell, roles: ["admin", "manager"] },
+    { name: "Aide", href: "/admin/help", icon: Notebook, roles: ["admin", "manager"] },
     { name: "Membres", href: "/admin/users", icon: Users, roles: ["admin"] },
   ];
 

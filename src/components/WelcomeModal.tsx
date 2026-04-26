@@ -127,7 +127,10 @@ export default function WelcomeModal() {
   if (!mounted || !isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 sm:p-8 bg-[#0A1F15]/95 backdrop-blur-xl transition-opacity animate-in fade-in duration-700">
+    <div
+      className="fixed inset-0 z-[9999] flex items-center justify-center p-4 sm:p-8 backdrop-blur-xl transition-opacity animate-in fade-in duration-700"
+      style={{ backgroundColor: "rgba(10, 31, 21, 0.95)" }}
+    >
       <div className="absolute inset-0 bg-noise opacity-20 pointer-events-none"></div>
       
       {/* Top right language switcher specifically for the modal */}
@@ -135,28 +138,56 @@ export default function WelcomeModal() {
         <LanguageSwitcher />
       </div>
 
-      <div className="relative max-w-2xl w-full max-h-[90vh] bg-[#122A1E]/80 border border-[#B59551]/30 rounded-3xl p-8 sm:p-12 shadow-2xl overflow-y-auto flex flex-col custom-scrollbar">
+      <div
+        className="relative max-w-2xl w-full max-h-[90vh] rounded-3xl p-8 sm:p-12 shadow-2xl overflow-y-auto flex flex-col custom-scrollbar"
+        style={{
+          backgroundColor: "rgba(18, 42, 30, 0.8)",
+          borderColor: "rgba(181, 149, 81, 0.3)",
+          borderWidth: "1px"
+        }}
+      >
         {/* Step 1: Project Goal */}
         {step === 1 && (
           <div ref={contentRef} className="relative z-10 flex flex-col items-center text-center">
-            <div data-icon className="w-16 h-16 bg-gradient-to-br from-[#B59551]/20 to-[#B59551]/5 rounded-full flex items-center justify-center mb-6 border border-[#B59551]/40 hover:border-[#B59551]/70 transition-colors duration-300">
-              <Leaf className="w-8 h-8 text-[#B59551]" />
+            <div
+              data-icon
+              className="w-16 h-16 rounded-full flex items-center justify-center mb-6 transition-colors duration-300"
+              style={{
+                background: "linear-gradient(to bottom right, rgba(181, 149, 81, 0.2), rgba(181, 149, 81, 0.05))",
+                borderColor: "rgba(181, 149, 81, 0.4)",
+                borderWidth: "1px"
+              }}
+              onMouseEnter={(e) => {
+                (e.currentTarget as HTMLElement).style.borderColor = "rgba(181, 149, 81, 0.7)";
+              }}
+              onMouseLeave={(e) => {
+                (e.currentTarget as HTMLElement).style.borderColor = "rgba(181, 149, 81, 0.4)";
+              }}
+            >
+              <Leaf className="w-8 h-8" style={{ color: "var(--or-gold)" }} />
             </div>
 
-            <h1 className="text-3xl sm:text-4xl font-display text-[#B59551] mb-6">
+            <h1 className="text-3xl sm:text-4xl font-display mb-6" style={{ color: "var(--or-gold)" }}>
               {t("welcome.step1Title")}
             </h1>
 
-            <p data-description className="text-[#F2EEDD]/80 text-lg leading-relaxed mb-6">
+            <p data-description className="text-lg leading-relaxed mb-6" style={{ color: "rgba(242, 238, 221, 0.8)" }}>
               <span dangerouslySetInnerHTML={{ __html: t("welcome.step1Desc1").replace("Sakata", "<strong>Sakata</strong>") }} />
             </p>
-            <p data-description className="text-[#F2EEDD]/80 text-lg leading-relaxed mb-10">
+            <p data-description className="text-lg leading-relaxed mb-10" style={{ color: "rgba(242, 238, 221, 0.8)" }}>
               {t("welcome.step1Desc2")}
             </p>
 
             <button
               onClick={handleNext}
-              className="flex items-center gap-3 px-8 py-4 bg-[#B59551] text-[#0A1F15] rounded-full font-semibold hover:bg-white transition-colors duration-300 group"
+              className="flex items-center gap-3 px-8 py-4 rounded-full font-semibold transition-colors duration-300 group"
+              style={{ backgroundColor: "var(--or-gold)", color: "var(--foret-nocturne)" }}
+              onMouseEnter={(e) => {
+                (e.currentTarget as HTMLElement).style.backgroundColor = "white";
+              }}
+              onMouseLeave={(e) => {
+                (e.currentTarget as HTMLElement).style.backgroundColor = "var(--or-gold)";
+              }}
             >
               {t("welcome.next")}
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
@@ -167,19 +198,41 @@ export default function WelcomeModal() {
         {/* Step 2: Under Construction Warning */}
         {step === 2 && (
           <div ref={contentRef} className="relative z-10 flex flex-col items-center text-center">
-            <div data-icon className="w-16 h-16 bg-white/10 rounded-full flex items-center justify-center mb-6 border border-white/20 hover:border-[#B59551]/30 transition-colors duration-300">
-              <Construction className="w-8 h-8 text-white/70" />
+            <div
+              data-icon
+              className="w-16 h-16 rounded-full flex items-center justify-center mb-6 transition-colors duration-300"
+              style={{
+                backgroundColor: "rgba(255, 255, 255, 0.1)",
+                borderColor: "rgba(255, 255, 255, 0.2)",
+                borderWidth: "1px"
+              }}
+              onMouseEnter={(e) => {
+                (e.currentTarget as HTMLElement).style.borderColor = "rgba(181, 149, 81, 0.3)";
+              }}
+              onMouseLeave={(e) => {
+                (e.currentTarget as HTMLElement).style.borderColor = "rgba(255, 255, 255, 0.2)";
+              }}
+            >
+              <Construction className="w-8 h-8" style={{ color: "rgba(255, 255, 255, 0.7)" }} />
             </div>
 
             <h2 className="text-3xl sm:text-4xl font-display text-white mb-6">
               {t("welcome.step2Title")}
             </h2>
 
-            <div data-description className="bg-black/20 border border-[#B59551]/20 rounded-2xl p-6 text-left mb-10 w-full">
-              <p className="text-[#F2EEDD]/80 text-base leading-relaxed mb-4">
+            <div
+              data-description
+              className="rounded-2xl p-6 text-left mb-10 w-full"
+              style={{
+                backgroundColor: "rgba(0, 0, 0, 0.2)",
+                borderColor: "rgba(181, 149, 81, 0.2)",
+                borderWidth: "1px"
+              }}
+            >
+              <p className="text-base leading-relaxed mb-4" style={{ color: "rgba(242, 238, 221, 0.8)" }}>
                 <span dangerouslySetInnerHTML={{ __html: t("welcome.step2Notice").replace("évolution permanente", "<strong>évolution permanente</strong>") }} />
               </p>
-              <ul className="text-[#F2EEDD]/60 text-sm leading-relaxed space-y-3 list-disc pl-5">
+              <ul className="text-sm leading-relaxed space-y-3 list-disc pl-5" style={{ color: "rgba(242, 238, 221, 0.6)" }}>
                 <li>{t("welcome.step2L1")}</li>
                 <li>{t("welcome.step2L2")}</li>
                 <li><strong>{t("welcome.step2L3")}</strong></li>
@@ -188,7 +241,14 @@ export default function WelcomeModal() {
 
             <button
               onClick={handleNext}
-              className="flex items-center gap-3 px-8 py-4 bg-[#B59551] text-[#0A1F15] rounded-full font-semibold hover:bg-white transition-colors duration-300 group"
+              className="flex items-center gap-3 px-8 py-4 rounded-full font-semibold transition-colors duration-300 group"
+              style={{ backgroundColor: "var(--or-gold)", color: "var(--foret-nocturne)" }}
+              onMouseEnter={(e) => {
+                (e.currentTarget as HTMLElement).style.backgroundColor = "white";
+              }}
+              onMouseLeave={(e) => {
+                (e.currentTarget as HTMLElement).style.backgroundColor = "var(--or-gold)";
+              }}
             >
               {t("welcome.next")}
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
@@ -200,42 +260,84 @@ export default function WelcomeModal() {
         {step === 3 && (
           <div ref={contentRef} className="relative z-10 flex flex-col items-center text-center">
 
-            <h2 className="text-3xl sm:text-4xl font-display text-[#B59551] mb-8">
+            <h2 className="text-3xl sm:text-4xl font-display mb-8" style={{ color: "var(--or-gold)" }}>
               {t("welcome.step3Title")}
             </h2>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 w-full text-left mb-10">
 
               {/* Dernières Mises à Jour (v2.7.3) */}
-              <div data-card className="bg-gradient-to-br from-[#1A3A2E] to-[#0F2818] border border-[#B59551]/40 rounded-2xl p-5 hover:border-[#B59551]/60 transition-colors duration-300">
-                <h3 className="text-[#B59551] font-medium text-base mb-3 flex items-center gap-2">
+              <div
+                data-card
+                className="rounded-2xl p-5 transition-colors duration-300"
+                style={{
+                  background: "linear-gradient(to bottom right, rgba(26, 58, 46, 1), rgba(15, 40, 24, 1))",
+                  borderColor: "rgba(181, 149, 81, 0.4)",
+                  borderWidth: "1px"
+                }}
+                onMouseEnter={(e) => {
+                  (e.currentTarget as HTMLElement).style.borderColor = "rgba(181, 149, 81, 0.6)";
+                }}
+                onMouseLeave={(e) => {
+                  (e.currentTarget as HTMLElement).style.borderColor = "rgba(181, 149, 81, 0.4)";
+                }}
+              >
+                <h3 className="font-medium text-base mb-3 flex items-center gap-2" style={{ color: "var(--or-gold)" }}>
                   <Zap className="w-4 h-4 flex-shrink-0" />
                   Mises à jour (v3.0.0)
                 </h3>
-                <ul className="text-[#F2EEDD]/70 text-sm space-y-2 list-disc pl-4">
+                <ul className="text-sm space-y-2 list-disc pl-4" style={{ color: "rgba(242, 238, 221, 0.7)" }}>
                   <li><strong>Admin V3:</strong> Gestion complète des profils et Dashboard</li>
                   <li><strong>Contenu:</strong> Nouvel éditeur structuré par blocs</li>
+                  <li><strong>Notes Admin:</strong> Centre d'aide avec prise de notes personnelles</li>
                   <li><strong>Forum:</strong> Réactions émojis ❤️ 🔥 👍 en temps réel</li>
-                  <li><strong>Sécurité:</strong> Navigation fluide sans erreurs de session</li>
                 </ul>
               </div>
 
               {/* Version History */}
-              <div data-card className="bg-black/20 border border-white/5 rounded-2xl p-5 hover:border-white/10 transition-colors duration-300">
-                <h3 className="text-white/40 font-medium text-sm mb-3">Historique (v2.7)</h3>
-                <ul className="text-[#F2EEDD]/40 text-xs space-y-1 list-disc pl-4">
+              <div
+                data-card
+                className="rounded-2xl p-5 transition-colors duration-300"
+                style={{
+                  backgroundColor: "rgba(0, 0, 0, 0.2)",
+                  borderColor: "rgba(255, 255, 255, 0.05)",
+                  borderWidth: "1px"
+                }}
+                onMouseEnter={(e) => {
+                  (e.currentTarget as HTMLElement).style.borderColor = "rgba(255, 255, 255, 0.1)";
+                }}
+                onMouseLeave={(e) => {
+                  (e.currentTarget as HTMLElement).style.borderColor = "rgba(255, 255, 255, 0.05)";
+                }}
+              >
+                <h3 className="font-medium text-sm mb-3" style={{ color: "rgba(255, 255, 255, 0.4)" }}>Historique (v2.7)</h3>
+                <ul className="text-xs space-y-1 list-disc pl-4" style={{ color: "rgba(242, 238, 221, 0.4)" }}>
                   <li>Chat: Envoi instantané (Optimistic UI)</li>
                   <li>Notifications: Centre de contrôle Push mobile</li>
                 </ul>
               </div>
 
               {/* Plateforme Complète */}
-              <div data-card className="bg-gradient-to-br from-[#1A3A2E] to-[#0F2818] border border-white/10 rounded-2xl p-5 hover:border-[#B59551]/30 transition-colors duration-300">
-                <h3 className="text-white font-medium text-base mb-3 flex items-center gap-2">
+              <div
+                data-card
+                className="rounded-2xl p-5 transition-colors duration-300"
+                style={{
+                  background: "linear-gradient(to bottom right, rgba(26, 58, 46, 1), rgba(15, 40, 24, 1))",
+                  borderColor: "rgba(255, 255, 255, 0.1)",
+                  borderWidth: "1px"
+                }}
+                onMouseEnter={(e) => {
+                  (e.currentTarget as HTMLElement).style.borderColor = "rgba(181, 149, 81, 0.3)";
+                }}
+                onMouseLeave={(e) => {
+                  (e.currentTarget as HTMLElement).style.borderColor = "rgba(255, 255, 255, 0.1)";
+                }}
+              >
+                <h3 className="font-medium text-base mb-3 flex items-center gap-2" style={{ color: "white" }}>
                   <span className="w-2 h-2 rounded-full bg-green-500"></span>
                   {t("welcome.deployed")}
                 </h3>
-                <ul className="text-[#F2EEDD]/70 text-sm space-y-2 list-disc pl-4">
+                <ul className="text-sm space-y-2 list-disc pl-4" style={{ color: "rgba(242, 238, 221, 0.7)" }}>
                   <li dangerouslySetInnerHTML={{ __html: t("welcome.feat5").replace("Messagerie instantanée", "<strong>Messagerie instantanée</strong>") }} />
                   <li dangerouslySetInnerHTML={{ __html: t("welcome.feat1").replace("Forum Mboka", "<strong>Forum Mboka</strong>") }} />
                   <li>{t("welcome.feat2")}</li>
@@ -248,7 +350,14 @@ export default function WelcomeModal() {
 
             <button
               onClick={handleClose}
-              className="px-10 py-4 bg-[#B59551] text-[#0A1F15] rounded-full font-medium hover:bg-white transition-all duration-300 hover:shadow-xl"
+              className="px-10 py-4 rounded-full font-medium transition-all duration-300 hover:shadow-xl"
+              style={{ backgroundColor: "var(--or-gold)", color: "var(--foret-nocturne)" }}
+              onMouseEnter={(e) => {
+                (e.currentTarget as HTMLElement).style.backgroundColor = "white";
+              }}
+              onMouseLeave={(e) => {
+                (e.currentTarget as HTMLElement).style.backgroundColor = "var(--or-gold)";
+              }}
             >
               {t("welcome.enterButton")}
             </button>

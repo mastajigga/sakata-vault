@@ -23,6 +23,8 @@
 src/
   app/
     admin/          # Espace sécurisé (Command Center) pour gestion membres & contenus.
+      help/         # Centre d'aide administrateur avec notes personnelles et documentation.
+        notes/      # Application de prise de notes pour admins (CRUD avec Supabase).
     auth/           # Tunnel d'authentification immersif (Supabase).
     savoir/         # Encyclopédie dynamique (Textes/Images intégrés). Articles premium inclus.
     forum/          # "Mboka" (Le Village) : Forum en temps réel avec catégories et RLS.
@@ -195,10 +197,37 @@ import { withRetry, withRetryRaw } from "@/lib/supabase-retry";
 
 ---
 
-## 8. Skills et Outils Actifs
+## 8. Admin Help Center & Notes App
+
+### Architecture
+- **`/admin/help`** : Hub centralisé des ressources administrateur
+  - Accès via le sidebar "Aide" (navigation admin)
+  - Grille de sections : Notes personnelles (active) + Documentation (future)
+  - Chaque admin a ses propres notes (user-scoped)
+- **`/admin/help/notes`** : Application CRUD complète pour prendre des notes
+  - Composant `AdminNotesApp` (create/read/update/archive)
+  - Supabase table `admin_notes` (id, user_id, title, content, created_at, updated_at, archived)
+  - UI : Liste de cartes (titre + preview + date), éditeur modal, recherche
+  - Features : Timestamps automatiques, archive au lieu de suppression permanente
+
+### Patterns
+- **Notes archivées** : Soft delete via colonne `archived` (conserve les données)
+- **User-scoped** : RLS filters `auth.uid()` — chaque user voit ses propres notes
+- **localStorage** : Optionnel — draft notes peuvent utiliser `sakata-draft-note-*` pour auto-save temporaire
+- **Timestamps** : `created_at`, `updated_at` gérés automatiquement par Supabase (`now()`)
+
+### Navigation
+- Ajout du lien "Aide" (mène à `/admin/help`) dans le sidebar admin
+- Accessible aux rôles : `admin`, `manager`
+- Icône : `Notebook` (lucide-react)
+
+---
+
+## 9. Skills et Outils Actifs
 - `sage-basakata` — Maintenir la voix narrative ancestrale dans la formulation.
 - `design-taste-frontend` / `stitch-design-taste` — Strict respect de l'esthétique premium (espacements, motion-design, bordures 1px).
 - `documentaliste-culturel` — Rigueur lors du remplissage sémantique des bases de données.
+- `admin-help-guide` — Documentation des ressources admin et onboarding des nouveaux admins.
 
 ---
 
@@ -279,6 +308,7 @@ import { withRetry, withRetryRaw } from "@/lib/supabase-retry";
 
 | Date | Modification |
 |------|-------------|
+| 2026-04-26 | **ADMIN HELP CENTER & NOTES APP (Phase 3.5)** — Intégration du centre d'aide admin avec application CRUD de notes personnelles. Navigation sidebar "Aide" pour accéder à `/admin/help` (hub) et `/admin/help/notes` (app). Skill `admin-help-guide` ajoutée. Welcome modal et documentation CLAUDE.md mis à jour. |
 | 2026-04-23 | **AI ORCHESTRATION v3.1.0** — Intégration de Gemini 1.5 Pro (Semantic Chat) et Gemini Voice Synthesis. Système robuste de logging d'activité utilisateur dans le metadata. |
 | 2026-04-23 | **RELEASE v3.0.0** — Nouvel Éditeur d'Articles par blocs & Command Center Admin V3. Gestion complète des profils et Dashboard V3. |
 | 2026-04-23 | **AUTH RECOVERY (v2.7.4)** — Amélioration de la persistance de session et fix du routing admin. |
