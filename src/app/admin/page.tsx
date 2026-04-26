@@ -18,7 +18,7 @@ import {
 import type {
   StatCardProps, AnalyticsChartProps, TopArticlesSectionProps,
   LanguagesDevicesInsightsProps, AdminStats, DistributionItem,
-  LocationItem, SourceItem, ArticleItem, ChartDataPoint
+  LocationItem, SourceItem, ArticleItem, ChartDataPoint, AnalyticsRecord
 } from "./types";
 
 const COUNTRY_NAMES: Record<string, string> = {
@@ -451,7 +451,7 @@ const AdminDashboard = () => {
           .order('created_at', { ascending: true }) as { data: AnalyticsRecord[] };
 
         // Calculate unique visitors (Real session counting)
-        const uniqueSids = new Set(analyticsData?.map((v: AnalyticsRecord) => v.session_id).filter((id: string | undefined): id is string => !!id)).size;
+        const uniqueSids = new Set(analyticsData?.map((v: AnalyticsRecord) => v.session_id).filter((id: string | null): id is string => !!id)).size;
 
         // Stats précises du jour (minuit heure locale → UTC)
         const todayStart = new Date();

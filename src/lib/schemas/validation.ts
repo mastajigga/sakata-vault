@@ -135,7 +135,7 @@ export const adminMediaDeleteSchema = z.object({
 
 export const adminNotesSchema = z.object({
   title: z.string().min(1, "Titre requis").max(200, "Max 200 caractères"),
-  content: z.string().max(10000, "Max 10000 caractères").optional().or(z.literal("")),
+  content: z.string().min(1, "Contenu requis").max(10000, "Max 10000 caractères"),
 });
 
 export const articlesSearchSchema = z.object({

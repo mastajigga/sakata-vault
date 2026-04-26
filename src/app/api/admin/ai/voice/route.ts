@@ -52,8 +52,9 @@ export async function POST(req: Request) {
       ({ text, voice } = aiVoiceSchema.parse(body));
     } catch (validationError) {
       if (validationError instanceof z.ZodError) {
+        const flattened = validationError.flatten();
         return NextResponse.json(
-          { error: "Validation failed", details: validationError.errors },
+          { error: "Validation failed", fieldErrors: flattened.fieldErrors },
           { status: 400 }
         );
       }

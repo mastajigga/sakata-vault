@@ -32,10 +32,10 @@ export interface ChartDataPoint {
 export interface AnalyticsRecord {
   created_at: string;
   language: string;
-  session_id: string;
-  metadata: Record<string, unknown>;
-  ip_address: string;
-  referrer: string;
+  session_id: string | null;
+  metadata: Record<string, any> | null;
+  ip_address: string | null;
+  referrer: string | null;
   path: string;
 }
 

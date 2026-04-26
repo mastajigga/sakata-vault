@@ -23,6 +23,7 @@ export const DB_TABLES = {
   CHAT_SUBSCRIPTIONS: "chat_subscriptions",
   MESSAGE_READS: "message_reads",
   COMMUNITY_PINS: "community_pins",
+  ADMIN_NOTES: "admin_notes",
 } as const;
 
 export type DbTable = typeof DB_TABLES[keyof typeof DB_TABLES];

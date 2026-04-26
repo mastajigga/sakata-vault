@@ -105,19 +105,22 @@ export async function DELETE(req: Request) {
     const { searchParams } = new URL(req.url);
     const fileName = searchParams.get("fileName");
 
+    let validatedFileName: string;
     try {
-      adminMediaDeleteSchema.parse({ fileName });
+      const parsed = adminMediaDeleteSchema.parse({ fileName });
+      validatedFileName = parsed.fileName;
     } catch (validationError) {
       if (validationError instanceof z.ZodError) {
+        const flattened = validationError.flatten();
         return NextResponse.json(
-          { error: "Validation failed", details: validationError.errors },
+          { error: "Validation failed", fieldErrors: flattened.fieldErrors },
           { status: 400 }
         );
       }
       throw validationError;
     }
 
-    const { error } = await supabaseAdmin.storage.from(BUCKET).remove([fileName]);
+    const { error } = await supabaseAdmin.storage.from(BUCKET).remove([validatedFileName]);
 
     if (error) throw error;
 

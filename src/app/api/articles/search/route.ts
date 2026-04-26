@@ -24,8 +24,9 @@ export async function GET(req: NextRequest) {
     validatedParams = articlesSearchSchema.parse({ q: rawQ, lang: rawLang });
   } catch (validationError) {
     if (validationError instanceof z.ZodError) {
+      const flattened = validationError.flatten();
       return NextResponse.json(
-        { error: "Validation failed", details: validationError.errors },
+        { error: "Validation failed", fieldErrors: flattened.fieldErrors },
         { status: 400 }
       );
     }
