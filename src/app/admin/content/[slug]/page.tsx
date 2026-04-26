@@ -1,14 +1,15 @@
 "use client";
 
 import { DB_TABLES } from "@/lib/constants/db";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef, useCallback } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 import {
-  Save, Globe, ArrowLeft, Loader2, Sparkles,
-  Image as ImageIcon, Plus, Trash2, GripVertical,
+  Save, ArrowLeft, Loader2, Sparkles,
+  Image as ImageIcon, Trash2, GripVertical,
   Type, Quote, Heading2, AlignLeft, AlignCenter, AlignRight,
-  AudioLines, Layers, Library, Search, X, Volume2, Play
+  AudioLines, Layers, Library, Search, X, Volume2, Play,
+  Film, UploadCloud, CheckCircle2, AlertCircle, Info, Clock, FileVideo,
 } from "lucide-react";
 import Link from "next/link";
 import { translateArticle, LanguageCode } from "@/lib/translate";
@@ -23,12 +24,58 @@ const languages: { label: string; code: LanguageCode }[] = [
   { label: "Tshiluba", code: "tsh" },
 ];
 
-const BlockEditor = ({ 
-  blocks, 
-  onChange 
-}: { 
-  blocks: ContentBlock[], 
-  onChange: (blocks: ContentBlock[]) => void 
+// ─────────────────────────────────────────────
+// Toast Notification System (Brume Design)
+// ─────────────────────────────────────────────
+type ToastType = "success" | "error" | "info";
+interface Toast {
+  id: string;
+  message: string;
+  type: ToastType;
+}
+
+const ToastContainer = ({ toasts, onDismiss }: { toasts: Toast[]; onDismiss: (id: string) => void }) => (
+  <div className="fixed bottom-8 right-8 z-[100] flex flex-col gap-3 pointer-events-none">
+    <AnimatePresence>
+      {toasts.map((toast) => {
+        const palette = {
+          success: { bg: "bg-emerald-500/10", border: "border-emerald-500/30", text: "text-emerald-300", icon: <CheckCircle2 className="w-5 h-5" /> },
+          error: { bg: "bg-red-500/10", border: "border-red-500/30", text: "text-red-300", icon: <AlertCircle className="w-5 h-5" /> },
+          info: { bg: "bg-or-ancestral/10", border: "border-or-ancestral/30", text: "text-or-ancestral", icon: <Info className="w-5 h-5" /> },
+        }[toast.type];
+        return (
+          <motion.div
+            key={toast.id}
+            initial={{ opacity: 0, x: 50, scale: 0.95 }}
+            animate={{ opacity: 1, x: 0, scale: 1 }}
+            exit={{ opacity: 0, x: 50, scale: 0.95 }}
+            transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+            className={`pointer-events-auto flex items-start gap-3 px-5 py-4 rounded-2xl border ${palette.bg} ${palette.border} ${palette.text} backdrop-blur-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] min-w-[320px] max-w-[420px]`}
+          >
+            <div className="flex-shrink-0 mt-0.5">{palette.icon}</div>
+            <p className="flex-1 text-sm leading-relaxed font-medium">{toast.message}</p>
+            <button
+              onClick={() => onDismiss(toast.id)}
+              className="flex-shrink-0 opacity-50 hover:opacity-100 transition-opacity"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          </motion.div>
+        );
+      })}
+    </AnimatePresence>
+  </div>
+);
+
+// ─────────────────────────────────────────────
+// Block Editor (unchanged behavior, slight visual polish)
+// ─────────────────────────────────────────────
+const BlockEditor = ({
+  blocks,
+  onChange
+}: {
+  blocks: ContentBlock[],
+  onChange: (blocks: ContentBlock[]) => void
 }) => {
   const addBlock = (type: ContentBlock["type"]) => {
     const newBlock: ContentBlock = {
@@ -53,8 +100,8 @@ const BlockEditor = ({
     <div className="space-y-6">
       <Reorder.Group axis="y" values={blocks} onReorder={onChange} className="space-y-4">
         {blocks.map((block) => (
-          <Reorder.Item 
-            key={block.id} 
+          <Reorder.Item
+            key={block.id}
             value={block}
             className="group relative bg-white/5 border border-white/5 rounded-2xl p-6 hover:border-white/20 transition-all"
           >
@@ -65,7 +112,7 @@ const BlockEditor = ({
             <div className="flex items-start justify-between gap-4">
               <div className="flex-1 space-y-4">
                 {block.type === "text" && (
-                  <textarea 
+                  <textarea
                     value={block.body || ""}
                     onChange={(e) => updateBlock(block.id, { body: e.target.value })}
                     className="w-full bg-transparent outline-none text-ivoire-ancien/80 leading-relaxed min-h-[100px] resize-none"
@@ -74,7 +121,7 @@ const BlockEditor = ({
                 )}
 
                 {block.type === "heading" && (
-                  <input 
+                  <input
                     type="text"
                     value={block.body || ""}
                     onChange={(e) => updateBlock(block.id, { body: e.target.value })}
@@ -87,7 +134,7 @@ const BlockEditor = ({
                   <div className="space-y-4">
                     <div className="flex items-center gap-4">
                       <div className="flex-1 relative">
-                        <input 
+                        <input
                           type="text"
                           value={block.url || ""}
                           onChange={(e) => updateBlock(block.id, { url: e.target.value })}
@@ -114,14 +161,14 @@ const BlockEditor = ({
                      </div>
                      {block.url && (
                        <div className={`rounded-xl overflow-hidden border border-white/5 bg-black/20 transition-all ${
-                         block.alignment === 'full' ? 'w-full' : 
-                         block.alignment === 'sidebar' ? 'w-1/3 border-or-ancestral/30 shadow-[0_0_15px_rgba(193,107,52,0.1)]' : 
+                         block.alignment === 'full' ? 'w-full' :
+                         block.alignment === 'sidebar' ? 'w-1/3 border-or-ancestral/30 shadow-[0_0_15px_rgba(193,107,52,0.1)]' :
                          'w-1/2 mx-auto'
                        }`}>
                          <img src={block.url} alt="" className="w-full h-auto object-cover opacity-60" />
                        </div>
                      )}
-                    <input 
+                    <input
                       type="text"
                       value={block.caption || ""}
                       onChange={(e) => updateBlock(block.id, { caption: e.target.value })}
@@ -133,13 +180,13 @@ const BlockEditor = ({
 
                 {block.type === "quote" && (
                    <div className="space-y-4 pl-4 border-l-2 border-or-ancestral/30 bg-or-ancestral/5 py-4 px-6 rounded-r-xl">
-                      <textarea 
+                      <textarea
                         value={block.body || ""}
                         onChange={(e) => updateBlock(block.id, { body: e.target.value })}
                         className="w-full bg-transparent outline-none text-ivoire-ancien/90 italic font-display text-lg"
                         placeholder="La parole du sage..."
                       />
-                      <input 
+                      <input
                         type="text"
                         value={block.caption || ""}
                         onChange={(e) => updateBlock(block.id, { caption: e.target.value })}
@@ -150,7 +197,7 @@ const BlockEditor = ({
                 )}
               </div>
 
-              <button 
+              <button
                 onClick={() => removeBlock(block.id)}
                 className="p-2 text-white/20 hover:text-red-400 transition-colors"
               >
@@ -183,17 +230,149 @@ const BlockEditor = ({
   );
 };
 
+// ─────────────────────────────────────────────
+// Hero Video Upload Card (NEW — drag/drop, big preview)
+// ─────────────────────────────────────────────
+const HeroVideoCard = ({
+  videoUrl,
+  uploading,
+  progress,
+  onFile,
+  onRemove,
+}: {
+  videoUrl: string;
+  uploading: boolean;
+  progress: number;
+  onFile: (f: File) => void;
+  onRemove: () => void;
+}) => {
+  const [dragOver, setDragOver] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    setDragOver(false);
+    const file = e.dataTransfer.files?.[0];
+    if (file) onFile(file);
+  };
+
+  if (videoUrl && !uploading) {
+    return (
+      <div className="space-y-3">
+        <div className="relative w-full aspect-video bg-black/40 rounded-2xl overflow-hidden border border-or-ancestral/20 shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
+          <video
+            src={videoUrl}
+            controls
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute top-3 left-3 flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/20 backdrop-blur-md border border-emerald-500/30">
+            <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+            <span className="text-[10px] font-bold uppercase tracking-widest text-emerald-300">Vidéo Active</span>
+          </div>
+        </div>
+        <button
+          onClick={onRemove}
+          className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-red-500/10 hover:bg-red-500/20 text-red-300 border border-red-500/20 transition-all text-xs font-bold uppercase tracking-wider"
+        >
+          <Trash2 className="w-3.5 h-3.5" />
+          Retirer la vidéo héro
+        </button>
+      </div>
+    );
+  }
+
+  if (uploading) {
+    return (
+      <div className="relative w-full aspect-video rounded-2xl overflow-hidden border border-or-ancestral/30 bg-gradient-to-br from-foret-nocturne to-black flex flex-col items-center justify-center gap-4 p-6">
+        <div className="absolute inset-0 opacity-30">
+          <div className="absolute inset-0 bg-gradient-to-r from-or-ancestral/0 via-or-ancestral/20 to-or-ancestral/0 animate-pulse" />
+        </div>
+        <div className="relative z-10 flex flex-col items-center gap-4 w-full max-w-xs">
+          <div className="relative w-16 h-16">
+            <svg className="w-16 h-16 -rotate-90" viewBox="0 0 64 64">
+              <circle cx="32" cy="32" r="28" stroke="rgba(255,255,255,0.1)" strokeWidth="4" fill="none" />
+              <circle
+                cx="32"
+                cy="32"
+                r="28"
+                stroke="var(--or-ancestral)"
+                strokeWidth="4"
+                fill="none"
+                strokeDasharray={`${2 * Math.PI * 28}`}
+                strokeDashoffset={`${2 * Math.PI * 28 * (1 - progress / 100)}`}
+                strokeLinecap="round"
+                className="transition-all duration-300"
+              />
+            </svg>
+            <div className="absolute inset-0 flex items-center justify-center">
+              <UploadCloud className="w-6 h-6 text-or-ancestral animate-pulse" />
+            </div>
+          </div>
+          <div className="text-center">
+            <p className="text-or-ancestral font-bold text-sm">Téléversement en cours…</p>
+            <p className="text-ivoire-ancien/40 text-xs mt-1">{Math.round(progress)}%</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <>
+      <div
+        onClick={() => inputRef.current?.click()}
+        onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
+        onDragLeave={() => setDragOver(false)}
+        onDrop={handleDrop}
+        className={`relative w-full aspect-video rounded-2xl overflow-hidden cursor-pointer transition-all duration-300 group ${
+          dragOver
+            ? "border-2 border-or-ancestral bg-or-ancestral/10 scale-[1.01]"
+            : "border-2 border-dashed border-white/10 hover:border-or-ancestral/50 bg-white/[0.02] hover:bg-white/[0.04]"
+        }`}
+      >
+        <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 p-6 text-center">
+          <div className={`w-14 h-14 rounded-full flex items-center justify-center transition-all ${
+            dragOver ? "bg-or-ancestral text-foret-nocturne scale-110" : "bg-white/5 text-ivoire-ancien/60 group-hover:bg-or-ancestral/20 group-hover:text-or-ancestral"
+          }`}>
+            <Film className="w-6 h-6" />
+          </div>
+          <div>
+            <p className="text-sm font-bold text-ivoire-ancien">
+              {dragOver ? "Déposez votre vidéo ici" : "Téléverser une vidéo héro"}
+            </p>
+            <p className="text-[11px] text-ivoire-ancien/40 mt-1">
+              Glissez-déposez ou cliquez · MP4, WebM, MOV · 50 MB max
+            </p>
+          </div>
+        </div>
+      </div>
+      <input
+        ref={inputRef}
+        type="file"
+        accept="video/mp4,video/webm,video/quicktime"
+        onChange={(e) => e.target.files?.[0] && onFile(e.target.files[0])}
+        className="hidden"
+      />
+    </>
+  );
+};
+
+// ─────────────────────────────────────────────
+// Main Article Editor
+// ─────────────────────────────────────────────
 const ArticleEditor = () => {
   const { slug } = useParams();
   const router = useRouter();
   const isNew = slug === "new";
-  
+
   const [loading, setLoading] = useState(!isNew);
   const [saving, setSaving] = useState(false);
   const [translating, setTranslating] = useState(false);
   const [activeTab, setActiveTab] = useState<LanguageCode>("fr");
   const [editorMode, setEditorMode] = useState<"text" | "blocks">("text");
-  
+  const [hasChanges, setHasChanges] = useState(false);
+  const [lastSavedAt, setLastSavedAt] = useState<Date | null>(null);
+
   const [article, setArticle] = useState<any>({
     slug: "",
     category: "culture",
@@ -206,16 +385,36 @@ const ArticleEditor = () => {
   });
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [outlineOpen, setOutlineOpen] = useState(false);
   const [libraryFiles, setLibraryFiles] = useState<any[]>([]);
   const [isVoiceLoading, setIsVoiceLoading] = useState(false);
   const [isVideoUploading, setIsVideoUploading] = useState(false);
   const [videoUploadProgress, setVideoUploadProgress] = useState(0);
 
+  // Toast system
+  const [toasts, setToasts] = useState<Toast[]>([]);
+  const showToast = useCallback((message: string, type: ToastType = "info") => {
+    const id = Math.random().toString(36).substr(2, 9);
+    setToasts(prev => [...prev, { id, message, type }]);
+    setTimeout(() => {
+      setToasts(prev => prev.filter(t => t.id !== id));
+    }, 5000);
+  }, []);
+  const dismissToast = useCallback((id: string) => {
+    setToasts(prev => prev.filter(t => t.id !== id));
+  }, []);
+
+  // Mark as dirty when article changes
+  const markDirty = () => setHasChanges(true);
+
   const fetchLibrary = async () => {
-    const res = await fetch("/api/admin/media");
-    const data = await res.json();
-    if (Array.isArray(data)) setLibraryFiles(data);
+    try {
+      const res = await fetch("/api/admin/media");
+      if (!res.ok) return;
+      const data = await res.json();
+      if (Array.isArray(data)) setLibraryFiles(data);
+    } catch (err) {
+      console.warn("[ArticleEditor] Library fetch failed:", err);
+    }
   };
 
   useEffect(() => {
@@ -224,19 +423,15 @@ const ArticleEditor = () => {
 
   const stringToBlocks = (text: string): ContentBlock[] => {
     if (!text) return [];
-    if (typeof text !== 'string') return text as any; // Already blocks?
+    if (typeof text !== 'string') return text as any;
     return [{ id: Math.random().toString(36).substr(2, 9), type: "text", body: text }];
-  };
-
-  const blocksToString = (blocks: ContentBlock[]): string => {
-    return JSON.stringify(blocks);
   };
 
   const handleVoiceGenerate = async () => {
     if (!article.content[activeTab]) return;
     setIsVoiceLoading(true);
     try {
-      const text = Array.isArray(article.content[activeTab]) 
+      const text = Array.isArray(article.content[activeTab])
         ? article.content[activeTab].map((b: any) => b.body || "").join(" ")
         : article.content[activeTab];
 
@@ -248,7 +443,10 @@ const ArticleEditor = () => {
       const data = await res.json();
       if (data.audioUrl) {
          setArticle({ ...article, has_narrator: true });
-         alert("Narration IA générée avec succès ! Ne pas oublier de sauvegarder l'article.");
+         markDirty();
+         showToast("Narration IA générée avec succès — n'oubliez pas de sauvegarder", "success");
+      } else {
+        showToast("La génération vocale n'a renvoyé aucun audio", "error");
       }
     } catch (e) {
       console.error("[ArticleEditor] Voice generation failed:", {
@@ -256,75 +454,104 @@ const ArticleEditor = () => {
         slug,
         timestamp: new Date().toISOString(),
       });
-      alert("Erreur lors de la génération de la narration vocale. Veuillez réessayer.");
+      showToast("Erreur lors de la génération de la narration vocale", "error");
     } finally {
        setIsVoiceLoading(false);
     }
   };
 
+  // ─────────────────────────────────────────────
+  // Hero Video Upload — fetch-based with proper error handling
+  // (Replaces XHR which crashed with empty JSON responses)
+  // ─────────────────────────────────────────────
   const handleVideoUpload = async (file: File) => {
     if (!file) return;
 
-    // Validate file type
     const allowedTypes = ["video/mp4", "video/webm", "video/quicktime"];
     if (!allowedTypes.includes(file.type)) {
-      alert("Format de vidéo non supporté. Utilisez MP4, WebM ou MOV.");
+      showToast("Format non supporté — utilisez MP4, WebM ou MOV", "error");
       return;
     }
 
-    // Validate file size (50MB max)
     const maxSize = 50 * 1024 * 1024;
     if (file.size > maxSize) {
-      alert("Vidéo trop volumineuse. Maximum 50MB.");
+      showToast(`Vidéo trop volumineuse (${(file.size / 1024 / 1024).toFixed(1)} MB) — max 50 MB`, "error");
       return;
     }
 
     setIsVideoUploading(true);
     setVideoUploadProgress(0);
 
+    // Simulated progress (fetch doesn't give upload progress without XHR/streams)
+    const progressInterval = setInterval(() => {
+      setVideoUploadProgress(prev => {
+        if (prev >= 90) return prev;
+        return prev + Math.random() * 8;
+      });
+    }, 300);
+
     try {
+      const sessionResult = await supabase.auth.getSession();
+      const accessToken = sessionResult.data.session?.access_token;
+
+      if (!accessToken) {
+        showToast("Session expirée — veuillez vous reconnecter", "error");
+        return;
+      }
+
       const formData = new FormData();
       formData.append("file", file);
       formData.append("articleId", article.id || slug);
       formData.append("filename", file.name);
 
-      const xhr = new XMLHttpRequest();
+      const response = await fetch("/api/admin/articles/upload-hero-video", {
+        method: "POST",
+        headers: { Authorization: `Bearer ${accessToken}` },
+        body: formData,
+      });
 
-      xhr.upload.addEventListener("progress", (event) => {
-        if (event.lengthComputable) {
-          const percentComplete = (event.loaded / event.total) * 100;
-          setVideoUploadProgress(percentComplete);
+      clearInterval(progressInterval);
+      setVideoUploadProgress(100);
+
+      // Robust JSON parsing — no more "Unexpected end of JSON input"
+      const responseText = await response.text();
+      let payload: any = null;
+      if (responseText) {
+        try {
+          payload = JSON.parse(responseText);
+        } catch {
+          console.warn("[ArticleEditor] Non-JSON response:", responseText.slice(0, 200));
         }
-      });
+      }
 
-      xhr.addEventListener("load", () => {
-        if (xhr.status === 200) {
-          const response = JSON.parse(xhr.responseText);
-          setArticle({ ...article, hero_video_url: response.videoUrl });
-          alert("Vidéo téléchargée avec succès ! N'oubliez pas de sauvegarder l'article.");
-        } else {
-          const errorData = JSON.parse(xhr.responseText);
-          alert(`Erreur : ${errorData.error}`);
-        }
-      });
+      if (!response.ok) {
+        const message = payload?.error || `Erreur serveur (${response.status})`;
+        showToast(message, "error");
+        return;
+      }
 
-      xhr.addEventListener("error", () => {
-        alert("Erreur lors du téléchargement de la vidéo. Veuillez réessayer.");
-      });
+      if (!payload?.videoUrl) {
+        showToast("Réponse invalide du serveur — vidéo non enregistrée", "error");
+        return;
+      }
 
-      xhr.open("POST", "/api/admin/articles/upload-hero-video");
-      xhr.setRequestHeader("Authorization", `Bearer ${(await supabase.auth.getSession()).data.session?.access_token}`);
-      xhr.send(formData);
+      setArticle({ ...article, hero_video_url: payload.videoUrl });
+      markDirty();
+      showToast("Vidéo téléversée avec succès — sauvegardez l'article pour conserver", "success");
     } catch (error) {
+      clearInterval(progressInterval);
       console.error("[ArticleEditor] Video upload failed:", {
         error: error instanceof Error ? error.message : String(error),
         slug,
         timestamp: new Date().toISOString(),
       });
-      alert("Erreur lors du téléchargement de la vidéo. Veuillez réessayer.");
+      showToast("Erreur réseau lors du téléversement — réessayez", "error");
     } finally {
-      setIsVideoUploading(false);
-      setVideoUploadProgress(0);
+      clearInterval(progressInterval);
+      setTimeout(() => {
+        setIsVideoUploading(false);
+        setVideoUploadProgress(0);
+      }, 400);
     }
   };
 
@@ -336,9 +563,8 @@ const ArticleEditor = () => {
           .select("*")
           .eq("slug", slug)
           .single();
-        
+
         if (!error && data) {
-          // If content is already blocks (starts with [), set mode to blocks
           const firstContent = data.content?.fr;
           if (Array.isArray(firstContent) || (typeof firstContent === 'string' && firstContent.startsWith('['))) {
              setEditorMode("blocks");
@@ -347,11 +573,7 @@ const ArticleEditor = () => {
                    const parsed = JSON.parse(firstContent);
                    data.content.fr = parsed;
                 } catch (error) {
-                   console.warn("[ArticleEditor] Failed to parse JSON content:", {
-                     error: error instanceof Error ? error.message : String(error),
-                     slug,
-                     timestamp: new Date().toISOString(),
-                   });
+                   console.warn("[ArticleEditor] Failed to parse JSON content:", error);
                 }
              }
           }
@@ -365,32 +587,34 @@ const ArticleEditor = () => {
 
   const handleSave = async () => {
     setSaving(true);
-    // Prepare for save: ensure all content is in correct format (stringified JSON for now to ensure compatibility)
     const payload = { ...article };
-    
+
     const { error } = await supabase
       .from(DB_TABLES.ARTICLES)
       .upsert(payload);
 
     if (error) {
-      alert("Erreur de sauvegarde: " + error.message);
+      showToast(`Erreur de sauvegarde : ${error.message}`, "error");
+      setSaving(false);
     } else {
-      router.push("/admin/content");
+      setLastSavedAt(new Date());
+      setHasChanges(false);
+      showToast("Article publié — redirection…", "success");
+      setTimeout(() => router.push("/admin/content"), 800);
     }
-    setSaving(false);
   };
 
   const handleAutoTranslate = async () => {
     setTranslating(true);
     try {
-      const missingLangs = languages
-        .map(l => l.code)
-        .filter(code => code !== "fr");
-      
+      const missingLangs = languages.map(l => l.code).filter(code => code !== "fr");
       const updatedArticle = await translateArticle(article, missingLangs);
       setArticle(updatedArticle);
+      markDirty();
+      showToast("Traduction automatique terminée pour toutes les langues", "success");
     } catch (e) {
       console.error(e);
+      showToast("Erreur lors de la traduction automatique", "error");
     }
     setTranslating(false);
   };
@@ -398,22 +622,17 @@ const ArticleEditor = () => {
   const updateField = (lang: LanguageCode, field: string, value: any) => {
     setArticle((prev: any) => ({
       ...prev,
-      [field]: {
-        ...prev[field],
-        [lang]: value
-      }
+      [field]: { ...prev[field], [lang]: value }
     }));
+    markDirty();
   };
 
   const toggleMode = () => {
     const newMode = editorMode === "text" ? "blocks" : "text";
     setEditorMode(newMode);
-    
-    // Convert current content
     if (newMode === "blocks") {
       updateField(activeTab, "content", stringToBlocks(article.content[activeTab]));
     } else {
-      // Very crude back-conversion to text
       const blocks = article.content[activeTab] as ContentBlock[];
       if (Array.isArray(blocks)) {
          const text = blocks.map(b => b.body || "").join("\n\n");
@@ -428,295 +647,316 @@ const ArticleEditor = () => {
     </div>
   );
 
+  // Save state badge
+  const SaveStateBadge = () => {
+    if (saving) {
+      return (
+        <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-or-ancestral/10 border border-or-ancestral/20 text-or-ancestral text-[10px] font-bold uppercase tracking-widest">
+          <Loader2 className="w-3 h-3 animate-spin" />
+          Sauvegarde…
+        </div>
+      );
+    }
+    if (hasChanges) {
+      return (
+        <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-400 text-[10px] font-bold uppercase tracking-widest">
+          <Clock className="w-3 h-3" />
+          Modifications non sauvegardées
+        </div>
+      );
+    }
+    if (lastSavedAt) {
+      return (
+        <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-[10px] font-bold uppercase tracking-widest">
+          <CheckCircle2 className="w-3 h-3" />
+          Sauvegardé
+        </div>
+      );
+    }
+    return null;
+  };
+
   return (
-    <div className="space-y-8 pb-24 relative">
-      <header className="flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <Link href="/admin/content" className="p-2 hover:bg-white/5 rounded-full transition-colors opacity-40 hover:opacity-100">
-            <ArrowLeft className="w-5 h-5" />
-          </Link>
-          <div className="space-y-1">
-            <div className="flex items-center gap-3">
-              <span className="eyebrow" style={{ color: "var(--or-ancestral)" }}>
-                {isNew ? "Création" : "Édition"}
-              </span>
-              {article.has_narrator && (
-                <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-emerald-500/10 text-emerald-400 text-[10px] font-bold">
-                  <Volume2 className="w-3 h-3" /> VOIX ACTIVE
-                </div>
-              )}
-            </div>
-            <h1 className="font-display text-3xl font-bold">
-               {isNew ? "Nouveau Récit" : article.title.fr || article.slug}
-            </h1>
-          </div>
-        </div>
+    <>
+      <ToastContainer toasts={toasts} onDismiss={dismissToast} />
 
-        <div className="flex items-center gap-3">
-          <button
-            onClick={() => setSidebarOpen(!sidebarOpen)}
-            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl border transition-all font-bold text-sm ${sidebarOpen ? 'bg-blue-500/10 border-blue-500/30 text-blue-400' : 'border-white/10 text-ivoire-ancien/60 hover:text-ivoire-ancien'}`}
-          >
-            <Library className="w-4 h-4" /> Médiathèque
-          </button>
-
-          <button
-            onClick={handleVoiceGenerate}
-            disabled={isVoiceLoading || !article.content[activeTab]}
-            className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-orange-500/10 text-orange-400 border border-orange-500/20 hover:bg-orange-500/20 transition-all font-bold text-sm disabled:opacity-30"
-          >
-            {isVoiceLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <AudioLines className="w-4 h-4" />}
-            Auto Voix
-          </button>
-
-          <button
-            onClick={toggleMode}
-            className="flex items-center gap-2 px-4 py-2.5 rounded-xl border border-white/10 text-ivoire-ancien/60 hover:text-ivoire-ancien transition-all font-bold text-sm"
-          >
-            {editorMode === "text" ? <Type className="w-4 h-4" /> : <Layers className="w-4 h-4" />}
-            Mode: {editorMode === "text" ? "Markdown" : "Blocs"}
-          </button>
-
-          <button
-            onClick={handleAutoTranslate}
-            disabled={translating || !article.title.fr}
-            className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 hover:bg-emerald-500/20 transition-all font-bold text-sm disabled:opacity-30"
-          >
-            {translating ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
-            Traduire tout
-          </button>
-          
-          <button
-            onClick={handleSave}
-            disabled={saving}
-            className="flex items-center gap-2 px-6 py-2.5 rounded-xl bg-or-ancestral text-foret-nocturne font-bold hover:scale-105 transition-all text-sm shadow-[0_0_20px_rgba(193,107,52,0.2)]"
-          >
-            {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
-            Publier
-          </button>
-        </div>
-      </header>
-
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-        {/* Left Side: Metadata & Outline */}
-        <div className="lg:col-span-3 space-y-8 h-fit lg:sticky lg:top-28">
-           <div className="p-6 rounded-[2rem] bg-white/5 border border-white/10 space-y-6">
-              <h3 className="font-display text-lg font-bold border-b border-white/5 pb-4 flex items-center gap-2">
-                <Layers className="w-4 h-4 text-or-ancestral" /> Structure
-              </h3>
-              
-              <div className="space-y-2 max-h-[300px] overflow-y-auto pr-2 scrollbar-hide">
-                {editorMode === "blocks" && Array.isArray(article.content[activeTab]) && (article.content[activeTab] as any[]).map((block, i) => (
-                   <div key={block.id} className="flex items-center gap-3 p-2 rounded-xl hover:bg-white/5 text-[10px] transition-colors group">
-                     <span className="opacity-20 font-mono">{i+1}</span>
-                     {block.type === "heading" ? <Heading2 className="w-3 h-3 text-or-ancestral" /> : 
-                      block.type === "image" ? <ImageIcon className="w-3 h-3 text-blue-400" /> : 
-                      block.type === "quote" ? <Quote className="w-3 h-3 text-emerald-400" /> : <Type className="w-3 h-3 opacity-40" />}
-                     <span className="truncate flex-1 opacity-60 group-hover:opacity-100">
-                       {block.body ? block.body.substring(0, 20) + "..." : block.type.toUpperCase()}
-                     </span>
-                     {block.alignment === "sidebar" && <span className="bg-or-ancestral/20 text-or-ancestral px-1.5 rounded uppercase">Side</span>}
-                   </div>
-                ))}
-              </div>
-
-              <div className="border-t border-white/5 pt-6 space-y-6">
-                 <div className="space-y-2">
-                   <label className="text-[10px] uppercase tracking-widest opacity-40 font-bold ml-2">Slug</label>
-                   <input 
-                     type="text" 
-                     value={article.slug}
-                     disabled={!isNew}
-                     onChange={(e) => setArticle({...article, slug: e.target.value})}
-                     className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-or-ancestral/50 transition-all text-sm"
-                   />
-                 </div>
-
-                 <div className="space-y-2">
-                   <label className="text-[10px] uppercase tracking-widest opacity-40 font-bold ml-2">Image Principale</label>
-                   <div className="relative group">
-                     <input 
-                       type="text" 
-                       value={article.featured_image}
-                       onChange={(e) => setArticle({...article, featured_image: e.target.value})}
-                       className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 pl-10 outline-none focus:border-or-ancestral/50 transition-all text-xs"
-                     />
-                     <ImageIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 opacity-30" />
-                   </div>
-                   {article.featured_image && (
-                     <img src={article.featured_image} className="w-full h-20 object-cover rounded-xl mt-2 opacity-50 border border-white/10" />
-                   )}
-                 </div>
-
-                 <div className="space-y-2">
-                   <label className="text-[10px] uppercase tracking-widest opacity-40 font-bold ml-2">Vidéo Hero (Optionnel)</label>
-                   <div className="relative group">
-                     <input
-                       type="file"
-                       accept="video/mp4,video/webm,video/quicktime"
-                       onChange={(e) => e.target.files?.[0] && handleVideoUpload(e.target.files[0])}
-                       disabled={isVideoUploading}
-                       className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 pl-10 outline-none focus:border-or-ancestral/50 transition-all text-xs disabled:opacity-50 cursor-pointer"
-                     />
-                     <Play className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 opacity-30" />
-                   </div>
-                   {isVideoUploading && (
-                     <div className="mt-2 space-y-1">
-                       <div className="w-full bg-white/10 rounded-full h-1.5 overflow-hidden">
-                         <div
-                           className="h-full bg-or-ancestral transition-all duration-300"
-                           style={{ width: `${videoUploadProgress}%` }}
-                         />
-                       </div>
-                       <p className="text-[10px] opacity-50 text-center">{videoUploadProgress}%</p>
-                     </div>
-                   )}
-                   {article.hero_video_url && !isVideoUploading && (
-                     <div className="mt-2 space-y-2">
-                       <div className="relative w-full h-24 bg-black/30 rounded-xl overflow-hidden group cursor-pointer">
-                         <video
-                           src={article.hero_video_url}
-                           className="w-full h-full object-cover"
-                         />
-                         <div className="absolute inset-0 bg-black/40 group-hover:bg-black/50 flex items-center justify-center transition-all">
-                           <Play className="w-6 h-6 text-or-ancestral" fill="currentColor" />
-                         </div>
-                       </div>
-                       <button
-                         onClick={() => setArticle({...article, hero_video_url: ""})}
-                         className="w-full text-xs px-3 py-2 rounded-lg bg-red-500/10 text-red-400 border border-red-500/20 hover:bg-red-500/20 transition-all font-bold"
-                       >
-                         Supprimer vidéo
-                       </button>
-                     </div>
-                   )}
-                 </div>
-              </div>
-           </div>
-        </div>
-
-        {/* Center: Content Editor */}
-        <div className={`${sidebarOpen ? 'lg:col-span-6' : 'lg:col-span-9'} space-y-8 transition-all duration-500`}>
-           <div className="flex items-center gap-1 p-1 bg-white/5 rounded-2xl w-fit">
-              {languages.map(lang => (
-                <button
-                  key={lang.code}
-                  onClick={() => setActiveTab(lang.code)}
-                  className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${activeTab === lang.code ? 'bg-or-ancestral text-foret-nocturne' : 'opacity-40 hover:opacity-100 hover:bg-white/5'}`}
-                >
-                  {lang.label}
-                </button>
-              ))}
-           </div>
-
-           <div className="space-y-8">
-              <div className="space-y-2">
-                <input 
-                  type="text" 
-                  value={article.title[activeTab] || ""}
-                  onChange={(e) => updateField(activeTab, "title", e.target.value)}
-                  className="w-full bg-transparent border-b border-white/10 py-6 text-4xl font-display font-bold outline-none focus:border-or-ancestral transition-all"
-                  placeholder="Le Secret des Ancêtres..."
-                />
-              </div>
-
-              <div className="space-y-2">
-                <label className="text-[10px] uppercase tracking-widest opacity-40 font-bold ml-2">Préambule ({activeTab})</label>
-                <textarea 
-                  value={article.summary[activeTab] || ""}
-                  onChange={(e) => updateField(activeTab, "summary", e.target.value)}
-                  className="w-full bg-white/5 border border-white/10 rounded-2xl p-6 outline-none focus:border-or-ancestral/50 transition-all text-sm italic h-24 resize-none"
-                  placeholder="Un avant-goût du savoir..."
-                />
-              </div>
-
-              <div className="space-y-2">
-                {editorMode === "text" ? (
-                  <textarea 
-                    value={typeof article.content[activeTab] === 'string' ? article.content[activeTab] : JSON.stringify(article.content[activeTab])}
-                    onChange={(e) => updateField(activeTab, "content", e.target.value)}
-                    className="w-full bg-[#050C09] border border-white/5 rounded-[2.5rem] p-8 outline-none focus:border-white/20 transition-all font-body leading-relaxed h-[600px] resize-none text-ivoire-ancien/70"
-                    placeholder="Épanchez votre sagesse..."
-                  />
-                ) : (
-                  <BlockEditor 
-                    blocks={Array.isArray(article.content[activeTab]) ? article.content[activeTab] : stringToBlocks(article.content[activeTab])}
-                    onChange={(blocks) => updateField(activeTab, "content", blocks)}
-                  />
+      <div className="space-y-8 pb-24 relative">
+        {/* ───────────── Header ───────────── */}
+        <header className="flex items-center justify-between flex-wrap gap-4">
+          <div className="flex items-center gap-4">
+            <Link href="/admin/content" className="p-2.5 hover:bg-white/5 rounded-full transition-colors opacity-40 hover:opacity-100">
+              <ArrowLeft className="w-5 h-5" />
+            </Link>
+            <div className="space-y-1.5">
+              <div className="flex items-center gap-2 flex-wrap">
+                <span className="eyebrow" style={{ color: "var(--or-ancestral)" }}>
+                  {isNew ? "Création" : "Édition"}
+                </span>
+                <SaveStateBadge />
+                {article.has_narrator && (
+                  <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-emerald-500/10 text-emerald-400 text-[10px] font-bold">
+                    <Volume2 className="w-3 h-3" /> VOIX ACTIVE
+                  </div>
                 )}
               </div>
-           </div>
-        </div>
+              <h1 className="font-display text-3xl font-bold">
+                 {isNew ? "Nouveau Récit" : article.title.fr || article.slug}
+              </h1>
+            </div>
+          </div>
 
-        {/* Right Side: Media Library Sidebar */}
-        <AnimatePresence>
-          {sidebarOpen && (
-            <motion.div 
-              initial={{ opacity: 0, x: 50 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: 50 }}
-              className="lg:col-span-3 space-y-6"
+          <div className="flex items-center gap-2 flex-wrap">
+            <button
+              onClick={() => setSidebarOpen(!sidebarOpen)}
+              className={`flex items-center gap-2 px-4 py-2.5 rounded-xl border transition-all font-bold text-sm ${sidebarOpen ? 'bg-blue-500/10 border-blue-500/30 text-blue-400' : 'border-white/10 text-ivoire-ancien/60 hover:text-ivoire-ancien'}`}
             >
-              <div className="p-6 rounded-[2rem] bg-black/40 border border-blue-500/20 backdrop-blur-3xl h-[80vh] flex flex-col sticky top-28">
-                <div className="flex items-center justify-between mb-6">
-                   <h3 className="font-display font-bold text-blue-400 flex items-center gap-2">
-                     <Library className="w-4 h-4" /> Médiathèque
-                   </h3>
-                   <button onClick={() => setSidebarOpen(false)} className="opacity-40 hover:opacity-100">
-                     <X className="w-4 h-4" />
-                   </button>
+              <Library className="w-4 h-4" /> Médiathèque
+            </button>
+
+            <button
+              onClick={handleVoiceGenerate}
+              disabled={isVoiceLoading || !article.content[activeTab]}
+              className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-orange-500/10 text-orange-400 border border-orange-500/20 hover:bg-orange-500/20 transition-all font-bold text-sm disabled:opacity-30"
+            >
+              {isVoiceLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <AudioLines className="w-4 h-4" />}
+              Auto Voix
+            </button>
+
+            <button
+              onClick={toggleMode}
+              className="flex items-center gap-2 px-4 py-2.5 rounded-xl border border-white/10 text-ivoire-ancien/60 hover:text-ivoire-ancien transition-all font-bold text-sm"
+            >
+              {editorMode === "text" ? <Type className="w-4 h-4" /> : <Layers className="w-4 h-4" />}
+              {editorMode === "text" ? "Markdown" : "Blocs"}
+            </button>
+
+            <button
+              onClick={handleAutoTranslate}
+              disabled={translating || !article.title.fr}
+              className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 hover:bg-emerald-500/20 transition-all font-bold text-sm disabled:opacity-30"
+            >
+              {translating ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
+              Traduire tout
+            </button>
+
+            <button
+              onClick={handleSave}
+              disabled={saving}
+              className="flex items-center gap-2 px-6 py-2.5 rounded-xl bg-or-ancestral text-foret-nocturne font-bold hover:scale-105 transition-all text-sm shadow-[0_0_20px_rgba(193,107,52,0.2)] disabled:opacity-50 disabled:hover:scale-100"
+            >
+              {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
+              Publier
+            </button>
+          </div>
+        </header>
+
+        {/* ───────────── Main Grid ───────────── */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+          {/* ─── Left Sidebar: Metadata & Hero Media ─── */}
+          <div className="lg:col-span-4 space-y-6 h-fit lg:sticky lg:top-28">
+
+             {/* Hero Video — promoted to its own beautiful card */}
+             <div className="p-6 rounded-[2rem] bg-gradient-to-br from-white/[0.07] to-white/[0.02] border border-white/10 space-y-4">
+                <div className="flex items-center justify-between">
+                  <h3 className="font-display text-lg font-bold flex items-center gap-2">
+                    <FileVideo className="w-4 h-4 text-or-ancestral" />
+                    Vidéo Héro
+                  </h3>
+                  <span className="text-[9px] uppercase tracking-widest opacity-40 font-bold">Optionnel</span>
+                </div>
+                <HeroVideoCard
+                  videoUrl={article.hero_video_url || ""}
+                  uploading={isVideoUploading}
+                  progress={videoUploadProgress}
+                  onFile={handleVideoUpload}
+                  onRemove={() => {
+                    setArticle({ ...article, hero_video_url: "" });
+                    markDirty();
+                    showToast("Vidéo retirée — sauvegardez pour confirmer", "info");
+                  }}
+                />
+             </div>
+
+             {/* Structure & Metadata */}
+             <div className="p-6 rounded-[2rem] bg-white/[0.04] border border-white/10 space-y-6">
+                <h3 className="font-display text-lg font-bold border-b border-white/5 pb-4 flex items-center gap-2">
+                  <Layers className="w-4 h-4 text-or-ancestral" /> Structure
+                </h3>
+
+                {editorMode === "blocks" && Array.isArray(article.content[activeTab]) && (
+                  <div className="space-y-1 max-h-[260px] overflow-y-auto pr-2 scrollbar-hide -mx-2 px-2">
+                    {(article.content[activeTab] as any[]).map((block, i) => (
+                       <div key={block.id} className="flex items-center gap-3 p-2 rounded-xl hover:bg-white/5 text-[10px] transition-colors group">
+                         <span className="opacity-20 font-mono w-4 text-center">{i+1}</span>
+                         {block.type === "heading" ? <Heading2 className="w-3 h-3 text-or-ancestral flex-shrink-0" /> :
+                          block.type === "image" ? <ImageIcon className="w-3 h-3 text-blue-400 flex-shrink-0" /> :
+                          block.type === "quote" ? <Quote className="w-3 h-3 text-emerald-400 flex-shrink-0" /> : <Type className="w-3 h-3 opacity-40 flex-shrink-0" />}
+                         <span className="truncate flex-1 opacity-60 group-hover:opacity-100">
+                           {block.body ? block.body.substring(0, 24) + "..." : block.type.toUpperCase()}
+                         </span>
+                         {block.alignment === "sidebar" && <span className="bg-or-ancestral/20 text-or-ancestral px-1.5 rounded uppercase text-[9px] flex-shrink-0">Side</span>}
+                       </div>
+                    ))}
+                  </div>
+                )}
+
+                <div className="space-y-5 pt-4 border-t border-white/5">
+                   <div className="space-y-2">
+                     <label className="text-[10px] uppercase tracking-widest opacity-40 font-bold ml-2">Slug (URL)</label>
+                     <input
+                       type="text"
+                       value={article.slug}
+                       disabled={!isNew}
+                       onChange={(e) => { setArticle({...article, slug: e.target.value}); markDirty(); }}
+                       className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-or-ancestral/50 transition-all text-sm font-mono disabled:opacity-50 disabled:cursor-not-allowed"
+                     />
+                   </div>
+
+                   <div className="space-y-2">
+                     <label className="text-[10px] uppercase tracking-widest opacity-40 font-bold ml-2">Image Principale</label>
+                     <div className="relative group">
+                       <input
+                         type="text"
+                         value={article.featured_image}
+                         onChange={(e) => { setArticle({...article, featured_image: e.target.value}); markDirty(); }}
+                         placeholder="/images/..."
+                         className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 pl-10 outline-none focus:border-or-ancestral/50 transition-all text-xs"
+                       />
+                       <ImageIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 opacity-30" />
+                     </div>
+                     {article.featured_image && (
+                       <img src={article.featured_image} className="w-full h-24 object-cover rounded-xl mt-2 opacity-70 border border-white/10" />
+                     )}
+                   </div>
+                </div>
+             </div>
+          </div>
+
+          {/* ─── Center: Content Editor ─── */}
+          <div className={`${sidebarOpen ? 'lg:col-span-5' : 'lg:col-span-8'} space-y-8 transition-all duration-500`}>
+             <div className="flex items-center gap-1 p-1 bg-white/5 rounded-2xl w-fit border border-white/5">
+                {languages.map(lang => (
+                  <button
+                    key={lang.code}
+                    onClick={() => setActiveTab(lang.code)}
+                    className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${activeTab === lang.code ? 'bg-or-ancestral text-foret-nocturne shadow-md' : 'opacity-40 hover:opacity-100 hover:bg-white/5'}`}
+                  >
+                    {lang.label}
+                  </button>
+                ))}
+             </div>
+
+             <div className="space-y-8">
+                <div className="space-y-2">
+                  <label className="text-[10px] uppercase tracking-widest opacity-40 font-bold ml-2">Titre ({activeTab})</label>
+                  <input
+                    type="text"
+                    value={article.title[activeTab] || ""}
+                    onChange={(e) => updateField(activeTab, "title", e.target.value)}
+                    className="w-full bg-transparent border-b border-white/10 py-4 text-4xl font-display font-bold outline-none focus:border-or-ancestral transition-all"
+                    placeholder="Le Secret des Ancêtres..."
+                  />
                 </div>
 
-                <div className="relative mb-6">
-                   <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 opacity-30" />
-                   <input type="text" placeholder="Rechercher..." className="w-full bg-white/5 border border-white/10 rounded-xl px-10 py-2.5 text-xs outline-none focus:border-blue-500/50" />
+                <div className="space-y-2">
+                  <label className="text-[10px] uppercase tracking-widest opacity-40 font-bold ml-2">Préambule ({activeTab})</label>
+                  <textarea
+                    value={article.summary[activeTab] || ""}
+                    onChange={(e) => updateField(activeTab, "summary", e.target.value)}
+                    className="w-full bg-white/5 border border-white/10 rounded-2xl p-6 outline-none focus:border-or-ancestral/50 transition-all text-sm italic h-24 resize-none"
+                    placeholder="Un avant-goût du savoir..."
+                  />
                 </div>
 
-                <div className="flex-1 overflow-y-auto space-y-4 pr-2 scrollbar-hide">
-                   {libraryFiles.map((file, i) => (
-                      <div key={i} className="group relative rounded-xl overflow-hidden aspect-video bg-black/20 border border-white/5 hover:border-blue-500/50 transition-all cursor-pointer">
-                         <img src={file.url} className="w-full h-full object-cover opacity-60 group-hover:opacity-100 group-hover:scale-110 transition-all" />
-                         <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent p-3 flex flex-col justify-end opacity-0 group-hover:opacity-100 transition-opacity">
-                            <p className="text-[8px] font-bold truncate">{file.name}</p>
-                            <div className="flex gap-1 mt-1">
-                               <button 
-                                 onClick={() => {
-                                   if (editorMode === "blocks") {
-                                      const newBlock: ContentBlock = { id: Math.random().toString(36).substr(2, 9), type: "image", url: file.url, alignment: "sidebar" };
-                                      updateField(activeTab, "content", [...(article.content[activeTab] || []), newBlock]);
-                                   } else {
-                                      updateField(activeTab, "content", (article.content[activeTab] || "") + `\n\n![${file.name}](${file.url})`);
-                                   }
-                                 }}
-                                 className="flex-1 bg-blue-500/20 hover:bg-blue-500 text-[8px] font-bold py-1 rounded"
-                               >
-                                 SIDE
-                               </button>
-                               <button 
-                                 onClick={() => {
-                                   if (editorMode === "blocks") {
-                                      const newBlock: ContentBlock = { id: Math.random().toString(36).substr(2, 9), type: "image", url: file.url, alignment: "full" };
-                                      updateField(activeTab, "content", [...(article.content[activeTab] || []), newBlock]);
-                                   } else {
-                                      updateField(activeTab, "content", (article.content[activeTab] || "") + `\n\n![${file.name}](${file.url})`);
-                                   }
-                                 }}
-                                 className="flex-1 bg-white/20 hover:bg-white/40 text-[8px] font-bold py-1 rounded"
-                               >
-                                 BLOC
-                               </button>
-                            </div>
-                         </div>
-                      </div>
-                   ))}
-                   {libraryFiles.length === 0 && <p className="text-[10px] opacity-20 italic text-center py-10">Médiathèque vide</p>}
+                <div className="space-y-2">
+                  <label className="text-[10px] uppercase tracking-widest opacity-40 font-bold ml-2">Contenu ({activeTab})</label>
+                  {editorMode === "text" ? (
+                    <textarea
+                      value={typeof article.content[activeTab] === 'string' ? article.content[activeTab] : JSON.stringify(article.content[activeTab])}
+                      onChange={(e) => updateField(activeTab, "content", e.target.value)}
+                      className="w-full bg-[#050C09] border border-white/5 rounded-[2.5rem] p-8 outline-none focus:border-white/20 transition-all font-body leading-relaxed h-[600px] resize-none text-ivoire-ancien/70"
+                      placeholder="Épanchez votre sagesse..."
+                    />
+                  ) : (
+                    <BlockEditor
+                      blocks={Array.isArray(article.content[activeTab]) ? article.content[activeTab] : stringToBlocks(article.content[activeTab])}
+                      onChange={(blocks) => updateField(activeTab, "content", blocks)}
+                    />
+                  )}
                 </div>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+             </div>
+          </div>
+
+          {/* ─── Right Sidebar: Media Library ─── */}
+          <AnimatePresence>
+            {sidebarOpen && (
+              <motion.div
+                initial={{ opacity: 0, x: 50 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: 50 }}
+                className="lg:col-span-3 space-y-6"
+              >
+                <div className="p-6 rounded-[2rem] bg-black/40 border border-blue-500/20 backdrop-blur-3xl h-[80vh] flex flex-col sticky top-28">
+                  <div className="flex items-center justify-between mb-6">
+                     <h3 className="font-display font-bold text-blue-400 flex items-center gap-2">
+                       <Library className="w-4 h-4" /> Médiathèque
+                     </h3>
+                     <button onClick={() => setSidebarOpen(false)} className="opacity-40 hover:opacity-100">
+                       <X className="w-4 h-4" />
+                     </button>
+                  </div>
+
+                  <div className="relative mb-6">
+                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 opacity-30" />
+                     <input type="text" placeholder="Rechercher..." className="w-full bg-white/5 border border-white/10 rounded-xl px-10 py-2.5 text-xs outline-none focus:border-blue-500/50" />
+                  </div>
+
+                  <div className="flex-1 overflow-y-auto space-y-4 pr-2 scrollbar-hide">
+                     {libraryFiles.map((file, i) => (
+                        <div key={i} className="group relative rounded-xl overflow-hidden aspect-video bg-black/20 border border-white/5 hover:border-blue-500/50 transition-all cursor-pointer">
+                           <img src={file.url} className="w-full h-full object-cover opacity-60 group-hover:opacity-100 group-hover:scale-110 transition-all" />
+                           <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent p-3 flex flex-col justify-end opacity-0 group-hover:opacity-100 transition-opacity">
+                              <p className="text-[8px] font-bold truncate">{file.name}</p>
+                              <div className="flex gap-1 mt-1">
+                                 <button
+                                   onClick={() => {
+                                     if (editorMode === "blocks") {
+                                        const newBlock: ContentBlock = { id: Math.random().toString(36).substr(2, 9), type: "image", url: file.url, alignment: "sidebar" };
+                                        updateField(activeTab, "content", [...(article.content[activeTab] || []), newBlock]);
+                                     } else {
+                                        updateField(activeTab, "content", (article.content[activeTab] || "") + `\n\n![${file.name}](${file.url})`);
+                                     }
+                                   }}
+                                   className="flex-1 bg-blue-500/20 hover:bg-blue-500 text-[8px] font-bold py-1 rounded"
+                                 >
+                                   SIDE
+                                 </button>
+                                 <button
+                                   onClick={() => {
+                                     if (editorMode === "blocks") {
+                                        const newBlock: ContentBlock = { id: Math.random().toString(36).substr(2, 9), type: "image", url: file.url, alignment: "full" };
+                                        updateField(activeTab, "content", [...(article.content[activeTab] || []), newBlock]);
+                                     } else {
+                                        updateField(activeTab, "content", (article.content[activeTab] || "") + `\n\n![${file.name}](${file.url})`);
+                                     }
+                                   }}
+                                   className="flex-1 bg-white/20 hover:bg-white/40 text-[8px] font-bold py-1 rounded"
+                                 >
+                                   BLOC
+                                 </button>
+                              </div>
+                           </div>
+                        </div>
+                     ))}
+                     {libraryFiles.length === 0 && <p className="text-[10px] opacity-20 italic text-center py-10">Médiathèque vide</p>}
+                  </div>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
