@@ -82,7 +82,7 @@ export async function POST(request: Request) {
     const { data: article, error: articleError } = await withRetry(async () =>
       supabaseAdmin
         .from(DB_TABLES.ARTICLES)
-        .select("id, created_by")
+        .select("id, author_id")
         .eq("id", articleId)
         .single()
     );
@@ -95,7 +95,7 @@ export async function POST(request: Request) {
     }
 
     // Only allow creator or admin to upload video
-    if ((article as any).created_by !== user.id && (profile as any).role !== "admin") {
+    if ((article as any).author_id !== user.id && (profile as any).role !== "admin") {
       return NextResponse.json(
         { error: "Vous ne pouvez modifier que vos propres articles." },
         { status: 403 }
