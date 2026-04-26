@@ -199,16 +199,18 @@ export function ChatWindow({ conversationId, onBack }: ChatWindowProps) {
   const [repliedMessage, setRepliedMessage] = useState<Message | null>(null);
 
   // Close menus on outside click
+  const menuRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    const handleClick = () => {
-      setShowMenu(false);
-      setShowEphemeralSubmenu(false);
+    const handleClick = (e: MouseEvent) => {
+      // Only close if click is outside the menu
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+        setShowMenu(false);
+        setShowEphemeralSubmenu(false);
+      }
     };
     if (showMenu) {
-      document.addEventListener("click", handleClick, { capture: true, once: true });
+      document.addEventListener("click", handleClick, { capture: true });
       return () => {
-        // Note: once: true means the listener auto-removes after first click,
-        // but we still cleanup in case the effect re-runs
         document.removeEventListener("click", handleClick, { capture: true });
       };
     }
@@ -380,6 +382,7 @@ export function ChatWindow({ conversationId, onBack }: ChatWindowProps) {
 
           {showMenu && (
             <div
+              ref={menuRef}
               className="absolute top-full right-0 mt-2 bg-white dark:bg-stone-800 border border-stone-200 dark:border-stone-700 shadow-xl rounded-lg overflow-visible flex flex-col w-52 z-50"
               onClick={(e) => e.stopPropagation()}
             >
