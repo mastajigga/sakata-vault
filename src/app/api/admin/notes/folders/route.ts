@@ -3,7 +3,7 @@ import { supabaseAdmin } from "@/lib/supabase/admin";
 import { supabasePublic } from "@/lib/supabase/admin";
 import { withRetry } from "@/lib/supabase-retry";
 import { DB_TABLES } from "@/lib/constants/db";
-import { adminNotesSchema } from "@/lib/schemas/validation";
+import { adminNoteFoldersSchema } from "@/lib/schemas/validation";
 import { z } from "zod";
 
 export async function GET(request: Request) {
@@ -27,32 +27,32 @@ export async function GET(request: Request) {
       );
     }
 
-    const { data: notes, error: notesError } = await withRetry(async () =>
+    const { data: folders, error: foldersError } = await withRetry(async () =>
       supabaseAdmin
-        .from(DB_TABLES.ADMIN_NOTES)
+        .from("admin_note_folders")
         .select("*")
         .eq("user_id", user.id)
-        .order("created_at", { ascending: false })
+        .order("created_at", { ascending: true })
     );
 
-    if (notesError) {
-      console.error("[Admin Notes GET] Fetch failed:", {
-        error: notesError.message,
+    if (foldersError) {
+      console.error("[Admin Note Folders GET] Fetch failed:", {
+        error: foldersError.message,
         userId: user.id,
       });
       return NextResponse.json(
-        { error: "Erreur lors du chargement des notes." },
+        { error: "Erreur lors du chargement des dossiers." },
         { status: 500 }
       );
     }
 
-    return NextResponse.json(notes || []);
+    return NextResponse.json(folders || []);
   } catch (err: any) {
-    console.error("[Admin Notes GET] Request failed:", {
+    console.error("[Admin Note Folders GET] Request failed:", {
       error: err instanceof Error ? err.message : String(err),
     });
     return NextResponse.json(
-      { error: "Erreur serveur lors du chargement des notes." },
+      { error: "Erreur serveur lors du chargement des dossiers." },
       { status: 500 }
     );
   }
@@ -83,7 +83,7 @@ export async function POST(request: Request) {
 
     let validatedData;
     try {
-      validatedData = adminNotesSchema.parse(body);
+      validatedData = adminNoteFoldersSchema.parse(body);
     } catch (validationError) {
       if (validationError instanceof z.ZodError) {
         const flattened = validationError.flatten();
@@ -95,39 +95,37 @@ export async function POST(request: Request) {
       throw validationError;
     }
 
-    const { title, content, folder_id } = validatedData;
+    const { name } = validatedData;
 
-    const { data: note, error: insertError } = await withRetry(async () =>
+    const { data: folder, error: insertError } = await withRetry(async () =>
       supabaseAdmin
-        .from(DB_TABLES.ADMIN_NOTES)
+        .from("admin_note_folders")
         .insert({
           user_id: user.id,
-          title: title.trim(),
-          content: content.trim(),
-          folder_id: folder_id || null,
+          name: name.trim(),
         })
         .select()
         .single()
     );
 
-    if (insertError || !note) {
-      console.error("[Admin Notes POST] Insert failed:", {
+    if (insertError || !folder) {
+      console.error("[Admin Note Folders POST] Insert failed:", {
         error: insertError?.message,
         userId: user.id,
       });
       return NextResponse.json(
-        { error: "Erreur lors de la création de la note." },
+        { error: "Erreur lors de la création du dossier." },
         { status: 500 }
       );
     }
 
-    return NextResponse.json(note, { status: 201 });
+    return NextResponse.json(folder, { status: 201 });
   } catch (err: any) {
-    console.error("[Admin Notes POST] Request failed:", {
+    console.error("[Admin Note Folders POST] Request failed:", {
       error: err instanceof Error ? err.message : String(err),
     });
     return NextResponse.json(
-      { error: "Erreur serveur lors de la création de la note." },
+      { error: "Erreur serveur lors de la création du dossier." },
       { status: 500 }
     );
   }

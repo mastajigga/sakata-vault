@@ -1,11 +1,12 @@
 import { NextResponse } from "next/server";
-import { supabasePublic } from "@/lib/supabase/admin";
+import { supabaseAdmin, supabasePublic } from "@/lib/supabase/admin";
 import { withRetry } from "@/lib/supabase-retry";
 import { z } from "zod";
 
 const noteUpdateSchema = z.object({
   title: z.string().min(1).max(200).optional(),
   content: z.string().min(1).max(10000).optional(),
+  folder_id: z.string().uuid().nullable().optional(),
   archived: z.boolean().optional(),
 });
 
@@ -36,7 +37,7 @@ export async function PATCH(
 
     // Verify ownership
     const { data: note } = await withRetry(async () =>
-      supabasePublic
+      supabaseAdmin
         .from("admin_notes")
         .select("user_id")
         .eq("id", params.id)
@@ -54,7 +55,7 @@ export async function PATCH(
     const updates = noteUpdateSchema.parse(body);
 
     const { data: updated, error } = await withRetry(async () =>
-      supabasePublic
+      supabaseAdmin
         .from("admin_notes")
         .update({ ...updates, updated_at: new Date().toISOString() })
         .eq("id", params.id)
@@ -115,7 +116,7 @@ export async function DELETE(
 
     // Verify ownership
     const { data: note } = await withRetry(async () =>
-      supabasePublic
+      supabaseAdmin
         .from("admin_notes")
         .select("user_id")
         .eq("id", params.id)
@@ -131,7 +132,7 @@ export async function DELETE(
 
     // Soft delete (archive)
     const { error } = await withRetry(async () =>
-      supabasePublic
+      supabaseAdmin
         .from("admin_notes")
         .update({ archived: true })
         .eq("id", params.id)
