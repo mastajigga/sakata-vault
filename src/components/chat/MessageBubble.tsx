@@ -36,6 +36,8 @@ interface MessageBubbleProps {
   onReply?: (message: Message) => void;
   onDelete?: (id: string, mode: "self" | "all") => void;
   onEdit?: (message: Message, newContent: string) => void;
+  onUnreadClick?: () => void;
+  isUnread?: boolean;
 }
 
 // ─── Audio Player ────────────────────────────────────────────────────────────
@@ -373,7 +375,7 @@ function ProtectedImage({
 
 // ─── MessageBubble ────────────────────────────────────────────────────────────
 
-export function MessageBubble({ message, isTemporary, reactions = {}, myReactions, onReact, onReply, onDelete, onEdit }: MessageBubbleProps) {
+export function MessageBubble({ message, isTemporary, reactions = {}, myReactions, onReact, onReply, onDelete, onEdit, onUnreadClick, isUnread }: MessageBubbleProps) {
   const isMe = message.isMe;
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [repliedToMessage, setRepliedToMessage] = useState<Message | undefined>(message.replied_to_message);
@@ -547,6 +549,19 @@ export function MessageBubble({ message, isTemporary, reactions = {}, myReaction
           <span className="text-xs text-stone-500 ml-1 mb-1 font-medium">
             {message.senderName}
           </span>
+        )}
+
+        {/* Unread badge — clickable indicator to scroll to bottom */}
+        {isUnread && onUnreadClick && (
+          <button
+            type="button"
+            onClick={onUnreadClick}
+            className="mb-1 ml-1 px-2 py-1 rounded-full bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-300 text-xs font-medium hover:bg-amber-200 dark:hover:bg-amber-900/60 transition-colors flex items-center gap-1"
+            title="Cliquer pour aller au message"
+          >
+            <span className="w-2 h-2 rounded-full bg-amber-600" />
+            Nouveau message
+          </button>
         )}
 
         {/* Reply context display */}

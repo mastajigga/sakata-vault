@@ -534,14 +534,15 @@ export function ChatWindow({ conversationId, onBack }: ChatWindowProps) {
               }
             }
 
+            // Show unread badge for non-me messages that haven't been read
+            const isUnread = !msg.isMe && !isRead;
+
             const handleUnreadClick = () => {
-              if (!isRead) {
-                scrollToBottom();
-              }
+              scrollToBottom();
             };
 
             return (
-              <div key={msg.id} onClick={handleUnreadClick}>
+              <div key={msg.id}>
                 <MessageBubble
                   message={{ ...msg, isRead }}
                   isTemporary={isTemporaryConversation}
@@ -551,6 +552,8 @@ export function ChatWindow({ conversationId, onBack }: ChatWindowProps) {
                   onReply={handleReply}
                   onDelete={handleDelete}
                   onEdit={handleEdit}
+                  isUnread={isUnread}
+                  onUnreadClick={handleUnreadClick}
                 />
               </div>
             );
