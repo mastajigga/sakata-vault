@@ -136,6 +136,11 @@ export const adminMediaDeleteSchema = z.object({
 export const adminNotesSchema = z.object({
   title: z.string().min(1, "Titre requis").max(200, "Max 200 caractères"),
   content: z.string().min(1, "Contenu requis").max(10000, "Max 10000 caractères"),
+  folder_id: z.string().uuid("ID dossier invalide").nullable().optional(),
+});
+
+export const adminNoteFoldersSchema = z.object({
+  name: z.string().min(1, "Nom du dossier requis").max(100, "Max 100 caractères"),
 });
 
 export const articlesSearchSchema = z.object({
@@ -164,4 +169,5 @@ export type AIChatData = z.infer<typeof aiChatSchema>;
 export type AIVoiceData = z.infer<typeof aiVoiceSchema>;
 export type AdminMediaDeleteData = z.infer<typeof adminMediaDeleteSchema>;
 export type AdminNotesData = z.infer<typeof adminNotesSchema>;
+export type AdminNoteFoldersData = z.infer<typeof adminNoteFoldersSchema>;
 export type ArticlesSearchData = z.infer<typeof articlesSearchSchema>;

@@ -76,7 +76,8 @@ export function ArticleEditor({ onSave }: ArticleEditorProps) {
       setUploadingVideo(true);
       try {
         const file = files[0];
-        await editor.uploadVideo(file);
+        // Pass articleId if available; if not, uploadVideo will auto-save the article
+        await editor.uploadVideo(file, editor.articleId || undefined);
       } catch (err) {
         console.error("Video upload error:", err);
       } finally {

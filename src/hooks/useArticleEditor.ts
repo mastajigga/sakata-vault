@@ -60,6 +60,7 @@ export function useArticleEditor(initialArticle?: Article) {
   );
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [articleId, setArticleId] = useState(initialArticle?.id || "");
 
   // Auto-generate slug from title
   const generateSlug = useCallback((text: string) => {
@@ -190,11 +191,11 @@ export function useArticleEditor(initialArticle?: Article) {
   );
 
   const uploadVideo = useCallback(
-    async (file: File): Promise<string | null> => {
+    async (file: File, articleId?: string): Promise<string | null> => {
       try {
         const maxSize = 50 * 1024 * 1024;
         if (file.size > maxSize) {
-          setError("Vidéo trop volumineux. Maximum 50MB");
+          setError("Vidéo trop volumineuse. Maximum 50MB");
           return null;
         }
 
@@ -204,28 +205,95 @@ export function useArticleEditor(initialArticle?: Article) {
           return null;
         }
 
-        const fileName = `${Date.now()}-${file.name}`;
-        const { error: uploadError } = await supabase.storage
-          .from("article-videos")
-          .upload(`articles/${fileName}`, file);
+        // Get auth token
+        const { data: { session } } = await supabase.auth.getSession();
+        if (!session) {
+          setError("Non authentifié");
+          return null;
+        }
 
-        if (uploadError) throw uploadError;
+        // Prepare FormData for API endpoint
+        const formData = new FormData();
+        formData.append("file", file);
 
-        const {
-          data: { publicUrl },
-        } = supabase.storage
-          .from("article-videos")
-          .getPublicUrl(`articles/${fileName}`);
+        // If no articleId, save article first as draft
+        let finalArticleId = articleId;
+        if (!finalArticleId) {
+          if (!title.trim()) {
+            setError("Le titre est requis avant de pouvoir ajouter une vidéo");
+            return null;
+          }
 
-        setHeroVideoUrl(publicUrl);
-        return publicUrl;
+          if (!slug.trim()) {
+            setError("Le slug est requis avant de pouvoir ajouter une vidéo");
+            return null;
+          }
+
+          if (sections.length === 0) {
+            setError("Au moins une section est requise avant de pouvoir ajouter une vidéo");
+            return null;
+          }
+
+          // Save as draft to get ID
+          const articleData = {
+            title,
+            slug,
+            content: { sections, sources },
+            status: "draft" as const,
+            requires_premium: requiresPremium,
+            author_id: session.user.id,
+          };
+
+          const result = await supabase
+            .from("articles")
+            .insert([articleData])
+            .select()
+            .single();
+
+          if (result.error || !result.data?.id) {
+            setError("Erreur lors de la création de l'article. Veuillez réessayer.");
+            return null;
+          }
+
+          finalArticleId = result.data.id;
+          if (finalArticleId) {
+            setArticleId(finalArticleId);
+          }
+        }
+
+        // Verify we have an articleId before proceeding
+        if (!finalArticleId) {
+          setError("Impossible d'obtenir l'ID de l'article. Veuillez réessayer.");
+          return null;
+        }
+
+        formData.append("articleId", finalArticleId);
+
+        // Call API endpoint with proper auth
+        const response = await fetch("/api/admin/articles/upload-hero-video", {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${session.access_token}`,
+          },
+          body: formData,
+        });
+
+        if (!response.ok) {
+          const data = await response.json();
+          throw new Error(data.error || "Erreur lors du téléchargement de la vidéo");
+        }
+
+        const { videoUrl } = await response.json();
+        setHeroVideoUrl(videoUrl);
+        return videoUrl;
       } catch (err) {
         console.error("Video upload error:", err);
-        setError("Erreur lors de l'upload de la vidéo");
+        const errorMessage = err instanceof Error ? err.message : "Erreur lors de l'upload de la vidéo";
+        setError(errorMessage);
         return null;
       }
     },
-    []
+    [title, slug, sections, sources, requiresPremium, articleId]
   );
 
   const saveArticle = useCallback(
@@ -287,6 +355,10 @@ export function useArticleEditor(initialArticle?: Article) {
 
         if (result.error) throw result.error;
 
+        if (result.data?.id) {
+          setArticleId(result.data.id);
+        }
+
         return result.data?.id || null;
       } catch (err) {
         const message = err instanceof Error ? err.message : "Erreur inconnue";
@@ -300,6 +372,7 @@ export function useArticleEditor(initialArticle?: Article) {
   );
 
   return {
+    articleId,
     title,
     setTitle: handleTitleChange,
     slug,
