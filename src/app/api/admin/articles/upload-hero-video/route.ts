@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { supabaseAdmin } from "@/lib/supabase/admin";
 import { supabasePublic } from "@/lib/supabase/admin";
 import { withRetry } from "@/lib/supabase-retry";
-import { DB_TABLES } from "@/lib/constants/db";
+import { DB_TABLES, DB_BUCKETS } from "@/lib/constants/db";
 import { z } from "zod";
 
 const MAX_VIDEO_SIZE = 50 * 1024 * 1024; // 50MB
@@ -108,7 +108,7 @@ export async function POST(request: Request) {
 
     const { data: uploadData, error: uploadError } = await withRetry(async () =>
       supabaseAdmin.storage
-        .from("article-videos")
+        .from(DB_BUCKETS.ARTICLE_VIDEOS)
         .upload(filename, file, {
           cacheControl: "3600",
           upsert: false,
@@ -129,7 +129,7 @@ export async function POST(request: Request) {
 
     // Get public URL
     const { data: publicUrlData } = supabaseAdmin.storage
-      .from("article-videos")
+      .from(DB_BUCKETS.ARTICLE_VIDEOS)
       .getPublicUrl(filename);
 
     const videoUrl = publicUrlData?.publicUrl;

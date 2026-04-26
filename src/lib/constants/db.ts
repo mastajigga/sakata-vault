@@ -31,6 +31,7 @@ export type DbTable = typeof DB_TABLES[keyof typeof DB_TABLES];
 export const DB_BUCKETS = {
   CHAT_ATTACHMENTS: "chat_attachments",
   AVATARS: "avatars",
+  ARTICLE_VIDEOS: "article-videos",
 } as const;
 
 export type DbBucket = typeof DB_BUCKETS[keyof typeof DB_BUCKETS];
