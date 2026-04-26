@@ -160,6 +160,17 @@ const AnalyticsPage = () => {
     return langMap[lang] || lang;
   };
 
+  const getReferrerHostname = (referrer: string | null) => {
+    if (!referrer) return "-";
+    try {
+      const url = new URL(referrer);
+      return url.hostname;
+    } catch {
+      // If not a valid URL, return the referrer as-is (truncated)
+      return referrer.length > 30 ? referrer.substring(0, 30) + "..." : referrer;
+    }
+  };
+
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -366,7 +377,7 @@ const AnalyticsPage = () => {
                     <td className="px-4 py-3 text-ivoire-ancien/80">{COUNTRY_NAMES[item.metadata?.country] || item.metadata?.country}</td>
                     <td className="px-4 py-3 text-ivoire-ancien/80 font-mono text-xs">{item.ip_address || "-"}</td>
                     <td className="px-4 py-3 text-ivoire-ancien/80 max-w-xs truncate text-xs" title={item.referrer || ""}>
-                      {item.referrer ? new URL(item.referrer).hostname : "-"}
+                      {getReferrerHostname(item.referrer)}
                     </td>
                   </tr>
                 ))
