@@ -4,11 +4,11 @@ import { DB_TABLES } from "@/lib/constants/db";
 import React, { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
-import { 
-  Save, Globe, ArrowLeft, Loader2, Sparkles, 
-  Image as ImageIcon, Plus, Trash2, GripVertical, 
+import {
+  Save, Globe, ArrowLeft, Loader2, Sparkles,
+  Image as ImageIcon, Plus, Trash2, GripVertical,
   Type, Quote, Heading2, AlignLeft, AlignCenter, AlignRight,
-  AudioLines, Layers, Library, Search, X, Volume2
+  AudioLines, Layers, Library, Search, X, Volume2, Play
 } from "lucide-react";
 import Link from "next/link";
 import { translateArticle, LanguageCode } from "@/lib/translate";
@@ -198,6 +198,7 @@ const ArticleEditor = () => {
     slug: "",
     category: "culture",
     featured_image: "",
+    hero_video_url: "",
     title: { fr: "" },
     content: { fr: "" },
     summary: { fr: "" },
@@ -208,6 +209,8 @@ const ArticleEditor = () => {
   const [outlineOpen, setOutlineOpen] = useState(false);
   const [libraryFiles, setLibraryFiles] = useState<any[]>([]);
   const [isVoiceLoading, setIsVoiceLoading] = useState(false);
+  const [isVideoUploading, setIsVideoUploading] = useState(false);
+  const [videoUploadProgress, setVideoUploadProgress] = useState(0);
 
   const fetchLibrary = async () => {
     const res = await fetch("/api/admin/media");
@@ -259,6 +262,72 @@ const ArticleEditor = () => {
     }
   };
 
+  const handleVideoUpload = async (file: File) => {
+    if (!file) return;
+
+    // Validate file type
+    const allowedTypes = ["video/mp4", "video/webm", "video/quicktime"];
+    if (!allowedTypes.includes(file.type)) {
+      alert("Format de vidéo non supporté. Utilisez MP4, WebM ou MOV.");
+      return;
+    }
+
+    // Validate file size (50MB max)
+    const maxSize = 50 * 1024 * 1024;
+    if (file.size > maxSize) {
+      alert("Vidéo trop volumineuse. Maximum 50MB.");
+      return;
+    }
+
+    setIsVideoUploading(true);
+    setVideoUploadProgress(0);
+
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("articleId", article.id || slug);
+      formData.append("filename", file.name);
+
+      const xhr = new XMLHttpRequest();
+
+      xhr.upload.addEventListener("progress", (event) => {
+        if (event.lengthComputable) {
+          const percentComplete = (event.loaded / event.total) * 100;
+          setVideoUploadProgress(percentComplete);
+        }
+      });
+
+      xhr.addEventListener("load", () => {
+        if (xhr.status === 200) {
+          const response = JSON.parse(xhr.responseText);
+          setArticle({ ...article, hero_video_url: response.videoUrl });
+          alert("Vidéo téléchargée avec succès ! N'oubliez pas de sauvegarder l'article.");
+        } else {
+          const errorData = JSON.parse(xhr.responseText);
+          alert(`Erreur : ${errorData.error}`);
+        }
+      });
+
+      xhr.addEventListener("error", () => {
+        alert("Erreur lors du téléchargement de la vidéo. Veuillez réessayer.");
+      });
+
+      xhr.open("POST", "/api/admin/articles/upload-hero-video");
+      xhr.setRequestHeader("Authorization", `Bearer ${(await supabase.auth.getSession()).data.session?.access_token}`);
+      xhr.send(formData);
+    } catch (error) {
+      console.error("[ArticleEditor] Video upload failed:", {
+        error: error instanceof Error ? error.message : String(error),
+        slug,
+        timestamp: new Date().toISOString(),
+      });
+      alert("Erreur lors du téléchargement de la vidéo. Veuillez réessayer.");
+    } finally {
+      setIsVideoUploading(false);
+      setVideoUploadProgress(0);
+    }
+  };
+
   useEffect(() => {
     if (!isNew) {
       const fetchArticle = async () => {
@@ -277,7 +346,13 @@ const ArticleEditor = () => {
                 try {
                    const parsed = JSON.parse(firstContent);
                    data.content.fr = parsed;
-                } catch(e) {}
+                } catch (error) {
+                   console.warn("[ArticleEditor] Failed to parse JSON content:", {
+                     error: error instanceof Error ? error.message : String(error),
+                     slug,
+                     timestamp: new Date().toISOString(),
+                   });
+                }
              }
           }
           setArticle(data);
@@ -470,6 +545,50 @@ const ArticleEditor = () => {
                    </div>
                    {article.featured_image && (
                      <img src={article.featured_image} className="w-full h-20 object-cover rounded-xl mt-2 opacity-50 border border-white/10" />
+                   )}
+                 </div>
+
+                 <div className="space-y-2">
+                   <label className="text-[10px] uppercase tracking-widest opacity-40 font-bold ml-2">Vidéo Hero (Optionnel)</label>
+                   <div className="relative group">
+                     <input
+                       type="file"
+                       accept="video/mp4,video/webm,video/quicktime"
+                       onChange={(e) => e.target.files?.[0] && handleVideoUpload(e.target.files[0])}
+                       disabled={isVideoUploading}
+                       className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 pl-10 outline-none focus:border-or-ancestral/50 transition-all text-xs disabled:opacity-50 cursor-pointer"
+                     />
+                     <Play className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 opacity-30" />
+                   </div>
+                   {isVideoUploading && (
+                     <div className="mt-2 space-y-1">
+                       <div className="w-full bg-white/10 rounded-full h-1.5 overflow-hidden">
+                         <div
+                           className="h-full bg-or-ancestral transition-all duration-300"
+                           style={{ width: `${videoUploadProgress}%` }}
+                         />
+                       </div>
+                       <p className="text-[10px] opacity-50 text-center">{videoUploadProgress}%</p>
+                     </div>
+                   )}
+                   {article.hero_video_url && !isVideoUploading && (
+                     <div className="mt-2 space-y-2">
+                       <div className="relative w-full h-24 bg-black/30 rounded-xl overflow-hidden group cursor-pointer">
+                         <video
+                           src={article.hero_video_url}
+                           className="w-full h-full object-cover"
+                         />
+                         <div className="absolute inset-0 bg-black/40 group-hover:bg-black/50 flex items-center justify-center transition-all">
+                           <Play className="w-6 h-6 text-or-ancestral" fill="currentColor" />
+                         </div>
+                       </div>
+                       <button
+                         onClick={() => setArticle({...article, hero_video_url: ""})}
+                         className="w-full text-xs px-3 py-2 rounded-lg bg-red-500/10 text-red-400 border border-red-500/20 hover:bg-red-500/20 transition-all font-bold"
+                       >
+                         Supprimer vidéo
+                       </button>
+                     </div>
                    )}
                  </div>
               </div>
