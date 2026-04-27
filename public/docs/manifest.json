@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-27T20:25:14.141Z",
+  "generated_at": "2026-04-27T20:42:28.691Z",
   "base_url": "http://localhost:3000",
   "documents": [
     {
@@ -63,12 +63,44 @@
       "pdf_path": "/docs/roadmap-12-months.pdf"
     },
     {
+      "slug": "roadmap-api-publique-chercheurs",
+      "pdf_path": "/docs/roadmap-api-publique-chercheurs.pdf"
+    },
+    {
+      "slug": "roadmap-arbre-genealogique",
+      "pdf_path": "/docs/roadmap-arbre-genealogique.pdf"
+    },
+    {
+      "slug": "roadmap-audio-rooms",
+      "pdf_path": "/docs/roadmap-audio-rooms.pdf"
+    },
+    {
+      "slug": "roadmap-bulk-import-ethnographique",
+      "pdf_path": "/docs/roadmap-bulk-import-ethnographique.pdf"
+    },
+    {
+      "slug": "roadmap-calendrier-culturel",
+      "pdf_path": "/docs/roadmap-calendrier-culturel.pdf"
+    },
+    {
+      "slug": "roadmap-marketplace-artisanat",
+      "pdf_path": "/docs/roadmap-marketplace-artisanat.pdf"
+    },
+    {
+      "slug": "roadmap-mode-multi-tribu",
+      "pdf_path": "/docs/roadmap-mode-multi-tribu.pdf"
+    },
+    {
       "slug": "roadmap-pwa-mobile",
       "pdf_path": "/docs/roadmap-pwa-mobile.pdf"
     },
     {
       "slug": "roadmap-seo-discovery",
       "pdf_path": "/docs/roadmap-seo-discovery.pdf"
+    },
+    {
+      "slug": "roadmap-systeme-reputation",
+      "pdf_path": "/docs/roadmap-systeme-reputation.pdf"
     },
     {
       "slug": "roadmap-veillee-numerique",

@@ -10,7 +10,7 @@ import * as pwaMobile from "./content/roadmap-pwa-mobile";
 import * as veillee from "./content/roadmap-veillee-numerique";
 import * as seo from "./content/roadmap-seo-discovery";
 
-// ── Wave 1 (10 nouveaux) ──
+// ── Wave 1 ──
 import * as forumMboka from "./content/feature-forum-mboka";
 import * as geographie3d from "./content/feature-geographie-3d";
 import * as articleEditor from "./content/feature-article-editor";
@@ -21,6 +21,16 @@ import * as rlsSupabase from "./content/architecture-rls-supabase";
 import * as realtimeStrategy from "./content/architecture-realtime-strategy";
 import * as cacheStrategy from "./content/architecture-cache-strategy";
 import * as trafficControl from "./content/architecture-traffic-control-proxy";
+
+// ── Wave 2 ──
+import * as marketplace from "./content/roadmap-marketplace-artisanat";
+import * as genealogie from "./content/roadmap-arbre-genealogique";
+import * as bulkImport from "./content/roadmap-bulk-import-ethnographique";
+import * as audioRooms from "./content/roadmap-audio-rooms";
+import * as reputation from "./content/roadmap-systeme-reputation";
+import * as calendrier from "./content/roadmap-calendrier-culturel";
+import * as multiTribu from "./content/roadmap-mode-multi-tribu";
+import * as apiResearch from "./content/roadmap-api-publique-chercheurs";
 
 export const ALL_DOCS: DocEntry[] = [
   // Features
@@ -46,6 +56,14 @@ export const ALL_DOCS: DocEntry[] = [
   { ...pwaMobile.meta, Content: pwaMobile.Content },
   { ...veillee.meta, Content: veillee.Content },
   { ...seo.meta, Content: seo.Content },
+  { ...marketplace.meta, Content: marketplace.Content },
+  { ...genealogie.meta, Content: genealogie.Content },
+  { ...bulkImport.meta, Content: bulkImport.Content },
+  { ...audioRooms.meta, Content: audioRooms.Content },
+  { ...reputation.meta, Content: reputation.Content },
+  { ...calendrier.meta, Content: calendrier.Content },
+  { ...multiTribu.meta, Content: multiTribu.Content },
+  { ...apiResearch.meta, Content: apiResearch.Content },
 ];
 
 export const getDocBySlug = (slug: string): DocEntry | undefined =>
