@@ -32,6 +32,14 @@ import * as calendrier from "./content/roadmap-calendrier-culturel";
 import * as multiTribu from "./content/roadmap-mode-multi-tribu";
 import * as apiResearch from "./content/roadmap-api-publique-chercheurs";
 
+// ── Wave 3 ──
+import * as pitchDeck from "./content/strategy-pitch-deck";
+import * as modeleEco from "./content/strategy-modele-economique";
+import * as charteEdito from "./content/operational-charte-editoriale";
+import * as onboardingAdmin from "./content/operational-onboarding-admin";
+import * as moderationForum from "./content/operational-procedure-moderation-forum";
+import * as disasterRecovery from "./content/architecture-disaster-recovery";
+
 export const ALL_DOCS: DocEntry[] = [
   // Features
   { ...videoUpload.meta, Content: videoUpload.Content },
@@ -50,6 +58,16 @@ export const ALL_DOCS: DocEntry[] = [
   { ...realtimeStrategy.meta, Content: realtimeStrategy.Content },
   { ...cacheStrategy.meta, Content: cacheStrategy.Content },
   { ...trafficControl.meta, Content: trafficControl.Content },
+  { ...disasterRecovery.meta, Content: disasterRecovery.Content },
+
+  // Strategy
+  { ...pitchDeck.meta, Content: pitchDeck.Content },
+  { ...modeleEco.meta, Content: modeleEco.Content },
+
+  // Operational
+  { ...charteEdito.meta, Content: charteEdito.Content },
+  { ...onboardingAdmin.meta, Content: onboardingAdmin.Content },
+  { ...moderationForum.meta, Content: moderationForum.Content },
 
   // Roadmap
   { ...roadmap12m.meta, Content: roadmap12m.Content },

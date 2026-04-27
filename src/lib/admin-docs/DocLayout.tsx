@@ -175,11 +175,13 @@ export const DocLayout = ({ meta, children }: DocLayoutProps) => {
         {/* ── Document header ── */}
         <header className="mb-10 pb-8 border-b border-white/10 break-inside-avoid">
           <p className="text-[10px] uppercase tracking-[0.3em] text-or-ancestral font-bold mb-3">
-            {meta.category === "feature"
-              ? "Fonctionnalité"
-              : meta.category === "roadmap"
-              ? "Roadmap & Vision"
-              : "Architecture"}
+            {{
+              feature: "Fonctionnalité",
+              roadmap: "Roadmap & Vision",
+              architecture: "Architecture",
+              strategy: "Stratégie & Business",
+              operational: "Opérationnel & Gouvernance",
+            }[meta.category]}
           </p>
           <h1 className="font-display text-4xl lg:text-5xl font-bold text-ivoire-ancien leading-tight mb-4">
             {meta.title}

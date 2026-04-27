@@ -1,10 +1,14 @@
 {
-  "generated_at": "2026-04-27T20:42:28.691Z",
+  "generated_at": "2026-04-27T20:54:07.825Z",
   "base_url": "http://localhost:3000",
   "documents": [
     {
       "slug": "architecture-cache-strategy",
       "pdf_path": "/docs/architecture-cache-strategy.pdf"
+    },
+    {
+      "slug": "architecture-disaster-recovery",
+      "pdf_path": "/docs/architecture-disaster-recovery.pdf"
     },
     {
       "slug": "architecture-realtime-strategy",
@@ -59,6 +63,18 @@
       "pdf_path": "/docs/feature-video-upload.pdf"
     },
     {
+      "slug": "operational-charte-editoriale",
+      "pdf_path": "/docs/operational-charte-editoriale.pdf"
+    },
+    {
+      "slug": "operational-onboarding-admin",
+      "pdf_path": "/docs/operational-onboarding-admin.pdf"
+    },
+    {
+      "slug": "operational-procedure-moderation-forum",
+      "pdf_path": "/docs/operational-procedure-moderation-forum.pdf"
+    },
+    {
       "slug": "roadmap-12-months",
       "pdf_path": "/docs/roadmap-12-months.pdf"
     },
@@ -105,6 +121,14 @@
     {
       "slug": "roadmap-veillee-numerique",
       "pdf_path": "/docs/roadmap-veillee-numerique.pdf"
+    },
+    {
+      "slug": "strategy-modele-economique",
+      "pdf_path": "/docs/strategy-modele-economique.pdf"
+    },
+    {
+      "slug": "strategy-pitch-deck",
+      "pdf_path": "/docs/strategy-pitch-deck.pdf"
     }
   ]
 }

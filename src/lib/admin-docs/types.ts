@@ -1,6 +1,11 @@
 import { ReactNode } from "react";
 
-export type DocCategory = "feature" | "roadmap" | "architecture";
+export type DocCategory =
+  | "feature"
+  | "roadmap"
+  | "architecture"
+  | "strategy"
+  | "operational";
 
 export interface DocMeta {
   slug: string;

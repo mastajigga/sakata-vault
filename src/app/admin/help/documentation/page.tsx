@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowLeft, BookOpen, Compass, Wrench, Clock, Tag, Download } from "lucide-react";
+import { ArrowLeft, BookOpen, Compass, Wrench, Clock, Tag, Download, Briefcase, Users } from "lucide-react";
 import { ALL_DOCS, getDocsByCategory } from "@/lib/admin-docs/registry";
 import type { DocEntry } from "@/lib/admin-docs/types";
 
@@ -29,6 +29,22 @@ const categoryConfig = {
     color: "text-blue-400",
     bg: "bg-blue-500/10",
     border: "border-blue-500/20",
+  },
+  strategy: {
+    label: "Stratégie & Business",
+    description: "Pitch, modèle économique et documents de communication externe.",
+    Icon: Briefcase,
+    color: "text-purple-400",
+    bg: "bg-purple-500/10",
+    border: "border-purple-500/20",
+  },
+  operational: {
+    label: "Opérationnel & Gouvernance",
+    description: "Charte éditoriale, onboarding équipe, procédures de modération.",
+    Icon: Users,
+    color: "text-rose-400",
+    bg: "bg-rose-500/10",
+    border: "border-rose-500/20",
   },
 };
 
@@ -75,6 +91,8 @@ export default function DocumentationHub() {
   const features = getDocsByCategory("feature");
   const roadmap = getDocsByCategory("roadmap");
   const architecture = getDocsByCategory("architecture");
+  const strategy = getDocsByCategory("strategy");
+  const operational = getDocsByCategory("operational");
 
   return (
     <div className="max-w-6xl mx-auto p-6 lg:p-10">
@@ -175,6 +193,48 @@ export default function DocumentationHub() {
           </p>
           <div className="grid gap-4 md:grid-cols-2">
             {architecture.map((doc) => (
+              <DocCard key={doc.slug} doc={doc} />
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Strategy */}
+      {strategy.length > 0 && (
+        <section className="mb-12">
+          <div className="flex items-baseline gap-3 mb-6">
+            <Briefcase className="w-5 h-5 text-purple-400" />
+            <h2 className="font-display text-2xl font-bold text-ivoire-ancien">
+              {categoryConfig.strategy.label}
+            </h2>
+            <span className="text-sm text-ivoire-ancien/40">— {strategy.length} doc{strategy.length > 1 ? "s" : ""}</span>
+          </div>
+          <p className="text-sm text-ivoire-ancien/50 mb-6 max-w-2xl">
+            {categoryConfig.strategy.description}
+          </p>
+          <div className="grid gap-4 md:grid-cols-2">
+            {strategy.map((doc) => (
+              <DocCard key={doc.slug} doc={doc} />
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Operational */}
+      {operational.length > 0 && (
+        <section className="mb-12">
+          <div className="flex items-baseline gap-3 mb-6">
+            <Users className="w-5 h-5 text-rose-400" />
+            <h2 className="font-display text-2xl font-bold text-ivoire-ancien">
+              {categoryConfig.operational.label}
+            </h2>
+            <span className="text-sm text-ivoire-ancien/40">— {operational.length} doc{operational.length > 1 ? "s" : ""}</span>
+          </div>
+          <p className="text-sm text-ivoire-ancien/50 mb-6 max-w-2xl">
+            {categoryConfig.operational.description}
+          </p>
+          <div className="grid gap-4 md:grid-cols-2">
+            {operational.map((doc) => (
               <DocCard key={doc.slug} doc={doc} />
             ))}
           </div>
