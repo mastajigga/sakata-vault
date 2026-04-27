@@ -461,8 +461,9 @@ const ArticleEditor = () => {
   };
 
   // ─────────────────────────────────────────────
-  // Hero Video Upload — fetch-based with proper error handling
-  // (Replaces XHR which crashed with empty JSON responses)
+  // Hero Video Upload — DIRECT to Supabase Storage from browser
+  // Bypasses Netlify Functions (which have a ~6MB payload limit
+  // that was causing 500 errors on large videos)
   // ─────────────────────────────────────────────
   const handleVideoUpload = async (file: File) => {
     if (!file) return;
@@ -482,60 +483,76 @@ const ArticleEditor = () => {
     setIsVideoUploading(true);
     setVideoUploadProgress(0);
 
-    // Simulated progress (fetch doesn't give upload progress without XHR/streams)
+    // Simulated progress — Supabase upload() doesn't expose progress events.
+    // Tuned by file size: bigger files get slower fake progress.
+    const fileSizeMB = file.size / 1024 / 1024;
+    const progressStep = Math.max(2, 12 - fileSizeMB / 3); // slower for bigger files
     const progressInterval = setInterval(() => {
       setVideoUploadProgress(prev => {
-        if (prev >= 90) return prev;
-        return prev + Math.random() * 8;
+        if (prev >= 92) return prev;
+        return prev + Math.random() * progressStep;
       });
-    }, 300);
+    }, 400);
 
     try {
+      // Verify auth session — Supabase client uses this token automatically
       const sessionResult = await supabase.auth.getSession();
-      const accessToken = sessionResult.data.session?.access_token;
-
-      if (!accessToken) {
+      if (!sessionResult.data.session) {
         showToast("Session expirée — veuillez vous reconnecter", "error");
         return;
       }
 
-      const formData = new FormData();
-      formData.append("file", file);
-      formData.append("articleId", article.id || slug);
-      formData.append("filename", file.name);
+      // Build a clean filename — strip non-ASCII, keep extension
+      const ext = file.name.split(".").pop()?.toLowerCase() || "mp4";
+      const cleanName = file.name
+        .replace(/\.[^.]+$/, "")          // remove extension
+        .normalize("NFD")
+        .replace(/[̀-ͯ]/g, "")  // strip accents
+        .replace(/[^a-zA-Z0-9-_]/g, "-")  // replace unsafe chars
+        .replace(/-+/g, "-")
+        .slice(0, 60);
+      const articleRef = article.id || slug;
+      const path = `articles/${articleRef}/${Date.now()}-${cleanName}.${ext}`;
 
-      const response = await fetch("/api/admin/articles/upload-hero-video", {
-        method: "POST",
-        headers: { Authorization: `Bearer ${accessToken}` },
-        body: formData,
-      });
+      // Direct upload to Supabase Storage — no Netlify Function in the middle
+      const { data: uploadData, error: uploadError } = await supabase.storage
+        .from("article-videos")
+        .upload(path, file, {
+          cacheControl: "3600",
+          upsert: false,
+          contentType: file.type,
+        });
 
       clearInterval(progressInterval);
+
+      if (uploadError) {
+        console.error("[ArticleEditor] Storage upload failed:", uploadError);
+        const msg = uploadError.message?.includes("Bucket not found")
+          ? "Bucket 'article-videos' introuvable — contactez l'administrateur"
+          : uploadError.message?.includes("policy")
+          ? "Permissions insuffisantes pour ce bucket"
+          : `Échec du téléversement : ${uploadError.message}`;
+        showToast(msg, "error");
+        return;
+      }
+
+      if (!uploadData?.path) {
+        showToast("Téléversement échoué — aucun chemin retourné", "error");
+        return;
+      }
+
+      // Get public URL
+      const { data: urlData } = supabase.storage
+        .from("article-videos")
+        .getPublicUrl(uploadData.path);
+
+      if (!urlData?.publicUrl) {
+        showToast("Impossible de générer l'URL publique de la vidéo", "error");
+        return;
+      }
+
       setVideoUploadProgress(100);
-
-      // Robust JSON parsing — no more "Unexpected end of JSON input"
-      const responseText = await response.text();
-      let payload: any = null;
-      if (responseText) {
-        try {
-          payload = JSON.parse(responseText);
-        } catch {
-          console.warn("[ArticleEditor] Non-JSON response:", responseText.slice(0, 200));
-        }
-      }
-
-      if (!response.ok) {
-        const message = payload?.error || `Erreur serveur (${response.status})`;
-        showToast(message, "error");
-        return;
-      }
-
-      if (!payload?.videoUrl) {
-        showToast("Réponse invalide du serveur — vidéo non enregistrée", "error");
-        return;
-      }
-
-      setArticle({ ...article, hero_video_url: payload.videoUrl });
+      setArticle({ ...article, hero_video_url: urlData.publicUrl });
       markDirty();
       showToast("Vidéo téléversée avec succès — sauvegardez l'article pour conserver", "success");
     } catch (error) {
@@ -551,7 +568,7 @@ const ArticleEditor = () => {
       setTimeout(() => {
         setIsVideoUploading(false);
         setVideoUploadProgress(0);
-      }, 400);
+      }, 600);
     }
   };
 
