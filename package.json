@@ -14,7 +14,8 @@
     "pinecone:stats": "ts-node scripts/pinecone-memory.ts stats",
     "pinecone:index-articles": "ts-node scripts/pinecone-memory.ts index-articles",
     "pinecone:index-exercises": "ts-node scripts/pinecone-memory.ts index-exercises",
-    "pinecone:list": "ts-node scripts/pinecone-memory.ts list"
+    "pinecone:list": "ts-node scripts/pinecone-memory.ts list",
+    "docs:pdf": "node scripts/generate-docs-pdf.mjs"
   },
   "dependencies": {
     "@deck.gl/core": "^9.1.0",

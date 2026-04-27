@@ -1,0 +1,78 @@
+{
+  "generated_at": "2026-04-27T20:25:14.141Z",
+  "base_url": "http://localhost:3000",
+  "documents": [
+    {
+      "slug": "architecture-cache-strategy",
+      "pdf_path": "/docs/architecture-cache-strategy.pdf"
+    },
+    {
+      "slug": "architecture-realtime-strategy",
+      "pdf_path": "/docs/architecture-realtime-strategy.pdf"
+    },
+    {
+      "slug": "architecture-rls-supabase",
+      "pdf_path": "/docs/architecture-rls-supabase.pdf"
+    },
+    {
+      "slug": "architecture-traffic-control-proxy",
+      "pdf_path": "/docs/architecture-traffic-control-proxy.pdf"
+    },
+    {
+      "slug": "feature-ai-orchestration",
+      "pdf_path": "/docs/feature-ai-orchestration.pdf"
+    },
+    {
+      "slug": "feature-article-editor",
+      "pdf_path": "/docs/feature-article-editor.pdf"
+    },
+    {
+      "slug": "feature-auth-paywall",
+      "pdf_path": "/docs/feature-auth-paywall.pdf"
+    },
+    {
+      "slug": "feature-chat-messaging",
+      "pdf_path": "/docs/feature-chat-messaging.pdf"
+    },
+    {
+      "slug": "feature-constants-architecture",
+      "pdf_path": "/docs/feature-constants-architecture.pdf"
+    },
+    {
+      "slug": "feature-ecole-curriculum",
+      "pdf_path": "/docs/feature-ecole-curriculum.pdf"
+    },
+    {
+      "slug": "feature-forum-mboka",
+      "pdf_path": "/docs/feature-forum-mboka.pdf"
+    },
+    {
+      "slug": "feature-geographie-3d",
+      "pdf_path": "/docs/feature-geographie-3d.pdf"
+    },
+    {
+      "slug": "feature-pinecone-search",
+      "pdf_path": "/docs/feature-pinecone-search.pdf"
+    },
+    {
+      "slug": "feature-video-upload",
+      "pdf_path": "/docs/feature-video-upload.pdf"
+    },
+    {
+      "slug": "roadmap-12-months",
+      "pdf_path": "/docs/roadmap-12-months.pdf"
+    },
+    {
+      "slug": "roadmap-pwa-mobile",
+      "pdf_path": "/docs/roadmap-pwa-mobile.pdf"
+    },
+    {
+      "slug": "roadmap-seo-discovery",
+      "pdf_path": "/docs/roadmap-seo-discovery.pdf"
+    },
+    {
+      "slug": "roadmap-veillee-numerique",
+      "pdf_path": "/docs/roadmap-veillee-numerique.pdf"
+    }
+  ]
+}

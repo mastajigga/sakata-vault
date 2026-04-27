@@ -1,8 +1,8 @@
 "use client";
 
-import { ReactNode, useCallback } from "react";
+import { ReactNode, useCallback, useEffect, useState } from "react";
 import Link from "next/link";
-import { ArrowLeft, Download, Calendar, Clock, Tag, Printer } from "lucide-react";
+import { ArrowLeft, Download, Calendar, Clock, Tag, Printer, FileDown } from "lucide-react";
 import type { DocMeta } from "./types";
 
 interface DocLayoutProps {
@@ -11,7 +11,16 @@ interface DocLayoutProps {
 }
 
 export const DocLayout = ({ meta, children }: DocLayoutProps) => {
-  const handleDownload = useCallback(() => {
+  const [hasStaticPdf, setHasStaticPdf] = useState(false);
+
+  // Check if a pre-generated PDF exists in /public/docs/
+  useEffect(() => {
+    fetch(`/docs/${meta.slug}.pdf`, { method: "HEAD" })
+      .then((res) => setHasStaticPdf(res.ok))
+      .catch(() => setHasStaticPdf(false));
+  }, [meta.slug]);
+
+  const handlePrintToPdf = useCallback(() => {
     // Native browser print → "Save as PDF" produces a true vector PDF
     window.print();
   }, []);
@@ -125,16 +134,28 @@ export const DocLayout = ({ meta, children }: DocLayoutProps) => {
           </Link>
 
           <div className="flex items-center gap-2">
+            {hasStaticPdf ? (
+              <a
+                href={`/docs/${meta.slug}.pdf`}
+                download={`${meta.slug}.pdf`}
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-or-ancestral/10 border border-or-ancestral/30 text-or-ancestral hover:bg-or-ancestral/20 transition-all text-sm font-bold"
+                title="Télécharger le PDF pré-généré"
+              >
+                <FileDown className="w-4 h-4" />
+                Télécharger PDF
+              </a>
+            ) : (
+              <button
+                onClick={handlePrintToPdf}
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-or-ancestral/10 border border-or-ancestral/30 text-or-ancestral hover:bg-or-ancestral/20 transition-all text-sm font-bold"
+                title="Imprimer ou enregistrer en PDF (via navigateur)"
+              >
+                <Download className="w-4 h-4" />
+                Télécharger PDF
+              </button>
+            )}
             <button
-              onClick={handleDownload}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-or-ancestral/10 border border-or-ancestral/30 text-or-ancestral hover:bg-or-ancestral/20 transition-all text-sm font-bold"
-              title="Imprimer ou enregistrer en PDF"
-            >
-              <Download className="w-4 h-4" />
-              Télécharger PDF
-            </button>
-            <button
-              onClick={handleDownload}
+              onClick={handlePrintToPdf}
               className="hidden sm:inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-white/10 text-ivoire-ancien/60 hover:text-ivoire-ancien transition-all text-sm"
               title="Imprimer"
             >
