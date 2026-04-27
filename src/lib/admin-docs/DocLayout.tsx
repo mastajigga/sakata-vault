@@ -34,36 +34,73 @@ export const DocLayout = ({ meta, children }: DocLayoutProps) => {
             size: A4;
             margin: 18mm 16mm 22mm 16mm;
           }
+
+          /* ─── 1. Reset html/body to flow naturally ─── */
           html, body {
             background: #ffffff !important;
             color: #1a1a1a !important;
+            min-height: 0 !important;
+            height: auto !important;
+            max-height: none !important;
+            overflow: visible !important;
+            margin: 0 !important;
+            padding: 0 !important;
           }
-          /* Hide navigation chrome and admin sidebar */
-          nav, header.app-nav, aside, .doc-no-print,
-          [data-print-hidden="true"] {
+
+          /* ─── 2. KILL EVERY fixed/sticky element (THE critical fix) ─── */
+          /*    Without this, position:fixed elements appear on every page  */
+          *, *::before, *::after {
+            position: static !important;
+            transform: none !important;
+            animation: none !important;
+            transition: none !important;
+          }
+
+          /* ─── 3. Hide ALL non-doc chrome explicitly ─── */
+          nav, header, aside, footer.app-footer,
+          .doc-no-print, [data-print-hidden="true"],
+          .grain-overlay, .grain-overlay::before, .grain-overlay::after {
             display: none !important;
+            visibility: hidden !important;
           }
-          /* Strip global background overlays / grain */
-          .grain-overlay::before, .grain-overlay::after { display: none !important; }
-          /* Make backgrounds plain for print */
-          .doc-print-root, .doc-print-root * {
-            background: transparent !important;
-            box-shadow: none !important;
+
+          /* ─── 4. The doc print container takes the whole flow ─── */
+          .doc-print-wrapper {
+            display: block !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            position: static !important;
           }
+
           .doc-print-root {
             color: #1a1a1a !important;
             max-width: 100% !important;
+            margin: 0 !important;
             padding: 0 !important;
+            background: transparent !important;
           }
+
+          .doc-print-root, .doc-print-root * {
+            background-image: none !important;
+            box-shadow: none !important;
+            backdrop-filter: none !important;
+            -webkit-backdrop-filter: none !important;
+          }
+
+          /* ─── 6. Typography for print readability ─── */
           .doc-print-root h1, .doc-print-root h2, .doc-print-root h3 {
             color: #1a1a1a !important;
             page-break-after: avoid;
+            background: transparent !important;
           }
           .doc-print-root h2 {
             border-bottom: 1px solid #aaa !important;
           }
           .doc-print-root p, .doc-print-root li, .doc-print-root td, .doc-print-root dd {
             color: #2a2a2a !important;
+            background: transparent !important;
           }
           .doc-print-root .text-or-ancestral,
           .doc-print-root .text-or-ancestral * {
@@ -72,24 +109,37 @@ export const DocLayout = ({ meta, children }: DocLayoutProps) => {
           .doc-print-root .text-ivoire-ancien,
           .doc-print-root .text-ivoire-ancien\\/80,
           .doc-print-root .text-ivoire-ancien\\/85,
-          .doc-print-root .text-ivoire-ancien\\/90 {
+          .doc-print-root .text-ivoire-ancien\\/90,
+          .doc-print-root .text-ivoire-ancien\\/65,
+          .doc-print-root .text-ivoire-ancien\\/60,
+          .doc-print-root .text-ivoire-ancien\\/50,
+          .doc-print-root .text-ivoire-ancien\\/40 {
             color: #1a1a1a !important;
           }
+
+          /* ─── 7. Code blocks ─── */
           .doc-print-root pre,
           .doc-print-root code {
             background: #f3f1ec !important;
             color: #1a1a1a !important;
             border: 1px solid #d6d2c5 !important;
+            page-break-inside: avoid;
           }
+
+          /* ─── 8. Callouts ─── */
           .doc-print-root .doc-callout {
             background: #faf8f3 !important;
             border-left: 3px solid #8a6420 !important;
             border-top: 1px solid #ddd !important;
             border-right: 1px solid #ddd !important;
             border-bottom: 1px solid #ddd !important;
+            page-break-inside: avoid;
           }
+
+          /* ─── 9. Tables ─── */
           .doc-print-root table {
             border-collapse: collapse !important;
+            width: 100% !important;
           }
           .doc-print-root th {
             background: #f3f1ec !important;
@@ -97,32 +147,21 @@ export const DocLayout = ({ meta, children }: DocLayoutProps) => {
           }
           .doc-print-root th, .doc-print-root td {
             border: 1px solid #ccc !important;
+            background: transparent !important;
           }
-          .doc-print-root .break-inside-avoid {
-            page-break-inside: avoid;
-          }
-          .doc-print-root .doc-section h2 {
-            page-break-before: auto;
-          }
-          .doc-print-root .doc-print-footer {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            text-align: center;
-            font-size: 10px;
-            color: #888;
-          }
-        }
 
-        /* Watermark / header for printed pages (only shown in print) */
-        .doc-print-meta { display: none; }
-        @media print {
-          .doc-print-meta { display: block !important; }
+          /* ─── 10. Page break helpers ─── */
+          .doc-print-root .break-inside-avoid,
+          .doc-print-root .doc-callout,
+          .doc-print-root .doc-table,
+          .doc-print-root .doc-code {
+            page-break-inside: avoid;
+            break-inside: avoid;
+          }
         }
       `}</style>
 
-      <div className="max-w-4xl mx-auto p-6 lg:p-10 doc-print-root">
+      <div className="doc-print-wrapper max-w-4xl mx-auto p-6 lg:p-10 doc-print-root">
         {/* ── Top bar (hidden in print) ── */}
         <div className="doc-no-print flex items-center justify-between mb-8 flex-wrap gap-4">
           <Link

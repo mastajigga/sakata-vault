@@ -42,8 +42,18 @@ const BASE_URL = process.env.DOC_BASE_URL || "http://localhost:3000";
 const OUT_DIR = path.join(ROOT, "public", "docs");
 
 async function main() {
-  const slugs = await getDocSlugs();
-  console.log(`📚 Found ${slugs.length} documents to generate.\n`);
+  const allSlugs = await getDocSlugs();
+
+  // Allow filtering: node generate-docs-pdf.mjs --only=feature-video-upload
+  const onlyArg = process.argv.find((a) => a.startsWith("--only="));
+  const onlySlug = onlyArg ? onlyArg.split("=")[1] : null;
+  const slugs = onlySlug ? allSlugs.filter((s) => s === onlySlug) : allSlugs;
+
+  if (slugs.length === 0) {
+    console.error(`❌ No matching slug for "${onlySlug}"`);
+    process.exit(1);
+  }
+  console.log(`📚 Generating ${slugs.length}/${allSlugs.length} document(s).\n`);
 
   await fs.mkdir(OUT_DIR, { recursive: true });
 
