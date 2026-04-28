@@ -10,6 +10,7 @@ import { SavoirMenu } from "./navbar/SavoirMenu";
 import { CommunityMenu } from "./navbar/CommunityMenu";
 import { UserMenu } from "./navbar/UserMenu";
 import LanguageSwitcher from "./LanguageSwitcher";
+import NotificationBell from "./NotificationBell";
 import { useGlobalUnreadCount } from "@/hooks/chat/useGlobalUnreadCount";
 import { RefreshCw, X } from "lucide-react";
 import { ROUTES } from "@/lib/constants/routes";
@@ -193,6 +194,12 @@ const Navbar = () => {
           {/* CTA + Hamburger */}
           <div className="flex items-center gap-4">
             <LanguageSwitcher />
+
+            {!authLoading && user && (
+              <div className="hidden md:block">
+                <NotificationBell />
+              </div>
+            )}
 
             {!authLoading && (
               user ? (
