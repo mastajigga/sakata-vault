@@ -4,7 +4,7 @@ import React from "react";
 import { useAuth } from "@/components/AuthProvider";
 import { useRouter } from "next/navigation";
 import Navbar from "@/components/Navbar";
-import { LayoutDashboard, Users, FileText, BarChart3, Settings, LogOut, Bell, Sparkles, MessageSquare, Image, ShieldCheck, Notebook, Globe } from "lucide-react";
+import { LayoutDashboard, Users, FileText, BarChart3, Settings, LogOut, Bell, Sparkles, MessageSquare, Image, ShieldCheck, Notebook } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AdminPresentationModal } from "@/components/admin/AdminPresentationModal";
@@ -16,7 +16,7 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
   const pathname = usePathname();
 
   React.useEffect(() => {
-    if (!isLoading && (!user || !["admin", "manager", "contributor"].includes(role || ""))) {
+    if (!isLoading && (!user || !["admin", "manager", "contributor", "temp_admin"].includes(role || ""))) {
       router.push("/auth");
     }
   }, [user, role, isLoading, router]);
@@ -31,16 +31,17 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
     );
   }
 
+  // Note : 'temp_admin' a les mêmes droits qu'admin pour la navigation
+  // (les restrictions vraies sont au niveau RLS/API : pas toucher aux admins).
   const navItems = [
-    { name: "Tableau de Bord", href: "/admin", icon: LayoutDashboard, roles: ["admin", "manager", "contributor"] },
-    { name: "Logs d'activité", href: "/admin/analytics", icon: Globe, roles: ["admin", "manager"] },
-    { name: "Articles", href: "/admin/content", icon: FileText, roles: ["admin", "manager", "contributor"] },
-    { name: "Orchestration IA", href: "/admin/ai", icon: Sparkles, roles: ["admin", "manager"] },
-    { name: "Modération Forum", href: "/admin/forum", icon: MessageSquare, roles: ["admin", "manager"] },
-    { name: "Médiathèque", href: "/admin/media", icon: Image, roles: ["admin", "manager", "contributor"] },
-    { name: "Notifications", href: "/admin/notifications", icon: Bell, roles: ["admin", "manager"] },
-    { name: "Aide", href: "/admin/help", icon: Notebook, roles: ["admin", "manager"] },
-    { name: "Membres", href: "/admin/users", icon: Users, roles: ["admin"] },
+    { name: "Tableau de Bord", href: "/admin", icon: LayoutDashboard, roles: ["admin", "manager", "contributor", "temp_admin"] },
+    { name: "Articles", href: "/admin/content", icon: FileText, roles: ["admin", "manager", "contributor", "temp_admin"] },
+    { name: "Orchestration IA", href: "/admin/ai", icon: Sparkles, roles: ["admin", "manager", "temp_admin"] },
+    { name: "Modération Forum", href: "/admin/forum", icon: MessageSquare, roles: ["admin", "manager", "temp_admin"] },
+    { name: "Médiathèque", href: "/admin/media", icon: Image, roles: ["admin", "manager", "contributor", "temp_admin"] },
+    { name: "Notifications", href: "/admin/notifications", icon: Bell, roles: ["admin", "manager", "temp_admin"] },
+    { name: "Aide", href: "/admin/help", icon: Notebook, roles: ["admin", "manager", "temp_admin"] },
+    { name: "Membres", href: "/admin/users", icon: Users, roles: ["admin", "temp_admin"] },
   ];
 
   return (

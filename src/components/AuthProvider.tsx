@@ -5,14 +5,28 @@ import { User, Session } from "@supabase/supabase-js";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 import { withRetry, withRetryRaw } from "@/lib/supabase-retry";
-import { APP_VERSION, SUBSCRIPTION_TIERS, UserRole } from "@/lib/constants/business";
+import {
+  APP_VERSION,
+  SUBSCRIPTION_TIERS,
+  UserRole,
+  getEffectiveRole,
+  isTempAdminActive,
+} from "@/lib/constants/business";
 import { STORAGE_KEYS, SESSION_KEYS } from "@/lib/constants/storage";
 import { DB_TABLES } from "@/lib/constants/db";
 
 interface AuthContextType {
   user: User | null;
   session: Session | null;
+  /** Rôle "brut" stocké en DB (peut être 'temp_admin') */
   role: UserRole | null;
+  /** Rôle effectif après application de la logique temp_admin
+   * (renvoie 'admin' si temp_admin actif, sinon le vrai rôle ou original_role si expiré) */
+  effectiveRole: UserRole | null;
+  /** Date ISO d'expiration du grant temp_admin courant (null si pas de grant) */
+  tempAdminExpiresAt: string | null;
+  /** Le grant temp_admin est-il toujours actif (NOW() < expires_at) ? */
+  isTempAdminActive: boolean;
   subscriptionTier: string | null;
   contributorStatus: "none" | "pending" | "approved" | "rejected";
   nickname: string | null;
@@ -21,8 +35,7 @@ interface AuthContextType {
   isStalled: boolean;
   connectionError: string | null;
   sessionExpired: boolean;
-  /** P2-B: true pendant les ~30-60s de rotation de token JWT. Les mutations critiques
-   * doivent attendre ou afficher un indicateur pendant cette fenêtre. */
+  /** P2-B: true pendant les ~30-60s de rotation de token JWT. */
   tokenRefreshPending: boolean;
   refreshConnection: () => Promise<void>;
   refreshProfile: () => Promise<void>;
@@ -56,6 +69,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [role, setRole] = useState<UserRole | null>(null);
+  const [tempAdminExpiresAt, setTempAdminExpiresAt] = useState<string | null>(null);
+  const [tempAdminOriginalRole, setTempAdminOriginalRole] = useState<UserRole | null>(null);
   const [subscriptionTier, setSubscriptionTier] = useState<string | null>(null);
   const [contributorStatus, setContributorStatus] = useState<"none" | "pending" | "approved" | "rejected">("none");
   const [nickname, setNickname] = useState<string | null>(null);
@@ -190,21 +205,25 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       const timeoutId = setTimeout(() => controller.abort(), 8000);
 
       try {
-        const { data, error } = await withRetry<any>(() => 
+        const { data, error } = await withRetry<any>(() =>
           supabase
             .from("profiles")
-            .select("role, subscription_tier, contributor_status, nickname, username")
+            .select(
+              "role, subscription_tier, contributor_status, nickname, username, temp_admin_expires_at, temp_admin_original_role"
+            )
             .eq("id", userId)
             .limit(1)
             .abortSignal(controller.signal)
         );
-        
+
         clearTimeout(timeoutId);
 
         const profile = (data && Array.isArray(data) && data.length > 0) ? data[0] : null;
 
         if (!error && profile) {
           setRole(profile.role as UserRole);
+          setTempAdminExpiresAt(profile.temp_admin_expires_at ?? null);
+          setTempAdminOriginalRole(profile.temp_admin_original_role ?? null);
           setSubscriptionTier(profile.subscription_tier || SUBSCRIPTION_TIERS.FREE);
           setContributorStatus((profile.contributor_status as "none" | "pending" | "approved" | "rejected") || "none");
           setNickname(profile.nickname);
@@ -358,12 +377,24 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
+  // ---- Compute effective role + temp_admin status (memoizable derivation) ----
+  const profileShape = {
+    role,
+    temp_admin_expires_at: tempAdminExpiresAt,
+    temp_admin_original_role: tempAdminOriginalRole,
+  };
+  const effectiveRole = getEffectiveRole(profileShape);
+  const tempAdminActive = isTempAdminActive(profileShape);
+
   return (
     <AuthContext.Provider
       value={{
         user,
         session,
         role,
+        effectiveRole,
+        tempAdminExpiresAt,
+        isTempAdminActive: tempAdminActive,
         subscriptionTier,
         contributorStatus,
         nickname,

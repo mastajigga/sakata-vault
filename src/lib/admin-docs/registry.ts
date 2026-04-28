@@ -40,6 +40,9 @@ import * as onboardingAdmin from "./content/operational-onboarding-admin";
 import * as moderationForum from "./content/operational-procedure-moderation-forum";
 import * as disasterRecovery from "./content/architecture-disaster-recovery";
 
+// ── Wave 4 ──
+import * as tempAdmin from "./content/feature-temp-admin-role";
+
 export const ALL_DOCS: DocEntry[] = [
   // Features
   { ...videoUpload.meta, Content: videoUpload.Content },
@@ -51,6 +54,7 @@ export const ALL_DOCS: DocEntry[] = [
   { ...ecoleCurriculum.meta, Content: ecoleCurriculum.Content },
   { ...aiOrchestration.meta, Content: aiOrchestration.Content },
   { ...pineconeSearch.meta, Content: pineconeSearch.Content },
+  { ...tempAdmin.meta, Content: tempAdmin.Content },
 
   // Architecture
   { ...constants.meta, Content: constants.Content },

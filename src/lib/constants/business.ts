@@ -1,5 +1,6 @@
 export const USER_ROLES = {
   ADMIN: "admin",
+  TEMP_ADMIN: "temp_admin",
   MANAGER: "manager",
   CONTRIBUTOR: "contributor",
   USER: "user",
@@ -34,34 +35,122 @@ export const MAX_VIEWS = {
   TWICE: 2,
 } as const;
 
-export const APP_VERSION = "3.1.0"; // AI Orchestration 2026-04-23 — Gemini Semantic Chat & Voice Synthesis
+export const APP_VERSION = "3.2.0"; // 2026-04-28 — Forum Mboka 2.0 + Temp Admin role
 export const PINECONE_DEFAULT_INDEX = "sakata-mathematics";
+
+// ─── Temp Admin ─────────────────────────────────────────────────────────────
+/** Durée par défaut d'un grant temp_admin */
+export const TEMP_ADMIN_DURATION_HOURS = 24;
+export const TEMP_ADMIN_DURATION_MS = TEMP_ADMIN_DURATION_HOURS * 60 * 60 * 1000;
 
 // ─── Hiérarchie des rôles ────────────────────────────────────────────────────
 export const ROLE_HIERARCHY: Record<UserRole, number> = {
-  admin: 4,
-  manager: 3,
-  contributor: 2,
-  user: 1,
+  admin: 100,
+  temp_admin: 90, // entre admin et manager — actif uniquement si non expiré
+  manager: 50,
+  contributor: 30,
+  user: 10,
 } as const;
 
-/** true si l'utilisateur peut gérer le contenu (admin ou manager) */
-export const canManageContent = (role?: UserRole | null): boolean =>
-  ["admin", "manager"].includes(role ?? "");
+/**
+ * Profil minimal utilisé par les helpers temp_admin.
+ */
+export interface ProfileTempAdminFields {
+  role?: UserRole | string | null;
+  temp_admin_expires_at?: string | null;
+  temp_admin_original_role?: UserRole | string | null;
+}
 
-/** true si l'utilisateur peut créer des articles (admin, manager, contributor) */
-export const canCreateArticles = (role?: UserRole | null): boolean =>
-  ["admin", "manager", "contributor"].includes(role ?? "");
+/**
+ * Le grant temp_admin du profil est-il toujours actif ?
+ */
+export function isTempAdminActive(profile: ProfileTempAdminFields | null | undefined): boolean {
+  if (!profile) return false;
+  if (profile.role !== "temp_admin") return false;
+  if (!profile.temp_admin_expires_at) return false;
+  return new Date(profile.temp_admin_expires_at) > new Date();
+}
 
-/** true si l'utilisateur peut modérer (admin ou manager) */
-export const canModerate = (role?: UserRole | null): boolean =>
-  ["admin", "manager"].includes(role ?? "");
+/**
+ * Retourne le rôle "effectif" pour les checks runtime :
+ * - si role = 'temp_admin' actif → renvoie 'admin'
+ * - si role = 'temp_admin' expiré → renvoie original_role (fallback 'user')
+ * - sinon → role tel quel
+ */
+export function getEffectiveRole(
+  profile: ProfileTempAdminFields | null | undefined
+): UserRole | null {
+  if (!profile?.role) return null;
 
-/** true si le rôle de l'utilisateur est >= au rôle minimum requis */
+  if (profile.role === "temp_admin") {
+    if (isTempAdminActive(profile)) return "admin";
+    return (profile.temp_admin_original_role as UserRole | undefined) || "user";
+  }
+
+  return profile.role as UserRole;
+}
+
+/** true si l'utilisateur peut gérer le contenu (admin, manager, ou temp_admin actif) */
+export const canManageContent = (
+  roleOrProfile?: UserRole | string | ProfileTempAdminFields | null
+): boolean => {
+  const role =
+    typeof roleOrProfile === "object" && roleOrProfile !== null
+      ? getEffectiveRole(roleOrProfile)
+      : (roleOrProfile as UserRole | string | null | undefined);
+  return ["admin", "manager"].includes(role ?? "");
+};
+
+/** true si l'utilisateur peut créer des articles */
+export const canCreateArticles = (
+  roleOrProfile?: UserRole | string | ProfileTempAdminFields | null
+): boolean => {
+  const role =
+    typeof roleOrProfile === "object" && roleOrProfile !== null
+      ? getEffectiveRole(roleOrProfile)
+      : (roleOrProfile as UserRole | string | null | undefined);
+  return ["admin", "manager", "contributor"].includes(role ?? "");
+};
+
+/** true si l'utilisateur peut modérer */
+export const canModerate = canManageContent;
+
+/** true si le rôle est >= au rôle minimum requis */
 export const hasMinRole = (
   userRole: UserRole | null | undefined,
   minRole: UserRole
 ): boolean => {
   if (!userRole) return false;
-  return ROLE_HIERARCHY[userRole] >= ROLE_HIERARCHY[minRole];
+  return (ROLE_HIERARCHY[userRole] ?? 0) >= (ROLE_HIERARCHY[minRole] ?? 0);
 };
+
+/**
+ * Peut-on supprimer ou modifier le rôle de la cible ?
+ * - Vrai admin : OUI sur tous (sauf soi-même côté UI)
+ * - Temp_admin actif : OUI sauf si la cible est un VRAI admin
+ * - Autres : NON
+ */
+export function canModifyUser(
+  actor: ProfileTempAdminFields | null | undefined,
+  target: ProfileTempAdminFields | null | undefined
+): boolean {
+  if (!actor || !target) return false;
+  // Vrai admin
+  if (actor.role === "admin") return true;
+  // Temp admin actif : interdiction de toucher aux vrais admins
+  if (isTempAdminActive(actor) && target.role !== "admin") return true;
+  return false;
+}
+
+/** Format human-readable du temps restant avant expiration */
+export function formatTempAdminRemaining(expiresAt: string | null | undefined): string {
+  if (!expiresAt) return "";
+  const ms = new Date(expiresAt).getTime() - Date.now();
+  if (ms <= 0) return "expiré";
+  const totalMin = Math.floor(ms / 60000);
+  const h = Math.floor(totalMin / 60);
+  const m = totalMin % 60;
+  if (h === 0) return `${m}min`;
+  if (m === 0) return `${h}h`;
+  return `${h}h ${m}min`;
+}

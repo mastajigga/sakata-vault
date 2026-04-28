@@ -3,13 +3,15 @@
 import React, { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import { DB_TABLES } from "@/lib/constants/db";
-import { 
-  Users, Shield, ShieldCheck, ShieldAlert, UserPlus, Search, 
+import {
+  Users, Shield, ShieldCheck, ShieldAlert, UserPlus, Search,
   MoreHorizontal, Eye, X, Mail, MapPin, Calendar, Activity,
-  Award, MessageSquare, Heart 
+  Award, MessageSquare, Heart, Clock, Hourglass, Zap
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
+import { useAuth } from "@/components/AuthProvider";
+import { formatTempAdminRemaining, isTempAdminActive } from "@/lib/constants/business";
 
 const UserDetailsModal = ({ user, onClose }: { user: any, onClose: () => void }) => {
   if (!user) return null;
@@ -154,11 +156,22 @@ const UserDetailsModal = ({ user, onClose }: { user: any, onClose: () => void })
 };
 
 const UserManagementPage = () => {
+  const { user: currentUser, role: currentRole } = useAuth() as any;
+  const isCurrentUserRealAdmin = currentRole === "admin";
   const [profiles, setProfiles] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedUser, setSelectedUser] = useState<any>(null);
   const [showModal, setShowModal] = useState(false);
+  const [tempGrantTarget, setTempGrantTarget] = useState<any>(null);
+  const [grantReason, setGrantReason] = useState("");
+  const [grantSubmitting, setGrantSubmitting] = useState(false);
+  // Tick toutes les 60s pour rafraîchir les compteurs temp_admin
+  const [, setTick] = useState(0);
+  useEffect(() => {
+    const i = setInterval(() => setTick((t) => t + 1), 60000);
+    return () => clearInterval(i);
+  }, []);
 
   const fetchProfiles = async () => {
     setLoading(true);
@@ -166,11 +179,47 @@ const UserManagementPage = () => {
       .from(DB_TABLES.PROFILES)
       .select("*")
       .order("updated_at", { ascending: false, nullsFirst: false });
-    
+
     if (!error && data) {
       setProfiles(data);
     }
     setLoading(false);
+  };
+
+  const grantTempAdmin = async (recipientId: string, reason: string) => {
+    setGrantSubmitting(true);
+    try {
+      const res = await fetch("/api/admin/temp-grants", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ recipient_id: recipientId, reason: reason || null }),
+      });
+      const json = await res.json();
+      if (!res.ok) throw new Error(json.error || "Erreur");
+      await fetchProfiles();
+      setTempGrantTarget(null);
+      setGrantReason("");
+    } catch (err: any) {
+      alert(err.message || "Erreur lors de l'octroi");
+    } finally {
+      setGrantSubmitting(false);
+    }
+  };
+
+  const revokeTempAdmin = async (recipientId: string) => {
+    if (!confirm("Révoquer le rôle d'administrateur temporaire de ce membre ?")) return;
+    try {
+      const res = await fetch("/api/admin/temp-grants", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ recipient_id: recipientId }),
+      });
+      const json = await res.json();
+      if (!res.ok) throw new Error(json.error || "Erreur");
+      await fetchProfiles();
+    } catch (err: any) {
+      alert(err.message || "Erreur lors de la révocation");
+    }
   };
 
   useEffect(() => {
@@ -178,6 +227,16 @@ const UserManagementPage = () => {
   }, []);
 
   const updateRole = async (userId: string, newRole: string) => {
+    // Garde-fou : interdire changement de rôle d'un admin titulaire si je suis temp_admin
+    const target = profiles.find((p) => p.id === userId);
+    if (
+      target?.role === "admin" &&
+      !isCurrentUserRealAdmin
+    ) {
+      alert("Un administrateur temporaire ne peut pas modifier le rôle d'un administrateur titulaire.");
+      return;
+    }
+
     const { error } = await supabase
       .from(DB_TABLES.PROFILES)
       .update({ role: newRole })
@@ -193,6 +252,7 @@ const UserManagementPage = () => {
   const getRoleIcon = (role: string) => {
     switch (role) {
       case "admin": return <ShieldAlert className="w-4 h-4 text-red-400" />;
+      case "temp_admin": return <Hourglass className="w-4 h-4 text-or-ancestral" />;
       case "manager": return <ShieldCheck className="w-4 h-4 text-emerald-400" />;
       case "contributor": return <Shield className="w-4 h-4 text-or-ancestral" />;
       default: return <Users className="w-4 h-4 opacity-40" />;
@@ -293,9 +353,21 @@ const UserManagementPage = () => {
                     </div>
                   </td>
                   <td className="px-8 py-6">
-                    <div className="flex items-center gap-2">
-                      {getRoleIcon(profile.role)}
-                      <span className="text-xs font-bold capitalize">{profile.role || "user"}</span>
+                    <div className="flex flex-col gap-1">
+                      <div className="flex items-center gap-2">
+                        {getRoleIcon(profile.role)}
+                        <span className="text-xs font-bold capitalize">
+                          {profile.role === "temp_admin"
+                            ? "Admin temp."
+                            : profile.role || "user"}
+                        </span>
+                      </div>
+                      {isTempAdminActive(profile) && (
+                        <span className="inline-flex items-center gap-1 text-[10px] text-or-ancestral/80 font-mono">
+                          <Clock className="w-3 h-3" />
+                          {formatTempAdminRemaining(profile.temp_admin_expires_at)}
+                        </span>
+                      )}
                     </div>
                   </td>
                   <td className="px-8 py-6">
@@ -313,16 +385,41 @@ const UserManagementPage = () => {
                         <Eye className="w-4 h-4" />
                       </button>
 
-                      <select 
+                      <select
                         value={profile.role || "user"}
                         onChange={(e) => updateRole(profile.id, e.target.value)}
-                        className="bg-black/20 border border-white/10 rounded-lg px-3 py-1.5 text-[10px] font-bold uppercase outline-none focus:border-or-ancestral/50 transition-all"
+                        disabled={profile.role === "admin" && !isCurrentUserRealAdmin}
+                        className="bg-black/20 border border-white/10 rounded-lg px-3 py-1.5 text-[10px] font-bold uppercase outline-none focus:border-or-ancestral/50 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
                       >
                         <option value="user">Utilisateur</option>
                         <option value="contributor">Contributeur</option>
                         <option value="manager">Manager</option>
                         <option value="admin">Administrateur</option>
+                        {profile.role === "temp_admin" && (
+                          <option value="temp_admin" disabled>Admin temp. (en cours)</option>
+                        )}
                       </select>
+
+                      {/* Temp Admin : grant or revoke (admins titulaires uniquement) */}
+                      {isCurrentUserRealAdmin && profile.role !== "admin" && profile.id !== currentUser?.id && (
+                        isTempAdminActive(profile) ? (
+                          <button
+                            onClick={() => revokeTempAdmin(profile.id)}
+                            className="p-2 bg-amber-500/10 hover:bg-amber-500/20 text-amber-300 rounded-lg transition-colors border border-amber-500/30"
+                            title="Révoquer l'admin temporaire"
+                          >
+                            <Hourglass className="w-4 h-4" />
+                          </button>
+                        ) : (
+                          <button
+                            onClick={() => setTempGrantTarget(profile)}
+                            className="p-2 bg-white/5 hover:bg-or-ancestral/20 hover:text-or-ancestral rounded-lg transition-colors border border-white/5"
+                            title="Promouvoir administrateur temporaire (24h)"
+                          >
+                            <Zap className="w-4 h-4" />
+                          </button>
+                        )
+                      )}
                       
                       {profile.email && (
                         <button 
@@ -359,10 +456,94 @@ const UserManagementPage = () => {
       {/* User Details Modal */}
       <AnimatePresence>
         {showModal && (
-          <UserDetailsModal 
-            user={selectedUser} 
-            onClose={() => setShowModal(false)} 
+          <UserDetailsModal
+            user={selectedUser}
+            onClose={() => setShowModal(false)}
           />
+        )}
+      </AnimatePresence>
+
+      {/* Temp Admin Grant Modal */}
+      <AnimatePresence>
+        {tempGrantTarget && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center p-6 bg-black/80 backdrop-blur-sm"
+            onClick={() => setTempGrantTarget(null)}
+          >
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.95, opacity: 0 }}
+              className="w-full max-w-md bg-foret-nocturne border border-or-ancestral/30 rounded-3xl p-6 shadow-2xl"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex items-center gap-3 mb-5">
+                <div className="w-11 h-11 rounded-xl bg-or-ancestral/15 flex items-center justify-center">
+                  <Zap className="w-5 h-5 text-or-ancestral" />
+                </div>
+                <div>
+                  <h3 className="font-display text-lg font-bold text-ivoire-ancien">
+                    Promouvoir administrateur temporaire
+                  </h3>
+                  <p className="text-xs text-ivoire-ancien/50">
+                    {tempGrantTarget.nickname || tempGrantTarget.first_name || tempGrantTarget.email}
+                  </p>
+                </div>
+              </div>
+
+              <div className="space-y-4">
+                <div className="rounded-xl border border-or-ancestral/20 bg-or-ancestral/[0.04] p-4 text-sm leading-relaxed text-ivoire-ancien/80">
+                  Pendant <strong className="text-or-ancestral">24 heures</strong>, ce membre pourra agir comme administrateur :
+                  <ul className="list-disc list-inside mt-2 space-y-0.5 text-[13px] text-ivoire-ancien/70">
+                    <li>Modérer le forum et le chat</li>
+                    <li>Valider les contributions</li>
+                    <li>Éditer les contenus</li>
+                  </ul>
+                  <p className="mt-3 text-[13px] text-amber-300">
+                    ❌ Il <strong>ne pourra PAS</strong> supprimer un autre administrateur ni modifier son rôle.
+                  </p>
+                </div>
+
+                <div>
+                  <label className="block text-[10px] uppercase tracking-widest opacity-50 font-bold mb-2">
+                    Raison (recommandée)
+                  </label>
+                  <textarea
+                    value={grantReason}
+                    onChange={(e) => setGrantReason(e.target.value)}
+                    rows={3}
+                    placeholder="Ex : couverture pendant mon voyage du 28-29 avril"
+                    className="w-full rounded-xl bg-white/5 border border-white/10 focus:border-or-ancestral/50 px-4 py-3 text-sm text-ivoire-ancien placeholder-ivoire-ancien/30 outline-none resize-none"
+                  />
+                </div>
+
+                <div className="flex justify-end gap-2 pt-2">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setTempGrantTarget(null);
+                      setGrantReason("");
+                    }}
+                    className="px-4 py-2 rounded-xl border border-white/10 text-ivoire-ancien/60 hover:text-ivoire-ancien text-sm transition-all"
+                  >
+                    Annuler
+                  </button>
+                  <button
+                    type="button"
+                    disabled={grantSubmitting}
+                    onClick={() => grantTempAdmin(tempGrantTarget.id, grantReason)}
+                    className="inline-flex items-center gap-2 px-5 py-2 rounded-xl bg-or-ancestral text-foret-nocturne text-sm font-bold transition-all hover:scale-[1.02] disabled:opacity-50"
+                  >
+                    <Zap className="w-4 h-4" />
+                    {grantSubmitting ? "Octroi..." : "Confirmer 24h"}
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
         )}
       </AnimatePresence>
     </div>

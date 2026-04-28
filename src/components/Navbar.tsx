@@ -11,6 +11,7 @@ import { CommunityMenu } from "./navbar/CommunityMenu";
 import { UserMenu } from "./navbar/UserMenu";
 import LanguageSwitcher from "./LanguageSwitcher";
 import NotificationBell from "./NotificationBell";
+import TempAdminBadge from "./TempAdminBadge";
 import { useGlobalUnreadCount } from "@/hooks/chat/useGlobalUnreadCount";
 import { RefreshCw, X } from "lucide-react";
 import { ROUTES } from "@/lib/constants/routes";
@@ -22,7 +23,7 @@ const navLinks = [
 
 const Navbar = () => {
   const { t } = useLanguage();
-  const { user, isLoading: authLoading, connectionError, sessionExpired, signOut, subscriptionTier, role, contributorStatus } = useAuth() as any;
+  const { user, isLoading: authLoading, connectionError, sessionExpired, signOut, subscriptionTier, role, contributorStatus, tempAdminExpiresAt, isTempAdminActive } = useAuth() as any;
   const totalUnread = useGlobalUnreadCount();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -199,6 +200,11 @@ const Navbar = () => {
               <div className="hidden md:block">
                 <NotificationBell />
               </div>
+            )}
+
+            {/* Badge Admin Temp pour l'utilisateur lui-même */}
+            {!authLoading && user && isTempAdminActive && (
+              <TempAdminBadge expiresAt={tempAdminExpiresAt} />
             )}
 
             {!authLoading && (
