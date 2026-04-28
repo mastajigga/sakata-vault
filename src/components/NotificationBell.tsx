@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { Bell, MessageCircle, AtSign, CheckCheck } from "lucide-react";
+import { Bell, MessageCircle, AtSign, CheckCheck, Hourglass, ShieldOff, Megaphone, Clock } from "lucide-react";
 import { useNotifications } from "@/hooks/forum/useNotifications";
 import { MemberImage } from "@/components/MemberImage";
 
@@ -38,17 +38,80 @@ export default function NotificationBell() {
   };
 
   const getNotifLink = (n: typeof notifications[number]) => {
+    if (n.type.startsWith("temp_admin")) return "/admin";
+    if (n.type === "system_announcement") return "/";
     if (n.thread?.slug) return `/forum/thread/${n.thread.slug}`;
     return "/forum";
+  };
+
+  const formatExpiresAt = (iso?: string) => {
+    if (!iso) return "";
+    return new Date(iso).toLocaleString("fr-FR", {
+      day: "numeric",
+      month: "long",
+      hour: "2-digit",
+      minute: "2-digit",
+    });
   };
 
   const getNotifMessage = (n: typeof notifications[number]) => {
     const actorName = n.actor?.nickname || n.actor?.username || "Quelqu'un";
     const threadTitle = n.thread?.title || "votre message";
-    if (n.type === "reply") return `${actorName} a répondu à votre message dans « ${threadTitle} »`;
-    if (n.type === "mention") return `${actorName} vous a mentionné dans « ${threadTitle} »`;
-    if (n.type === "thread_reply") return `${actorName} a posté dans « ${threadTitle} »`;
-    return `${actorName} a interagi avec vous`;
+
+    switch (n.type) {
+      case "reply":
+        return `${actorName} a répondu à votre message dans « ${threadTitle} »`;
+      case "mention":
+        return `${actorName} vous a mentionné dans « ${threadTitle} »`;
+      case "thread_reply":
+        return `${actorName} a posté dans « ${threadTitle} »`;
+      case "temp_admin_granted":
+        return `${actorName} vous a accordé le rôle d'Administrateur Temporaire jusqu'au ${formatExpiresAt(n.metadata?.expires_at)}.`;
+      case "temp_admin_revoked":
+        return `${actorName} a révoqué votre rôle d'Administrateur Temporaire.`;
+      case "temp_admin_expiring_soon":
+        return `Votre rôle d'Administrateur Temporaire expire bientôt (${formatExpiresAt(n.metadata?.expires_at)}).`;
+      case "temp_admin_expired":
+        return `Votre rôle d'Administrateur Temporaire a expiré.`;
+      case "system_announcement":
+        return n.metadata?.message || "Annonce système";
+      default:
+        return `${actorName} a interagi avec vous`;
+    }
+  };
+
+  const getNotifIcon = (type: string) => {
+    switch (type) {
+      case "mention":
+        return AtSign;
+      case "temp_admin_granted":
+        return Hourglass;
+      case "temp_admin_revoked":
+      case "temp_admin_expired":
+        return ShieldOff;
+      case "temp_admin_expiring_soon":
+        return Clock;
+      case "system_announcement":
+        return Megaphone;
+      default:
+        return MessageCircle;
+    }
+  };
+
+  const getIconColor = (type: string) => {
+    switch (type) {
+      case "temp_admin_granted":
+        return "text-or-ancestral";
+      case "temp_admin_revoked":
+      case "temp_admin_expired":
+        return "text-amber-400";
+      case "temp_admin_expiring_soon":
+        return "text-red-400";
+      case "system_announcement":
+        return "text-blue-400";
+      default:
+        return "text-or-ancestral";
+    }
   };
 
   return (
@@ -112,7 +175,9 @@ export default function NotificationBell() {
               ) : (
                 <ul className="divide-y divide-white/5">
                   {notifications.map((n) => {
-                    const Icon = n.type === "mention" ? AtSign : MessageCircle;
+                    const Icon = getNotifIcon(n.type);
+                    const iconColor = getIconColor(n.type);
+                    const isSystemNotif = n.type.startsWith("temp_admin") || n.type === "system_announcement";
                     return (
                       <li key={n.id}>
                         <Link
@@ -125,17 +190,23 @@ export default function NotificationBell() {
                             n.read_at ? "" : "bg-or-ancestral/5"
                           } hover:bg-white/[0.04]`}
                         >
-                          <div className="w-8 h-8 rounded-full overflow-hidden border border-or-ancestral/20 shrink-0">
-                            <MemberImage profile={n.actor || {}} priority={false} />
-                          </div>
+                          {isSystemNotif ? (
+                            <div className={`w-8 h-8 rounded-full flex items-center justify-center bg-or-ancestral/10 border border-or-ancestral/20 shrink-0 ${iconColor}`}>
+                              <Icon className="w-4 h-4" />
+                            </div>
+                          ) : (
+                            <div className="w-8 h-8 rounded-full overflow-hidden border border-or-ancestral/20 shrink-0">
+                              <MemberImage profile={n.actor || {}} priority={false} />
+                            </div>
+                          )}
                           <div className="flex-1 min-w-0">
                             <div className="flex items-center gap-1.5 mb-0.5">
-                              <Icon className="w-3 h-3 text-or-ancestral shrink-0" />
+                              <Icon className={`w-3 h-3 shrink-0 ${iconColor}`} />
                               {!n.read_at && (
                                 <span className="w-1.5 h-1.5 rounded-full bg-red-400 shrink-0" />
                               )}
                             </div>
-                            <p className="text-[13px] text-ivoire-ancien/85 leading-snug line-clamp-2">
+                            <p className="text-[13px] text-ivoire-ancien/85 leading-snug line-clamp-3">
                               {getNotifMessage(n)}
                             </p>
                             <p className="text-[10px] text-ivoire-ancien/40 mt-1">

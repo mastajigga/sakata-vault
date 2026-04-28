@@ -7,3 +7,19 @@
 
 [functions]
   # Node version is now managed via .node-version or environment variables
+
+# ─── Scheduled flush des temp_admins ──────────────────────────────────
+# Pour automatiser flush-temp-admins :
+#
+# Option A (recommandée — gratuit) : cron-job.org
+#   Créer un cron qui ping toutes les 10 min :
+#   https://sakata-basakata.com/api/cron/flush-temp-admins?secret=<CRON_SECRET>
+#
+# Option B : GitHub Actions schedule
+#   Créer .github/workflows/cron-temp-admins.yml avec:
+#     on: schedule: - cron: "*/10 * * * *"
+#
+# Option C : pg_cron sur Supabase (extension à activer)
+#   SELECT cron.schedule('flush-temp-admins', '*/10 * * * *',
+#     $$SELECT flush_temp_admins()$$);
+

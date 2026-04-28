@@ -4,15 +4,32 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import { useAuth } from "@/components/AuthProvider";
 
+export type NotificationType =
+  | "reply"
+  | "mention"
+  | "thread_reply"
+  | "temp_admin_granted"
+  | "temp_admin_revoked"
+  | "temp_admin_expiring_soon"
+  | "temp_admin_expired"
+  | "system_announcement";
+
 export interface ForumNotification {
   id: string;
   recipient_id: string;
   actor_id: string | null;
   thread_id: string | null;
   post_id: string | null;
-  type: "reply" | "mention" | "thread_reply";
+  type: NotificationType;
   read_at: string | null;
   created_at: string;
+  metadata?: {
+    expires_at?: string;
+    original_role?: string;
+    restored_role?: string;
+    reason?: string | null;
+    [k: string]: any;
+  } | null;
   // Joined
   actor?: {
     username: string;
@@ -49,6 +66,7 @@ export function useNotifications() {
         .select(
           `
           *,
+          metadata,
           actor:profiles!actor_id (username, nickname, avatar_url),
           thread:forum_threads!thread_id (title, slug, category_id),
           post:forum_posts!post_id (content)

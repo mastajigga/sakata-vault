@@ -180,6 +180,18 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Erreur update profil" }, { status: 500 });
   }
 
+  // 3) Notify the recipient
+  await supabaseAdmin.from("forum_notifications").insert({
+    recipient_id: target.id,
+    actor_id: user.id,
+    type: "temp_admin_granted",
+    metadata: {
+      expires_at: expiresAt,
+      original_role: originalRole,
+      reason: body.reason ?? null,
+    },
+  });
+
   return NextResponse.json({ ok: true, grant });
 }
 
@@ -247,6 +259,14 @@ export async function DELETE(req: Request) {
     console.error("[temp-grants DELETE]", profErr);
     return NextResponse.json({ error: "Erreur révocation" }, { status: 500 });
   }
+
+  // Notify the recipient of revocation
+  await supabaseAdmin.from("forum_notifications").insert({
+    recipient_id: target.id,
+    actor_id: user.id,
+    type: "temp_admin_revoked",
+    metadata: { restored_role: originalRole },
+  });
 
   return NextResponse.json({ ok: true });
 }
