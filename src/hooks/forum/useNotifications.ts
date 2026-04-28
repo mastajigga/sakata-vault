@@ -34,11 +34,7 @@ export function useNotifications() {
   const [notifications, setNotifications] = useState<ForumNotification[]>([]);
   const [unreadCount, setUnreadCount] = useState(0);
   const [loading, setLoading] = useState(false);
-  const userIdRef = useRef<string | null>(null);
-
-  useEffect(() => {
-    userIdRef.current = user?.id ?? null;
-  }, [user?.id]);
+  const fetchAllRef = useRef<() => Promise<void>>(async () => {});
 
   const fetchAll = useCallback(async () => {
     if (!user?.id) {
@@ -75,17 +71,42 @@ export function useNotifications() {
     }
   }, [user?.id]);
 
+  // Keep latest fetchAll in a ref so the realtime callback sees fresh closure
+  // without forcing the realtime effect to re-run.
+  useEffect(() => {
+    fetchAllRef.current = fetchAll;
+  }, [fetchAll]);
+
+  // Initial fetch
   useEffect(() => {
     fetchAll();
   }, [fetchAll]);
 
-  // Realtime
+  // Realtime — depends ONLY on user.id (not fetchAll) to avoid re-subscribing
   useEffect(() => {
     if (!user?.id) return;
     let isMounted = true;
 
+    const channelName = `notifications_${user.id}`;
+
+    // Defensive cleanup: if a channel with this name already exists in the
+    // Supabase singleton (HMR, Strict Mode double-mount, route change),
+    // remove it before creating a fresh one. Without this, attempting to
+    // call .on() on the already-subscribed channel throws:
+    //   "cannot add postgres_changes callbacks after subscribe()"
+    try {
+      const existing = supabase
+        .getChannels()
+        .find((c: { topic: string }) => c.topic === `realtime:${channelName}`);
+      if (existing) {
+        supabase.removeChannel(existing);
+      }
+    } catch (e) {
+      // getChannels can throw on stale references — ignore
+    }
+
     const channel = supabase
-      .channel(`notifications_${user.id}`)
+      .channel(channelName)
       .on(
         "postgres_changes",
         {
@@ -96,7 +117,7 @@ export function useNotifications() {
         },
         () => {
           if (!isMounted) return;
-          fetchAll();
+          fetchAllRef.current();
         }
       )
       .subscribe((status: string, err?: unknown) => {
@@ -107,9 +128,13 @@ export function useNotifications() {
 
     return () => {
       isMounted = false;
-      supabase.removeChannel(channel);
+      try {
+        supabase.removeChannel(channel);
+      } catch (e) {
+        // ignore
+      }
     };
-  }, [user?.id, fetchAll]);
+  }, [user?.id]);
 
   const markRead = useCallback(
     async (id: string) => {

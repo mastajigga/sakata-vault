@@ -118,9 +118,18 @@ export default function ThreadRepliesClient({
   // Realtime: posts in this thread
   useEffect(() => {
     let isMounted = true;
+    const channelName = `thread_v2_${threadId}`;
+
+    // Defensive cleanup of any existing channel with same name (HMR / strict mode)
+    try {
+      const existing = supabase
+        .getChannels()
+        .find((c: { topic: string }) => c.topic === `realtime:${channelName}`);
+      if (existing) supabase.removeChannel(existing);
+    } catch (e) {}
 
     const channel = supabase
-      .channel(`thread_v2_${threadId}`)
+      .channel(channelName)
       .on(
         "postgres_changes",
         {
@@ -143,7 +152,6 @@ export default function ThreadRepliesClient({
         },
         () => {
           if (!isMounted) return;
-          // Vote count est mis à jour par triggers → refetch posts pour rafraîchir compteurs
           refetchPosts();
         }
       )
@@ -155,7 +163,9 @@ export default function ThreadRepliesClient({
 
     return () => {
       isMounted = false;
-      supabase.removeChannel(channel);
+      try {
+        supabase.removeChannel(channel);
+      } catch (e) {}
     };
   }, [threadId, refetchPosts]);
 
