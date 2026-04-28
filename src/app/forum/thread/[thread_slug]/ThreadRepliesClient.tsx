@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useMemo, useCallback, useRef } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 import { supabase } from "@/lib/supabase";
 import { Loader2 } from "lucide-react";
 import { useAuth } from "@/components/AuthProvider";
@@ -66,11 +66,9 @@ export default function ThreadRepliesClient({
 }: ThreadRepliesClientProps) {
   const { user, role } = useAuth() as any;
   const [posts, setPosts] = useState<RawPost[]>(initialPosts);
-  const userIdRef = useRef<string | null>(null);
-
-  useEffect(() => {
-    userIdRef.current = user?.id ?? null;
-  }, [user?.id]);
+  // user.id is reactive — pass it directly, no ref shenanigans
+  const currentUserId = user?.id ?? null;
+  const currentUserRole = role ?? null;
 
   // Load my votes for posts
   const [myVotes, setMyVotes] = useState<Record<string, 1 | -1>>({});
@@ -187,8 +185,8 @@ export default function ThreadRepliesClient({
               depth={0}
               threadId={threadId}
               isLocked={isLocked}
-              currentUserId={userIdRef.current}
-              currentUserRole={role || null}
+              currentUserId={currentUserId}
+              currentUserRole={currentUserRole}
               isFirst={idx === 0}
               onReply={() => {
                 refetchPosts();

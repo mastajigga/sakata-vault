@@ -112,7 +112,7 @@ export default function PostNode({
         {/* Header */}
         <div className="flex items-start gap-3 mb-3">
           <div
-            className={`${avatarSize} rounded-full overflow-hidden border border-or-ancestral/30 shrink-0`}
+            className={`relative ${avatarSize} rounded-full overflow-hidden border border-or-ancestral/30 shrink-0 bg-foret-nocturne`}
           >
             <MemberImage profile={post.profiles || {}} priority={false} />
           </div>
@@ -173,18 +173,21 @@ export default function PostNode({
             ]
           </p>
         ) : (
-          <div className="prose prose-invert prose-p:text-ivoire-ancien/85 prose-p:leading-relaxed prose-p:my-2 prose-headings:text-ivoire-ancien prose-a:text-or-ancestral prose-strong:text-or-ancestral prose-code:text-or-ancestral max-w-none text-[15px]">
+          <div className="prose prose-invert prose-p:text-ivoire-ancien/85 prose-p:leading-relaxed prose-p:my-2 prose-headings:text-ivoire-ancien prose-a:text-or-ancestral prose-strong:text-or-ancestral prose-code:text-or-ancestral prose-img:my-2 max-w-none text-[15px] break-words">
             <ReactMarkdown
               remarkPlugins={[remarkGfm]}
               components={{
                 img: ({ ...props }) => (
-                  // GIFs et images intégrées
+                  // GIFs et images intégrées (Tenor, etc.)
                   <img
                     {...props}
-                    className="rounded-xl max-h-72 w-auto inline-block"
+                    className="rounded-xl max-h-64 max-w-xs w-auto h-auto block"
                     loading="lazy"
                     alt={props.alt || "image"}
                   />
+                ),
+                p: ({ children }) => (
+                  <p className="text-ivoire-ancien/85 leading-relaxed my-2">{children}</p>
                 ),
               }}
             >
