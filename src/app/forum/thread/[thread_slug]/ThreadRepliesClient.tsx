@@ -106,10 +106,8 @@ export default function ThreadRepliesClient({
     const { data, error } = await supabase
       .from("forum_posts")
       .select(
-        `
-        *,
-        profiles:author_id (id, username, nickname, avatar_url, role)
-      `
+        `*,
+         profiles:author_id (id, username, nickname, avatar_url, role)`
       )
       .eq("thread_id", threadId)
       .order("created_at", { ascending: true });

@@ -36,14 +36,20 @@ export default async function ThreadPage(props: { params: Promise<{ thread_slug:
   }
 
   // Fetch initial posts associated with this thread
+  // Use explicit FK alias because forum_posts has TWO FKs to profiles
+  // (author_id and deleted_by) — implicit join would be ambiguous.
   const { data: initialPosts, error: postsError } = await supabasePublic
     .from(DB_TABLES.FORUM_POSTS)
     .select(`
       *,
-      profiles ( id, username, nickname, avatar_url, role )
+      profiles:author_id ( id, username, nickname, avatar_url, role )
     `)
     .eq("thread_id", thread.id)
     .order("created_at", { ascending: true });
+
+  if (postsError) {
+    console.error("[ThreadPage] Error fetching posts:", postsError);
+  }
 
   // Increment views in background safely using RPC
   (async () => {
