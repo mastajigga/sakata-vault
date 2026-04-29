@@ -42,6 +42,7 @@ import * as disasterRecovery from "./content/architecture-disaster-recovery";
 
 // ── Wave 4 ──
 import * as tempAdmin from "./content/feature-temp-admin-role";
+import * as pineconeCorpus from "./content/architecture-pinecone-corpus";
 
 export const ALL_DOCS: DocEntry[] = [
   // Features
@@ -63,6 +64,7 @@ export const ALL_DOCS: DocEntry[] = [
   { ...cacheStrategy.meta, Content: cacheStrategy.Content },
   { ...trafficControl.meta, Content: trafficControl.Content },
   { ...disasterRecovery.meta, Content: disasterRecovery.Content },
+  { ...pineconeCorpus.meta, Content: pineconeCorpus.Content },
 
   // Strategy
   { ...pitchDeck.meta, Content: pitchDeck.Content },
