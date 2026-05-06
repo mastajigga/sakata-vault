@@ -19,6 +19,7 @@ export const DB_TABLES = {
   PUSH_SUBSCRIPTIONS: "push_subscriptions",
   ECOLE_SCORES: "ecole_scores",
   CONTRIBUTION_REQUESTS: "contribution_requests",
+  LANGUE_PROGRESS: "langue_progress",
   SUBSCRIPTION_SESSIONS: "subscription_sessions",
   CHAT_SUBSCRIPTIONS: "chat_subscriptions",
   MESSAGE_READS: "message_reads",

@@ -3,7 +3,10 @@
 import { useParams } from "next/navigation";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { ArrowLeft, Volume2, Sparkles, BookOpen } from "lucide-react";
+import { ArrowLeft, Volume2, Sparkles, BookOpen, GraduationCap, Brain } from "lucide-react";
+import { useState, useCallback } from "react";
+import ExerciceWidget from "../../components/ExerciceWidget";
+import { useAuth } from "@/components/AuthProvider";
 
 const NIVEAUX_STRUCTURE: Record<string, { nom: string; leçons: Record<string, { titre: string; mots: { kisakata: string; francais: string; phonetique: string }[] }> }> = {
   "goutte-rosee": {
@@ -35,9 +38,34 @@ export default function LeconPage() {
   const params = useParams();
   const niveauSlug = params.niveau as string;
   const leconSlug = params.lecon as string;
+  const { user } = useAuth() as any;
+  const [lessonCompleted, setLessonCompleted] = useState(false);
 
   const niveau = NIVEAUX_STRUCTURE[niveauSlug];
   const lecon = niveau?.leçons[leconSlug];
+
+  const handleExerciseComplete = useCallback(
+    async (score: number) => {
+      setLessonCompleted(true);
+      if (!user) return;
+
+      try {
+        await fetch("/api/langue/progress", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            completed_lesson: `${niveauSlug}/${leconSlug}`,
+            current_niveau: niveauSlug,
+            score_increment: score,
+            streak_update: 1,
+          }),
+        });
+      } catch (err) {
+        console.error("Erreur sauvegarde progression:", err);
+      }
+    },
+    [user, niveauSlug, leconSlug]
+  );
 
   if (!niveau || !lecon) {
     return (
@@ -140,6 +168,62 @@ export default function LeconPage() {
               </motion.div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* Exercices */}
+      <section className="pb-16">
+        <div className="section-container">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="mb-8"
+          >
+            <div className="flex items-center gap-3 mb-2">
+              <div className="w-10 h-10 rounded-xl bg-[rgba(196,160,53,0.1)] flex items-center justify-center">
+                <Brain className="w-5 h-5 text-[var(--or-ancestral)]" />
+              </div>
+              <div>
+                <h2 className="text-2xl font-display text-[var(--ivoire-ancien)]">
+                  Exercices
+                </h2>
+                <p className="text-sm text-[rgba(212,221,215,0.5)]">
+                  Testez vos connaissances et gagnez des points
+                </p>
+              </div>
+            </div>
+          </motion.div>
+
+          {lessonCompleted ? (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="rounded-[1.5rem] border border-[rgba(196,160,53,0.15)] bg-[rgba(196,160,53,0.05)] backdrop-blur-sm p-8 text-center"
+            >
+              <div className="w-16 h-16 rounded-full bg-[rgba(196,160,53,0.15)] border border-[var(--or-ancestral)]/30 flex items-center justify-center mx-auto mb-4">
+                <GraduationCap className="w-8 h-8 text-[var(--or-ancestral)]" />
+              </div>
+              <h3 className="text-xl font-display text-[var(--ivoire-ancien)] mb-2">
+                Leçon terminée !
+              </h3>
+              <p className="text-[rgba(212,221,215,0.6)] mb-6">
+                Votre progression a été sauvegardée. Continuez votre voyage sur la rivière.
+              </p>
+              <Link
+                href="/langue#niveaux"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[var(--or-ancestral)]/10 border border-[var(--or-ancestral)]/30 text-[var(--or-ancestral)] text-sm font-semibold hover:bg-[var(--or-ancestral)]/20 transition-all"
+              >
+                Niveau suivant
+                <ArrowLeft className="w-4 h-4 rotate-180" />
+              </Link>
+            </motion.div>
+          ) : (
+            <ExerciceWidget
+              leconSlug={leconSlug}
+              onComplete={handleExerciseComplete}
+            />
+          )}
         </div>
       </section>
 

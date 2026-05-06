@@ -57,3 +57,4 @@ walkthrough.md
 
 # Local Netlify folder
 .netlify
+manim/venv/
