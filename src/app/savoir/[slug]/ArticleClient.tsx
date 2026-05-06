@@ -149,9 +149,9 @@ const ArticleClient: React.FC<ArticleClientProps> = ({ initialArticle }) => {
 
   if (!article) return notFound();
 
-  const displayTitle = article.title[language] || article.title.fr || "";
-  const displayContent = article.content[language] || article.content.fr || "";
-  const displaySummary = article.summary[language] || article.summary.fr || "";
+  const displayTitle = article.title?.[language] || article.title?.fr || "";
+  const displayContent = article.content?.[language] || article.content?.fr || "";
+  const displaySummary = article.summary?.[language] || article.summary?.fr || "";
 
   // Paywall Logic
   const hasAccess =

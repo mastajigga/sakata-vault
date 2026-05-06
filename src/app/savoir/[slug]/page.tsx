@@ -29,7 +29,7 @@ async function fetchArticle(slug: string): Promise<ArticleRow | null> {
   try {
     const { data } = await supabasePublic
       .from(DB_TABLES.ARTICLES)
-      .select("slug, title, summary, category, featured_image, image, created_at, updated_at, status")
+      .select("slug, title, summary, content, category, featured_image, image, created_at, updated_at, status")
       .eq("slug", slug)
       .eq("status", "published")
       .single();
