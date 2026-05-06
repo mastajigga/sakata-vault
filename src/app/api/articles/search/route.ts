@@ -5,6 +5,8 @@ import { DB_TABLES } from '@/lib/constants/db';
 import { articlesSearchSchema } from '@/lib/schemas/validation';
 import { z } from 'zod';
 
+export const dynamic = 'force-dynamic';
+
 // Langues autorisées — whitelist stricte pour éviter l'injection dans le filtre .or()
 const ALLOWED_LANGS = ['fr', 'en', 'ln', 'sw', 'ts'] as const;
 type AllowedLang = (typeof ALLOWED_LANGS)[number];
@@ -48,14 +50,45 @@ export async function GET(req: NextRequest) {
   );
 
   // ── Pinecone (sémantique) ─────────────────────────────────────────────────
-  // Pour activer : configurer PINECONE_API_KEY + PINECONE_ENVIRONMENT + PINECONE_INDEX_NAME
-  // et seeder l'index avec les embeddings des articles.
-  // Le client est disponible dans src/lib/pinecone/client.ts.
-  if (process.env.PINECONE_API_KEY) {
-    // TODO: générer l'embedding de `rawQ` via OpenAI/Voyage puis interroger Pinecone
-    // const embedding = await generateEmbedding(rawQ);
-    // const results = await pineconeClient.query({ vector: embedding, topK: 10, includeMetadata: true });
-    // return NextResponse.json({ results: results.matches.map(m => m.metadata), source: 'pinecone', ... });
+  // Recherche vectorielle hybride : Pinecone + Supabase
+  let pineconeResults: { id: string; slug: string; title: string; score: number }[] = [];
+  
+  if (process.env.PINECONE_API_KEY && process.env.GEMINI_API_KEY && rawQ.length >= 3) {
+    try {
+      // Import dynamique pour éviter l'instanciation au build (règle Netlify)
+      const { Pinecone } = await import("@pinecone-database/pinecone");
+      const { GoogleGenerativeAI } = await import("@google/generative-ai");
+      
+      const pc = new Pinecone({ apiKey: process.env.PINECONE_API_KEY });
+      const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+      const index = pc.Index(process.env.PINECONE_INDEX_NAME || "sakata");
+      
+      // Générer l'embedding de la requête
+      const embedModel = genAI.getGenerativeModel({ model: "text-embedding-004" });
+      const embedResult = await embedModel.embedContent(`query: ${rawQ}`);
+      const embedding = embedResult.embedding.values;
+      
+      // Interroger le namespace iluo_livres_site (articles du site)
+      const queryResponse = await index.namespace("iluo_livres_site").query({
+        vector: embedding,
+        topK: 8,
+        includeMetadata: true,
+      });
+      
+      pineconeResults = (queryResponse.matches || [])
+        .filter((m: any) => m.score && m.score > 0.5)
+        .map((m: any) => ({
+          id: m.id,
+          slug: m.metadata?.slug || "",
+          title: m.metadata?.title || "Article Sakata",
+          score: Math.round(m.score * 100) / 100,
+        }));
+      
+      console.debug(`[search] Pinecone returned ${pineconeResults.length} results for "${rawQ}"`);
+    } catch (err) {
+      console.warn("[search] Pinecone query failed, falling back to Supabase:", err);
+      // Fallback silencieux → Supabase uniquement
+    }
   }
 
   // ── Fallback Supabase enrichi ─────────────────────────────────────────────
@@ -102,7 +135,15 @@ export async function GET(req: NextRequest) {
   return NextResponse.json({
     results: merged.slice(0, 10),
     query: rawQ,
-    source: 'supabase-enhanced',
+    source: pineconeResults.length > 0 ? 'hybrid' : 'supabase-enhanced',
     total: merged.length,
+    pinecone: pineconeResults.length > 0 ? {
+      count: pineconeResults.length,
+      topMatches: pineconeResults.slice(0, 5).map(m => ({
+        slug: m.slug,
+        title: m.title,
+        score: m.score,
+      })),
+    } : undefined,
   });
 }
