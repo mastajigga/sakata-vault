@@ -101,6 +101,7 @@ import { AnalyticsProvider } from "@/components/AnalyticsProvider";
 import { ChatUnreadProvider } from "@/contexts/ChatUnreadContext";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import NetworkStatus from "@/components/NetworkStatus";
 import { PageAnimate } from "@/components/ui/PageAnimate";
 
 export default function RootLayout({
@@ -151,6 +152,7 @@ export default function RootLayout({
         <link rel="apple-touch-icon" href="/icons/icon-192.png" />
       </head>
       <body className="antialiased min-h-screen flex flex-col">
+        <NetworkStatus />
         <AuthProvider>
           <LanguageProvider>
             <ChatUnreadProvider>

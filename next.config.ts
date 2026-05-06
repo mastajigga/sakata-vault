@@ -13,7 +13,6 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-  // Optimisation du caching pour les assets statiques
   async headers() {
     return [
       {
@@ -34,7 +33,6 @@ const nextConfig: NextConfig = {
           },
         ],
       },
-      // Routes API — jamais mises en cache (analytics, tracking, contenu dynamique)
       {
         source: "/api/:path*",
         headers: [

@@ -446,6 +446,22 @@ const Navbar = () => {
                 >
                   Cercle Basakata
                 </Link>
+                <Link
+                  href={ROUTES.GENEALOGIE}
+                  onClick={() => setMenuOpen(false)}
+                  className="text-2xl font-bold transition-all hover:translate-x-2"
+                  style={{ color: "var(--ivoire-ancien)" }}
+                >
+                  Mon Arbre
+                </Link>
+                <Link
+                  href={ROUTES.CALENDRIER}
+                  onClick={() => setMenuOpen(false)}
+                  className="text-2xl font-bold transition-all hover:translate-x-2"
+                  style={{ color: "var(--ivoire-ancien)" }}
+                >
+                  Calendrier
+                </Link>
               </motion.div>
 
               {/* Premium */}

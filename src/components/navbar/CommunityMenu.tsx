@@ -3,7 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronDown, Users, MessageCircle, Users2 } from "lucide-react";
+import { ChevronDown, Users, MessageCircle, Users2, TreePine, Calendar } from "lucide-react";
 import { ROUTES } from "@/lib/constants/routes";
 import { useLanguage } from "@/components/LanguageProvider";
 import { useGlobalUnreadCount } from "@/hooks/chat/useGlobalUnreadCount";
@@ -37,6 +37,18 @@ export function CommunityMenu({ open, onOpen, onClose }: CommunityMenuProps) {
       href: ROUTES.CHAT,
       icon: MessageCircle,
       badge: totalUnread > 0 ? totalUnread : undefined,
+    },
+    {
+      label: "Mon Arbre",
+      description: "Arbre généalogique",
+      href: ROUTES.GENEALOGIE,
+      icon: TreePine,
+    },
+    {
+      label: "Calendrier",
+      description: "Événements culturels",
+      href: ROUTES.CALENDRIER,
+      icon: Calendar,
     },
   ];
 
