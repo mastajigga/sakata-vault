@@ -53,12 +53,14 @@ const AuthPage = () => {
         ? await supabase.auth.signUp({
             email: data.email,
             password: data.password,
-            options: {
-              data: {
-                first_name: data.firstName || "",
-                last_name: data.lastName || "",
-                full_name: `${data.firstName || ""} ${data.lastName || ""}`.trim(),
-              },
+              options: {
+                data: {
+                  first_name: data.firstName || "",
+                  last_name: data.lastName || "",
+                  full_name: `${data.firstName || ""} ${data.lastName || ""}`.trim(),
+                  username: data.username,
+                  nickname: data.nickname,
+                },
               emailRedirectTo: `${window.location.origin}/profil`,
             },
           })
@@ -158,35 +160,69 @@ const AuthPage = () => {
                     <motion.div
                       initial={{ opacity: 0, height: 0 }}
                       animate={{ opacity: 1, height: "auto" }}
-                      className="grid grid-cols-2 gap-4"
+                      className="space-y-4"
                     >
-                      <div className="space-y-2">
-                        <label className="text-[10px] font-mono uppercase tracking-widest opacity-40 ml-4">
-                          Prénom
-                        </label>
-                        <input
-                          {...register("firstName")}
-                          type="text"
-                          className={`w-full bg-white/5 border rounded-2xl px-6 py-4 outline-none transition-all text-ivoire-ancien text-sm ${
-                            errors.firstName ? "border-red-500/50" : "border-white/10 focus:border-or-ancestral/50"
-                          }`}
-                          placeholder="Jean"
-                        />
-                        {errors.firstName && <p className="text-[10px] text-red-400">{errors.firstName.message}</p>}
+                      <div className="grid grid-cols-2 gap-4">
+                        <div className="space-y-2">
+                          <label className="text-[10px] font-mono uppercase tracking-widest opacity-40 ml-4">
+                            Prénom
+                          </label>
+                          <input
+                            {...register("firstName")}
+                            type="text"
+                            className={`w-full bg-white/5 border rounded-2xl px-6 py-4 outline-none transition-all text-ivoire-ancien text-sm ${
+                              errors.firstName ? "border-red-500/50" : "border-white/10 focus:border-or-ancestral/50"
+                            }`}
+                            placeholder="Jean"
+                          />
+                          {errors.firstName && <p className="text-[10px] text-red-400">{errors.firstName.message}</p>}
+                        </div>
+                        <div className="space-y-2">
+                          <label className="text-[10px] font-mono uppercase tracking-widest opacity-40 ml-4">
+                            Nom
+                          </label>
+                          <input
+                            {...register("lastName")}
+                            type="text"
+                            className={`w-full bg-white/5 border rounded-2xl px-6 py-4 outline-none transition-all text-ivoire-ancien text-sm ${
+                              errors.lastName ? "border-red-500/50" : "border-white/10 focus:border-or-ancestral/50"
+                            }`}
+                            placeholder="Sakata"
+                          />
+                          {errors.lastName && <p className="text-[10px] text-red-400">{errors.lastName.message}</p>}
+                        </div>
                       </div>
+
                       <div className="space-y-2">
                         <label className="text-[10px] font-mono uppercase tracking-widest opacity-40 ml-4">
-                          Nom
+                          Nom d'utilisateur <span className="text-red-400/60">(unique, définitif)</span>
                         </label>
                         <input
-                          {...register("lastName")}
+                          {...register("username")}
                           type="text"
                           className={`w-full bg-white/5 border rounded-2xl px-6 py-4 outline-none transition-all text-ivoire-ancien text-sm ${
-                            errors.lastName ? "border-red-500/50" : "border-white/10 focus:border-or-ancestral/50"
+                            errors.username ? "border-red-500/50" : "border-white/10 focus:border-or-ancestral/50"
                           }`}
-                          placeholder="Sakata"
+                          placeholder="jean_sakata"
                         />
-                        {errors.lastName && <p className="text-[10px] text-red-400">{errors.lastName.message}</p>}
+                        <p className="text-[9px] text-ivoire-ancien/25 ml-4">Affiché en petit. Unique. Ne peut plus être modifié.</p>
+                        {errors.username && <p className="text-[10px] text-red-400">{errors.username.message}</p>}
+                      </div>
+
+                      <div className="space-y-2">
+                        <label className="text-[10px] font-mono uppercase tracking-widest opacity-40 ml-4">
+                          Surnom <span className="text-or-ancestral/60">(affiché en grand)</span>
+                        </label>
+                        <input
+                          {...register("nickname")}
+                          type="text"
+                          className={`w-full bg-white/5 border rounded-2xl px-6 py-4 outline-none transition-all text-ivoire-ancien text-sm ${
+                            errors.nickname ? "border-red-500/50" : "border-white/10 focus:border-or-ancestral/50"
+                          }`}
+                          placeholder="Jean le Sage"
+                        />
+                        <p className="text-[9px] text-ivoire-ancien/25 ml-4">C'est ce qui sera affiché en grand sur votre profil.</p>
+                        {errors.nickname && <p className="text-[10px] text-red-400">{errors.nickname.message}</p>}
                       </div>
                     </motion.div>
                   )}

@@ -5,13 +5,15 @@ export const authSchema = z.object({
   password: z.string().min(8, "Min. 8 caractères").max(255),
   firstName: z.string().min(1, "Prénom requis").max(100).optional(),
   lastName: z.string().min(1, "Nom requis").max(100).optional(),
+  username: z.string().min(3, "Min 3 caractères").max(30, "Max 30 caractères")
+    .regex(/^[a-z0-9_-]+$/, "Lettres minuscules, chiffres, - ou _ uniquement"),
+  nickname: z.string().min(1, "Surnom requis").max(50, "Max 50 caractères"),
 });
 
 export const profileSchema = z.object({
   first_name: z.string().max(100, "Max 100 caractères").optional().or(z.literal("")),
   last_name: z.string().max(100, "Max 100 caractères").optional().or(z.literal("")),
-  nickname: z.string().max(100, "Max 100 caractères").optional().or(z.literal("")),
-  username: z.string().min(3, "Min 3 caractères").max(50, "Max 50 caractères").optional().or(z.literal("")),
+  nickname: z.string().max(50, "Max 50 caractères").optional().or(z.literal("")),
   bio: z.string().max(500, "Max 500 caractères").optional().or(z.literal("")),
   location: z.string().max(100, "Max 100 caractères").optional().or(z.literal("")),
 });

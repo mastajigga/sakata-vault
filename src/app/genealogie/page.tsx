@@ -99,6 +99,7 @@ export default function ArbreGenealogique() {
   const [form, setForm] = useState({
     name: "", relation: "Moi", birth_year: "", origin_village: "", clan: "",
   });
+  const [formError, setFormError] = useState<string | null>(null);
 
   const fetchMembers = useCallback(async () => {
     if (!user) return;
@@ -114,7 +115,11 @@ export default function ArbreGenealogique() {
   useEffect(() => { fetchMembers(); }, [fetchMembers]);
 
   const addMember = async () => {
-    if (!user || !form.name) return;
+    if (!user || !form.name) {
+      setFormError("Le nom est requis.");
+      return;
+    }
+    setFormError(null);
     const { data, error } = await supabase.from("family_tree").insert({
       user_id: user.id,
       name: form.name,
@@ -125,11 +130,17 @@ export default function ArbreGenealogique() {
       parent_id: parentId,
     }).select().single();
 
-    if (!error && data) {
+    if (error) {
+      setFormError(error.message || "Erreur lors de l'ajout.");
+      console.error("[Genealogie] Erreur insert:", error);
+      return;
+    }
+    if (data) {
       await fetchMembers();
       setForm({ name: "", relation: "Moi", birth_year: "", origin_village: "", clan: "" });
       setShowForm(false);
       setParentId(null);
+      setFormError(null);
     }
   };
 
@@ -161,7 +172,7 @@ export default function ArbreGenealogique() {
 
         {/* Bouton ajouter racine */}
         <button
-          onClick={() => { setParentId(null); setShowForm(!showForm); }}
+          onClick={() => { setParentId(null); setShowForm(!showForm); setFormError(null); }}
           className="w-full flex items-center justify-center gap-2 p-4 border-2 border-dashed border-[rgba(196,160,53,0.2)] rounded-xl text-[rgba(196,160,53,0.6)] hover:border-[rgba(196,160,53,0.4)] hover:text-[var(--or-ancestral)] transition-all mb-8"
         >
           <Plus className="w-5 h-5" /> Ajouter un membre de la famille
@@ -190,6 +201,9 @@ export default function ArbreGenealogique() {
                 onChange={e => setForm({...form, clan: e.target.value})}
                 className="rounded-lg border border-[rgba(212,221,215,0.1)] bg-[rgba(0,0,0,0.3)] px-3 py-2.5 text-white text-sm focus:border-[var(--or-ancestral)] outline-none" />
             </div>
+            {formError && (
+              <p className="text-xs text-red-400 bg-red-500/10 border border-red-500/20 rounded-lg px-4 py-2">{formError}</p>
+            )}
             <div className="flex gap-3">
               <button onClick={addMember}
                 className="flex-1 py-2.5 rounded-lg bg-[var(--or-ancestral)]/20 border border-[var(--or-ancestral)]/30 text-[var(--or-ancestral)] text-sm font-semibold hover:bg-[var(--or-ancestral)]/30 transition-all">

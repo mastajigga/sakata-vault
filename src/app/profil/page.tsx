@@ -436,7 +436,7 @@ const ProfilePage = () => {
 
                 <div className="space-y-2">
                   <label className="text-[10px] uppercase tracking-widest text-or-ancestral/60 ml-1">
-                    Surnom
+                    {t("profile.nickname")} <span className="text-or-ancestral/40">— affiché en grand</span>
                   </label>
                   <div className="relative group">
                     <AtSign className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-or-ancestral/40 group-focus-within:text-or-ancestral transition-colors" />
@@ -449,25 +449,25 @@ const ProfilePage = () => {
                       placeholder="Surnom public"
                     />
                   </div>
+                  <p className="text-[9px] text-ivoire-ancien/25 ml-1">C'est votre nom d'affichage principal.</p>
                   {errors.nickname && <p className="text-[10px] text-red-400">{errors.nickname.message}</p>}
                 </div>
 
                 <div className="space-y-2">
                   <label className="text-[10px] uppercase tracking-widest text-or-ancestral/60 ml-1">
-                    {t("profile.username")}
+                    {t("profile.username")} <span className="text-red-400/60">— unique, ne peut plus être modifié</span>
                   </label>
                   <div className="relative group">
-                    <AtSign className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-or-ancestral/40 group-focus-within:text-or-ancestral transition-colors" />
+                    <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-red-400/40" />
                     <input
-                      {...register("username")}
+                      value={watch("username") || ""}
                       type="text"
-                      className={`w-full bg-white/[0.03] border rounded-xl py-3.5 pl-12 pr-4 text-ivoire-ancien focus:border-or-ancestral/50 focus:ring-0 outline-none transition-all ${
-                        errors.username ? "border-red-500/50" : "border-white/10"
-                      }`}
-                      placeholder="Nom d'esprit"
+                      disabled
+                      className="w-full bg-white/[0.02] border border-white/5 rounded-xl py-3.5 pl-12 pr-4 text-ivoire-ancien/50 cursor-not-allowed outline-none"
+                      placeholder="Non défini"
                     />
                   </div>
-                  {errors.username && <p className="text-[10px] text-red-400">{errors.username.message}</p>}
+                  <p className="text-[9px] text-ivoire-ancien/25 ml-1">Affiché en petit. Défini à la création du compte.</p>
                 </div>
               </div>
 
@@ -554,7 +554,7 @@ const ProfilePage = () => {
               className="p-6 rounded-2xl border border-white/5 bg-white/[0.02] backdrop-blur-xl"
             >
               <div className="flex flex-col items-center text-center">
-                <div className="relative group mb-6">
+                <div className="relative group mb-4">
                     <div className="w-24 h-24 rounded-full border-2 border-or/20 p-1 bg-foret-nocturne relative z-10 shadow-2xl shadow-black/40 overflow-hidden">
                       <MemberImage profile={{ ...user, avatar_url: avatarUrl }} />
                     </div>
@@ -577,9 +577,60 @@ const ProfilePage = () => {
                     />
                   </label>
                 </div>
+                
+                {/* Explicit image action buttons */}
+                <div className="flex items-center gap-2 mb-4 w-full">
+                  <label className={`flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-xl border text-xs font-bold uppercase tracking-wider cursor-pointer transition-all ${
+                    uploading 
+                      ? 'border-white/10 text-ivoire-ancien/30 cursor-not-allowed' 
+                      : 'border-or-ancestral/20 text-or-ancestral hover:bg-or-ancestral/10'
+                  }`}>
+                    {uploading ? (
+                      <Loader2 className="w-3 h-3 animate-spin" />
+                    ) : (
+                      <ImagePlus className="w-3 h-3" />
+                    )}
+                    {avatarUrl ? "Changer l'image" : "Ajouter une image"}
+                    <input 
+                      type="file" 
+                      className="hidden" 
+                      accept="image/*" 
+                      onChange={handleImageUpload} 
+                      disabled={uploading}
+                    />
+                  </label>
+                  {avatarUrl && (
+                    <button
+                      onClick={async () => {
+                        if (!user) return;
+                        setUploading(true);
+                        try {
+                          await supabase.from(DB_TABLES.PROFILES).update({ avatar_url: null }).eq("id", user.id);
+                          setAvatarUrl(null);
+                          setSuccess(true);
+                          if (successTimerRef.current) clearTimeout(successTimerRef.current);
+                          successTimerRef.current = setTimeout(() => setSuccess(false), 3000);
+                        } catch {
+                          setApiError("Erreur lors de la suppression.");
+                        } finally {
+                          setUploading(false);
+                        }
+                      }}
+                      disabled={uploading}
+                      className="p-2 rounded-xl border border-red-500/20 text-red-400 hover:bg-red-500/10 transition-all"
+                      title="Supprimer l'image"
+                    >
+                      <Trash2 className="w-3.5 h-3.5" />
+                    </button>
+                  )}
+                </div>
+
                 <h3 className="text-lg font-display text-ivoire-ancien font-bold mb-1">
                   {nickname || (firstName ? `${firstName} ${lastName}` : user.email?.split("@")[0])}
                 </h3>
+                {watch("username") && (
+                  <p className="text-[11px] text-ivoire-ancien/30 mb-1 font-mono">@{watch("username")}</p>
+                )}
                 <div className="flex items-center gap-1.5 text-ivoire-ancien/40 text-xs mb-4">
                   <Mail className="w-3 h-3" />
                   {user.email}
