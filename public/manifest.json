@@ -1,0 +1,35 @@
+{
+  "name": "Sakata — Patrimoine Basakata",
+  "short_name": "Sakata",
+  "description": "Arche numérique du patrimoine Sakata : langue, histoire, traditions du peuple Basakata (Mai-Ndombe, RDC).",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0A1F15",
+  "theme_color": "#C4A035",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-512-maskable.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "categories": ["education", "culture", "books"],
+  "lang": "fr",
+  "dir": "ltr",
+  "scope": "/",
+  "prefer_related_applications": false
+}

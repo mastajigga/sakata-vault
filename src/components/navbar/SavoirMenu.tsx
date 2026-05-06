@@ -3,7 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronDown, BookOpen, GraduationCap, Map, Upload } from "lucide-react";
+import { ChevronDown, BookOpen, GraduationCap, Map, Upload, Languages } from "lucide-react";
 import { ROUTES } from "@/lib/constants/routes";
 import { useLanguage } from "@/components/LanguageProvider";
 
@@ -35,6 +35,12 @@ export function SavoirMenu({ open, onOpen, onClose, isApprovedContributor = fals
       description: "Carte interactive 3D",
       href: ROUTES.GEOGRAPHIE,
       icon: Map,
+    },
+    {
+      label: "Langue Kisakata",
+      description: "Cours de langue interactif",
+      href: ROUTES.LANGUE,
+      icon: Languages,
     },
   ];
 

@@ -372,6 +372,14 @@ const Navbar = () => {
                 >
                   Carte Interactive
                 </Link>
+                <Link
+                  href={ROUTES.LANGUE}
+                  onClick={() => setMenuOpen(false)}
+                  className="text-2xl font-bold transition-all hover:translate-x-2"
+                  style={{ color: "var(--or-ancestral)" }}
+                >
+                  Langue Kisakata
+                </Link>
               </motion.div>
 
               {/* Contributeur — menu mobile (visible uniquement pour contributeurs approuves) */}

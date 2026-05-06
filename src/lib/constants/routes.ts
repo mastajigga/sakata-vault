@@ -3,6 +3,7 @@ export const ROUTES = {
   SAVOIR: "/savoir",
   ECOLE: "/ecole",
   GEOGRAPHIE: "/geographie",
+  LANGUE: "/langue",
   FORUM: "/forum",
   MEMBRES: "/membres",
   CHAT: "/chat",

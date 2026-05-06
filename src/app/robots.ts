@@ -1,4 +1,4 @@
-import { MetadataRoute } from "next";
+import type { MetadataRoute } from "next";
 
 export default function robots(): MetadataRoute.Robots {
   return {
@@ -6,9 +6,17 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: "*",
         allow: "/",
-        disallow: ["/admin", "/profil", "/api/", "/auth"],
+        disallow: [
+          "/admin/",
+          "/api/",
+          "/auth/",
+        ],
+      },
+      {
+        userAgent: "GPTBot",
+        disallow: "/",
       },
     ],
-    sitemap: "https://sakata-basakata.com/sitemap.xml",
+    sitemap: "https://sakata.com/sitemap.xml",
   };
 }
