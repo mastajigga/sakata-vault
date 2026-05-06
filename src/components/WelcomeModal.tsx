@@ -266,7 +266,7 @@ export default function WelcomeModal() {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 w-full text-left mb-10">
 
-              {/* Dernières Mises à Jour (v2.7.3) */}
+              {/* Dernières Mises à Jour (v3.1.0) */}
               <div
                 data-card
                 className="rounded-2xl p-5 transition-colors duration-300"
@@ -284,13 +284,13 @@ export default function WelcomeModal() {
               >
                 <h3 className="font-medium text-base mb-3 flex items-center gap-2" style={{ color: "var(--or-gold)" }}>
                   <Zap className="w-4 h-4 flex-shrink-0" />
-                  Mises à jour (v3.0.0)
+                  Mises à jour (v3.1.0)
                 </h3>
                 <ul className="text-sm space-y-2 list-disc pl-4" style={{ color: "rgba(242, 238, 221, 0.7)" }}>
-                  <li><strong>Admin V3:</strong> Gestion complète des profils et Dashboard</li>
-                  <li><strong>Contenu:</strong> Nouvel éditeur structuré par blocs</li>
-                  <li><strong>Notes Admin:</strong> Centre d'aide avec prise de notes personnelles</li>
-                  <li><strong>Forum:</strong> Réactions émojis ❤️ 🔥 👍 en temps réel</li>
+                  <li><strong>IA & Voix:</strong> Chat Gemini 1.5 Pro + narration vocale automatique</li>
+                  <li><strong>Chat Avancé:</strong> Édition & suppression de messages en temps réel</li>
+                  <li><strong>Médias:</strong> Upload vidéo pour articles + médiathèque admin</li>
+                  <li><strong>Centre d'aide:</strong> Notes personnelles + documentation technique</li>
                 </ul>
               </div>
 
@@ -310,10 +310,12 @@ export default function WelcomeModal() {
                   (e.currentTarget as HTMLElement).style.borderColor = "rgba(255, 255, 255, 0.05)";
                 }}
               >
-                <h3 className="font-medium text-sm mb-3" style={{ color: "rgba(255, 255, 255, 0.4)" }}>Historique (v2.7)</h3>
+                <h3 className="font-medium text-sm mb-3" style={{ color: "rgba(255, 255, 255, 0.4)" }}>Historique (v3.0)</h3>
                 <ul className="text-xs space-y-1 list-disc pl-4" style={{ color: "rgba(242, 238, 221, 0.4)" }}>
-                  <li>Chat: Envoi instantané (Optimistic UI)</li>
-                  <li>Notifications: Centre de contrôle Push mobile</li>
+                  <li>Admin V3: Dashboard & gestion des profils</li>
+                  <li>Éditeur par blocs: structure enrichie</li>
+                  <li>Forum: Réactions émojis en temps réel</li>
+                  <li>Formulaire contributeur enrichi (7 types)</li>
                 </ul>
               </div>
 

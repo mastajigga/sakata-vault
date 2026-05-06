@@ -3,7 +3,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   X, HelpCircle, Sparkles, AudioLines, Library, 
-  Layers, MessageSquare, Shield, Zap
+  Layers, MessageSquare, Shield, Zap, Users
 } from "lucide-react";
 import { useState, useEffect } from "react";
 
@@ -50,11 +50,14 @@ export default function AdminHelpModal() {
                     <button className="w-full text-left p-3 rounded-xl bg-white/5 text-ivoire-ancien text-sm font-bold flex items-center gap-3">
                        <Zap className="w-4 h-4 text-orange-400" /> V3.1 Orchestration
                     </button>
-                    <button className="w-full text-left p-3 rounded-xl hover:bg-white/5 text-ivoire-ancien/40 text-sm font-bold flex items-center gap-3 transition-colors">
+                    <button className="w-full text-left p-3 rounded-xl hover:bg-white/5 text-ivoire-ancien/70 text-sm font-bold flex items-center gap-3 transition-colors">
                        <MessageSquare className="w-4 h-4" /> Modération
                     </button>
-                    <button className="w-full text-left p-3 rounded-xl hover:bg-white/5 text-ivoire-ancien/40 text-sm font-bold flex items-center gap-3 transition-colors">
-                       <Library className="w-4 h-4" /> Archivage
+                    <button className="w-full text-left p-3 rounded-xl hover:bg-white/5 text-ivoire-ancien/70 text-sm font-bold flex items-center gap-3 transition-colors">
+                       <Users className="w-4 h-4" /> Contributions
+                    </button>
+                    <button className="w-full text-left p-3 rounded-xl hover:bg-white/5 text-ivoire-ancien/70 text-sm font-bold flex items-center gap-3 transition-colors">
+                       <Library className="w-4 h-4" /> Documentation
                     </button>
                  </nav>
               </div>

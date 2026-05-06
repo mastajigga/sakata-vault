@@ -54,9 +54,6 @@ export default function AdminHelpPage() {
             <div className="flex-1">
               <h2 className="font-display text-xl font-bold text-ivoire-ancien group-hover:text-or-ancestral transition-colors mb-2">
                 Documentation
-                <span className="ml-2 text-[10px] uppercase tracking-wider px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 align-middle">
-                  Nouveau
-                </span>
               </h2>
               <p className="text-sm text-ivoire-ancien/60 leading-relaxed">
                 Documentation technique des fonctionnalités, choix d'architecture, et
