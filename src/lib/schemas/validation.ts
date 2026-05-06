@@ -50,6 +50,16 @@ export const pushUnsubscribeSchema = z.object({
 
 export const contributionRequestSchema = z.object({
   requestType: z.enum(["article_writer", "contributor"]),
+  contributorType: z.enum([
+    "habitant_region",
+    "scolaire", 
+    "historien",
+    "anthropologue",
+    "photo",
+    "patrimoine",
+    "autre"
+  ]).optional(),
+  contributorTypeOther: z.string().max(200).optional().or(z.literal("")),
   message: z.string().max(5000).optional().or(z.literal("")).or(z.null()),
 });
 

@@ -38,7 +38,7 @@ export async function POST(request: Request) {
 
     const body = await request.json();
     const validated = contributionRequestSchema.parse(body);
-    const { requestType, message } = validated;
+    const { requestType, contributorType, contributorTypeOther, message } = validated;
 
     // Check if user already has a pending request of this type
     const { data: existingRequest } = await supabase
@@ -65,6 +65,8 @@ export async function POST(request: Request) {
       .insert({
         user_id: user.id,
         request_type: requestType,
+        contributor_type: contributorType || null,
+        contributor_type_other: contributorType === "autre" ? contributorTypeOther || null : null,
         message: message || null,
         status: "pending",
       })

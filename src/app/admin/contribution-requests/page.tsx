@@ -13,6 +13,8 @@ interface ContributionRequest {
   id: string;
   user_id: string;
   request_type: "article_writer" | "contributor";
+  contributor_type?: string | null;
+  contributor_type_other?: string | null;
   status: "pending" | "approved" | "rejected";
   message: string | null;
   created_at: string;
@@ -22,6 +24,16 @@ interface ContributionRequest {
     username: string;
   };
 }
+
+const CONTRIBUTOR_TYPE_LABELS: Record<string, string> = {
+  habitant_region: "🏠 Habitant de la région",
+  scolaire: "📚 Scolaire / Étudiant",
+  historien: "📜 Historien",
+  anthropologue: "🔬 Anthropologue",
+  photo: "📸 Photo / Vidéo",
+  patrimoine: "🏛️ Patrimoine",
+  autre: "✨ Autre",
+};
 
 export default function ContributionRequestsPage() {
   const { role } = useAuth();
@@ -147,6 +159,14 @@ export default function ContributionRequestsPage() {
                 </div>
                 {req.message && (
                   <p className="text-sm text-gray-400 italic">"{req.message}"</p>
+                )}
+                {req.contributor_type && (
+                  <p className="text-xs text-[var(--or-ancestral)]">
+                    {CONTRIBUTOR_TYPE_LABELS[req.contributor_type] || req.contributor_type}
+                    {req.contributor_type === "autre" && req.contributor_type_other && (
+                      <span className="text-gray-400"> — {req.contributor_type_other}</span>
+                    )}
+                  </p>
                 )}
                 <div className="flex items-center gap-2 text-[10px] text-gray-500">
                   <Clock className="w-3 h-3" />

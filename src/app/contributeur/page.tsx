@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { ContributorBadge } from "@/components/badges/ContributorBadge";
+import { ContributionForm } from "@/components/ContributionForm";
 import { useAuth } from "@/components/AuthProvider";
 import { supabase } from "@/lib/supabase";
 import { withRetry } from "@/lib/supabase-retry";
@@ -174,28 +175,82 @@ export default function ContributorPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="rounded-lg border border-white/10 bg-white/5 backdrop-blur-sm p-8 text-center"
+            className="space-y-8"
           >
-            <BookOpen size={48} className="mx-auto mb-4 text-[var(--or-ancestral)] opacity-50" />
-            <h2 className="text-2xl font-light mb-3">Devenez contributeur</h2>
-            <p className="text-gray-400 mb-6 max-w-md mx-auto">
-              Partagez votre savoir et contribuez à la transmission des traditions Sakata.
-              Lisez notre guide pour en savoir plus.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-3 justify-center">
-              <Link
-                href={ROUTES.PROFIL}
-                className="inline-flex items-center justify-center px-6 py-3 bg-[var(--or-ancestral)] hover:opacity-90 text-white rounded-lg transition-opacity"
-              >
-                Demander l'accès
-              </Link>
-              <Link
-                href={ROUTES.CONTRIBUTEUR_GUIDE}
-                className="inline-flex items-center justify-center px-6 py-3 border border-white/20 hover:border-white/40 rounded-lg transition-colors"
-              >
-                Lire le guide
-              </Link>
+            {/* Explication */}
+            <div className="rounded-lg border border-white/10 bg-white/5 backdrop-blur-sm p-8">
+              <BookOpen size={48} className="mx-auto mb-4 text-[var(--or-ancestral)] opacity-50" />
+              <h2 className="text-2xl font-light mb-3 text-center">Qu'est-ce que contribuer ?</h2>
+              <p className="text-gray-400 mb-4 text-center max-w-xl mx-auto">
+                Contribuer à Sakata, c'est participer à la préservation et à la transmission 
+                du patrimoine culturel Basakata. Que vous soyez habitant de la région, 
+                chercheur, photographe ou simplement passionné, votre savoir est précieux.
+              </p>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-6 text-sm text-gray-400">
+                <div className="bg-white/5 rounded-lg p-4 text-center">
+                  <span className="text-2xl mb-2 block">📝</span>
+                  <strong className="text-white block mb-1">Écrire</strong>
+                  Rédiger des articles sur l'histoire, la langue, les traditions
+                </div>
+                <div className="bg-white/5 rounded-lg p-4 text-center">
+                  <span className="text-2xl mb-2 block">📸</span>
+                  <strong className="text-white block mb-1">Documenter</strong>
+                  Partager des photos, témoignages, archives familiales
+                </div>
+                <div className="bg-white/5 rounded-lg p-4 text-center">
+                  <span className="text-2xl mb-2 block">🔍</span>
+                  <strong className="text-white block mb-1">Enrichir</strong>
+                  Corriger, compléter, vérifier les informations existantes
+                </div>
+              </div>
             </div>
+
+            {/* Formulaire */}
+            <div className="rounded-lg border border-white/10 bg-white/5 backdrop-blur-sm p-8">
+              <h2 className="text-xl font-light mb-2">Demander à contribuer</h2>
+              <p className="text-gray-400 text-sm mb-6">
+                Remplissez ce formulaire pour rejoindre l'équipe des contributeurs Sakata.
+                Votre demande sera examinée sous 48h.
+              </p>
+
+              {!user ? (
+                <div className="text-center py-8">
+                  <p className="text-gray-400 mb-4">
+                    Vous devez être connecté pour demander à contribuer.
+                  </p>
+                  <Link
+                    href={ROUTES.AUTH}
+                    className="inline-flex items-center justify-center px-6 py-3 bg-[var(--or-ancestral)] hover:opacity-90 text-white rounded-lg transition-opacity"
+                  >
+                    Se connecter / S'inscrire
+                  </Link>
+                </div>
+              ) : (
+                <ContributionForm onSuccess={() => setContributorStatus("pending")} />
+              )}
+            </div>
+
+            {/* Rappel image de profil */}
+            {user && (
+              <div className="rounded-lg border border-[var(--or-ancestral)]/20 bg-[var(--or-ancestral)]/5 p-6 flex items-start gap-4">
+                <div className="w-10 h-10 rounded-full bg-[var(--or-ancestral)]/20 flex items-center justify-center shrink-0">
+                  <span className="text-lg">📷</span>
+                </div>
+                <div>
+                  <h3 className="text-white font-medium mb-1">Ajoutez une photo de profil</h3>
+                  <p className="text-gray-400 text-sm mb-3">
+                    Une photo de profil aide l'équipe et la communauté à mieux vous connaître. 
+                    C'est un gage de confiance pour votre demande de contribution.
+                  </p>
+                  <Link
+                    href={ROUTES.PROFIL}
+                    className="text-[var(--or-ancestral)] hover:underline text-sm"
+                  >
+                    Modifier mon profil →
+                  </Link>
+                </div>
+              </div>
+            )}
           </motion.div>
         )}
 
