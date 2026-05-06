@@ -5,9 +5,9 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { ArrowLeft, Volume2, Sparkles, BookOpen, GraduationCap, Brain, Info } from "lucide-react";
 import { useState, useCallback } from "react";
-import ExerciceWidget from "../../components/ExerciceWidget";
+import ExerciceWidget from "../../../components/ExerciceWidget";
 import { useAuth } from "@/components/AuthProvider";
-import { getLecon, getNiveau } from "../../data/lecons";
+import { getLecon, getNiveau } from "../../../data/lecons";
 
 export default function LeconPage() {
   const params = useParams();
