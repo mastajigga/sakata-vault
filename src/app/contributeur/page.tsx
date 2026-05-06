@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { ContributorBadge } from "@/components/badges/ContributorBadge";
 import { ContributionForm } from "@/components/ContributionForm";
+import ContributionUploads from "@/components/ContributionUploads";
 import { useAuth } from "@/components/AuthProvider";
 import { supabase } from "@/lib/supabase";
 import { withRetry } from "@/lib/supabase-retry";
@@ -316,6 +317,11 @@ export default function ContributorPage() {
                 <Plus size={18} />
                 Écrire un article
               </Link>
+            </div>
+
+            {/* Upload photos, vidéos, textes */}
+            <div className="mb-12">
+              <ContributionUploads />
             </div>
 
             {/* Stats */}

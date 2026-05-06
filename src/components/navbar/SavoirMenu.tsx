@@ -3,7 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronDown, BookOpen, GraduationCap, Map } from "lucide-react";
+import { ChevronDown, BookOpen, GraduationCap, Map, Upload } from "lucide-react";
 import { ROUTES } from "@/lib/constants/routes";
 import { useLanguage } from "@/components/LanguageProvider";
 
@@ -11,9 +11,10 @@ interface SavoirMenuProps {
   open: boolean;
   onOpen: () => void;
   onClose: () => void;
+  isApprovedContributor?: boolean;
 }
 
-export function SavoirMenu({ open, onOpen, onClose }: SavoirMenuProps) {
+export function SavoirMenu({ open, onOpen, onClose, isApprovedContributor = false }: SavoirMenuProps) {
   const { t } = useLanguage();
 
   const submenu = [
@@ -88,6 +89,21 @@ export function SavoirMenu({ open, onOpen, onClose }: SavoirMenuProps) {
                 </Link>
               );
             })}
+
+            {/* Contribuer — visible uniquement pour contributeurs approuvés */}
+            {isApprovedContributor && (
+              <Link
+                href={ROUTES.CONTRIBUTEUR}
+                onClick={() => onClose()}
+                className="flex items-center gap-3 px-4 py-3 hover:bg-white/5 transition-colors border-t border-[var(--or-ancestral)]/20"
+              >
+                <Upload size={16} style={{ color: "var(--or-ancestral)" }} />
+                <div>
+                  <p className="text-sm font-medium text-[var(--or-ancestral)]">Contribuer</p>
+                  <p className="text-xs text-gray-400">Photos, vidéos, articles</p>
+                </div>
+              </Link>
+            )}
           </motion.div>
         )}
       </AnimatePresence>

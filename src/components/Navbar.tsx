@@ -160,6 +160,7 @@ const Navbar = () => {
               open={openMenu === "savoir"}
               onOpen={() => setOpenMenu("savoir")}
               onClose={() => setOpenMenu(null)}
+              isApprovedContributor={contributorStatus === "approved"}
             />
 
             {/* Community dropdown */}
@@ -372,6 +373,30 @@ const Navbar = () => {
                   Carte Interactive
                 </Link>
               </motion.div>
+
+              {/* Contributeur — menu mobile (visible uniquement pour contributeurs approuves) */}
+              {contributorStatus === "approved" && (
+                <motion.div
+                  initial={{ y: 40, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  exit={{ y: 20, opacity: 0 }}
+                  transition={{
+                    duration: 0.5,
+                    delay: 0.22,
+                    ease: [0.16, 1, 0.3, 1],
+                  }}
+                >
+                  <Link
+                    href={ROUTES.CONTRIBUTEUR}
+                    onClick={() => setMenuOpen(false)}
+                    className="text-2xl font-bold transition-all hover:translate-x-2"
+                    style={{ color: "var(--or-ancestral)" }}
+                  >
+                    Contribuer
+                  </Link>
+                  <p className="text-xs text-gray-500 mt-1">Photos, vidéos, articles</p>
+                </motion.div>
+              )}
 
               {/* Communauté submenu items */}
               <motion.div
