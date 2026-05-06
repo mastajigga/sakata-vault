@@ -21,6 +21,8 @@ import re
 import argparse
 import fitz  # pymupdf
 import torch
+from dotenv import load_dotenv
+load_dotenv(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), '.env.local'), override=True)
 from pinecone import Pinecone
 from sentence_transformers import SentenceTransformer
 
@@ -35,7 +37,7 @@ CHUNK_SIZE = 500
 CHUNK_OVERLAP = 50
 BATCH_SIZE_EMBED = 32
 BATCH_SIZE_UPSERT = 100
-LIVRE_DIR = r"C:\Users\Fortuné\OneDrive\Documents\Livre"
+LIVRE_DIR = os.environ.get("LIVRE_DIR", "/mnt/c/Users/Fortuné/OneDrive/Documents/Livre")
 
 # --- Helpers ---
 def chunk_text(text, chunk_size=CHUNK_SIZE, overlap=CHUNK_OVERLAP):
@@ -78,6 +80,16 @@ def find_all_pdfs(base_dir):
             "path": ocr_path,
             "filename": "OCR_Societes_Secretes.txt",
             "directory": "Sociétés secètes au Congo Belge",
+            "kind": "ocr_txt",
+        })
+    # Special case: OCR text file for Phonologie Sakata
+    ocr_path2 = os.path.join(base_dir, "Phonologie de la langue sakata (BC 34)  langue bantoue du Zaïre, parler de Lemvien Nord", 
+                              "Phonologie de la langue sakata (BC 34)  langue bantoue du Zaïre, parler de Lemvien Nord - Thesis1987.ocr.txt")
+    if os.path.isfile(ocr_path2):
+        out.append({
+            "path": ocr_path2,
+            "filename": "Phonologie de la langue sakata (BC 34)  langue bantoue du Zaïre, parler de Lemvien Nord - Thesis1987.ocr.txt",
+            "directory": "Phonologie de la langue sakata (BC 34)  langue bantoue du Zaïre, parler de Lemvien Nord",
             "kind": "ocr_txt",
         })
     return out
@@ -259,7 +271,7 @@ def main():
     stats = index.describe_index_stats()
     print(f"  -> Total vectors in index: {stats.total_vector_count}")
     for ns_name, ns_data in (stats.namespaces or {}).items():
-        print(f"     • {ns_name}: {ns_data.record_count} vectors")
+        print(f"     • {ns_name}: {ns_data.vector_count} vectors")
 
     print("\n" + "=" * 70)
     print(f"  [DONE] {grand_total} new vectors added.")

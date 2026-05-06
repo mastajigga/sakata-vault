@@ -20,6 +20,8 @@ import time
 import argparse
 import base64
 import fitz  # pymupdf
+from dotenv import load_dotenv
+load_dotenv(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), '.env.local'), override=True)
 from google import genai
 from google.genai import types
 
