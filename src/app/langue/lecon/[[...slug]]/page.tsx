@@ -3,46 +3,22 @@
 import { useParams } from "next/navigation";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { ArrowLeft, Volume2, Sparkles, BookOpen, GraduationCap, Brain } from "lucide-react";
+import { ArrowLeft, Volume2, Sparkles, BookOpen, GraduationCap, Brain, Info } from "lucide-react";
 import { useState, useCallback } from "react";
 import ExerciceWidget from "../../components/ExerciceWidget";
 import { useAuth } from "@/components/AuthProvider";
-
-const NIVEAUX_STRUCTURE: Record<string, { nom: string; leçons: Record<string, { titre: string; mots: { kisakata: string; francais: string; phonetique: string }[] }> }> = {
-  "goutte-rosee": {
-    nom: "Goutte de Rosée",
-    leçons: {
-      salutations: {
-        titre: "Salutations",
-        mots: [
-          { kisakata: "Mbóte", francais: "Bonjour", phonetique: "m-BOH-teh" },
-          { kisakata: "Tókó", francais: "Ça va / D'accord", phonetique: "TOH-koh" },
-          { kisakata: "Lóbí", francais: "À demain / Salut", phonetique: "LOH-bee" },
-          { kisakata: "Bótámbólá", francais: "Bienvenue", phonetique: "boh-tam-BOH-lah" },
-        ],
-      },
-      famille: {
-        titre: "La Famille",
-        mots: [
-          { kisakata: "Tatá", francais: "Papa", phonetique: "tah-TAH" },
-          { kisakata: "Mamá", francais: "Maman", phonetique: "mah-MAH" },
-          { kisakata: "Nkókó", francais: "Grand-père / Ancêtre", phonetique: "n-KOH-koh" },
-          { kisakata: "Kókó", francais: "Grand-mère", phonetique: "KOH-koh" },
-        ],
-      },
-    },
-  },
-};
+import { getLecon, getNiveau } from "../../data/lecons";
 
 export default function LeconPage() {
   const params = useParams();
-  const niveauSlug = params.niveau as string;
-  const leconSlug = params.lecon as string;
+  const niveauSlug = (params.niveau as string) || "";
+  const leconSlug = (params.lecon as string) || "";
   const { user } = useAuth() as any;
   const [lessonCompleted, setLessonCompleted] = useState(false);
+  const [showCulture, setShowCulture] = useState(false);
 
-  const niveau = NIVEAUX_STRUCTURE[niveauSlug];
-  const lecon = niveau?.leçons[leconSlug];
+  const niveau = getNiveau(niveauSlug);
+  const lecon = getLecon(niveauSlug, leconSlug);
 
   const handleExerciseComplete = useCallback(
     async (score: number) => {
@@ -119,9 +95,31 @@ export default function LeconPage() {
               {lecon.titre}
             </h1>
             <p className="mt-4 text-[rgba(212,221,215,0.7)] max-w-2xl">
-              Apprenez ces mots en les écoutant, en les répétant, en les vivant.
-              Cliquez sur chaque carte pour voir la traduction.
+              {lecon.description}
             </p>
+
+            {/* Note culturelle — accordéon */}
+            {lecon.noteCulturelle && (
+              <div className="mt-6">
+                <button
+                  onClick={() => setShowCulture(!showCulture)}
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[rgba(196,160,53,0.06)] border border-[rgba(196,160,53,0.12)] text-[var(--or-ancestral)] text-sm hover:bg-[rgba(196,160,53,0.12)] transition-all"
+                >
+                  <Info className="w-4 h-4" />
+                  Note culturelle
+                  <span className={`transition-transform ${showCulture ? "rotate-180" : ""}`}>▾</span>
+                </button>
+                {showCulture && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="mt-3 p-4 rounded-xl bg-[rgba(196,160,53,0.05)] border border-[rgba(196,160,53,0.1)] text-sm text-[rgba(240,237,229,0.78)] leading-relaxed"
+                  >
+                    {lecon.noteCulturelle}
+                  </motion.div>
+                )}
+              </div>
+            )}
           </motion.div>
         </div>
       </section>

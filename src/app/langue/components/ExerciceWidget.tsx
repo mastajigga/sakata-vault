@@ -21,51 +21,84 @@ interface ExerciseQuestion {
 }
 
 const EXERCISES: Record<string, ExerciseQuestion[]> = {
+  // === Goutte de Rosée ===
   salutations: [
-    {
-      type: "word-match",
-      question: "Quel mot Kisakata signifie « Bonjour » ?",
-      options: ["Mbóte", "Tókó", "Lóbí", "Tatá"],
-      correctIndex: 0,
-      pair: { kisakata: "Mbóte", francais: "Bonjour", emoji: "👋" },
-    },
-    {
-      type: "translation",
-      question: "Comment dit-on « Ça va / D'accord » en Kisakata ?",
-      options: ["Lóbí", "Tókó", "Mbóte", "Mamá"],
-      correctIndex: 1,
-      pair: { kisakata: "Tókó", francais: "Ça va", emoji: "👍" },
-    },
-    {
-      type: "word-match",
-      question: "Que signifie « Lóbí » ?",
-      options: ["Bonjour", "À demain / Salut", "Maman", "Forêt"],
-      correctIndex: 1,
-      pair: { kisakata: "Lóbí", francais: "À demain", emoji: "☀️" },
-    },
+    { type: "word-match", question: "Quel mot Kisakata signifie « Bonjour » ?", options: ["Mbóte", "Tókó", "Lóbí", "Tatá"], correctIndex: 0, pair: { kisakata: "Mbóte", francais: "Bonjour", emoji: "👋" } },
+    { type: "translation", question: "Comment dit-on « Ça va / D'accord » en Kisakata ?", options: ["Lóbí", "Tókó", "Mbóte", "Mamá"], correctIndex: 1, pair: { kisakata: "Tókó", francais: "Ça va", emoji: "👍" } },
+    { type: "word-match", question: "Que signifie « Lóbí » ?", options: ["Bonjour", "À demain / Salut", "Maman", "Forêt"], correctIndex: 1, pair: { kisakata: "Lóbí", francais: "À demain", emoji: "☀️" } },
+    { type: "word-match", question: "Comment dit-on « Merci beaucoup » ?", options: ["Mélá míngi", "Mbóte", "Nzéngá", "Tókó"], correctIndex: 0, pair: { kisakata: "Mélá míngi", francais: "Merci beaucoup", emoji: "🙏" } },
   ],
   famille: [
-    {
-      type: "word-match",
-      question: "Comment dit-on « Papa » en Kisakata ?",
-      options: ["Mamá", "Tatá", "Nkókó", "Kókó"],
-      correctIndex: 1,
-      pair: { kisakata: "Tatá", francais: "Papa", emoji: "👨" },
-    },
-    {
-      type: "translation",
-      question: "« Nkókó » signifie...",
-      options: ["Grand-mère", "Papa", "Grand-père / Ancêtre", "Enfant"],
-      correctIndex: 2,
-      pair: { kisakata: "Nkókó", francais: "Grand-père", emoji: "👴" },
-    },
-    {
-      type: "word-match",
-      question: "Quel mot désigne « Grand-mère » ?",
-      options: ["Tatá", "Nkókó", "Mamá", "Kókó"],
-      correctIndex: 3,
-      pair: { kisakata: "Kókó", francais: "Grand-mère", emoji: "👵" },
-    },
+    { type: "word-match", question: "Comment dit-on « Papa » en Kisakata ?", options: ["Mamá", "Tatá", "Nkókó", "Kókó"], correctIndex: 1, pair: { kisakata: "Tatá", francais: "Papa", emoji: "👨" } },
+    { type: "translation", question: "« Nkókó » signifie...", options: ["Grand-mère", "Papa", "Grand-père / Ancêtre", "Enfant"], correctIndex: 2, pair: { kisakata: "Nkókó", francais: "Grand-père", emoji: "👴" } },
+    { type: "word-match", question: "Quel mot désigne « Grand-mère » ?", options: ["Tatá", "Nkókó", "Mamá", "Kókó"], correctIndex: 3, pair: { kisakata: "Kókó", francais: "Grand-mère", emoji: "👵" } },
+    { type: "word-match", question: "« Ndéko » veut dire...", options: ["Papa", "Grand-mère", "Frère / Sœur", "Enfant"], correctIndex: 2, pair: { kisakata: "Ndéko", francais: "Frère / Sœur", emoji: "👫" } },
+  ],
+  "se-presenter": [
+    { type: "word-match", question: "« Nkómbó » signifie...", options: ["Village", "Nom", "Je", "Eau"], correctIndex: 1, pair: { kisakata: "Nkómbó", francais: "Nom", emoji: "📛" } },
+    { type: "translation", question: "Comment dit-on « Je / Moi » en Kisakata ?", options: ["Yó", "Mbóka", "Ngáí", "Éé"], correctIndex: 2, pair: { kisakata: "Ngáí", francais: "Moi / Je", emoji: "🙋" } },
+    { type: "word-match", question: "« Naútí » veut dire...", options: ["Je viens de...", "Je mange", "Je dors", "Je parle"], correctIndex: 0, pair: { kisakata: "Naútí", francais: "Je viens de...", emoji: "📍" } },
+    { type: "word-match", question: "« Mbóka » désigne...", options: ["Forêt", "Rivière", "Village", "Maison"], correctIndex: 2, pair: { kisakata: "Mbóka", francais: "Village", emoji: "🏘️" } },
+  ],
+
+  // === Ruisseau ===
+  nourriture: [
+    { type: "word-match", question: "« Mákémbá » c'est...", options: ["Poisson", "Poulet", "Bananes plantains", "Manioc"], correctIndex: 2, pair: { kisakata: "Mákémbá", francais: "Bananes plantains", emoji: "🍌" } },
+    { type: "translation", question: "Comment dit-on « Poisson » en Kisakata ?", options: ["Nsósó", "Mbísi", "Mái", "Ntóndó"], correctIndex: 1, pair: { kisakata: "Mbísi", francais: "Poisson", emoji: "🐟" } },
+    { type: "word-match", question: "« Nsósó » c'est...", options: ["Poisson", "Eau", "Poulet", "Manioc"], correctIndex: 2, pair: { kisakata: "Nsósó", francais: "Poulet", emoji: "🍗" } },
+    { type: "translation", question: "« Mái » signifie...", options: ["Poisson", "Feu", "Eau", "Air"], correctIndex: 2, pair: { kisakata: "Mái", francais: "Eau", emoji: "💧" } },
+  ],
+  couleurs: [
+    { type: "word-match", question: "« Ntáne » c'est quelle couleur ?", options: ["Blanc", "Rouge", "Noir", "Bleu"], correctIndex: 1, pair: { kisakata: "Ntáne", francais: "Rouge", emoji: "🔴" } },
+    { type: "translation", question: "Comment dit-on « Blanc » en Kisakata ?", options: ["Ngóla", "Ntáne", "Mbwé", "Zámba"], correctIndex: 2, pair: { kisakata: "Mbwé", francais: "Blanc", emoji: "⚪" } },
+    { type: "word-match", question: "« Zámba » comme couleur signifie...", options: ["Rouge", "Noir", "Vert (forêt)", "Jaune"], correctIndex: 2, pair: { kisakata: "Zámba", francais: "Vert", emoji: "🟢" } },
+    { type: "word-match", question: "« Mosé » c'est...", options: ["Rouge", "Bleu", "Blanc", "Jaune / Or"], correctIndex: 3, pair: { kisakata: "Mosé", francais: "Jaune / Or", emoji: "🟡" } },
+  ],
+  nombres: [
+    { type: "word-match", question: "« Mókó » c'est quel nombre ?", options: ["2", "1", "3", "5"], correctIndex: 1, pair: { kisakata: "Mókó", francais: "Un", emoji: "1️⃣" } },
+    { type: "translation", question: "Comment dit-on « Trois » en Kisakata ?", options: ["Íbalé", "Ínéí", "Ísátó", "Ítánó"], correctIndex: 2, pair: { kisakata: "Ísátó", francais: "Trois", emoji: "3️⃣" } },
+    { type: "word-match", question: "« Ítánó » c'est...", options: ["4", "5", "6", "3"], correctIndex: 1, pair: { kisakata: "Ítánó", francais: "Cinq", emoji: "5️⃣" } },
+    { type: "translation", question: "Quel est le nombre « Ísámbá » ?", options: ["5", "3", "6", "2"], correctIndex: 2, pair: { kisakata: "Ísámbá", francais: "Six", emoji: "6️⃣" } },
+  ],
+
+  // === Rivière ===
+  actions: [
+    { type: "word-match", question: "« Kotámbola » veut dire...", options: ["Manger", "Dormir", "Marcher", "Parler"], correctIndex: 2, pair: { kisakata: "Kotámbola", francais: "Marcher", emoji: "🚶" } },
+    { type: "translation", question: "Comment dit-on « Dormir » en Kisakata ?", options: ["Kolía", "Kolála", "Koloba", "Komóna"], correctIndex: 1, pair: { kisakata: "Kolála", francais: "Dormir", emoji: "😴" } },
+    { type: "word-match", question: "« Koyóka » signifie...", options: ["Voir", "Parler", "Écouter / Comprendre", "Marcher"], correctIndex: 2, pair: { kisakata: "Koyóka", francais: "Écouter / Comprendre", emoji: "👂" } },
+    { type: "word-match", question: "Le préfixe de l'infinitif en Kisakata est...", options: ["Ma-", "Ki-", "Ko-", "Na-"], correctIndex: 2 },
+  ],
+  temps: [
+    { type: "word-match", question: "« Lélo » signifie...", options: ["Demain", "Hier", "Aujourd'hui", "Nuit"], correctIndex: 2, pair: { kisakata: "Lélo", francais: "Aujourd'hui", emoji: "☀️" } },
+    { type: "translation", question: "Comment dit-on « Nuit » en Kisakata ?", options: ["Mokóló", "Butú", "Siká", "Ntángo"], correctIndex: 1, pair: { kisakata: "Butú", francais: "Nuit", emoji: "🌃" } },
+    { type: "word-match", question: "« Ntángo » veut dire...", options: ["Jour", "Nuit", "Temps / Moment", "Maintenant"], correctIndex: 2, pair: { kisakata: "Ntángo", francais: "Temps / Moment", emoji: "⏰" } },
+    { type: "word-match", question: "Quel mot peut signifier à la fois 'demain' et 'hier' ?", options: ["Lélo", "Lóbí", "Siká", "Butú"], correctIndex: 1 },
+  ],
+  lieux: [
+    { type: "word-match", question: "« Zámba » désigne...", options: ["Rivière", "Forêt", "Village", "Maison"], correctIndex: 1, pair: { kisakata: "Zámba", francais: "Forêt", emoji: "🌳" } },
+    { type: "translation", question: "Comment dit-on « Rivière » en Kisakata ?", options: ["Zámba", "Mbóka", "Ebale", "Ndáko"], correctIndex: 2, pair: { kisakata: "Ebale", francais: "Rivière", emoji: "🌊" } },
+    { type: "word-match", question: "« Ndáko » signifie...", options: ["Village", "Route", "Ciel", "Maison"], correctIndex: 3, pair: { kisakata: "Ndáko", francais: "Maison", emoji: "🏠" } },
+    { type: "word-match", question: "« Likoló » veut dire...", options: ["Terre", "Ciel / En haut", "Eau", "Feu"], correctIndex: 1, pair: { kisakata: "Likoló", francais: "Ciel / En haut", emoji: "☁️" } },
+  ],
+
+  // === Lukenie ===
+  proverbes: [
+    { type: "word-match", question: "« Ebale eké mokémbá » — que signifie ce proverbe ?", options: ["La rivière est profonde", "La rivière n'oublie pas sa source", "L'eau coule toujours", "La rivière est belle"], correctIndex: 1 },
+    { type: "translation", question: "« Nkókó akúfí, maloba maké » exprime...", options: ["L'ancêtre est mort, tout est fini", "L'ancêtre est parti, mais ses paroles restent", "L'ancêtre reviendra", "Les ancêtres sont nombreux"], correctIndex: 1 },
+    { type: "word-match", question: "Quel proverbe parle d'union et de force collective ?", options: ["Ebale eké mokémbá", "Zámba íbale míbalé", "Lobóko lókó loké kolála", "Mái ma mbúla maké kosíla"], correctIndex: 2 },
+    { type: "word-match", question: "« Mái ma mbúla maké kosíla » — quel est le message ?", options: ["La pluie est forte", "L'eau de pluie ne finit jamais (la connaissance est infinie)", "La pluie détruit tout", "L'eau est précieuse"], correctIndex: 1 },
+  ],
+  recits: [
+    { type: "word-match", question: "Comment dit-on « Il était une fois » en Kisakata ?", options: ["Mókó", "Kala kala", "Lisapo", "Ekosíla"], correctIndex: 1, pair: { kisakata: "Kala kala", francais: "Il était une fois", emoji: "📖" } },
+    { type: "translation", question: "La réponse rituelle de l'auditoire pendant un conte est...", options: ["Mbóte", "Mókó", "Tókó", "Lóbí"], correctIndex: 1, pair: { kisakata: "Mókó", francais: "Oui, j'écoute", emoji: "👂" } },
+    { type: "word-match", question: "« Ekosíla » signifie...", options: ["Commencement", "Milieu du conte", "C'est fini (fin du conte)", "Le héros"], correctIndex: 2, pair: { kisakata: "Ekosíla", francais: "C'est fini", emoji: "🏁" } },
+    { type: "word-match", question: "« Lisapo » c'est...", options: ["Chant", "Proverbe", "Conte / Histoire", "Danse"], correctIndex: 2, pair: { kisakata: "Lisapo", francais: "Conte / Histoire", emoji: "📚" } },
+  ],
+  chant: [
+    { type: "word-match", question: "« Loyémbo » signifie...", options: ["Danse", "Chant / Chanson", "Tambour", "Amour"], correctIndex: 1, pair: { kisakata: "Loyémbo", francais: "Chant / Chanson", emoji: "🎵" } },
+    { type: "translation", question: "Comment dit-on « Tambour » en Kisakata ?", options: ["Loyémbo", "Mabína", "Ngóma", "Bosémbo"], correctIndex: 2, pair: { kisakata: "Ngóma", francais: "Tam-tam / Tambour", emoji: "🥁" } },
+    { type: "word-match", question: "« Mabína » c'est...", options: ["Chant", "Joie", "Danse", "Amour"], correctIndex: 2, pair: { kisakata: "Mabína", francais: "Danse", emoji: "💃" } },
+    { type: "word-match", question: "« Bosémbo » exprime...", options: ["Tristesse", "Colère", "Joie / Bonheur", "Peur"], correctIndex: 2, pair: { kisakata: "Bosémbo", francais: "Joie / Bonheur", emoji: "😊" } },
   ],
 };
 
