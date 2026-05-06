@@ -36,7 +36,7 @@ load_dotenv(ROOT / ".env.local")
 
 # Config (matches existing index)
 INDEX_NAME = "sakata"
-NAMESPACE = "iluo_forums"
+NAMESPACE = "forums"
 EMBEDDING_MODEL = "intfloat/multilingual-e5-base"
 DATA_FILE = ROOT / "data" / "scraped_fb_data.json"
 

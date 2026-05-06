@@ -69,7 +69,7 @@ export async function GET(req: NextRequest) {
       const embedding = embedResult.embedding.values;
       
       // Interroger le namespace iluo_livres_site (articles du site)
-      const queryResponse = await index.namespace("iluo_livres_site").query({
+      const queryResponse = await index.namespace("livres_site").query({
         vector: embedding,
         topK: 8,
         includeMetadata: true,

@@ -64,7 +64,7 @@ export async function POST(req: Request) {
 
     // 2. Search Pinecone
     // We search across common namespaces
-    const namespaces = ["iluo_livres_academiques", "iluo_livres_site", "iluo_exercices"];
+    const namespaces = ["livres_academiques", "livres_site", "exercices"];
     let allMatches: any[] = [];
 
     for (const ns of namespaces) {

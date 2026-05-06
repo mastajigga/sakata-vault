@@ -1,0 +1,722 @@
+
+> sakata@0.1.0 dev
+> next dev
+
+▲ Next.js 16.2.2 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://192.168.1.54:3000
+- Environments: .env.local
+✓ Ready in 333ms
+
+ GET / 200 in 739ms (next.js: 151ms, proxy.ts: 250ms, application-code: 338ms)
+ GET / 200 in 64ms (next.js: 7ms, proxy.ts: 8ms, application-code: 49ms)
+ GET / 200 in 111ms (next.js: 4ms, proxy.ts: 6ms, application-code: 101ms)
+[browser] Image with src "/images/sakata_heritage_hero.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes (file://C:/Users/Fortuné/Projects/Sakata/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+ POST /api/track 200 in 373ms (next.js: 206ms, proxy.ts: 9ms, application-code: 158ms)
+[browser] [AuthProvider] Safety timeout reached. (file://C:/Users/Fortuné/Projects/Sakata/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+ GET / 200 in 63ms (next.js: 6ms, proxy.ts: 6ms, application-code: 51ms)
+ GET / 200 in 78ms (next.js: 14ms, proxy.ts: 7ms, application-code: 57ms)
+ GET / 200 in 67ms (next.js: 4ms, proxy.ts: 9ms, application-code: 54ms)
+ GET / 200 in 67ms (next.js: 5ms, proxy.ts: 7ms, application-code: 55ms)
+[browser] Image with src "/images/sakata_heritage_hero.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes (file://C:/Users/Fortuné/Projects/Sakata/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+ GET / 200 in 59ms (next.js: 15ms, proxy.ts: 3ms, application-code: 41ms)
+ GET / 200 in 63ms (next.js: 4ms, proxy.ts: 5ms, application-code: 54ms)
+ GET / 200 in 34ms (next.js: 1841µs, proxy.ts: 3ms, application-code: 29ms)
+ GET / 200 in 31ms (next.js: 1861µs, proxy.ts: 3ms, application-code: 27ms)
+ GET / 200 in 30ms (next.js: 1765µs, proxy.ts: 3ms, application-code: 26ms)
+ GET / 200 in 281ms (next.js: 64ms, proxy.ts: 66ms, application-code: 152ms)
+ GET / 200 in 41ms (next.js: 9ms, proxy.ts: 5ms, application-code: 27ms)
+ GET / 200 in 28ms (next.js: 1466µs, proxy.ts: 3ms, application-code: 23ms)
+ GET / 200 in 42ms (next.js: 15ms, proxy.ts: 3ms, application-code: 24ms)
+ GET / 200 in 29ms (next.js: 2ms, proxy.ts: 3ms, application-code: 24ms)
+ GET / 200 in 43ms (next.js: 14ms, proxy.ts: 4ms, application-code: 26ms)
+ GET / 200 in 35ms (next.js: 1730µs, proxy.ts: 4ms, application-code: 29ms)
+ GET / 200 in 31ms (next.js: 1779µs, proxy.ts: 3ms, application-code: 26ms)
+[browser] Image with src "/images/sakata_heritage_hero.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes (file://C:/Users/Fortuné/Projects/Sakata/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+ GET / 200 in 33ms (next.js: 1958µs, proxy.ts: 3ms, application-code: 28ms)
+ GET / 200 in 32ms (next.js: 1640µs, proxy.ts: 4ms, application-code: 27ms)
+ GET / 200 in 32ms (next.js: 3ms, proxy.ts: 3ms, application-code: 26ms)
+ GET / 200 in 30ms (next.js: 1823µs, proxy.ts: 3ms, application-code: 25ms)
+ GET / 200 in 43ms (next.js: 12ms, proxy.ts: 3ms, application-code: 27ms)
+ GET / 200 in 29ms (next.js: 1448µs, proxy.ts: 3ms, application-code: 25ms)
+⨯ ./src/app/page.tsx:7:1
+Module not found: Can't resolve '@/components/CommunityCallout'
+  [90m 5 |[0m [36mimport[0m [33mSectionCard[0m [36mfrom[0m [32m"@/components/SectionCard"[0m;
+  [90m 6 |[0m [36mimport[0m [33mMission[0m [36mfrom[0m [32m"@/components/Mission"[0m;
+[31m[1m>[0m [90m 7 |[0m [36mimport[0m [33mCommunityCallout[0m [36mfrom[0m [32m"@/components/CommunityCallout"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m 8 |[0m [36mimport[0m { [33mARTICLES[0m } [36mfrom[0m [32m"@/data/articles"[0m;
+  [90m 9 |[0m [36mimport[0m { useLanguage } [36mfrom[0m [32m"@/components/LanguageProvider"[0m;
+  [90m10 |[0m [36mimport[0m { useAuth } [36mfrom[0m [32m"@/components/AuthProvider"[0m;
+
+Import map: aliased to relative './src/components/CommunityCallout' inside of [project]/
+
+
+Import traces:
+  Client Component Browser:
+    ./src/app/page.tsx [Client Component Browser]
+    ./src/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/page.tsx [Client Component SSR]
+    ./src/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./src/app/page.tsx:7:1
+Module not found: Can't resolve '@/components/CommunityCallout'
+  [90m 5 |[0m [36mimport[0m [33mSectionCard[0m [36mfrom[0m [32m"@/components/SectionCard"[0m;
+  [90m 6 |[0m [36mimport[0m [33mMission[0m [36mfrom[0m [32m"@/components/Mission"[0m;
+[31m[1m>[0m [90m 7 |[0m [36mimport[0m [33mCommunityCallout[0m [36mfrom[0m [32m"@/components/CommunityCallout"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m 8 |[0m [36mimport[0m { [33mARTICLES[0m } [36mfrom[0m [32m"@/data/articles"[0m;
+  [90m 9 |[0m [36mimport[0m { useLanguage } [36mfrom[0m [32m"@/components/LanguageProvider"[0m;
+  [90m10 |[0m [36mimport[0m { useAuth } [36mfrom[0m [32m"@/components/AuthProvider"[0m;
+
+Import map: aliased to relative './src/components/CommunityCallout' inside of [project]/
+
+
+Import traces:
+  Client Component Browser:
+    ./src/app/page.tsx [Client Component Browser]
+    ./src/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/page.tsx [Client Component SSR]
+    ./src/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./src/app/page.tsx:7:1
+Module not found: Can't resolve '@/components/CommunityCallout'
+  [90m 5 |[0m [36mimport[0m [33mSectionCard[0m [36mfrom[0m [32m"@/components/SectionCard"[0m;
+  [90m 6 |[0m [36mimport[0m [33mMission[0m [36mfrom[0m [32m"@/components/Mission"[0m;
+[31m[1m>[0m [90m 7 |[0m [36mimport[0m [33mCommunityCallout[0m [36mfrom[0m [32m"@/components/CommunityCallout"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m 8 |[0m [36mimport[0m { [33mARTICLES[0m } [36mfrom[0m [32m"@/data/articles"[0m;
+  [90m 9 |[0m [36mimport[0m { useLanguage } [36mfrom[0m [32m"@/components/LanguageProvider"[0m;
+  [90m10 |[0m [36mimport[0m { useAuth } [36mfrom[0m [32m"@/components/AuthProvider"[0m;
+
+Import map: aliased to relative './src/components/CommunityCallout' inside of [project]/
+
+
+Import traces:
+  Client Component Browser:
+    ./src/app/page.tsx [Client Component Browser]
+    ./src/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/page.tsx [Client Component SSR]
+    ./src/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./src/app/page.tsx:7:1
+Module not found: Can't resolve '@/components/CommunityCallout'
+  [90m 5 |[0m [36mimport[0m [33mSectionCard[0m [36mfrom[0m [32m"@/components/SectionCard"[0m;
+  [90m 6 |[0m [36mimport[0m [33mMission[0m [36mfrom[0m [32m"@/components/Mission"[0m;
+[31m[1m>[0m [90m 7 |[0m [36mimport[0m [33mCommunityCallout[0m [36mfrom[0m [32m"@/components/CommunityCallout"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m 8 |[0m [36mimport[0m { [33mARTICLES[0m } [36mfrom[0m [32m"@/data/articles"[0m;
+  [90m 9 |[0m [36mimport[0m { useLanguage } [36mfrom[0m [32m"@/components/LanguageProvider"[0m;
+  [90m10 |[0m [36mimport[0m { useAuth } [36mfrom[0m [32m"@/components/AuthProvider"[0m;
+
+Import map: aliased to relative './src/components/CommunityCallout' inside of [project]/
+
+
+Import traces:
+  Client Component Browser:
+    ./src/app/page.tsx [Client Component Browser]
+    ./src/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/page.tsx [Client Component SSR]
+    ./src/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+✓ Compiled in 281ms
+ GET / 200 in 476ms (next.js: 127ms, proxy.ts: 111ms, application-code: 239ms)
+[browser] Image with src "/images/sakata_heritage_hero.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes (file://C:/Users/Fortuné/Projects/Sakata/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+ POST /api/track 200 in 445ms (next.js: 144ms, proxy.ts: 9ms, application-code: 292ms)
+ GET /auth 200 in 63ms (next.js: 32ms, proxy.ts: 7ms, application-code: 24ms)
+ POST /api/track 200 in 142ms (next.js: 4ms, proxy.ts: 7ms, application-code: 131ms)
+[browser] [AuthProvider] Safety timeout reached. (file://C:/Users/Fortuné/Projects/Sakata/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+ GET / 200 in 144ms (next.js: 3ms, proxy.ts: 130ms, application-code: 11ms)
+ GET /auth 200 in 232ms (next.js: 12ms, proxy.ts: 184ms, application-code: 37ms)
+ POST /api/track 200 in 119ms (next.js: 3ms, proxy.ts: 51ms, application-code: 64ms)
+[browser] Image with src "/images/sakata_mask_detail.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio. (file://C:/Users/Fortuné/Projects/Sakata/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+ GET /admin 200 in 1354ms (next.js: 1238ms, proxy.ts: 93ms, application-code: 22ms)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/Fortuné/Projects/Sakata/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/Fortuné/Projects/Sakata/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/Fortuné/Projects/Sakata/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/Fortuné/Projects/Sakata/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+ POST /api/track 200 in 144ms (next.js: 1743µs, proxy.ts: 81ms, application-code: 61ms)
+ GET /admin/content 200 in 621ms (next.js: 543ms, proxy.ts: 62ms, application-code: 16ms)
+ POST /api/track 200 in 128ms (next.js: 4ms, proxy.ts: 61ms, application-code: 63ms)
+ GET /admin/content/ngongo-philosophique 200 in 1072ms (next.js: 976ms, proxy.ts: 65ms, application-code: 31ms)
+ GET /api/admin/media 200 in 690ms (next.js: 337ms, proxy.ts: 79ms, application-code: 275ms)
+ GET /api/admin/media 200 in 380ms (next.js: 4ms, proxy.ts: 58ms, application-code: 318ms)
+ GET /api/admin/media 200 in 509ms (next.js: 1749µs, proxy.ts: 70ms, application-code: 437ms)
+ POST /api/track 200 in 130ms (next.js: 4ms, proxy.ts: 65ms, application-code: 61ms)
+ GET /api/admin/media 200 in 260ms (next.js: 3ms, proxy.ts: 57ms, application-code: 200ms)
+ GET /admin/content 200 in 147ms (next.js: 5ms, proxy.ts: 118ms, application-code: 24ms)
+ POST /api/track 200 in 118ms (next.js: 1845µs, proxy.ts: 50ms, application-code: 66ms)
+Articles loaded from DB: 21
+ GET /savoir 200 in 833ms (next.js: 81ms, proxy.ts: 99ms, application-code: 653ms)
+ POST /api/track 200 in 117ms (next.js: 5ms, proxy.ts: 57ms, application-code: 54ms)
+ GET /savoir/ngongo-philosophique 200 in 492ms (next.js: 382ms, proxy.ts: 95ms, application-code: 15ms)
+ POST /api/track 200 in 212ms (next.js: 4ms, proxy.ts: 64ms, application-code: 144ms)
+ GET /admin 200 in 134ms (next.js: 2ms, proxy.ts: 119ms, application-code: 12ms)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/Fortuné/Projects/Sakata/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/Fortuné/Projects/Sakata/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/Fortuné/Projects/Sakata/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/Fortuné/Projects/Sakata/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+ POST /api/track 200 in 109ms (next.js: 1670µs, proxy.ts: 49ms, application-code: 58ms)
+ GET /admin 200 in 202ms (next.js: 3ms, proxy.ts: 174ms, application-code: 25ms)
+ GET /admin/help 200 in 640ms (next.js: 568ms, proxy.ts: 59ms, application-code: 13ms)
+ POST /api/track 200 in 126ms (next.js: 1702µs, proxy.ts: 53ms, application-code: 71ms)
+ GET /admin/help 200 in 144ms (next.js: 2ms, proxy.ts: 120ms, application-code: 22ms)
+ GET /admin/help 200 in 208ms (next.js: 4ms, proxy.ts: 164ms, application-code: 40ms)
+✓ Compiled in 331ms
+✓ Compiled in 338ms
+ GET /admin/help 200 in 188ms (next.js: 5ms, proxy.ts: 155ms, application-code: 28ms)
+✓ Compiled in 171ms
+✓ Compiled in 176ms
+ GET /admin/help 200 in 411ms (next.js: 45ms, proxy.ts: 338ms, application-code: 29ms)
+ GET /admin/help 200 in 69ms (next.js: 2ms, proxy.ts: 51ms, application-code: 15ms)
+ GET /admin/help 200 in 61ms (next.js: 1802µs, proxy.ts: 48ms, application-code: 11ms)
+ GET /admin/help 200 in 67ms (next.js: 1980µs, proxy.ts: 46ms, application-code: 19ms)
+ GET /admin/help 200 in 65ms (next.js: 2ms, proxy.ts: 48ms, application-code: 15ms)
+ GET /admin/help 200 in 65ms (next.js: 1948µs, proxy.ts: 46ms, application-code: 17ms)
+ GET /admin/help 200 in 65ms (next.js: 2ms, proxy.ts: 49ms, application-code: 14ms)
+ GET /admin/help 200 in 62ms (next.js: 1964µs, proxy.ts: 45ms, application-code: 15ms)
+ GET /admin/help 200 in 67ms (next.js: 1970µs, proxy.ts: 48ms, application-code: 17ms)
+ GET /admin/help 200 in 60ms (next.js: 2ms, proxy.ts: 48ms, application-code: 10ms)
+ GET /admin/help 200 in 64ms (next.js: 2ms, proxy.ts: 47ms, application-code: 14ms)
+ GET /admin/help 200 in 63ms (next.js: 2ms, proxy.ts: 47ms, application-code: 14ms)
+ GET /admin/help 200 in 58ms (next.js: 1996µs, proxy.ts: 46ms, application-code: 10ms)
+ GET /admin/help 200 in 65ms (next.js: 1862µs, proxy.ts: 47ms, application-code: 16ms)
+ GET /admin/help 200 in 59ms (next.js: 2ms, proxy.ts: 46ms, application-code: 10ms)
+ GET /admin/help 200 in 63ms (next.js: 2ms, proxy.ts: 50ms, application-code: 11ms)
+ GET /admin/help 200 in 65ms (next.js: 2ms, proxy.ts: 48ms, application-code: 15ms)
+ GET /admin/help 200 in 65ms (next.js: 1865µs, proxy.ts: 47ms, application-code: 16ms)
+ GET /admin/help 200 in 68ms (next.js: 4ms, proxy.ts: 48ms, application-code: 16ms)
+ GET /admin/help 200 in 62ms (next.js: 1890µs, proxy.ts: 46ms, application-code: 14ms)
+ GET /admin/help 200 in 65ms (next.js: 1936µs, proxy.ts: 48ms, application-code: 15ms)
+ GET /admin/help 200 in 64ms (next.js: 1983µs, proxy.ts: 48ms, application-code: 14ms)
+ GET /admin/help 200 in 65ms (next.js: 2ms, proxy.ts: 48ms, application-code: 15ms)
+ GET /admin/help 200 in 67ms (next.js: 2ms, proxy.ts: 47ms, application-code: 18ms)
+ GET /admin/help 200 in 73ms (next.js: 2ms, proxy.ts: 56ms, application-code: 15ms)
+ GET /admin/help 200 in 63ms (next.js: 1869µs, proxy.ts: 47ms, application-code: 14ms)
+ GET /admin/help 200 in 63ms (next.js: 2ms, proxy.ts: 46ms, application-code: 15ms)
+ GET /admin/help 200 in 62ms (next.js: 1975µs, proxy.ts: 45ms, application-code: 14ms)
+ GET /admin/help 200 in 63ms (next.js: 1972µs, proxy.ts: 45ms, application-code: 16ms)
+ GET /admin/help 200 in 64ms (next.js: 2ms, proxy.ts: 48ms, application-code: 14ms)
+ GET /admin/help 200 in 64ms (next.js: 2ms, proxy.ts: 47ms, application-code: 15ms)
+ GET /admin/help 200 in 65ms (next.js: 4ms, proxy.ts: 46ms, application-code: 15ms)
+ GET /admin/help 200 in 67ms (next.js: 2ms, proxy.ts: 50ms, application-code: 14ms)
+ GET /admin/help 200 in 73ms (next.js: 3ms, proxy.ts: 54ms, application-code: 17ms)
+ GET /admin/help 200 in 66ms (next.js: 2ms, proxy.ts: 49ms, application-code: 15ms)
+ GET /admin/help 200 in 68ms (next.js: 1963µs, proxy.ts: 51ms, application-code: 16ms)
+ GET /admin/help 200 in 102ms (next.js: 10ms, proxy.ts: 52ms, application-code: 40ms)
+ GET /admin/help 200 in 68ms (next.js: 1840µs, proxy.ts: 51ms, application-code: 15ms)
+ GET /admin/help 200 in 64ms (next.js: 2ms, proxy.ts: 47ms, application-code: 15ms)
+ GET /admin/help 200 in 66ms (next.js: 1843µs, proxy.ts: 49ms, application-code: 16ms)
+ GET /admin/help 200 in 60ms (next.js: 2ms, proxy.ts: 44ms, application-code: 14ms)
+ GET /admin/help 200 in 62ms (next.js: 2ms, proxy.ts: 46ms, application-code: 14ms)
+ GET /admin/help 200 in 65ms (next.js: 1935µs, proxy.ts: 46ms, application-code: 17ms)
+ GET /admin/help 200 in 70ms (next.js: 1874µs, proxy.ts: 53ms, application-code: 15ms)
+ GET /admin/help 200 in 61ms (next.js: 1937µs, proxy.ts: 44ms, application-code: 15ms)
+ GET /admin/help 200 in 68ms (next.js: 1997µs, proxy.ts: 51ms, application-code: 15ms)
+ GET /admin/help 200 in 61ms (next.js: 1897µs, proxy.ts: 45ms, application-code: 14ms)
+ GET /admin/help 200 in 66ms (next.js: 1793µs, proxy.ts: 48ms, application-code: 16ms)
+ GET /admin/help 200 in 60ms (next.js: 1883µs, proxy.ts: 45ms, application-code: 14ms)
+ GET /admin/help 200 in 62ms (next.js: 1920µs, proxy.ts: 47ms, application-code: 14ms)
+ GET /admin/help 200 in 61ms (next.js: 1852µs, proxy.ts: 48ms, application-code: 11ms)
+ GET /admin/help 200 in 64ms (next.js: 1962µs, proxy.ts: 48ms, application-code: 14ms)
+ GET /admin/help 200 in 65ms (next.js: 2ms, proxy.ts: 46ms, application-code: 17ms)
+ GET /admin/help 200 in 64ms (next.js: 1969µs, proxy.ts: 48ms, application-code: 14ms)
+ GET /admin/help 200 in 65ms (next.js: 1994µs, proxy.ts: 49ms, application-code: 14ms)
+ GET /admin/help 200 in 65ms (next.js: 4ms, proxy.ts: 47ms, application-code: 14ms)
+ GET /admin/help 200 in 62ms (next.js: 2ms, proxy.ts: 44ms, application-code: 15ms)
+ GET /admin/help 200 in 63ms (next.js: 1926µs, proxy.ts: 45ms, application-code: 16ms)
+ GET /admin/help 200 in 62ms (next.js: 2ms, proxy.ts: 46ms, application-code: 14ms)
+ GET /admin/help 200 in 64ms (next.js: 2ms, proxy.ts: 48ms, application-code: 14ms)
+ GET /admin/help 200 in 68ms (next.js: 4ms, proxy.ts: 48ms, application-code: 15ms)
+ GET /admin/help 200 in 67ms (next.js: 1861µs, proxy.ts: 50ms, application-code: 15ms)
+ GET /admin/help 200 in 92ms (next.js: 1949µs, proxy.ts: 74ms, application-code: 16ms)
+ GET /admin/help 200 in 64ms (next.js: 1754µs, proxy.ts: 47ms, application-code: 15ms)
+ GET /admin/help 200 in 61ms (next.js: 1912µs, proxy.ts: 49ms, application-code: 10ms)
+ GET /admin/help 200 in 80ms (next.js: 4ms, proxy.ts: 62ms, application-code: 14ms)
+ GET /admin/help 200 in 61ms (next.js: 2ms, proxy.ts: 45ms, application-code: 14ms)
+ GET /admin/help 200 in 64ms (next.js: 1978µs, proxy.ts: 45ms, application-code: 17ms)
+ GET /admin/help 200 in 61ms (next.js: 1971µs, proxy.ts: 44ms, application-code: 14ms)
+ GET /admin/help 200 in 67ms (next.js: 5ms, proxy.ts: 47ms, application-code: 14ms)
+ GET /admin/help 200 in 65ms (next.js: 4ms, proxy.ts: 46ms, application-code: 14ms)
+ GET /admin/help 200 in 70ms (next.js: 1959µs, proxy.ts: 53ms, application-code: 15ms)
+ GET /admin/help 200 in 66ms (next.js: 1919µs, proxy.ts: 47ms, application-code: 17ms)
+ GET /admin/help 200 in 66ms (next.js: 4ms, proxy.ts: 48ms, application-code: 14ms)
+ GET /admin/help 200 in 64ms (next.js: 1914µs, proxy.ts: 49ms, application-code: 13ms)
+ GET /admin/help 200 in 72ms (next.js: 4ms, proxy.ts: 54ms, application-code: 14ms)
+ GET /admin/help 200 in 67ms (next.js: 1951µs, proxy.ts: 51ms, application-code: 14ms)
+ GET /admin/help 200 in 65ms (next.js: 2ms, proxy.ts: 46ms, application-code: 16ms)
+ GET /admin/help 200 in 62ms (next.js: 2ms, proxy.ts: 46ms, application-code: 14ms)
+ GET /admin/help 200 in 66ms (next.js: 2ms, proxy.ts: 50ms, application-code: 14ms)
+ GET /admin/help 200 in 66ms (next.js: 4ms, proxy.ts: 48ms, application-code: 15ms)
+ GET /admin/help 200 in 62ms (next.js: 2ms, proxy.ts: 46ms, application-code: 14ms)
+ GET /admin/help 200 in 64ms (next.js: 1882µs, proxy.ts: 47ms, application-code: 16ms)
+ GET /admin/help 200 in 69ms (next.js: 2ms, proxy.ts: 52ms, application-code: 14ms)
+ GET /admin/help 200 in 60ms (next.js: 1939µs, proxy.ts: 45ms, application-code: 14ms)
+ GET /admin/help 200 in 67ms (next.js: 4ms, proxy.ts: 48ms, application-code: 15ms)
+ GET /admin/help 200 in 69ms (next.js: 2ms, proxy.ts: 52ms, application-code: 15ms)
+ GET /admin/help 200 in 65ms (next.js: 1879µs, proxy.ts: 46ms, application-code: 17ms)
+ GET /admin/help 200 in 85ms (next.js: 6ms, proxy.ts: 65ms, application-code: 14ms)
+ GET /admin/help 200 in 65ms (next.js: 2ms, proxy.ts: 48ms, application-code: 15ms)
+ GET /admin/help 200 in 59ms (next.js: 4ms, proxy.ts: 44ms, application-code: 11ms)
+ GET /admin/help 200 in 68ms (next.js: 1994µs, proxy.ts: 51ms, application-code: 15ms)
+ GET /admin/help 200 in 67ms (next.js: 2ms, proxy.ts: 49ms, application-code: 16ms)
+ GET /admin/help 200 in 65ms (next.js: 1976µs, proxy.ts: 47ms, application-code: 16ms)
+ GET /admin/help 200 in 64ms (next.js: 3ms, proxy.ts: 46ms, application-code: 15ms)
+ GET /admin/help 200 in 262ms (next.js: 5ms, proxy.ts: 51ms, application-code: 206ms)
+ GET /admin/help 200 in 328ms (next.js: 40ms, proxy.ts: 263ms, application-code: 26ms)
+ GET /admin/help 200 in 94ms (next.js: 2ms, proxy.ts: 76ms, application-code: 15ms)
+ GET /admin/help 200 in 69ms (next.js: 2ms, proxy.ts: 50ms, application-code: 17ms)
+ GET /admin/help 200 in 63ms (next.js: 2ms, proxy.ts: 45ms, application-code: 16ms)
+ GET /admin/help 200 in 63ms (next.js: 1917µs, proxy.ts: 46ms, application-code: 14ms)
+ GET /admin/help 200 in 65ms (next.js: 1966µs, proxy.ts: 48ms, application-code: 16ms)
+ GET /admin/help 200 in 71ms (next.js: 1825µs, proxy.ts: 54ms, application-code: 14ms)
+ GET /admin/help 200 in 69ms (next.js: 1965µs, proxy.ts: 51ms, application-code: 16ms)
+ GET /admin/help 200 in 62ms (next.js: 1964µs, proxy.ts: 50ms, application-code: 10ms)
+ GET /admin/help 200 in 65ms (next.js: 1955µs, proxy.ts: 52ms, application-code: 11ms)
+ GET /admin/help 200 in 69ms (next.js: 2ms, proxy.ts: 51ms, application-code: 16ms)
+ GET /admin/help 200 in 82ms (next.js: 2ms, proxy.ts: 65ms, application-code: 14ms)
+ GET /admin/help 200 in 65ms (next.js: 2ms, proxy.ts: 50ms, application-code: 13ms)
+ GET /admin/help 200 in 72ms (next.js: 1851µs, proxy.ts: 56ms, application-code: 14ms)
+ GET /admin/help 200 in 74ms (next.js: 1926µs, proxy.ts: 50ms, application-code: 22ms)
+ GET /admin/help 200 in 69ms (next.js: 2ms, proxy.ts: 49ms, application-code: 18ms)
+ GET /admin/help 200 in 65ms (next.js: 1851µs, proxy.ts: 49ms, application-code: 14ms)
+ GET /admin/help 200 in 63ms (next.js: 1961µs, proxy.ts: 47ms, application-code: 14ms)
+ GET /admin/help 200 in 64ms (next.js: 4ms, proxy.ts: 45ms, application-code: 15ms)
+ GET /admin/help 200 in 72ms (next.js: 2ms, proxy.ts: 55ms, application-code: 14ms)
+ GET /admin/help 200 in 65ms (next.js: 2ms, proxy.ts: 46ms, application-code: 17ms)
+ GET /admin/help 200 in 61ms (next.js: 1959µs, proxy.ts: 45ms, application-code: 14ms)
+ GET /admin/help 200 in 65ms (next.js: 1763µs, proxy.ts: 49ms, application-code: 14ms)
+ GET /admin/help 200 in 64ms (next.js: 4ms, proxy.ts: 46ms, application-code: 14ms)
+ GET /admin/help 200 in 69ms (next.js: 1959µs, proxy.ts: 52ms, application-code: 15ms)
+ GET /admin/help 200 in 73ms (next.js: 1958µs, proxy.ts: 55ms, application-code: 16ms)
+ GET /admin/help 200 in 63ms (next.js: 1812µs, proxy.ts: 47ms, application-code: 14ms)
+ GET /admin/help 200 in 62ms (next.js: 1962µs, proxy.ts: 45ms, application-code: 15ms)
+ GET /admin/help 200 in 61ms (next.js: 4ms, proxy.ts: 45ms, application-code: 11ms)
+ GET /admin/help 200 in 65ms (next.js: 1796µs, proxy.ts: 49ms, application-code: 14ms)
+ GET /admin/help 200 in 63ms (next.js: 1948µs, proxy.ts: 44ms, application-code: 17ms)
+ GET /admin/help 200 in 71ms (next.js: 2ms, proxy.ts: 55ms, application-code: 14ms)
+ GET /admin/help 200 in 60ms (next.js: 1797µs, proxy.ts: 44ms, application-code: 14ms)
+ GET /admin/help 200 in 67ms (next.js: 4ms, proxy.ts: 49ms, application-code: 14ms)
+ GET /admin/help 200 in 64ms (next.js: 2ms, proxy.ts: 47ms, application-code: 14ms)
+ GET /admin/help 200 in 67ms (next.js: 5ms, proxy.ts: 46ms, application-code: 16ms)
+ GET /admin/help 200 in 63ms (next.js: 2ms, proxy.ts: 47ms, application-code: 14ms)
+ GET /admin/help 200 in 61ms (next.js: 2ms, proxy.ts: 45ms, application-code: 14ms)
+ GET /admin/help 200 in 65ms (next.js: 4ms, proxy.ts: 46ms, application-code: 15ms)
+ GET /admin/help 200 in 68ms (next.js: 1935µs, proxy.ts: 51ms, application-code: 15ms)
+ GET /admin/help 200 in 63ms (next.js: 2ms, proxy.ts: 45ms, application-code: 16ms)
+ GET /admin/help 200 in 65ms (next.js: 3ms, proxy.ts: 48ms, application-code: 14ms)
+ GET /admin/help 200 in 67ms (next.js: 3ms, proxy.ts: 47ms, application-code: 17ms)
+ GET /admin/help 200 in 70ms (next.js: 4ms, proxy.ts: 51ms, application-code: 15ms)
+ GET /admin/help 200 in 67ms (next.js: 2ms, proxy.ts: 51ms, application-code: 14ms)
+ GET /admin/help 200 in 64ms (next.js: 2ms, proxy.ts: 45ms, application-code: 16ms)
+ GET /admin/help 200 in 63ms (next.js: 1966µs, proxy.ts: 47ms, application-code: 14ms)
+ GET /admin/help 200 in 63ms (next.js: 1894µs, proxy.ts: 47ms, application-code: 14ms)
+ GET /admin/help 200 in 80ms (next.js: 4ms, proxy.ts: 62ms, application-code: 14ms)
+ GET /admin/help 200 in 67ms (next.js: 1850µs, proxy.ts: 51ms, application-code: 14ms)
+ GET /admin/help 200 in 75ms (next.js: 2ms, proxy.ts: 57ms, application-code: 17ms)
+ GET /admin/help 200 in 63ms (next.js: 1916µs, proxy.ts: 46ms, application-code: 15ms)
+ GET /admin/help 200 in 87ms (next.js: 2ms, proxy.ts: 72ms, application-code: 14ms)
+ GET /admin/help 200 in 64ms (next.js: 4ms, proxy.ts: 46ms, application-code: 14ms)
+ GET /admin/help 200 in 63ms (next.js: 1942µs, proxy.ts: 47ms, application-code: 14ms)
+ GET /admin/help 200 in 63ms (next.js: 1985µs, proxy.ts: 44ms, application-code: 17ms)
+ GET /admin/help 200 in 61ms (next.js: 1987µs, proxy.ts: 45ms, application-code: 14ms)
+ GET /admin/help 200 in 64ms (next.js: 2ms, proxy.ts: 47ms, application-code: 14ms)
+ GET /admin/help 200 in 77ms (next.js: 2ms, proxy.ts: 59ms, application-code: 16ms)
+ GET /admin/help 200 in 67ms (next.js: 2ms, proxy.ts: 50ms, application-code: 15ms)
+ GET /admin/help 200 in 66ms (next.js: 1830µs, proxy.ts: 55ms, application-code: 10ms)
+ GET /admin/help 200 in 58ms (next.js: 1918µs, proxy.ts: 46ms, application-code: 11ms)
+ GET /admin/help 200 in 61ms (next.js: 2ms, proxy.ts: 46ms, application-code: 14ms)
+ GET /admin/help 200 in 64ms (next.js: 1971µs, proxy.ts: 45ms, application-code: 16ms)
+ GET /admin/help 200 in 64ms (next.js: 1961µs, proxy.ts: 48ms, application-code: 14ms)
+ GET /admin/help 200 in 70ms (next.js: 2ms, proxy.ts: 54ms, application-code: 14ms)
+ GET /admin/help 200 in 64ms (next.js: 4ms, proxy.ts: 47ms, application-code: 14ms)
+ GET /admin/help 200 in 62ms (next.js: 1938µs, proxy.ts: 46ms, application-code: 15ms)
+ GET /admin/help 200 in 65ms (next.js: 1936µs, proxy.ts: 46ms, application-code: 17ms)
+ GET /admin/help 200 in 65ms (next.js: 1884µs, proxy.ts: 49ms, application-code: 14ms)
+ GET /admin/help 200 in 63ms (next.js: 2ms, proxy.ts: 47ms, application-code: 14ms)
+ GET /admin/help 200 in 64ms (next.js: 4ms, proxy.ts: 46ms, application-code: 14ms)
+ GET /admin/help 200 in 64ms (next.js: 1883µs, proxy.ts: 47ms, application-code: 15ms)
+ GET /admin/help 200 in 67ms (next.js: 2ms, proxy.ts: 48ms, application-code: 16ms)
+ GET /admin/help 200 in 76ms (next.js: 1881µs, proxy.ts: 60ms, application-code: 14ms)
+ GET /admin/help 200 in 62ms (next.js: 2ms, proxy.ts: 46ms, application-code: 14ms)
+ GET /admin/help 200 in 66ms (next.js: 4ms, proxy.ts: 47ms, application-code: 15ms)
+ GET /admin/help 200 in 61ms (next.js: 1949µs, proxy.ts: 45ms, application-code: 14ms)
+ GET /admin/help 200 in 64ms (next.js: 2ms, proxy.ts: 45ms, application-code: 16ms)
+ GET /admin/help 200 in 63ms (next.js: 1997µs, proxy.ts: 46ms, application-code: 15ms)
+ GET /admin/help 200 in 64ms (next.js: 1905µs, proxy.ts: 48ms, application-code: 14ms)
+ GET /admin/help 200 in 68ms (next.js: 4ms, proxy.ts: 49ms, application-code: 15ms)
+ GET /admin/help 200 in 76ms (next.js: 2ms, proxy.ts: 59ms, application-code: 15ms)
+ GET /admin/help 200 in 67ms (next.js: 1971µs, proxy.ts: 48ms, application-code: 16ms)
+ GET /admin/help 200 in 61ms (next.js: 2ms, proxy.ts: 44ms, application-code: 15ms)
+ GET /admin/help 200 in 62ms (next.js: 1925µs, proxy.ts: 45ms, application-code: 14ms)
+ GET /admin/help 200 in 66ms (next.js: 4ms, proxy.ts: 48ms, application-code: 15ms)
+ GET /admin/help 200 in 62ms (next.js: 2ms, proxy.ts: 45ms, application-code: 15ms)
+ GET /admin/help 200 in 68ms (next.js: 1958µs, proxy.ts: 46ms, application-code: 20ms)
+ GET /admin/help 200 in 65ms (next.js: 2ms, proxy.ts: 49ms, application-code: 14ms)
+ GET /admin/help 200 in 65ms (next.js: 1929µs, proxy.ts: 48ms, application-code: 15ms)
+ GET /admin/help 200 in 65ms (next.js: 4ms, proxy.ts: 48ms, application-code: 13ms)
+ GET /admin/help 200 in 84ms (next.js: 4ms, proxy.ts: 52ms, application-code: 28ms)
+ GET /admin/help 200 in 63ms (next.js: 1799µs, proxy.ts: 46ms, application-code: 16ms)
+ GET /admin/help 200 in 63ms (next.js: 1897µs, proxy.ts: 47ms, application-code: 15ms)
+ GET /admin/help 200 in 62ms (next.js: 1981µs, proxy.ts: 46ms, application-code: 14ms)
+ GET /admin/help 200 in 62ms (next.js: 3ms, proxy.ts: 43ms, application-code: 17ms)
+ GET /admin/help 200 in 60ms (next.js: 1974µs, proxy.ts: 48ms, application-code: 11ms)
+ GET /admin/help 200 in 57ms (next.js: 1830µs, proxy.ts: 44ms, application-code: 11ms)
+ GET /admin/help 200 in 65ms (next.js: 1956µs, proxy.ts: 49ms, application-code: 14ms)
+ GET /admin/help 200 in 66ms (next.js: 1868µs, proxy.ts: 50ms, application-code: 14ms)
+ GET /admin/help 200 in 64ms (next.js: 1886µs, proxy.ts: 46ms, application-code: 17ms)
+ GET /admin/help 200 in 62ms (next.js: 1982µs, proxy.ts: 46ms, application-code: 14ms)
+ GET /admin/help 200 in 63ms (next.js: 1867µs, proxy.ts: 46ms, application-code: 15ms)
+ GET /admin/help 200 in 65ms (next.js: 4ms, proxy.ts: 46ms, application-code: 14ms)
+ GET /admin/help 200 in 63ms (next.js: 1837µs, proxy.ts: 47ms, application-code: 14ms)
+ GET /admin/help 200 in 66ms (next.js: 1851µs, proxy.ts: 47ms, application-code: 17ms)
+ GET /admin/help 200 in 70ms (next.js: 2ms, proxy.ts: 52ms, application-code: 16ms)
+ GET /admin/help 200 in 67ms (next.js: 2ms, proxy.ts: 50ms, application-code: 15ms)
+ GET /admin/help 200 in 68ms (next.js: 3ms, proxy.ts: 49ms, application-code: 17ms)
+ GET /admin/help 200 in 69ms (next.js: 4ms, proxy.ts: 50ms, application-code: 15ms)
+ GET /admin/help 200 in 64ms (next.js: 2ms, proxy.ts: 48ms, application-code: 15ms)
+ GET /admin/help 200 in 62ms (next.js: 1900µs, proxy.ts: 45ms, application-code: 15ms)
+ GET /admin/help 200 in 62ms (next.js: 1979µs, proxy.ts: 45ms, application-code: 15ms)
+ GET /admin/help 200 in 62ms (next.js: 1819µs, proxy.ts: 44ms, application-code: 16ms)
+ GET /admin/help 200 in 66ms (next.js: 2ms, proxy.ts: 49ms, application-code: 14ms)
+ GET /admin/help 200 in 62ms (next.js: 2ms, proxy.ts: 45ms, application-code: 15ms)
+ GET /admin/help 200 in 73ms (next.js: 6ms, proxy.ts: 52ms, application-code: 15ms)
+ GET /admin/help 200 in 61ms (next.js: 1970µs, proxy.ts: 44ms, application-code: 14ms)
+ GET /admin/help 200 in 71ms (next.js: 2ms, proxy.ts: 53ms, application-code: 16ms)
+ GET /admin/help 200 in 74ms (next.js: 2ms, proxy.ts: 57ms, application-code: 15ms)
+ GET /admin/help 200 in 64ms (next.js: 2ms, proxy.ts: 46ms, application-code: 16ms)
+ GET /admin/help 200 in 68ms (next.js: 2ms, proxy.ts: 46ms, application-code: 20ms)
+ GET /admin/help 200 in 63ms (next.js: 1983µs, proxy.ts: 46ms, application-code: 15ms)
+ GET /admin/help 200 in 63ms (next.js: 1899µs, proxy.ts: 47ms, application-code: 15ms)
+ GET /admin/help 200 in 63ms (next.js: 1961µs, proxy.ts: 46ms, application-code: 15ms)
+ GET /admin/help 200 in 60ms (next.js: 2ms, proxy.ts: 44ms, application-code: 14ms)
+ GET /admin/help 200 in 64ms (next.js: 1941µs, proxy.ts: 47ms, application-code: 16ms)
+ GET /admin/help 200 in 68ms (next.js: 1845µs, proxy.ts: 52ms, application-code: 14ms)
+ GET /admin/help 200 in 62ms (next.js: 2ms, proxy.ts: 46ms, application-code: 14ms)
+ GET /admin/help 200 in 68ms (next.js: 4ms, proxy.ts: 50ms, application-code: 14ms)
+ GET /admin/help 200 in 73ms (next.js: 2ms, proxy.ts: 56ms, application-code: 14ms)
+ GET /admin/help 200 in 65ms (next.js: 2ms, proxy.ts: 47ms, application-code: 16ms)
+ GET /admin/help 200 in 69ms (next.js: 2ms, proxy.ts: 52ms, application-code: 14ms)
+ GET /admin/help 200 in 63ms (next.js: 1944µs, proxy.ts: 46ms, application-code: 16ms)
+ GET /admin/help 200 in 67ms (next.js: 2ms, proxy.ts: 48ms, application-code: 17ms)
+ GET /admin/help 200 in 72ms (next.js: 3ms, proxy.ts: 53ms, application-code: 15ms)
+ GET /admin/help 200 in 64ms (next.js: 1965µs, proxy.ts: 47ms, application-code: 15ms)
+ GET /admin/help 200 in 62ms (next.js: 1951µs, proxy.ts: 49ms, application-code: 11ms)
+ GET /admin/help 200 in 63ms (next.js: 1905µs, proxy.ts: 47ms, application-code: 14ms)
+ GET /admin/help 200 in 65ms (next.js: 2ms, proxy.ts: 46ms, application-code: 17ms)
+ GET /admin/help 200 in 63ms (next.js: 1902µs, proxy.ts: 47ms, application-code: 15ms)
+ GET /admin/help 200 in 69ms (next.js: 2ms, proxy.ts: 52ms, application-code: 15ms)
+ GET /admin/help 200 in 68ms (next.js: 4ms, proxy.ts: 50ms, application-code: 15ms)
+ GET /admin/help 200 in 62ms (next.js: 1892µs, proxy.ts: 46ms, application-code: 14ms)
+ GET /admin/help 200 in 65ms (next.js: 1953µs, proxy.ts: 46ms, application-code: 17ms)
+ GET /admin/help 200 in 65ms (next.js: 2ms, proxy.ts: 47ms, application-code: 16ms)
+ GET /admin/help 200 in 65ms (next.js: 2ms, proxy.ts: 48ms, application-code: 15ms)
+ GET /admin/help 200 in 68ms (next.js: 1951µs, proxy.ts: 49ms, application-code: 17ms)
+ GET /admin/help 200 in 63ms (next.js: 1919µs, proxy.ts: 46ms, application-code: 15ms)
+ GET /admin/help 200 in 68ms (next.js: 1920µs, proxy.ts: 50ms, application-code: 16ms)
+ GET /admin/help 200 in 64ms (next.js: 2ms, proxy.ts: 48ms, application-code: 14ms)
+ GET /admin/help 200 in 63ms (next.js: 1886µs, proxy.ts: 47ms, application-code: 14ms)
+ GET /admin/help 200 in 68ms (next.js: 1920µs, proxy.ts: 49ms, application-code: 18ms)
+ GET /admin/help 200 in 60ms (next.js: 1979µs, proxy.ts: 44ms, application-code: 14ms)
+ GET /admin/help 200 in 67ms (next.js: 3ms, proxy.ts: 48ms, application-code: 16ms)
+ GET /admin/help 200 in 64ms (next.js: 4ms, proxy.ts: 46ms, application-code: 15ms)
+ GET /admin/help 200 in 67ms (next.js: 1865µs, proxy.ts: 48ms, application-code: 16ms)
+ GET /admin/help 200 in 67ms (next.js: 1891µs, proxy.ts: 48ms, application-code: 17ms)
+ GET /admin/help 200 in 67ms (next.js: 2ms, proxy.ts: 50ms, application-code: 15ms)
+ GET /admin/help 200 in 62ms (next.js: 2ms, proxy.ts: 44ms, application-code: 15ms)
+ GET /admin/help 200 in 65ms (next.js: 1984µs, proxy.ts: 45ms, application-code: 18ms)
+ GET /admin/help 200 in 64ms (next.js: 2ms, proxy.ts: 45ms, application-code: 17ms)
+ GET /admin/help 200 in 69ms (next.js: 2ms, proxy.ts: 50ms, application-code: 17ms)
+ GET /admin/help 200 in 63ms (next.js: 1964µs, proxy.ts: 46ms, application-code: 15ms)
+ GET /admin/help 200 in 67ms (next.js: 2ms, proxy.ts: 50ms, application-code: 15ms)
+ GET /admin/help 200 in 64ms (next.js: 2ms, proxy.ts: 45ms, application-code: 17ms)
+ GET /admin/help 200 in 63ms (next.js: 2ms, proxy.ts: 46ms, application-code: 15ms)
+ GET /admin/help 200 in 62ms (next.js: 1858µs, proxy.ts: 45ms, application-code: 15ms)
+ GET /admin/help 200 in 64ms (next.js: 4ms, proxy.ts: 45ms, application-code: 15ms)
+ GET /admin/help 200 in 64ms (next.js: 1885µs, proxy.ts: 48ms, application-code: 15ms)
+ GET /admin/help 200 in 65ms (next.js: 1819µs, proxy.ts: 47ms, application-code: 16ms)
+ GET /admin/help 200 in 68ms (next.js: 1943µs, proxy.ts: 51ms, application-code: 14ms)
+ GET /admin/help 200 in 64ms (next.js: 1905µs, proxy.ts: 47ms, application-code: 14ms)
+ GET /admin/help 200 in 67ms (next.js: 1946µs, proxy.ts: 47ms, application-code: 18ms)
+ GET /admin/help 200 in 66ms (next.js: 1877µs, proxy.ts: 48ms, application-code: 15ms)
+ GET /admin/help 200 in 65ms (next.js: 1884µs, proxy.ts: 46ms, application-code: 17ms)
+ GET /admin/help 200 in 66ms (next.js: 1950µs, proxy.ts: 50ms, application-code: 15ms)
+ GET /admin/help 200 in 64ms (next.js: 2ms, proxy.ts: 46ms, application-code: 16ms)
+ GET /admin/help 200 in 69ms (next.js: 2ms, proxy.ts: 49ms, application-code: 18ms)
+ GET /admin/help 200 in 62ms (next.js: 2ms, proxy.ts: 46ms, application-code: 15ms)
+ GET /admin/help 200 in 66ms (next.js: 2ms, proxy.ts: 47ms, application-code: 16ms)
+ GET /admin/help 200 in 70ms (next.js: 4ms, proxy.ts: 48ms, application-code: 18ms)
+ GET /admin/help 200 in 176ms (next.js: 3ms, proxy.ts: 158ms, application-code: 16ms)
+ GET /admin/help 200 in 66ms (next.js: 2ms, proxy.ts: 49ms, application-code: 15ms)
+ GET /admin/help 200 in 72ms (next.js: 1740µs, proxy.ts: 53ms, application-code: 17ms)
+ GET /admin/help 200 in 60ms (next.js: 2ms, proxy.ts: 43ms, application-code: 15ms)
+ GET /admin/help 200 in 69ms (next.js: 1791µs, proxy.ts: 53ms, application-code: 14ms)
+ GET /admin/help 200 in 69ms (next.js: 1783µs, proxy.ts: 51ms, application-code: 17ms)
+ GET /admin/help 200 in 64ms (next.js: 1859µs, proxy.ts: 52ms, application-code: 10ms)
+ GET /admin/help 200 in 63ms (next.js: 1911µs, proxy.ts: 47ms, application-code: 14ms)
+ GET /admin/help 200 in 68ms (next.js: 4ms, proxy.ts: 50ms, application-code: 14ms)
+ GET /admin/help 200 in 65ms (next.js: 1879µs, proxy.ts: 50ms, application-code: 14ms)
+ GET /admin/help 200 in 65ms (next.js: 1732µs, proxy.ts: 47ms, application-code: 16ms)
+ GET /admin/help 200 in 67ms (next.js: 1810µs, proxy.ts: 51ms, application-code: 14ms)
+ GET /admin/help 200 in 62ms (next.js: 2ms, proxy.ts: 46ms, application-code: 15ms)
+ GET /admin/help 200 in 66ms (next.js: 1814µs, proxy.ts: 47ms, application-code: 17ms)
+ GET /admin/help 200 in 68ms (next.js: 1888µs, proxy.ts: 52ms, application-code: 15ms)
+ GET /admin/help 200 in 62ms (next.js: 1998µs, proxy.ts: 46ms, application-code: 15ms)
+ GET /admin/help 200 in 67ms (next.js: 1897µs, proxy.ts: 51ms, application-code: 14ms)
+ GET /admin/help 200 in 62ms (next.js: 1896µs, proxy.ts: 47ms, application-code: 13ms)
+ GET /admin/help 200 in 63ms (next.js: 1797µs, proxy.ts: 44ms, application-code: 17ms)
+ GET /admin/help 200 in 57ms (next.js: 1894µs, proxy.ts: 45ms, application-code: 10ms)
+ GET /admin/help 200 in 70ms (next.js: 1896µs, proxy.ts: 52ms, application-code: 16ms)
+ GET /admin/help 200 in 69ms (next.js: 2ms, proxy.ts: 50ms, application-code: 17ms)
+ GET /admin/help 200 in 66ms (next.js: 2ms, proxy.ts: 49ms, application-code: 14ms)
+ GET /admin/help 200 in 66ms (next.js: 1769µs, proxy.ts: 50ms, application-code: 14ms)
+ GET /admin/help 200 in 63ms (next.js: 1865µs, proxy.ts: 47ms, application-code: 14ms)
+ GET /admin/help 200 in 60ms (next.js: 1927µs, proxy.ts: 44ms, application-code: 14ms)
+ GET /admin/help 200 in 63ms (next.js: 1808µs, proxy.ts: 45ms, application-code: 17ms)
+ GET /admin/help 200 in 68ms (next.js: 2ms, proxy.ts: 51ms, application-code: 15ms)
+ GET /admin/help 200 in 62ms (next.js: 1815µs, proxy.ts: 46ms, application-code: 15ms)
+ GET /admin/help 200 in 65ms (next.js: 4ms, proxy.ts: 46ms, application-code: 15ms)
+ GET /admin/help 200 in 64ms (next.js: 2ms, proxy.ts: 48ms, application-code: 14ms)
+ GET /admin/help 200 in 65ms (next.js: 1923µs, proxy.ts: 46ms, application-code: 17ms)
+ GET /admin/help 200 in 63ms (next.js: 1873µs, proxy.ts: 47ms, application-code: 14ms)
+ GET /admin/help 200 in 67ms (next.js: 2ms, proxy.ts: 51ms, application-code: 14ms)
+ GET /admin/help 200 in 76ms (next.js: 1907µs, proxy.ts: 56ms, application-code: 19ms)
+ GET /admin/help 200 in 69ms (next.js: 1792µs, proxy.ts: 53ms, application-code: 14ms)
+ GET /admin/help 200 in 64ms (next.js: 1849µs, proxy.ts: 48ms, application-code: 15ms)
+ GET /admin/help 200 in 65ms (next.js: 1863µs, proxy.ts: 50ms, application-code: 14ms)
+ GET /admin/help 200 in 61ms (next.js: 1999µs, proxy.ts: 45ms, application-code: 14ms)
+ GET /admin/help 200 in 66ms (next.js: 1848µs, proxy.ts: 48ms, application-code: 17ms)
+ GET /admin/help 200 in 63ms (next.js: 1854µs, proxy.ts: 50ms, application-code: 11ms)
+ GET /admin/help 200 in 61ms (next.js: 1903µs, proxy.ts: 45ms, application-code: 14ms)
+ GET /admin/help 200 in 67ms (next.js: 2ms, proxy.ts: 49ms, application-code: 16ms)
+ GET /admin/help 200 in 63ms (next.js: 1873µs, proxy.ts: 46ms, application-code: 14ms)
+ GET /admin/help 200 in 71ms (next.js: 1876µs, proxy.ts: 53ms, application-code: 16ms)
+ GET /admin/help 200 in 63ms (next.js: 1890µs, proxy.ts: 47ms, application-code: 14ms)
+ GET /admin/help 200 in 64ms (next.js: 3ms, proxy.ts: 45ms, application-code: 16ms)
+ GET /admin/help 200 in 65ms (next.js: 1978µs, proxy.ts: 46ms, application-code: 17ms)
+ GET /admin/help 200 in 65ms (next.js: 2ms, proxy.ts: 49ms, application-code: 14ms)
+ GET /admin/help 200 in 63ms (next.js: 1952µs, proxy.ts: 46ms, application-code: 14ms)
+ GET /admin/help 200 in 64ms (next.js: 4ms, proxy.ts: 45ms, application-code: 14ms)
+ GET /admin/help 200 in 63ms (next.js: 1892µs, proxy.ts: 47ms, application-code: 14ms)
+ GET /admin/help 200 in 68ms (next.js: 4ms, proxy.ts: 48ms, application-code: 17ms)
+ GET /admin/help 200 in 64ms (next.js: 2ms, proxy.ts: 48ms, application-code: 14ms)
+ GET /admin/help 200 in 63ms (next.js: 2ms, proxy.ts: 46ms, application-code: 14ms)
+ GET /admin/help 200 in 65ms (next.js: 1801µs, proxy.ts: 46ms, application-code: 17ms)
+ GET /admin/help 200 in 63ms (next.js: 1862µs, proxy.ts: 47ms, application-code: 14ms)
+ GET /admin/help 200 in 60ms (next.js: 1871µs, proxy.ts: 44ms, application-code: 15ms)
+ GET /admin/help 200 in 62ms (next.js: 1806µs, proxy.ts: 46ms, application-code: 14ms)
+ GET /admin/help 200 in 61ms (next.js: 1877µs, proxy.ts: 45ms, application-code: 14ms)
+ GET /admin/help 200 in 63ms (next.js: 1909µs, proxy.ts: 45ms, application-code: 16ms)
+ GET /admin/help 200 in 77ms (next.js: 1919µs, proxy.ts: 60ms, application-code: 15ms)
+ GET /admin/help 200 in 68ms (next.js: 1807µs, proxy.ts: 52ms, application-code: 14ms)
+ GET /admin/help 200 in 63ms (next.js: 4ms, proxy.ts: 44ms, application-code: 14ms)
+ GET /admin/help 200 in 63ms (next.js: 1877µs, proxy.ts: 47ms, application-code: 15ms)
+ GET /admin/help 200 in 65ms (next.js: 1809µs, proxy.ts: 47ms, application-code: 16ms)
+ GET /admin/help 200 in 64ms (next.js: 1847µs, proxy.ts: 48ms, application-code: 14ms)
+ GET /admin/help 200 in 63ms (next.js: 2ms, proxy.ts: 47ms, application-code: 14ms)
+ GET /admin/help 200 in 67ms (next.js: 1927µs, proxy.ts: 47ms, application-code: 17ms)
+ GET /admin/help 200 in 67ms (next.js: 2ms, proxy.ts: 48ms, application-code: 17ms)
+ GET /admin/help 200 in 63ms (next.js: 1942µs, proxy.ts: 47ms, application-code: 14ms)
+ GET /admin/help 200 in 63ms (next.js: 1858µs, proxy.ts: 46ms, application-code: 15ms)
+ GET /admin/help 200 in 66ms (next.js: 1879µs, proxy.ts: 47ms, application-code: 16ms)
+ GET /admin/help 200 in 65ms (next.js: 1833µs, proxy.ts: 47ms, application-code: 16ms)
+ GET /admin/help 200 in 65ms (next.js: 1886µs, proxy.ts: 50ms, application-code: 13ms)
+ GET /admin/help 200 in 61ms (next.js: 1944µs, proxy.ts: 45ms, application-code: 14ms)
+ GET /admin/help 200 in 61ms (next.js: 2ms, proxy.ts: 45ms, application-code: 13ms)
+ GET /admin/help 200 in 65ms (next.js: 1884µs, proxy.ts: 49ms, application-code: 14ms)
+ GET /admin/help 200 in 68ms (next.js: 1868µs, proxy.ts: 51ms, application-code: 15ms)
+ GET /admin/help 200 in 65ms (next.js: 1810µs, proxy.ts: 47ms, application-code: 15ms)
+ GET /admin/help 200 in 67ms (next.js: 3ms, proxy.ts: 50ms, application-code: 14ms)
+ GET /admin/help 200 in 65ms (next.js: 2ms, proxy.ts: 46ms, application-code: 16ms)
+ GET /admin/help 200 in 66ms (next.js: 1881µs, proxy.ts: 50ms, application-code: 14ms)
+ GET /admin/help 200 in 68ms (next.js: 1843µs, proxy.ts: 53ms, application-code: 14ms)
+ GET /admin/help 200 in 65ms (next.js: 4ms, proxy.ts: 47ms, application-code: 14ms)
+ GET /admin/help 200 in 63ms (next.js: 1816µs, proxy.ts: 46ms, application-code: 15ms)
+ GET /admin/help 200 in 66ms (next.js: 1895µs, proxy.ts: 47ms, application-code: 17ms)
+ GET /admin/help 200 in 61ms (next.js: 1986µs, proxy.ts: 45ms, application-code: 15ms)
+ GET /admin/help 200 in 64ms (next.js: 2ms, proxy.ts: 48ms, application-code: 14ms)
+ GET /admin/help 200 in 71ms (next.js: 2ms, proxy.ts: 52ms, application-code: 16ms)
+ GET /admin/help 200 in 68ms (next.js: 1803µs, proxy.ts: 52ms, application-code: 14ms)
+ GET /admin/help 200 in 65ms (next.js: 1916µs, proxy.ts: 48ms, application-code: 14ms)
+ GET /admin/help 200 in 64ms (next.js: 1965µs, proxy.ts: 48ms, application-code: 14ms)
+ GET /admin/help 200 in 62ms (next.js: 1901µs, proxy.ts: 46ms, application-code: 15ms)
+ GET /admin/help 200 in 65ms (next.js: 2ms, proxy.ts: 47ms, application-code: 16ms)
+ GET /admin/help 200 in 67ms (next.js: 1831µs, proxy.ts: 50ms, application-code: 15ms)
+ GET /admin/help 200 in 69ms (next.js: 1944µs, proxy.ts: 53ms, application-code: 14ms)
+ GET /admin/help 200 in 64ms (next.js: 4ms, proxy.ts: 46ms, application-code: 14ms)
+ GET /admin/help 200 in 84ms (next.js: 2ms, proxy.ts: 71ms, application-code: 11ms)
+✓ Compiled in 188ms
+ GET /admin/help 200 in 195ms (next.js: 55ms, proxy.ts: 114ms, application-code: 27ms)
+ GET /admin/help 200 in 76ms (next.js: 2ms, proxy.ts: 59ms, application-code: 15ms)
+ GET /admin/help 200 in 210ms (next.js: 4ms, proxy.ts: 170ms, application-code: 36ms)
+ GET / 200 in 500ms (next.js: 97ms, proxy.ts: 62ms, application-code: 341ms)
+[browser] Image with src "/images/sakata_heritage_hero.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes (file://C:/Users/Fortuné/Projects/Sakata/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+ POST /api/track 200 in 279ms (next.js: 149ms, proxy.ts: 60ms, application-code: 70ms)
+ GET /admin 200 in 165ms (next.js: 23ms, proxy.ts: 97ms, application-code: 45ms)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/Fortuné/Projects/Sakata/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/Fortuné/Projects/Sakata/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/Fortuné/Projects/Sakata/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/Fortuné/Projects/Sakata/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+ POST /api/track 200 in 111ms (next.js: 1569µs, proxy.ts: 57ms, application-code: 52ms)
+ GET /admin/help 200 in 83ms (next.js: 2ms, proxy.ts: 62ms, application-code: 19ms)
+ POST /api/track 200 in 130ms (next.js: 3ms, proxy.ts: 65ms, application-code: 62ms)
+ GET /admin/help/documentation 200 in 673ms (next.js: 598ms, proxy.ts: 55ms, application-code: 19ms)
+ POST /api/track 200 in 122ms (next.js: 9ms, proxy.ts: 63ms, application-code: 51ms)
+[browser] [AuthProvider] Safety timeout reached. (file://C:/Users/Fortuné/Projects/Sakata/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+ GET /admin/help/documentation/feature-chat-messaging 200 in 1143ms (next.js: 992ms, proxy.ts: 116ms, application-code: 34ms)
+ POST /api/track 200 in 112ms (next.js: 1707µs, proxy.ts: 56ms, application-code: 54ms)
+ GET /admin/help/documentation 200 in 153ms (next.js: 6ms, proxy.ts: 112ms, application-code: 34ms)
+ POST /api/track 200 in 138ms (next.js: 1954µs, proxy.ts: 64ms, application-code: 73ms)
+ GET / 200 in 199ms (next.js: 5ms, proxy.ts: 171ms, application-code: 23ms)
+ POST /api/track 200 in 100ms (next.js: 1868µs, proxy.ts: 50ms, application-code: 48ms)
+[browser] [ChatUnread] WebSocket error: CHANNEL_ERROR 
+    at ChatUnreadProvider.useEffect.channel (file://C:/Users/Fortuné/Projects/Sakata/.next/dev/static/chunks/src_05k0mgl._.js:3126:33)
+    at <unknown> (file://C:/Users/Fortuné/Projects/Sakata/.next/dev/static/chunks/node_modules_092p88_._.js:6728:69)
+    at Object.callback (file://C:/Users/Fortuné/Projects/Sakata/.next/dev/static/chunks/node_modules_092p88_._.js:8325:56)
+    at Channel.trigger (file://C:/Users/Fortuné/Projects/Sakata/.next/dev/static/chunks/node_modules_092p88_._.js:8503:18)
+    at <unknown> (file://C:/Users/Fortuné/Projects/Sakata/.next/dev/static/chunks/node_modules_092p88_._.js:9660:25)
+    at Array.forEach (<anonymous>)
+    at Socket.triggerChanError (file://C:/Users/Fortuné/Projects/Sakata/.next/dev/static/chunks/node_modules_092p88_._.js:9658:23)
+    at Socket.onConnClose (file://C:/Users/Fortuné/Projects/Sakata/.next/dev/static/chunks/node_modules_092p88_._.js:9636:14)
+    at push.Socket.transportConnect.conn.onclose (file://C:/Users/Fortuné/Projects/Sakata/.next/dev/static/chunks/node_modules_092p88_._.js:9488:43) (file://C:/Users/Fortuné/Projects/Sakata/.next/dev/static/chunks/src_05k0mgl._.js:3126:33)
+[browser] TypeError: Failed to fetch
+    at push.resolveFetch (file://C:/Users/Fortuné/Projects/Sakata/.next/dev/static/chunks/node_modules_%40supabase_auth-js_dist_module_0.pzobh._.js:597:23)
+    at _handleRequest (file://C:/Users/Fortuné/Projects/Sakata/.next/dev/static/chunks/node_modules_%40supabase_auth-js_dist_module_0.pzobh._.js:951:24)
+    at _request (file://C:/Users/Fortuné/Projects/Sakata/.next/dev/static/chunks/node_modules_%40supabase_auth-js_dist_module_0.pzobh._.js:938:24)
+    at <unknown> (file://C:/Users/Fortuné/Projects/Sakata/.next/dev/static/chunks/node_modules_%40supabase_auth-js_dist_module_0.pzobh._.js:7482:220)
+    at <unknown> (file://C:/Users/Fortuné/Projects/Sakata/.next/dev/static/chunks/node_modules_%40supabase_auth-js_dist_module_0.pzobh._.js:667:42)
+    at <unknown> (file://C:/Users/Fortuné/Projects/Sakata/.next/dev/static/chunks/node_modules_%40supabase_auth-js_dist_module_0.pzobh._.js:679:11)
+    at new Promise (<anonymous>)
+    at retryable (file://C:/Users/Fortuné/Projects/Sakata/.next/dev/static/chunks/node_modules_%40supabase_auth-js_dist_module_0.pzobh._.js:661:21)
+    at SupabaseAuthClient._refreshAccessToken (file://C:/Users/Fortuné/Projects/Sakata/.next/dev/static/chunks/node_modules_%40supabase_auth-js_dist_module_0.pzobh._.js:7477:219)
+    at SupabaseAuthClient._callRefreshToken (file://C:/Users/Fortuné/Projects/Sakata/.next/dev/static/chunks/node_modules_%40supabase_auth-js_dist_module_0.pzobh._.js:7633:48)
+    at <unknown> (file://C:/Users/Fortuné/Projects/Sakata/.next/dev/static/chunks/node_modules_%40supabase_auth-js_dist_module_0.pzobh._.js:7913:44)
+    at SupabaseAuthClient._useSession (file://C:/Users/Fortuné/Projects/Sakata/.next/dev/static/chunks/node_modules_%40supabase_auth-js_dist_module_0.pzobh._.js:5927:26)
+    at async (file://C:/Users/Fortuné/Projects/Sakata/.next/dev/static/chunks/node_modules_%40supabase_auth-js_dist_module_0.pzobh._.js:7903:32) (file://C:/Users/Fortuné/Projects/Sakata/.next/dev/static/chunks/node_modules_%40supabase_auth-js_dist_module_0.pzobh._.js:953:17)
+[browser] TypeError: Failed to fetch
+    at push.resolveFetch (file://C:/Users/Fortuné/Projects/Sakata/.next/dev/static/chunks/node_modules_%40supabase_auth-js_dist_module_0.pzobh._.js:597:23)
+    at _handleRequest (file://C:/Users/Fortuné/Projects/Sakata/.next/dev/static/chunks/node_modules_%40supabase_auth-js_dist_module_0.pzobh._.js:951:24)
+    at _request (file://C:/Users/Fortuné/Projects/Sakata/.next/dev/static/chunks/node_modules_%40supabase_auth-js_dist_module_0.pzobh._.js:938:24)
+    at <unknown> (file://C:/Users/Fortuné/Projects/Sakata/.next/dev/static/chunks/node_modules_%40supabase_auth-js_dist_module_0.pzobh._.js:7482:220)
+    at <unknown> (file://C:/Users/Fortuné/Projects/Sakata/.next/dev/static/chunks/node_modules_%40supabase_auth-js_dist_module_0.pzobh._.js:667:42)
+    at <unknown> (file://C:/Users/Fortuné/Projects/Sakata/.next/dev/static/chunks/node_modules_%40supabase_auth-js_dist_module_0.pzobh._.js:679:11)
+    at new Promise (<anonymous>)
+    at retryable (file://C:/Users/Fortuné/Projects/Sakata/.next/dev/static/chunks/node_modules_%40supabase_auth-js_dist_module_0.pzobh._.js:661:21)
+    at SupabaseAuthClient._refreshAccessToken (file://C:/Users/Fortuné/Projects/Sakata/.next/dev/static/chunks/node_modules_%40supabase_auth-js_dist_module_0.pzobh._.js:7477:219)
+    at SupabaseAuthClient._callRefreshToken (file://C:/Users/Fortuné/Projects/Sakata/.next/dev/static/chunks/node_modules_%40supabase_auth-js_dist_module_0.pzobh._.js:7633:48)
+    at SupabaseAuthClient.__loadSession (file://C:/Users/Fortuné/Projects/Sakata/.next/dev/static/chunks/node_modules_%40supabase_auth-js_dist_module_0.pzobh._.js:5996:57)
+    at async SupabaseAuthClient._useSession (file://C:/Users/Fortuné/Projects/Sakata/.next/dev/static/chunks/node_modules_%40supabase_auth-js_dist_module_0.pzobh._.js:5926:28)
+    at async (file://C:/Users/Fortuné/Projects/Sakata/.next/dev/static/chunks/node_modules_%40supabase_auth-js_dist_module_0.pzobh._.js:7903:32)
+    at async (file://C:/Users/Fortuné/Projects/Sakata/.next/dev/static/chunks/node_modules_%40supabase_auth-js_dist_module_0.pzobh._.js:5875:28) (file://C:/Users/Fortuné/Projects/Sakata/.next/dev/static/chunks/node_modules_%40supabase_auth-js_dist_module_0.pzobh._.js:953:17)
+ GET / 200 in 215ms (next.js: 2ms, proxy.ts: 198ms, application-code: 15ms)
+[browser] [ChatUnread] WebSocket error: CHANNEL_ERROR 
+    at ChatUnreadProvider.useEffect.channel (file://C:/Users/Fortuné/Projects/Sakata/.next/dev/static/chunks/src_05k0mgl._.js:3126:33)
+    at <unknown> (file://C:/Users/Fortuné/Projects/Sakata/.next/dev/static/chunks/node_modules_092p88_._.js:6728:69)
+    at Object.callback (file://C:/Users/Fortuné/Projects/Sakata/.next/dev/static/chunks/node_modules_092p88_._.js:8325:56)
+    at Channel.trigger (file://C:/Users/Fortuné/Projects/Sakata/.next/dev/static/chunks/node_modules_092p88_._.js:8503:18)
+    at <unknown> (file://C:/Users/Fortuné/Projects/Sakata/.next/dev/static/chunks/node_modules_092p88_._.js:9660:25)
+    at Array.forEach (<anonymous>)
+    at Socket.triggerChanError (file://C:/Users/Fortuné/Projects/Sakata/.next/dev/static/chunks/node_modules_092p88_._.js:9658:23)
+    at Socket.onConnClose (file://C:/Users/Fortuné/Projects/Sakata/.next/dev/static/chunks/node_modules_092p88_._.js:9636:14)
+    at conn.onclose (file://C:/Users/Fortuné/Projects/Sakata/.next/dev/static/chunks/node_modules_092p88_._.js:9488:43) (file://C:/Users/Fortuné/Projects/Sakata/.next/dev/static/chunks/src_05k0mgl._.js:3126:33)
+[browser] [ChatUnread] WebSocket error: CHANNEL_ERROR 
+    at ChatUnreadProvider.useEffect.channel (file://C:/Users/Fortuné/Projects/Sakata/.next/dev/static/chunks/src_05k0mgl._.js:3126:33)
+    at <unknown> (file://C:/Users/Fortuné/Projects/Sakata/.next/dev/static/chunks/node_modules_092p88_._.js:6728:69)
+    at Object.callback (file://C:/Users/Fortuné/Projects/Sakata/.next/dev/static/chunks/node_modules_092p88_._.js:8325:56)
+    at Channel.trigger (file://C:/Users/Fortuné/Projects/Sakata/.next/dev/static/chunks/node_modules_092p88_._.js:8503:18)
+    at <unknown> (file://C:/Users/Fortuné/Projects/Sakata/.next/dev/static/chunks/node_modules_092p88_._.js:9660:25)
+    at Array.forEach (<anonymous>)
+    at Socket.triggerChanError (file://C:/Users/Fortuné/Projects/Sakata/.next/dev/static/chunks/node_modules_092p88_._.js:9658:23)
+    at Socket.onConnClose (file://C:/Users/Fortuné/Projects/Sakata/.next/dev/static/chunks/node_modules_092p88_._.js:9636:14)
+    at conn.onclose (file://C:/Users/Fortuné/Projects/Sakata/.next/dev/static/chunks/node_modules_092p88_._.js:9488:43) (file://C:/Users/Fortuné/Projects/Sakata/.next/dev/static/chunks/src_05k0mgl._.js:3126:33)
+[browser] [ChatUnread] WebSocket error: CHANNEL_ERROR 
+    at ChatUnreadProvider.useEffect.channel (file://C:/Users/Fortuné/Projects/Sakata/.next/dev/static/chunks/src_05k0mgl._.js:3126:33)
+    at <unknown> (file://C:/Users/Fortuné/Projects/Sakata/.next/dev/static/chunks/node_modules_092p88_._.js:6728:69)
+    at Object.callback (file://C:/Users/Fortuné/Projects/Sakata/.next/dev/static/chunks/node_modules_092p88_._.js:8325:56)
+    at Channel.trigger (file://C:/Users/Fortuné/Projects/Sakata/.next/dev/static/chunks/node_modules_092p88_._.js:8503:18)
+    at <unknown> (file://C:/Users/Fortuné/Projects/Sakata/.next/dev/static/chunks/node_modules_092p88_._.js:9660:25)
+    at Array.forEach (<anonymous>)
+    at Socket.triggerChanError (file://C:/Users/Fortuné/Projects/Sakata/.next/dev/static/chunks/node_modules_092p88_._.js:9658:23)
+    at Socket.onConnClose (file://C:/Users/Fortuné/Projects/Sakata/.next/dev/static/chunks/node_modules_092p88_._.js:9636:14)
+    at conn.onclose (file://C:/Users/Fortuné/Projects/Sakata/.next/dev/static/chunks/node_modules_092p88_._.js:9488:43) (file://C:/Users/Fortuné/Projects/Sakata/.next/dev/static/chunks/src_05k0mgl._.js:3126:33)
+ GET / 200 in 368ms (next.js: 3ms, proxy.ts: 352ms, application-code: 13ms)
+ GET / 200 in 154ms (next.js: 2ms, proxy.ts: 138ms, application-code: 13ms)
+ GET / 200 in 168ms (next.js: 2ms, proxy.ts: 152ms, application-code: 14ms)
+[browser] [ChatUnread] WebSocket error: CHANNEL_ERROR 
+    at ChatUnreadProvider.useEffect.channel (file://C:/Users/Fortuné/Projects/Sakata/.next/dev/static/chunks/src_05k0mgl._.js:3126:33)
+    at <unknown> (file://C:/Users/Fortuné/Projects/Sakata/.next/dev/static/chunks/node_modules_092p88_._.js:6728:69)
+    at Object.callback (file://C:/Users/Fortuné/Projects/Sakata/.next/dev/static/chunks/node_modules_092p88_._.js:8325:56)
+    at Channel.trigger (file://C:/Users/Fortuné/Projects/Sakata/.next/dev/static/chunks/node_modules_092p88_._.js:8503:18)
+    at <unknown> (file://C:/Users/Fortuné/Projects/Sakata/.next/dev/static/chunks/node_modules_092p88_._.js:9660:25)
+    at Array.forEach (<anonymous>)
+    at Socket.triggerChanError (file://C:/Users/Fortuné/Projects/Sakata/.next/dev/static/chunks/node_modules_092p88_._.js:9658:23)
+    at Socket.onConnClose (file://C:/Users/Fortuné/Projects/Sakata/.next/dev/static/chunks/node_modules_092p88_._.js:9636:14)
+    at conn.onclose (file://C:/Users/Fortuné/Projects/Sakata/.next/dev/static/chunks/node_modules_092p88_._.js:9488:43) (file://C:/Users/Fortuné/Projects/Sakata/.next/dev/static/chunks/src_05k0mgl._.js:3126:33)
+[browser] [ChatUnread] WebSocket error: CHANNEL_ERROR 
+    at ChatUnreadProvider.useEffect.channel (file://C:/Users/Fortuné/Projects/Sakata/.next/dev/static/chunks/src_05k0mgl._.js:3126:33)
+    at <unknown> (file://C:/Users/Fortuné/Projects/Sakata/.next/dev/static/chunks/node_modules_092p88_._.js:6728:69)
+    at Object.callback (file://C:/Users/Fortuné/Projects/Sakata/.next/dev/static/chunks/node_modules_092p88_._.js:8325:56)
+    at Channel.trigger (file://C:/Users/Fortuné/Projects/Sakata/.next/dev/static/chunks/node_modules_092p88_._.js:8503:18)
+    at <unknown> (file://C:/Users/Fortuné/Projects/Sakata/.next/dev/static/chunks/node_modules_092p88_._.js:9660:25)
+    at Array.forEach (<anonymous>)
+    at Socket.triggerChanError (file://C:/Users/Fortuné/Projects/Sakata/.next/dev/static/chunks/node_modules_092p88_._.js:9658:23)
+    at Socket.onConnClose (file://C:/Users/Fortuné/Projects/Sakata/.next/dev/static/chunks/node_modules_092p88_._.js:9636:14)
+    at conn.onclose (file://C:/Users/Fortuné/Projects/Sakata/.next/dev/static/chunks/node_modules_092p88_._.js:9488:43) (file://C:/Users/Fortuné/Projects/Sakata/.next/dev/static/chunks/src_05k0mgl._.js:3126:33)
+ GET / 200 in 124ms (next.js: 2ms, proxy.ts: 97ms, application-code: 25ms)
+ GET / 200 in 97ms (next.js: 2ms, proxy.ts: 83ms, application-code: 12ms)

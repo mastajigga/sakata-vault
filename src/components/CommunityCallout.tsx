@@ -37,7 +37,8 @@ const CommunityCallout = () => {
 
       // Content reveal
       const elements = contentRef.current!.children;
-      gsap.fromTo(elements, 
+      gsap.fromTo(
+        elements,
         { y: 60, opacity: 0 },
         {
           scrollTrigger: {
@@ -119,30 +120,30 @@ const CommunityCallout = () => {
         />
       </div>
 
-      {/* Content Layer - Asymmetric Layout (Stitch Taste) */}
+      {/* Content Layer */}
       <div
         className="relative z-10 w-full px-8 md:px-24 mx-auto"
         style={{ maxWidth: "1400px" }}
       >
-        <div 
-          ref={contentRef}
-          className="max-w-[600px] md:ml-[10%]"
-        >
-          <span className="eyebrow mb-6 block" style={{ color: "var(--or-ancestral)" }}>
+        <div ref={contentRef} className="max-w-[600px] md:ml-[10%]">
+          <span
+            className="eyebrow mb-6 block"
+            style={{ color: "var(--or-ancestral)" }}
+          >
             {t("community.eyebrow")}
           </span>
-          
+
           <h2
             className="font-display mb-8 font-bold leading-tight"
-            style={{ 
-              fontSize: "clamp(2.5rem, 5vw, 4rem)", 
+            style={{
+              fontSize: "clamp(2.5rem, 5vw, 4rem)",
               color: "var(--ivoire-ancien)",
-              letterSpacing: "-0.03em"
+              letterSpacing: "-0.03em",
             }}
           >
             {t("community.title")}
           </h2>
-          
+
           <p
             className="font-body mb-12"
             style={{
@@ -150,7 +151,7 @@ const CommunityCallout = () => {
               lineHeight: "1.6",
               opacity: 0.8,
               color: "var(--ivoire-ancien)",
-              maxWidth: "45ch"
+              maxWidth: "45ch",
             }}
           >
             {t("community.p")}
@@ -165,18 +166,18 @@ const CommunityCallout = () => {
               backdropFilter: "blur(12px)",
             }}
             onMouseEnter={(e) => {
-              (e.currentTarget as HTMLElement).style.background = "var(--or-ancestral)";
-              (e.currentTarget as HTMLElement).style.color = "var(--foret-nocturne)";
+              const target = e.currentTarget as HTMLElement;
+              target.style.background = "var(--or-ancestral)";
+              target.style.color = "var(--foret-nocturne)";
             }}
             onMouseLeave={(e) => {
-              (e.currentTarget as HTMLElement).style.background = "rgba(242, 238, 221, 0.03)";
-              (e.currentTarget as HTMLElement).style.color = "var(--or-ancestral)";
+              const target = e.currentTarget as HTMLElement;
+              target.style.background = "rgba(242, 238, 221, 0.03)";
+              target.style.color = "var(--or-ancestral)";
             }}
           >
             {t("community.cta")}
-            <ArrowRight
-              className="w-5 h-5 transition-transform group-hover:translate-x-1"
-            />
+            <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
           </Link>
         </div>
       </div>

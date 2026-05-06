@@ -30,7 +30,7 @@ from sentence_transformers import SentenceTransformer
 # ── Config ────────────────────────────────────────────────────────────────
 API_KEY = os.getenv('PINECONE_API_KEY')
 INDEX_NAME = "sakata"
-NAMESPACE = "iluo_livres_site"
+NAMESPACE = "livres_site"
 MODEL_NAME = "intfloat/multilingual-e5-base"
 CHUNK_SIZE_WORDS = 500
 OVERLAP_WORDS = 50
@@ -181,7 +181,7 @@ def main():
                     'total_chunks': len(chunks),
                     'text': chunk[:1000],  # First 1000 chars for retrieval display
                     'word_count': len(chunk.split()),
-                    'source': 'iluo_livres_site',
+                    'source': 'livres_site',
                 }
             })
 
