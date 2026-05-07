@@ -148,28 +148,28 @@ const niveaux = [
     nom: "Goutte de Rosée",
     slug: "goutte-rosee",
     description: "Premiers sons, salutations, les membres de la famille.",
-    mots: "~50 mots",
+    mots: "~100 mots",
     couleur: "#C4A035",
   },
   {
     nom: "Ruisseau",
     slug: "ruisseau",
     description: "Phrases simples, couleurs, chiffres, aliments.",
-    mots: "~150 mots",
+    mots: "~250 mots",
     couleur: "#B59551",
   },
   {
     nom: "Rivière",
     slug: "riviere",
     description: "Conversations, temps, lieux, actions quotidiennes.",
-    mots: "~400 mots",
+    mots: "~450 mots",
     couleur: "#E9C46A",
   },
   {
     nom: "Lukenie",
     slug: "lukenie",
     description: "Récits, proverbes, narration, langue soutenue.",
-    mots: "~800 mots",
+    mots: "~900 mots",
     couleur: "#E8C670",
   },
 ];
@@ -215,8 +215,8 @@ export default function LangueHero() {
             </p>
 
             <p className="mt-4 max-w-[54ch] text-base leading-8 text-[rgba(212,221,215,0.72)]">
-              Des premières salutations aux proverbes profonds, ce cours vous guide
-              à travers 4 niveaux, de la Goutte de Rosée au fleuve Lukenie.
+            Des premières salutations aux proverbes profonds, ce cours vous guide
+            à travers 32 leçons réparties sur 4 niveaux, de la Goutte de Rosée au fleuve Lukenie.
             </p>
 
             {/* Boutons */}
