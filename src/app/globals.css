@@ -450,3 +450,109 @@ math-field:focus-within {
     animation: none !important;
   }
 }
+
+/* ============================================
+   GLOBAL LOADING TRANSITION — Brume de la Rivière
+   ============================================ */
+@keyframes sakataMistDrift {
+  0% {
+    transform: translate3d(-12%, 0, 0) scaleX(1);
+  }
+  50% {
+    transform: translate3d(18%, -8%, 0) scaleX(1.08);
+  }
+  100% {
+    transform: translate3d(-12%, 0, 0) scaleX(1);
+  }
+}
+
+@keyframes sakataMistBreathe {
+  0%,
+  100% {
+    opacity: 0.42;
+    transform: translate3d(-50%, -50%, 0) scale(0.94);
+  }
+  50% {
+    opacity: 0.78;
+    transform: translate3d(-50%, -50%, 0) scale(1.08);
+  }
+}
+
+@keyframes sakataRiverShimmer {
+  0% {
+    transform: translate3d(-16%, 0, 0) scaleX(0.82);
+    opacity: 0.28;
+  }
+  45% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(16%, 0, 0) scaleX(1.04);
+    opacity: 0.36;
+  }
+}
+
+@keyframes sakataGoldPulse {
+  0%,
+  100% {
+    opacity: 0.28;
+    transform: translate3d(-50%, -50%, 0) scale(0.96);
+    box-shadow: 0 0 42px rgba(196, 160, 53, 0.08);
+  }
+  50% {
+    opacity: 0.62;
+    transform: translate3d(-50%, -50%, 0) scale(1.04);
+    box-shadow: 0 0 90px rgba(196, 160, 53, 0.22);
+  }
+}
+
+.sakata-loading-grain {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='mistNoise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23mistNoise)' opacity='1'/%3E%3C/svg%3E");
+  background-size: 220px 220px;
+}
+
+.sakata-mist-drift-slow,
+.sakata-mist-drift-medium,
+.sakata-mist-drift-fast,
+.sakata-mist-breathe,
+.sakata-river-shimmer,
+.sakata-gold-pulse {
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+  will-change: transform, opacity;
+}
+
+.sakata-mist-drift-slow {
+  animation: sakataMistDrift 14s ease-in-out infinite;
+}
+
+.sakata-mist-drift-medium {
+  animation: sakataMistDrift 10s ease-in-out infinite reverse;
+}
+
+.sakata-mist-drift-fast {
+  animation: sakataMistDrift 8s ease-in-out infinite;
+}
+
+.sakata-mist-breathe {
+  animation: sakataMistBreathe 4.8s ease-in-out infinite;
+}
+
+.sakata-river-shimmer {
+  animation: sakataRiverShimmer 2.4s var(--ease-smooth) infinite alternate;
+}
+
+.sakata-gold-pulse {
+  animation: sakataGoldPulse 5s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sakata-mist-drift-slow,
+  .sakata-mist-drift-medium,
+  .sakata-mist-drift-fast,
+  .sakata-mist-breathe,
+  .sakata-river-shimmer,
+  .sakata-gold-pulse {
+    animation: none !important;
+  }
+}

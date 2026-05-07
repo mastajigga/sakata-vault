@@ -20,6 +20,50 @@ interface LoadingContextType {
 
 const LoadingContext = createContext<LoadingContextType | undefined>(undefined);
 
+function shouldIgnoreNavigationClick(event: MouseEvent, anchor: HTMLAnchorElement) {
+  if (event.defaultPrevented) return true;
+  if (event.button !== 0) return true;
+  if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return true;
+  if (anchor.target && anchor.target !== "_self") return true;
+  if (anchor.hasAttribute("download")) return true;
+
+  const href = anchor.getAttribute("href");
+  if (!href) return true;
+  if (href.startsWith("mailto:") || href.startsWith("tel:")) return true;
+
+  let targetUrl: URL;
+  try {
+    targetUrl = new URL(anchor.href, window.location.href);
+  } catch {
+    return true;
+  }
+
+  if (targetUrl.origin !== window.location.origin) return true;
+
+  const currentPath = window.location.pathname;
+  const currentSearch = window.location.search;
+
+  // Même page + ancre : laisser le scroll natif, pas de loader plein écran.
+  if (
+    targetUrl.pathname === currentPath &&
+    targetUrl.search === currentSearch &&
+    targetUrl.hash
+  ) {
+    return true;
+  }
+
+  // Même URL exacte : aucun changement attendu.
+  if (
+    targetUrl.pathname === currentPath &&
+    targetUrl.search === currentSearch &&
+    targetUrl.hash === window.location.hash
+  ) {
+    return true;
+  }
+
+  return false;
+}
+
 export function LoadingProvider({ children }: { children: React.ReactNode }) {
   const [isLoading, setIsLoading] = useState(false);
   const pathname = usePathname();
@@ -34,15 +78,43 @@ export function LoadingProvider({ children }: { children: React.ReactNode }) {
 
   const scheduleStop = useCallback(() => {
     clearTimers();
-    // scheduleStop() est appelé à chaque changement de route pour s'assurer
-    // que le loading screen s'arrête. Il ne met PAS isLoading=true, donc
-    // on ne programme PAS de safetyTimer ici — cela créait un warn parasite
-    // à chaque navigation même quand rien ne chargeait.
-    // Le safetyTimer reste uniquement dans startLoading().
+    // Laisse la brume exister assez longtemps pour éviter un flash sec,
+    // puis révèle la page montée par Next.js.
     minDisplayTimer.current = setTimeout(() => {
       setIsLoading(false);
     }, TIMINGS.LOADING_MIN_DISPLAY);
   }, [clearTimers]);
+
+  const startLoading = useCallback(() => {
+    clearTimers();
+    setIsLoading(true);
+
+    safetyTimer.current = setTimeout(() => {
+      console.warn("LoadingProvider: Safety timeout reached. Forcing stop.");
+      setIsLoading(false);
+    }, TIMINGS.LOADING_SAFETY_TIMEOUT);
+  }, [clearTimers]);
+
+  const stopLoading = useCallback(() => {
+    clearTimers();
+    setIsLoading(false);
+  }, [clearTimers]);
+
+  useEffect(() => {
+    const handleDocumentClick = (event: MouseEvent) => {
+      const target = event.target;
+      if (!(target instanceof Element)) return;
+
+      const anchor = target.closest("a");
+      if (!(anchor instanceof HTMLAnchorElement)) return;
+      if (shouldIgnoreNavigationClick(event, anchor)) return;
+
+      startLoading();
+    };
+
+    document.addEventListener("click", handleDocumentClick, true);
+    return () => document.removeEventListener("click", handleDocumentClick, true);
+  }, [startLoading]);
 
   useEffect(() => {
     if (previousPathname.current === pathname) {
@@ -62,21 +134,6 @@ export function LoadingProvider({ children }: { children: React.ReactNode }) {
       clearTimers();
     };
   }, [clearTimers]);
-
-  const startLoading = () => {
-    clearTimers();
-    setIsLoading(true);
-
-    safetyTimer.current = setTimeout(() => {
-      console.warn("LoadingProvider: Safety timeout reached. Forcing stop.");
-      setIsLoading(false);
-    }, TIMINGS.LOADING_SAFETY_TIMEOUT);
-  };
-
-  const stopLoading = () => {
-    clearTimers();
-    setIsLoading(false);
-  };
 
   return (
     <LoadingContext.Provider value={{ isLoading, startLoading, stopLoading }}>
