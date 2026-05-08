@@ -116,12 +116,13 @@ export default function WelcomeModal() {
   };
 
   const handleClose = () => {
-    setIsOpen(false);
     try {
       localStorage.setItem(STORAGE_KEYS.WELCOME_SEEN, "true");
     } catch (e) {
       console.warn("Could not save welcome state to localStorage");
     }
+    setStep(1);
+    setIsOpen(false);
   };
 
   if (!mounted || !isOpen) return null;
@@ -179,6 +180,7 @@ export default function WelcomeModal() {
             </p>
 
             <button
+              type="button"
               onClick={handleNext}
               className="flex items-center gap-3 px-8 py-4 rounded-full font-semibold transition-colors duration-300 group"
               style={{ backgroundColor: "var(--or-gold)", color: "var(--foret-nocturne)" }}
@@ -240,6 +242,7 @@ export default function WelcomeModal() {
             </div>
 
             <button
+              type="button"
               onClick={handleNext}
               className="flex items-center gap-3 px-8 py-4 rounded-full font-semibold transition-colors duration-300 group"
               style={{ backgroundColor: "var(--or-gold)", color: "var(--foret-nocturne)" }}
@@ -351,7 +354,15 @@ export default function WelcomeModal() {
             </div>
 
             <button
+              type="button"
+              aria-label={t("welcome.enterButton")}
+              data-welcome-close
               onClick={handleClose}
+              onPointerUp={(e) => {
+                // Fallback mobile/tablette : certains WebViews perdent le click
+                // après les animations GSAP, mais déclenchent bien pointerup.
+                if (e.pointerType !== "mouse") handleClose();
+              }}
               className="px-10 py-4 rounded-full font-medium transition-all duration-300 hover:shadow-xl"
               style={{ backgroundColor: "var(--or-gold)", color: "var(--foret-nocturne)" }}
               onMouseEnter={(e) => {
