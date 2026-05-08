@@ -6,8 +6,10 @@ export const authSchema = z.object({
   firstName: z.string().min(1, "Prénom requis").max(100).optional(),
   lastName: z.string().min(1, "Nom requis").max(100).optional(),
   username: z.string().min(3, "Min 3 caractères").max(30, "Max 30 caractères")
-    .regex(/^[a-z0-9_-]+$/, "Lettres minuscules, chiffres, - ou _ uniquement"),
-  nickname: z.string().min(1, "Surnom requis").max(50, "Max 50 caractères"),
+    .regex(/^[a-z0-9_-]+$/, "Lettres minuscules, chiffres, - ou _ uniquement")
+    .optional(),
+  nickname: z.string().min(1, "Surnom requis").max(50, "Max 50 caractères")
+    .optional(),
 });
 
 export const profileSchema = z.object({
