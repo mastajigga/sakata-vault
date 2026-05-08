@@ -35,29 +35,46 @@ const LoadingScreen = ({ isLoading }: { isLoading: boolean }) => {
               className="h-[55vw] w-[55vw] max-h-[55vh] max-w-[55vh] drop-shadow-[0_0_30px_rgba(196,160,53,0.3)]"
               xmlns="http://www.w3.org/2000/svg"
             >
-              {/* Anneau 1 : Le grand cercle rotatif (interrompu) - L'horizon de la brume */}
+              {/* Anneau 1 : Arc doré discontinu qui défile — visible car interrompu */}
               <motion.circle
                 cx="50"
                 cy="50"
                 r="42"
                 fill="none"
                 stroke="url(#goldGradient)"
-                strokeWidth="0.4"
-                strokeDasharray="180 120"
-                animate={{ rotate: 360 }}
-                transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
+                strokeWidth="0.6"
+                strokeDasharray="80 184"
+                strokeLinecap="round"
+                animate={{ strokeDashoffset: [0, -264] }}
+                transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
               />
 
-              {/* Anneau 2 : Rotation inverse, très fin - Le flux de l'eau */}
+              {/* Anneau 2 : Arc fin discontinu, sens inverse */}
               <motion.circle
                 cx="50"
                 cy="50"
                 r="36"
                 fill="none"
-                stroke="rgba(212,221,215,0.15)"
-                strokeWidth="0.2"
-                animate={{ rotate: -360 }}
-                transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
+                stroke="rgba(212,221,215,0.2)"
+                strokeWidth="0.5"
+                strokeDasharray="55 171"
+                strokeLinecap="round"
+                animate={{ strokeDashoffset: [0, 226] }}
+                transition={{ duration: 6, repeat: Infinity, ease: "linear" }}
+              />
+
+              {/* Anneau 3 : Petit arc rapide — éclat de lumière */}
+              <motion.circle
+                cx="50"
+                cy="50"
+                r="30"
+                fill="none"
+                stroke="rgba(240,237,229,0.25)"
+                strokeWidth="0.4"
+                strokeDasharray="30 158"
+                strokeLinecap="round"
+                animate={{ strokeDashoffset: [0, -188] }}
+                transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
               />
 
               {/* === SCEAU RIVIÈRE & FORÊT (logo doré central) === */}
