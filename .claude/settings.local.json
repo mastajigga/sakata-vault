@@ -11,7 +11,9 @@
       "mcp__a97833be-08ea-4c1e-9970-65a646094815__execute_sql",
       "mcp__a97833be-08ea-4c1e-9970-65a646094815__apply_migration",
       "Bash(node -e ' *)",
-      "Bash(ls .claude/skills/ 2>&1; ls ~/.claude/skills/sakata 2>&1)"
+      "Bash(ls .claude/skills/ 2>&1; ls ~/.claude/skills/sakata 2>&1)",
+      "Bash(git commit -m ' *)",
+      "Bash(git fetch *)"
     ]
   }
 }

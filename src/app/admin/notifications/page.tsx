@@ -31,19 +31,29 @@ export default function AdminNotificationPage() {
     const versionData = changelogData.find(v => v.version === selectedVersion);
     if (versionData) {
       setSubject(`Mise à jour Sakata Digital : ${versionData.version}`);
-      
-      let content = `Mboté la communauté Basakata,\n\nNous sommes ravis de vous annoncer la sortie de la version ${versionData.version} (${versionData.date}).\n\n${versionData.subtitle}\n\n`;
-      
-      versionData.sections.forEach(section => {
-        content += `### ${section.title}\n`;
-        section.items.forEach(item => {
-          content += `- ${item}\n`;
-        });
-        content += `\n`;
-      });
-      
-      content += `Explorez ces nouveautés dès maintenant sur https://sakata-basakata.com\n\nL'équipe Sakata Digital Hub`;
-      setEmailContent(content);
+
+      // Build pure HTML+CSS — no markdown. The broadcastTemplate inserts this verbatim.
+      const escape = (s: string) => s.replace(/[&<>"']/g, (c) =>
+        ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" } as Record<string, string>)[c]
+      );
+
+      const sectionsHtml = versionData.sections.map(section => `
+        <h3>${escape(section.title)}</h3>
+        <ul>
+          ${section.items.map(item => `<li>${escape(item)}</li>`).join("")}
+        </ul>
+      `).join("");
+
+      const html = `
+        <p>Mboté la communauté Basakata,</p>
+        <p>Nous sommes ravis de vous annoncer la sortie de la <strong>version ${escape(versionData.version)}</strong> (${escape(versionData.date)}).</p>
+        <p style="font-style: italic; color: rgba(242, 238, 221, 0.7);">${escape(versionData.subtitle)}</p>
+        ${sectionsHtml}
+        <p>Explorez ces nouveautés dès maintenant sur <a href="https://sakata-basakata.com" style="color: #B59551; text-decoration: none;">sakata-basakata.com</a>.</p>
+        <p style="margin-top: 32px; color: rgba(242, 238, 221, 0.6);"><em>— L'équipe Sakata Digital Hub</em></p>
+      `.trim();
+
+      setEmailContent(html);
     }
   }, [selectedVersion]);
 
@@ -172,19 +182,30 @@ export default function AdminNotificationPage() {
         {/* Main: Composition / Preview */}
         <div className="lg:col-span-2 space-y-4">
           {previewMode ? (
-            <div className="bg-white p-12 rounded-2xl text-gray-900 shadow-2xl min-h-[600px] border border-gray-200 font-sans">
-              {/* Email Styled Preview */}
-              <div className="max-w-xl mx-auto">
-                <div className="w-16 h-1 w bg-[var(--or-ancestral)] mb-8" />
-                <h1 className="text-3xl font-bold text-gray-900 mb-4">{subject}</h1>
-                <div className="text-gray-600 leading-relaxed whitespace-pre-line text-lg">
-                  {emailContent}
+            <div className="rounded-2xl shadow-2xl min-h-[600px] overflow-hidden border border-or-ancestral/30" style={{ background: "#0A1F15" }}>
+              {/* Real email rendering with the broadcast template styling */}
+              <div style={{ padding: "50px 30px", textAlign: "center", background: "linear-gradient(180deg, #122A1E 0%, #0A1F15 100%)" }}>
+                <div style={{ color: "#B59551", fontSize: "28px", fontWeight: 700, letterSpacing: "-0.5px", fontFamily: "Inter, Arial, sans-serif" }}>
+                  Sakata Digital Hub
                 </div>
-                <div className="mt-12 pt-8 border-t border-gray-100">
-                  <p className="text-sm text-gray-400 italic">
-                    Vous recevez cet email car vous êtes membre du Sakata Digital Hub.
-                  </p>
+                <div style={{ color: "rgba(242, 238, 221, 0.6)", fontSize: "12px", textTransform: "uppercase", letterSpacing: "2px", marginTop: 6, fontFamily: "Inter, Arial, sans-serif" }}>
+                  Mise à jour v{selectedVersion}
                 </div>
+              </div>
+              <div
+                className="email-preview-content"
+                style={{ padding: "32px 35px", color: "rgba(242, 238, 221, 0.9)", fontSize: 15, lineHeight: 1.6, fontFamily: "Inter, Arial, sans-serif" }}
+                dangerouslySetInnerHTML={{ __html: emailContent }}
+              />
+              <style jsx>{`
+                .email-preview-content :global(h3) { color: #B59551; font-size: 18px; border-bottom: 1px solid rgba(181, 149, 81, 0.15); padding-bottom: 8px; margin-top: 28px; margin-bottom: 14px; }
+                .email-preview-content :global(p) { margin: 0 0 14px 0; }
+                .email-preview-content :global(ul) { list-style: none; padding: 0; margin: 0 0 16px 0; }
+                .email-preview-content :global(li) { margin-bottom: 10px; padding-left: 20px; position: relative; }
+                .email-preview-content :global(li)::before { content: "•"; color: #B59551; position: absolute; left: 0; }
+              `}</style>
+              <div style={{ textAlign: "center", padding: "30px", borderTop: "1px solid rgba(181, 149, 81, 0.1)", color: "rgba(242, 238, 221, 0.4)", fontSize: 12, fontFamily: "Inter, Arial, sans-serif" }}>
+                © {new Date().getFullYear()} Sakata Digital Hub
               </div>
             </div>
           ) : (
@@ -199,12 +220,18 @@ export default function AdminNotificationPage() {
                 />
               </div>
               <div className="space-y-2">
-                <label className="text-sm text-gray-400">Contenu (Markdown supporté)</label>
+                <label className="text-sm text-gray-400 flex items-center justify-between">
+                  <span>Contenu (HTML)</span>
+                  <span className="text-[10px] uppercase tracking-widest text-or-ancestral/60 font-mono">Aucun markdown — uniquement HTML</span>
+                </label>
                 <textarea
                   value={emailContent}
                   onChange={(e) => setEmailContent(e.target.value)}
                   className="w-full h-[500px] bg-white/5 border border-white/10 rounded-xl px-4 py-4 font-mono text-sm focus:ring-2 focus:ring-[var(--or-ancestral)] outline-none resize-none"
                 />
+                <p className="text-[10px] text-gray-500 italic">
+                  Balises supportées : <code>&lt;h3&gt;</code>, <code>&lt;p&gt;</code>, <code>&lt;ul&gt;</code>, <code>&lt;li&gt;</code>, <code>&lt;strong&gt;</code>, <code>&lt;em&gt;</code>, <code>&lt;a&gt;</code>. Le style est appliqué automatiquement par le template d'email.
+                </p>
               </div>
             </div>
           )}

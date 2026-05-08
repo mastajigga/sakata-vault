@@ -95,7 +95,7 @@ export const emailTemplates = {
             </div>
             
             <div class="content">
-              ${content.replace(/\n/g, '<br/>')}
+              ${content}
             </div>
             
             <div class="cta-wrapper" style="margin-bottom: 40px;">
