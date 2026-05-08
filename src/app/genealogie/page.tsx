@@ -241,6 +241,20 @@ export default function ArbreGenealogique() {
         <p className="text-center text-xs text-[rgba(212,221,215,0.2)] italic mt-12">
           « Mowei te akoyebe na nzela ya bankoko na ye » — L&apos;enfant ne se connaît qu&apos;à travers ses ancêtres.
         </p>
+
+        {/* Sceau Rivière & Forêt */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: [0.15, 0.3, 0.15] }}
+          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+          className="flex justify-center mt-16"
+        >
+          <img
+            src="/images/sceau-riviere-foret.svg"
+            alt="Rivière et Forêt"
+            className="w-28 h-28 opacity-80"
+          />
+        </motion.div>
       </div>
     </main>
   );
