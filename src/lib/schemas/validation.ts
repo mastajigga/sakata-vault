@@ -3,6 +3,7 @@ import { z } from "zod";
 export const authSchema = z.object({
   email: z.string().email("Email invalide").min(5).max(255),
   password: z.string().min(8, "Min. 8 caractères").max(255),
+  confirmPassword: z.string().max(255).optional(),
   firstName: z.string().min(1, "Prénom requis").max(100).optional(),
   lastName: z.string().min(1, "Nom requis").max(100).optional(),
   username: z.string().min(3, "Min 3 caractères").max(30, "Max 30 caractères")
@@ -10,7 +11,13 @@ export const authSchema = z.object({
     .optional(),
   nickname: z.string().min(1, "Surnom requis").max(50, "Max 50 caractères")
     .optional(),
-});
+  gender: z.enum(["male", "female"]).optional(),
+  birthDate: z.string().optional().or(z.literal("")),
+  address: z.string().max(255, "Max 255 caractères").optional().or(z.literal("")),
+}).refine(
+  (data) => !data.confirmPassword || data.password === data.confirmPassword,
+  { message: "Les mots de passe ne correspondent pas", path: ["confirmPassword"] }
+);
 
 export const profileSchema = z.object({
   first_name: z.string().max(100, "Max 100 caractères").optional().or(z.literal("")),
@@ -52,11 +59,23 @@ export const pushUnsubscribeSchema = z.object({
   endpoint: z.string().url(),
 });
 
+export const CAN_SHARE_OPTIONS = [
+  "photos",
+  "videos",
+  "articles",
+  "temoignages",
+  "archives_familiales",
+  "documents_historiques",
+  "audio",
+  "autre",
+] as const;
+export type CanShareOption = typeof CAN_SHARE_OPTIONS[number];
+
 export const contributionRequestSchema = z.object({
   requestType: z.enum(["article_writer", "contributor"]),
   contributorType: z.enum([
     "habitant_region",
-    "scolaire", 
+    "scolaire",
     "historien",
     "anthropologue",
     "photo",
@@ -64,6 +83,9 @@ export const contributionRequestSchema = z.object({
     "autre"
   ]).optional(),
   contributorTypeOther: z.string().max(200).optional().or(z.literal("")),
+  origin: z.string().max(300, "Max 300 caractères").optional().or(z.literal("")),
+  motivation: z.string().min(20, "Décrivez votre motivation (min 20 caractères)").max(2000, "Max 2000 caractères"),
+  canShare: z.array(z.enum(CAN_SHARE_OPTIONS)).min(1, "Sélectionnez au moins un type de contribution").max(8),
   message: z.string().max(5000).optional().or(z.literal("")).or(z.null()),
 });
 

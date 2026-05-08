@@ -53,7 +53,7 @@ const MOCK_PINS = [
   },
 ];
 
-const typeIcons: Record<string, React.ElementType> = {
+const typeIcons: Record<string, React.ComponentType<{ size?: number; style?: React.CSSProperties; className?: string }>> = {
   photo: Image,
   video: Video,
   story: BookOpen,

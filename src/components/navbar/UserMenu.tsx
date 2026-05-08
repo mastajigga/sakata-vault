@@ -142,7 +142,7 @@ export function UserMenu({
             </Link>
 
             {/* Admin Center */}
-            {(role === "admin" || role === "manager") && (
+            {(role === "admin" || role === "manager" || role === "temp_admin") && (
               <Link
                 href={ROUTES.ADMIN}
                 onClick={() => onClose()}
@@ -152,6 +152,19 @@ export function UserMenu({
                 <div>
                   <p className="text-sm font-medium">Admin Center</p>
                   <p className="text-xs text-gray-400">Gestion du site</p>
+                </div>
+              </Link>
+            )}
+            {role === "moderator" && (
+              <Link
+                href={ROUTES.ADMIN_FORUM}
+                onClick={() => onClose()}
+                className="flex items-center gap-3 px-4 py-3 hover:bg-white/5 transition-colors border-b border-white/10"
+              >
+                <Users size={16} style={{ color: "var(--or-ancestral)" }} />
+                <div>
+                  <p className="text-sm font-medium">Modération</p>
+                  <p className="text-xs text-gray-400">Veiller au forum</p>
                 </div>
               </Link>
             )}

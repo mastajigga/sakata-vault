@@ -2,6 +2,7 @@ export const USER_ROLES = {
   ADMIN: "admin",
   TEMP_ADMIN: "temp_admin",
   MANAGER: "manager",
+  MODERATOR: "moderator",
   CONTRIBUTOR: "contributor",
   USER: "user",
 } as const;
@@ -35,7 +36,7 @@ export const MAX_VIEWS = {
   TWICE: 2,
 } as const;
 
-export const APP_VERSION = "3.2.0"; // 2026-04-28 — Forum Mboka 2.0 + Temp Admin role
+export const APP_VERSION = "3.4.0"; // 2026-05-08 — Genealogie 3D + contributor form enriched + moderation system
 export const PINECONE_DEFAULT_INDEX = "sakata-mathematics";
 
 // ─── Temp Admin ─────────────────────────────────────────────────────────────
@@ -48,9 +49,32 @@ export const ROLE_HIERARCHY: Record<UserRole, number> = {
   admin: 100,
   temp_admin: 90, // entre admin et manager — actif uniquement si non expiré
   manager: 50,
+  moderator: 40, // entre manager et contributor — accès modération forum + logs
   contributor: 30,
   user: 10,
 } as const;
+
+// ─── Modération ──────────────────────────────────────────────────────────────
+export const BAN_DURATIONS_HOURS = [24, 48, 72] as const;
+export type BanDurationHours = typeof BAN_DURATIONS_HOURS[number];
+/** Délai de purge automatique d'un compte mis à la corbeille (6 mois) */
+export const SOFT_DELETE_GRACE_DAYS = 180;
+export const DELETED_USER_LABEL = "Utilisateur supprimé";
+
+export const MODERATION_ACTIONS = {
+  DELETE_POST: "delete_post",
+  DELETE_THREAD: "delete_thread",
+  WARN_USER: "warn_user",
+  BAN_USER: "ban_user",
+  UNBAN_USER: "unban_user",
+  SOFT_DELETE_USER: "soft_delete_user",
+  RESTORE_USER: "restore_user",
+  PERMANENT_DELETE_USER: "permanent_delete_user",
+  RESOLVE_REPORT: "resolve_report",
+  DISMISS_REPORT: "dismiss_report",
+  ROLE_CHANGE: "role_change",
+} as const;
+export type ModerationAction = typeof MODERATION_ACTIONS[keyof typeof MODERATION_ACTIONS];
 
 /**
  * Profil minimal utilisé par les helpers temp_admin.
@@ -112,8 +136,27 @@ export const canCreateArticles = (
   return ["admin", "manager", "contributor"].includes(role ?? "");
 };
 
-/** true si l'utilisateur peut modérer */
-export const canModerate = canManageContent;
+/** true si l'utilisateur peut modérer (admin, manager, moderator, temp_admin actif) */
+export const canModerate = (
+  roleOrProfile?: UserRole | string | ProfileTempAdminFields | null
+): boolean => {
+  const role =
+    typeof roleOrProfile === "object" && roleOrProfile !== null
+      ? getEffectiveRole(roleOrProfile)
+      : (roleOrProfile as UserRole | string | null | undefined);
+  return ["admin", "manager", "moderator"].includes(role ?? "");
+};
+
+/** true si l'utilisateur peut accéder à des actions admin réservées (suppression définitive, gestion rôles) */
+export const isFullAdmin = (
+  roleOrProfile?: UserRole | string | ProfileTempAdminFields | null
+): boolean => {
+  const role =
+    typeof roleOrProfile === "object" && roleOrProfile !== null
+      ? getEffectiveRole(roleOrProfile)
+      : (roleOrProfile as UserRole | string | null | undefined);
+  return role === "admin";
+};
 
 /** true si le rôle est >= au rôle minimum requis */
 export const hasMinRole = (

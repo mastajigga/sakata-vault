@@ -26,8 +26,8 @@ function PrimaireContent() {
     <div className="min-h-screen bg-[#0a0f16] text-white pt-24 pb-12 px-4 sm:px-6 lg:px-8 overflow-hidden relative">
       {/* Background elements */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
-        <div className="absolute -top-[10%] -left-[10%] w-[40%] h-[40%] bg-blue-500/10 blur-[120px] rounded-full animate-pulse" />
-        <div className="absolute -bottom-[10%] -right-[10%] w-[40%] h-[40%] bg-teal-500/10 blur-[120px] rounded-full animate-pulse" />
+        <div className="absolute -top-[10%] -left-[10%] w-[40%] h-[40%] bg-or-ancestral/10 blur-[120px] rounded-full animate-pulse" />
+        <div className="absolute -bottom-[10%] -right-[10%] w-[40%] h-[40%] bg-or-ancestral/10 blur-[120px] rounded-full animate-pulse" />
       </div>
 
       <div className="max-w-7xl mx-auto relative z-10">
@@ -40,13 +40,13 @@ function PrimaireContent() {
           >
             <Link 
               href="/ecole"
-              className="group flex items-center gap-2 text-blue-400 hover:text-blue-300 transition-colors mb-4"
+              className="group flex items-center gap-2 text-or-ancestral hover:text-or-ancestral transition-colors mb-4"
             >
               <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
               <span>Retour au Hub École</span>
             </Link>
-            <h1 className="text-4xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-teal-400 flex items-center gap-4">
-              <GraduationCap className="w-10 h-10 text-blue-400" />
+            <h1 className="text-4xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-or-ancestral to-ivoire-ancien flex items-center gap-4">
+              <GraduationCap className="w-10 h-10 text-or-ancestral" />
               Le Monde Primaire
             </h1>
             <p className="text-gray-400 mt-2 max-w-xl">
@@ -90,17 +90,17 @@ function PrimaireContent() {
                 >
                   {/* Decorative overlay */}
                   <div className="absolute top-0 right-0 p-6">
-                    <div className="w-12 h-12 rounded-2xl bg-blue-500/20 flex items-center justify-center group-hover:scale-110 transition-transform">
-                      <BookOpen className="w-6 h-6 text-blue-400" />
+                    <div className="w-12 h-12 rounded-2xl bg-or-ancestral/20 flex items-center justify-center group-hover:scale-110 transition-transform">
+                      <BookOpen className="w-6 h-6 text-or-ancestral" />
                     </div>
                   </div>
 
                   <div className="absolute inset-x-0 bottom-0 p-8 pt-0">
-                    <div className="flex items-center gap-2 text-blue-400 text-sm font-semibold mb-2 uppercase tracking-wider">
+                    <div className="flex items-center gap-2 text-or-ancestral text-sm font-semibold mb-2 uppercase tracking-wider">
                       <Sparkles className="w-4 h-4" />
                       {year.degree}
                     </div>
-                    <h3 className="text-2xl font-bold mb-2 group-hover:text-blue-300 transition-colors">
+                    <h3 className="text-2xl font-bold mb-2 group-hover:text-or-ancestral transition-colors">
                       {year.title}
                     </h3>
                     <p className="text-gray-400 text-sm line-clamp-2">
@@ -109,7 +109,7 @@ function PrimaireContent() {
                   </div>
 
                   {/* Bottom line accent */}
-                  <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 to-teal-500 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300" />
+                  <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-or-ancestral to-ivoire-ancien transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300" />
                 </motion.div>
               </Link>
             ))}
@@ -123,7 +123,7 @@ function PrimaireContent() {
           >
             <div className="mb-8 flex items-center justify-between">
               <div>
-                <h2 className="text-2xl font-bold text-blue-300">{selectedYear.title}</h2>
+                <h2 className="text-2xl font-bold text-or-ancestral">{selectedYear.title}</h2>
                 <div className="flex items-center gap-4 mt-1">
                    <span className="text-sm text-gray-500 flex items-center gap-1">
                     <Star className="w-3 h-3 text-yellow-500" />
@@ -141,7 +141,7 @@ function PrimaireContent() {
       {/* Footer hint */}
       <div className="max-w-7xl mx-auto mt-12 text-center">
         <p className="text-gray-500 text-sm">
-          Une question ? Consulte la <Link href="/help/ecole" className="text-blue-400 hover:underline">rubrique d'aide</Link>
+          Une question ? Consulte la <Link href="/help/ecole" className="text-or-ancestral hover:underline">rubrique d'aide</Link>
         </p>
       </div>
     </div>

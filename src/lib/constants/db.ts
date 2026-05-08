@@ -25,6 +25,10 @@ export const DB_TABLES = {
   MESSAGE_READS: "message_reads",
   COMMUNITY_PINS: "community_pins",
   ADMIN_NOTES: "admin_notes",
+  MODERATION_REPORTS: "moderation_reports",
+  MODERATION_LOGS: "moderation_logs",
+  MODERATION_WARNINGS: "moderation_warnings",
+  FAMILY_TREE: "family_tree",
 } as const;
 
 export type DbTable = typeof DB_TABLES[keyof typeof DB_TABLES];

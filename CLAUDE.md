@@ -4,7 +4,7 @@
 - **Framework:** Next.js 16.2.2 (App Router, Turbopack)
 - **Authentification & DB:** Supabase (project ID: `slbnjjgparojkvxbsdzn`) — **IMPORTANT:** Toujours utiliser `@supabase/ssr` (`createBrowserClient` / `createServerClient`) au lieu de `@supabase/supabase-js` en direct pour éviter la désynchronisation des sessions entre LocalStorage et Cookies.
 - **Design:** Tailwind CSS v3 + CSS Variables personnalisées (Design System V1 "Brume de la Rivière").
-- **Animations:** GSAP (ScrollTrigger via `useGSAP`) + Framer Motion.
+- **Animations:** GSAP (ScrollTrigger via `useGSAP`) + Framer Motion. **3D :** `@react-three/fiber` + `@react-three/drei` + `three` (ex. arbre généalogique 3D `/genealogie`).
 - **Polices:** Outfit (H1/Titres) + Geist Mono (Interface/Détails).
 - **Analytics:** Command Center V2 inclut désormais la capture d'IP (via trigger Postgres `tr_capture_ip`) et l'analyse géographique.
 - **Déploiement:** Netlify (branche `main`). Build: `next build`. Node >= 18.
@@ -12,7 +12,7 @@
 ---
 
 ## 2. Rôles et Monétisation (Paywall)
-- **Roles utilisateurs:** `admin`, `manager`, `contributor`, `user`.
+- **Roles utilisateurs:** `admin`, `manager`, `moderator`, `contributor`, `user` (+ `temp_admin` éphémère).
 - **Niveaux d'abonnement (Paywall):** `free`, `premium`.
 - **Gating de contenu:** La route `savoir/[slug]` utilise un composant "Paywall" avec un rendu "glassmorphism" qui bloque la lecture des articles nécessitant le niveau `premium`. Tous les statuts d'abonnement sont synchronisés via `AuthProvider`.
 
@@ -308,6 +308,9 @@ import { withRetry, withRetryRaw } from "@/lib/supabase-retry";
 
 | Date | Modification |
 |------|-------------|
+| 2026-05-08 | **GÉNÉALOGIE 3D + CONTRIBUTEUR enrichi v3.4.0** — Page `/genealogie` refondue : arbre 3D animé (R3F + drei) avec orbes émissives or ancestral, halos lumineux, étoiles en fond, brouillard et auto-rotation ; layout 2 colonnes premium brume avec stats animées, formulaire glassmorphism. Colonnes `first_name` + `last_name` séparées sur `family_tree`. Formulaire de demande contributeur enrichi : mission "transmission & partage", champs `motivation` (requis, ≥20 car.), `origin`, `can_share` (multi-select chips). Réparation du bug API contribution-request (colonnes manquantes ajoutées en migration). Page `/admin/contribution-requests` affiche les nouveaux champs (motivation italique, badges Peut partager). |
+| 2026-05-08 | **MODÉRATION COMPLÈTE v3.3.0** — Vraie modération forum : signalements live (`moderation_reports`), bannissements 24/48/72h, rappels à l'ordre, corbeille soft-delete 6 mois. Nouveau rôle `moderator` (accès `/admin/forum` + `/admin/logs` uniquement). Tables `moderation_logs`, `moderation_warnings`. Composant global `ModerationGate` (ban modal countdown + warning modal). Page `/admin/logs` filtrable. Helper `displayProfileName()` dans `src/lib/utils/deleted-user.ts` — à propager progressivement. |
+| 2026-05-08 | **ÉCOLE — cohérence brume** — Lien "Langue Kisakata" retiré du menu Savoir, intégré comme 3e discipline sur `/ecole`. Couleurs blue/teal/purple migrées vers tokens `or-ancestral` / `ivoire-ancien` / `foret-nocturne` (`ecole/page.tsx`, `CourseRiver.tsx`, `primaire/page.tsx`, `secondaire/page.tsx`, `StudentSummary.tsx`). |
 | 2026-04-26 | **ADMIN HELP CENTER & NOTES APP (Phase 3.5)** — Intégration du centre d'aide admin avec application CRUD de notes personnelles. Navigation sidebar "Aide" pour accéder à `/admin/help` (hub) et `/admin/help/notes` (app). Skill `admin-help-guide` ajoutée. Welcome modal et documentation CLAUDE.md mis à jour. |
 | 2026-04-23 | **AI ORCHESTRATION v3.1.0** — Intégration de Gemini 1.5 Pro (Semantic Chat) et Gemini Voice Synthesis. Système robuste de logging d'activité utilisateur dans le metadata. |
 | 2026-04-23 | **RELEASE v3.0.0** — Nouvel Éditeur d'Articles par blocs & Command Center Admin V3. Gestion complète des profils et Dashboard V3. |

@@ -15,6 +15,9 @@ interface ContributionRequest {
   request_type: "article_writer" | "contributor";
   contributor_type?: string | null;
   contributor_type_other?: string | null;
+  origin?: string | null;
+  motivation?: string | null;
+  can_share?: string[] | null;
   status: "pending" | "approved" | "rejected";
   message: string | null;
   created_at: string;
@@ -33,6 +36,17 @@ const CONTRIBUTOR_TYPE_LABELS: Record<string, string> = {
   photo: "📸 Photo / Vidéo",
   patrimoine: "🏛️ Patrimoine",
   autre: "✨ Autre",
+};
+
+const CAN_SHARE_LABELS: Record<string, string> = {
+  photos: "Photos",
+  videos: "Vidéos",
+  articles: "Articles",
+  temoignages: "Témoignages",
+  archives_familiales: "Archives familiales",
+  documents_historiques: "Documents historiques",
+  audio: "Audio",
+  autre: "Autre",
 };
 
 export default function ContributionRequestsPage() {
@@ -139,10 +153,10 @@ export default function ContributionRequestsPage() {
           requests.map((req) => (
             <div
               key={req.id}
-              className="p-6 border border-white/10 rounded-xl bg-black/40 backdrop-blur-md flex items-center justify-between group hover:border-[var(--or-ancestral)]/30 transition-all duration-300"
+              className="p-6 border border-white/10 rounded-xl bg-black/40 backdrop-blur-md group hover:border-[var(--or-ancestral)]/30 transition-all duration-300 flex flex-col lg:flex-row lg:items-start gap-6"
             >
-              <div className="space-y-1">
-                <div className="flex items-center gap-3">
+              <div className="space-y-3 flex-1 min-w-0">
+                <div className="flex flex-wrap items-center gap-3">
                   <span className="font-bold text-white">
                     {req.profiles?.nickname || req.profiles?.username || "Inconnu"}
                   </span>
@@ -156,19 +170,51 @@ export default function ContributionRequestsPage() {
                   }`}>
                     {req.status === "pending" ? "En attente" : req.status === "approved" ? "Approuvé" : "Refusé"}
                   </span>
+                  {req.contributor_type && (
+                    <span className="text-xs text-[var(--or-ancestral)]/90">
+                      {CONTRIBUTOR_TYPE_LABELS[req.contributor_type] || req.contributor_type}
+                      {req.contributor_type === "autre" && req.contributor_type_other && (
+                        <span className="text-gray-400"> — {req.contributor_type_other}</span>
+                      )}
+                    </span>
+                  )}
                 </div>
+
+                {req.origin && (
+                  <div className="text-xs">
+                    <span className="font-mono uppercase tracking-widest text-ivoire-ancien/40 mr-2">Origine</span>
+                    <span className="text-ivoire-ancien/80">{req.origin}</span>
+                  </div>
+                )}
+
+                {req.motivation && (
+                  <div className="space-y-1">
+                    <p className="text-[10px] font-mono uppercase tracking-widest text-ivoire-ancien/40">Motivation</p>
+                    <p className="text-sm text-ivoire-ancien/80 leading-relaxed whitespace-pre-wrap">"{req.motivation}"</p>
+                  </div>
+                )}
+
+                {req.can_share && req.can_share.length > 0 && (
+                  <div className="space-y-1.5">
+                    <p className="text-[10px] font-mono uppercase tracking-widest text-ivoire-ancien/40">Peut partager</p>
+                    <div className="flex flex-wrap gap-1.5">
+                      {req.can_share.map((s) => (
+                        <span
+                          key={s}
+                          className="text-[10px] uppercase font-bold tracking-widest px-2 py-1 rounded-md bg-or-ancestral/10 text-or-ancestral border border-or-ancestral/20"
+                        >
+                          {CAN_SHARE_LABELS[s] || s}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
                 {req.message && (
-                  <p className="text-sm text-gray-400 italic">"{req.message}"</p>
+                  <p className="text-xs text-gray-400 italic border-l-2 border-white/10 pl-3">"{req.message}"</p>
                 )}
-                {req.contributor_type && (
-                  <p className="text-xs text-[var(--or-ancestral)]">
-                    {CONTRIBUTOR_TYPE_LABELS[req.contributor_type] || req.contributor_type}
-                    {req.contributor_type === "autre" && req.contributor_type_other && (
-                      <span className="text-gray-400"> — {req.contributor_type_other}</span>
-                    )}
-                  </p>
-                )}
-                <div className="flex items-center gap-2 text-[10px] text-gray-500">
+
+                <div className="flex items-center gap-2 text-[10px] text-gray-500 pt-1">
                   <Clock className="w-3 h-3" />
                   {format(new Date(req.created_at), "d MMMM yyyy 'à' HH:mm", { locale: fr })}
                   <span className="text-gray-600">
@@ -178,7 +224,7 @@ export default function ContributionRequestsPage() {
               </div>
 
               {req.status === "pending" && (
-                <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <div className="flex items-center gap-2 lg:opacity-60 lg:group-hover:opacity-100 transition-opacity duration-300 flex-shrink-0">
                   <button
                     onClick={() => updateStatus(req.id, req.user_id, req.request_type, "approved")}
                     disabled={processingId === req.id}

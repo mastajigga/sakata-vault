@@ -4,7 +4,7 @@ import React from "react";
 import { useAuth } from "@/components/AuthProvider";
 import { useRouter } from "next/navigation";
 import Navbar from "@/components/Navbar";
-import { LayoutDashboard, Users, FileText, BarChart3, Settings, LogOut, Bell, Sparkles, MessageSquare, Image, ShieldCheck, Notebook } from "lucide-react";
+import { LayoutDashboard, Users, FileText, BarChart3, Settings, LogOut, Bell, Sparkles, MessageSquare, Image, ShieldCheck, Notebook, ScrollText } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AdminPresentationModal } from "@/components/admin/AdminPresentationModal";
@@ -16,8 +16,12 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
   const pathname = usePathname();
 
   React.useEffect(() => {
-    if (!isLoading && (!user || !["admin", "manager", "contributor", "temp_admin"].includes(role || ""))) {
+    if (!isLoading && (!user || !["admin", "manager", "moderator", "contributor", "temp_admin"].includes(role || ""))) {
       router.push("/auth");
+    }
+    // Moderators are limited to /admin/forum and /admin/logs
+    if (!isLoading && role === "moderator" && pathname && !pathname.startsWith("/admin/forum") && !pathname.startsWith("/admin/logs")) {
+      router.push("/admin/forum");
     }
   }, [user, role, isLoading, router]);
 
@@ -37,7 +41,8 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
     { name: "Tableau de Bord", href: "/admin", icon: LayoutDashboard, roles: ["admin", "manager", "contributor", "temp_admin"] },
     { name: "Articles", href: "/admin/content", icon: FileText, roles: ["admin", "manager", "contributor", "temp_admin"] },
     { name: "Orchestration IA", href: "/admin/ai", icon: Sparkles, roles: ["admin", "manager", "temp_admin"] },
-    { name: "Modération Forum", href: "/admin/forum", icon: MessageSquare, roles: ["admin", "manager", "temp_admin"] },
+    { name: "Modération Forum", href: "/admin/forum", icon: MessageSquare, roles: ["admin", "manager", "moderator", "temp_admin"] },
+    { name: "Journaux", href: "/admin/logs", icon: ScrollText, roles: ["admin", "manager", "moderator", "temp_admin"] },
     { name: "Médiathèque", href: "/admin/media", icon: Image, roles: ["admin", "manager", "contributor", "temp_admin"] },
     { name: "Notifications", href: "/admin/notifications", icon: Bell, roles: ["admin", "manager", "temp_admin"] },
     { name: "Aide", href: "/admin/help", icon: Notebook, roles: ["admin", "manager", "temp_admin"] },

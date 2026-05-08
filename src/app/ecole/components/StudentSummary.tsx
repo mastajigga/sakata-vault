@@ -76,7 +76,7 @@ export default function StudentSummary() {
       </div>
 
       <div className="mist-panel p-4 rounded-2xl flex flex-col items-center text-center">
-        <TrendingUp className="text-blue-500 mb-2" size={20} />
+        <TrendingUp className="text-or-ancestral mb-2" size={20} />
         <span className="text-2xl font-bold text-white">{summary.average_score}%</span>
         <span className="text-[10px] uppercase tracking-wider text-stone-500">Moyenne</span>
       </div>

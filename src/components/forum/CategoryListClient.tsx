@@ -6,7 +6,7 @@ import Link from "next/link";
 import { BookOpen, Flame, Users, MessageSquare } from "lucide-react";
 
 // Lucide icon mapping for categories
-const ICON_MAP: Record<string, React.ElementType> = {
+const ICON_MAP: Record<string, React.ComponentType<{ size?: number; strokeWidth?: number; className?: string }>> = {
   book: BookOpen,
   flame: Flame,
   users: Users,

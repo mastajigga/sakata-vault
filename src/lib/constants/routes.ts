@@ -11,6 +11,9 @@ export const ROUTES = {
   PROFIL: "/profil",
   AUTH: "/auth",
   ADMIN: "/admin",
+  ADMIN_FORUM: "/admin/forum",
+  ADMIN_LOGS: "/admin/logs",
+  ADMIN_USERS: "/admin/users",
   // Nouvelles pages communautaires
   GENEALOGIE: "/genealogie",
   CALENDRIER: "/calendrier",

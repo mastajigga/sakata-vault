@@ -7,7 +7,11 @@
       "Bash(git commit -m 'fix\\(chat\\): Phase 1 critical fixes — colors.ts + subscription error handlers + signed URL durations *)",
       "Bash(npm run *)",
       "Bash(start http://localhost:3000/chat)",
-      "Bash(npx tsc *)"
+      "Bash(npx tsc *)",
+      "mcp__a97833be-08ea-4c1e-9970-65a646094815__execute_sql",
+      "mcp__a97833be-08ea-4c1e-9970-65a646094815__apply_migration",
+      "Bash(node -e ' *)",
+      "Bash(ls .claude/skills/ 2>&1; ls ~/.claude/skills/sakata 2>&1)"
     ]
   }
 }

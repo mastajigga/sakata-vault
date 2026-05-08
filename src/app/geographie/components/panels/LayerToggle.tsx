@@ -18,7 +18,7 @@ interface LayerToggleProps {
   onToggle: (id: LayerId) => void;
 }
 
-const iconMap: Record<string, React.ElementType> = {
+const iconMap: Record<string, React.ComponentType<{ size?: number; className?: string; style?: React.CSSProperties }>> = {
   droplets: Droplets,
   trees: Trees,
   users: Users,

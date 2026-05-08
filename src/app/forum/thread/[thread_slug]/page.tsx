@@ -5,6 +5,7 @@ import { ArrowLeft, Clock, Eye } from "lucide-react";
 import ThreadRepliesClient from "./ThreadRepliesClient";
 import { supabasePublic, supabaseAdmin } from "@/lib/supabase/admin";
 import { DB_TABLES } from "@/lib/constants/db";
+import { displayProfileName } from "@/lib/utils/deleted-user";
 
 export const revalidate = 60;
 
@@ -15,7 +16,7 @@ export default async function ThreadPage(props: { params: Promise<{ thread_slug:
     .from(DB_TABLES.FORUM_THREADS)
     .select(`
       *,
-      profiles ( id, username, nickname, avatar_url, role ),
+      profiles ( id, username, nickname, avatar_url, role, deleted_at ),
       forum_categories ( slug, name )
     `)
     .eq("slug", params.thread_slug)
@@ -42,9 +43,10 @@ export default async function ThreadPage(props: { params: Promise<{ thread_slug:
     .from(DB_TABLES.FORUM_POSTS)
     .select(`
       *,
-      profiles:author_id ( id, username, nickname, avatar_url, role )
+      profiles:author_id ( id, username, nickname, avatar_url, role, deleted_at )
     `)
     .eq("thread_id", thread.id)
+    .is("deleted_at", null)
     .order("created_at", { ascending: true });
 
   if (postsError) {
@@ -100,7 +102,7 @@ export default async function ThreadPage(props: { params: Promise<{ thread_slug:
               <div className="relative w-6 h-6 rounded-full overflow-hidden">
                 <MemberImage profile={thread.profiles} priority={true} />
               </div>
-              <span className="text-[var(--ivoire-ancien)]/80 font-medium">{thread.profiles?.nickname || thread.profiles?.username || 'Anonyme'}</span>
+              <span className="text-[var(--ivoire-ancien)]/80 font-medium">{displayProfileName(thread.profiles, 'Anonyme')}</span>
             </div>
             <span className="flex items-center gap-1.5"><Clock size={16} /> {formattedDate}</span>
             <span className="flex items-center gap-1.5"><Eye size={16} /> {thread.views_count || 0} vues</span>

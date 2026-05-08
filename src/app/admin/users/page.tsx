@@ -6,8 +6,9 @@ import { DB_TABLES } from "@/lib/constants/db";
 import {
   Users, Shield, ShieldCheck, ShieldAlert, UserPlus, Search,
   MoreHorizontal, Eye, X, Mail, MapPin, Calendar, Activity,
-  Award, MessageSquare, Heart, Clock, Hourglass, Zap
+  Award, MessageSquare, Heart, Clock, Hourglass, Zap, Gavel
 } from "lucide-react";
+import RolePicker, { type Role } from "@/components/admin/RolePicker";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { useAuth } from "@/components/AuthProvider";
@@ -227,13 +228,17 @@ const UserManagementPage = () => {
   }, []);
 
   const updateRole = async (userId: string, newRole: string) => {
-    // Garde-fou : interdire changement de rôle d'un admin titulaire si je suis temp_admin
     const target = profiles.find((p) => p.id === userId);
-    if (
-      target?.role === "admin" &&
-      !isCurrentUserRealAdmin
-    ) {
+    const previousRole = target?.role || "user";
+
+    // Garde-fou : interdire changement de rôle d'un admin titulaire si je suis temp_admin
+    if (target?.role === "admin" && !isCurrentUserRealAdmin) {
       alert("Un administrateur temporaire ne peut pas modifier le rôle d'un administrateur titulaire.");
+      return;
+    }
+    // Garde-fou : seul un admin peut promouvoir admin/manager
+    if ((newRole === "admin" || newRole === "manager") && !isCurrentUserRealAdmin) {
+      alert("Réservé aux administrateurs titulaires.");
       return;
     }
 
@@ -242,10 +247,25 @@ const UserManagementPage = () => {
       .update({ role: newRole })
       .eq("id", userId);
 
-    if (!error) {
-      setProfiles(profiles.map(p => p.id === userId ? { ...p, role: newRole } : p));
-    } else {
+    if (error) {
       alert("Erreur lors du changement de rôle: " + error.message);
+      return;
+    }
+
+    setProfiles(profiles.map((p) => (p.id === userId ? { ...p, role: newRole } : p)));
+
+    // Trace dans les journaux de modération (best-effort, ne bloque pas l'UI)
+    try {
+      await supabase.from(DB_TABLES.MODERATION_LOGS).insert({
+        moderator_id: currentUser?.id,
+        moderator_role: currentRole,
+        action_type: "role_change",
+        target_user_id: userId,
+        reason: `Rôle modifié : ${previousRole} → ${newRole}`,
+        metadata: { from: previousRole, to: newRole },
+      });
+    } catch {
+      // RLS bloquera si moderator_role pas dans la liste autorisée — silencieux
     }
   };
 
@@ -254,6 +274,7 @@ const UserManagementPage = () => {
       case "admin": return <ShieldAlert className="w-4 h-4 text-red-400" />;
       case "temp_admin": return <Hourglass className="w-4 h-4 text-or-ancestral" />;
       case "manager": return <ShieldCheck className="w-4 h-4 text-emerald-400" />;
+      case "moderator": return <Gavel className="w-4 h-4 text-or-ancestral" />;
       case "contributor": return <Shield className="w-4 h-4 text-or-ancestral" />;
       default: return <Users className="w-4 h-4 opacity-40" />;
     }
@@ -385,20 +406,13 @@ const UserManagementPage = () => {
                         <Eye className="w-4 h-4" />
                       </button>
 
-                      <select
-                        value={profile.role || "user"}
-                        onChange={(e) => updateRole(profile.id, e.target.value)}
-                        disabled={profile.role === "admin" && !isCurrentUserRealAdmin}
-                        className="bg-black/20 border border-white/10 rounded-lg px-3 py-1.5 text-[10px] font-bold uppercase outline-none focus:border-or-ancestral/50 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
-                      >
-                        <option value="user">Utilisateur</option>
-                        <option value="contributor">Contributeur</option>
-                        <option value="manager">Manager</option>
-                        <option value="admin">Administrateur</option>
-                        {profile.role === "temp_admin" && (
-                          <option value="temp_admin" disabled>Admin temp. (en cours)</option>
-                        )}
-                      </select>
+                      <RolePicker
+                        value={(profile.role || "user") as Role}
+                        onChange={(next) => updateRole(profile.id, next)}
+                        actorRole={(currentRole || "user") as Role}
+                        isSelf={profile.id === currentUser?.id}
+                        showTempAdminLock={isTempAdminActive(profile)}
+                      />
 
                       {/* Temp Admin : grant or revoke (admins titulaires uniquement) */}
                       {isCurrentUserRealAdmin && profile.role !== "admin" && profile.id !== currentUser?.id && (

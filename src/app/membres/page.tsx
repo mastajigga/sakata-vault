@@ -66,6 +66,7 @@ export default function MembresPage() {
         const { data, error } = await supabase
           .from(DB_TABLES.PROFILES)
           .select("id, username, nickname, avatar_url, cover_photo_url, short_bio, location, contributor_status, created_at")
+          .is("deleted_at", null)
           .order("created_at", { ascending: false })
           .abortSignal(controller.signal);
         

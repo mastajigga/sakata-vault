@@ -31,6 +31,11 @@ interface AuthContextType {
   contributorStatus: "none" | "pending" | "approved" | "rejected";
   nickname: string | null;
   username: string | null;
+  /** Date ISO d'expiration du bannissement (null = pas banni). Si dans le futur → bloqué. */
+  bannedUntil: string | null;
+  banReason: string | null;
+  /** Date ISO de mise en corbeille (null = compte actif). Si non null → forcer logout. */
+  deletedAt: string | null;
   isLoading: boolean;
   isStalled: boolean;
   connectionError: string | null;
@@ -75,6 +80,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [contributorStatus, setContributorStatus] = useState<"none" | "pending" | "approved" | "rejected">("none");
   const [nickname, setNickname] = useState<string | null>(null);
   const [username, setUsername] = useState<string | null>(null);
+  const [bannedUntil, setBannedUntil] = useState<string | null>(null);
+  const [banReason, setBanReason] = useState<string | null>(null);
+  const [deletedAt, setDeletedAt] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const initStarted = useRef(false);
   
@@ -209,7 +217,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           supabase
             .from("profiles")
             .select(
-              "role, subscription_tier, contributor_status, nickname, username, temp_admin_expires_at, temp_admin_original_role"
+              "role, subscription_tier, contributor_status, nickname, username, temp_admin_expires_at, temp_admin_original_role, banned_until, ban_reason, deleted_at"
             )
             .eq("id", userId)
             .limit(1)
@@ -228,6 +236,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           setContributorStatus((profile.contributor_status as "none" | "pending" | "approved" | "rejected") || "none");
           setNickname(profile.nickname);
           setUsername(profile.username);
+          setBannedUntil(profile.banned_until ?? null);
+          setBanReason(profile.ban_reason ?? null);
+          setDeletedAt(profile.deleted_at ?? null);
         } else if (error) {
           console.error("[AuthProvider] fetchProfile query error (after retries):", error.message);
         }
@@ -399,6 +410,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         contributorStatus,
         nickname,
         username,
+        bannedUntil,
+        banReason,
+        deletedAt,
         isLoading,
         isStalled,
         connectionError,

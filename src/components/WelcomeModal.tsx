@@ -287,13 +287,13 @@ export default function WelcomeModal() {
               >
                 <h3 className="font-medium text-base mb-3 flex items-center gap-2" style={{ color: "var(--or-gold)" }}>
                   <Zap className="w-4 h-4 flex-shrink-0" />
-                  Mises à jour (v3.1.0)
+                  Mises à jour (v3.4.0)
                 </h3>
                 <ul className="text-sm space-y-2 list-disc pl-4" style={{ color: "rgba(242, 238, 221, 0.7)" }}>
-                  <li><strong>IA & Voix:</strong> Chat Gemini 1.5 Pro + narration vocale automatique</li>
-                  <li><strong>Chat Avancé:</strong> Édition & suppression de messages en temps réel</li>
-                  <li><strong>Médias:</strong> Upload vidéo pour articles + médiathèque admin</li>
-                  <li><strong>Centre d'aide:</strong> Notes personnelles + documentation technique</li>
+                  <li><strong>Arbre généalogique 3D:</strong> visualisation immersive de la lignée — orbes lumineuses, étoiles, rotation</li>
+                  <li><strong>Modération forum:</strong> bannissements 24/48/72h, rappels à l'ordre, corbeille 6 mois, journal des actions</li>
+                  <li><strong>Devenir contributeur:</strong> formulaire enrichi (motivation, origine, ce que vous pouvez partager)</li>
+                  <li><strong>École:</strong> ajout discipline "Langue Kisakata" + cohérence brume sur tous les écrans</li>
                 </ul>
               </div>
 

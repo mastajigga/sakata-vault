@@ -53,7 +53,7 @@ export default function CourseRiver({
   return (
     <div
       ref={containerRef}
-      className="relative overflow-hidden rounded-[2.5rem] border border-white/10 bg-gradient-to-br from-blue-950/40 via-[#0a0f16] to-purple-950/30 backdrop-blur-sm"
+      className="relative overflow-hidden rounded-[2.5rem] border border-or-ancestral/15 bg-gradient-to-br from-foret-nocturne via-foret-nocturne to-or-ancestral/10 backdrop-blur-sm"
     >
       {/* Rivière SVG animée - arrière-plan absolu */}
       <div
@@ -77,23 +77,23 @@ export default function CourseRiver({
                  S 2200 400, 2400 300"
               fill="none"
             />
-            {/* Courant de surface — teal/cyan lumineux */}
+            {/* Courant de surface — or ancestral lumineux */}
             <linearGradient id="river-gradient-1" x1="0" y1="0" x2="1" y2="0">
-              <stop offset="0%" stopColor="#2dd4bf" stopOpacity="0" />
-              <stop offset="50%" stopColor="#5eead4" stopOpacity="0.95" />
-              <stop offset="100%" stopColor="#2dd4bf" stopOpacity="0" />
+              <stop offset="0%" stopColor="#E8C078" stopOpacity="0" />
+              <stop offset="50%" stopColor="#F2EEDD" stopOpacity="0.85" />
+              <stop offset="100%" stopColor="#E8C078" stopOpacity="0" />
             </linearGradient>
-            {/* Courant médian — bleu */}
+            {/* Courant médian — or ancestral */}
             <linearGradient id="river-gradient-2" x1="0" y1="0" x2="1" y2="0">
-              <stop offset="0%" stopColor="#60a5fa" stopOpacity="0" />
-              <stop offset="50%" stopColor="#3b82f6" stopOpacity="0.6" />
-              <stop offset="100%" stopColor="#60a5fa" stopOpacity="0" />
+              <stop offset="0%" stopColor="#B59551" stopOpacity="0" />
+              <stop offset="50%" stopColor="#B59551" stopOpacity="0.55" />
+              <stop offset="100%" stopColor="#B59551" stopOpacity="0" />
             </linearGradient>
-            {/* Profondeur — violet/indigo sombre */}
+            {/* Profondeur — forêt nocturne */}
             <linearGradient id="river-gradient-3" x1="0" y1="0" x2="1" y2="0">
-              <stop offset="0%" stopColor="#6366f1" stopOpacity="0" />
-              <stop offset="50%" stopColor="#4338ca" stopOpacity="0.35" />
-              <stop offset="100%" stopColor="#6366f1" stopOpacity="0" />
+              <stop offset="0%" stopColor="#8B6B2E" stopOpacity="0" />
+              <stop offset="50%" stopColor="#8B6B2E" stopOpacity="0.30" />
+              <stop offset="100%" stopColor="#8B6B2E" stopOpacity="0" />
             </linearGradient>
           </defs>
 
@@ -117,10 +117,10 @@ export default function CourseRiver({
 
           {/* Reflets - points scintillants sur la crête */}
           <g className={isVisible ? "river-ripple-anim" : ""}>
-            <circle cx="300" cy="280" r="2" fill="#5eead4" opacity="0.8" />
-            <circle cx="900" cy="320" r="1.5" fill="#ffffff" opacity="0.6" />
-            <circle cx="1500" cy="280" r="2" fill="#5eead4" opacity="0.7" />
-            <circle cx="2100" cy="320" r="1.5" fill="#ffffff" opacity="0.5" />
+            <circle cx="300" cy="280" r="2" fill="#F2EEDD" opacity="0.7" />
+            <circle cx="900" cy="320" r="1.5" fill="#E8C078" opacity="0.6" />
+            <circle cx="1500" cy="280" r="2" fill="#F2EEDD" opacity="0.6" />
+            <circle cx="2100" cy="320" r="1.5" fill="#E8C078" opacity="0.5" />
           </g>
         </svg>
       </div>
@@ -133,14 +133,14 @@ export default function CourseRiver({
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="mb-4 inline-flex items-center gap-2 rounded-full border border-teal-500/20 bg-teal-500/10 px-3 py-1 text-xs font-bold uppercase tracking-widest text-teal-400"
+            className="mb-4 inline-flex items-center gap-2 rounded-full border border-or-ancestral/20 bg-or-ancestral/10 px-3 py-1 text-xs font-bold uppercase tracking-widest text-or-ancestral"
           >
             <Sigma className="h-3 w-3" />
             Le cours d&apos;eau du savoir
           </motion.div>
-          <h3 className="text-3xl font-bold tracking-tight text-white md:text-5xl">
+          <h3 className="font-display text-3xl font-bold tracking-tight text-ivoire-ancien md:text-5xl">
             Douze années qui coulent comme la{" "}
-            <span className="bg-gradient-to-r from-teal-400 to-blue-400 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-or-ancestral to-ivoire-ancien bg-clip-text text-transparent">
               Lukenie
             </span>
           </h3>
@@ -154,11 +154,11 @@ export default function CourseRiver({
         {/* Label des sections */}
         <div className="mb-10 grid grid-cols-1 gap-4 md:grid-cols-2">
           <div className="flex items-center gap-3">
-            <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-blue-500/30 bg-blue-500/10">
-              <GraduationCap className="h-4 w-4 text-blue-400" />
+            <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-or-ancestral/30 bg-or-ancestral/10">
+              <GraduationCap className="h-4 w-4 text-or-ancestral" />
             </span>
             <div>
-              <p className="text-[0.68rem] font-bold uppercase tracking-[0.22em] text-blue-400">
+              <p className="text-[0.68rem] font-bold uppercase tracking-[0.22em] text-or-ancestral">
                 Source · Primaire
               </p>
               <p className="text-xs text-gray-500">
@@ -168,15 +168,15 @@ export default function CourseRiver({
           </div>
           <div className="flex items-center gap-3 md:justify-end">
             <div className="md:text-right">
-              <p className="text-[0.68rem] font-bold uppercase tracking-[0.22em] text-purple-400">
+              <p className="text-[0.68rem] font-bold uppercase tracking-[0.22em] text-ivoire-ancien">
                 Delta · Secondaire
               </p>
               <p className="text-xs text-gray-500">
                 6 années · Le cours mûri
               </p>
             </div>
-            <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-purple-500/30 bg-purple-500/10">
-              <Sigma className="h-4 w-4 text-purple-400" />
+            <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-ivoire-ancien/20 bg-ivoire-ancien/5">
+              <Sigma className="h-4 w-4 text-ivoire-ancien" />
             </span>
           </div>
         </div>
@@ -194,13 +194,13 @@ export default function CourseRiver({
             const yOffset = index % 2 === 0 ? "md:-translate-y-3" : "md:translate-y-3";
             const isPrimaire = level === "primaire";
             const iconBg = isPrimaire
-              ? "border-blue-500/30 bg-blue-500/10 group-hover:bg-blue-500/20"
-              : "border-purple-500/30 bg-purple-500/10 group-hover:bg-purple-500/20";
-            const iconColor = isPrimaire ? "text-blue-400" : "text-purple-400";
-            const degreeColor = isPrimaire ? "text-blue-400/80" : "text-purple-400/80";
+              ? "border-or-ancestral/30 bg-or-ancestral/10 group-hover:bg-or-ancestral/20"
+              : "border-ivoire-ancien/20 bg-ivoire-ancien/5 group-hover:bg-ivoire-ancien/10";
+            const iconColor = isPrimaire ? "text-or-ancestral" : "text-ivoire-ancien";
+            const degreeColor = isPrimaire ? "text-or-ancestral/80" : "text-ivoire-ancien/70";
             const hoverBorder = isPrimaire
-              ? "hover:border-blue-400/40 hover:shadow-[0_12px_32px_rgba(59,130,246,0.15)]"
-              : "hover:border-purple-400/40 hover:shadow-[0_12px_32px_rgba(168,85,247,0.15)]";
+              ? "hover:border-or-ancestral/40 hover:shadow-[0_12px_32px_rgba(181,149,81,0.18)]"
+              : "hover:border-ivoire-ancien/30 hover:shadow-[0_12px_32px_rgba(242,238,221,0.10)]";
 
             return (
               <motion.div

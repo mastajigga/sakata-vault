@@ -178,30 +178,43 @@ export default function ContributorPage() {
             transition={{ duration: 0.5 }}
             className="space-y-8"
           >
-            {/* Explication */}
-            <div className="rounded-lg border border-white/10 bg-white/5 backdrop-blur-sm p-8">
-              <BookOpen size={48} className="mx-auto mb-4 text-[var(--or-ancestral)] opacity-50" />
-              <h2 className="text-2xl font-light mb-3 text-center">Qu'est-ce que contribuer ?</h2>
-              <p className="text-gray-400 mb-4 text-center max-w-xl mx-auto">
-                Contribuer à Sakata, c'est participer à la préservation et à la transmission 
-                du patrimoine culturel Basakata. Que vous soyez habitant de la région, 
-                chercheur, photographe ou simplement passionné, votre savoir est précieux.
-              </p>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-6 text-sm text-gray-400">
-                <div className="bg-white/5 rounded-lg p-4 text-center">
-                  <span className="text-2xl mb-2 block">📝</span>
-                  <strong className="text-white block mb-1">Écrire</strong>
-                  Rédiger des articles sur l'histoire, la langue, les traditions
+            {/* Mission de transmission */}
+            <div className="relative rounded-[2rem] p-1 overflow-hidden"
+              style={{
+                background: "linear-gradient(135deg, rgba(181,149,81,0.18) 0%, rgba(242,238,221,0.04) 100%)",
+                border: "1px solid rgba(181,149,81,0.18)",
+              }}
+            >
+              <div className="bg-foret-nocturne/85 rounded-[1.9rem] p-8 md:p-10 backdrop-blur-md">
+                <div className="text-center space-y-3 mb-6">
+                  <span className="eyebrow" style={{ color: "var(--or-ancestral)" }}>Mission</span>
+                  <h2 className="font-display text-2xl md:text-3xl font-bold text-ivoire-ancien">
+                    Transmettre, partager, faire vivre
+                  </h2>
+                  <p className="text-ivoire-ancien/60 text-sm md:text-base leading-relaxed max-w-2xl mx-auto">
+                    Sakata est un sanctuaire vivant pour la mémoire du peuple Basakata. Contribuer, c'est rejoindre
+                    le cercle de celles et ceux qui veillent à ce que <span className="text-or-ancestral">la rivière du savoir</span> ne tarisse pas —
+                    en partageant ce que vous savez, ce que vous avez vu, ce que vos aînés vous ont confié.
+                  </p>
                 </div>
-                <div className="bg-white/5 rounded-lg p-4 text-center">
-                  <span className="text-2xl mb-2 block">📸</span>
-                  <strong className="text-white block mb-1">Documenter</strong>
-                  Partager des photos, témoignages, archives familiales
-                </div>
-                <div className="bg-white/5 rounded-lg p-4 text-center">
-                  <span className="text-2xl mb-2 block">🔍</span>
-                  <strong className="text-white block mb-1">Enrichir</strong>
-                  Corriger, compléter, vérifier les informations existantes
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-8">
+                  {[
+                    { emoji: "📝", title: "Écrire", desc: "Articles sur l'histoire, la langue, les traditions" },
+                    { emoji: "📸", title: "Documenter", desc: "Photos, vidéos, archives, témoignages" },
+                    { emoji: "🔍", title: "Enrichir", desc: "Corriger, compléter, vérifier le savoir existant" },
+                  ].map((c, i) => (
+                    <motion.div
+                      key={c.title}
+                      initial={{ opacity: 0, y: 12 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.1 + i * 0.08 }}
+                      className="rounded-2xl p-5 bg-white/[0.03] border border-white/5 hover:border-or-ancestral/20 transition-colors text-center"
+                    >
+                      <span className="text-2xl mb-2 block">{c.emoji}</span>
+                      <strong className="font-display text-ivoire-ancien block mb-1.5">{c.title}</strong>
+                      <p className="text-xs text-ivoire-ancien/50 leading-relaxed">{c.desc}</p>
+                    </motion.div>
+                  ))}
                 </div>
               </div>
             </div>

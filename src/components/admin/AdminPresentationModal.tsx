@@ -2,41 +2,47 @@
 
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Sparkles, ShieldCheck, Zap, MessageSquare, Image, X, ChevronRight } from "lucide-react";
+import { Sparkles, ShieldCheck, Zap, MessageSquare, Image, X, ChevronRight, Gavel, ScrollText, TreePine } from "lucide-react";
 
 export const AdminPresentationModal = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
-    const hasSeen = localStorage.getItem("sakata-admin-v3-seen");
+    const hasSeen = localStorage.getItem("sakata-admin-v3-4-seen");
     if (!hasSeen) {
       setIsOpen(true);
     }
   }, []);
 
   const close = () => {
-    localStorage.setItem("sakata-admin-v3-seen", "true");
+    localStorage.setItem("sakata-admin-v3-4-seen", "true");
     setIsOpen(false);
   };
 
   const features = [
     {
-      icon: Sparkles,
-      title: "Orchestration IA",
-      desc: "Discutez avec vos données Pinecone et générez des voix automatiques avec Gemini 1.5 Pro.",
+      icon: Gavel,
+      title: "Modération réelle",
+      desc: "Signalements live, bannissements 24/48/72h, rappels à l'ordre, corbeille 6 mois. Nouveau rôle Modérateur dédié.",
       color: "text-or-ancestral"
     },
     {
-      icon: ShieldCheck,
-      title: "Gestion Membres V3",
-      desc: "Nouveau système de recherche résilient et logging d'activité complet.",
+      icon: ScrollText,
+      title: "Journaux des anciens",
+      desc: "Toute action de modération laisse une trace consultable dans /admin/logs : filtrable par type, modérateur, utilisateur cible.",
+      color: "text-or-ancestral"
+    },
+    {
+      icon: TreePine,
+      title: "Arbre généalogique 3D",
+      desc: "Page /genealogie refondue avec une scène 3D immersive : orbes lumineuses, étoiles, rotation auto, focus interactif.",
       color: "text-emerald-400"
     },
     {
-      icon: Zap,
-      title: "Optimisation Réseau",
-      desc: "Liaison BDD avec retry intelligent et gestion de file d'attente pour une stabilité totale.",
-      color: "text-blue-400"
+      icon: ShieldCheck,
+      title: "RolePicker & demandes contributeur",
+      desc: "Sélecteur de rôle animé (incl. Modérateur), formulaire de candidature enrichi (motivation, origine, types de partage).",
+      color: "text-or-ancestral"
     }
   ];
 
@@ -57,7 +63,7 @@ export const AdminPresentationModal = () => {
             <div className="p-10 space-y-8">
               <div className="space-y-2">
                 <span className="text-[10px] uppercase tracking-[0.3em] font-bold text-or-ancestral">Command Center Upgrade</span>
-                <h2 className="text-3xl font-display font-bold text-ivoire-ancien">Bienvenue dans la V3.1</h2>
+                <h2 className="text-3xl font-display font-bold text-ivoire-ancien">Bienvenue dans la V3.4</h2>
                 <p className="text-ivoire-ancien/60 text-sm leading-relaxed">
                   Votre centre de commandement a été renforcé par les puissances de l'IA et une infrastructure réseau de nouvelle génération.
                 </p>

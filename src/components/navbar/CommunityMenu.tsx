@@ -3,10 +3,12 @@
 import React from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronDown, Users, MessageCircle, Users2, TreePine, Calendar } from "lucide-react";
+import { ChevronDown, Users, MessageCircle, Users2, TreePine, Calendar, ShieldCheck } from "lucide-react";
 import { ROUTES } from "@/lib/constants/routes";
 import { useLanguage } from "@/components/LanguageProvider";
 import { useGlobalUnreadCount } from "@/hooks/chat/useGlobalUnreadCount";
+import { useAuth } from "@/components/AuthProvider";
+import { canModerate } from "@/lib/constants/business";
 
 interface CommunityMenuProps {
   open: boolean;
@@ -17,6 +19,8 @@ interface CommunityMenuProps {
 export function CommunityMenu({ open, onOpen, onClose }: CommunityMenuProps) {
   const { t } = useLanguage();
   const totalUnread = useGlobalUnreadCount();
+  const { effectiveRole } = useAuth();
+  const showModeration = canModerate(effectiveRole);
 
   const submenu = [
     {
@@ -50,6 +54,14 @@ export function CommunityMenu({ open, onOpen, onClose }: CommunityMenuProps) {
       href: ROUTES.CALENDRIER,
       icon: Calendar,
     },
+    ...(showModeration
+      ? [{
+          label: "Modération",
+          description: "Veiller à la paix du village",
+          href: ROUTES.ADMIN_FORUM,
+          icon: ShieldCheck,
+        }]
+      : []),
   ];
 
   return (
