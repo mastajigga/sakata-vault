@@ -259,13 +259,13 @@ const AuthPage = () => {
 
                   <button
                     type="submit"
-                    disabled={isLoading || !isDirty}
+                    disabled={isLoading}
                     className="w-full py-5 rounded-2xl font-bold transition-all transform active:scale-[0.98] relative overflow-hidden"
                     style={{
                       background: isSignUp ? "var(--ivoire-ancien)" : "var(--or-ancestral)",
                       color: "var(--foret-nocturne)",
-                      opacity: (isLoading || !isDirty) ? 0.7 : 1,
-                      cursor: (isLoading || !isDirty) ? "not-allowed" : "pointer",
+                      opacity: isLoading ? 0.7 : 1,
+                      cursor: isLoading ? "not-allowed" : "pointer",
                       boxShadow: "0 10px 30px rgba(181, 149, 81, 0.2)",
                     }}
                   >
