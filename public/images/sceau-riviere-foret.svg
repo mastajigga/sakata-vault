@@ -1,0 +1,90 @@
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="goldTree" x1="50" y1="0" x2="50" y2="100" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#F0EDE5" />
+      <stop offset="30%" stop-color="#C4A035" />
+      <stop offset="70%" stop-color="#C4A035" />
+      <stop offset="100%" stop-color="#8B6914" />
+    </linearGradient>
+    <linearGradient id="goldRiver" x1="0" y1="50" x2="100" y2="50" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="rgba(196,160,53,0)" />
+      <stop offset="15%" stop-color="rgba(196,160,53,0.4)" />
+      <stop offset="50%" stop-color="rgba(240,237,229,0.8)" />
+      <stop offset="85%" stop-color="rgba(196,160,53,0.4)" />
+      <stop offset="100%" stop-color="rgba(196,160,53,0)" />
+    </linearGradient>
+    <radialGradient id="goldHalo" cx="50" cy="45" r="30" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="rgba(196,160,53,0.15)" />
+      <stop offset="100%" stop-color="rgba(196,160,53,0)" />
+    </radialGradient>
+  </defs>
+
+  <!-- Halo lumineux -->
+  <circle cx="50" cy="48" r="28" fill="url(#goldHalo)" />
+
+  <!-- ========== LA FORÊT (arbres stylisés) ========== -->
+
+  <!-- Arbre gauche (plus petit, en arrière) -->
+  <g opacity="0.5">
+    <!-- Tronc -->
+    <line x1="26" y1="68" x2="26" y2="32" stroke="url(#goldTree)" stroke-width="1.2" stroke-linecap="round" />
+    <!-- Branches -->
+    <line x1="26" y1="48" x2="18" y2="38" stroke="url(#goldTree)" stroke-width="0.6" stroke-linecap="round" />
+    <line x1="26" y1="42" x2="32" y2="34" stroke="url(#goldTree)" stroke-width="0.6" stroke-linecap="round" />
+    <!-- Feuillage -->
+    <ellipse cx="26" cy="32" rx="10" ry="12" fill="none" stroke="url(#goldTree)" stroke-width="0.5" opacity="0.6" />
+    <ellipse cx="26" cy="28" rx="6" ry="7" fill="none" stroke="url(#goldTree)" stroke-width="0.4" opacity="0.4" />
+  </g>
+
+  <!-- Arbre droit (plus petit, en arrière) -->
+  <g opacity="0.5">
+    <line x1="74" y1="68" x2="74" y2="34" stroke="url(#goldTree)" stroke-width="1.2" stroke-linecap="round" />
+    <line x1="74" y1="50" x2="68" y2="42" stroke="url(#goldTree)" stroke-width="0.6" stroke-linecap="round" />
+    <line x1="74" y1="44" x2="80" y2="36" stroke="url(#goldTree)" stroke-width="0.6" stroke-linecap="round" />
+    <ellipse cx="74" cy="34" rx="9" ry="11" fill="none" stroke="url(#goldTree)" stroke-width="0.5" opacity="0.6" />
+    <ellipse cx="74" cy="30" rx="5" ry="6" fill="none" stroke="url(#goldTree)" stroke-width="0.4" opacity="0.4" />
+  </g>
+
+  <!-- Arbre central (principal) -->
+  <g>
+    <!-- Tronc -->
+    <path d="M50 70 L50 22" stroke="url(#goldTree)" stroke-width="2" stroke-linecap="round" fill="none" />
+    <!-- Racines -->
+    <path d="M50 70 Q44 74 40 72" stroke="url(#goldTree)" stroke-width="0.8" stroke-linecap="round" fill="none" />
+    <path d="M50 70 Q56 74 60 72" stroke="url(#goldTree)" stroke-width="0.8" stroke-linecap="round" fill="none" />
+    <!-- Branches -->
+    <path d="M50 42 Q42 36 36 30" stroke="url(#goldTree)" stroke-width="1" stroke-linecap="round" fill="none" />
+    <path d="M50 42 Q58 36 64 30" stroke="url(#goldTree)" stroke-width="1" stroke-linecap="round" fill="none" />
+    <path d="M50 34 Q48 26 44 20" stroke="url(#goldTree)" stroke-width="0.8" stroke-linecap="round" fill="none" />
+    <path d="M50 34 Q52 26 56 20" stroke="url(#goldTree)" stroke-width="0.8" stroke-linecap="round" fill="none" />
+    <!-- Feuillage (couronnes superposées) -->
+    <ellipse cx="36" cy="30" rx="10" ry="8" fill="none" stroke="url(#goldTree)" stroke-width="0.7" />
+    <ellipse cx="64" cy="30" rx="10" ry="8" fill="none" stroke="url(#goldTree)" stroke-width="0.7" />
+    <ellipse cx="50" cy="22" rx="12" ry="10" fill="none" stroke="url(#goldTree)" stroke-width="0.7" />
+    <ellipse cx="50" cy="18" rx="8" ry="6" fill="none" stroke="url(#goldTree)" stroke-width="0.5" opacity="0.7" />
+  </g>
+
+  <!-- ========== LA RIVIÈRE ========== -->
+
+  <!-- Rivière sinueuse qui coule sous l'arbre -->
+  <path
+    d="M10 80 Q20 76 30 78 Q40 80 50 77 Q60 74 70 76 Q80 78 90 75"
+    stroke="url(#goldRiver)"
+    stroke-width="1.8"
+    fill="none"
+    stroke-linecap="round"
+  />
+  <!-- Reflet de la rivière (ligne plus fine au-dessus) -->
+  <path
+    d="M12 77 Q22 73 32 75 Q42 77 50 74 Q60 71 68 73 Q78 75 88 72"
+    stroke="rgba(196,160,53,0.25)"
+    stroke-width="0.6"
+    fill="none"
+    stroke-linecap="round"
+  />
+
+  <!-- Petits points lumineux (gouttes / lucioles) -->
+  <circle cx="38" cy="76" r="0.8" fill="rgba(240,237,229,0.6)" />
+  <circle cx="55" cy="74" r="0.6" fill="rgba(240,237,229,0.5)" />
+  <circle cx="70" cy="75" r="0.7" fill="rgba(240,237,229,0.4)" />
+</svg>
