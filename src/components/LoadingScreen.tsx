@@ -1,13 +1,26 @@
 "use client";
 
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 /**
- * LoadingScreen - Version "Sceau de Lumière"
- * Un design épuré centré sur un emblème SVG animé pour une transition hypnotique.
+ * LoadingScreen - Version "Emblème Vivant"
+ * Vidéo WebM VP9 720p en fond + overlay SVG animé.
+ * La vidéo est à 946 KB compressée (d'origine 5.1 MB).
  */
 const LoadingScreen = ({ isLoading }: { isLoading: boolean }) => {
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  // Force la lecture au montage (AnimatePresence recrée l'élément)
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.currentTime = 0;
+      videoRef.current.play().catch(() => {
+        // Silencieux — l'autoplay peut être bloqué sur certains navigateurs
+      });
+    }
+  }, [isLoading]);
+
   return (
     <AnimatePresence mode="wait">
       {isLoading && (
@@ -19,12 +32,25 @@ const LoadingScreen = ({ isLoading }: { isLoading: boolean }) => {
           exit={{ opacity: 0, transition: { duration: 0.8, ease: [0.4, 0, 0.2, 1] } }}
           className="fixed inset-0 z-[9998] flex items-center justify-center overflow-hidden bg-[var(--foret-nocturne)]"
         >
-          {/* 1. ATMOSPHÈRE DE FOND */}
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(196,160,53,0.06),transparent_60%),linear-gradient(180deg,#06140f_0%,var(--foret-nocturne)_100%)]" />
+          {/* 0. VIDÉO D'EMBLÈME EN FOND */}
+          <video
+            ref={videoRef}
+            src="/videos/loading-emblem.webm"
+            preload="auto"
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="absolute inset-0 w-full h-full object-cover"
+            style={{ opacity: 0.45 }}
+          />
+
+          {/* 1. ATMOSPHÈRE DE FOND (superposition sombre pour lisibilité) */}
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(196,160,53,0.06),transparent_60%),linear-gradient(180deg,rgba(6,20,15,0.7)_0%,rgba(6,20,15,0.5)_100%)]" />
           
           {/* Brumes diffuses pour la texture organique */}
           <div className="absolute inset-0 opacity-40 blur-[100px]">
-            <div className="absolute top-[-10%] left-[-10%] h-[50%] w-[5 0%] rounded-full bg-[rgba(212,221,215,0.1)]" />
+            <div className="absolute top-[-10%] left-[-10%] h-[50%] w-[50%] rounded-full bg-[rgba(212,221,215,0.1)]" />
             <div className="absolute bottom-[-10%] right-[-10%] h-[50%] w-[50%] rounded-full bg-[rgba(196,160,53,0.05)]" />
           </div>
 
