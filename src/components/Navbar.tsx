@@ -125,10 +125,15 @@ const Navbar = () => {
               // 3. Navigation dure : vide le Router Cache Next.js + tous les états React
               window.location.href = "/";
             }}
-            className="font-display font-bold tracking-tighter cursor-pointer"
+            className="flex items-center gap-3 font-display font-bold tracking-tighter cursor-pointer group"
             style={{ fontSize: "1.4rem", color: "var(--or-ancestral)" }}
           >
-            SAKATA
+            <img 
+              src="/icons/sakata-emblem.svg" 
+              alt="Sakata Emblem" 
+              className="w-8 h-8 transition-transform duration-300 group-hover:scale-110"
+            />
+            <span>SAKATA</span>
           </a>
 
           {/* Desktop nav links — restructured with dropdowns */}
