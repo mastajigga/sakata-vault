@@ -2,47 +2,53 @@
 
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Sparkles, ShieldCheck, Zap, MessageSquare, Image, X, ChevronRight, Gavel, ScrollText, TreePine } from "lucide-react";
+import { Sparkles, ShieldCheck, Zap, MessageSquare, Image, X, ChevronRight, Gavel, ScrollText, TreePine, Compass, Crown } from "lucide-react";
 
 export const AdminPresentationModal = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
-    const hasSeen = localStorage.getItem("sakata-admin-v3-4-seen");
+    const hasSeen = localStorage.getItem("sakata-admin-v3-5-seen");
     if (!hasSeen) {
       setIsOpen(true);
     }
   }, []);
 
   const close = () => {
-    localStorage.setItem("sakata-admin-v3-4-seen", "true");
+    localStorage.setItem("sakata-admin-v3-5-seen", "true");
     setIsOpen(false);
   };
 
   const features = [
     {
-      icon: Gavel,
-      title: "Modération réelle",
-      desc: "Signalements live, bannissements 24/48/72h, rappels à l'ordre, corbeille 6 mois. Nouveau rôle Modérateur dédié.",
+      icon: Compass,
+      title: "Navigation mobile Constellation",
+      desc: "Le menu burger est remplacé par un FAB doré qui s'épanouit en arc. Deux batches alternés (Essentiel / Découverte) + actions contextuelles selon la page.",
       color: "text-or-ancestral"
     },
     {
-      icon: ScrollText,
-      title: "Journaux des anciens",
-      desc: "Toute action de modération laisse une trace consultable dans /admin/logs : filtrable par type, modérateur, utilisateur cible.",
+      icon: Crown,
+      title: "Abonnements offerts",
+      desc: "Bouton couronne sur /admin/users : offrez un Premium gratuit (7j à illimité). Modale festive + notification au prochain login du membre.",
+      color: "text-or-ancestral"
+    },
+    {
+      icon: Sparkles,
+      title: "Articles à étages",
+      desc: "Trois types d'articles : Résumé (libre), Poétique et Philosophique (Premium). Sélecteur intégré à la page de revue.",
+      color: "text-or-ancestral"
+    },
+    {
+      icon: Gavel,
+      title: "Modération forum complète",
+      desc: "Signalements réels, bannissements 24/48/72h, rappels à l'ordre, corbeille 6 mois, journaux dans /admin/logs.",
       color: "text-or-ancestral"
     },
     {
       icon: TreePine,
-      title: "Arbre généalogique 3D",
-      desc: "Page /genealogie refondue avec une scène 3D immersive : orbes lumineuses, étoiles, rotation auto, focus interactif.",
+      title: "Généalogie 3D immersive",
+      desc: "Scène 3D animée (R3F) sur /genealogie : orbes lumineuses, étoiles, focus interactif. Champs Prénom + Nom séparés.",
       color: "text-emerald-400"
-    },
-    {
-      icon: ShieldCheck,
-      title: "RolePicker & demandes contributeur",
-      desc: "Sélecteur de rôle animé (incl. Modérateur), formulaire de candidature enrichi (motivation, origine, types de partage).",
-      color: "text-or-ancestral"
     }
   ];
 
@@ -63,7 +69,7 @@ export const AdminPresentationModal = () => {
             <div className="p-10 space-y-8">
               <div className="space-y-2">
                 <span className="text-[10px] uppercase tracking-[0.3em] font-bold text-or-ancestral">Command Center Upgrade</span>
-                <h2 className="text-3xl font-display font-bold text-ivoire-ancien">Bienvenue dans la V3.4</h2>
+                <h2 className="text-3xl font-display font-bold text-ivoire-ancien">Bienvenue dans la V3.5</h2>
                 <p className="text-ivoire-ancien/60 text-sm leading-relaxed">
                   Votre centre de commandement a été renforcé par les puissances de l'IA et une infrastructure réseau de nouvelle génération.
                 </p>

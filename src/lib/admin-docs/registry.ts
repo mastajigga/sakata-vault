@@ -45,6 +45,7 @@ import * as tempAdmin from "./content/feature-temp-admin-role";
 import * as pineconeCorpus from "./content/architecture-pinecone-corpus";
 import * as contributionSystem from "./content/feature-contribution-system";
 import * as moderationV34 from "./content/feature-moderation-system-v34";
+import * as constellationNav from "./content/feature-constellation-nav";
 
 export const ALL_DOCS: DocEntry[] = [
   // Features
@@ -60,6 +61,7 @@ export const ALL_DOCS: DocEntry[] = [
   { ...tempAdmin.meta, Content: tempAdmin.Content },
   { ...contributionSystem.meta, Content: contributionSystem.Content },
   { ...moderationV34.meta, Content: moderationV34.Content },
+  { ...constellationNav.meta, Content: constellationNav.Content },
 
   // Architecture
   { ...constants.meta, Content: constants.Content },

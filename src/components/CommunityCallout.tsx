@@ -6,6 +6,8 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { useLanguage } from "./LanguageProvider";
+import { useAuth } from "./AuthProvider";
+import { ROUTES } from "@/lib/constants/routes";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -13,6 +15,10 @@ if (typeof window !== "undefined") {
 
 const CommunityCallout = () => {
   const { t } = useLanguage();
+  const { user } = useAuth();
+  // Connected users go straight to the contribution form / dashboard.
+  // Anonymous users hit /auth first and are redirected to /contributeur after sign-in.
+  const ctaHref = user ? ROUTES.CONTRIBUTEUR : `${ROUTES.AUTH}?redirect=${encodeURIComponent(ROUTES.CONTRIBUTEUR)}`;
   const sectionRef = useRef<HTMLElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
@@ -158,7 +164,7 @@ const CommunityCallout = () => {
           </p>
 
           <Link
-            href="/auth"
+            href={ctaHref}
             className="group glass-card inline-flex items-center gap-4 px-10 py-5 rounded-full font-bold transition-all border border-or/30 shadow-lg"
             style={{
               background: "rgba(242, 238, 221, 0.03)",

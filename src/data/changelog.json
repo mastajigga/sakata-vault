@@ -1,5 +1,160 @@
 [
   {
+    "version": "v3.5.1",
+    "date": "9 Mai 2026",
+    "subtitle": "Navigation mobile Constellation & corrections forum/chat",
+    "sections": [
+      {
+        "title": "🧭 Nouvelle navigation mobile — Constellation",
+        "items": [
+          "Refonte complète de la navigation sur téléphone : un FAB doré pulsant remplace l'ancien menu burger encombrant",
+          "Au tap, les destinations s'épanouissent en arc de cercle façon constellation, avec animations fluides en cascade",
+          "Système de batches alternés : 'Essentiel' (Accueil, Savoir, Communauté, Notifications) et 'Découverte' (École, Géographie, Membres, Messagerie/Modération)",
+          "Action contextuelle dorée selon la page (Nouveau sujet, Répondre, Ajouter un membre, etc.)",
+          "Le FAB se masque en scroll-down et réapparaît en scroll-up pour ne pas gêner la lecture",
+          "Badges non-lues synchronisés temps réel pour notifications et messagerie"
+        ]
+      },
+      {
+        "title": "🛠️ Corrections importantes",
+        "items": [
+          "Forum : sujets invisibles et 'Sujet introuvable' après création — ambiguïté de jointure résolue",
+          "Modale de signalement de message : portée en plein écran (portail React), backdrop flouté, scroll interne et fermeture par Escape",
+          "Chat : auto-scroll en bas de la conversation à l'ouverture, plus besoin de chercher les derniers messages",
+          "Page /notifications créée — 'Voir toutes les notifications' fonctionne enfin",
+          "Bouton 'Devenir contributeur' (page d'accueil) réparé — redirige correctement vers le formulaire",
+          "Notifications email : génération en HTML pur (plus de markdown brut dans la boîte de réception)"
+        ]
+      }
+    ]
+  },
+  {
+    "version": "v3.5.0",
+    "date": "9 Mai 2026",
+    "subtitle": "Articles à étages & Abonnements offerts",
+    "sections": [
+      {
+        "title": "📚 Tiers d'articles : Résumé / Poétique / Philosophique",
+        "items": [
+          "Nouvelle classification des articles avec 3 types (Résumé, Poétique, Philosophique)",
+          "Articles 'Résumé' libres d'accès pour tous, même sans inscription",
+          "Articles 'Poétique' et 'Philosophique' réservés aux abonnés Premium / Elite",
+          "Sélecteur de type intégré dans l'éditeur de revue d'article (admin)",
+          "Paywall mis à jour avec message contextuel selon le statut du visiteur"
+        ]
+      },
+      {
+        "title": "👑 Abonnements offerts manuellement",
+        "items": [
+          "Les administrateurs et managers peuvent offrir un abonnement gratuit (7j / 30j / 3 mois / 1 an / illimité)",
+          "Bouton couronne dédié dans /admin/users avec modale brume (sélection du niveau, durée, raison)",
+          "Au prochain login, l'utilisateur découvre une modale festive avec couronne dorée animée et particules",
+          "Notification dans la cloche en parallèle avec lien direct vers les articles débloqués",
+          "Révocation possible à tout moment, avec notification au membre concerné",
+          "Toutes les actions consignées dans les journaux de modération"
+        ]
+      }
+    ]
+  },
+  {
+    "version": "v3.4.0",
+    "date": "8 Mai 2026",
+    "subtitle": "Arbre généalogique 3D & Formulaire contributeur enrichi",
+    "sections": [
+      {
+        "title": "🌳 Généalogie en 3D immersive",
+        "items": [
+          "Page /genealogie entièrement refondue avec une scène 3D animée (Three.js + R3F)",
+          "Orbes émissives or ancestral, halos lumineux, étoiles en arrière-plan, brouillard de profondeur",
+          "Auto-rotation lente, zoom/pan tactile, focus interactif sur chaque membre",
+          "Champs Prénom et Nom séparés (au lieu d'un nom unique)",
+          "Statistiques animées : Âmes / Générations / Racines",
+          "Synchronisation entre la liste latérale et la scène 3D : cliquer un nom met l'orbe en évidence"
+        ]
+      },
+      {
+        "title": "✍️ Demande de contribution enrichie",
+        "items": [
+          "Carte mission de transmission et de partage en haut de la page",
+          "Champ 'Pourquoi contribuer ?' obligatoire avec compteur de caractères",
+          "Champ 'D'où venez-vous ?' libre pour la culture du candidat",
+          "Sélecteur multi-types pour 'Que pouvez-vous partager ?' (photos, vidéos, articles, témoignages, archives, audio, etc.)",
+          "Page admin /admin/contribution-requests affiche tous ces nouveaux champs",
+          "Réparation : les colonnes manquaient en base, les demandes n'étaient pas vraiment enregistrées"
+        ]
+      },
+      {
+        "title": "🎨 École en cohérence brume",
+        "items": [
+          "Lien 'Langue Kisakata' retiré du menu Savoir et intégré comme troisième discipline sur /ecole",
+          "Toutes les couleurs blue/teal/purple migrées vers les tokens de la charte (or-ancestral, ivoire-ancien, foret-nocturne)",
+          "Cohérence visuelle restaurée sur les pages Primaire, Secondaire et CourseRiver"
+        ]
+      }
+    ]
+  },
+  {
+    "version": "v3.3.0",
+    "date": "8 Mai 2026",
+    "subtitle": "Système complet de modération du forum",
+    "sections": [
+      {
+        "title": "⚖️ Modération forum réelle (auparavant factice)",
+        "items": [
+          "Page /admin/forum branchée sur la base de données : signalements, utilisateurs bannis, corbeille, recherche",
+          "Bannissements temporaires gradués : 24h / 48h / 72h",
+          "Rappels à l'ordre avec message personnalisé (lu en modale par l'utilisateur)",
+          "Suppression d'utilisateur en mode corbeille (soft-delete) avec délai de grâce de 6 mois avant purge définitive",
+          "Restauration de compte possible par un administrateur tant que la corbeille n'est pas purgée"
+        ]
+      },
+      {
+        "title": "🛡️ Nouveau rôle Modérateur",
+        "items": [
+          "Rôle 'moderator' ajouté entre 'manager' et 'contributor'",
+          "Accès strictement limité à /admin/forum et /admin/logs",
+          "Lien 'Modération' apparaît dans le menu Communauté pour les modérateurs",
+          "Sélecteur de rôle animé (RolePicker) sur la page /admin/users avec icônes brume",
+          "Tout changement de rôle est consigné dans les journaux"
+        ]
+      },
+      {
+        "title": "📜 Journaux des anciens",
+        "items": [
+          "Nouvelle page /admin/logs : historique consultable et filtrable de toutes les actions de modération",
+          "Filtres par type d'action, modérateur, utilisateur cible",
+          "Pagination infinie pour parcourir l'historique sur la durée"
+        ]
+      },
+      {
+        "title": "🔔 Modales utilisateur",
+        "items": [
+          "Modale plein écran avec décompte HH:MM:SS pour les utilisateurs bannis",
+          "Modale 'rappel à l'ordre' au login pour acquitter les avertissements",
+          "Modale 'compte suspendu' avec déconnexion automatique pour les comptes en corbeille",
+          "Synchronisation temps réel : un débannissement par un modérateur ferme instantanément la modale"
+        ]
+      }
+    ]
+  },
+  {
+    "version": "v3.2.0",
+    "date": "8 Mai 2026",
+    "subtitle": "Inscription multi-étapes & Refonte du profil",
+    "sections": [
+      {
+        "title": "📝 Tunnel d'inscription repensé",
+        "items": [
+          "Inscription découpée en 3 étapes courtes (Identité, Contact, Sécurité) — environ 2 minutes",
+          "Sélection visuelle du genre (Homme / Femme) avec image par défaut associée automatiquement",
+          "Date de naissance et adresse facultatives, ajoutées au profil",
+          "Confirmation du mot de passe pour éviter les fautes de frappe",
+          "Avatars par défaut illustrés en cohérence brume (SVG masculin et féminin)"
+        ]
+      }
+    ]
+  },
+  {
     "version": "v3.1.0",
     "date": "26 Avril 2026",
     "subtitle": "AI Orchestration, Chat Avancé & Centre d'Aide Admin",

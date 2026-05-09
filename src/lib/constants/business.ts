@@ -36,7 +36,7 @@ export const MAX_VIEWS = {
   TWICE: 2,
 } as const;
 
-export const APP_VERSION = "3.5.0"; // 2026-05-09 — Article tiers (summary/poetic/philosophical) + manual subscription grants
+export const APP_VERSION = "3.5.1"; // 2026-05-09 — Mobile Constellation nav + forum/chat fixes + changelog backfill
 export const PINECONE_DEFAULT_INDEX = "sakata-mathematics";
 
 // ─── Temp Admin ─────────────────────────────────────────────────────────────

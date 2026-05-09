@@ -1,13 +1,13 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { Suspense, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { supabase } from "@/lib/supabase";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLanguage } from "@/components/LanguageProvider";
 import { useAuth } from "@/components/AuthProvider";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { authSchema, type AuthFormData } from "@/lib/schemas/validation";
 
 type SignupStep = "intro" | "identity" | "contact" | "security";
@@ -18,6 +18,13 @@ const AuthPage = () => {
   const { t } = useLanguage();
   const { user, connectionError } = useAuth();
   const router = useRouter();
+  const searchParams = useSearchParams();
+  // Allow ?redirect=/some/path to send the user there post-login.
+  // Whitelist same-origin relative paths only to avoid open-redirect.
+  const redirectParam = searchParams?.get("redirect") || null;
+  const safeRedirect = redirectParam && redirectParam.startsWith("/") && !redirectParam.startsWith("//")
+    ? redirectParam
+    : "/";
   const [isSignUp, setIsSignUp] = useState(false);
   const [signupStep, setSignupStep] = useState<SignupStep>("intro");
   const [signupSuccess, setSignupSuccess] = useState(false);
@@ -40,8 +47,8 @@ const AuthPage = () => {
   const gender = watch("gender");
 
   React.useEffect(() => {
-    if (user) router.push("/");
-  }, [user, router]);
+    if (user) router.push(safeRedirect);
+  }, [user, router, safeRedirect]);
 
   const toggleAuthMode = () => {
     setIsSignUp(!isSignUp);
@@ -474,4 +481,11 @@ const AuthPage = () => {
   );
 };
 
-export default AuthPage;
+// Wrap in Suspense — useSearchParams() requires it during static generation.
+const AuthPageWrapper = () => (
+  <Suspense fallback={null}>
+    <AuthPage />
+  </Suspense>
+);
+
+export default AuthPageWrapper;
