@@ -14,28 +14,40 @@ export interface SatellitePosition {
   angle: number;
 }
 
+/**
+ * Per-satellite radial offset to avoid label overlap on the upper part of the arc.
+ * Odd-indexed satellites sit on an outer ring, creating a zig-zag.
+ * Total ring delta tuned so each label has ≥ 32px vertical breathing room.
+ */
+const OFFSET_RING = 38;
+
 export function computeSatellitePosition(
   index: number,
   total: number,
   radius: number,
 ): SatellitePosition {
-  // Arc from 180° (left) to 270° (up). Wrapping around the bottom-right anchor.
+  // Arc from 180° (left) to 270° (up), wrapping around the bottom-right anchor.
   const arcStart = 180;
   const arcEnd = 270;
   const span = arcEnd - arcStart;
   const t = total <= 1 ? 0.5 : index / (total - 1);
   const angle = arcStart + t * span;
   const rad = (angle * Math.PI) / 180;
-  // Standard polar → cartesian, but DOM y-axis grows downward, so negate.
-  const dx = Math.cos(rad) * radius;
-  const dy = Math.sin(rad) * radius;
+
+  // Alternate radius: even indices on inner ring, odd on outer ring.
+  // This breaks vertical alignment for adjacent satellites near the top of
+  // the arc (where labels would otherwise overlap).
+  const r = radius + (index % 2 === 1 ? OFFSET_RING : 0);
+
+  const dx = Math.cos(rad) * r;
+  const dy = Math.sin(rad) * r;
   return { dx, dy, angle };
 }
 
 export function computeRadius(viewportH: number, viewportW: number): number {
-  // Generous spacing so each satellite (≈ 48px orb + label pill) has clear separation.
-  if (viewportH < 600) return 150;
-  if (viewportW < 380) return 165;
-  if (viewportW < 420) return 180;
-  return 200;
+  // Inner ring radius. Outer ring sits +OFFSET_RING px further out.
+  if (viewportH < 600) return 145;
+  if (viewportW < 380) return 160;
+  if (viewportW < 420) return 175;
+  return 195;
 }
