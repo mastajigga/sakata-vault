@@ -63,17 +63,18 @@ export default function ReportModal({ open, postId, onClose }: ReportModalProps)
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
+          className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 bg-foret-nocturne/85 backdrop-blur-md overflow-y-auto"
           onClick={onClose}
         >
           <motion.div
             initial={{ scale: 0.95, y: 20 }}
             animate={{ scale: 1, y: 0 }}
             exit={{ scale: 0.95, y: 20 }}
-            className="w-full max-w-md rounded-3xl border border-or-ancestral/30 bg-foret-nocturne/95 backdrop-blur-2xl p-6 shadow-[0_20px_60px_rgba(0,0,0,0.5)]"
+            className="w-full max-w-md max-h-[calc(100dvh-2rem)] flex flex-col rounded-3xl border border-or-ancestral/30 bg-foret-nocturne backdrop-blur-2xl shadow-[0_20px_60px_rgba(0,0,0,0.6)] my-auto"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="flex items-center justify-between mb-5">
+            {/* Header (sticky) */}
+            <div className="flex items-center justify-between px-6 py-4 border-b border-white/5 flex-shrink-0">
               <div className="flex items-center gap-2">
                 <Flag className="w-5 h-5 text-amber-400" />
                 <h3 className="font-display text-lg font-bold text-ivoire-ancien">
@@ -89,62 +90,66 @@ export default function ReportModal({ open, postId, onClose }: ReportModalProps)
             </div>
 
             {done ? (
-              <div className="py-8 text-center text-emerald-300 flex flex-col items-center gap-3">
+              <div className="py-12 text-center text-emerald-300 flex flex-col items-center gap-3 px-6">
                 <CheckCircle2 className="w-8 h-8" />
                 <p>Signalement envoyé. Merci.</p>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <div>
-                  <label className="block text-[11px] uppercase tracking-widest text-ivoire-ancien/50 mb-2">
-                    Motif
-                  </label>
-                  <div className="space-y-2">
-                    {CATEGORIES.map((c) => (
-                      <label
-                        key={c.value}
-                        className={`flex items-center gap-3 px-4 py-3 rounded-xl border cursor-pointer transition-all ${
-                          category === c.value
-                            ? "border-or-ancestral/50 bg-or-ancestral/10"
-                            : "border-white/10 hover:border-white/30"
-                        }`}
-                      >
-                        <input
-                          type="radio"
-                          name="category"
-                          value={c.value}
-                          checked={category === c.value}
-                          onChange={() => setCategory(c.value)}
-                          className="accent-or-ancestral"
-                        />
-                        <span className="text-sm text-ivoire-ancien/85">
-                          {c.label}
-                        </span>
-                      </label>
-                    ))}
+              <form onSubmit={handleSubmit} className="flex-1 flex flex-col min-h-0">
+                {/* Scrollable body */}
+                <div className="flex-1 overflow-y-auto px-6 py-5 space-y-4 scrollbar-hide">
+                  <div>
+                    <label className="block text-[11px] uppercase tracking-widest text-ivoire-ancien/50 mb-2">
+                      Motif
+                    </label>
+                    <div className="space-y-2">
+                      {CATEGORIES.map((c) => (
+                        <label
+                          key={c.value}
+                          className={`flex items-center gap-3 px-4 py-3 rounded-xl border cursor-pointer transition-all ${
+                            category === c.value
+                              ? "border-or-ancestral/50 bg-or-ancestral/10"
+                              : "border-white/10 hover:border-white/30"
+                          }`}
+                        >
+                          <input
+                            type="radio"
+                            name="category"
+                            value={c.value}
+                            checked={category === c.value}
+                            onChange={() => setCategory(c.value)}
+                            className="accent-or-ancestral"
+                          />
+                          <span className="text-sm text-ivoire-ancien/85">
+                            {c.label}
+                          </span>
+                        </label>
+                      ))}
+                    </div>
                   </div>
+
+                  <div>
+                    <label className="block text-[11px] uppercase tracking-widest text-ivoire-ancien/50 mb-2">
+                      Détails (optionnel)
+                    </label>
+                    <textarea
+                      value={description}
+                      onChange={(e) => setDescription(e.target.value)}
+                      rows={3}
+                      placeholder="Précisions pour le modérateur..."
+                      className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 focus:border-or-ancestral/50 outline-none text-sm text-ivoire-ancien placeholder-ivoire-ancien/30 resize-none"
+                    />
+                  </div>
+
+                  {error && (
+                    <p className="text-sm text-red-300 bg-red-500/10 border border-red-500/30 rounded-lg px-3 py-2">
+                      {error}
+                    </p>
+                  )}
                 </div>
 
-                <div>
-                  <label className="block text-[11px] uppercase tracking-widest text-ivoire-ancien/50 mb-2">
-                    Détails (optionnel)
-                  </label>
-                  <textarea
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                    rows={3}
-                    placeholder="Précisions pour le modérateur..."
-                    className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 focus:border-or-ancestral/50 outline-none text-sm text-ivoire-ancien placeholder-ivoire-ancien/30 resize-none"
-                  />
-                </div>
-
-                {error && (
-                  <p className="text-sm text-red-300 bg-red-500/10 border border-red-500/30 rounded-lg px-3 py-2">
-                    {error}
-                  </p>
-                )}
-
-                <div className="flex justify-end gap-2 pt-2">
+                {/* Sticky footer */}
+                <div className="flex justify-end gap-2 px-6 py-4 border-t border-white/5 flex-shrink-0 bg-foret-nocturne/95 rounded-b-3xl">
                   <button
                     type="button"
                     onClick={onClose}
