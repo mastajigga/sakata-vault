@@ -15,39 +15,41 @@ export interface SatellitePosition {
 }
 
 /**
- * Per-satellite radial offset to avoid label overlap on the upper part of the arc.
- * Odd-indexed satellites sit on an outer ring, creating a zig-zag.
- * Total ring delta tuned so each label has ≥ 32px vertical breathing room.
+ * Hand-tuned angle sequences (in degrees) for small satellite counts.
+ * The arc opens to the upper-left from the bottom-right FAB anchor.
+ * Last gap is widened so the topmost satellite's label clears the one
+ * just below it (≥ 32px vertical breathing room).
  */
-const OFFSET_RING = 38;
+const ANGLE_SEQUENCES: Record<number, number[]> = {
+  3: [180, 220, 260],
+  4: [180, 205, 235, 268],
+  5: [180, 198, 220, 240, 268],
+  6: [180, 195, 215, 235, 252, 270],
+};
 
 export function computeSatellitePosition(
   index: number,
   total: number,
   radius: number,
 ): SatellitePosition {
-  // Arc from 180° (left) to 270° (up), wrapping around the bottom-right anchor.
-  const arcStart = 180;
-  const arcEnd = 270;
-  const span = arcEnd - arcStart;
-  const t = total <= 1 ? 0.5 : index / (total - 1);
-  const angle = arcStart + t * span;
+  const sequence = ANGLE_SEQUENCES[total];
+  let angle: number;
+  if (sequence) {
+    angle = sequence[index] ?? 180;
+  } else {
+    // Uniform fallback for unexpected counts.
+    const t = total <= 1 ? 0.5 : index / (total - 1);
+    angle = 180 + t * 90;
+  }
   const rad = (angle * Math.PI) / 180;
-
-  // Alternate radius: even indices on inner ring, odd on outer ring.
-  // This breaks vertical alignment for adjacent satellites near the top of
-  // the arc (where labels would otherwise overlap).
-  const r = radius + (index % 2 === 1 ? OFFSET_RING : 0);
-
-  const dx = Math.cos(rad) * r;
-  const dy = Math.sin(rad) * r;
+  const dx = Math.cos(rad) * radius;
+  const dy = Math.sin(rad) * radius;
   return { dx, dy, angle };
 }
 
 export function computeRadius(viewportH: number, viewportW: number): number {
-  // Inner ring radius. Outer ring sits +OFFSET_RING px further out.
-  if (viewportH < 600) return 145;
-  if (viewportW < 380) return 160;
-  if (viewportW < 420) return 175;
-  return 195;
+  if (viewportH < 600) return 155;
+  if (viewportW < 380) return 175;
+  if (viewportW < 420) return 195;
+  return 215;
 }

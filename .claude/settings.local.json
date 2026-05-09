@@ -17,7 +17,8 @@
       "Bash(grep -n \"^export default\\\\|^const Navbar\\\\|^export.*Navbar\\\\|^}$\" src/components/Navbar.tsx)",
       "Bash(git commit -m 'tweak\\(constellation\\): widen radius for better satellite separation *)",
       "Bash(git commit -m 'tweak\\(constellation\\): place satellite labels to the left of orbs *)",
-      "Bash(git commit -m 'tweak\\(constellation\\): alternate radius \\(zig-zag\\) to prevent label overlap *)"
+      "Bash(git commit -m 'tweak\\(constellation\\): alternate radius \\(zig-zag\\) to prevent label overlap *)",
+      "Bash(git commit -m 'feat\\(constellation\\): two batches with switcher \\(Essentiel ↔ Découverte\\) *)"
     ]
   }
 }

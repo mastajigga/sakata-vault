@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { usePathname } from "next/navigation";
 import FabButton from "./FabButton";
 import Satellite from "./Satellite";
-import { useConstellationActions, useFabRestIcon } from "./useConstellationActions";
+import { useConstellationActions, useFabRestIcon, type BatchKey } from "./useConstellationActions";
 import { useScrollDirection } from "./useScrollDirection";
 import { computeRadius } from "./ConstellationLayout";
 
@@ -19,14 +19,27 @@ export default function ConstellationNav() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
-  const { primary, satellites } = useConstellationActions();
+  const [batch, setBatch] = useState<BatchKey>("essentiel");
+  const { primary, batches } = useConstellationActions();
+  const satellites = batches[batch];
   const RestIcon = useFabRestIcon();
   const scrollDirection = useScrollDirection();
 
   useEffect(() => { setMounted(true); }, []);
 
-  // Close on route change.
-  useEffect(() => { setOpen(false); }, [pathname]);
+  // Close on route change + reset to default batch.
+  useEffect(() => {
+    setOpen(false);
+    setBatch("essentiel");
+  }, [pathname]);
+
+  // Reset to default batch when fully closed (so next open starts on Essentiel).
+  useEffect(() => {
+    if (!open) {
+      const t = setTimeout(() => setBatch("essentiel"), 350);
+      return () => clearTimeout(t);
+    }
+  }, [open]);
 
   // Close on Escape.
   useEffect(() => {
@@ -113,13 +126,16 @@ export default function ConstellationNav() {
               >
                 {allItems.map((item, i) => (
                   <Satellite
-                    key={item.id}
+                    /* Including batch in the key forces a remount → re-runs the
+                       enter animation when the user toggles batches. */
+                    key={`${batch}-${item.id}`}
                     item={item}
                     index={i}
                     total={allItems.length}
                     radius={radius}
                     open={open}
                     onSelect={() => setOpen(false)}
+                    onSwitch={(target) => setBatch(target)}
                   />
                 ))}
 
