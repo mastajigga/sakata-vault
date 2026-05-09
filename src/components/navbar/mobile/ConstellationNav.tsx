@@ -4,50 +4,71 @@ import React, { useEffect, useMemo, useState } from "react";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { usePathname } from "next/navigation";
+import { ArrowLeft } from "lucide-react";
 import FabButton from "./FabButton";
 import Satellite from "./Satellite";
-import { useConstellationActions, useFabRestIcon, type BatchKey } from "./useConstellationActions";
+import {
+  useConstellationActions,
+  useFabRestIcon,
+  type BatchKey,
+  type ConstellationItem,
+} from "./useConstellationActions";
 import { useScrollDirection } from "./useScrollDirection";
 import { computeRadius } from "./ConstellationLayout";
 
 /**
+ * Navigation state machine.
+ * - "batch" : root level, user sees one of the two top batches.
+ * - "submenu": drilled into a specific item with sub-options.
+ */
+type NavState =
+  | { kind: "batch"; key: BatchKey }
+  | { kind: "submenu"; parent: ConstellationItem; parentBatch: BatchKey };
+
+/**
  * Mobile-only constellation navigator.
- * - Anchored bottom-right via FabButton (which is portal-free, lives in normal flow).
- * - When opened, satellites + backdrop are portaled to <body> to escape stacking.
+ * - FAB stays in normal flow (focus + accessibility friendly).
+ * - Backdrop + satellites portaled to <body> to escape transformed ancestors.
  */
 export default function ConstellationNav() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
-  const [batch, setBatch] = useState<BatchKey>("essentiel");
+  const [navState, setNavState] = useState<NavState>({ kind: "batch", key: "essentiel" });
   const { primary, batches } = useConstellationActions();
-  const satellites = batches[batch];
   const RestIcon = useFabRestIcon();
   const scrollDirection = useScrollDirection();
 
   useEffect(() => { setMounted(true); }, []);
 
-  // Close on route change + reset to default batch.
+  // Close on route change + reset nav.
   useEffect(() => {
     setOpen(false);
-    setBatch("essentiel");
+    setNavState({ kind: "batch", key: "essentiel" });
   }, [pathname]);
 
-  // Reset to default batch when fully closed (so next open starts on Essentiel).
+  // Reset nav when fully closed.
   useEffect(() => {
     if (!open) {
-      const t = setTimeout(() => setBatch("essentiel"), 350);
+      const t = setTimeout(() => setNavState({ kind: "batch", key: "essentiel" }), 350);
       return () => clearTimeout(t);
     }
   }, [open]);
 
-  // Close on Escape.
+  // Close on Escape (or pop one level if in submenu).
   useEffect(() => {
     if (!open) return;
-    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setOpen(false); };
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key !== "Escape") return;
+      if (navState.kind === "submenu") {
+        setNavState({ kind: "batch", key: navState.parentBatch });
+      } else {
+        setOpen(false);
+      }
+    };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [open]);
+  }, [open, navState]);
 
   // Lock body scroll while open.
   useEffect(() => {
@@ -59,30 +80,45 @@ export default function ConstellationNav() {
 
   // Compute satellite radius based on viewport.
   const radius = useMemo(() => {
-    if (typeof window === "undefined") return 140;
+    if (typeof window === "undefined") return 195;
     return computeRadius(window.innerHeight, window.innerWidth);
-  }, [open]);
+  }, [open, navState]);
 
-  const allItems = useMemo(() => {
-    const list = [...satellites];
-    if (primary) list.push(primary);
-    return list;
-  }, [satellites, primary]);
+  // Resolve the current visible items based on navigation state.
+  // In submenu mode: children + a synthetic "back" satellite at the end.
+  const visibleItems = useMemo<ConstellationItem[]>(() => {
+    if (navState.kind === "batch") {
+      const base = batches[navState.key];
+      return primary ? [...base, primary] : base;
+    }
+    // submenu
+    const children = navState.parent.children || [];
+    const back: ConstellationItem = {
+      id: `back-${navState.parent.id}`,
+      label: "Retour",
+      icon: ArrowLeft,
+      isBack: true,
+    };
+    return [...children, back];
+  }, [navState, batches, primary]);
 
-  // Combined badge for the FAB at rest (sum of all satellite badges).
-  const totalBadge = useMemo(
-    () => satellites.reduce((sum, s) => sum + (s.badge || 0), 0),
-    [satellites]
-  );
+  // Combined badge for the FAB at rest.
+  const totalBadge = useMemo(() => {
+    if (navState.kind !== "batch") return 0;
+    return batches[navState.key].reduce((sum, s) => sum + (s.badge || 0), 0);
+  }, [navState, batches]);
 
-  // Hide the FAB on scroll-down (only when closed) — keeps reading/contemplation clean.
+  // Stable key prefix used to remount satellites when the level changes
+  // — this re-fires the entry animation on drill-in / drill-out / batch swap.
+  const levelKey = navState.kind === "batch" ? `b:${navState.key}` : `s:${navState.parent.id}`;
+
+  // Hide the FAB on scroll-down (only when closed).
   const fabHidden = scrollDirection === "down" && !open;
 
   if (!mounted) return null;
 
   return (
     <>
-      {/* Backdrop + satellites portaled to body to escape any transformed ancestor */}
       {createPortal(
         <AnimatePresence>
           {open && (
@@ -100,20 +136,19 @@ export default function ConstellationNav() {
                 WebkitBackdropFilter: "blur(14px)",
               }}
             >
-              {/* Tracer lines from FAB centre to each satellite */}
-              <svg
-                className="absolute inset-0 w-full h-full pointer-events-none"
-                style={{ overflow: "visible" }}
-              >
-                <defs>
-                  <radialGradient id="constellation-glow" cx="100%" cy="100%" r="50%">
-                    <stop offset="0%" stopColor="rgba(232, 192, 120, 0.5)" />
-                    <stop offset="100%" stopColor="rgba(181, 149, 81, 0)" />
-                  </radialGradient>
-                </defs>
-              </svg>
+              {/* Breadcrumb shown when in a submenu */}
+              {navState.kind === "submenu" && (
+                <motion.div
+                  initial={{ opacity: 0, y: -8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="absolute top-6 left-0 right-0 text-center pointer-events-none"
+                >
+                  <p className="text-[10px] font-mono uppercase tracking-[0.22em] text-or-ancestral/70">
+                    {navState.parentBatch === "essentiel" ? "Essentiel" : "Découverte"} · {navState.parent.label}
+                  </p>
+                </motion.div>
+              )}
 
-              {/* Satellites layer — anchored to bottom-right like the FAB */}
               <div
                 className="absolute pointer-events-none"
                 style={{
@@ -124,18 +159,25 @@ export default function ConstellationNav() {
                 }}
                 onClick={(e) => e.stopPropagation()}
               >
-                {allItems.map((item, i) => (
+                {visibleItems.map((item, i) => (
                   <Satellite
-                    /* Including batch in the key forces a remount → re-runs the
-                       enter animation when the user toggles batches. */
-                    key={`${batch}-${item.id}`}
+                    key={`${levelKey}-${item.id}`}
                     item={item}
                     index={i}
-                    total={allItems.length}
+                    total={visibleItems.length}
                     radius={radius}
                     open={open}
                     onSelect={() => setOpen(false)}
-                    onSwitch={(target) => setBatch(target)}
+                    onSwitch={(target) => setNavState({ kind: "batch", key: target })}
+                    onExpand={(parent) => {
+                      const parentBatch = navState.kind === "batch" ? navState.key : navState.parentBatch;
+                      setNavState({ kind: "submenu", parent, parentBatch });
+                    }}
+                    onBack={() => {
+                      if (navState.kind === "submenu") {
+                        setNavState({ kind: "batch", key: navState.parentBatch });
+                      }
+                    }}
                   />
                 ))}
 
@@ -170,7 +212,6 @@ export default function ConstellationNav() {
         document.body
       )}
 
-      {/* The FAB itself stays in place, always rendered (portal-free for accessibility & focus order) */}
       <FabButton
         open={open}
         onToggle={() => setOpen((v) => !v)}

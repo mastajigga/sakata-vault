@@ -17,13 +17,20 @@ interface SatelliteProps {
   onSelect: () => void;
   /** Called when the user taps a "switcher" satellite. Receives the target batch key. */
   onSwitch?: (target: BatchKey) => void;
+  /** Called when the user taps an item with sub-options (drills into them). */
+  onExpand?: (item: ConstellationItem) => void;
+  /** Called when the user taps the special "back" satellite. */
+  onBack?: () => void;
 }
 
-export default function Satellite({ item, index, total, radius, open, onSelect, onSwitch }: SatelliteProps) {
+export default function Satellite({ item, index, total, radius, open, onSelect, onSwitch, onExpand, onBack }: SatelliteProps) {
   const { dx, dy } = computeSatellitePosition(index, total, radius);
   const Icon = item.icon;
   const isPrimary = !!item.isPrimary;
   const isSwitcher = !!item.switchTo;
+  const isExpander = !!(item.children && item.children.length > 0);
+  const isBack = !!item.isBack;
+  const isControl = isSwitcher || isExpander || isBack;
 
   const sharedClasses = "pointer-events-auto absolute flex flex-row items-center gap-2";
   const sharedStyle: React.CSSProperties = {
@@ -39,7 +46,7 @@ export default function Satellite({ item, index, total, radius, open, onSelect, 
       open={open}
       Icon={Icon}
       isPrimary={isPrimary}
-      isSwitcher={isSwitcher}
+      isControl={isControl}
     />
   );
 
@@ -60,11 +67,19 @@ export default function Satellite({ item, index, total, radius, open, onSelect, 
         ease: [0.16, 1, 0.3, 1],
       }}
     >
-      {isSwitcher ? (
+      {isControl ? (
         <button
           type="button"
-          onClick={() => item.switchTo && onSwitch?.(item.switchTo)}
-          aria-label={`Voir le menu ${item.label}`}
+          onClick={() => {
+            if (isBack) onBack?.();
+            else if (isExpander) onExpand?.(item);
+            else if (isSwitcher && item.switchTo) onSwitch?.(item.switchTo);
+          }}
+          aria-label={
+            isBack ? `Retour à ${item.label}`
+            : isExpander ? `Explorer ${item.label}`
+            : `Voir le menu ${item.label}`
+          }
           className={sharedClasses}
           style={sharedStyle}
         >
@@ -86,14 +101,14 @@ export default function Satellite({ item, index, total, radius, open, onSelect, 
 }
 
 function SatelliteContents({
-  item, index, open, Icon, isPrimary, isSwitcher,
+  item, index, open, Icon, isPrimary, isControl,
 }: {
   item: ConstellationItem;
   index: number;
   open: boolean;
   Icon: LucideIcon;
   isPrimary: boolean;
-  isSwitcher: boolean;
+  isControl: boolean;
 }) {
   return (
     <>
@@ -108,7 +123,7 @@ function SatelliteContents({
         className={`whitespace-nowrap px-3 py-1.5 rounded-full text-[10px] font-mono uppercase tracking-widest border backdrop-blur-md flex-shrink-0 ${
           isPrimary
             ? "bg-or-ancestral/95 text-foret-nocturne border-or-ancestral shadow-[0_4px_14px_rgba(181,149,81,0.35)]"
-            : isSwitcher
+            : isControl
             ? "bg-or-ancestral/15 text-or-ancestral border-or-ancestral/40 shadow-[0_4px_12px_rgba(0,0,0,0.4)]"
             : "bg-foret-nocturne/90 text-ivoire-ancien/85 border-or-ancestral/20 shadow-[0_4px_12px_rgba(0,0,0,0.4)]"
         }`}
@@ -122,7 +137,7 @@ function SatelliteContents({
         className={`relative flex items-center justify-center rounded-full border flex-shrink-0 ${
           isPrimary
             ? "w-14 h-14 bg-gradient-to-br from-or-ancestral to-or-ancestral/60 border-or-ancestral text-foret-nocturne shadow-[0_8px_24px_rgba(181,149,81,0.45)]"
-            : isSwitcher
+            : isControl
             ? "w-12 h-12 bg-or-ancestral/20 border-or-ancestral/50 text-or-ancestral backdrop-blur-md shadow-[0_8px_20px_rgba(0,0,0,0.5)]"
             : "w-12 h-12 bg-foret-nocturne/95 border-or-ancestral/35 text-ivoire-ancien backdrop-blur-md shadow-[0_8px_20px_rgba(0,0,0,0.5)]"
         }`}
