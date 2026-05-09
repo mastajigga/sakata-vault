@@ -48,23 +48,27 @@ export default function Satellite({ item, index, total, radius, open, onSelect }
         href={item.href}
         onClick={onSelect}
         aria-label={item.label}
-        className={`pointer-events-auto absolute flex flex-col items-center gap-1.5 ${
-          isPrimary ? "" : ""
-        }`}
+        className="pointer-events-auto absolute flex flex-row items-center gap-2"
         style={{
-          // Center the link block on the computed point.
-          transform: `translate(-50%, -50%)`,
+          // The hit area is anchored on the right edge of the orb, so the label
+          // always extends toward the screen's interior (left), never off-screen.
+          right: 0,
+          top: "50%",
+          transform: "translateY(-50%)",
         }}
       >
-        {/* Label pill */}
+        {/* Label pill — left of the orb, slides in from the orb's centre */}
         <motion.span
           initial={false}
-          animate={{ opacity: open ? 1 : 0 }}
-          transition={{ delay: open ? 0.15 + index * 0.04 : 0, duration: 0.25 }}
-          className={`whitespace-nowrap px-2.5 py-1 rounded-full text-[10px] font-mono uppercase tracking-widest border backdrop-blur-md ${
+          animate={{
+            opacity: open ? 1 : 0,
+            x: open ? 0 : 20,
+          }}
+          transition={{ delay: open ? 0.18 + index * 0.04 : 0, duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+          className={`whitespace-nowrap px-3 py-1.5 rounded-full text-[10px] font-mono uppercase tracking-widest border backdrop-blur-md flex-shrink-0 ${
             isPrimary
-              ? "bg-or-ancestral/95 text-foret-nocturne border-or-ancestral"
-              : "bg-foret-nocturne/85 text-ivoire-ancien/85 border-or-ancestral/20"
+              ? "bg-or-ancestral/95 text-foret-nocturne border-or-ancestral shadow-[0_4px_14px_rgba(181,149,81,0.35)]"
+              : "bg-foret-nocturne/90 text-ivoire-ancien/85 border-or-ancestral/20 shadow-[0_4px_12px_rgba(0,0,0,0.4)]"
           }`}
         >
           {item.label}
@@ -73,7 +77,7 @@ export default function Satellite({ item, index, total, radius, open, onSelect }
         {/* Orb */}
         <motion.span
           whileTap={{ scale: 0.92 }}
-          className={`relative flex items-center justify-center rounded-full border ${
+          className={`relative flex items-center justify-center rounded-full border flex-shrink-0 ${
             isPrimary
               ? "w-14 h-14 bg-gradient-to-br from-or-ancestral to-or-ancestral/60 border-or-ancestral text-foret-nocturne shadow-[0_8px_24px_rgba(181,149,81,0.45)]"
               : "w-12 h-12 bg-foret-nocturne/95 border-or-ancestral/35 text-ivoire-ancien backdrop-blur-md shadow-[0_8px_20px_rgba(0,0,0,0.5)]"

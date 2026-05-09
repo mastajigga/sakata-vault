@@ -15,7 +15,8 @@
       "Bash(git commit -m ' *)",
       "Bash(git fetch *)",
       "Bash(grep -n \"^export default\\\\|^const Navbar\\\\|^export.*Navbar\\\\|^}$\" src/components/Navbar.tsx)",
-      "Bash(git commit -m 'tweak\\(constellation\\): widen radius for better satellite separation *)"
+      "Bash(git commit -m 'tweak\\(constellation\\): widen radius for better satellite separation *)",
+      "Bash(git commit -m 'tweak\\(constellation\\): place satellite labels to the left of orbs *)"
     ]
   }
 }
