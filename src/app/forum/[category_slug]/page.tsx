@@ -30,10 +30,11 @@ export default async function ForumCategoryPage(props: { params: Promise<{ categ
     .from(DB_TABLES.FORUM_THREADS)
     .select(`
       *,
-      profiles ( username, avatar_url, nickname ),
+      profiles:created_by ( username, avatar_url, nickname, deleted_at ),
       forum_posts ( count )
     `)
     .eq("category_id", category.id)
+    .is("deleted_at", null)
     .order("is_pinned", { ascending: false })
     .order("updated_at", { ascending: false });
 

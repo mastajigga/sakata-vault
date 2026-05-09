@@ -156,13 +156,41 @@ export function ChatWindow({ conversationId, onBack }: ChatWindowProps) {
   // Trouver l'userId de l'interlocuteur principal (pour calculer isRead)
   const otherParticipantId = messages.find(m => !m.isMe)?.senderId;
 
-  // Scroll to bottom on new messages (seulement si déjà en bas)
+  // Scroll to bottom on new messages (only if user is already at bottom),
+  // OR force-scroll when the conversation changes / opens for the first time.
   const isAtBottomRef = useRef(true);
+  const lastConversationIdRef = useRef<string | null>(null);
+  const initialScrollDoneRef = useRef(false);
+
+  // Reset state when conversation switches → force the next scroll-to-bottom.
   useEffect(() => {
-    if (scrollRef.current && isAtBottomRef.current) {
-      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+    if (lastConversationIdRef.current !== conversationId) {
+      lastConversationIdRef.current = conversationId;
+      isAtBottomRef.current = true;
+      initialScrollDoneRef.current = false;
     }
-  }, [messages]);
+  }, [conversationId]);
+
+  useEffect(() => {
+    if (!scrollRef.current) return;
+    const el = scrollRef.current;
+
+    // First time messages arrive for this conversation → always scroll to bottom,
+    // even if the user "appeared" not at bottom (because the scrollbar didn't exist yet).
+    if (!initialScrollDoneRef.current && messages.length > 0) {
+      requestAnimationFrame(() => {
+        el.scrollTop = el.scrollHeight;
+        initialScrollDoneRef.current = true;
+        isAtBottomRef.current = true;
+      });
+      return;
+    }
+
+    // Subsequent updates: only follow if user hasn't scrolled up.
+    if (isAtBottomRef.current) {
+      el.scrollTop = el.scrollHeight;
+    }
+  }, [messages, conversationId]);
 
   // Déclenchement automatique de loadMore quand l'utilisateur scroll vers le haut
   useEffect(() => {

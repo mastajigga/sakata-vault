@@ -16,7 +16,7 @@ export default async function ThreadPage(props: { params: Promise<{ thread_slug:
     .from(DB_TABLES.FORUM_THREADS)
     .select(`
       *,
-      profiles ( id, username, nickname, avatar_url, role, deleted_at ),
+      profiles:created_by ( id, username, nickname, avatar_url, role, deleted_at ),
       forum_categories ( slug, name )
     `)
     .eq("slug", params.thread_slug)
