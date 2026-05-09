@@ -22,7 +22,11 @@
       "Bash(children)",
       "Bash(isBack)",
       "Bash(git commit -m 'feat\\(constellation\\): two-level navigation with sub-menus *)",
-      "Bash(git commit -m 'fix\\(avatars\\): default-by-gender + local path passthrough + img fallback *)"
+      "Bash(git commit -m 'fix\\(avatars\\): default-by-gender + local path passthrough + img fallback *)",
+      "Bash(ls \"/c/Users/Fortuné/OneDrive/Images/Sakata/\" 2>&1 | head -20)",
+      "Bash(cp \"/c/Users/Fortuné/OneDrive/Images/Sakata/avatar-female-default.png\" public/images/avatar-female-default.png)",
+      "Bash(cp \"/c/Users/Fortuné/OneDrive/Images/Sakata/avatar-male-default.png\" public/images/avatar-male-default.png)",
+      "Bash(git commit -m 'feat\\(avatars\\): real PNG photos as gender defaults *)"
     ]
   }
 }
