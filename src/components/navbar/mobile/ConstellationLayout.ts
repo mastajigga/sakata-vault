@@ -16,30 +16,40 @@ export interface SatellitePosition {
 
 /**
  * Hand-tuned angle sequences (in degrees) for small satellite counts.
- * The arc opens to the upper-left from the bottom-right FAB anchor.
- * Last gap is widened so the topmost satellite's label clears the one
- * just below it (≥ 32px vertical breathing room).
+ * RIGHT-side FAB: arc opens upper-LEFT (180° → 270°).
+ * LEFT-side FAB:  arc opens upper-RIGHT (mirrored, 360° → 270°).
+ * Last gap widened so topmost satellite's label has ≥ 32px breathing room.
  */
-const ANGLE_SEQUENCES: Record<number, number[]> = {
+const ANGLE_SEQUENCES_RIGHT: Record<number, number[]> = {
   3: [180, 220, 260],
   4: [180, 205, 235, 268],
   5: [180, 198, 220, 240, 268],
   6: [180, 195, 215, 235, 252, 270],
 };
 
+const ANGLE_SEQUENCES_LEFT: Record<number, number[]> = {
+  3: [360, 320, 280],
+  4: [360, 335, 305, 272],
+  5: [360, 342, 320, 300, 272],
+  6: [360, 345, 325, 305, 288, 270],
+};
+
+export type ConstellationSide = "right" | "left";
+
 export function computeSatellitePosition(
   index: number,
   total: number,
   radius: number,
+  side: ConstellationSide = "right",
 ): SatellitePosition {
-  const sequence = ANGLE_SEQUENCES[total];
+  const sequences = side === "left" ? ANGLE_SEQUENCES_LEFT : ANGLE_SEQUENCES_RIGHT;
+  const sequence = sequences[total];
   let angle: number;
   if (sequence) {
-    angle = sequence[index] ?? 180;
+    angle = sequence[index] ?? sequence[0];
   } else {
-    // Uniform fallback for unexpected counts.
     const t = total <= 1 ? 0.5 : index / (total - 1);
-    angle = 180 + t * 90;
+    angle = side === "left" ? 360 - t * 90 : 180 + t * 90;
   }
   const rad = (angle * Math.PI) / 180;
   const dx = Math.cos(rad) * radius;

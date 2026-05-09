@@ -9,6 +9,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AdminPresentationModal } from "@/components/admin/AdminPresentationModal";
 import AdminHelpModal from "@/components/admin/AdminHelpModal";
+import AdminConstellationNav from "@/components/admin/mobile/AdminConstellationNav";
 
 const AdminLayout = ({ children }: { children: React.ReactNode }) => {
   const { user, role, isLoading } = useAuth();
@@ -90,12 +91,15 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
         </aside>
 
         {/* Main Content */}
-        <main className="flex-1 overflow-y-auto p-8 md:p-12 scrollbar-hide">
-          <div className="max-w-6xl mx-auto">
+        <main className="flex-1 overflow-y-auto p-4 md:p-12 scrollbar-hide">
+          <div className="max-w-6xl mx-auto pb-24 md:pb-0">
             {children}
           </div>
         </main>
       </div>
+
+      {/* Mobile-only admin radial navigator (bottom-left, mirror of main nav) */}
+      <AdminConstellationNav />
     </div>
   );
 };

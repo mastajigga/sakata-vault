@@ -10,9 +10,10 @@ interface FabButtonProps {
   RestIcon: LucideIcon;
   badge?: number;
   hidden?: boolean;
+  side?: "left" | "right";
 }
 
-export default function FabButton({ open, onToggle, RestIcon, badge, hidden }: FabButtonProps) {
+export default function FabButton({ open, onToggle, RestIcon, badge, hidden, side = "right" }: FabButtonProps) {
   return (
     <motion.button
       type="button"
@@ -28,7 +29,7 @@ export default function FabButton({ open, onToggle, RestIcon, badge, hidden }: F
       style={{
         width: 64,
         height: 64,
-        right: 20,
+        ...(side === "left" ? { left: 20 } : { right: 20 }),
         bottom: "calc(20px + env(safe-area-inset-bottom, 0px))",
       }}
     >

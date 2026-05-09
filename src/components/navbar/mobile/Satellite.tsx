@@ -21,10 +21,12 @@ interface SatelliteProps {
   onExpand?: (item: ConstellationItem) => void;
   /** Called when the user taps the special "back" satellite. */
   onBack?: () => void;
+  /** Anchor side of the FAB. Determines layout mirroring. */
+  side?: "left" | "right";
 }
 
-export default function Satellite({ item, index, total, radius, open, onSelect, onSwitch, onExpand, onBack }: SatelliteProps) {
-  const { dx, dy } = computeSatellitePosition(index, total, radius);
+export default function Satellite({ item, index, total, radius, open, onSelect, onSwitch, onExpand, onBack, side = "right" }: SatelliteProps) {
+  const { dx, dy } = computeSatellitePosition(index, total, radius, side);
   const Icon = item.icon;
   const isPrimary = !!item.isPrimary;
   const isSwitcher = !!item.switchTo;
@@ -32,12 +34,14 @@ export default function Satellite({ item, index, total, radius, open, onSelect, 
   const isBack = !!item.isBack;
   const isControl = isSwitcher || isExpander || isBack;
 
-  const sharedClasses = "pointer-events-auto absolute flex flex-row items-center gap-2";
-  const sharedStyle: React.CSSProperties = {
-    right: 0,
-    top: "50%",
-    transform: "translateY(-50%)",
-  };
+  // Anchor on the orb side closest to the FAB so labels always flow toward
+  // the screen interior (away from the edge).
+  const sharedClasses = `pointer-events-auto absolute flex items-center gap-2 ${
+    side === "left" ? "flex-row-reverse" : "flex-row"
+  }`;
+  const sharedStyle: React.CSSProperties = side === "left"
+    ? { left: 0, top: "50%", transform: "translateY(-50%)" }
+    : { right: 0, top: "50%", transform: "translateY(-50%)" };
 
   const inner = (
     <SatelliteContents
@@ -53,7 +57,12 @@ export default function Satellite({ item, index, total, radius, open, onSelect, 
   return (
     <motion.div
       className="absolute pointer-events-none"
-      style={{ bottom: 0, right: 0, width: 0, height: 0 }}
+      style={{
+        bottom: 0,
+        ...(side === "left" ? { left: 0 } : { right: 0 }),
+        width: 0,
+        height: 0,
+      }}
       initial={false}
       animate={{
         x: open ? dx : 0,
@@ -112,13 +121,10 @@ function SatelliteContents({
 }) {
   return (
     <>
-      {/* Label pill — left of the orb, slides in from the orb's centre */}
+      {/* Label pill */}
       <motion.span
         initial={false}
-        animate={{
-          opacity: open ? 1 : 0,
-          x: open ? 0 : 20,
-        }}
+        animate={{ opacity: open ? 1 : 0 }}
         transition={{ delay: open ? 0.18 + index * 0.04 : 0, duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
         className={`whitespace-nowrap px-3 py-1.5 rounded-full text-[10px] font-mono uppercase tracking-widest border backdrop-blur-md flex-shrink-0 ${
           isPrimary
