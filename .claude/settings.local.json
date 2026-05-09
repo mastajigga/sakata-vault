@@ -14,7 +14,8 @@
       "Bash(ls .claude/skills/ 2>&1; ls ~/.claude/skills/sakata 2>&1)",
       "Bash(git commit -m ' *)",
       "Bash(git fetch *)",
-      "Bash(grep -n \"^export default\\\\|^const Navbar\\\\|^export.*Navbar\\\\|^}$\" src/components/Navbar.tsx)"
+      "Bash(grep -n \"^export default\\\\|^const Navbar\\\\|^export.*Navbar\\\\|^}$\" src/components/Navbar.tsx)",
+      "Bash(git commit -m 'tweak\\(constellation\\): widen radius for better satellite separation *)"
     ]
   }
 }

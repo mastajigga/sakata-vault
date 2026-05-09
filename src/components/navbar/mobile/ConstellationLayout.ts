@@ -33,7 +33,9 @@ export function computeSatellitePosition(
 }
 
 export function computeRadius(viewportH: number, viewportW: number): number {
-  if (viewportH < 600) return 110;
-  if (viewportW < 380) return 120;
-  return 140;
+  // Generous spacing so each satellite (≈ 48px orb + label pill) has clear separation.
+  if (viewportH < 600) return 150;
+  if (viewportW < 380) return 165;
+  if (viewportW < 420) return 180;
+  return 200;
 }
