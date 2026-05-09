@@ -9,6 +9,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 
 import { translateArticle, LanguageCode } from "@/lib/translate";
+import ArticleTypePicker, { type ArticleType } from "@/components/admin/ArticleTypePicker";
 
 const AdminArticlesPage = () => {
   const [articles, setArticles] = useState<any[]>([]);
@@ -64,6 +65,25 @@ const AdminArticlesPage = () => {
     await fetchArticles();
     setIsSyncing(false);
     alert("La mémoire du sanctuaire est désormais riche de toutes les langues !");
+  };
+
+  const updateArticleType = async (slug: string, nextType: ArticleType) => {
+    const { error } = await supabase
+      .from(DB_TABLES.ARTICLES)
+      .update({
+        article_type: nextType,
+        is_premium: nextType !== "summary",
+      })
+      .eq("slug", slug);
+    if (error) {
+      alert("Erreur de mise à jour du type : " + error.message);
+      return;
+    }
+    setArticles((prev) =>
+      prev.map((a) =>
+        a.slug === slug ? { ...a, article_type: nextType, is_premium: nextType !== "summary" } : a
+      )
+    );
   };
 
   const handleDelete = async (slug: string) => {
@@ -145,13 +165,19 @@ const AdminArticlesPage = () => {
                   <h3 className="font-bold text-ivoire-ancien group-hover:text-or-ancestral transition-colors">
                     {article.title.fr || article.slug}
                   </h3>
-                  <div className="flex items-center gap-3 mt-1">
+                  <div className="flex items-center gap-3 mt-1.5 flex-wrap">
                     <span className="text-[10px] uppercase tracking-widest opacity-40 font-bold">{article.category}</span>
+                    <span className="w-1 h-1 rounded-full bg-white/20"></span>
+                    <ArticleTypePicker
+                      value={article.article_type as ArticleType | undefined}
+                      onChange={(next) => updateArticleType(article.slug, next)}
+                      size="sm"
+                    />
                     <span className="w-1 h-1 rounded-full bg-white/20"></span>
                     <div className="flex gap-1">
                       {["fr", "skt", "lin", "swa", "tsh"].map(lang => (
-                        <span 
-                          key={lang} 
+                        <span
+                          key={lang}
                           className={`text-[8px] px-1.5 py-0.5 rounded uppercase font-bold ${article.title[lang] ? 'bg-emerald-500/20 text-emerald-400' : 'bg-white/5 text-white/20'}`}
                         >
                           {lang}
