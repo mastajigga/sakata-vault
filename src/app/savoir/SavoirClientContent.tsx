@@ -12,6 +12,8 @@ interface Article {
   category?: string;
   summary?: Record<string, string> | string;
   featured_image?: string;
+  article_type?: "summary" | "poetic" | "philosophical" | null;
+  is_premium?: boolean | null;
 }
 
 interface SavoirClientContentProps {
@@ -24,6 +26,15 @@ export default function SavoirClientContent({ articles }: SavoirClientContentPro
   const [videoReady, setVideoReady] = useState(false);
 
   const welcomeName = nickname || username || user?.email?.split('@')[0];
+
+  // Anonymous visitors see only "summary" articles. Connected users see
+  // everything (premium ones still hit the paywall on click via ArticleClient).
+  const isPremiumArticle = (a: Article) => {
+    if (a.article_type) return a.article_type !== "summary";
+    return !!a.is_premium;
+  };
+  const visibleArticles = user ? articles : articles.filter((a) => !isPremiumArticle(a));
+  const hiddenCount = user ? 0 : articles.length - visibleArticles.length;
 
   return (
     <>
@@ -82,9 +93,9 @@ export default function SavoirClientContent({ articles }: SavoirClientContentPro
       {/* Grid Section - Asymmetric Bento style */}
       <section className="relative z-10 px-8 md:px-24">
         <div className="max-w-[1400px] mx-auto">
-          {articles.length > 0 ? (
+          {visibleArticles.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
-              {articles.map((article, index) => {
+              {visibleArticles.map((article, index) => {
                 const isLarge = index === 0 || index === 2;
                 const colSpan = isLarge ? "md:col-span-7" : "md:col-span-5";
                 const marginTop = index === 1 ? "md:mt-32" : "mt-0";
@@ -114,6 +125,48 @@ export default function SavoirClientContent({ articles }: SavoirClientContentPro
             <div className="md:col-span-12 py-24 text-center">
               <p className="opacity-40 italic">{t("savoir.empty")}</p>
             </div>
+          )}
+
+          {/* Teaser for anonymous visitors when premium articles are hidden */}
+          {hiddenCount > 0 && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+              className="mt-20 mx-auto max-w-2xl rounded-[2rem] p-1 overflow-hidden"
+              style={{
+                background: "linear-gradient(135deg, rgba(181,149,81,0.18) 0%, rgba(242,238,221,0.04) 100%)",
+                border: "1px solid rgba(181,149,81,0.18)",
+              }}
+            >
+              <div className="bg-foret-nocturne/85 rounded-[1.9rem] p-8 md:p-10 backdrop-blur-md text-center space-y-4">
+                <span className="eyebrow block" style={{ color: "var(--or-ancestral)" }}>
+                  Au-delà des résumés
+                </span>
+                <h3 className="font-display text-2xl md:text-3xl font-bold text-ivoire-ancien">
+                  {hiddenCount} récit{hiddenCount > 1 ? "s" : ""} poétique{hiddenCount > 1 ? "s" : ""} et philosophique{hiddenCount > 1 ? "s" : ""} vous attend{hiddenCount > 1 ? "ent" : ""}
+                </h3>
+                <p className="text-sm md:text-base text-ivoire-ancien/65 leading-relaxed max-w-md mx-auto">
+                  Les voix profondes du sanctuaire — chants ancestraux, méditations sur la dualité du pouvoir Sakata — sont réservées aux gardiens inscrits.
+                </p>
+                <div className="flex flex-col sm:flex-row gap-3 justify-center pt-2">
+                  <a
+                    href="/auth"
+                    className="inline-flex items-center justify-center px-6 py-3 rounded-full bg-or-ancestral text-foret-nocturne font-bold text-sm transition-all hover:brightness-110"
+                    style={{ boxShadow: "0 8px 24px rgba(181, 149, 81, 0.25)" }}
+                  >
+                    Créer un compte
+                  </a>
+                  <a
+                    href="/auth"
+                    className="inline-flex items-center justify-center px-6 py-3 rounded-full border border-or-ancestral/30 text-or-ancestral font-bold text-sm transition-all hover:bg-or-ancestral/10"
+                  >
+                    Se connecter
+                  </a>
+                </div>
+              </div>
+            </motion.div>
           )}
         </div>
       </section>

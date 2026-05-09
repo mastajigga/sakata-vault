@@ -28,7 +28,8 @@
       "Bash(cp \"/c/Users/Fortuné/OneDrive/Images/Sakata/avatar-male-default.png\" public/images/avatar-male-default.png)",
       "Bash(git commit -m 'feat\\(avatars\\): real PNG photos as gender defaults *)",
       "Bash(git commit -m 'feat\\(admin-mobile\\): bottom-left radial constellation for Command Center *)",
-      "Bash(git commit -m 'feat\\(admin\\): inline ArticleTypePicker on /admin/content list *)"
+      "Bash(git commit -m 'feat\\(admin\\): inline ArticleTypePicker on /admin/content list *)",
+      "Bash(git commit -m 'feat\\(savoir\\): hide premium articles from anonymous visitors *)"
     ]
   }
 }
