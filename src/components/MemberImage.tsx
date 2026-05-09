@@ -63,6 +63,12 @@ export function MemberImage({
       src={resolvedUrl}
       {...commonProps}
       loading={priority ? "eager" : "lazy"}
+      onError={(e) => {
+        const el = e.currentTarget;
+        if (el.dataset.fallback) return;
+        el.dataset.fallback = "1";
+        el.src = "/images/placeholder-avatar.jpg";
+      }}
       className={`absolute inset-0 w-full h-full ${commonProps.className}`}
     />
   );

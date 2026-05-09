@@ -21,7 +21,8 @@
       "Bash(git commit -m 'feat\\(constellation\\): two batches with switcher \\(Essentiel ↔ Découverte\\) *)",
       "Bash(children)",
       "Bash(isBack)",
-      "Bash(git commit -m 'feat\\(constellation\\): two-level navigation with sub-menus *)"
+      "Bash(git commit -m 'feat\\(constellation\\): two-level navigation with sub-menus *)",
+      "Bash(git commit -m 'fix\\(avatars\\): default-by-gender + local path passthrough + img fallback *)"
     ]
   }
 }

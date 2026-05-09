@@ -9,10 +9,14 @@ import { supabase } from "../supabase";
  */
 export function resolveStorageUrl(rawUrl: string | null | undefined, defaultBucket: string = "avatars"): string {
   if (!rawUrl || rawUrl.trim() === "") return "/images/placeholder-avatar.jpg";
-  
+
   // URL complète
   if (rawUrl.startsWith("http")) return rawUrl;
-  
+
+  // Local path served from /public — used by trigger-assigned default avatars
+  // (ex. "/images/avatar-female-default.jpg"). Pass through unchanged.
+  if (rawUrl.startsWith("/")) return rawUrl;
+
   // Format storage:
   if (rawUrl.startsWith("storage:")) {
     try {
