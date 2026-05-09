@@ -6,9 +6,10 @@ import { DB_TABLES } from "@/lib/constants/db";
 import {
   Users, Shield, ShieldCheck, ShieldAlert, UserPlus, Search,
   MoreHorizontal, Eye, X, Mail, MapPin, Calendar, Activity,
-  Award, MessageSquare, Heart, Clock, Hourglass, Zap, Gavel
+  Award, MessageSquare, Heart, Clock, Hourglass, Zap, Gavel, Crown
 } from "lucide-react";
 import RolePicker, { type Role } from "@/components/admin/RolePicker";
+import GrantSubscriptionModal from "@/components/admin/GrantSubscriptionModal";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { useAuth } from "@/components/AuthProvider";
@@ -167,6 +168,8 @@ const UserManagementPage = () => {
   const [tempGrantTarget, setTempGrantTarget] = useState<any>(null);
   const [grantReason, setGrantReason] = useState("");
   const [grantSubmitting, setGrantSubmitting] = useState(false);
+  const [subGrantTarget, setSubGrantTarget] = useState<any>(null);
+  const [subGrantMode, setSubGrantMode] = useState<"grant" | "revoke">("grant");
   // Tick toutes les 60s pour rafraîchir les compteurs temp_admin
   const [, setTick] = useState(0);
   useEffect(() => {
@@ -435,8 +438,29 @@ const UserManagementPage = () => {
                         )
                       )}
                       
+                      {/* Grant / Revoke premium subscription (admins/managers only) */}
+                      {(currentRole === "admin" || currentRole === "manager") && profile.id !== currentUser?.id && (
+                        profile.subscription_tier && profile.subscription_tier !== "free" ? (
+                          <button
+                            onClick={() => { setSubGrantMode("revoke"); setSubGrantTarget(profile); }}
+                            className="p-2 bg-or-ancestral/15 hover:bg-or-ancestral/25 text-or-ancestral rounded-lg transition-colors border border-or-ancestral/30"
+                            title={`Abonnement ${profile.subscription_tier} actif — cliquer pour révoquer`}
+                          >
+                            <Crown className="w-4 h-4" />
+                          </button>
+                        ) : (
+                          <button
+                            onClick={() => { setSubGrantMode("grant"); setSubGrantTarget(profile); }}
+                            className="p-2 bg-white/5 hover:bg-or-ancestral/15 hover:text-or-ancestral rounded-lg transition-colors border border-white/5"
+                            title="Offrir un abonnement"
+                          >
+                            <Crown className="w-4 h-4" />
+                          </button>
+                        )
+                      )}
+
                       {profile.email && (
-                        <button 
+                        <button
                           onClick={() => handleResetPassword(profile.email)}
                           className="p-2 bg-white/5 hover:bg-or-ancestral/20 hover:text-or-ancestral rounded-lg transition-colors border border-white/5"
                           title="Réinitialiser le mot de passe"
@@ -560,6 +584,15 @@ const UserManagementPage = () => {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Subscription Grant / Revoke Modal */}
+      <GrantSubscriptionModal
+        open={!!subGrantTarget}
+        target={subGrantTarget ? { id: subGrantTarget.id, nickname: subGrantTarget.nickname, username: subGrantTarget.username } : null}
+        mode={subGrantMode}
+        onClose={() => setSubGrantTarget(null)}
+        onSuccess={() => fetchProfiles()}
+      />
     </div>
   );
 };

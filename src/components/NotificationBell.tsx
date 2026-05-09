@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { Bell, MessageCircle, AtSign, CheckCheck, Hourglass, ShieldOff, Megaphone, Clock } from "lucide-react";
+import { Bell, MessageCircle, AtSign, CheckCheck, Hourglass, ShieldOff, Megaphone, Clock, Crown, Sparkles } from "lucide-react";
 import { useNotifications } from "@/hooks/forum/useNotifications";
 import { MemberImage } from "@/components/MemberImage";
 
@@ -40,6 +40,7 @@ export default function NotificationBell() {
   const getNotifLink = (n: typeof notifications[number]) => {
     if (n.type.startsWith("temp_admin")) return "/admin";
     if (n.type === "system_announcement") return "/";
+    if (n.type === "subscription_granted" || n.type === "subscription_revoked") return "/savoir";
     if (n.thread?.slug) return `/forum/thread/${n.thread.slug}`;
     return "/forum";
   };
@@ -75,6 +76,14 @@ export default function NotificationBell() {
         return `Votre rôle d'Administrateur Temporaire a expiré.`;
       case "system_announcement":
         return n.metadata?.message || "Annonce système";
+      case "subscription_granted": {
+        const tier = (n.metadata as any)?.tier === "elite" ? "Elite" : "Premium";
+        const exp = (n.metadata as any)?.expires_at;
+        const until = exp ? ` jusqu'au ${formatExpiresAt(exp)}` : " (illimité)";
+        return `${actorName} vous a offert un abonnement ${tier}${until}.`;
+      }
+      case "subscription_revoked":
+        return `Votre abonnement Premium a été révoqué par ${actorName}.`;
       default:
         return `${actorName} a interagi avec vous`;
     }
@@ -93,6 +102,10 @@ export default function NotificationBell() {
         return Clock;
       case "system_announcement":
         return Megaphone;
+      case "subscription_granted":
+        return Crown;
+      case "subscription_revoked":
+        return Sparkles;
       default:
         return MessageCircle;
     }
@@ -109,6 +122,10 @@ export default function NotificationBell() {
         return "text-red-400";
       case "system_announcement":
         return "text-blue-400";
+      case "subscription_granted":
+        return "text-or-ancestral";
+      case "subscription_revoked":
+        return "text-amber-400";
       default:
         return "text-or-ancestral";
     }
@@ -177,7 +194,7 @@ export default function NotificationBell() {
                   {notifications.map((n) => {
                     const Icon = getNotifIcon(n.type);
                     const iconColor = getIconColor(n.type);
-                    const isSystemNotif = n.type.startsWith("temp_admin") || n.type === "system_announcement";
+                    const isSystemNotif = n.type.startsWith("temp_admin") || n.type === "system_announcement" || n.type === "subscription_granted" || n.type === "subscription_revoked";
                     return (
                       <li key={n.id}>
                         <Link

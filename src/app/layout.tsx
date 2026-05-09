@@ -5,6 +5,7 @@ import "katex/dist/katex.min.css";
 import { LanguageProvider } from "@/components/LanguageProvider";
 import { AuthProvider } from "@/components/AuthProvider";
 import ModerationGate from "@/components/moderation/ModerationGate";
+import SubscriptionGrantGate from "@/components/subscription/SubscriptionGrantGate";
 import { LoadingProvider } from "@/components/LoadingProvider";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import WelcomeModal from "@/components/WelcomeModal";
@@ -165,6 +166,7 @@ export default function RootLayout({
                 <Footer />
                 <WelcomeModal />
                 <ModerationGate />
+                <SubscriptionGrantGate />
               </LoadingProvider>
             </ChatUnreadProvider>
           </LanguageProvider>

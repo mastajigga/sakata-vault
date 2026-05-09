@@ -16,6 +16,7 @@ interface Article {
   content: any;
   status: string;
   requires_premium: boolean;
+  article_type?: "summary" | "poetic" | "philosophical" | null;
   profiles: { username: string; email: string };
 }
 
@@ -31,6 +32,7 @@ export default function ArticleReviewPage() {
   const [reviewNotes, setReviewNotes] = useState("");
   const [reviewing, setReviewing] = useState(false);
   const [autoApproveAuthor, setAutoApproveAuthor] = useState(false);
+  const [chosenType, setChosenType] = useState<"summary" | "poetic" | "philosophical">("summary");
 
   if (userRole !== "admin") {
     return (
@@ -57,6 +59,7 @@ export default function ArticleReviewPage() {
 
         if (error) throw error;
         setArticle(data);
+        if (data?.article_type) setChosenType(data.article_type);
       } catch (err) {
         console.error("Error fetching article:", err);
       } finally {
@@ -73,6 +76,8 @@ export default function ArticleReviewPage() {
       const updates: any = {
         status: "published",
         published_at: new Date().toISOString(),
+        article_type: chosenType,
+        is_premium: chosenType !== "summary",
       };
 
       if (shouldAutoApprove && article) {
@@ -214,6 +219,37 @@ export default function ArticleReviewPage() {
             placeholder="Notes de révision ou raison de rejet (optionnel)..."
             className="w-full rounded border border-slate-700 bg-slate-800 px-4 py-3 text-white placeholder-slate-500 focus:border-amber-600 focus:outline-none resize-none h-24"
           />
+
+          <div className="space-y-2">
+            <label className="block text-sm font-medium text-slate-200">Type d'article</label>
+            <div className="grid grid-cols-3 gap-2">
+              {([
+                { v: "summary" as const, label: "Résumé", desc: "Libre d'accès" },
+                { v: "poetic" as const, label: "Poétique", desc: "Premium" },
+                { v: "philosophical" as const, label: "Philosophique", desc: "Premium" },
+              ]).map((t) => {
+                const selected = chosenType === t.v;
+                return (
+                  <button
+                    key={t.v}
+                    type="button"
+                    onClick={() => setChosenType(t.v)}
+                    className={`p-3 rounded-lg border text-left transition-all ${
+                      selected
+                        ? "border-amber-600 bg-amber-600/10 text-white"
+                        : "border-slate-700 bg-slate-800 text-slate-400 hover:border-slate-500"
+                    }`}
+                  >
+                    <p className="text-sm font-bold">{t.label}</p>
+                    <p className="text-[10px] opacity-60">{t.desc}</p>
+                  </button>
+                );
+              })}
+            </div>
+            <p className="text-[10px] text-slate-500 italic">
+              Les articles "Résumé" sont publics. "Poétique" et "Philosophique" requièrent un abonnement Premium.
+            </p>
+          </div>
 
           <div className="flex items-center gap-2">
             <input

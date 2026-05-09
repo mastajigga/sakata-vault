@@ -37,6 +37,7 @@ export const articleSchema = z.object({
   category: z.string().min(1, "Catégorie requise"),
   summary: z.string().min(10, "Min 10 caractères").max(500, "Max 500 caractères").optional().or(z.literal("")),
   is_premium: z.boolean().optional(),
+  article_type: z.enum(["summary", "poetic", "philosophical"]).optional(),
 });
 
 export const trackingSchema = z.object({

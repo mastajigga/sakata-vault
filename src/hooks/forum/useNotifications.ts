@@ -12,7 +12,9 @@ export type NotificationType =
   | "temp_admin_revoked"
   | "temp_admin_expiring_soon"
   | "temp_admin_expired"
-  | "system_announcement";
+  | "system_announcement"
+  | "subscription_granted"
+  | "subscription_revoked";
 
 export interface ForumNotification {
   id: string;

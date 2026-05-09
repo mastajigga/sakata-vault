@@ -153,24 +153,26 @@ const ArticleClient: React.FC<ArticleClientProps> = ({ initialArticle }) => {
   const displayContent = article.content?.[language] || article.content?.fr || "";
   const displaySummary = article.summary?.[language] || article.summary?.fr || "";
 
-  // Paywall Logic
-  const hasAccess =
-    !article.is_premium ||
-    (role && ["admin", "manager", "contributor"].includes(role)) ||
-    (subscriptionTier && ["premium", "elite"].includes(subscriptionTier));
+  // ===== Paywall logic =====
+  // Article type drives access:
+  //   - "summary"        → free for all (incl. anon)
+  //   - "poetic" | "philosophical" → premium subscribers only
+  // Staff (admin/manager/contributor) bypass.
+  const articleType = (article as any).article_type || (article.is_premium ? "poetic" : "summary");
+  const isPremiumType = articleType === "poetic" || articleType === "philosophical";
+  const isStaff = role && ["admin", "manager", "contributor", "moderator", "temp_admin"].includes(role);
+  const hasPremiumTier = subscriptionTier && ["premium", "elite"].includes(subscriptionTier);
+  const hasAccess = !isPremiumType || isStaff || hasPremiumTier;
 
   let finalContent = displayContent;
   let showPaywall = false;
 
-  // Only apply string-based paywall logic if it's a string
-  if (typeof finalContent === "string" && !hasAccess && finalContent.length > 500) {
-    finalContent = finalContent.substring(0, 500) + "...";
+  if (!hasAccess) {
     showPaywall = true;
-  } else if (Array.isArray(finalContent) && !hasAccess) {
-    // If it's blocks, we might want to trim the blocks array
-    if (finalContent.length > 3) {
+    if (typeof finalContent === "string" && finalContent.length > 500) {
+      finalContent = finalContent.substring(0, 500) + "...";
+    } else if (Array.isArray(finalContent) && finalContent.length > 3) {
       finalContent = finalContent.slice(0, 3);
-      showPaywall = true;
     }
   }
 
@@ -420,18 +422,22 @@ const ArticleClient: React.FC<ArticleClientProps> = ({ initialArticle }) => {
                   <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-or-ancestral/10 flex items-center justify-center border border-or-ancestral/30 shadow-[0_0_20px_rgba(181,149,81,0.2)]">
                     <Lock className="w-8 h-8 text-or-ancestral" />
                   </div>
-                  <h3 className="text-2xl font-display font-bold text-or-ancestral mb-3 tracking-tight">
-                    Archives Sacrées (Premium)
+                  <span className="text-[10px] font-mono uppercase tracking-[0.22em] text-or-ancestral/70">
+                    Article {articleType === "poetic" ? "poétique" : "philosophique"} — Premium
+                  </span>
+                  <h3 className="text-2xl font-display font-bold text-or-ancestral mb-3 tracking-tight mt-2">
+                    Archives Sacrées
                   </h3>
                   <p className="text-ivoire-ancien/60 mb-8 max-w-sm mx-auto text-sm leading-relaxed">
-                    Cette chronique détaillée est réservée aux initiés. Accédez au savoir
-                    traditionnel approfondi.
+                    {role
+                      ? "Cette chronique approfondie est réservée aux abonnés Premium. Souscrivez pour découvrir les voix poétiques et philosophiques du sanctuaire."
+                      : "Les articles résumés sont libres d'accès. Pour les voix poétiques et philosophiques, créez votre compte puis souscrivez à l'abonnement Premium."}
                   </p>
                   <a
-                    href="/auth"
+                    href={role ? "/premium" : "/auth"}
                     className="inline-block px-8 py-3.5 rounded-full bg-or-ancestral text-foret-nocturne font-bold uppercase tracking-widest text-xs transition-all hover:scale-[1.05]"
                   >
-                    S&apos;authentifier
+                    {role ? "Devenir Premium" : "Créer un compte"}
                   </a>
                 </div>
               </div>

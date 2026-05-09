@@ -36,7 +36,7 @@ export const MAX_VIEWS = {
   TWICE: 2,
 } as const;
 
-export const APP_VERSION = "3.4.0"; // 2026-05-08 — Genealogie 3D + contributor form enriched + moderation system
+export const APP_VERSION = "3.5.0"; // 2026-05-09 — Article tiers (summary/poetic/philosophical) + manual subscription grants
 export const PINECONE_DEFAULT_INDEX = "sakata-mathematics";
 
 // ─── Temp Admin ─────────────────────────────────────────────────────────────
@@ -55,6 +55,31 @@ export const ROLE_HIERARCHY: Record<UserRole, number> = {
 } as const;
 
 // ─── Modération ──────────────────────────────────────────────────────────────
+export const ARTICLE_TYPES = {
+  SUMMARY: "summary",
+  POETIC: "poetic",
+  PHILOSOPHICAL: "philosophical",
+} as const;
+export type ArticleType = typeof ARTICLE_TYPES[keyof typeof ARTICLE_TYPES];
+
+export const ARTICLE_TYPE_LABELS: Record<ArticleType, string> = {
+  summary: "Résumé",
+  poetic: "Poétique",
+  philosophical: "Philosophique",
+};
+
+/** Article types accessible without a premium subscription */
+export const FREE_ARTICLE_TYPES: readonly ArticleType[] = ["summary"];
+
+export const SUBSCRIPTION_GRANT_DURATIONS = [
+  { value: 7, label: "7 jours" },
+  { value: 30, label: "30 jours" },
+  { value: 90, label: "3 mois" },
+  { value: 365, label: "1 an" },
+  { value: null, label: "Illimité" },
+] as const;
+export type SubscriptionGrantDuration = typeof SUBSCRIPTION_GRANT_DURATIONS[number]["value"];
+
 export const BAN_DURATIONS_HOURS = [24, 48, 72] as const;
 export type BanDurationHours = typeof BAN_DURATIONS_HOURS[number];
 /** Délai de purge automatique d'un compte mis à la corbeille (6 mois) */
