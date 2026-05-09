@@ -15,6 +15,7 @@ import TempAdminBadge from "./TempAdminBadge";
 import { useGlobalUnreadCount } from "@/hooks/chat/useGlobalUnreadCount";
 import { RefreshCw, X } from "lucide-react";
 import { ROUTES } from "@/lib/constants/routes";
+import ConstellationNav from "./navbar/mobile/ConstellationNav";
 
 const navLinks = [
   { key: "nav.home", href: ROUTES.HOME },
@@ -251,10 +252,10 @@ const Navbar = () => {
               )
             )}
 
-            {/* Hamburger — mobile */}
+            {/* Hamburger — mobile (replaced by ConstellationNav, kept hidden as fallback) */}
             <button
               onClick={() => setMenuOpen(!menuOpen)}
-              className="md:hidden relative z-50 flex flex-col justify-center items-center gap-1.5"
+              className="hidden relative z-50 flex-col justify-center items-center gap-1.5"
               style={{ width: "32px", height: "32px" }}
               aria-label="Toggle menu"
             >
@@ -559,6 +560,9 @@ const Navbar = () => {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Mobile constellation navigator (replaces hamburger) */}
+      <ConstellationNav />
     </>
   );
 };
