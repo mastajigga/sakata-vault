@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { supabasePublic } from "@/lib/supabase/admin";
+import { createSupabaseForUser } from "@/lib/supabase/user";
 import { withRetry } from "@/lib/supabase-retry";
 import { DB_TABLES } from "@/lib/constants/db";
 import { z } from "zod";
@@ -26,12 +26,15 @@ export async function DELETE(
       );
     }
 
+    // Client par requête portant le JWT : la RLS s'applique avec auth.uid() = user.id
+    const supabase = createSupabaseForUser(token);
+
     // Validate JWT
-    const { data: { user }, error: authError } = await supabasePublic.auth.getUser(token);
+    const { data: { user }, error: authError } = await supabase.auth.getUser(token);
 
     if (authError || !user) {
       return NextResponse.json(
-        { error: "Non autorisé. Jeton invalide." },
+        { error: `Non autorisé. Jeton invalide.${authError ? ` (${authError.message})` : ""}` },
         { status: 401 }
       );
     }
@@ -42,7 +45,7 @@ export async function DELETE(
 
     // Fetch the message
     const { data: message, error: fetchError } = await withRetry(async () =>
-      supabasePublic
+      supabase
         .from(DB_TABLES.CHAT_MESSAGES)
         .select("*")
         .eq("id", params.id)
@@ -50,9 +53,15 @@ export async function DELETE(
     );
 
     if (fetchError || !message) {
+      // PGRST116 = aucune ligne (inexistante ou masquée par la RLS)
+      const notFound = !fetchError || fetchError.code === "PGRST116";
       return NextResponse.json(
-        { error: "Message non trouvé." },
-        { status: 404 }
+        {
+          error: notFound
+            ? "Message non trouvé."
+            : `Erreur lors de la lecture du message : ${fetchError.message}`,
+        },
+        { status: notFound ? 404 : 500 }
       );
     }
 
@@ -91,7 +100,7 @@ export async function DELETE(
         };
 
     const { data: deletedMessage, error: updateError } = await withRetry(async () =>
-      supabasePublic
+      supabase
         .from(DB_TABLES.CHAT_MESSAGES)
         .update(updateData)
         .eq("id", params.id)
@@ -108,7 +117,7 @@ export async function DELETE(
         timestamp: new Date().toISOString(),
       });
       return NextResponse.json(
-        { error: "Erreur lors de la suppression du message." },
+        { error: `Erreur lors de la suppression du message : ${updateError?.message ?? "aucune ligne mise à jour"}` },
         { status: 500 }
       );
     }

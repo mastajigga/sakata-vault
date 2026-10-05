@@ -273,8 +273,12 @@ export function ChatWindow({ conversationId, onBack }: ChatWindowProps) {
     });
   }, []);
 
-  const handleDelete = useCallback((id: string, mode: "self" | "all") => {
-    deleteMessage(id, mode);
+  const handleDelete = useCallback(async (id: string, mode: "self" | "all") => {
+    try {
+      await deleteMessage(id, mode);
+    } catch (err) {
+      alert(`Erreur: ${err instanceof Error ? err.message : "Impossible de supprimer le message"}`);
+    }
   }, [deleteMessage]);
 
   const handleEdit = useCallback(async (message: Message, newContent: string) => {
