@@ -98,7 +98,7 @@ export async function GET(req: NextRequest) {
     // 1. Titre + résumé dans la langue demandée et en français
     supabase
       .from(DB_TABLES.ARTICLES)
-      .select('id, slug, title, summary, category, image, subscription_required')
+      .select('id, slug, title, summary, category, featured_image, is_premium')
       .or(
         `title->>${lang}.ilike.%${q}%,` +
         `summary->>${lang}.ilike.%${q}%,` +
@@ -111,7 +111,7 @@ export async function GET(req: NextRequest) {
     // 2. Catégorie (recherche complémentaire pour les termes courts)
     supabase
       .from(DB_TABLES.ARTICLES)
-      .select('id, slug, title, summary, category, image, subscription_required')
+      .select('id, slug, title, summary, category, featured_image, is_premium')
       .ilike('category', `%${q}%`)
       .eq('status', 'published')
       .limit(4),
