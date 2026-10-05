@@ -21,7 +21,8 @@ interface ContributionRequest {
   status: "pending" | "approved" | "rejected";
   message: string | null;
   created_at: string;
-  updated_at: string;
+  reviewed_at: string | null;
+  reviewed_by: string | null;
   profiles?: {
     nickname: string;
     username: string;
@@ -50,8 +51,11 @@ const CAN_SHARE_LABELS: Record<string, string> = {
 };
 
 export default function ContributionRequestsPage() {
-  const { role } = useAuth();
+  const { role, user } = useAuth();
   const [requests, setRequests] = useState<ContributionRequest[]>([]);
+  // reviewed_by référence auth.users (pas profiles) : pas de jointure PostgREST possible,
+  // on résout les noms des relecteurs par une seconde requête.
+  const [reviewerNames, setReviewerNames] = useState<Record<string, string>>({});
   const [isLoading, setIsLoading] = useState(true);
   const [processingId, setProcessingId] = useState<string | null>(null);
 
@@ -75,6 +79,21 @@ export default function ContributionRequestsPage() {
 
       if (error) throw error;
       setRequests(data || []);
+
+      const reviewerIds = Array.from(
+        new Set((data || []).map((r: ContributionRequest) => r.reviewed_by).filter((id: string | null): id is string => !!id))
+      );
+      if (reviewerIds.length > 0) {
+        const { data: reviewers } = await supabase
+          .from(DB_TABLES.PROFILES)
+          .select("id, nickname, username")
+          .in("id", reviewerIds);
+        const names: Record<string, string> = {};
+        reviewers?.forEach((p: { id: string; nickname: string | null; username: string | null }) => {
+          names[p.id] = p.nickname || p.username || "—";
+        });
+        setReviewerNames(names);
+      }
     } catch (err) {
       console.error("Error fetching requests:", err);
     } finally {
@@ -84,15 +103,20 @@ export default function ContributionRequestsPage() {
 
   async function updateStatus(id: string, userId: string, type: string, status: "approved" | "rejected") {
     try {
+      if (!user) throw new Error("Session expirée");
       setProcessingId(id);
-      
-      // Update the request status
-      const { error: requestError } = await supabase
+
+      // Update the request status (la table n'a pas de colonne updated_at :
+      // on trace la décision via reviewed_at / reviewed_by)
+      const { data: updated, error: requestError } = await supabase
         .from(DB_TABLES.CONTRIBUTION_REQUESTS)
-        .update({ status, updated_at: new Date().toISOString() })
-        .eq("id", id);
+        .update({ status, reviewed_at: new Date().toISOString(), reviewed_by: user.id })
+        .eq("id", id)
+        .select("id");
 
       if (requestError) throw requestError;
+      // Une policy RLS qui refuse l'UPDATE ne renvoie pas d'erreur, juste 0 ligne.
+      if (!updated || updated.length === 0) throw new Error("Mise à jour refusée (aucune ligne modifiée)");
 
       // If approved, update user role/status in profiles
       if (status === "approved") {
@@ -221,6 +245,16 @@ export default function ContributionRequestsPage() {
                     ({formatDistanceToNow(new Date(req.created_at), { addSuffix: true, locale: fr })})
                   </span>
                 </div>
+
+                {req.status !== "pending" && req.reviewed_at && (
+                  <div className="text-[10px] text-gray-500">
+                    {req.status === "approved" ? "Approuvé" : "Refusé"} le{" "}
+                    {format(new Date(req.reviewed_at), "d MMMM yyyy 'à' HH:mm", { locale: fr })}
+                    {req.reviewed_by && (
+                      <> par <span className="text-ivoire-ancien/70">{reviewerNames[req.reviewed_by] || "—"}</span></>
+                    )}
+                  </div>
+                )}
               </div>
 
               {req.status === "pending" && (
