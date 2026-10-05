@@ -6,6 +6,7 @@ import { withRetry } from "@/lib/supabase-retry";
 import { Message } from "@/components/chat/ChatWindow";
 import { useAuth } from "@/components/AuthProvider";
 import { DB_TABLES, DB_BUCKETS } from "@/lib/constants/db";
+import { OPTIMISTIC_ID_PREFIX, PENDING_MESSAGE_ERROR, isUuid } from "@/lib/utils/chat-message-id";
 
 const PAGE_SIZE = 50;
 
@@ -280,8 +281,12 @@ export function useMessages(conversationId: string) {
         }
 
         setMessages(prev => {
-          // Si c'est notre propre message qui revient via Realtime, 
-          // on cherche s'il y a une version optimiste à remplacer.
+          // Déjà présent avec son vrai id (confirmé par la réponse de l'insert, ou écho
+          // reçu en double) : on ignore, sans toucher aux autres messages optimistes.
+          if (prev.some(m => m.id === formatted.id)) return prev;
+
+          // Si c'est notre propre message qui revient via Realtime avant la réponse
+          // de l'insert, on cherche une version optimiste à remplacer.
           if (newMsg.sender_id === uid) {
             const hasOptimistic = prev.some(m => (m as any).isOptimistic && m.content === newMsg.content);
             if (hasOptimistic) {
@@ -298,8 +303,6 @@ export function useMessages(conversationId: string) {
           }
           
           // Sinon (message d'autrui ou pas d'optimiste trouvé), on l'ajoute simplement
-          // On vérifie quand même les doublons par ID
-          if (prev.some(m => m.id === formatted.id)) return prev;
           return [...prev, formatted];
         });
         if (newMsg.sender_id !== uid) markAsRead();
@@ -421,6 +424,11 @@ export function useMessages(conversationId: string) {
 
 
   const sendMessage = async (content: string, attachment?: File | null, expiresIn?: string, maxViews?: 1 | 2, reply_to_message_id?: string) => {
+    // Garde-fou : on ne répond jamais à un message non confirmé (id local non-UUID).
+    if (reply_to_message_id && !isUuid(reply_to_message_id)) {
+      throw new Error(PENDING_MESSAGE_ERROR);
+    }
+
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return;
 
@@ -462,7 +470,7 @@ export function useMessages(conversationId: string) {
     const messagePreview = content.substring(0, 50) + (content.length > 50 ? "..." : "");
 
     // Optimistic UI update
-    const optimisticId = `optimistic-${Date.now()}`;
+    const optimisticId = `${OPTIMISTIC_ID_PREFIX}${Date.now()}`;
     const optimisticMessage: Message = {
       id: optimisticId,
       senderId: user.id,
@@ -480,27 +488,39 @@ export function useMessages(conversationId: string) {
     setMessages(prev => [...prev, optimisticMessage]);
 
     try {
-      await withRetry(async () => supabase.from(DB_TABLES.CHAT_MESSAGES).insert({
-        conversation_id: conversationId,
-        sender_id: user.id,
-        content,
-        file_url: fileUrl,
-        file_type: fileType,
-        expires_in: expiresIn || "never",
-        max_views: maxViews,
-        reply_to_message_id: reply_to_message_id || null
-      }));
+      // .select("id, created_at") : la confirmation (vrai UUID) vient de la réponse HTTP,
+      // sans dépendre de l'écho Realtime (WebSocket éventuellement coupé).
+      const { data: inserted, error: insertError } = await withRetry<{ id: string; created_at: string }>(async () =>
+        supabase.from(DB_TABLES.CHAT_MESSAGES).insert({
+          conversation_id: conversationId,
+          sender_id: user.id,
+          content,
+          file_url: fileUrl,
+          file_type: fileType,
+          expires_in: expiresIn || "never",
+          max_views: maxViews,
+          reply_to_message_id: reply_to_message_id || null
+        }).select("id, created_at").single()
+      );
 
-      // Send push notifications to other participants
-      await fetch("/api/push/notify", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          conversationId,
-          senderName,
-          messagePreview,
-          senderId: user.id,
-        }),
+      if (insertError) throw insertError;
+      if (!inserted || !isUuid(inserted.id)) {
+        throw new Error("Message envoyé mais identifiant serveur introuvable.");
+      }
+
+      // Confirmation : l'id optimiste devient le vrai UUID. Si l'écho Realtime est arrivé
+      // avant (message déjà présent avec cet id), on retire simplement la version optimiste
+      // pour ne jamais afficher de doublon.
+      setMessages(prev => {
+        if (prev.some(m => m.id === inserted.id)) {
+          return prev.filter(m => m.id !== optimisticId);
+        }
+        return prev.map(m => {
+          if (m.id !== optimisticId) return m;
+          const confirmed: Message = { ...m, id: inserted.id, createdAtRaw: inserted.created_at || m.createdAtRaw };
+          delete (confirmed as any).isOptimistic;
+          return confirmed;
+        });
       });
     } catch (err) {
       console.error("Failed to send message:", err);
@@ -508,10 +528,24 @@ export function useMessages(conversationId: string) {
       setMessages(prev => prev.filter(m => m.id !== optimisticId));
       throw err;
     }
+
+    // Notifications push : non critique, ne doit pas annuler un message déjà enregistré.
+    fetch("/api/push/notify", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        conversationId,
+        senderName,
+        messagePreview,
+        senderId: user.id,
+      }),
+    }).catch(err => console.error("[Chat] Push notify failed:", err));
   };
 
   const deleteMessage = useCallback(async (id: string, mode: "self" | "all") => {
     if (!userIdRef.current) return;
+    // Garde-fou : un message optimiste (id local "optimistic-…") n'existe pas encore en base.
+    if (!isUuid(id)) throw new Error(PENDING_MESSAGE_ERROR);
 
     try {
       const { data: { session } } = await supabase.auth.getSession();
@@ -545,6 +579,11 @@ export function useMessages(conversationId: string) {
   const toggleReaction = useCallback(async (messageId: string, emoji: string) => {
     const uid = userIdRef.current;
     if (!uid) return;
+    // Garde-fou : jamais de réaction sur un message non confirmé (id local non-UUID).
+    if (!isUuid(messageId)) {
+      console.error(`[Chat] Réaction ignorée (${messageId}) : ${PENDING_MESSAGE_ERROR}`);
+      return;
+    }
 
     const alreadyMine = myReactions[messageId]?.has(emoji);
 
@@ -565,12 +604,13 @@ export function useMessages(conversationId: string) {
         return next;
       });
 
-      await withRetry(async () =>
+      const { error } = await withRetry(async () =>
         supabase
           .from(DB_TABLES.CHAT_REACTIONS)
           .delete()
           .match({ message_id: messageId, user_id: uid, emoji })
       );
+      if (error) console.error("[Chat] Suppression de réaction échouée:", error);
     } else {
       // Optimistic add
       setMyReactions(prev => {
@@ -588,11 +628,12 @@ export function useMessages(conversationId: string) {
         return next;
       });
 
-      await withRetry(async () =>
+      const { error } = await withRetry(async () =>
         supabase
           .from(DB_TABLES.CHAT_REACTIONS)
           .insert({ message_id: messageId, user_id: uid, emoji })
       );
+      if (error) console.error("[Chat] Ajout de réaction échoué:", error);
     }
   }, [myReactions]);
 

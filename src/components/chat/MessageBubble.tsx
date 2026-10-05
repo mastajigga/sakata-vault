@@ -7,6 +7,7 @@ import { TIMINGS } from "@/lib/constants/timings";
 import { msgViewedKey } from "@/lib/constants/storage";
 import { supabase } from "@/lib/supabase";
 import { DB_BUCKETS, DB_TABLES } from "@/lib/constants/db";
+import { isOptimisticMessage } from "@/lib/utils/chat-message-id";
 
 // Calculate signed URL expiry duration (in seconds) based on message settings
 function getSignedUrlDuration(maxViews?: 1 | 2, expiresIn?: string): number {
@@ -377,6 +378,13 @@ function ProtectedImage({
 
 export function MessageBubble({ message, isTemporary, reactions = {}, myReactions, onReact, onReply, onDelete, onEdit, onUnreadClick, isUnread }: MessageBubbleProps) {
   const isMe = message.isMe;
+  // Message pas encore confirmé par le serveur (id local) : aucune action qui enverrait
+  // son id à la base (modification, suppression, réponse, réaction).
+  const isPending = isOptimisticMessage(message);
+  const canEdit = isMe && !!onEdit && !isPending;
+  const canDelete = isMe && !!onDelete && !isPending;
+  const canReply = !!onReply && !isPending;
+  const canReact = !!onReact && !isPending;
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [repliedToMessage, setRepliedToMessage] = useState<Message | undefined>(message.replied_to_message);
   const [isEditMode, setIsEditMode] = useState(false);
@@ -485,7 +493,7 @@ export function MessageBubble({ message, isTemporary, reactions = {}, myReaction
       }
     }
 
-    if (isEditMode) {
+    if (isEditMode && canEdit) {
       return (
         <div className="flex flex-col gap-2">
           <textarea
@@ -589,10 +597,10 @@ export function MessageBubble({ message, isTemporary, reactions = {}, myReaction
           </div>
 
           {/* Action buttons (visible au hover) */}
-          {(onReply || onReact || (isMe && onDelete) || (isMe && onEdit)) && (
+          {(canReply || canReact || canDelete || canEdit) && (
             <div className={`absolute top-1 ${isMe ? "left-0 -translate-x-full pr-1 flex-row-reverse" : "right-0 translate-x-full pl-1"} opacity-0 group-hover:opacity-100 transition-opacity flex gap-1`}>
               {/* Reply button */}
-              {onReply && (
+              {canReply && (
                 <button
                   type="button"
                   aria-label="Répondre au message"
@@ -605,7 +613,7 @@ export function MessageBubble({ message, isTemporary, reactions = {}, myReaction
               )}
 
               {/* Emoji react button */}
-              {onReact && (
+              {canReact && (
                 <button
                   type="button"
                   aria-label="Ajouter une réaction"
@@ -617,7 +625,7 @@ export function MessageBubble({ message, isTemporary, reactions = {}, myReaction
               )}
 
               {/* Edit button — only for own messages */}
-              {isMe && onEdit && (
+              {canEdit && (
                 <button
                   type="button"
                   aria-label="Modifier le message"
@@ -630,7 +638,7 @@ export function MessageBubble({ message, isTemporary, reactions = {}, myReaction
               )}
 
               {/* Delete button — only for own messages */}
-              {isMe && onDelete && (
+              {canDelete && (
                 <button
                   type="button"
                   aria-label="Supprimer le message"
@@ -641,7 +649,7 @@ export function MessageBubble({ message, isTemporary, reactions = {}, myReaction
                   <Trash2 size={13} className="text-stone-400 hover:text-red-500 transition-colors" />
                 </button>
               )}
-                {showEmojiPicker && (
+                {showEmojiPicker && canReact && (
                   <div className={`absolute bottom-full mb-1 ${isMe ? "right-0" : "left-0"} flex gap-1 bg-white dark:bg-stone-800 border border-stone-200 dark:border-stone-700 rounded-xl p-1.5 shadow-xl z-20`}>
                     {REACTION_EMOJIS.map(emoji => (
                       <button
@@ -658,7 +666,7 @@ export function MessageBubble({ message, isTemporary, reactions = {}, myReaction
                 )}
 
                 {/* Delete confirmation modal */}
-                {showDeleteModal && (
+                {showDeleteModal && canDelete && (
                   <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/50 p-4">
                     <div className="bg-white dark:bg-stone-800 rounded-lg shadow-xl max-w-sm w-full animate-in fade-in slide-in-from-bottom-4 sm:slide-in-from-center">
                       <div className="p-6">
@@ -712,7 +720,8 @@ export function MessageBubble({ message, isTemporary, reactions = {}, myReaction
                   key={emoji}
                   type="button"
                   aria-label={`${count} réaction(s) ${emoji}`}
-                  onClick={() => onReact?.(message.id, emoji)}
+                  onClick={() => { if (canReact) onReact?.(message.id, emoji); }}
+                  disabled={!canReact}
                   className={`flex items-center gap-0.5 text-xs px-1.5 py-0.5 rounded-full border transition-colors ${
                     myReactions?.has(emoji)
                       ? "bg-amber-100 dark:bg-amber-900/40 border-amber-400 dark:border-amber-600 text-amber-700 dark:text-amber-300"

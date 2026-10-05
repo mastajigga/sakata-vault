@@ -12,6 +12,7 @@ import { useAuth } from "../AuthProvider";
 import { withRetry } from "@/lib/supabase-retry";
 import { DB_TABLES } from "@/lib/constants/db";
 import { MemberImage } from "@/components/MemberImage";
+import { PENDING_MESSAGE_ERROR, isUuid } from "@/lib/utils/chat-message-id";
 
 export type Message = {
   id: string;
@@ -250,8 +251,13 @@ export function ChatWindow({ conversationId, onBack }: ChatWindowProps) {
     expiresIn?: string,
     maxViews?: 1 | 2
   ) => {
-    await sendMessage(content, attachment, expiresIn, maxViews, repliedMessage?.id);
-    setRepliedMessage(null);
+    try {
+      await sendMessage(content, attachment, expiresIn, maxViews, repliedMessage?.id);
+      setRepliedMessage(null);
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : (err as any)?.message;
+      alert(`Erreur: ${msg || "Impossible d'envoyer le message"}`);
+    }
   };
 
   const scrollToBottom = useCallback(() => {
@@ -274,6 +280,11 @@ export function ChatWindow({ conversationId, onBack }: ChatWindowProps) {
   }, []);
 
   const handleDelete = useCallback(async (id: string, mode: "self" | "all") => {
+    // Garde-fou : jamais d'appel API pour un message non encore confirmé par le serveur.
+    if (!isUuid(id)) {
+      alert(`Erreur: ${PENDING_MESSAGE_ERROR}`);
+      return;
+    }
     try {
       await deleteMessage(id, mode);
     } catch (err) {
@@ -283,6 +294,11 @@ export function ChatWindow({ conversationId, onBack }: ChatWindowProps) {
 
   const handleEdit = useCallback(async (message: Message, newContent: string) => {
     if (!user?.id) return;
+    // Garde-fou : jamais d'appel API pour un message non encore confirmé par le serveur.
+    if (!isUuid(message.id)) {
+      alert(`Erreur: ${PENDING_MESSAGE_ERROR}`);
+      return;
+    }
 
     try {
       const response = await fetch(`/api/chat/messages/${message.id}/edit`, {

@@ -3,6 +3,7 @@ import { createSupabaseForUser } from "@/lib/supabase/user";
 import { withRetry } from "@/lib/supabase-retry";
 import { DB_TABLES } from "@/lib/constants/db";
 import { z } from "zod";
+import { isUuid } from "@/lib/utils/chat-message-id";
 
 const deleteMessageSchema = z.object({
   mode: z.enum(["self", "all"]),
@@ -16,6 +17,15 @@ export async function DELETE(
 ) {
   try {
     const params = await props.params;
+
+    // Rejeter tout id non-UUID (ex. id optimiste "optimistic-…") avant toute requête,
+    // pour ne jamais remonter une erreur Postgres brute à l'utilisateur.
+    if (!isUuid(params.id)) {
+      return NextResponse.json(
+        { error: "Identifiant de message invalide." },
+        { status: 400 }
+      );
+    }
     const authHeader = request.headers.get("Authorization");
     const token = authHeader?.split(" ")[1];
 
