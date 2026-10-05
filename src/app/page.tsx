@@ -9,6 +9,7 @@ import { ARTICLES } from "@/data/articles";
 import { useLanguage } from "@/components/LanguageProvider";
 import { useAuth } from "@/components/AuthProvider";
 import { supabase } from "@/lib/supabase";
+import { DB_TABLES, ARTICLE_LIST_COLUMNS } from "@/lib/constants/db";
 
 export default function Home() {
   const { language, t } = useLanguage();
@@ -27,8 +28,8 @@ export default function Home() {
       console.log("Fetching articles from Supabase...");
       try {
         const { data, error } = await supabase
-          .from("articles")
-          .select("*")
+          .from(DB_TABLES.ARTICLES)
+          .select(ARTICLE_LIST_COLUMNS)
           .order("created_at", { ascending: false })
           .abortSignal(controller.signal);
         

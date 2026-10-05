@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { supabasePublic } from "@/lib/supabase/admin";
 import { ARTICLES } from "@/data/articles";
 import { ArticleData } from "@/types/i18n";
-import { DB_TABLES } from "@/lib/constants/db";
+import { DB_RPC } from "@/lib/constants/db";
 import ArticleClient from "./ArticleClient";
 
 // ── Shared helpers ──
@@ -27,14 +27,12 @@ type ArticleRow = Record<string, unknown> & {
 
 async function fetchArticle(slug: string): Promise<ArticleRow | null> {
   try {
-    const { data } = await supabasePublic
-      .from(DB_TABLES.ARTICLES)
-      .select("slug, title, summary, content, category, featured_image, image, created_at, updated_at, status")
-      .eq("slug", slug)
-      .eq("status", "published")
-      .single();
+    // Anonymous call: premium `content` comes back truncated by the server, so the
+    // full text never ends up in the HTML / RSC payload. ArticleClient refetches
+    // with the user's JWT to unlock it.
+    const { data } = await supabasePublic.rpc(DB_RPC.GET_ARTICLE, { p_slug: slug, p_lang: null });
 
-    if (data) return data as ArticleRow;
+    if (data && (data as ArticleRow).status === "published") return data as ArticleRow;
   } catch {
     // Fallback to static
   }

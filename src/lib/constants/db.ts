@@ -43,3 +43,17 @@ export const DB_BUCKETS = {
 } as const;
 
 export type DbBucket = typeof DB_BUCKETS[keyof typeof DB_BUCKETS];
+
+export const DB_RPC = {
+  /** Article public avec `content` tronqué côté serveur si l'appelant n'a pas l'accès premium. */
+  GET_ARTICLE: "get_article",
+  /** Ligne article complète (content inclus) — staff éditorial ou auteur uniquement. */
+  GET_ARTICLE_FULL: "get_article_full",
+} as const;
+
+/**
+ * Colonnes publiques de `articles` lisibles directement (anon/authenticated).
+ * `content` n'est PAS lisible en direct (REVOKE SELECT (content)) : passer par DB_RPC.GET_ARTICLE.
+ */
+export const ARTICLE_LIST_COLUMNS =
+  "id, slug, title, summary, category, featured_image, created_at, likes_count, reads_count, is_premium, article_type";

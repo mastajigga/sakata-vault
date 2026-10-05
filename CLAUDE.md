@@ -15,6 +15,7 @@
 - **Roles utilisateurs:** `admin`, `manager`, `moderator`, `contributor`, `user` (+ `temp_admin` éphémère).
 - **Niveaux d'abonnement (Paywall):** `free`, `premium`.
 - **Gating de contenu:** La route `savoir/[slug]` utilise un composant "Paywall" avec un rendu "glassmorphism" qui bloque la lecture des articles nécessitant le niveau `premium`. Tous les statuts d'abonnement sont synchronisés via `AuthProvider`.
+- **🚫 NE JAMAIS lire `articles.content` en direct.** Depuis le 2026-10-05, `anon` et `authenticated` **n'ont plus** le privilège `SELECT` sur la colonne `content` (le paywall est appliqué côté serveur). Toute lecture d'article passe par la RPC `get_article(p_slug, p_lang)` (contenu tronqué automatiquement si l'appelant n'a pas l'accès) — et l'édition/admin par `get_article_full(p_slug, p_id)`. Un `select("*")` ou `select("...content...")` sur `articles` échouera avec `permission denied`. Pour la liste, utiliser `ARTICLE_LIST_COLUMNS` (sans `content`, défini dans `src/lib/constants/db.ts`).
 
 ---
 

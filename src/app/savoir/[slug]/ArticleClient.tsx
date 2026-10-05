@@ -16,7 +16,7 @@ import { Eye, Lock } from "lucide-react";
 import Link from "next/link";
 import AudioNarrator from "@/components/AudioNarrator";
 import { ArticleData } from "@/types/i18n";
-import { DB_TABLES } from "@/lib/constants/db";
+import { DB_RPC } from "@/lib/constants/db";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -27,7 +27,7 @@ interface ArticleClientProps {
 const ArticleClient: React.FC<ArticleClientProps> = ({ initialArticle }) => {
   const { slug } = useParams();
   const { language } = useLanguage();
-  const { role, subscriptionTier } = useAuth();
+  const { role, subscriptionTier, user, isLoading: authLoading } = useAuth();
   const [article, setArticle] = useState<ArticleData | null>(initialArticle);
   const [loading, setLoading] = useState(!initialArticle);
 
@@ -39,39 +39,46 @@ const ArticleClient: React.FC<ArticleClientProps> = ({ initialArticle }) => {
     if (initialArticle) {
       setLoading(false);
     }
+    // The RPC truncates `content` based on the caller's JWT: wait for a stable session
+    if (authLoading) return;
+
+    const controller = new AbortController();
 
     const fetchArticle = async () => {
       if (!initialArticle) setLoading(true);
       try {
+        // Server decides access: `content` comes back truncated if the user lacks premium rights
         const { data, error } = await supabase
-          .from(DB_TABLES.ARTICLES)
-          .select("*")
-          .eq("slug", slug)
-          .single();
+          .rpc(DB_RPC.GET_ARTICLE, { p_slug: slug as string, p_lang: null })
+          .abortSignal(controller.signal);
 
-        if (error) {
-          console.warn("Supabase Error or missing row:", error.message);
+        if (controller.signal.aborted) return;
+        if (error || !data) {
+          if (error) console.warn("Supabase Error or missing row:", error.message);
           // Fallback to static data
           if (!initialArticle) {
             const staticArticle = ARTICLES.find((a) => a.slug === slug);
             if (staticArticle) setArticle(staticArticle);
           }
-        } else if (data) {
+        } else {
           const staticArticle = ARTICLES.find((a) => a.slug === slug);
-          setArticle({ ...staticArticle, ...data } as ArticleData);
+          setArticle({ ...staticArticle, ...(data as object) } as ArticleData);
         }
       } catch (err) {
+        if (controller.signal.aborted) return;
         console.error("Fetch exception:", err);
         if (!initialArticle) {
           const staticArticle = ARTICLES.find((a) => a.slug === slug);
           if (staticArticle) setArticle(staticArticle);
         }
       } finally {
-        setLoading(false);
+        if (!controller.signal.aborted) setLoading(false);
       }
     };
     fetchArticle();
-  }, [slug, initialArticle]);
+
+    return () => controller.abort();
+  }, [slug, initialArticle, authLoading, user?.id]);
 
   useEffect(() => {
     if (!article) return;
@@ -162,12 +169,23 @@ const ArticleClient: React.FC<ArticleClientProps> = ({ initialArticle }) => {
   const isPremiumType = articleType === "poetic" || articleType === "philosophical";
   const isStaff = role && ["admin", "manager", "contributor", "moderator", "temp_admin"].includes(role);
   const hasPremiumTier = subscriptionTier && ["premium", "elite"].includes(subscriptionTier);
-  const hasAccess = !isPremiumType || isStaff || hasPremiumTier;
+  // The server (RPC get_article) is the source of truth: if it truncated the
+  // content, show the paywall even if the client-side role says otherwise.
+  const serverTruncated = (article as any).content_truncated === true;
+  const hasAccess = !serverTruncated && (!isPremiumType || isStaff || hasPremiumTier);
 
-  let finalContent = displayContent;
+  let finalContent: any = displayContent;
   let showPaywall = false;
 
+  // Client-side truncation is only a safety net — the server already truncates.
   if (!hasAccess) {
+    if (typeof finalContent === "string" && finalContent.startsWith("[")) {
+      try {
+        finalContent = JSON.parse(finalContent);
+      } catch {
+        // keep as plain text
+      }
+    }
     showPaywall = true;
     if (typeof finalContent === "string" && finalContent.length > 500) {
       finalContent = finalContent.substring(0, 500) + "...";
@@ -381,14 +399,14 @@ const ArticleClient: React.FC<ArticleClientProps> = ({ initialArticle }) => {
             >
               {(() => {
                 const isStructured =
-                  Array.isArray(displayContent) ||
-                  (typeof displayContent === "string" && displayContent.startsWith("["));
+                  Array.isArray(finalContent) ||
+                  (typeof finalContent === "string" && finalContent.startsWith("["));
                 if (isStructured) {
                   try {
                     const blocks =
-                      typeof displayContent === "string"
-                        ? JSON.parse(displayContent)
-                        : displayContent;
+                      typeof finalContent === "string"
+                        ? JSON.parse(finalContent)
+                        : finalContent;
                     return renderBlocks(blocks);
                   } catch (e) {
                     console.warn("Failed to parse structured content", e);

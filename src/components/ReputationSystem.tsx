@@ -70,7 +70,7 @@ export function useReputation() {
       // Articles
       const { count: articlesCount } = await supabase
         .from(DB_TABLES.ARTICLES)
-        .select("*", { count: "exact", head: true })
+        .select("id", { count: "exact", head: true })
         .eq("author_id", userId);
 
       // Forum posts

@@ -247,7 +247,7 @@ export function useArticleEditor(initialArticle?: Article) {
           const result = await supabase
             .from("articles")
             .insert([articleData])
-            .select()
+            .select("id")
             .single();
 
           if (result.error || !result.data?.id) {
@@ -343,13 +343,13 @@ export function useArticleEditor(initialArticle?: Article) {
             .from("articles")
             .update(articleData)
             .eq("id", initialArticle.id)
-            .select()
+            .select("id")
             .single();
         } else {
           result = await supabase
             .from("articles")
             .insert([articleData])
-            .select()
+            .select("id")
             .single();
         }
 

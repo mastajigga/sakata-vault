@@ -1,6 +1,6 @@
 "use client";
 
-import { DB_TABLES } from "@/lib/constants/db";
+import { DB_TABLES, DB_RPC } from "@/lib/constants/db";
 import React, { useEffect, useState, useRef, useCallback } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
@@ -575,11 +575,10 @@ const ArticleEditor = () => {
   useEffect(() => {
     if (!isNew) {
       const fetchArticle = async () => {
+        // `content` is not directly readable (paywall) — staff RPC returns the full row
         const { data, error } = await supabase
-          .from(DB_TABLES.ARTICLES)
-          .select("*")
-          .eq("slug", slug)
-          .single();
+          .rpc(DB_RPC.GET_ARTICLE_FULL, { p_slug: slug })
+          .maybeSingle();
 
         if (!error && data) {
           const firstContent = data.content?.fr;
@@ -606,9 +605,10 @@ const ArticleEditor = () => {
     setSaving(true);
     const payload = { ...article };
 
-    const { error } = await supabase
-      .from(DB_TABLES.ARTICLES)
-      .upsert(payload);
+    // Plain UPDATE / INSERT (no upsert): ON CONFLICT would need SELECT on `content`
+    const { error } = payload.id
+      ? await supabase.from(DB_TABLES.ARTICLES).update(payload).eq("id", payload.id)
+      : await supabase.from(DB_TABLES.ARTICLES).insert(payload);
 
     if (error) {
       showToast(`Erreur de sauvegarde : ${error.message}`, "error");

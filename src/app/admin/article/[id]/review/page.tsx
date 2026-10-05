@@ -1,6 +1,6 @@
 "use client";
 
-import { DB_TABLES } from "@/lib/constants/db";
+import { DB_TABLES, DB_RPC } from "@/lib/constants/db";
 
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
@@ -48,17 +48,18 @@ export default function ArticleReviewPage() {
   useEffect(() => {
     const fetchArticle = async () => {
       try {
+        // `content` is not directly readable (paywall) — staff RPC returns the full row
         const { data, error } = await supabase
-          .from(DB_TABLES.ARTICLES)
-          .select(`
-            *,
-            profiles:author_id (username, email)
-          `)
-          .eq("id", articleId)
+          .rpc(DB_RPC.GET_ARTICLE_FULL, { p_id: articleId })
           .single();
 
         if (error) throw error;
-        setArticle(data);
+        const { data: author } = await supabase
+          .from(DB_TABLES.PROFILES)
+          .select("username, email")
+          .eq("id", data.author_id)
+          .maybeSingle();
+        setArticle({ ...data, profiles: author ?? { username: "", email: "" } });
         if (data?.article_type) setChosenType(data.article_type);
       } catch (err) {
         console.error("Error fetching article:", err);

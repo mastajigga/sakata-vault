@@ -3,7 +3,7 @@ import SectionCard from "@/components/SectionCard";
 import SavoirClientContent from "./SavoirClientContent";
 import { supabasePublic } from "@/lib/supabase";
 import { ARTICLES } from "@/data/articles";
-import { DB_TABLES } from "@/lib/constants/db";
+import { DB_TABLES, ARTICLE_LIST_COLUMNS } from "@/lib/constants/db";
 
 export const revalidate = 60; // ISR: revalidate every 60 seconds
 
@@ -11,7 +11,8 @@ async function getSavoirArticles() {
   try {
     const { data, error } = await supabasePublic
       .from(DB_TABLES.ARTICLES)
-      .select("*")
+      // Never select `content` here: the list only needs card metadata
+      .select(ARTICLE_LIST_COLUMNS)
       .order("created_at", { ascending: false });
 
     if (error || !data || data.length === 0) {

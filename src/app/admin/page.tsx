@@ -428,7 +428,7 @@ const AdminDashboard = () => {
       setIsLoading(true);
       try {
         // Core counts
-        const { count: articleCount } = await supabase.from(DB_TABLES.ARTICLES).select("*", { count: "exact", head: true });
+        const { count: articleCount } = await supabase.from(DB_TABLES.ARTICLES).select("id", { count: "exact", head: true });
         const { count: userCount } = await supabase.from(DB_TABLES.PROFILES).select("*", { count: "exact", head: true });
         const { data: articlesData } = await supabase.from(DB_TABLES.ARTICLES).select("likes_count, reads_count, title, slug").order('reads_count', { ascending: false }).limit(5);
         

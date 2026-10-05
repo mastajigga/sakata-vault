@@ -1,6 +1,6 @@
 "use client";
 
-import { DB_TABLES } from "@/lib/constants/db";
+import { DB_TABLES, DB_RPC } from "@/lib/constants/db";
 
 import React, { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
@@ -20,10 +20,8 @@ const AdminArticlesPage = () => {
 
   const fetchArticles = async () => {
     setLoading(true);
-    const { data, error } = await supabase
-      .from(DB_TABLES.ARTICLES)
-      .select("*")
-      .order("created_at", { ascending: false });
+    // `content` is not directly readable (paywall) — staff RPC returns full rows
+    const { data, error } = await supabase.rpc(DB_RPC.GET_ARTICLE_FULL, {});
     
     if (!error && data) {
       setArticles(data);
