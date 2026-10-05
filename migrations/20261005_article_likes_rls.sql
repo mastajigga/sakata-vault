@@ -1,7 +1,9 @@
 -- =============================================================================
 -- Sakata — Sécurisation de la table article_likes (RLS)
 -- Date : 2026-10-05
--- À APPLIQUER MANUELLEMENT (SQL Editor Supabase, projet slbnjjgparojkvxbsdzn).
+-- APPLIQUÉ le 2026-10-05 sur le projet slbnjjgparojkvxbsdzn (migration « article_likes_rls »).
+-- Vérifié en direct après application : RLS active, lecture anon 200, insertion anon
+-- refusée (42501), suppression anon bloquée (204 mais 0 ligne affectée, ligne intacte).
 -- Idempotent : peut être rejoué sans effet de bord.
 --
 -- PROBLÈME
