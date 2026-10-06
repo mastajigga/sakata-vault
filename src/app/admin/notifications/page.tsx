@@ -24,7 +24,8 @@ export default function AdminNotificationPage() {
   const [emailContent, setEmailContent] = useState("");
   const [subject, setSubject] = useState("");
   const [previewMode, setPreviewMode] = useState(false);
-  const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
+  const [status, setStatus] = useState<"idle" | "sending" | "success" | "partial" | "error">("idle");
+  const [delivery, setDelivery] = useState({ accepted: 0, rejected: 0 });
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   useEffect(() => {
@@ -75,7 +76,8 @@ export default function AdminNotificationPage() {
       });
 
       if (result.success) {
-        setStatus("success");
+        setDelivery({ accepted: result.count ?? 0, rejected: result.failed ?? 0 });
+        setStatus((result.failed ?? 0) > 0 ? "partial" : "success");
       } else {
         setErrorMessage(result.error || "Une erreur inattendue est survenue.");
         setStatus("error");
@@ -150,13 +152,15 @@ export default function AdminNotificationPage() {
             </div>
           </div>
 
-          {status === "success" && (
+          {(status === "success" || status === "partial") && (
             <div className="bg-emerald-500/10 border border-emerald-500/30 p-6 rounded-2xl animate-in fade-in slide-in-from-bottom-4 shadow-[0_0_20px_rgba(16,185,129,0.1)]">
               <div className="flex items-center gap-3 text-emerald-400 mb-2 font-bold">
-                <CheckCircle2 /> Succès
+                {status === "partial" ? <AlertCircle /> : <CheckCircle2 />}
+                {status === "partial" ? "Succès partiel" : "Envoi accepté"}
               </div>
               <p className="text-sm text-emerald-100/70 leading-relaxed font-body">
-                La notification a été diffusée avec succès à tous les membres du sanctuaire numérique.
+                {delivery.accepted} email(s) accepté(s) par le fournisseur ; {delivery.rejected} rejeté(s).
+                {status === "partial" && " La diffusion est incomplète. Un nouvel envoi global renverrait aussi les emails déjà acceptés."}
               </p>
             </div>
           )}

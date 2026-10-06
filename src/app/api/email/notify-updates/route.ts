@@ -4,8 +4,12 @@ import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { DB_TABLES } from "@/lib/constants/db";
 import { emailTemplates, getPhase2Updates } from "@/lib/email/templates";
+import { sendEmail } from "@/lib/email/resend";
 import { USER_ROLES } from "@/lib/constants/business";
 import { emailNotifySchema } from "@/lib/schemas/validation";
+
+// Envois simultanés max vers Resend (un message par destinataire)
+const SEND_CONCURRENCY = 5;
 
 export async function POST(req: NextRequest) {
   try {
@@ -55,13 +59,30 @@ export async function POST(req: NextRequest) {
     const updateType = validated.updateType || "phase2";
     const subject = validated.subject;
 
+    // Refuse honestly instead of pretending to send when no transport is configured
+    if (!process.env.RESEND_API_KEY) {
+      console.error("Email API: RESEND_API_KEY missing — no email sent");
+      return NextResponse.json(
+        { error: "Email transport not configured (RESEND_API_KEY missing)", sent: 0 },
+        { status: 503 }
+      );
+    }
+
     // Get all registered users (exclude admin/test accounts if needed)
     const { data: profiles, error: profilesError } = await supabase
       .from(DB_TABLES.PROFILES)
       .select("id, email, username, nickname")
       .not("email", "is", null);
 
-    if (profilesError || !profiles || profiles.length === 0) {
+    if (profilesError) {
+      console.error("Email API: profiles fetch failed:", profilesError);
+      return NextResponse.json(
+        { error: "Failed to load recipients", sent: 0 },
+        { status: 500 }
+      );
+    }
+
+    if (!profiles || profiles.length === 0) {
       return NextResponse.json(
         { error: "No profiles found", sent: 0 },
         { status: 400 }
@@ -74,40 +95,43 @@ export async function POST(req: NextRequest) {
       updates = getPhase2Updates();
     }
 
-    // Send emails (in production, use Resend, SendGrid, or Nodemailer)
-    // For now, we'll log and track in database
-    const sentEmails: Array<{
-      user_id: string;
-      email: string;
-      sent_at: string;
-      update_type: string;
-    }> = [];
+    // One message per recipient (never expose other members' addresses)
+    let sent = 0;
+    let failed = 0;
 
-    for (const profile of profiles) {
-      const userName = profile.nickname || profile.username || "Utilisateur";
-      const emailContent = emailTemplates.updateNotification(userName, updates);
-
-      // Log email send (in production, integrate with email provider)
-      console.log(`📧 Email to ${profile.email}:`, emailContent.subject);
-
-      sentEmails.push({
-        user_id: profile.id,
-        email: profile.email,
-        sent_at: new Date().toISOString(),
-        update_type: updateType,
-      });
+    for (let i = 0; i < profiles.length; i += SEND_CONCURRENCY) {
+      const batch = profiles.slice(i, i + SEND_CONCURRENCY);
+      const results = await Promise.allSettled(
+        batch.map((profile) => {
+          const userName = profile.nickname || profile.username || "Utilisateur";
+          const emailContent = emailTemplates.updateNotification(userName, updates);
+          return sendEmail({
+            to: profile.email,
+            subject: subject || emailContent.subject,
+            html: emailContent.html,
+          });
+        })
+      );
+      for (const r of results) {
+        if (r.status === "fulfilled" && r.value?.id) sent++;
+        else failed++;
+      }
     }
 
-    // Track email sends in database (if you have an email_logs table)
-    if (sentEmails.length > 0) {
-      // Optional: store email logs for tracking
-      console.log(`✅ Notified ${sentEmails.length} users of ${updateType} updates`);
+    console.log(`📧 Email API: ${sent}/${profiles.length} ${updateType} emails accepted (${failed} failed)`);
+
+    if (sent === 0) {
+      return NextResponse.json(
+        { error: "No email was accepted by the provider", sent: 0, failed, updateType },
+        { status: 502 }
+      );
     }
 
     return NextResponse.json(
       {
-        sent: sentEmails.length,
-        message: `Successfully notified ${sentEmails.length} users`,
+        sent,
+        failed,
+        message: `Notified ${sent} of ${profiles.length} users`,
         updateType,
       },
       { status: 200 }

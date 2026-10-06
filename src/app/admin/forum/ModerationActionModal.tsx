@@ -52,6 +52,14 @@ export default function ModerationActionModal({ open, kind, context, onClose, on
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  const [appliedActions, setAppliedActions] = useState<Record<string, string>>({});
+  const actionKey = JSON.stringify([kind, context.postId, context.threadId, context.userId, context.reportId]);
+  const appliedMessage = appliedActions[actionKey];
+  const close = () => {
+    if (appliedMessage) onSuccess?.();
+    onClose();
+  };
+
   React.useEffect(() => {
     if (open) {
       setReason(""); setMessage(""); setDuration(24); setConfirm(""); setError(null);
@@ -62,6 +70,7 @@ export default function ModerationActionModal({ open, kind, context, onClose, on
   const meta = KIND_META[kind];
 
   const submit = async () => {
+    if (loading || appliedMessage) return;
     setError(null);
     if (meta.needsReason && !reason.trim()) { setError("La raison est requise"); return; }
     if (meta.needsMessage && !message.trim()) { setError("Le message est requis"); return; }
@@ -87,6 +96,11 @@ export default function ModerationActionModal({ open, kind, context, onClose, on
         }),
       });
       const json = await res.json();
+      if (json.applied === true) {
+        const detail = json.error || "Action appliquée mais non journalisée.";
+        setAppliedActions((prev) => ({ ...prev, [actionKey]: `${detail} Ne relancez pas cette action. Faites vérifier le journal et le signalement.` }));
+        return;
+      }
       if (!res.ok) throw new Error(json.error || "Erreur");
       onSuccess?.();
       onClose();
@@ -105,7 +119,7 @@ export default function ModerationActionModal({ open, kind, context, onClose, on
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-foret-nocturne/80 backdrop-blur-sm"
-          onClick={onClose}
+          onClick={close}
         >
           <motion.div
             initial={{ scale: 0.95, opacity: 0 }}
@@ -124,7 +138,7 @@ export default function ModerationActionModal({ open, kind, context, onClose, on
                   </span>
                   <h2 className="font-display text-2xl font-bold text-ivoire-ancien">{meta.title}</h2>
                 </div>
-                <button onClick={onClose} className="opacity-50 hover:opacity-100 transition-opacity">
+                <button onClick={close} className="opacity-50 hover:opacity-100 transition-opacity">
                   <X className="w-5 h-5" />
                 </button>
               </div>
@@ -213,25 +227,25 @@ export default function ModerationActionModal({ open, kind, context, onClose, on
                 </div>
               )}
 
-              {error && (
+              {(appliedMessage || error) && (
                 <div className="px-4 py-3 rounded-xl bg-red-500/10 border border-red-500/20 text-sm text-red-400">
-                  {error}
+                  {appliedMessage || error}
                 </div>
               )}
 
               <div className="flex gap-3 pt-2">
                 <button
                   type="button"
-                  onClick={onClose}
+                  onClick={close}
                   disabled={loading}
                   className="px-6 py-3 rounded-xl text-xs font-mono uppercase tracking-widest opacity-50 hover:opacity-100 border border-white/10"
                 >
-                  Annuler
+                  {appliedMessage ? "Fermer" : "Annuler"}
                 </button>
                 <button
                   type="button"
                   onClick={submit}
-                  disabled={loading}
+                  disabled={loading || !!appliedMessage}
                   className={`flex-1 py-3 rounded-xl font-bold transition-all ${
                     meta.danger
                       ? "bg-red-500/90 text-white hover:bg-red-500"
@@ -239,7 +253,7 @@ export default function ModerationActionModal({ open, kind, context, onClose, on
                   }`}
                   style={{ opacity: loading ? 0.6 : 1 }}
                 >
-                  {loading ? "Envoi..." : meta.cta}
+                  {appliedMessage ? "Action déjà appliquée" : loading ? "Envoi..." : meta.cta}
                 </button>
               </div>
             </div>

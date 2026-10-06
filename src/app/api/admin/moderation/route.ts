@@ -40,20 +40,76 @@ async function logAction(params: {
   duration_hours?: number | null;
   expires_at?: string | null;
   metadata?: Record<string, unknown> | null;
-}) {
-  await supabaseAdmin.from("moderation_logs").insert({
-    moderator_id: params.moderator_id,
-    moderator_role: params.moderator_role,
-    action_type: params.action_type,
-    target_user_id: params.target_user_id ?? null,
-    target_post_id: params.target_post_id ?? null,
-    target_thread_id: params.target_thread_id ?? null,
-    target_report_id: params.target_report_id ?? null,
-    reason: params.reason ?? null,
-    duration_hours: params.duration_hours ?? null,
-    expires_at: params.expires_at ?? null,
-    metadata: params.metadata ?? null,
-  });
+}): Promise<string | null> {
+  try {
+    const { error } = await supabaseAdmin.from("moderation_logs").insert({
+      moderator_id: params.moderator_id,
+      moderator_role: params.moderator_role,
+      action_type: params.action_type,
+      target_user_id: params.target_user_id ?? null,
+      target_post_id: params.target_post_id ?? null,
+      target_thread_id: params.target_thread_id ?? null,
+      target_report_id: params.target_report_id ?? null,
+      reason: params.reason ?? null,
+      duration_hours: params.duration_hours ?? null,
+      expires_at: params.expires_at ?? null,
+      metadata: params.metadata ?? null,
+    });
+    if (error) {
+      console.error("[moderation API] log insert", error);
+      return error.message;
+    }
+    return null;
+  } catch (error) {
+    console.error("[moderation API] log exception", error);
+    return error instanceof Error ? error.message : "Échec du journal de modération";
+  }
+}
+
+type WriteResult = { data: unknown[] | null; error: { message: string } | null };
+
+/**
+ * Contrôle une mutation (`.select("id")` requis) : erreur DB → 500, 0 ligne → 404.
+ * Renvoie null si au moins une ligne a été écrite.
+ */
+function checkWrite(label: string, res: WriteResult, notFound: string): NextResponse | null {
+  if (res.error) {
+    console.error(`[moderation API] ${label}`, res.error);
+    return NextResponse.json({ error: `Échec de l'écriture (${label}) : ${res.error.message}` }, { status: 500 });
+  }
+  if (!res.data || res.data.length === 0) {
+    return NextResponse.json({ error: notFound }, { status: 404 });
+  }
+  return null;
+}
+
+/**
+ * Réponse finale : l'action est appliquée, mais si le journal n'a pas pu être écrit
+ * on ne prétend pas le contraire (HTTP 500 + applied: true pour éviter un rejeu aveugle).
+ */
+function finish(logError: string | null, payload: Record<string, unknown> = {}) {
+  if (logError) {
+    return NextResponse.json(
+      {
+        error: `Action appliquée mais NON journalisée : ${logError}`,
+        applied: true,
+        logged: false,
+        ...payload,
+      },
+      { status: 500 }
+    );
+  }
+  return NextResponse.json({ ok: true, logged: true, ...payload });
+}
+
+/** Clôture un signalement (resolved/dismissed) en contrôlant l'écriture. */
+async function closeReport(reportId: string, status: "resolved" | "dismissed", reviewerId: string) {
+  const res = await supabaseAdmin
+    .from("moderation_reports")
+    .update({ status, reviewed_by: reviewerId, reviewed_at: new Date().toISOString() })
+    .eq("id", reportId)
+    .select("id");
+  return checkWrite(`signalement ${status}`, res, "Signalement introuvable");
 }
 
 export async function POST(req: Request) {
@@ -76,30 +132,38 @@ export async function POST(req: Request) {
         if (!body.postId || !body.reason)
           return NextResponse.json({ error: "postId + reason requis" }, { status: 400 });
 
-        const { data: post } = await supabaseAdmin
+        const { data: post, error: postErr } = await supabaseAdmin
           .from("forum_posts")
           .select("id, author_id, thread_id")
           .eq("id", body.postId)
-          .single();
+          .maybeSingle();
+        if (postErr) throw postErr;
         if (!post) return NextResponse.json({ error: "Post introuvable" }, { status: 404 });
 
-        await supabaseAdmin
+        // Reject an invalid report before applying the deletion.
+        if (body.reportId) {
+          const { data: report, error: reportErr } = await supabaseAdmin
+            .from("moderation_reports")
+            .select("id")
+            .eq("id", body.reportId)
+            .maybeSingle();
+          if (reportErr) throw reportErr;
+          if (!report) return NextResponse.json({ error: "Signalement introuvable" }, { status: 404 });
+        }
+
+        const delRes = await supabaseAdmin
           .from("forum_posts")
           .update({
             deleted_at: new Date().toISOString(),
             deleted_by: user.id,
             deletion_reason: body.reason,
           })
-          .eq("id", body.postId);
+          .eq("id", body.postId)
+          .select("id");
+        const delFail = checkWrite("suppression du post", delRes, "Post introuvable");
+        if (delFail) return delFail;
 
-        if (body.reportId) {
-          await supabaseAdmin
-            .from("moderation_reports")
-            .update({ status: "resolved", reviewed_by: user.id, reviewed_at: new Date().toISOString() })
-            .eq("id", body.reportId);
-        }
-
-        await logAction({
+        const logErr = await logAction({
           moderator_id: user.id,
           moderator_role: moderatorRole,
           action_type: MODERATION_ACTIONS.DELETE_POST,
@@ -109,38 +173,69 @@ export async function POST(req: Request) {
           target_report_id: body.reportId,
           reason: body.reason,
         });
-        return NextResponse.json({ ok: true });
+        // Journal first: a later closure failure must not skip the audit trail.
+        if (body.reportId) {
+          try {
+            const reportFail = await closeReport(body.reportId, "resolved", user.id);
+            if (reportFail) {
+              const detail = await reportFail.json();
+              return NextResponse.json({
+                error: `Post supprimé, mais signalement non clôturé : ${detail.error}${logErr ? ` ; journal non écrit : ${logErr}` : ""}`,
+                applied: true,
+                logged: !logErr,
+                reportClosed: false,
+              }, { status: 500 });
+            }
+          } catch (error) {
+            console.error("[moderation API] clôture après suppression", error);
+            return NextResponse.json({
+              error: `Post supprimé, mais clôture du signalement impossible${logErr ? ` ; journal non écrit : ${logErr}` : ""}`,
+              applied: true,
+              logged: !logErr,
+              reportClosed: false,
+            }, { status: 500 });
+          }
+        }
+        return finish(logErr);
       }
 
       case "delete_thread": {
         if (!body.threadId || !body.reason)
           return NextResponse.json({ error: "threadId + reason requis" }, { status: 400 });
 
-        const { data: thread } = await supabaseAdmin
+        // L'auteur d'un sujet est `created_by` (forum_threads n'a pas de colonne author_id)
+        const { data: thread, error: threadErr } = await supabaseAdmin
           .from("forum_threads")
-          .select("id, author_id")
+          .select("id, created_by")
           .eq("id", body.threadId)
-          .single();
+          .maybeSingle();
+        if (threadErr) {
+          console.error("[moderation API] lecture du sujet", threadErr);
+          return NextResponse.json({ error: `Lecture du sujet impossible : ${threadErr.message}` }, { status: 500 });
+        }
         if (!thread) return NextResponse.json({ error: "Sujet introuvable" }, { status: 404 });
 
-        await supabaseAdmin
+        const delRes = await supabaseAdmin
           .from("forum_threads")
           .update({
             deleted_at: new Date().toISOString(),
             deleted_by: user.id,
             deletion_reason: body.reason,
           })
-          .eq("id", body.threadId);
+          .eq("id", body.threadId)
+          .select("id");
+        const delFail = checkWrite("suppression du sujet", delRes, "Sujet introuvable");
+        if (delFail) return delFail;
 
-        await logAction({
+        const logErr = await logAction({
           moderator_id: user.id,
           moderator_role: moderatorRole,
           action_type: MODERATION_ACTIONS.DELETE_THREAD,
-          target_user_id: thread.author_id,
+          target_user_id: thread.created_by,
           target_thread_id: body.threadId,
           reason: body.reason,
         });
-        return NextResponse.json({ ok: true });
+        return finish(logErr);
       }
 
       case "warn_user": {
@@ -159,7 +254,7 @@ export async function POST(req: Request) {
           .single();
         if (error) throw error;
 
-        await logAction({
+        const logErr = await logAction({
           moderator_id: user.id,
           moderator_role: moderatorRole,
           action_type: MODERATION_ACTIONS.WARN_USER,
@@ -168,7 +263,7 @@ export async function POST(req: Request) {
           reason: body.message,
           metadata: { warning_id: warning.id },
         });
-        return NextResponse.json({ ok: true, warning });
+        return finish(logErr, { warning });
       }
 
       case "ban_user": {
@@ -180,26 +275,30 @@ export async function POST(req: Request) {
         if (body.userId === user.id)
           return NextResponse.json({ error: "Vous ne pouvez pas vous bannir vous-même" }, { status: 400 });
 
-        const { data: target } = await supabaseAdmin
+        const { data: target, error: targetErr } = await supabaseAdmin
           .from("profiles")
           .select("id, role")
           .eq("id", body.userId)
-          .single();
+          .maybeSingle();
+        if (targetErr) throw targetErr;
         if (!target) return NextResponse.json({ error: "Utilisateur introuvable" }, { status: 404 });
         if (target.role === "admin")
           return NextResponse.json({ error: "Impossible de bannir un administrateur" }, { status: 403 });
 
         const expiresAt = new Date(Date.now() + body.durationHours * 60 * 60 * 1000).toISOString();
-        await supabaseAdmin
+        const banRes = await supabaseAdmin
           .from("profiles")
           .update({
             banned_until: expiresAt,
             ban_reason: body.reason,
             banned_by: user.id,
           })
-          .eq("id", body.userId);
+          .eq("id", body.userId)
+          .select("id");
+        const banFail = checkWrite("bannissement", banRes, "Utilisateur introuvable");
+        if (banFail) return banFail;
 
-        await logAction({
+        const logErr = await logAction({
           moderator_id: user.id,
           moderator_role: moderatorRole,
           action_type: MODERATION_ACTIONS.BAN_USER,
@@ -208,26 +307,29 @@ export async function POST(req: Request) {
           duration_hours: body.durationHours,
           expires_at: expiresAt,
         });
-        return NextResponse.json({ ok: true, expires_at: expiresAt });
+        return finish(logErr, { expires_at: expiresAt });
       }
 
       case "unban_user": {
         if (!body.userId)
           return NextResponse.json({ error: "userId requis" }, { status: 400 });
 
-        await supabaseAdmin
+        const unbanRes = await supabaseAdmin
           .from("profiles")
           .update({ banned_until: null, ban_reason: null, banned_by: null })
-          .eq("id", body.userId);
+          .eq("id", body.userId)
+          .select("id");
+        const unbanFail = checkWrite("débannissement", unbanRes, "Utilisateur introuvable");
+        if (unbanFail) return unbanFail;
 
-        await logAction({
+        const logErr = await logAction({
           moderator_id: user.id,
           moderator_role: moderatorRole,
           action_type: MODERATION_ACTIONS.UNBAN_USER,
           target_user_id: body.userId,
           reason: body.reason ?? "Débannissement manuel",
         });
-        return NextResponse.json({ ok: true });
+        return finish(logErr);
       }
 
       case "soft_delete_user": {
@@ -236,11 +338,12 @@ export async function POST(req: Request) {
         if (body.userId === user.id)
           return NextResponse.json({ error: "Vous ne pouvez pas vous supprimer vous-même" }, { status: 400 });
 
-        const { data: target } = await supabaseAdmin
+        const { data: target, error: targetErr } = await supabaseAdmin
           .from("profiles")
           .select("id, role, username")
           .eq("id", body.userId)
-          .single();
+          .maybeSingle();
+        if (targetErr) throw targetErr;
         if (!target) return NextResponse.json({ error: "Utilisateur introuvable" }, { status: 404 });
         if (target.role === "admin")
           return NextResponse.json({ error: "Impossible de supprimer un administrateur" }, { status: 403 });
@@ -249,7 +352,7 @@ export async function POST(req: Request) {
 
         const now = new Date();
         const purgeAt = new Date(now.getTime() + SOFT_DELETE_GRACE_DAYS * 24 * 60 * 60 * 1000).toISOString();
-        await supabaseAdmin
+        const softRes = await supabaseAdmin
           .from("profiles")
           .update({
             deleted_at: now.toISOString(),
@@ -257,9 +360,12 @@ export async function POST(req: Request) {
             deletion_reason: body.reason,
             permanent_delete_at: purgeAt,
           })
-          .eq("id", body.userId);
+          .eq("id", body.userId)
+          .select("id");
+        const softFail = checkWrite("suppression du compte", softRes, "Utilisateur introuvable");
+        if (softFail) return softFail;
 
-        await logAction({
+        const logErr = await logAction({
           moderator_id: user.id,
           moderator_role: moderatorRole,
           action_type: MODERATION_ACTIONS.SOFT_DELETE_USER,
@@ -267,7 +373,7 @@ export async function POST(req: Request) {
           reason: body.reason,
           metadata: { permanent_delete_at: purgeAt },
         });
-        return NextResponse.json({ ok: true, permanent_delete_at: purgeAt });
+        return finish(logErr, { permanent_delete_at: purgeAt });
       }
 
       case "restore_user": {
@@ -279,7 +385,7 @@ export async function POST(req: Request) {
         if (!body.userId)
           return NextResponse.json({ error: "userId requis" }, { status: 400 });
 
-        await supabaseAdmin
+        const restoreRes = await supabaseAdmin
           .from("profiles")
           .update({
             deleted_at: null,
@@ -287,52 +393,51 @@ export async function POST(req: Request) {
             deletion_reason: null,
             permanent_delete_at: null,
           })
-          .eq("id", body.userId);
+          .eq("id", body.userId)
+          .select("id");
+        const restoreFail = checkWrite("restauration du compte", restoreRes, "Utilisateur introuvable");
+        if (restoreFail) return restoreFail;
 
-        await logAction({
+        const logErr = await logAction({
           moderator_id: user.id,
           moderator_role: moderatorRole,
           action_type: MODERATION_ACTIONS.RESTORE_USER,
           target_user_id: body.userId,
           reason: body.reason ?? "Restauration manuelle",
         });
-        return NextResponse.json({ ok: true });
+        return finish(logErr);
       }
 
       case "resolve_report": {
         if (!body.reportId)
           return NextResponse.json({ error: "reportId requis" }, { status: 400 });
-        await supabaseAdmin
-          .from("moderation_reports")
-          .update({ status: "resolved", reviewed_by: user.id, reviewed_at: new Date().toISOString() })
-          .eq("id", body.reportId);
+        const reportFail = await closeReport(body.reportId, "resolved", user.id);
+        if (reportFail) return reportFail;
 
-        await logAction({
+        const logErr = await logAction({
           moderator_id: user.id,
           moderator_role: moderatorRole,
           action_type: MODERATION_ACTIONS.RESOLVE_REPORT,
           target_report_id: body.reportId,
           reason: body.reason ?? null,
         });
-        return NextResponse.json({ ok: true });
+        return finish(logErr);
       }
 
       case "dismiss_report": {
         if (!body.reportId)
           return NextResponse.json({ error: "reportId requis" }, { status: 400 });
-        await supabaseAdmin
-          .from("moderation_reports")
-          .update({ status: "dismissed", reviewed_by: user.id, reviewed_at: new Date().toISOString() })
-          .eq("id", body.reportId);
+        const reportFail = await closeReport(body.reportId, "dismissed", user.id);
+        if (reportFail) return reportFail;
 
-        await logAction({
+        const logErr = await logAction({
           moderator_id: user.id,
           moderator_role: moderatorRole,
           action_type: MODERATION_ACTIONS.DISMISS_REPORT,
           target_report_id: body.reportId,
           reason: body.reason ?? null,
         });
-        return NextResponse.json({ ok: true });
+        return finish(logErr);
       }
     }
   } catch (err: any) {

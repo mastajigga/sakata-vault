@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 import { useAuth } from "@/components/AuthProvider";
+import { isFullAdmin } from "@/lib/constants/business";
 import { Check, X, Loader2, AlertCircle } from "lucide-react";
 
 interface Article {
@@ -23,7 +24,9 @@ interface Article {
 export default function ArticleReviewPage() {
   const params = useParams();
   const router = useRouter();
-  const { user, userRole } = useAuth() as any;
+  const { effectiveRole, isLoading: authLoading } = useAuth();
+  // effectiveRole: un temp_admin actif est résolu en "admin" (cf. AuthProvider)
+  const isAdmin = isFullAdmin(effectiveRole);
 
   const articleId = params.id as string;
 
@@ -34,42 +37,40 @@ export default function ArticleReviewPage() {
   const [autoApproveAuthor, setAutoApproveAuthor] = useState(false);
   const [chosenType, setChosenType] = useState<"summary" | "poetic" | "philosophical">("summary");
 
-  if (userRole !== "admin") {
-    return (
-      <div className="min-h-screen bg-black flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold text-white mb-2">Accès Refusé</h1>
-          <p className="text-slate-400">Seuls les administrateurs peuvent valider les articles.</p>
-        </div>
-      </div>
-    );
-  }
-
   useEffect(() => {
+    if (authLoading || !isAdmin) return;
+    const controller = new AbortController();
+
     const fetchArticle = async () => {
       try {
         // `content` is not directly readable (paywall) — staff RPC returns the full row
         const { data, error } = await supabase
           .rpc(DB_RPC.GET_ARTICLE_FULL, { p_id: articleId })
+          .abortSignal(controller.signal)
           .single();
 
         if (error) throw error;
-        const { data: author } = await supabase
+        const { data: author, error: authorError } = await supabase
           .from(DB_TABLES.PROFILES)
           .select("username, email")
           .eq("id", data.author_id)
+          .abortSignal(controller.signal)
           .maybeSingle();
+        if (controller.signal.aborted) return;
+        if (authorError) console.error("Error fetching article author:", authorError);
         setArticle({ ...data, profiles: author ?? { username: "", email: "" } });
         if (data?.article_type) setChosenType(data.article_type);
       } catch (err) {
+        if (controller.signal.aborted) return;
         console.error("Error fetching article:", err);
       } finally {
-        setLoading(false);
+        if (!controller.signal.aborted) setLoading(false);
       }
     };
 
     fetchArticle();
-  }, [articleId]);
+    return () => controller.abort();
+  }, [articleId, authLoading, isAdmin]);
 
   const handlePublish = async (shouldAutoApprove = false) => {
     setReviewing(true);
@@ -120,6 +121,25 @@ export default function ArticleReviewPage() {
       setReviewing(false);
     }
   };
+
+  if (authLoading) {
+    return (
+      <div className="min-h-screen bg-black flex items-center justify-center">
+        <Loader2 className="w-8 h-8 text-amber-500 animate-spin" />
+      </div>
+    );
+  }
+
+  if (!isAdmin) {
+    return (
+      <div className="min-h-screen bg-black flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold text-white mb-2">Accès Refusé</h1>
+          <p className="text-slate-400">Seuls les administrateurs peuvent valider les articles.</p>
+        </div>
+      </div>
+    );
+  }
 
   if (loading) {
     return (

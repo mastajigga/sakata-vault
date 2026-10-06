@@ -1,44 +1,46 @@
 import { NextResponse } from "next/server";
-import { createServerClient } from "@supabase/ssr";
-import { cookies } from "next/headers";
 import { z } from "zod";
 import { supabaseAdmin } from "@/lib/supabase/admin";
-import { TEMP_ADMIN_DURATION_HOURS } from "@/lib/constants/business";
+import { getCurrentAuthUser } from "@/lib/api/auth-helpers";
+import { TEMP_ADMIN_DURATION_HOURS, canModerate } from "@/lib/constants/business";
 
 const grantSchema = z.object({
   recipient_id: z.string().uuid(),
   reason: z.string().max(500).optional().nullable(),
 });
 
-async function getCurrentUser() {
-  const cookieStore = await cookies();
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        getAll: () => cookieStore.getAll(),
-        setAll: () => {},
-      },
-    }
-  );
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  return user;
+/**
+ * Rôle titulaire de l'appelant (pas le rôle effectif : un temp_admin reste temp_admin).
+ * Renvoie une réponse d'erreur si le profil ne peut pas être lu.
+ */
+async function getActorProfile(userId: string) {
+  const { data, error } = await supabaseAdmin
+    .from("profiles")
+    .select("id, role, temp_admin_expires_at, temp_admin_original_role")
+    .eq("id", userId)
+    .maybeSingle();
+  if (error) {
+    console.error("[temp-grants] actor profile", error);
+    return { response: NextResponse.json({ error: "Erreur DB" }, { status: 500 }) };
+  }
+  return { profile: data };
 }
 
 /**
  * GET /api/admin/temp-grants
  * Liste des grants (actifs + historique).
- * Visible par : admins (tout) et le récipiendaire (les siens) — RLS le gère.
+ * Visible par : modérateurs/admins (tout) et le récipiendaire (les siens uniquement).
+ * Le client utilise la clé de service (RLS contournée) : le filtrage est fait ici.
  */
 export async function GET() {
-  const user = await getCurrentUser();
+  const user = await getCurrentAuthUser();
   if (!user) return NextResponse.json({ error: "Non autorisé" }, { status: 401 });
 
-  // Use admin client because we want to JOIN profiles, RLS still filters via policy
-  const { data, error } = await supabaseAdmin
+  const actor = await getActorProfile(user.id);
+  if (actor.response) return actor.response;
+  const seesAll = !!actor.profile && canModerate(actor.profile);
+
+  let query = supabaseAdmin
     .from("temp_admin_grants")
     .select(
       `
@@ -50,7 +52,9 @@ export async function GET() {
     )
     .order("granted_at", { ascending: false })
     .limit(50);
+  if (!seesAll) query = query.eq("recipient_id", user.id);
 
+  const { data, error } = await query;
   if (error) {
     console.error("[temp-grants GET]", error);
     return NextResponse.json({ error: "Erreur DB" }, { status: 500 });
@@ -64,15 +68,13 @@ export async function GET() {
  * Seul un VRAI admin peut accorder.
  */
 export async function POST(req: Request) {
-  const user = await getCurrentUser();
+  const user = await getCurrentAuthUser();
   if (!user) return NextResponse.json({ error: "Non autorisé" }, { status: 401 });
 
   // Vérifier que l'actor est un VRAI admin (pas temp_admin)
-  const { data: actorProfile } = await supabaseAdmin
-    .from("profiles")
-    .select("role")
-    .eq("id", user.id)
-    .single();
+  const actor = await getActorProfile(user.id);
+  if (actor.response) return actor.response;
+  const actorProfile = actor.profile;
 
   if (!actorProfile || actorProfile.role !== "admin") {
     return NextResponse.json(
@@ -100,9 +102,13 @@ export async function POST(req: Request) {
     .from("profiles")
     .select("id, role, temp_admin_expires_at")
     .eq("id", body.recipient_id)
-    .single();
+    .maybeSingle();
 
-  if (targetErr || !target) {
+  if (targetErr) {
+    console.error("[temp-grants POST] target", targetErr);
+    return NextResponse.json({ error: "Erreur DB" }, { status: 500 });
+  }
+  if (!target) {
     return NextResponse.json({ error: "User cible introuvable" }, { status: 404 });
   }
 
@@ -119,24 +125,32 @@ export async function POST(req: Request) {
     target.temp_admin_expires_at &&
     new Date(target.temp_admin_expires_at) > new Date()
   ) {
-    await supabaseAdmin
+    const { error: revokeErr } = await supabaseAdmin
       .from("temp_admin_grants")
       .update({ revoked_at: new Date().toISOString(), revoked_by: user.id })
       .eq("recipient_id", target.id)
       .is("revoked_at", null);
+    if (revokeErr) {
+      console.error("[temp-grants POST] revoke previous grant", revokeErr);
+      return NextResponse.json({ error: "Erreur révocation du grant courant" }, { status: 500 });
+    }
   }
 
   // L'original_role à stocker (le rôle actuel SI ce n'est pas temp_admin, sinon
   // on garde celui qu'on avait sauvegardé)
   let originalRole: string;
   if (target.role === "temp_admin") {
-    const { data: lastGrant } = await supabaseAdmin
+    const { data: lastGrant, error: lastGrantErr } = await supabaseAdmin
       .from("temp_admin_grants")
       .select("original_role")
       .eq("recipient_id", target.id)
       .order("granted_at", { ascending: false })
       .limit(1)
-      .single();
+      .maybeSingle();
+    if (lastGrantErr) {
+      console.error("[temp-grants POST] last grant", lastGrantErr);
+      return NextResponse.json({ error: "Erreur DB" }, { status: 500 });
+    }
     originalRole = lastGrant?.original_role || "user";
   } else {
     originalRole = target.role;
@@ -177,11 +191,17 @@ export async function POST(req: Request) {
 
   if (profErr) {
     console.error("[temp-grants POST] profile update", profErr);
+    // Ne pas laisser une ligne d'audit pour un grant qui n'a jamais pris effet
+    const { error: cleanupErr } = await supabaseAdmin
+      .from("temp_admin_grants")
+      .delete()
+      .eq("id", grant.id);
+    if (cleanupErr) console.error("[temp-grants POST] grant cleanup", cleanupErr);
     return NextResponse.json({ error: "Erreur update profil" }, { status: 500 });
   }
 
-  // 3) Notify the recipient
-  await supabaseAdmin.from("forum_notifications").insert({
+  // 3) Notify the recipient (non bloquant : le grant est effectif)
+  const { error: notifErr } = await supabaseAdmin.from("forum_notifications").insert({
     recipient_id: target.id,
     actor_id: user.id,
     type: "temp_admin_granted",
@@ -191,8 +211,9 @@ export async function POST(req: Request) {
       reason: body.reason ?? null,
     },
   });
+  if (notifErr) console.error("[temp-grants POST] notification", notifErr);
 
-  return NextResponse.json({ ok: true, grant });
+  return NextResponse.json({ ok: true, grant, notified: !notifErr });
 }
 
 /**
@@ -201,14 +222,12 @@ export async function POST(req: Request) {
  * Révoque le grant actif d'un user (seul un VRAI admin peut le faire).
  */
 export async function DELETE(req: Request) {
-  const user = await getCurrentUser();
+  const user = await getCurrentAuthUser();
   if (!user) return NextResponse.json({ error: "Non autorisé" }, { status: 401 });
 
-  const { data: actor } = await supabaseAdmin
-    .from("profiles")
-    .select("role")
-    .eq("id", user.id)
-    .single();
+  const actorRes = await getActorProfile(user.id);
+  if (actorRes.response) return actorRes.response;
+  const actor = actorRes.profile;
 
   if (!actor || actor.role !== "admin") {
     return NextResponse.json({ error: "Réservé aux admins titulaires" }, { status: 403 });
@@ -222,11 +241,16 @@ export async function DELETE(req: Request) {
   }
 
   // Récupérer le grant actif et l'original_role
-  const { data: target } = await supabaseAdmin
+  const { data: target, error: targetErr } = await supabaseAdmin
     .from("profiles")
     .select("id, role, temp_admin_original_role")
     .eq("id", body.recipient_id)
-    .single();
+    .maybeSingle();
+
+  if (targetErr) {
+    console.error("[temp-grants DELETE] target", targetErr);
+    return NextResponse.json({ error: "Erreur DB" }, { status: 500 });
+  }
 
   if (!target || target.role !== "temp_admin") {
     return NextResponse.json(
@@ -238,11 +262,15 @@ export async function DELETE(req: Request) {
   const originalRole = target.temp_admin_original_role || "user";
 
   // Marquer le grant comme revoked
-  await supabaseAdmin
+  const { error: revokeErr } = await supabaseAdmin
     .from("temp_admin_grants")
     .update({ revoked_at: new Date().toISOString(), revoked_by: user.id })
     .eq("recipient_id", target.id)
     .is("revoked_at", null);
+  if (revokeErr) {
+    console.error("[temp-grants DELETE] grant revoke", revokeErr);
+    return NextResponse.json({ error: "Erreur révocation" }, { status: 500 });
+  }
 
   // Restaurer le rôle initial
   const { error: profErr } = await supabaseAdmin
@@ -260,13 +288,14 @@ export async function DELETE(req: Request) {
     return NextResponse.json({ error: "Erreur révocation" }, { status: 500 });
   }
 
-  // Notify the recipient of revocation
-  await supabaseAdmin.from("forum_notifications").insert({
+  // Notify the recipient of revocation (non bloquant : la révocation est effective)
+  const { error: notifErr } = await supabaseAdmin.from("forum_notifications").insert({
     recipient_id: target.id,
     actor_id: user.id,
     type: "temp_admin_revoked",
     metadata: { restored_role: originalRole },
   });
+  if (notifErr) console.error("[temp-grants DELETE] notification", notifErr);
 
-  return NextResponse.json({ ok: true });
+  return NextResponse.json({ ok: true, notified: !notifErr });
 }
