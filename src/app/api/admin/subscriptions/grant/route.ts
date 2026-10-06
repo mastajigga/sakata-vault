@@ -1,3 +1,5 @@
+import { stripe } from "@/lib/stripe";
+import type Stripe from "stripe";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { supabaseAdmin } from "@/lib/supabase/admin";
@@ -18,6 +20,43 @@ const revokeSchema = z.object({
   grantId: z.string().uuid().optional(),
   userId: z.string().uuid(),
 });
+
+async function updateEntitlements(userId: string) {
+  const { data: grants, error: grantsError } = await supabaseAdmin.from("subscription_grants")
+    .select("tier, expires_at").eq("user_id", userId).is("revoked_at", null);
+  if (grantsError) throw grantsError;
+  const { data: profile, error: profileError } = await supabaseAdmin.from("profiles")
+    .select("stripe_subscription_id").eq("id", userId).single();
+  if (profileError) throw profileError;
+  const { data: paid, error: paidError } = await supabaseAdmin.from("chat_subscriptions")
+    .select("stripe_subscription_id").eq("user_id", userId);
+  if (paidError) throw paidError;
+  const entitlements = (grants ?? []).filter(g => !g.expires_at || Date.parse(g.expires_at) > Date.now())
+    .map(g => ({ tier: g.tier as string, end: g.expires_at as string | null, status: "manual_grant" }));
+  const subscriptionIds = new Set<string>([profile.stripe_subscription_id, ...(paid ?? []).map(s => s.stripe_subscription_id)].filter(Boolean));
+  for (const id of subscriptionIds) {
+    const subscription = await stripe.subscriptions.retrieve(id);
+    const legacy = subscription as Stripe.Subscription & { current_period_start?: number; current_period_end?: number };
+    const start = legacy.current_period_start ?? subscription.items.data[0]?.current_period_start;
+    const end = legacy.current_period_end ?? subscription.items.data[0]?.current_period_end;
+    if (subscription.status === "active" || subscription.status === "past_due") {
+      if (!Number.isFinite(start) || !Number.isFinite(end) || end <= start) throw new Error("Période Stripe invalide");
+      // Stripe controls the grace period: past_due remains entitled even after period end.
+      if (subscription.status === "past_due" || end * 1000 > Date.now()) {
+        entitlements.push({ tier: "premium", end: new Date(end * 1000).toISOString(), status: "active" });
+      }
+    }
+  }
+  entitlements.sort((a, b) => (Number(b.tier === "elite") - Number(a.tier === "elite")) ||
+    ((b.end ? Date.parse(b.end) : Infinity) - (a.end ? Date.parse(a.end) : Infinity)));
+  const entitlement = entitlements[0];
+  const { error } = await supabaseAdmin.from("profiles").update({
+    subscription_tier: entitlement?.tier ?? "free",
+    subscription_status: entitlement?.status ?? "revoked",
+    subscription_end_date: entitlement?.end ?? null,
+  }).eq("id", userId).select("id").single();
+  if (error) throw error;
+}
 
 /**
  * POST /api/admin/subscriptions/grant
@@ -67,18 +106,15 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: grantErr.message }, { status: 500 });
   }
 
-  // 2. Update profile.subscription_tier so all existing paywall checks see it immediately
-  await supabaseAdmin
-    .from("profiles")
-    .update({
-      subscription_tier: tier,
-      subscription_status: "manual_grant",
-      subscription_end_date: expires_at,
-    })
-    .eq("id", userId);
+  try {
+    await updateEntitlements(userId);
+  } catch (error) {
+    console.error("[subscriptions/grant/profile]", error);
+    return NextResponse.json({ error: "Cadeau enregistré, mais synchronisation du profil échouée.", stage: "profile", grant }, { status: 500 });
+  }
 
   // 3. Create in-app notification
-  await supabaseAdmin.from("forum_notifications").insert({
+  const { error: notificationError } = await supabaseAdmin.from("forum_notifications").insert({
     recipient_id: userId,
     actor_id: auth.user.id,
     type: "subscription_granted",
@@ -91,6 +127,10 @@ export async function POST(req: Request) {
     },
   });
 
+  if (notificationError) {
+    console.error("[subscriptions/grant/notification]", notificationError);
+    return NextResponse.json({ error: "Cadeau accordé, mais notification échouée.", stage: "notification", grant }, { status: 500 });
+  }
   return NextResponse.json({ ok: true, grant });
 }
 
@@ -110,34 +150,49 @@ export async function DELETE(req: Request) {
   try { body = revokeSchema.parse(await req.json()); }
   catch { return NextResponse.json({ error: "Paramètres invalides" }, { status: 400 }); }
 
-  // Mark all active grants as revoked
-  const { error } = await supabaseAdmin
-    .from("subscription_grants")
-    .update({ revoked_at: new Date().toISOString(), revoked_by: auth.user.id })
-    .eq("user_id", body.userId)
-    .is("revoked_at", null);
+  // A supplied grantId revokes only that gift, never the user's other gifts.
+  let query = supabaseAdmin.from("subscription_grants")
+    .select("id, revoked_at").eq("user_id", body.userId);
+  if (body.grantId) query = query.eq("id", body.grantId);
+  const { data: grants, error: readError } = await query;
+  if (readError) {
+    console.error("[subscriptions/revoke/read]", readError);
+    return NextResponse.json({ error: readError.message }, { status: 500 });
+  }
+  if (!grants?.length) return NextResponse.json({ error: "Aucun cadeau correspondant." }, { status: 404 });
+
+  const revokedAt = new Date().toISOString();
+  const { data: revoked, error } = await supabaseAdmin.from("subscription_grants")
+    .update({ revoked_at: revokedAt, revoked_by: auth.user.id })
+    .eq("user_id", body.userId).in("id", grants.map(g => g.id)).is("revoked_at", null).select("id");
   if (error) {
     console.error("[subscriptions/revoke]", error);
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
+  // Recalculate also on a retry after a successful revocation and a failed profile write.
+  try {
+    await updateEntitlements(body.userId);
+  } catch (error) {
+    console.error("[subscriptions/revoke/profile]", error);
+    return NextResponse.json({ error: "Révocation enregistrée, mais synchronisation du profil échouée.", stage: "profile" }, { status: 500 });
+  }
 
-  // Reset profile to free
-  await supabaseAdmin
-    .from("profiles")
-    .update({
-      subscription_tier: "free",
-      subscription_status: "revoked",
-      subscription_end_date: null,
-    })
-    .eq("id", body.userId);
-
-  // Notify user
-  await supabaseAdmin.from("forum_notifications").insert({
-    recipient_id: body.userId,
-    actor_id: auth.user.id,
-    type: "subscription_revoked",
-    metadata: { revoked_at: new Date().toISOString() },
-  });
-
-  return NextResponse.json({ ok: true });
+  // A stable notification ID makes retries safe. Without a grantId, only gifts
+  // revoked by this request are notified, never the user's past revocations.
+  const revokedIds = revoked?.length ? revoked.map(g => g.id)
+    : body.grantId ? grants.filter(g => g.revoked_at).map(g => g.id) : [];
+  for (const grantId of revokedIds) {
+    const { error: notificationError } = await supabaseAdmin.from("forum_notifications").upsert({
+      id: grantId,
+      recipient_id: body.userId,
+      actor_id: auth.user.id,
+      type: "subscription_revoked",
+      metadata: { grant_id: grantId },
+    }, { onConflict: "id", ignoreDuplicates: true });
+    if (notificationError) {
+      console.error("[subscriptions/revoke/notification]", notificationError);
+      return NextResponse.json({ error: "Révocation effectuée, mais notification échouée.", stage: "notification" }, { status: 500 });
+    }
+  }
+  return NextResponse.json({ ok: true, revoked: revoked?.length ?? 0 });
 }

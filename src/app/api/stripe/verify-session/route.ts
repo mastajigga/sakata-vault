@@ -1,9 +1,26 @@
 import { NextResponse } from 'next/server';
+import type Stripe from 'stripe';
 import { z } from 'zod';
 import { stripe } from '@/lib/stripe';
 import { supabaseAdmin, supabasePublic } from '@/lib/supabase/admin';
 import { DB_TABLES } from '@/lib/constants/db';
 import { stripeVerifySessionSchema } from '@/lib/schemas/validation';
+
+export const dynamic = 'force-dynamic';
+
+// The configured API returns top-level periods; recent Stripe APIs use items.
+function periodOf(subscription: Stripe.Subscription) {
+  const legacy = subscription as Stripe.Subscription & {
+    current_period_start?: number; current_period_end?: number;
+  };
+  const start = legacy.current_period_start ?? subscription.items.data[0]?.current_period_start;
+  const end = legacy.current_period_end ?? subscription.items.data[0]?.current_period_end;
+  if (!Number.isFinite(start) || !Number.isFinite(end) || end <= start) {
+    throw new Error('Période Stripe invalide');
+  }
+  // Stripe controls the grace period: past_due remains entitled even after period end.
+  return { start, end, active: subscription.status === 'past_due' || (subscription.status === 'active' && end * 1000 > Date.now()) };
+}
 
 export async function GET(req: Request) {
   try {
@@ -42,69 +59,64 @@ export async function GET(req: Request) {
       });
     }
 
-    // Forcer la mise à jour si le webhook n'est pas encore passé
-    const { data: profile } = await supabaseAdmin
-      .from(DB_TABLES.PROFILES)
-      .select('subscription_tier')
-      .eq('id', user.id)
-      .single();
-
-    if (profile?.subscription_tier !== 'premium') {
-      const sub = session.subscription as any;
-      const customer = session.customer as any;
-      const subId = typeof sub === 'string' ? sub : sub?.id;
-      const customerId = typeof customer === 'string' ? customer : customer?.id;
-      const periodEnd = sub?.current_period_end
-        ? new Date(sub.current_period_end * 1000).toISOString()
-        : null;
-
-      // Update profiles
-      await supabaseAdmin
-        .from(DB_TABLES.PROFILES)
-        .update({
-          stripe_subscription_id: subId,
-          subscription_tier: 'premium',
-          subscription_status: 'active',
-          subscription_end_date: periodEnd,
-        })
-        .eq('id', user.id);
-
-      // Create or update chat_subscriptions
-      const { data: existingSub } = await supabaseAdmin
-        .from(DB_TABLES.CHAT_SUBSCRIPTIONS)
-        .select('*')
-        .eq('user_id', user.id)
-        .single();
-
-      if (existingSub) {
-        await supabaseAdmin
-          .from(DB_TABLES.CHAT_SUBSCRIPTIONS)
-          .update({
-            stripe_customer_id: customerId,
-            stripe_subscription_id: subId,
-            tier: 'premium',
-            status: 'active',
-            current_period_end: periodEnd,
-            updated_at: new Date().toISOString(),
-          })
-          .eq('user_id', user.id);
-      } else {
-        await supabaseAdmin
-          .from(DB_TABLES.CHAT_SUBSCRIPTIONS)
-          .insert({
-            user_id: user.id,
-            stripe_customer_id: customerId,
-            stripe_subscription_id: subId,
-            tier: 'premium',
-            status: 'active',
-            current_period_start: new Date().toISOString(),
-            current_period_end: periodEnd,
-          });
-      }
+    const subscriptionId = typeof session.subscription === 'string' ? session.subscription : session.subscription?.id;
+    if (session.mode !== 'subscription' || session.status !== 'complete' || !subscriptionId) {
+      return NextResponse.json({ verified: false, error: 'Session sans abonnement finalisé.' }, { status: 409 });
     }
+    const subscription = await stripe.subscriptions.retrieve(subscriptionId);
+    const period = periodOf(subscription);
+    const customerId = typeof session.customer === 'string' ? session.customer : session.customer?.id;
+    const subscriptionCustomer = typeof subscription.customer === 'string' ? subscription.customer : subscription.customer.id;
+    if (!customerId || customerId !== subscriptionCustomer || !period.active) {
+      return NextResponse.json({ verified: false, status: subscription.status }, { status: 409 });
+    }
+    if (session.amount_total === null || !session.currency) throw new Error('Montant Stripe absent');
+
+    const { error: subscriptionError } = await supabaseAdmin.from(DB_TABLES.CHAT_SUBSCRIPTIONS).upsert({
+      user_id: user.id,
+      stripe_customer_id: customerId,
+      stripe_subscription_id: subscription.id,
+      tier: 'premium',
+      status: 'active',
+      current_period_start: new Date(period.start * 1000).toISOString(),
+      current_period_end: new Date(period.end * 1000).toISOString(),
+      cancel_at_period_end: subscription.cancel_at_period_end,
+      updated_at: new Date().toISOString(),
+    }, { onConflict: 'user_id' });
+    if (subscriptionError) throw subscriptionError;
+
+    const { error: sessionError } = await supabaseAdmin.from(DB_TABLES.SUBSCRIPTION_SESSIONS).upsert({
+      user_id: user.id,
+      stripe_session_id: session.id,
+      stripe_subscription_id: subscription.id,
+      status: 'active',
+      amount: session.amount_total,
+      currency: session.currency,
+      completed_at: new Date(session.created * 1000).toISOString(),
+    }, { onConflict: 'stripe_session_id' });
+    if (sessionError) throw sessionError;
+
+    // A paid Premium subscription must not overwrite a valid Elite gift.
+    const { data: grants, error: grantsError } = await supabaseAdmin.from('subscription_grants')
+      .select('tier, expires_at').eq('user_id', user.id).is('revoked_at', null);
+    if (grantsError) throw grantsError;
+    const entitlements = (grants ?? []).filter(g => !g.expires_at || Date.parse(g.expires_at) > Date.now())
+      .map(g => ({ tier: g.tier as string, end: g.expires_at as string | null, status: 'manual_grant' }));
+    entitlements.push({ tier: 'premium', end: new Date(period.end * 1000).toISOString(), status: 'active' });
+    entitlements.sort((a, b) => (Number(b.tier === 'elite') - Number(a.tier === 'elite')) ||
+      ((b.end ? Date.parse(b.end) : Infinity) - (a.end ? Date.parse(a.end) : Infinity)));
+    const entitlement = entitlements[0];
+    const { error: profileError } = await supabaseAdmin.from(DB_TABLES.PROFILES).update({
+      stripe_customer_id: customerId,
+      stripe_subscription_id: subscription.id,
+      subscription_tier: entitlement.tier,
+      subscription_status: entitlement.status,
+      subscription_end_date: entitlement.end,
+    }).eq('id', user.id).select('id').single();
+    if (profileError) throw profileError;
 
     return NextResponse.json(
-      { verified: true, tier: 'premium' },
+      { verified: true, tier: entitlement.tier },
       { headers: { 'Cache-Control': 'no-store' } }
     );
   } catch (err: any) {

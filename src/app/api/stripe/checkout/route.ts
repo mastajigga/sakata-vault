@@ -1,9 +1,12 @@
 import { NextResponse } from 'next/server';
+import type Stripe from 'stripe';
 import { z } from 'zod';
 import { stripe } from '@/lib/stripe';
 import { supabaseAdmin, supabasePublic } from '@/lib/supabase/admin';
 import { DB_TABLES } from '@/lib/constants/db';
 import { stripeCheckoutSchema } from '@/lib/schemas/validation';
+
+export const dynamic = 'force-dynamic';
 
 export async function POST(req: Request) {
   try {
@@ -27,13 +30,14 @@ export async function POST(req: Request) {
     const { priceId } = validated;
 
     // Check if user already has active premium subscription (prevent double-buy)
-    const { data: existingSub } = await supabaseAdmin
+    const { data: existingSub, error: existingError } = await supabaseAdmin
       .from(DB_TABLES.CHAT_SUBSCRIPTIONS)
       .select('*')
       .eq('user_id', userId)
       .eq('tier', 'premium')
       .eq('status', 'active')
-      .single();
+      .maybeSingle();
+    if (existingError) throw existingError;
 
     if (
       existingSub &&
@@ -46,11 +50,13 @@ export async function POST(req: Request) {
     }
 
     // Récupérer le profil pour voir s'il a déjà un stripe_customer_id
-    const { data: profile } = await supabaseAdmin
+    const { data: profile, error: profileError } = await supabaseAdmin
       .from(DB_TABLES.PROFILES)
       .select('stripe_customer_id, email, first_name, last_name, username')
       .eq('id', userId)
       .single();
+
+    if (profileError) throw profileError;
 
     let customerId = profile?.stripe_customer_id;
 
@@ -62,15 +68,92 @@ export async function POST(req: Request) {
         metadata: {
           supabase_user_id: userId,
         },
-      });
+      }, { idempotencyKey: `sakata-customer-${userId}` });
 
       customerId = customer.id;
 
       // Sauvegarder le customer ID en DB (en utilisant le service role pour bypasser RLS si besoin, bien que l'utilisateur puisse éditer son propre profil)
-      await supabaseAdmin
+      const { error: customerError } = await supabaseAdmin
         .from(DB_TABLES.PROFILES)
         .update({ stripe_customer_id: customerId })
-        .eq('id', userId);
+        .eq('id', userId).select('id').single();
+      if (customerError) throw customerError;
+    }
+
+    async function remember(session: Stripe.Checkout.Session) {
+      if (session.amount_total === null || !session.currency) throw new Error('Montant Stripe absent');
+      // Do not reset a session already finalized by the webhook.
+      const { error } = await supabaseAdmin.from(DB_TABLES.SUBSCRIPTION_SESSIONS).upsert({
+        user_id: userId, stripe_session_id: session.id, status: 'pending',
+        amount: session.amount_total, currency: session.currency,
+      }, { onConflict: 'stripe_session_id', ignoreDuplicates: true });
+      if (error) throw error;
+      const { error: amountError } = await supabaseAdmin.from(DB_TABLES.SUBSCRIPTION_SESSIONS)
+        .update({ amount: session.amount_total, currency: session.currency })
+        .eq('stripe_session_id', session.id).eq('status', 'pending');
+      if (amountError) throw amountError;
+    }
+
+    // A Checkout Session expires after 24h at most: older rows cannot be reopened
+    // (a paid one is caught by the subscriptions check below). Bounded to stay
+    // within the Netlify function timeout.
+    const { data: pending, error: pendingError } = await supabaseAdmin.from(DB_TABLES.SUBSCRIPTION_SESSIONS)
+      .select('stripe_session_id').eq('user_id', userId).eq('status', 'pending')
+      .gte('created_at', new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString())
+      .order('created_at', { ascending: false }).limit(5);
+    if (pendingError) throw pendingError;
+    for (const row of pending ?? []) {
+      let session: Stripe.Checkout.Session;
+      try {
+        session = await stripe.checkout.sessions.retrieve(row.stripe_session_id);
+      } catch (err: any) {
+        // Session from another Stripe mode (test/live) or account: it can never
+        // complete here, so it must not block a new payment.
+        if (err?.code !== 'resource_missing') throw err;
+        console.warn('[Stripe Checkout] Session pending inconnue de Stripe, marquée failed:', row.stripe_session_id);
+        const { error } = await supabaseAdmin.from(DB_TABLES.SUBSCRIPTION_SESSIONS)
+          .update({ status: 'failed' }).eq('stripe_session_id', row.stripe_session_id).eq('status', 'pending');
+        if (error) throw error;
+        continue;
+      }
+      if (session.status === 'open' && session.url) {
+        await remember(session);
+        return NextResponse.json({ url: session.url, sessionId: session.id });
+      }
+      if (session.status === 'complete') {
+        if (session.payment_status !== 'paid') {
+          return NextResponse.json({ error: 'Paiement en cours de confirmation.' }, { status: 409 });
+        }
+        if (session.amount_total === null || !session.currency) throw new Error('Montant Stripe absent');
+        const { error } = await supabaseAdmin.from(DB_TABLES.SUBSCRIPTION_SESSIONS).update({
+          status: 'active', amount: session.amount_total, currency: session.currency,
+          stripe_subscription_id: typeof session.subscription === 'string' ? session.subscription : session.subscription?.id,
+        }).eq('stripe_session_id', session.id).eq('status', 'pending');
+        if (error) throw error;
+        continue;
+      }
+      const { error } = await supabaseAdmin.from(DB_TABLES.SUBSCRIPTION_SESSIONS)
+        .update({ status: 'failed' }).eq('stripe_session_id', session.id).eq('status', 'pending');
+      if (error) throw error;
+    }
+
+    // Recover an open session even if its database write failed. The latest
+    // terminal session anchors a stable key, shared by concurrent requests,
+    // including requests for different prices (Stripe rejects that conflict).
+    let previousSessionId = 'initial';
+    for await (const session of stripe.checkout.sessions.list({ customer: customerId, limit: 100 })) {
+      if (session.mode !== 'subscription' || session.metadata?.supabase_user_id !== userId) continue;
+      if (session.status === 'open' && session.url) {
+        await remember(session);
+        return NextResponse.json({ url: session.url, sessionId: session.id });
+      }
+      if (previousSessionId === 'initial') previousSessionId = session.id;
+    }
+    // Covers successful payments whose webhook has not yet updated Supabase.
+    for await (const subscription of stripe.subscriptions.list({ customer: customerId, status: 'all', limit: 100 })) {
+      if (['active', 'trialing', 'past_due', 'unpaid', 'incomplete', 'paused'].includes(subscription.status)) {
+        return NextResponse.json({ error: 'Un abonnement existe déjà. Utilisez le portail de facturation.' }, { status: 409 });
+      }
     }
 
     // Définir l'URL de base (gérer le dev local vs la prod Netlify)
@@ -97,16 +180,12 @@ export async function POST(req: Request) {
           supabase_user_id: userId,
         }
       }
-    });
+    }, { idempotencyKey: `sakata-checkout-${userId}-${previousSessionId}` });
 
-    // Store session in subscription_sessions to track and prevent duplicates
-    await supabaseAdmin.from(DB_TABLES.SUBSCRIPTION_SESSIONS).insert({
-      user_id: userId,
-      stripe_session_id: checkoutSession.id,
-      status: 'pending',
-      amount: 0,
-      currency: 'EUR',
-    });
+    if (checkoutSession.status !== 'open' || !checkoutSession.url) {
+      return NextResponse.json({ error: 'Session déjà finalisée ou expirée. Réessayez.' }, { status: 409 });
+    }
+    await remember(checkoutSession);
 
     return NextResponse.json({ url: checkoutSession.url, sessionId: checkoutSession.id });
 

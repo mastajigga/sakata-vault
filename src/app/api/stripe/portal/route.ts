@@ -25,11 +25,13 @@ export async function POST(req: Request) {
     const validated = stripePortalSchema.parse(body);
 
     // Récupérer le stripe_customer_id depuis le profil
-    const { data: profile } = await supabaseAdmin
+    const { data: profile, error: profileError } = await supabaseAdmin
       .from(DB_TABLES.PROFILES)
       .select('stripe_customer_id')
       .eq('id', user.id)
       .single();
+
+    if (profileError) throw profileError;
 
     if (!profile?.stripe_customer_id) {
       return NextResponse.json(
