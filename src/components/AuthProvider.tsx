@@ -1,10 +1,10 @@
 "use client";
 
 import React, { createContext, useContext, useEffect, useState, useCallback, useRef } from "react";
-import { User, Session } from "@supabase/supabase-js";
+import { User, Session, AuthChangeEvent } from "@supabase/supabase-js";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
-import { withRetry, withRetryRaw } from "@/lib/supabase-retry";
+import { withRetry } from "@/lib/supabase-retry";
 import {
   APP_VERSION,
   SUBSCRIPTION_TIERS,
@@ -13,7 +13,6 @@ import {
   isTempAdminActive,
 } from "@/lib/constants/business";
 import { STORAGE_KEYS, SESSION_KEYS } from "@/lib/constants/storage";
-import { DB_TABLES } from "@/lib/constants/db";
 
 interface AuthContextType {
   user: User | null;
@@ -37,6 +36,8 @@ interface AuthContextType {
   /** Date ISO de mise en corbeille (null = compte actif). Si non null → forcer logout. */
   deletedAt: string | null;
   isLoading: boolean;
+  isSessionLoading: boolean;
+  isProfileLoading: boolean;
   isStalled: boolean;
   connectionError: string | null;
   sessionExpired: boolean;
@@ -83,8 +84,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [bannedUntil, setBannedUntil] = useState<string | null>(null);
   const [banReason, setBanReason] = useState<string | null>(null);
   const [deletedAt, setDeletedAt] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const initStarted = useRef(false);
+  const [isSessionLoading, setIsSessionLoading] = useState(true);
+  const [isProfileLoading, setIsProfileLoading] = useState(false);
+  const isLoading = isSessionLoading || isProfileLoading;
+  const sessionIdentity = useRef<{ userId: string | null; generation: number }>({ userId: null, generation: 0 });
   
   // Log désactivé ou réduit pour éviter de saturer la console
   // console.log(`[AuthProvider] Render (isLoading: ${isLoading}, hasUser: ${!!user})`);
@@ -194,17 +197,41 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   // Profile fetch avec retry
   // -------------------------------------------------------------------------
   // Réf pour dédoublonner les appels fetchProfile (anti-saturation)
-  const profileFetchPromiseRef = useRef<Promise<void> | null>(null);
+  const profileFetchPromiseRef = useRef<{
+    userId: string;
+    generation: number;
+    promise: Promise<void>;
+  } | null>(null);
+
+  const resetProfile = useCallback(() => {
+    setRole(null);
+    setTempAdminExpiresAt(null);
+    setTempAdminOriginalRole(null);
+    setSubscriptionTier(null);
+    setContributorStatus("none");
+    setNickname(null);
+    setUsername(null);
+    setBannedUntil(null);
+    setBanReason(null);
+    setDeletedAt(null);
+    setConnectionError(null);
+    setIsStalled(false);
+  }, []);
 
   // -------------------------------------------------------------------------
   // Profile fetch avec retry et dédoublonnage
   // -------------------------------------------------------------------------
-  const fetchProfile = useCallback(async (userId: string) => {
-    // Si un fetch est déjà en cours pour cet utilisateur, on attend sa résolution
-    if (profileFetchPromiseRef.current) {
-      console.log(`[AuthProvider] fetchProfile: Déjà en cours, attente...`);
-      return profileFetchPromiseRef.current;
+  // silent: rechargement du MÊME utilisateur (retour d'onglet, refreshProfile) —
+  // ne repasse pas isLoading à true, sinon l'admin se démonte et perd ses brouillons.
+  const fetchProfile = useCallback(async (userId: string, generation = sessionIdentity.current.generation, silent = false) => {
+    const isCurrent = () => sessionIdentity.current.userId === userId
+      && sessionIdentity.current.generation === generation;
+    if (!isCurrent()) return;
+    const pending = profileFetchPromiseRef.current;
+    if (pending?.userId === userId && pending.generation === generation) {
+      return pending.promise;
     }
+    if (!silent) setIsProfileLoading(true);
 
     const promise = (async () => {
       console.log(`[AuthProvider] fetchProfile: DEBUT pour ${userId}`);
@@ -225,10 +252,14 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         );
 
         clearTimeout(timeoutId);
+        if (!isCurrent()) return;
 
         const profile = (data && Array.isArray(data) && data.length > 0) ? data[0] : null;
 
-        if (!error && profile) {
+        if (error) throw error;
+        if (!profile) throw new Error("Profil introuvable.");
+
+        if (profile) {
           setRole(profile.role as UserRole);
           setTempAdminExpiresAt(profile.temp_admin_expires_at ?? null);
           setTempAdminOriginalRole(profile.temp_admin_original_role ?? null);
@@ -239,10 +270,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           setBannedUntil(profile.banned_until ?? null);
           setBanReason(profile.ban_reason ?? null);
           setDeletedAt(profile.deleted_at ?? null);
-        } else if (error) {
-          console.error("[AuthProvider] fetchProfile query error (after retries):", error.message);
         }
       } catch (err: any) {
+        if (!isCurrent()) return;
+        setConnectionError(err?.message || "Erreur lors du chargement du profil.");
         if (err.name === 'AbortError') {
           console.warn("[AuthProvider] fetchProfile: Timeout (8s) ou abandon.");
         } else {
@@ -250,19 +281,24 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         }
       } finally {
         clearTimeout(timeoutId);
-        profileFetchPromiseRef.current = null;
+        if (isCurrent()) {
+          profileFetchPromiseRef.current = null;
+          setIsProfileLoading(false);
+          setIsStalled(false);
+        }
         console.log(`[AuthProvider] fetchProfile: FIN pour ${userId}`);
       }
     })();
 
-    profileFetchPromiseRef.current = promise;
+    profileFetchPromiseRef.current = { userId, generation, promise };
     return promise;
   }, []);
 
   const checkConnection = useCallback(async () => {
     try {
       const { error } = await supabase.from("profiles").select("id").limit(1).abortSignal(AbortSignal.timeout(5000));
-      if (error && error.message?.includes("Failed to fetch")) {
+      if (error) {
+        console.error("[AuthProvider] Connection check failed:", error);
         setConnectionError("Liaison instable avec le Grand Sanctuaire.");
       } else {
         setConnectionError(null);
@@ -274,7 +310,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const refreshProfile = useCallback(async () => {
     if (user?.id) {
-      await fetchProfile(user.id);
+      await fetchProfile(user.id, sessionIdentity.current.generation, true);
     }
   }, [user?.id, fetchProfile]);
 
@@ -283,108 +319,112 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   // -------------------------------------------------------------------------
   useEffect(() => {
     let mounted = true;
+    let authEventVersion = 0;
+    const profileTimers = new Set<ReturnType<typeof setTimeout>>();
 
-    // 1. Initialiser l'écouteur en premier. 
-    // Au moment du .subscribe(), Supabase émet souvent INITIAL_SESSION immédiatement.
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event: any, newSession: any) => {
+    const applySession = (newSession: Session | null) => {
+      const userId = newSession?.user.id ?? null;
+      // SIGNED_IN est réémis à chaque retour d'onglet et TOKEN_REFRESHED ~1×/h :
+      // seul un changement de compte remet le profil en chargement.
+      const identityChanged = sessionIdentity.current.userId !== userId;
+      if (identityChanged) {
+        sessionIdentity.current = { userId, generation: sessionIdentity.current.generation + 1 };
+        profileFetchPromiseRef.current = null;
+        resetProfile();
+        setIsProfileLoading(!!userId);
+      }
+      const { generation } = sessionIdentity.current;
+      setSession(newSession);
+      setUser(newSession?.user ?? null);
+      setSessionExpired(false);
+      setTokenRefreshPending(false);
+      setIsSessionLoading(false);
+      if (userId) {
+        // Sortir du callback auth pour ne pas attendre une requête sous le verrou Supabase.
+        const timer = setTimeout(() => {
+          profileTimers.delete(timer);
+          if (mounted) void fetchProfile(userId, generation, !identityChanged);
+        }, 0);
+        profileTimers.add(timer);
+      }
+    };
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event: AuthChangeEvent, newSession: Session | null) => {
       if (!mounted) return;
-
-      console.log(`[AuthProvider] Event: ${event}`, { hasUser: !!newSession?.user, isLoading });
-
+      authEventVersion += 1;
       switch (event) {
         case "INITIAL_SESSION":
         case "SIGNED_IN":
         case "TOKEN_REFRESHED":
-          setSessionExpired(false);
-          setTokenRefreshPending(false);
-          setSession(newSession);
-          setUser(newSession?.user ?? null);
-          if (newSession?.user) {
-            // fetchProfile dédoublonne déjà les appels en interne (promiseRef)
-            fetchProfile(newSession.user.id);
-          }
-          if (event !== "INITIAL_SESSION") {
-            router.refresh();
-          }
-          setIsLoading(false);
+        case "USER_UPDATED":
+          applySession(newSession);
+          if (event !== "INITIAL_SESSION") router.refresh();
           break;
-
         case "SIGNED_OUT":
-          setSession(null);
-          setUser(null);
-          setRole(null);
-          setSubscriptionTier(null);
-          setContributorStatus("none");
-          setNickname(null);
-          setUsername(null);
-          setIsLoading(false);
+          applySession(null);
           setSessionExpired(true);
           break;
       }
     });
 
-    // 2. Init complémentaire (pour les cas où onAuthStateChange tarde ou manque le signal)
+    const initVersion = authEventVersion;
     const init = async () => {
-      if (initStarted.current) return;
-      initStarted.current = true;
-      
       try {
-        // P2: On tente getSession mais sans retry agressif. Si INITIAL_SESSION a déjà 
-        // rempli 'session', on n'a rien à faire ici.
-        if (session) {
-          console.log("[AuthProvider] init: Session déjà présente via listener.");
-          return;
-        }
-
         const { data: { session: fetchedSession }, error } = await supabase.auth.getSession();
-        
-        if (mounted && fetchedSession && !user) {
-          console.log("[AuthProvider] init: Session récupérée par getSession.");
-          setSession(fetchedSession);
-          setUser(fetchedSession.user);
-          await fetchProfile(fetchedSession.user.id);
+        if (error) throw error;
+        // Un événement plus récent prime sur cette lecture initiale.
+        if (mounted && authEventVersion === initVersion) applySession(fetchedSession);
+      } catch (error) {
+        console.error("[AuthProvider] Session initialization failed:", error);
+        if (mounted && authEventVersion === initVersion) {
+          setConnectionError("Erreur lors du chargement de la session.");
+          setIsSessionLoading(false);
         }
-      } catch (e) {
-        console.error("[AuthProvider] init: EXCEPTION (non fatale):", e);
-      } finally {
-        if (mounted) setIsLoading(false);
       }
     };
-
-    // 3. Exécution
-    init();
-
-    // Décaler le check de connexion pour laisser la priorité à l'auth
-    const connectionTimer = setTimeout(() => {
-      if (mounted) checkConnection().catch(console.error);
-    }, 3000);
-
-    // Safety Timeout : Force isLoading=false après 15s
-    const safetyTimer = setTimeout(() => {
-      if (mounted && isLoading) {
-        console.warn("[AuthProvider] Safety timeout reached.");
-        setIsLoading(false);
-      }
-    }, 15000);
+    void init();
 
     return () => {
       mounted = false;
       subscription.unsubscribe();
-      clearTimeout(connectionTimer);
-      clearTimeout(safetyTimer);
+      profileTimers.forEach(clearTimeout);
+      sessionIdentity.current = { userId: null, generation: sessionIdentity.current.generation + 1 };
+      profileFetchPromiseRef.current = null;
     };
-  }, [fetchProfile, checkConnection]);
+  }, [fetchProfile, resetProfile, router]);
+
+  // Filet de sécurité : si l'init auth (« Auth Lock Stolen ») ou le profil ne répond
+  // jamais, on force la résolution pour ne jamais rester bloqué sur un écran de chargement.
+  // L'erreur reste visible via connectionError ; un profil arrivé plus tard s'appliquera normalement.
+  useEffect(() => {
+    if (!isLoading) {
+      setIsStalled(false);
+      return;
+    }
+    const timer = setTimeout(() => {
+      console.error("[AuthProvider] Chargement bloqué depuis 15s — résolution forcée.");
+      profileFetchPromiseRef.current = null; // permettre un nouvel essai (refreshProfile)
+      setIsStalled(true);
+      setConnectionError("Liaison instable avec le Grand Sanctuaire. Rechargez la page.");
+      setIsSessionLoading(false);
+      setIsProfileLoading(false);
+    }, 15000);
+    return () => clearTimeout(timer);
+  }, [isLoading]);
 
   // -------------------------------------------------------------------------
   // Sign out
   // -------------------------------------------------------------------------
   const signOut = async () => {
     try {
-      setIsLoading(true);
-      await supabase.auth.signOut();
+      setIsSessionLoading(true);
+      const { error } = await supabase.auth.signOut();
+      if (error) throw error;
       window.location.href = "/";
-    } catch {
-      window.location.href = "/";
+    } catch (error) {
+      console.error("[AuthProvider] Sign out failed:", error);
+      setConnectionError("Erreur lors de la déconnexion.");
+      setIsSessionLoading(false);
     }
   };
 
@@ -414,6 +454,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         banReason,
         deletedAt,
         isLoading,
+        isSessionLoading,
+        isProfileLoading,
         isStalled,
         connectionError,
         sessionExpired,
