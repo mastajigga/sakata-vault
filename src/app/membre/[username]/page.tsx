@@ -44,7 +44,9 @@ const MemberProfilePage = () => {
       try {
         setLoading(true);
         // Fetch profile
-        let query = supabase.from(DB_TABLES.PROFILES).select("*");
+        let query = supabase
+          .from(DB_TABLES.PROFILES)
+          .select("id, username, nickname, avatar_url, bio, location, cover_photo_url, short_bio, created_at, deleted_at, staff_badge");
         
         const isUUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(username as string);
         

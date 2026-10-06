@@ -105,7 +105,7 @@ export default function ThreadRepliesClient({
       .from("forum_posts")
       .select(
         `*,
-         profiles:author_id (id, username, nickname, avatar_url, role)`
+         profiles:author_id (id, username, nickname, avatar_url, role:staff_badge)`
       )
       .eq("thread_id", threadId)
       .order("created_at", { ascending: true });

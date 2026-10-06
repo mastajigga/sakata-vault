@@ -90,11 +90,11 @@ export function useReputation() {
       const langueScore = langueData?.score || 0;
 
       // Contribution status
-      const { data: profile } = await supabase
-        .from(DB_TABLES.PROFILES)
-        .select("contributor_status")
-        .eq("id", userId)
-        .single();
+      // get_my_profile() : seule voie de lecture des colonnes privées (userId = user.id).
+      const { data: profile, error: profileError } = await supabase
+        .rpc("get_my_profile")
+        .maybeSingle();
+      if (profileError) console.error("Reputation profile fetch error:", profileError);
 
       const baseStats: ReputationStats = {
         articlesCount: articlesCount || 0,

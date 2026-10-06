@@ -10,11 +10,10 @@ async function authGuard() {
   const { user, supabase } = await getCurrentAuthUser({ withClient: true, writeCookies: true });
   if (!user) return { authorized: false };
 
+  // Les colonnes privées de profiles ne sont plus lisibles avec le JWT utilisateur.
   const { data: profile, error: profileError } = await supabase
-    .from("profiles")
-    .select("role")
-    .eq("id", user.id)
-    .single();
+    .rpc("get_my_profile")
+    .maybeSingle<{ role: string | null; contributor_status: string | null }>();
 
   if (profileError) {
     console.error("Profile lookup failed:", profileError);

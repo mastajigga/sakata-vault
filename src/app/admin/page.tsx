@@ -429,7 +429,7 @@ const AdminDashboard = () => {
       try {
         // Core counts
         const { count: articleCount } = await supabase.from(DB_TABLES.ARTICLES).select("id", { count: "exact", head: true });
-        const { count: userCount } = await supabase.from(DB_TABLES.PROFILES).select("*", { count: "exact", head: true });
+        const { count: userCount } = await supabase.from(DB_TABLES.PROFILES).select("id", { count: "exact", head: true });
         const { data: articlesData } = await supabase.from(DB_TABLES.ARTICLES).select("likes_count, reads_count, title, slug").order('reads_count', { ascending: false }).limit(5);
         
         // Sum total likes and reads from articles table (optimized)

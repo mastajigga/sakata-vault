@@ -52,12 +52,11 @@ export default function ContributorPage() {
   const fetchContributorData = async (userId: string) => {
     try {
       // Fetch contributor status
+      // get_my_profile() : seule voie de lecture des colonnes privées (userId = user.id).
       const { data: profile } = await withRetry<{ contributor_status: string | null }>(async () =>
         supabase
-          .from(DB_TABLES.PROFILES)
-          .select("contributor_status")
-          .eq("id", userId)
-          .single()
+          .rpc("get_my_profile")
+          .maybeSingle()
       );
 
       setContributorStatus(profile?.contributor_status || "none");

@@ -21,11 +21,10 @@ async function authGuard() {
     return { authorized: false, user: null };
   }
 
+  // Les colonnes privées de profiles ne sont plus lisibles avec le JWT utilisateur.
   const { data: profile, error: profileError } = await supabase
-    .from("profiles")
-    .select("role, contributor_status")
-    .eq("id", user.id)
-    .single();
+    .rpc("get_my_profile")
+    .maybeSingle<{ role: string | null; contributor_status: string | null }>();
 
   if (profileError) {
     console.error("Profile lookup failed:", profileError);
