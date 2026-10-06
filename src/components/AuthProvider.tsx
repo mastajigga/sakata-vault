@@ -240,21 +240,20 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       const timeoutId = setTimeout(() => controller.abort(), 8000);
 
       try {
+        // Les colonnes privées de profiles ne sont plus lisibles directement :
+        // get_my_profile() (SECURITY DEFINER) renvoie 0 ou 1 ligne, celle de auth.uid().
         const { data, error } = await withRetry<any>(() =>
           supabase
-            .from("profiles")
-            .select(
-              "role, subscription_tier, contributor_status, nickname, username, temp_admin_expires_at, temp_admin_original_role, banned_until, ban_reason, deleted_at"
-            )
-            .eq("id", userId)
-            .limit(1)
+            .rpc("get_my_profile")
             .abortSignal(controller.signal)
         );
 
         clearTimeout(timeoutId);
         if (!isCurrent()) return;
 
-        const profile = (data && Array.isArray(data) && data.length > 0) ? data[0] : null;
+        const row = Array.isArray(data) ? (data.length > 0 ? data[0] : null) : (data ?? null);
+        // La RPC lit auth.uid() : on vérifie qu'elle correspond bien à l'utilisateur demandé.
+        const profile = row && row.id === userId ? row : null;
 
         if (error) throw error;
         if (!profile) throw new Error("Profil introuvable.");

@@ -1,5 +1,3 @@
-import { supabase } from "./supabase";
-
 export type ActivityType = 
   | "login" 
   | "comment" 
@@ -8,38 +6,15 @@ export type ActivityType =
   | "view_article" 
   | "admin_action";
 
-export async function logUserActivity(userId: string, type: ActivityType, details: string = "") {
-  try {
-    // 1. Get current metadata
-    const { data: profile } = await supabase
-      .from("profiles")
-      .select("metadata")
-      .eq("id", userId)
-      .single();
-
-    const metadata = profile?.metadata || {};
-    const activities = metadata.activities || [];
-
-    // 2. Append new activity
-    const newActivity = {
-      type,
-      details,
-      timestamp: new Date().toISOString()
-    };
-
-    // Keep only last 50 activities to save space
-    const updatedActivities = [newActivity, ...activities].slice(0, 50);
-
-    // 3. Update profile
-    await supabase
-      .from("profiles")
-      .update({ 
-        metadata: { ...metadata, activities: updatedActivities },
-        updated_at: new Date().toISOString()
-      })
-      .eq("id", userId);
-
-  } catch (err) {
-    console.error("Failed to log activity:", err);
+/**
+ * Neutralisé : l'ancienne implémentation lisait/écrivait `profiles.metadata`,
+ * colonne qui n'existe pas en base (chaque appel échouait), et ce module n'a
+ * aucun appelant. Conservé comme no-op pour ne casser aucun import éventuel.
+ * Ne pas réactiver en lisant `profiles` : les colonnes privées ne sont plus
+ * lisibles côté client (voir la RPC get_my_profile).
+ */
+export async function logUserActivity(_userId: string, _type: ActivityType, _details: string = ""): Promise<void> {
+  if (process.env.NODE_ENV !== "production") {
+    console.warn("[activity] logUserActivity est désactivé (profiles.metadata n'existe pas).");
   }
 }
