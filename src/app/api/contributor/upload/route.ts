@@ -1,6 +1,5 @@
+import { getCurrentAuthUser } from "@/lib/api/auth-helpers";
 import { supabaseAdmin } from "@/lib/supabase/admin";
-import { createServerClient } from "@supabase/ssr";
-import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
 export const dynamic = 'force-dynamic';
@@ -17,23 +16,21 @@ const ALLOWED_DOC_TYPES = [
 ];
 
 async function authGuard() {
-  const cookieStore = await cookies();
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    { cookies: { getAll: () => cookieStore.getAll(), setAll: () => {} } }
-  );
-
-  const { data: { user }, error: authError } = await supabase.auth.getUser();
-  if (!user || authError) {
+  const { user, supabase } = await getCurrentAuthUser({ withClient: true });
+  if (!user) {
     return { authorized: false, user: null };
   }
 
-  const { data: profile } = await supabase
+  const { data: profile, error: profileError } = await supabase
     .from("profiles")
     .select("role, contributor_status")
     .eq("id", user.id)
     .single();
+
+  if (profileError) {
+    console.error("Profile lookup failed:", profileError);
+    return { authorized: false, user };
+  }
 
   const isContributor =
     profile?.role === "contributor" ||

@@ -1,37 +1,25 @@
-import { GoogleGenerativeAI } from "@google/generative-ai";
+import { getCurrentAuthUser } from "@/lib/api/auth-helpers";
+import { GoogleGenerativeAI, type GenerationConfig } from "@google/generative-ai";
 import { NextResponse } from "next/server";
-import { createServerClient } from "@supabase/ssr";
-import { cookies } from "next/headers";
 import { aiVoiceSchema } from "@/lib/schemas/validation";
 import { z } from "zod";
 
 export const dynamic = 'force-dynamic';
 
 async function authGuard() {
-  const cookieStore = await cookies();
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        getAll: () => cookieStore.getAll(),
-        setAll: (cookies) => {
-          cookies.forEach(({ name, value, options }) =>
-            cookieStore.set(name, value, options)
-          );
-        },
-      },
-    }
-  );
-
-  const { data: { user } } = await supabase.auth.getUser();
+  const { user, supabase } = await getCurrentAuthUser({ withClient: true, writeCookies: true });
   if (!user) return { authorized: false };
 
-  const { data: profile } = await supabase
+  const { data: profile, error: profileError } = await supabase
     .from("profiles")
     .select("role")
     .eq("id", user.id)
     .single();
+
+  if (profileError) {
+    console.error("Profile lookup failed:", profileError);
+    return { authorized: false, user };
+  }
 
   const isAdmin = profile?.role === "admin" || profile?.role === "manager";
   return { authorized: isAdmin };
@@ -61,39 +49,35 @@ export async function POST(req: Request) {
       throw validationError;
     }
 
-    // Use a model that supports audio output
-    // Note: This feature might be in preview or require specific model names like gemini-1.5-pro-002
-    const model = genAI.getGenerativeModel({ 
-      model: "gemini-1.5-flash-002",
-      generationConfig: {
-        //@ts-ignore - responseModalities is a new feature
-        responseModalities: ["audio"],
-        speechConfig: {
-          voiceConfig: {
-            prebuiltVoiceConfig: {
-              voiceName: voice // e.g., "Puck", "Charon", "Kore", "Fenrir"
-            }
-          }
-        }
-      } as any
+    // The installed SDK forwards these TTS fields but does not declare them yet.
+    const generationConfig: GenerationConfig & {
+      responseModalities: string[];
+      speechConfig: { voiceConfig: { prebuiltVoiceConfig: { voiceName: string } } };
+    } = {
+      responseModalities: ["AUDIO"],
+      speechConfig: {
+        voiceConfig: { prebuiltVoiceConfig: { voiceName: voice } },
+      },
+    };
+    const model = genAI.getGenerativeModel({
+      model: "gemini-2.5-flash-preview-tts",
+      generationConfig,
     });
 
     const result = await model.generateContent([
       { text: `Générez une narration vocale pour ce texte avec un ton de vieux sage africain, profond et chaleureux : \n\n${text}` }
     ]);
 
-    const response = await result.response;
-    // @ts-ignore - audio is a new property
-    const audioData = response.audio;
+    const audioData = result.response.candidates?.[0]?.content?.parts
+      ?.find((part) => part.inlineData?.mimeType?.startsWith("audio/"))?.inlineData;
 
-    if (!audioData) {
+    if (!audioData?.data) {
       // Fallback if audio generation failed or not supported in this env
       return NextResponse.json({ error: "Audio generation failed or not supported by this model." }, { status: 500 });
     }
 
-    // the audio data is usually a base64 string or buffer
     return NextResponse.json({ 
-      audioUrl: `data:audio/wav;base64,${audioData.data}` 
+      audioUrl: `data:${audioData.mimeType};base64,${audioData.data}` 
     });
 
   } catch (err: any) {

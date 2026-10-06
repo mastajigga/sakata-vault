@@ -1,5 +1,5 @@
+import { getCurrentAuthUser } from "@/lib/api/auth-helpers";
 import { NextResponse } from "next/server";
-import { createSupabaseForUser } from "@/lib/supabase/user";
 import { withRetry } from "@/lib/supabase-retry";
 import { DB_TABLES } from "@/lib/constants/db";
 import { z } from "zod";
@@ -26,27 +26,9 @@ export async function DELETE(
         { status: 400 }
       );
     }
-    const authHeader = request.headers.get("Authorization");
-    const token = authHeader?.split(" ")[1];
-
-    if (!token) {
-      return NextResponse.json(
-        { error: "Non autorisé. Jeton manquant." },
-        { status: 401 }
-      );
-    }
-
-    // Client par requête portant le JWT : la RLS s'applique avec auth.uid() = user.id
-    const supabase = createSupabaseForUser(token);
-
-    // Validate JWT
-    const { data: { user }, error: authError } = await supabase.auth.getUser(token);
-
-    if (authError || !user) {
-      return NextResponse.json(
-        { error: `Non autorisé. Jeton invalide.${authError ? ` (${authError.message})` : ""}` },
-        { status: 401 }
-      );
+    const { user, supabase } = await getCurrentAuthUser({ withClient: true });
+    if (!user) {
+      return NextResponse.json({ error: "Non autorisé." }, { status: 401 });
     }
 
     // Parse and validate request body

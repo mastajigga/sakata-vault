@@ -1,35 +1,14 @@
+import { getCurrentAuthUser } from "@/lib/api/auth-helpers";
 import { NextResponse } from "next/server";
 import { z } from "zod";
-import { createServerClient } from "@supabase/ssr";
-import { cookies } from "next/headers";
 import { DB_TABLES } from "@/lib/constants/db";
 import { contributionRequestSchema } from "@/lib/schemas/validation";
 
 export async function POST(request: Request) {
   try {
-    const cookieStore = await cookies();
-    const supabase = createServerClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-      {
-        cookies: {
-          getAll: () => cookieStore.getAll(),
-          setAll: (cookies) => {
-            cookies.forEach(({ name, value, options }) =>
-              cookieStore.set(name, value, options)
-            );
-          },
-        },
-      }
-    );
+    const { user, supabase } = await getCurrentAuthUser({ withClient: true, writeCookies: true });
 
-    // Get authenticated user
-    const {
-      data: { user },
-      error: authError,
-    } = await supabase.auth.getUser();
-
-    if (authError || !user) {
+    if (!user) {
       return NextResponse.json(
         { error: "Non authentifié" },
         { status: 401 }
@@ -41,13 +20,15 @@ export async function POST(request: Request) {
     const { requestType, contributorType, contributorTypeOther, origin, motivation, canShare, message } = validated;
 
     // Check if user already has a pending request of this type
-    const { data: existingRequest } = await supabase
+    const { data: existingRequest, error: existingRequestError } = await supabase
       .from(DB_TABLES.CONTRIBUTION_REQUESTS)
       .select("*")
       .eq("user_id", user.id)
       .eq("request_type", requestType)
       .eq("status", "pending")
-      .single();
+      .maybeSingle();
+
+    if (existingRequestError) throw existingRequestError;
 
     if (existingRequest) {
       return NextResponse.json(
@@ -111,28 +92,9 @@ export async function POST(request: Request) {
 
 export async function GET(request: Request) {
   try {
-    const cookieStore = await cookies();
-    const supabase = createServerClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-      {
-        cookies: {
-          getAll: () => cookieStore.getAll(),
-          setAll: (cookies) => {
-            cookies.forEach(({ name, value, options }) =>
-              cookieStore.set(name, value, options)
-            );
-          },
-        },
-      }
-    );
+    const { user, supabase } = await getCurrentAuthUser({ withClient: true, writeCookies: true });
 
-    const {
-      data: { user },
-      error: authError,
-    } = await supabase.auth.getUser();
-
-    if (authError || !user) {
+    if (!user) {
       return NextResponse.json(
         { error: "Non authentifié" },
         { status: 401 }

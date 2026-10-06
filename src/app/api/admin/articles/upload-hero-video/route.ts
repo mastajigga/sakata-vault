@@ -1,9 +1,9 @@
+import { getCurrentAuthUser } from "@/lib/api/auth-helpers";
 import { NextResponse } from "next/server";
 import { supabaseAdmin } from "@/lib/supabase/admin";
 import { withRetry } from "@/lib/supabase-retry";
 import { DB_TABLES, DB_BUCKETS } from "@/lib/constants/db";
 import { z } from "zod";
-import { jwtVerify } from "jose";
 
 const MAX_VIDEO_SIZE = 50 * 1024 * 1024; // 50MB
 const ALLOWED_FORMATS = ["video/mp4", "video/webm", "video/quicktime"];
@@ -15,36 +15,11 @@ const uploadSchema = z.object({
 
 export async function POST(request: Request) {
   try {
-    const authHeader = request.headers.get("Authorization");
-    const token = authHeader?.split(" ")[1];
-
-    if (!token) {
-      return NextResponse.json(
-        { error: "Non autorisé. Jeton manquant." },
-        { status: 401 }
-      );
+    const user = await getCurrentAuthUser();
+    if (!user) {
+      return NextResponse.json({ error: "Non autorisé." }, { status: 401 });
     }
-
-    // Verify JWT token
-    let userId: string;
-    try {
-      const secret = new TextEncoder().encode(process.env.SUPABASE_JWT_SECRET || "");
-      const verified = await jwtVerify(token, secret);
-      userId = verified.payload.sub as string;
-    } catch (err) {
-      console.error("[Upload Hero Video] JWT validation failed:", err);
-      return NextResponse.json(
-        { error: "Non autorisé. Jeton invalide." },
-        { status: 401 }
-      );
-    }
-
-    if (!userId) {
-      return NextResponse.json(
-        { error: "Non autorisé. Impossible d'extraire l'ID utilisateur." },
-        { status: 401 }
-      );
-    }
+    const userId = user.id;
 
     // Check if user is admin or manager
     const { data: profile, error: profileError } = await withRetry(async () =>

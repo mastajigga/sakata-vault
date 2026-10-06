@@ -1,5 +1,4 @@
-import { createServerClient } from "@supabase/ssr";
-import { cookies } from "next/headers";
+import { getCurrentAuthUser } from "@/lib/api/auth-helpers";
 import { NextRequest, NextResponse } from "next/server";
 import * as webpush from "web-push";
 import { z } from "zod";
@@ -17,50 +16,28 @@ if (process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY && process.env.VAPID_PRIVATE_KEY) {
 
 export async function POST(req: NextRequest) {
   try {
+    const { user, supabase } = await getCurrentAuthUser({ withClient: true });
+    if (!user) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
     // Skip if VAPID not configured
     if (!process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY || !process.env.VAPID_PRIVATE_KEY) {
       return NextResponse.json({ sent: 0 });
-    }
-
-    // Authenticate the caller via their Supabase session
-    const cookieStore = await cookies();
-    const supabaseAuth = createServerClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL || "",
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "",
-      {
-        cookies: {
-          getAll: () => cookieStore.getAll(),
-          setAll: () => {},
-        },
-      }
-    );
-    const { data: { user } } = await supabaseAuth.auth.getUser();
-    if (!user) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const body = await req.json();
     const validated = pushNotifyRouteSchema.parse(body);
     const { conversationId, senderName, messagePreview, senderId } = validated;
 
-    // Create service-role Supabase client for DB queries
-    const supabase = createServerClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL || "",
-      process.env.SUPABASE_SERVICE_ROLE_KEY || "",
-      {
-        cookies: {
-          getAll: () => cookieStore.getAll(),
-          setAll: () => {},
-        },
-      }
-    );
-
     // Get all participants in the conversation
-    const { data: participants } = await supabase
+    const { data: participants, error: participantsError } = await supabase
       .from(DB_TABLES.CHAT_PARTICIPANTS)
       .select("user_id")
       .eq("conversation_id", conversationId)
       .neq("user_id", senderId); // Don't notify sender
+
+    if (participantsError) throw participantsError;
 
     if (!participants || participants.length === 0) {
       return NextResponse.json({ sent: 0 });
@@ -68,10 +45,12 @@ export async function POST(req: NextRequest) {
 
     // Get push subscriptions for all participants
     const userIds = participants.map((p: any) => p.user_id);
-    const { data: subscriptions } = await supabase
+    const { data: subscriptions, error: subscriptionsError } = await supabase
       .from(DB_TABLES.PUSH_SUBSCRIPTIONS)
       .select("id, endpoint, p256dh, auth")
       .in("user_id", userIds);
+
+    if (subscriptionsError) throw subscriptionsError;
 
     if (!subscriptions || subscriptions.length === 0) {
       return NextResponse.json({ sent: 0 });
@@ -118,10 +97,11 @@ export async function POST(req: NextRequest) {
 
     // Clean up failed subscriptions
     if (failedEndpoints.length > 0) {
-      await supabase
+      const { error: cleanupError } = await supabase
         .from(DB_TABLES.PUSH_SUBSCRIPTIONS)
         .delete()
         .in("endpoint", failedEndpoints);
+      if (cleanupError) throw cleanupError;
     }
 
     return NextResponse.json({ sent: sentCount });
