@@ -106,7 +106,7 @@ export default async function ArticleLayout({
       {/* Schema.org Article JSON-LD — server-rendered for crawlers */}
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }}
       />
       {children}
     </>

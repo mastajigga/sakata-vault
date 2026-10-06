@@ -144,7 +144,7 @@ export default function RootLayout({
                 },
                 "query-input": "required name=search_term_string",
               },
-            }),
+            }).replace(/</g, "\\u003c"),
           }}
         />
         {/* PWA meta tags */}

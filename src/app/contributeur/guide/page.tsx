@@ -350,7 +350,7 @@ export default function ContributorGuidePage() {
                 text: item.answer,
               },
             })),
-          }),
+          }).replace(/</g, "\\u003c"),
         }}
       />
 
@@ -365,7 +365,7 @@ export default function ContributorGuidePage() {
               { "@type": "ListItem", position: 2, name: "Contributeur", item: "https://kisakata.com/contributeur" },
               { "@type": "ListItem", position: 3, name: "Guide", item: "https://kisakata.com/contributeur/guide" },
             ],
-          }),
+          }).replace(/</g, "\\u003c"),
         }}
       />
     </div>

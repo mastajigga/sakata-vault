@@ -9,7 +9,6 @@ import Image from "next/image";
 import { useLanguage } from "@/components/LanguageProvider";
 import { useAuth } from "@/components/AuthProvider";
 import { supabase } from "@/lib/supabase";
-import { ARTICLES } from "@/data/articles";
 import StructuredData from "@/components/StructuredData";
 import LikeButton from "@/components/LikeButton";
 import { Eye, Lock } from "lucide-react";
@@ -44,6 +43,10 @@ const ArticleClient: React.FC<ArticleClientProps> = ({ initialArticle }) => {
 
     const controller = new AbortController();
 
+    // Only the server may supply fallback content after checking access metadata.
+    // Reset to its anonymous-safe payload if a session refresh fails.
+    const applyStaticFallback = () => setArticle(initialArticle);
+
     const fetchArticle = async () => {
       if (!initialArticle) setLoading(true);
       try {
@@ -56,21 +59,14 @@ const ArticleClient: React.FC<ArticleClientProps> = ({ initialArticle }) => {
         if (error || !data) {
           if (error) console.warn("Supabase Error or missing row:", error.message);
           // Fallback to static data
-          if (!initialArticle) {
-            const staticArticle = ARTICLES.find((a) => a.slug === slug);
-            if (staticArticle) setArticle(staticArticle);
-          }
+          applyStaticFallback();
         } else {
-          const staticArticle = ARTICLES.find((a) => a.slug === slug);
-          setArticle({ ...staticArticle, ...(data as object) } as ArticleData);
+          setArticle(data as ArticleData);
         }
       } catch (err) {
         if (controller.signal.aborted) return;
         console.error("Fetch exception:", err);
-        if (!initialArticle) {
-          const staticArticle = ARTICLES.find((a) => a.slug === slug);
-          if (staticArticle) setArticle(staticArticle);
-        }
+        applyStaticFallback();
       } finally {
         if (!controller.signal.aborted) setLoading(false);
       }
@@ -120,7 +116,8 @@ const ArticleClient: React.FC<ArticleClientProps> = ({ initialArticle }) => {
 
     const trackRead = async () => {
       try {
-        await supabase.rpc("increment_article_reads", { article_slug: slug });
+        const { error } = await supabase.rpc("increment_article_reads", { article_slug: slug });
+        if (error) console.warn("[ArticlePage] Failed to track read:", error.message);
       } catch (err) {
         console.warn("[ArticlePage] Failed to track read:", err);
       }

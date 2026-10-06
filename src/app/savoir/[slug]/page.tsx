@@ -30,16 +30,26 @@ async function fetchArticle(slug: string): Promise<ArticleRow | null> {
     // Anonymous call: premium `content` comes back truncated by the server, so the
     // full text never ends up in the HTML / RSC payload. ArticleClient refetches
     // with the user's JWT to unlock it.
-    const { data } = await supabasePublic.rpc(DB_RPC.GET_ARTICLE, { p_slug: slug, p_lang: null });
+    const { data, error } = await supabasePublic.rpc(DB_RPC.GET_ARTICLE, { p_slug: slug, p_lang: null });
+    if (error) console.error("[ArticlePage] get_article failed:", error.message);
 
     if (data && (data as ArticleRow).status === "published") return data as ArticleRow;
-  } catch {
+  } catch (err) {
+    console.error("[ArticlePage] get_article exception:", err);
     // Fallback to static
   }
 
   const staticArticle = ARTICLES.find((a) => a.slug === slug) as ArticleData | undefined;
   if (staticArticle) {
+    // Missing static access metadata is NOT proof that an article is free.
+    const staticType = (staticArticle as ArticleData & { article_type?: string }).article_type;
+    const isKnownFree = staticType === "summary" ||
+      (!staticType && staticArticle.is_premium === false);
     return {
+      ...(isKnownFree ? { content: staticArticle.content } : {}),
+      article_type: staticType || (staticArticle.is_premium === true ? "poetic" : undefined),
+      is_premium: staticArticle.is_premium,
+      content_truncated: !isKnownFree,
       slug: staticArticle.slug,
       title: staticArticle.title as unknown as Record<string, string>,
       summary: staticArticle.summary as unknown as Record<string, string>,
@@ -158,7 +168,7 @@ function ArticleSchema({
   return (
     <script
       type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema).replace(/</g, "\\u003c") }}
     />
   );
 }
@@ -177,7 +187,7 @@ function BreadcrumbSchema({ title, slug }: { title: string; slug: string }) {
   return (
     <script
       type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema).replace(/</g, "\\u003c") }}
     />
   );
 }
