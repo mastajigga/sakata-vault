@@ -31,13 +31,17 @@ const RETRYABLE_MESSAGES = [
 
 function isLockError(error: unknown): boolean {
   if (!error) return false;
-  const msg = error instanceof Error ? error.message : String(error);
+  const msg = typeof error === "object" && "message" in error && typeof error.message === "string"
+    ? error.message
+    : String(error);
   return msg.includes("stole it") || msg.includes("Lock was released");
 }
 
 function isRetryable(error: unknown): boolean {
   if (!error) return false;
-  const msg = error instanceof Error ? error.message : String(error);
+  const msg = typeof error === "object" && "message" in error && typeof error.message === "string"
+    ? error.message
+    : String(error);
   return RETRYABLE_MESSAGES.some((pattern) => msg.includes(pattern));
 }
 

@@ -11,7 +11,7 @@ import {
 } from "@/lib/constants/business";
 
 interface ChatInputProps {
-  onSend: (content: string, attachment?: File | null, expiresIn?: string, maxViews?: 1 | 2) => void;
+  onSend: (content: string, attachment?: File | null, expiresIn?: string, maxViews?: 1 | 2) => Promise<boolean>;
   onTyping?: (isTyping: boolean) => void;
   isTemporaryConversation?: boolean;
   temporaryDuration?: "24h" | "48h";
@@ -123,6 +123,9 @@ const ChatInput = React.forwardRef<{ focusInput: () => void }, ChatInputProps>(
     onClearReply,
   }: ChatInputProps, ref: React.Ref<{ focusInput: () => void }>) {
   const [content, setContent] = useState("");
+  const submittingRef = useRef(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const draftRevisionRef = useRef(0);
   const [showOptions, setShowOptions] = useState(false);
   const [expiresIn, setExpiresIn] = useState<ExpiryDuration>(
     isTemporaryConversation ? (temporaryDuration ?? EXPIRY_DURATIONS.H24) : EXPIRY_DURATIONS.NEVER
@@ -209,28 +212,44 @@ const ChatInput = React.forwardRef<{ focusInput: () => void }, ChatInputProps>(
     return undefined;
   };
 
-  const handleSubmit = (e?: React.FormEvent) => {
+  const handleSubmit = async (e?: React.FormEvent) => {
     if (e) e.preventDefault();
 
-    // If there's an audio preview pending, send it
-    if (audioPreviewUrl && attachment) {
+    if (submittingRef.current || (!content.trim() && !attachment)) return;
+    submittingRef.current = true;
+    setIsSubmitting(true);
+    const revision = draftRevisionRef.current;
+    const sentAttachment = attachment;
+    const sentPreviewUrl = audioPreviewUrl;
+    try {
       if (onTyping) onTyping(false);
-      onSend(content, attachment, expiresIn);
-      cancelAudioPreview();
-      setContent("");
-      return;
+      if (typingTimeoutRef.current) clearTimeout(typingTimeoutRef.current);
+      const sent = await onSend(content, sentAttachment, expiresIn, resolveMaxViews());
+      if (!sent) return;
+      // Un nouveau texte (même retapé à l'identique) appartient au prochain envoi.
+      if (draftRevisionRef.current === revision) setContent("");
+      setAttachment(current => current === sentAttachment ? null : current);
+      setAudioPreviewUrl(current => current === sentPreviewUrl ? null : current);
+      if (sentPreviewUrl) {
+        URL.revokeObjectURL(sentPreviewUrl);
+        if (previewAudioRef.current?.src === sentPreviewUrl) {
+          previewAudioRef.current.pause();
+          previewAudioRef.current = null;
+          setIsPlayingPreview(false);
+          setPreviewDuration(0);
+        }
+      }
+    } catch (error) {
+      console.error("[Chat] Envoi impossible:", error);
+      alert("Impossible d'envoyer le message. Votre brouillon est conservé.");
+    } finally {
+      submittingRef.current = false;
+      setIsSubmitting(false);
     }
-
-    if (!content.trim() && !attachment) return;
-
-    if (onTyping) onTyping(false);
-    onSend(content, attachment, expiresIn, resolveMaxViews());
-    setContent("");
-    setAttachment(null);
-    if (typingTimeoutRef.current) clearTimeout(typingTimeoutRef.current);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    draftRevisionRef.current += 1;
     setContent(e.target.value);
     if (onTyping) {
       onTyping(true);
@@ -326,13 +345,7 @@ const ChatInput = React.forwardRef<{ focusInput: () => void }, ChatInputProps>(
     }
   };
 
-  const sendAudioMessage = () => {
-    if (!attachment) return;
-    if (onTyping) onTyping(false);
-    onSend(content, attachment, expiresIn);
-    cancelAudioPreview();
-    setContent("");
-  };
+  const sendAudioMessage = () => handleSubmit();
 
   const ephemeralLabel = (val: typeof expiresIn) => {
     switch (val) {
@@ -487,6 +500,8 @@ const ChatInput = React.forwardRef<{ focusInput: () => void }, ChatInputProps>(
           <button
             type="button"
             onClick={sendAudioMessage}
+            disabled={isSubmitting}
+            aria-busy={isSubmitting}
             className="flex items-center gap-1.5 px-3 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-sm font-medium flex-shrink-0 transition-colors shadow-md"
           >
             <Send size={14} />
@@ -558,6 +573,8 @@ const ChatInput = React.forwardRef<{ focusInput: () => void }, ChatInputProps>(
         {content.trim() || (attachment && !audioPreviewUrl) ? (
           <button
             type="submit"
+            disabled={isSubmitting}
+            aria-busy={isSubmitting}
             className="p-3 bg-amber-600 text-white rounded-full flex-shrink-0 hover:bg-amber-700 transition shadow-md hover:scale-105 active:scale-95 flex items-center justify-center h-12 w-12"
           >
             <Send size={20} className="ml-1" />

@@ -24,6 +24,9 @@ export function useMessages(conversationId: string) {
   // P2-D fix: userIdRef évite les stale closures dans les callbacks realtime.
   const userIdRef = useRef<string>("");
 
+  const messagesRef = useRef(messages);
+  messagesRef.current = messages;
+
   // P1-B: Batching pour éviter N+1 profile queries sur les realtime inserts
   const pendingProfileFetchRef = useRef<Set<string>>(new Set());
   const profileFetchTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -39,8 +42,7 @@ export function useMessages(conversationId: string) {
 
   // Résoudre une signed URL depuis un chemin storage:
   // - Images éphémères (maxViews > 0) : TTL 60s pour forcer l'expiration après countdown
-  // - Images normales : TTL 3600s (1h) — URL publique signée sécurisée
-  // - Audio/PDF : URL publique directe (pas de contrainte d'expiration)
+  // - Autres images, audio et PDF : TTL 3600s (1h)
   const resolveFileUrl = useCallback(async (
     fileUrl: string | undefined,
     fileType: string | undefined,
@@ -50,10 +52,12 @@ export function useMessages(conversationId: string) {
     if (fileUrl.startsWith('storage:')) {
       const path = fileUrl.replace(`storage:${DB_BUCKETS.CHAT_ATTACHMENTS}/`, '');
       const ttl = maxViews ? 60 : 3600;
-      const { data } = await supabase.storage
+      const { data, error } = await supabase.storage
         .from(DB_BUCKETS.CHAT_ATTACHMENTS)
         .createSignedUrl(path, ttl);
-      return data?.signedUrl || fileUrl;
+      if (error) throw error;
+      if (!data?.signedUrl) throw new Error("URL de pièce jointe introuvable.");
+      return data.signedUrl;
     }
     return fileUrl;
   }, []);
@@ -82,8 +86,13 @@ export function useMessages(conversationId: string) {
     return Promise.all(msgs.map(async (msg) => {
       // Résoudre toutes les URLs storage: (images éphémères ET normales, audio, pdf)
       if (msg.fileUrl?.startsWith('storage:')) {
-        const resolved = await resolveFileUrl(msg.fileUrl, msg.fileType, msg.maxViews);
-        return { ...msg, fileUrl: resolved };
+        try {
+          const resolved = await resolveFileUrl(msg.fileUrl, msg.fileType, msg.maxViews);
+          return { ...msg, fileUrl: resolved };
+        } catch (error) {
+          console.error("[Chat] Pièce jointe inaccessible:", error);
+          return { ...msg, fileUrl: undefined, content: `${msg.content}\n[Pièce jointe inaccessible]`.trim() };
+        }
       }
       return msg;
     }));
@@ -106,7 +115,7 @@ export function useMessages(conversationId: string) {
   }, []);
 
   useEffect(() => {
-    if (!conversationId) return;
+    if (!conversationId || !currentUserId) return;
 
     const controller = new AbortController();
     let mounted = true;
@@ -144,12 +153,13 @@ export function useMessages(conversationId: string) {
     async function fetchReactions(msgIds: string[]) {
       if (msgIds.length === 0 || !mounted) return;
       const uid = userIdRef.current;
-      const { data } = await supabase
+      const { data, error } = await supabase
         .from(DB_TABLES.CHAT_REACTIONS)
         .select("message_id, user_id, emoji")
         .in("message_id", msgIds)
         .abortSignal(controller.signal);
 
+      if (error) console.error("[Chat] Chargement des réactions impossible:", error);
       if (!data || !mounted) return;
 
       const newAll: Record<string, Record<string, number>> = {};
@@ -188,6 +198,7 @@ export function useMessages(conversationId: string) {
             `)
             .eq('conversation_id', conversationId)
             .eq('is_deleted', false)
+            .or(`deleted_at.is.null,deleted_for_all.eq.true,deleted_by_user_id.is.null,deleted_by_user_id.neq.${uid}`)
             .order('created_at', { ascending: false })
             .limit(PAGE_SIZE)
             .abortSignal(controller.signal)
@@ -238,6 +249,7 @@ export function useMessages(conversationId: string) {
       }, async (payload: any) => {
         if (!mounted) return;
         const newMsg = payload.new;
+        if (newMsg.deleted_at && !newMsg.deleted_for_all && newMsg.deleted_by_user_id === userIdRef.current) return;
 
         // P1-B: Accumulate sender_id for batched profile fetch
         const senderId = newMsg.sender_id;
@@ -273,12 +285,10 @@ export function useMessages(conversationId: string) {
 
         // Still add message optimistically with placeholder name
         const uid = userIdRef.current;
-        let formatted = formatMessage({ ...newMsg, profiles: { nickname: null, username: newMsg.sender_id } }, uid);
-
-        if (formatted.fileType === 'image' && formatted.maxViews && formatted.fileUrl?.startsWith('storage:')) {
-          const resolved = await resolveFileUrl(formatted.fileUrl, formatted.fileType, formatted.maxViews);
-          formatted = { ...formatted, fileUrl: resolved };
-        }
+        const formatted = formatMessage({ ...newMsg, profiles: { nickname: null, username: newMsg.sender_id } }, uid);
+        const storageUrl = formatted.fileUrl;
+        // L'INSERT doit précéder tout await : les UPDATE peuvent ainsi le modifier.
+        if (storageUrl?.startsWith("storage:")) formatted.fileUrl = undefined;
 
         setMessages(prev => {
           // Déjà présent avec son vrai id (confirmé par la réponse de l'insert, ou écho
@@ -306,6 +316,17 @@ export function useMessages(conversationId: string) {
           return [...prev, formatted];
         });
         if (newMsg.sender_id !== uid) markAsRead();
+        if (storageUrl) {
+          try {
+            const fileUrl = await resolveFileUrl(storageUrl, formatted.fileType, formatted.maxViews);
+            if (!mounted) return;
+            setMessages(prev => prev.map(msg =>
+              msg.id === formatted.id && !msg.deleted_at ? { ...msg, fileUrl } : msg
+            ));
+          } catch (error) {
+            console.error("[Chat] Signature de pièce jointe impossible:", error);
+          }
+        }
       })
       .on('postgres_changes', {
         event: 'UPDATE',
@@ -332,8 +353,8 @@ export function useMessages(conversationId: string) {
                 : msg
             ));
           } else {
-            // Hidden for non-senders
-            if (updated.deleted_by_user_id !== uid) {
+            // Masqué uniquement pour la personne qui le supprime
+            if (updated.deleted_by_user_id === uid) {
               setMessages(prev => prev.filter(msg => msg.id !== updated.id));
             }
           }
@@ -359,7 +380,7 @@ export function useMessages(conversationId: string) {
         if (!mounted) return;
         const msgId = (payload.new as any)?.message_id || (payload.old as any)?.message_id;
         if (msgId) {
-          fetchReactions(messages.map(m => m.id)); 
+          fetchReactions(messagesRef.current.filter(m => isUuid(m.id)).map(m => m.id)); 
         }
       })
       .subscribe((status: any, err: any) => {
@@ -401,6 +422,7 @@ export function useMessages(conversationId: string) {
           `)
           .eq('conversation_id', conversationId)
           .eq('is_deleted', false)
+          .or(`deleted_at.is.null,deleted_for_all.eq.true,deleted_by_user_id.is.null,deleted_by_user_id.neq.${uid}`)
           .lt('created_at', oldestMessage.createdAtRaw!)
           .order('created_at', { ascending: false })
           .limit(PAGE_SIZE)
@@ -429,8 +451,9 @@ export function useMessages(conversationId: string) {
       throw new Error(PENDING_MESSAGE_ERROR);
     }
 
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) return;
+    const { data: { user }, error: authError } = await supabase.auth.getUser();
+    if (authError) throw authError;
+    if (!user) throw new Error("Connectez-vous pour envoyer un message.");
 
     let fileUrl: string | null = null;
     let fileType: string | null = null;
@@ -452,19 +475,22 @@ export function useMessages(conversationId: string) {
       );
 
       if (error) {
-        console.error("Erreur lors de l'upload de la pièce jointe (après retries):", error);
+        throw error;
       } else if (data) {
         // Toujours stocker le PATH storage: pour générer des Signed URLs à la lecture.
         // Cela sécurise à la fois les images éphémères ET les fichiers normaux.
         fileUrl = `storage:${DB_BUCKETS.CHAT_ATTACHMENTS}/${(data as any).path}`;
       }
+      if (!fileUrl) throw new Error("La pièce jointe n’a pas pu être envoyée.");
     }
 
-    const { data: profile } = await supabase
+    const { data: profile, error: profileError } = await supabase
       .from("profiles")
       .select("nickname, username")
       .eq("id", user.id)
       .single();
+
+    if (profileError) throw profileError;
 
     const senderName = profile?.nickname || profile?.username || "Utilisateur";
     const messagePreview = content.substring(0, 50) + (content.length > 50 ? "..." : "");
@@ -476,7 +502,9 @@ export function useMessages(conversationId: string) {
       senderId: user.id,
       senderName: senderName,
       content,
-      fileUrl: fileUrl || undefined,
+      fileUrl: await resolveFileUrl(fileUrl || undefined, fileType || undefined, maxViews),
+      expiresIn: expiresIn as Message["expiresIn"],
+      maxViews,
       fileType: (fileType as any) || undefined,
       createdAt: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
       createdAtRaw: new Date().toISOString(),
@@ -540,6 +568,7 @@ export function useMessages(conversationId: string) {
         senderId: user.id,
       }),
     }).catch(err => console.error("[Chat] Push notify failed:", err));
+    return true;
   };
 
   const deleteMessage = useCallback(async (id: string, mode: "self" | "all") => {

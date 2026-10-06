@@ -191,7 +191,7 @@ export function useArticleEditor(initialArticle?: Article) {
   );
 
   const uploadVideo = useCallback(
-    async (file: File, articleId?: string): Promise<string | null> => {
+    async (file: File, targetArticleId?: string): Promise<string | null> => {
       try {
         const maxSize = 50 * 1024 * 1024;
         if (file.size > maxSize) {
@@ -217,7 +217,7 @@ export function useArticleEditor(initialArticle?: Article) {
         formData.append("file", file);
 
         // If no articleId, save article first as draft
-        let finalArticleId = articleId;
+        let finalArticleId = targetArticleId || articleId;
         if (!finalArticleId) {
           if (!title.trim()) {
             setError("Le titre est requis avant de pouvoir ajouter une vidéo");
@@ -338,11 +338,11 @@ export function useArticleEditor(initialArticle?: Article) {
         };
 
         let result;
-        if (initialArticle) {
+        if (articleId) {
           result = await supabase
             .from("articles")
             .update(articleData)
-            .eq("id", initialArticle.id)
+            .eq("id", articleId)
             .select("id")
             .single();
         } else {
@@ -368,7 +368,7 @@ export function useArticleEditor(initialArticle?: Article) {
         setLoading(false);
       }
     },
-    [title, slug, sections, sources, requiresPremium, heroVideoUrl, initialArticle]
+    [title, slug, sections, sources, requiresPremium, heroVideoUrl, articleId]
   );
 
   return {

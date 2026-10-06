@@ -98,29 +98,28 @@ export function NewChatModal({ isOpen, onClose }: NewChatModalProps) {
       let convId: string;
 
       if (!isGroup) {
-        // Look for existing direct conversation with this user
-        const { data: existingConv } = await supabase
-          .from("chat_conversations")
-          .select("id")
-          .eq("type", "direct")
-          .eq("created_by", user.id)
-          .single();
+        const { data: memberships, error: membershipError } = await supabase
+          .from("chat_participants")
+          .select("conversation_id")
+          .eq("user_id", user.id);
+        if (membershipError) throw membershipError;
 
-        if (existingConv) {
-          // Check if both users are participants
-          const { data: participants } = await supabase
-            .from("chat_participants")
-            .select("user_id")
-            .eq("conversation_id", existingConv.id);
+        const ids = (memberships || []).map((p: { conversation_id: string }) => p.conversation_id);
+        if (ids.length > 0) {
+          const { data: conversations, error: conversationError } = await supabase
+            .from("chat_conversations")
+            .select("id, chat_participants(user_id)")
+            .eq("type", "direct")
+            .in("id", ids);
+          if (conversationError) throw conversationError;
 
-          const participantIds = (participants as { user_id: string }[] || []).map((p) => p.user_id);
-          const selectedUserId = selectedUsers[0].id;
-
-          if (
-            participantIds.includes(user.id) &&
-            participantIds.includes(selectedUserId)
-          ) {
-            // Conversation already exists with both users
+          const existingConv = conversations?.find((conversation: { id: string; chat_participants: { user_id: string }[] }) => {
+            const participants = conversation.chat_participants;
+            return participants.length === 2 &&
+              participants.some(p => p.user_id === user.id) &&
+              participants.some(p => p.user_id === selectedUsers[0].id);
+          });
+          if (existingConv) {
             onClose();
             router.push(`/chat/${existingConv.id}`);
             return;

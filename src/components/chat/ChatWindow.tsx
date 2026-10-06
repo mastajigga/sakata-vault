@@ -227,6 +227,14 @@ export function ChatWindow({ conversationId, onBack }: ChatWindowProps) {
   // Reply state
   const [repliedMessage, setRepliedMessage] = useState<Message | null>(null);
 
+  useEffect(() => {
+    setRepliedMessage(previous => {
+      if (!previous) return null;
+      const current = messages.find(message => message.id === previous.id);
+      return !current || current.deleted_at ? null : current;
+    });
+  }, [messages]);
+
   // Close menus on outside click
   const menuRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -250,13 +258,15 @@ export function ChatWindow({ conversationId, onBack }: ChatWindowProps) {
     attachment?: File | null,
     expiresIn?: string,
     maxViews?: 1 | 2
-  ) => {
+  ): Promise<boolean> => {
     try {
-      await sendMessage(content, attachment, expiresIn, maxViews, repliedMessage?.id);
-      setRepliedMessage(null);
+      const sent = await sendMessage(content, attachment, expiresIn, maxViews, repliedMessage?.id);
+      if (sent) setRepliedMessage(current => current === repliedMessage ? null : current);
+      return sent;
     } catch (err) {
       const msg = err instanceof Error ? err.message : (err as any)?.message;
       alert(`Erreur: ${msg || "Impossible d'envoyer le message"}`);
+      return false;
     }
   };
 
@@ -592,7 +602,7 @@ export function ChatWindow({ conversationId, onBack }: ChatWindowProps) {
             return (
               <div key={msg.id}>
                 <MessageBubble
-                  message={{ ...msg, isRead }}
+                  message={{ ...msg, isRead, replied_to_message: messages.find(source => source.id === msg.reply_to_message_id) }}
                   isTemporary={isTemporaryConversation}
                   reactions={allReactions[msg.id]}
                   myReactions={myReactions[msg.id]}

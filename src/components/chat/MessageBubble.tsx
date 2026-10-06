@@ -7,6 +7,7 @@ import { TIMINGS } from "@/lib/constants/timings";
 import { msgViewedKey } from "@/lib/constants/storage";
 import { supabase } from "@/lib/supabase";
 import { DB_BUCKETS, DB_TABLES } from "@/lib/constants/db";
+import { useAuth } from "@/components/AuthProvider";
 import { isOptimisticMessage } from "@/lib/utils/chat-message-id";
 
 // Calculate signed URL expiry duration (in seconds) based on message settings
@@ -377,6 +378,7 @@ function ProtectedImage({
 // ─── MessageBubble ────────────────────────────────────────────────────────────
 
 export function MessageBubble({ message, isTemporary, reactions = {}, myReactions, onReact, onReply, onDelete, onEdit, onUnreadClick, isUnread }: MessageBubbleProps) {
+  const { user } = useAuth();
   const isMe = message.isMe;
   // Message pas encore confirmé par le serveur (id local) : aucune action qui enverrait
   // son id à la base (modification, suppression, réponse, réaction).
@@ -386,7 +388,7 @@ export function MessageBubble({ message, isTemporary, reactions = {}, myReaction
   const canReply = !!onReply && !isPending;
   const canReact = !!onReact && !isPending;
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
-  const [repliedToMessage, setRepliedToMessage] = useState<Message | undefined>(message.replied_to_message);
+  const [repliedToMessage, setRepliedToMessage] = useState<Message | undefined>(undefined);
   const [isEditMode, setIsEditMode] = useState(false);
   const [editedContent, setEditedContent] = useState(message.content);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -395,38 +397,66 @@ export function MessageBubble({ message, isTemporary, reactions = {}, myReaction
     message.fileUrl &&
     (isTemporary || !!message.maxViews);
 
-  // Fetch the replied-to message if we have a reply_to_message_id but no data
+  // Même une source hors de la page chargée doit suivre les suppressions Realtime.
   useEffect(() => {
-    if (message.reply_to_message_id && !repliedToMessage) {
-      (async () => {
-        try {
-          const { data } = await supabase
-            .from(DB_TABLES.CHAT_MESSAGES)
-            .select(`
-              id, content, sender_id, file_type,
-              profiles:sender_id ( nickname, username )
-            `)
-            .eq('id', message.reply_to_message_id)
-            .single();
+    setRepliedToMessage(undefined);
+    const sourceId = message.reply_to_message_id;
+    if (!sourceId || !user?.id) return;
+    let active = true;
+    let revision = 0;
+    const applySource = (data: any) => {
+      if (!active) return;
+      if (!data || data.is_deleted || (data.deleted_at && !data.deleted_for_all && data.deleted_by_user_id === user.id)) {
+        setRepliedToMessage(undefined);
+        return;
+      }
+      setRepliedToMessage(previous => ({
+        id: data.id,
+        senderId: data.sender_id,
+        senderName: data.profiles?.nickname || data.profiles?.username || previous?.senderName || "Inconnu",
+        content: data.deleted_at && data.deleted_for_all ? "[Message supprimé]" : data.content || "",
+        isMe: data.sender_id === user.id,
+        createdAt: "",
+        createdAtRaw: "",
+      }));
+    };
+    const loadSource = async () => {
+      const requestedRevision = ++revision;
+      try {
+        const { data, error } = await supabase.from(DB_TABLES.CHAT_MESSAGES)
+          .select(`id, content, sender_id, is_deleted, deleted_at, deleted_for_all, deleted_by_user_id,
+            profiles:sender_id ( nickname, username )`)
+          .eq("id", sourceId)
+          .eq("is_deleted", false)
+          .or(`deleted_at.is.null,deleted_for_all.eq.true,deleted_by_user_id.is.null,deleted_by_user_id.neq.${user.id}`)
+          .maybeSingle();
+        if (error) throw error;
+        if (requestedRevision === revision) applySource(data);
+      } catch (error) {
+        console.error("[Chat] Lecture de citation impossible:", error);
+      }
+    };
+    const channel = supabase.channel(`chat-reply:${message.id}:${sourceId}:${user.id}`)
+      .on("postgres_changes", {
+        event: "*", schema: "public", table: DB_TABLES.CHAT_MESSAGES, filter: `id=eq.${sourceId}`,
+      }, (payload: any) => {
+        ++revision; // Une ancienne lecture ne doit pas restaurer une citation supprimée.
+        applySource(payload.eventType === "DELETE" ? null : payload.new);
+      })
+      .subscribe((status: string, error: Error | undefined) => {
+        if (status === "SUBSCRIBED") void loadSource();
+        if (status === "CHANNEL_ERROR" || error) console.error("[Chat] Synchronisation de citation impossible:", error || status);
+      });
+    void loadSource();
+    return () => { active = false; void supabase.removeChannel(channel); };
+  }, [message.id, message.reply_to_message_id, user?.id]);
 
-          if (data) {
-            setRepliedToMessage({
-              id: data.id,
-              senderId: data.sender_id,
-              senderName: data.profiles?.nickname || data.profiles?.username || "Inconnu",
-              content: data.content || "",
-              fileType: data.file_type,
-              isMe: false,
-              createdAt: "",
-              createdAtRaw: "",
-            } as Message);
-          }
-        } catch (err) {
-          console.error("Failed to fetch replied-to message:", err);
-        }
-      })();
-    }
-  }, [message.reply_to_message_id]);
+  const source = message.replied_to_message;
+  const visibleQuote = source?.deleted_at && source.deleted_for_all
+    ? { ...source, content: "[Message supprimé]" }
+    : source?.deleted_at && source.deleted_by_user_id === user?.id
+      ? undefined
+      : repliedToMessage;
 
   const renderContent = () => {
     // Handle deleted messages
@@ -573,11 +603,11 @@ export function MessageBubble({ message, isTemporary, reactions = {}, myReaction
         )}
 
         {/* Reply context display */}
-        {repliedToMessage && (
+        {visibleQuote && !(message.deleted_at && message.deleted_for_all) && (
           <div className={`text-xs mb-2 pl-3 border-l-2 border-amber-400/50 py-1 ${isMe ? "bg-amber-100/20 dark:bg-amber-900/20 text-amber-700 dark:text-amber-300" : "bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-400"}`}>
-            <div className="font-medium opacity-75">{repliedToMessage.senderName}</div>
+            <div className="font-medium opacity-75">{visibleQuote.senderName}</div>
             <div className="line-clamp-1 opacity-60">
-              {repliedToMessage.content.substring(0, 100)}
+              {visibleQuote.content.substring(0, 100)}
             </div>
           </div>
         )}
