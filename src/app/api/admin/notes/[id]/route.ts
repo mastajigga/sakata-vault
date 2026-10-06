@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
-import { supabaseAdmin, supabasePublic } from "@/lib/supabase/admin";
+import { supabaseAdmin } from "@/lib/supabase/admin";
+import { getCurrentAuthUser } from "@/lib/api/auth-helpers";
 import { withRetry } from "@/lib/supabase-retry";
 import { z } from "zod";
 
@@ -16,33 +17,28 @@ export async function PATCH(
 ) {
   try {
     const params = await props.params;
-    const authHeader = request.headers.get("Authorization");
-    const token = authHeader?.split(" ")[1];
+    const user = await getCurrentAuthUser();
 
-    if (!token) {
+    if (!user) {
       return NextResponse.json(
-        { error: "Non autorisé. Jeton manquant." },
-        { status: 401 }
-      );
-    }
-
-    const { data: { user }, error: authError } = await supabasePublic.auth.getUser(token);
-
-    if (authError || !user) {
-      return NextResponse.json(
-        { error: "Non autorisé. Jeton invalide." },
+        { error: "Non autorisé. Session absente ou invalide." },
         { status: 401 }
       );
     }
 
     // Verify ownership
-    const { data: note } = await withRetry(async () =>
+    const { data: note, error: fetchError } = await withRetry(async () =>
       supabaseAdmin
         .from("admin_notes")
         .select("user_id")
         .eq("id", params.id)
-        .single()
+        .maybeSingle()
     );
+
+    if (fetchError) {
+      console.error("[Admin Notes] Ownership lookup failed:", fetchError);
+      return NextResponse.json({ error: "Erreur lors du chargement de la note." }, { status: 500 });
+    }
 
     if (!note || (note as any).user_id !== user.id) {
       return NextResponse.json(
@@ -95,33 +91,28 @@ export async function DELETE(
 ) {
   try {
     const params = await props.params;
-    const authHeader = request.headers.get("Authorization");
-    const token = authHeader?.split(" ")[1];
+    const user = await getCurrentAuthUser();
 
-    if (!token) {
+    if (!user) {
       return NextResponse.json(
-        { error: "Non autorisé. Jeton manquant." },
-        { status: 401 }
-      );
-    }
-
-    const { data: { user }, error: authError } = await supabasePublic.auth.getUser(token);
-
-    if (authError || !user) {
-      return NextResponse.json(
-        { error: "Non autorisé. Jeton invalide." },
+        { error: "Non autorisé. Session absente ou invalide." },
         { status: 401 }
       );
     }
 
     // Verify ownership
-    const { data: note } = await withRetry(async () =>
+    const { data: note, error: fetchError } = await withRetry(async () =>
       supabaseAdmin
         .from("admin_notes")
         .select("user_id")
         .eq("id", params.id)
-        .single()
+        .maybeSingle()
     );
+
+    if (fetchError) {
+      console.error("[Admin Notes] Ownership lookup failed:", fetchError);
+      return NextResponse.json({ error: "Erreur lors du chargement de la note." }, { status: 500 });
+    }
 
     if (!note || (note as any).user_id !== user.id) {
       return NextResponse.json(

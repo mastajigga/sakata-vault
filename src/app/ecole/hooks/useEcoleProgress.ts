@@ -42,29 +42,46 @@ function getInitialProgress(programs: MathematicsProgramYear[], storageKey: stri
 }
 
 export function useEcoleProgress(programs: MathematicsProgramYear[], namespace = "primaire") {
-  const { user } = useAuth();
-  const storageKey = ecoleProgressKey(namespace); // "sakata-ecole-progress-{namespace}"
-  const [completedByYear, setCompletedByYear] = useState<ProgressMap>(() => getInitialProgress(programs, storageKey));
-  const [syncStatus, setSyncStatus] = useState<SyncStatus>("local");
-
-  // Stable ref to programs — kept up-to-date but not added to the subscription effect's dep array
+  const { user, isLoading: authLoading } = useAuth();
+  // Les données sans propriétaire ne sont importées qu'après accord explicite.
+  const storageKey = `${ecoleProgressKey(namespace)}:${user ? `user:${user.id}` : "anonymous"}`;
+  const pendingCompletions = useRef<Array<{ key: string; yearSlug: string; exerciseId: string; totalExercises: number }>>([]);
+  const offeredImports = useRef(new Set<string>());
+  const lastReadyKey = useRef<string | null>(null);
+  if (!authLoading) lastReadyKey.current = storageKey;
   const programsRef = useRef(programs);
-  useEffect(() => { programsRef.current = programs; }, [programs]);
+  programsRef.current = programs;
+  const scope = useMemo(() => ({
+    key: storageKey,
+    progress: authLoading ? createEmptyState(programsRef.current) : getInitialProgress(programsRef.current, storageKey),
+  }), [storageKey, authLoading]);
+  const [state, setState] = useState(() => ({ scope, progress: scope.progress, status: "local" as SyncStatus }));
+  // Réinitialisation avant affichage : aucune frame ne révèle le compte précédent.
+  if (state.scope !== scope) {
+    setState({ scope, progress: scope.progress, status: "local" });
+  }
+  const completedByYear = state.scope === scope ? state.progress : scope.progress;
+  const syncStatus = state.scope === scope ? state.status : "local";
+  const setSyncStatus = (status: SyncStatus) => {
+    setState((previous) => previous.scope === scope ? { ...previous, status } : previous);
+  };
+  const setCompletedByYear = (update: (previous: ProgressMap) => ProgressMap) => {
+    scope.progress = update(scope.progress);
+    const progress = scope.progress;
+    setState((previous) => previous.scope === scope ? { ...previous, progress } : previous);
+  };
 
   useEffect(() => {
-    // P2-C fix: localStorage → progression sauvegardée même si l'onglet est fermé
+    if (authLoading) return;
     try {
       window.localStorage.setItem(storageKey, JSON.stringify(completedByYear));
     } catch (error) {
       console.warn("[ecole] Impossible d'écrire la progression locale", error);
     }
-  }, [completedByYear, storageKey]);
+  }, [authLoading, completedByYear, storageKey]);
 
   useEffect(() => {
-    if (!user) {
-      return;
-    }
-
+    if (!user || authLoading) return;
     let isMounted = true;
 
     const loadRemoteProgress = async () => {
@@ -78,6 +95,7 @@ export function useEcoleProgress(programs: MathematicsProgramYear[], namespace =
         .eq("user_id", user.id);
 
       if (error) {
+        console.error("[ecole] Impossible de charger la progression", error);
         if (isMounted) {
           setSyncStatus("local");
         }
@@ -105,7 +123,10 @@ export function useEcoleProgress(programs: MathematicsProgramYear[], namespace =
       setSyncStatus("cloud");
     };
 
-    loadRemoteProgress().catch(() => setSyncStatus("local"));
+    loadRemoteProgress().catch((error) => {
+      console.error("[ecole] Impossible de charger la progression", error);
+      if (isMounted) setSyncStatus("local");
+    });
 
     const channel = supabase
       .channel(`ecole-progress-${namespace}-${user.id}`)
@@ -119,7 +140,7 @@ export function useEcoleProgress(programs: MathematicsProgramYear[], namespace =
         },
         (payload: any) => {
           const nextRow = payload.new as { year_slug?: string; completed_exercises?: string[] };
-          if (!nextRow?.year_slug) {
+          if (!isMounted || !nextRow?.year_slug) {
             return;
           }
 
@@ -130,6 +151,7 @@ export function useEcoleProgress(programs: MathematicsProgramYear[], namespace =
         }
       )
       .subscribe((status: any, err: any) => {
+        if (!isMounted) return;
         if (status === "SUBSCRIBED") {
           setSyncStatus("cloud");
         } else if (status === "CHANNEL_ERROR" || err) {
@@ -142,9 +164,23 @@ export function useEcoleProgress(programs: MathematicsProgramYear[], namespace =
       isMounted = false;
       supabase.removeChannel(channel);
     };
-  }, [namespace, user]);
+  }, [namespace, user?.id, scope, authLoading]);
 
   const completeExercise = async (yearSlug: string, exerciseId: string, totalExercises: number) => {
+    if (authLoading) {
+      // Pendant un refresh, conserver le propriétaire connu, jamais le compte suivant.
+      const key = lastReadyKey.current ?? storageKey;
+      const progress = getInitialProgress(programsRef.current, key);
+      progress[yearSlug] = Array.from(new Set([...(progress[yearSlug] ?? []), exerciseId]));
+      try {
+        window.localStorage.setItem(key, JSON.stringify(progress));
+      } catch (error) {
+        console.error("[ecole] Validation locale impossible", error);
+        window.alert("Votre réponse est correcte, mais sa sauvegarde locale a échoué. Gardez cette page ouverte pour réessayer après la connexion.");
+      }
+      pendingCompletions.current.push({ key, yearSlug, exerciseId, totalExercises });
+      return;
+    }
     let nextCompletedExercises: string[] = [];
 
     setCompletedByYear((previous) => {
@@ -161,30 +197,105 @@ export function useEcoleProgress(programs: MathematicsProgramYear[], namespace =
       };
     });
 
-    if (!user) {
-      return;
+    // Sauvegarder avant tout await, y compris si l'élève quitte immédiatement la page.
+    try {
+      window.localStorage.setItem(storageKey, JSON.stringify(scope.progress));
+    } catch (error) {
+      console.error("[ecole] Validation locale impossible", error);
+      window.alert("La progression n'a pas pu être conservée sur cet appareil.");
     }
+    if (!user) return;
 
     setSyncStatus("syncing");
 
     const masteryScore = calculateCompletion(totalExercises, nextCompletedExercises.length);
 
     // P1-D fix: retry sur l'upsert — la progression ne doit jamais être silencieusement perdue
-    const { error } = await withRetry(async () =>
-      supabase.from(DB_TABLES.ECOLE_PROGRESS).upsert(
-        {
-          user_id: user.id,
-          year_slug: yearSlug,
-          completed_exercises: nextCompletedExercises,
-          mastery_score: masteryScore,
-          last_activity_at: new Date().toISOString(),
-        },
-        { onConflict: "user_id,year_slug" }
-      )
-    );
+    try {
+      const { error } = await withRetry(async () =>
+        supabase.from(DB_TABLES.ECOLE_PROGRESS).upsert(
+          {
+            user_id: user.id,
+            year_slug: yearSlug,
+            completed_exercises: nextCompletedExercises,
+            mastery_score: masteryScore,
+            last_activity_at: new Date().toISOString(),
+          },
+          { onConflict: "user_id,year_slug" }
+        )
+      );
 
-    setSyncStatus(error ? "local" : "cloud");
+      if (error) throw error;
+      setSyncStatus("cloud");
+    } catch (error) {
+      console.error("[ecole] Impossible de sauvegarder la progression", error);
+      setSyncStatus("local");
+    }
   };
+
+  useEffect(() => {
+    if (authLoading) return;
+    const pending = pendingCompletions.current.splice(0);
+    void (async () => {
+      for (const completion of pending) {
+        if (completion.key === storageKey) {
+          await completeExercise(completion.yearSlug, completion.exerciseId, completion.totalExercises);
+        } else {
+          window.alert("Une validation effectuée pendant la connexion a été conservée sur cet appareil pour le profil précédent. Elle n'a pas été transférée au compte actuel.");
+        }
+      }
+    })();
+    // Rejouer uniquement lorsque l'identité devient prête, jamais à chaque progression.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [authLoading, storageKey]);
+
+  useEffect(() => {
+    if (authLoading) return;
+    const baseKey = ecoleProgressKey(namespace);
+    const candidates = [baseKey, ...(user ? [`${baseKey}:anonymous`] : [])];
+    const importedYears = new Set<string>();
+    for (const sourceKey of candidates) {
+      const offerKey = `${storageKey}/${sourceKey}`;
+      if (offeredImports.current.has(offerKey)) continue;
+      const imported = getInitialProgress(programsRef.current, sourceKey);
+      const valid = createEmptyState(programsRef.current);
+      for (const program of programsRef.current) {
+        const ids = new Set(program.exercises.map(exercise => exercise.id));
+        const values = imported[program.slug];
+        valid[program.slug] = Array.isArray(values) ? Array.from(new Set(values.filter(id => ids.has(id)))) : [];
+      }
+      const count = Object.values(valid).reduce((sum, ids) => sum + ids.length, 0);
+      if (!count) continue;
+      offeredImports.current.add(offerKey);
+      const origin = sourceKey === baseKey ? "ancienne progression sans propriétaire identifié" : "progression anonyme";
+      const destination = user ? `le compte ${user.email || user.id}` : "le profil anonyme de cet appareil";
+      if (!window.confirm(`Une ${origin} contient ${count} exercice(s) validé(s) sur cet appareil. Vous appartient-elle ? Importer ces validations dans ${destination} ? Elles seront ajoutées à ce profil et la copie d'origine sera retirée. Annuler conserve les données sans les transférer.`)) continue;
+      const merged = { ...scope.progress };
+      for (const [year, ids] of Object.entries(valid)) {
+        merged[year] = Array.from(new Set([...(merged[year] ?? []), ...ids]));
+      }
+      try {
+        window.localStorage.setItem(storageKey, JSON.stringify(merged));
+        setCompletedByYear(() => merged);
+        window.localStorage.removeItem(sourceKey);
+      } catch (error) {
+        console.error("[ecole] Import local impossible", error);
+        window.alert("L'import n'a pas pu être terminé. La progression d'origine est conservée.");
+        continue;
+      }
+      for (const program of programsRef.current) {
+        const ids = valid[program.slug];
+        if (ids.length) importedYears.add(program.slug);
+      }
+    }
+    for (const program of programsRef.current) {
+      if (importedYears.has(program.slug)) {
+        void completeExercise(program.slug, scope.progress[program.slug][0], program.exercises.length);
+      }
+    }
+    // Une proposition par source et destination pour cette visite, après résolution de l'identité.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [authLoading, storageKey, namespace]);
 
   const recordAttempt = async (
     yearSlug: string,

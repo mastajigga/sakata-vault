@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { supabaseAdmin } from "@/lib/supabase/admin";
-import { supabasePublic } from "@/lib/supabase/admin";
+import { getCurrentAuthUser } from "@/lib/api/auth-helpers";
 import { withRetry } from "@/lib/supabase-retry";
 import { adminNoteFoldersSchema } from "@/lib/schemas/validation";
 import { z } from "zod";
@@ -11,21 +11,11 @@ export async function PATCH(
 ) {
   const params = await props.params;
   try {
-    const authHeader = request.headers.get("Authorization");
-    const token = authHeader?.split(" ")[1];
+    const user = await getCurrentAuthUser();
 
-    if (!token) {
+    if (!user) {
       return NextResponse.json(
-        { error: "Non autorisé. Jeton manquant." },
-        { status: 401 }
-      );
-    }
-
-    const { data: { user }, error: authError } = await supabasePublic.auth.getUser(token);
-
-    if (authError || !user) {
-      return NextResponse.json(
-        { error: "Non autorisé. Jeton invalide." },
+        { error: "Non autorisé. Session absente ou invalide." },
         { status: 401 }
       );
     }
@@ -54,10 +44,15 @@ export async function PATCH(
         .from("admin_note_folders")
         .select("user_id")
         .eq("id", params.id)
-        .single()
+        .maybeSingle()
     );
 
-    if (fetchError || !folder || (folder as any).user_id !== user.id) {
+    if (fetchError) {
+      console.error("[Admin Note Folders] Ownership lookup failed:", fetchError);
+      return NextResponse.json({ error: "Erreur lors du chargement du dossier." }, { status: 500 });
+    }
+
+    if (!folder || (folder as any).user_id !== user.id) {
       return NextResponse.json(
         { error: "Dossier non trouvé." },
         { status: 404 }
@@ -106,21 +101,11 @@ export async function DELETE(
 ) {
   const params = await props.params;
   try {
-    const authHeader = request.headers.get("Authorization");
-    const token = authHeader?.split(" ")[1];
+    const user = await getCurrentAuthUser();
 
-    if (!token) {
+    if (!user) {
       return NextResponse.json(
-        { error: "Non autorisé. Jeton manquant." },
-        { status: 401 }
-      );
-    }
-
-    const { data: { user }, error: authError } = await supabasePublic.auth.getUser(token);
-
-    if (authError || !user) {
-      return NextResponse.json(
-        { error: "Non autorisé. Jeton invalide." },
+        { error: "Non autorisé. Session absente ou invalide." },
         { status: 401 }
       );
     }
@@ -131,10 +116,15 @@ export async function DELETE(
         .from("admin_note_folders")
         .select("user_id")
         .eq("id", params.id)
-        .single()
+        .maybeSingle()
     );
 
-    if (fetchError || !folder || (folder as any).user_id !== user.id) {
+    if (fetchError) {
+      console.error("[Admin Note Folders] Ownership lookup failed:", fetchError);
+      return NextResponse.json({ error: "Erreur lors du chargement du dossier." }, { status: 500 });
+    }
+
+    if (!folder || (folder as any).user_id !== user.id) {
       return NextResponse.json(
         { error: "Dossier non trouvé." },
         { status: 404 }

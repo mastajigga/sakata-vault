@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { supabaseAdmin } from "@/lib/supabase/admin";
-import { supabasePublic } from "@/lib/supabase/admin";
+import { getCurrentAuthUser } from "@/lib/api/auth-helpers";
 import { withRetry } from "@/lib/supabase-retry";
 import { DB_TABLES } from "@/lib/constants/db";
 import { adminNoteFoldersSchema } from "@/lib/schemas/validation";
@@ -8,21 +8,11 @@ import { z } from "zod";
 
 export async function GET(request: Request) {
   try {
-    const authHeader = request.headers.get("Authorization");
-    const token = authHeader?.split(" ")[1];
+    const user = await getCurrentAuthUser();
 
-    if (!token) {
+    if (!user) {
       return NextResponse.json(
-        { error: "Non autorisé. Jeton manquant." },
-        { status: 401 }
-      );
-    }
-
-    const { data: { user }, error: authError } = await supabasePublic.auth.getUser(token);
-
-    if (authError || !user) {
-      return NextResponse.json(
-        { error: "Non autorisé. Jeton invalide." },
+        { error: "Non autorisé. Session absente ou invalide." },
         { status: 401 }
       );
     }
@@ -60,21 +50,11 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   try {
-    const authHeader = request.headers.get("Authorization");
-    const token = authHeader?.split(" ")[1];
+    const user = await getCurrentAuthUser();
 
-    if (!token) {
+    if (!user) {
       return NextResponse.json(
-        { error: "Non autorisé. Jeton manquant." },
-        { status: 401 }
-      );
-    }
-
-    const { data: { user }, error: authError } = await supabasePublic.auth.getUser(token);
-
-    if (authError || !user) {
-      return NextResponse.json(
-        { error: "Non autorisé. Jeton invalide." },
+        { error: "Non autorisé. Session absente ou invalide." },
         { status: 401 }
       );
     }

@@ -17,8 +17,9 @@ export async function POST(req: Request) {
     // Try Netlify header first, then Vercel, else Unknown
     const country = req.headers.get('x-country') || req.headers.get('x-vercel-ip-country') || 'Unknown';
 
+    const failedOperations: string[] = [];
     // Insert into Supabase
-    await supabasePublic.from(DB_TABLES.SITE_ANALYTICS).insert({
+    const { error: analyticsError } = await supabasePublic.from(DB_TABLES.SITE_ANALYTICS).insert({
       path: validated.path,
       user_id: validated.user_id,
       language: validated.language,
@@ -32,14 +33,30 @@ export async function POST(req: Request) {
       }
     });
 
+    if (analyticsError) {
+      console.error("[track] site_analytics insert failed:", analyticsError);
+      failedOperations.push("site_analytics");
+    }
+
     // Native tracking for articles reads
     if (body.path.startsWith("/savoir/") && body.path !== "/savoir") {
       const slug = body.path.replace("/savoir/", "");
       if (slug) {
-        await supabasePublic.rpc("increment_article_reads", {
+        const { error: readsError } = await supabasePublic.rpc("increment_article_reads", {
           article_slug: slug,
         });
+        if (readsError) {
+          console.error("[track] increment_article_reads failed:", readsError);
+          failedOperations.push("increment_article_reads");
+        }
       }
+    }
+
+    if (failedOperations.length > 0) {
+      return NextResponse.json(
+        { success: false, error: "Tracking failed", failedOperations },
+        { status: 500, headers: { "Cache-Control": "no-store" } }
+      );
     }
 
     return NextResponse.json(

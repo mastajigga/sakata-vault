@@ -297,6 +297,13 @@ export const UI_TRANSLATIONS = {
     },
   },
   profile: {
+    nickname: {
+      fr: "Surnom",
+      en: "Nickname",
+      lin: "Nkombo ya liseki",
+      swa: "Jina la utani",
+      // Kisakata et tshiluba : repli français jusqu'à validation linguistique.
+    },
     title: {
       fr: "Votre Sanctuaire",
       en: "Your Sanctuary",

@@ -19,10 +19,10 @@ const AuthPage = () => {
   const { user, connectionError } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
-  // Allow ?redirect=/some/path to send the user there post-login.
+  // Canonical parameter from proxy; retain existing redirect links.
   // Whitelist same-origin relative paths only to avoid open-redirect.
-  const redirectParam = searchParams?.get("redirect") || null;
-  const safeRedirect = redirectParam && redirectParam.startsWith("/") && !redirectParam.startsWith("//")
+  const redirectParam = searchParams?.get("redirect_to") || searchParams?.get("redirect") || null;
+  const safeRedirect = redirectParam && redirectParam.startsWith("/") && !redirectParam.startsWith("//") && !/[\\\u0000-\u0020\u007f]/.test(redirectParam)
     ? redirectParam
     : "/";
   const [isSignUp, setIsSignUp] = useState(false);

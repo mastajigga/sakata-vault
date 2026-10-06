@@ -57,6 +57,7 @@ export default function ContributionRequestsPage() {
   // on résout les noms des relecteurs par une seconde requête.
   const [reviewerNames, setReviewerNames] = useState<Record<string, string>>({});
   const [isLoading, setIsLoading] = useState(true);
+  const [loadError, setLoadError] = useState<string | null>(null);
   const [processingId, setProcessingId] = useState<string | null>(null);
 
   useEffect(() => {
@@ -66,36 +67,33 @@ export default function ContributionRequestsPage() {
   async function fetchRequests() {
     try {
       setIsLoading(true);
+      setLoadError(null);
       const { data, error } = await supabase
         .from(DB_TABLES.CONTRIBUTION_REQUESTS)
-        .select(`
-          *,
-          profiles:user_id (
-            nickname,
-            username
-          )
-        `)
+        .select("*")
         .order("created_at", { ascending: false });
-
       if (error) throw error;
-      setRequests(data || []);
 
-      const reviewerIds = Array.from(
-        new Set((data || []).map((r: ContributionRequest) => r.reviewed_by).filter((id: string | null): id is string => !!id))
-      );
-      if (reviewerIds.length > 0) {
-        const { data: reviewers } = await supabase
+      const rows: ContributionRequest[] = data || [];
+      const profileIds = Array.from(new Set(rows.flatMap((r) =>
+        r.reviewed_by ? [r.user_id, r.reviewed_by] : [r.user_id]
+      )));
+      const profiles = new Map<string, { nickname: string; username: string }>();
+      if (profileIds.length > 0) {
+        const { data: people, error: profilesError } = await supabase
           .from(DB_TABLES.PROFILES)
           .select("id, nickname, username")
-          .in("id", reviewerIds);
-        const names: Record<string, string> = {};
-        reviewers?.forEach((p: { id: string; nickname: string | null; username: string | null }) => {
-          names[p.id] = p.nickname || p.username || "—";
-        });
-        setReviewerNames(names);
+          .in("id", profileIds);
+        if (profilesError) throw profilesError;
+        for (const p of people || []) profiles.set(p.id, p);
       }
+      setRequests(rows.map((r) => ({ ...r, profiles: profiles.get(r.user_id) })));
+      setReviewerNames(Object.fromEntries(
+        [...profiles].map(([id, p]) => [id, p.nickname || p.username || "—"])
+      ));
     } catch (err) {
       console.error("Error fetching requests:", err);
+      setLoadError("Impossible de charger les candidatures et leurs profils.");
     } finally {
       setIsLoading(false);
     }
@@ -168,6 +166,11 @@ export default function ContributionRequestsPage() {
         {isLoading ? (
           <div className="flex justify-center p-12">
             <Loader2 className="w-8 h-8 animate-spin text-[var(--or-ancestral)]" />
+          </div>
+        ) : loadError ? (
+          <div role="alert" className="text-red-400">
+            <p>{loadError}</p>
+            <button onClick={() => void fetchRequests()} className="underline">Réessayer</button>
           </div>
         ) : requests.length === 0 ? (
           <div className="p-8 border border-white/10 rounded-xl bg-white/5 text-center text-gray-500">

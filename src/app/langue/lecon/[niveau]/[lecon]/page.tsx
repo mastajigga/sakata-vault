@@ -4,17 +4,27 @@ import { useParams } from "next/navigation";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { ArrowLeft, Volume2, Sparkles, BookOpen, GraduationCap, Brain, Info } from "lucide-react";
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef } from "react";
 import ExerciceWidget from "../../../components/ExerciceWidget";
 import { useAuth } from "@/components/AuthProvider";
 import { getLecon, getNiveau } from "../../../data/lecons";
 
 export default function LeconPage() {
   const params = useParams();
+  const { user } = useAuth();
+  return <LessonContent key={`${user?.id ?? "anonymous"}/${params.niveau}/${params.lecon}`} />;
+}
+
+function LessonContent() {
+  const params = useParams();
   const niveauSlug = (params.niveau as string) || "";
   const leconSlug = (params.lecon as string) || "";
-  const { user } = useAuth() as any;
+  const { user } = useAuth();
   const [lessonCompleted, setLessonCompleted] = useState(false);
+  const [syncError, setSyncError] = useState<string | null>(null);
+  const [isSaving, setIsSaving] = useState(false);
+  const [pendingScore, setPendingScore] = useState<number | null>(null);
+  const savingRef = useRef(false);
   const [showCulture, setShowCulture] = useState(false);
 
   const niveau = getNiveau(niveauSlug);
@@ -22,11 +32,18 @@ export default function LeconPage() {
 
   const handleExerciseComplete = useCallback(
     async (score: number) => {
-      setLessonCompleted(true);
-      if (!user) return;
+      if (savingRef.current) return;
+      if (!user) {
+        setLessonCompleted(true);
+        return;
+      }
+      savingRef.current = true;
+      setIsSaving(true);
+      setPendingScore(score);
+      setSyncError(null);
 
       try {
-        await fetch("/api/langue/progress", {
+        const response = await fetch("/api/langue/progress", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -36,8 +53,19 @@ export default function LeconPage() {
             streak_update: 1,
           }),
         });
+        if (!response.ok) {
+          throw new Error(response.status === 401
+            ? "Session expirée. Reconnectez-vous pour synchroniser la leçon."
+            : "La progression n'a pas pu être synchronisée. Réessayez.");
+        }
+        setLessonCompleted(true);
+        setPendingScore(null);
       } catch (err) {
         console.error("Erreur sauvegarde progression:", err);
+        setSyncError(err instanceof Error ? err.message : "Échec de synchronisation.");
+      } finally {
+        savingRef.current = false;
+        setIsSaving(false);
       }
     },
     [user, niveauSlug, leconSlug]
@@ -193,6 +221,19 @@ export default function LeconPage() {
             </div>
           </motion.div>
 
+          {isSaving && <p role="status">Synchronisation de la progression…</p>}
+          {syncError && (
+            <div role="alert" className="mb-6 text-red-400">
+              <p>{syncError}</p>
+              <button
+                disabled={isSaving || pendingScore === null}
+                onClick={() => pendingScore !== null && void handleExerciseComplete(pendingScore)}
+                className="underline disabled:opacity-50"
+              >
+                Réessayer la synchronisation
+              </button>
+            </div>
+          )}
           {lessonCompleted ? (
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}

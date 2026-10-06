@@ -38,23 +38,28 @@ export default function ArchivePage() {
       setLoading(true);
 
       // Fetch deleted articles
-      const { data: articles } = await supabase
+      const { data: articles, error: articlesError } = await supabase
         .from(DB_TABLES.ARTICLES)
         .select("id, title, slug, deleted_at")
         .not("deleted_at", "is", null)
         .order("deleted_at", { ascending: false });
 
+      if (articlesError) throw articlesError;
+
       // Fetch deleted forum threads
-      const { data: threads } = await supabase
+      const { data: threads, error: threadsError } = await supabase
         .from(DB_TABLES.FORUM_THREADS)
         .select("id, title, slug, deleted_at")
         .not("deleted_at", "is", null)
         .order("deleted_at", { ascending: false });
 
+      if (threadsError) throw threadsError;
+
       setDeletedArticles((articles || []) as DeletedArticle[]);
       setDeletedThreads((threads || []) as DeletedThread[]);
     } catch (error) {
       console.error("Error loading deleted items:", error);
+      alert("Erreur lors du chargement des archives");
     } finally {
       setLoading(false);
     }
@@ -63,12 +68,17 @@ export default function ArchivePage() {
   const recoverArticle = async (id: string) => {
     setRecovering(id);
     try {
-      await withRetry(async () =>
+      const { data, error } = await withRetry<{ id: string }[]>(async () =>
         supabase
           .from(DB_TABLES.ARTICLES)
           .update({ deleted_at: null })
           .eq("id", id)
+          .select("id")
       );
+      if (error) throw error;
+      if (!data || data.length !== 1 || data[0].id !== id) {
+        throw new Error("Aucune ligne modifiée : élément absent ou accès refusé.");
+      }
       setDeletedArticles(prev => prev.filter(a => a.id !== id));
     } catch (error) {
       console.error("Error recovering article:", error);
@@ -81,12 +91,17 @@ export default function ArchivePage() {
   const recoverThread = async (id: string) => {
     setRecovering(id);
     try {
-      await withRetry(async () =>
+      const { data, error } = await withRetry<{ id: string }[]>(async () =>
         supabase
           .from(DB_TABLES.FORUM_THREADS)
           .update({ deleted_at: null })
           .eq("id", id)
+          .select("id")
       );
+      if (error) throw error;
+      if (!data || data.length !== 1 || data[0].id !== id) {
+        throw new Error("Aucune ligne modifiée : élément absent ou accès refusé.");
+      }
       setDeletedThreads(prev => prev.filter(t => t.id !== id));
     } catch (error) {
       console.error("Error recovering thread:", error);
@@ -100,12 +115,17 @@ export default function ArchivePage() {
     if (!window.confirm("Supprimer définitivement ? Cette action est irréversible.")) return;
 
     try {
-      await withRetry(async () =>
+      const { data, error } = await withRetry<{ id: string }[]>(async () =>
         supabase
           .from(DB_TABLES.ARTICLES)
           .delete()
           .eq("id", id)
+          .select("id")
       );
+      if (error) throw error;
+      if (!data || data.length !== 1 || data[0].id !== id) {
+        throw new Error("Aucune ligne modifiée : élément absent ou accès refusé.");
+      }
       setDeletedArticles(prev => prev.filter(a => a.id !== id));
     } catch (error) {
       console.error("Error deleting article:", error);

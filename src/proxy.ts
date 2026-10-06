@@ -54,7 +54,7 @@ export async function proxy(request: NextRequest) {
   // Redirect to auth if accessing protected route without being logged in
   if (isProtectedRoute && !user) {
     const loginUrl = new URL("/auth", request.url);
-    loginUrl.searchParams.set("redirect_to", pathname);
+    loginUrl.searchParams.set("redirect_to", pathname + request.nextUrl.search);
     return NextResponse.redirect(loginUrl);
   }
 

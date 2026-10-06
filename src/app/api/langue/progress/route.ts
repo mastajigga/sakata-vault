@@ -71,64 +71,35 @@ export async function POST(req: Request) {
       streak_update,       // 1 pour incrémenter, 0 pour reset
     } = body;
 
-    // Récupérer la progression existante
-    const { data: existing } = await supabase
-      .from(DB_TABLES.LANGUE_PROGRESS)
-      .select("*")
-      .eq("user_id", user.id)
-      .single();
-
-    let completed_lessons = existing?.completed_lessons || [];
-    let score = existing?.score || 0;
-    let streak = existing?.streak || 0;
-
-    // Ajouter la leçon si non déjà complétée
-    if (completed_lesson && !completed_lessons.includes(completed_lesson)) {
-      completed_lessons = [...completed_lessons, completed_lesson];
-      score += 10; // points de base pour leçon complétée
+    if (
+      (completed_lesson !== undefined && (typeof completed_lesson !== "string" || !completed_lesson.trim())) ||
+      (current_niveau !== undefined && (typeof current_niveau !== "string" || !current_niveau.trim())) ||
+      (score_increment !== undefined && (!Number.isSafeInteger(score_increment) || score_increment < 0 || score_increment > 100000)) ||
+      (streak_update !== undefined && streak_update !== 0 && streak_update !== 1)
+    ) {
+      return NextResponse.json({ error: "Progression invalide" }, { status: 400 });
     }
 
-    // Mettre à jour le niveau
-    if (current_niveau) {
-      // validé par l'appelant
-    }
-
-    // Score
-    if (typeof score_increment === "number") {
-      score += score_increment;
-    }
-
-    // Streak
-    if (streak_update === 1) {
-      streak += 1;
-    } else if (streak_update === 0) {
-      streak = 0;
-    }
-
-    const payload = {
-      user_id: user.id,
-      completed_lessons,
-      current_niveau: current_niveau || existing?.current_niveau || "goutte-rosee",
-      score,
-      streak,
-      updated_at: new Date().toISOString(),
-    };
-
-    const { error } = existing
-      ? await supabase
-          .from(DB_TABLES.LANGUE_PROGRESS)
-          .update(payload)
-          .eq("user_id", user.id)
-      : await supabase
-          .from(DB_TABLES.LANGUE_PROGRESS)
-          .insert(payload);
+    // La RPC fusionne sous verrou et ne récompense une leçon qu'une seule fois.
+    const { data: progress, error } = await supabase.rpc("save_langue_progress", {
+      p_completed_lesson: completed_lesson ?? null,
+      p_current_niveau: current_niveau ?? null,
+      p_score_increment: score_increment ?? 0,
+      p_streak_update: streak_update ?? null,
+    });
 
     if (error) {
       console.error("[langue/progress] POST error:", error);
+      if (error.code === "PGRST202" || (error.code === "42883" && error.message.includes("save_langue_progress"))) {
+        return NextResponse.json({
+          code: "LANGUE_PROGRESS_UNAVAILABLE",
+          error: "La sauvegarde de progression est temporairement indisponible : la fonction save_langue_progress doit être installée sur le serveur. Votre progression existante reste consultable.",
+        }, { status: 503 });
+      }
       return NextResponse.json({ error: "Erreur sauvegarde" }, { status: 500 });
     }
 
-    return NextResponse.json({ success: true, progress: payload });
+    return NextResponse.json({ success: true, progress });
   } catch (err) {
     console.error("[langue/progress] POST exception:", err);
     return NextResponse.json({ error: "Erreur serveur" }, { status: 500 });
